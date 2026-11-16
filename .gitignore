@@ -1,0 +1,26 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Power BI local state
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+*.vpax
+*.pbix
+
+# Data not kept in git
+data/raw/
+data/staged/
+data/tmp/
+
+# OS and editor
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log

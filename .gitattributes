@@ -1,0 +1,8 @@
+* text=auto
+*.tmdl text eol=crlf
+*.json text
+*.ps1 text eol=crlf
+*.sh text eol=lf
+*.zip binary
+*.xlsx binary
+*.png binary
