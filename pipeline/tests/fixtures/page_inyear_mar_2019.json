@@ -1,0 +1,34 @@
+{
+  "base_path": "/government/statistics/oscar-publishing-data-from-the-database-march-2019",
+  "title": "OSCAR – publishing data from the database: March 2019",
+  "first_published_at": "2019-03-21T09:30:11+00:00",
+  "public_updated_at": "2019-03-21T09:30:11+00:00",
+  "details": {
+    "attachments": [
+      {
+        "attachment_type": "file",
+        "content_type": "application/pdf",
+        "file_size": 260989,
+        "filename": "OSCAR_in-year_dataset_guidance.pdf",
+        "title": "OSCAR in-year dataset guidance",
+        "url": "https://assets.publishing.service.gov.uk/media/5c9236bced915d07ae752efb/OSCAR_in-year_dataset_guidance.pdf"
+      },
+      {
+        "attachment_type": "file",
+        "content_type": "application/vnd.oasis.opendocument.spreadsheet",
+        "file_size": 3077388,
+        "filename": "OSCAR_in-year_dataset_21Mar2019.ods",
+        "title": "OSCAR in-year data release",
+        "url": "https://assets.publishing.service.gov.uk/media/5c9236d440f0b633f3d4b672/OSCAR_in-year_dataset_21Mar2019.ods"
+      },
+      {
+        "attachment_type": "file",
+        "content_type": "application/zip",
+        "file_size": 654542,
+        "filename": "OSCAR_in-year_dataset_21Mar2019.zip",
+        "title": "OSCAR in-year data release",
+        "url": "https://assets.publishing.service.gov.uk/media/5c9236eded915d07a7e612f2/OSCAR_in-year_dataset_21Mar2019.zip"
+      }
+    ]
+  }
+}

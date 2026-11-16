@@ -6,3 +6,7 @@
 *.zip binary
 *.xlsx binary
 *.png binary
+
+# Published source files are kept byte for byte so their sha256 matches data/manifest/files.csv.
+data/committed/** binary
+data/manifest/*.csv text eol=lf

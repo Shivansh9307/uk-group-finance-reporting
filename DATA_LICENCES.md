@@ -14,7 +14,7 @@ Licence: https://www.nationalarchives.gov.uk/doc/open-government-licence/version
 | GDP deflators at market prices | HM Treasury | Real-terms restatement | https://www.gov.uk/government/collections/gdp-deflators-at-market-prices-and-money-gdp |
 | NHS providers trust accounts consolidation (TAC) data | NHS England | NHS provider sub-group balance sheet and cash flow | https://www.england.nhs.uk/financial-accounting-and-reporting/nhs-providers-tac-data-publications/ |
 | Departmental workforce management information | Individual departments, on gov.uk | Headcount, FTE and pay cost drivers | https://www.gov.uk/search/research-and-statistics?keywords=workforce+management+information |
-| Consumer Prices Index (CPI), series D7BT | Office for National Statistics | Price index for real-terms comparisons | https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7bt/mm23 |
+| Consumer Prices Index (CPI), series D7BT (index) and D7G7 (annual rate) | Office for National Statistics | Price index for real-terms comparisons | https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7bt/mm23 and https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g7/mm23 |
 
 ## Notes
 

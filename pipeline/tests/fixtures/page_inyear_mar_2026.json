@@ -1,0 +1,34 @@
+{
+  "base_path": "/government/publications/oscar-ii-publishing-data-from-the-database-march-2026",
+  "title": "OSCAR II – publishing data from the database: March 2026",
+  "first_published_at": "2026-03-20T09:30:02+00:00",
+  "public_updated_at": "2026-03-20T09:30:02+00:00",
+  "details": {
+    "attachments": [
+      {
+        "attachment_type": "file",
+        "content_type": "application/pdf",
+        "file_size": 118038,
+        "filename": "OSCAR_in-year_dataset_guidance.pdf",
+        "title": "OSCAR in-year dataset guidance",
+        "url": "https://assets.publishing.service.gov.uk/media/69bd1090ed813d0d8b690be9/OSCAR_in-year_dataset_guidance.pdf"
+      },
+      {
+        "attachment_type": "file",
+        "content_type": "application/vnd.oasis.opendocument.spreadsheet",
+        "file_size": 3049596,
+        "filename": "OSCAR_in_year_dataset_March_2026.ods",
+        "title": "OSCAR in-year data release",
+        "url": "https://assets.publishing.service.gov.uk/media/69bd10a4bbf7c14d0b834dcf/OSCAR_in_year_dataset_March_2026.ods"
+      },
+      {
+        "attachment_type": "file",
+        "content_type": "application/zip",
+        "file_size": 2970637,
+        "filename": "OSCAR_in_year_dataset_March_2026.zip",
+        "title": "OSCAR in-year dataset",
+        "url": "https://assets.publishing.service.gov.uk/media/69bd10b5ed813d0d8b690bea/OSCAR_in_year_dataset_March_2026.zip"
+      }
+    ]
+  }
+}

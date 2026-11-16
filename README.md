@@ -20,6 +20,8 @@ phases:
 4. Depth
 5. Scale and finish
 
+The source fetcher and file manifest are in place; see [docs/data-sources.md](docs/data-sources.md).
+
 ## Data sources and licence
 
 All source data are public sector information published under the Open Government Licence v3.0.

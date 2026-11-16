@@ -1,0 +1,39 @@
+{
+  "base_path": "/government/publications/oscar-ii-publishing-data-from-the-database-september-2026",
+  "title": "OSCAR II – publishing data from the database: September 2026",
+  "first_published_at": "2026-09-22T09:30:02+01:00",
+  "public_updated_at": "2026-09-22T09:30:02+01:00",
+  "details": {
+    "attachments": [
+      {
+        "attachment_type": "file",
+        "content_type": "application/pdf",
+        "file_size": 117076,
+        "filename": "OSCAR_in-year_dataset_guidance.pdf",
+        "title": "OSCAR in-year dataset guidance",
+        "url": "https://assets.publishing.service.gov.uk/media/6ab101834c0f475de0a66a93/OSCAR_in-year_dataset_guidance.pdf"
+      },
+      {
+        "attachment_type": "html",
+        "title": "OSCAR in-year dataset guidance",
+        "url": "/government/publications/oscar-ii-publishing-data-from-the-database-september-2026/oscar-in-year-dataset-guidance"
+      },
+      {
+        "attachment_type": "file",
+        "content_type": "text/csv",
+        "file_size": 4807557,
+        "filename": "OSCAR_in_year_dataset_Sep_2026.csv",
+        "title": "OSCAR in year dataset ",
+        "url": "https://assets.publishing.service.gov.uk/media/6ab103192f29b3888481876f/OSCAR_in_year_dataset_Sep_2026.csv"
+      },
+      {
+        "attachment_type": "file",
+        "content_type": "application/vnd.ms-excel.sheet.macroEnabled.12",
+        "file_size": 1672960,
+        "filename": "OSCAR_in_year_dataset_September_2026_.xlsm",
+        "title": "OSCAR in year dataset",
+        "url": "https://assets.publishing.service.gov.uk/media/6ab117c0086ce7c57b818785/OSCAR_in_year_dataset_September_2026_.xlsm"
+      }
+    ]
+  }
+}

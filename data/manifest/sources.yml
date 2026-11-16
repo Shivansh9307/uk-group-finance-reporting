@@ -1,0 +1,213 @@
+# Declarative list of the published sources this project uses.
+#
+# `ukfr fetch` reads this file, discovers files through the gov.uk Content API (or a fixed URL,
+# or an HTML index page), and writes data/manifest/files.csv. See docs/data-sources.md.
+#
+# Per source:
+#   fetch: false      every file is listed in the manifest (with its size) but none is downloaded
+#   commit: true      files go to data/committed/<source id>/<release>/ and are kept in git;
+#                     otherwise to $UKFR_DATA_DIR/<source id>/<release>/ (default data/raw, not in git)
+#   volatile: true    the publisher regenerates the file on each request, so a changed sha256
+#                     is a warning, not a failure
+# Per discovery entry: exactly one of page / collection / url / html_index, a `release` rule
+# (regex groups poured into a template; a group named `month` becomes 01-12, `yy` keeps two
+# digits), optional since/until bounds on the release label, and optional `files` rules that
+# override the source's rules.
+# File rules: the first rule whose `match` (regex on the file name) and optional `title`
+# (regex on the attachment title) both match decides the action: fetch, catalogue or skip.
+# Files that match no rule are ignored. Within one release only the lowest `tier` present among
+# fetch files is downloaded; higher tiers are the same data in another format and are catalogued.
+
+user_agent: "open-data-fetch/0.1 (python-httpx)"
+min_interval_seconds: 1.0
+commit_limit_mb: 60
+
+title_month_year: &title_month_year
+  from: title
+  pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$'
+  template: '{year}-{month}'
+
+sources:
+  - id: oscar_inyear
+    title: OSCAR II in-year releases (quarterly)
+    publisher: HM Treasury
+    licence: OGL-3.0
+    used_for: Outturn by organisation, segment and account, as reported in each quarterly snapshot
+    fetch: true
+    commit: true
+    # A zip or CSV stands in for the ODS/xlsm copies only if it actually holds a CSV.
+    prefer_only_if: '(?i)\.csv$'
+    discover:
+      - collection: /government/collections/hmt-oscar-publishing-from-the-database
+        group: In-year data
+        release: *title_month_year
+        since: '2019-03'
+    files:
+      - {match: '(?i)guidance', action: catalogue, note: 'release guidance document'}
+      - {match: '(?i)\.(zip|csv)$', action: fetch, tier: 1}
+      - {match: '(?i)\.(ods|xlsm|xlsx)$', action: fetch, tier: 2}
+
+  - id: oscar_annual_bud
+    title: OSCAR II annual releases, BUD workbooks and release notes
+    publisher: HM Treasury
+    licence: OGL-3.0
+    used_for: Restated annual outturn on the current departmental structure; release documentation
+    fetch: true
+    commit: false
+    discover:
+      - page: /government/publications/oscar-ii-publishing-raw-data-from-the-database
+        release: *title_month_year
+      - page: /government/publications/oscar-annual-release-november-2024
+        release: *title_month_year
+      - page: /government/publications/oscar-annual-release-november-2025
+        release: *title_month_year
+      - page: /government/publications/oscar-annual-release-november-2022
+        release: *title_month_year
+        files:
+          - {match: '^Understanding_OSCAR_Period_Version_Relationship.*\.xlsx$', action: fetch}
+    files:
+      - {match: '(?i)^BUD.*\.xlsx$', action: fetch}
+      - {match: '^Understanding_OSCAR', action: fetch, note: 'release documentation'}
+
+  - id: oscar_annual_extract
+    title: OSCAR annual extracts (pipe-delimited text in zip)
+    publisher: HM Treasury
+    licence: OGL-3.0
+    used_for: Plans and departments' monthly forecast returns to FY2021-22 (used only if profiling finds complete return sets)
+    fetch: true
+    commit: false
+    discover:
+      - page: /government/publications/oscar-annual-release-november-2022
+        release: *title_month_year
+        files:
+          - {match: '^2022_OSCAR_Extract_\d{4}_\d{2}\.zip$', action: fetch}
+      - page: /government/publications/oscar-annual-release-november-2021
+        release: *title_month_year
+        files:
+          - {match: '_OSCAR_Extract_.*\.zip$', action: catalogue, note: 'older vintage; superseded by the November 2022 extracts'}
+      - page: /government/publications/oscar-annual-release-november-2020
+        release: *title_month_year
+        files:
+          - {match: '_OSCAR_Extract_.*\.zip$', action: catalogue, note: 'older vintage; the Content API reports content type invalid/invalid'}
+      - page: /government/publications/oscar-annual-release-november-2019
+        release: *title_month_year
+        files:
+          - {match: '_OSCAR_Extract_.*\.zip$', action: catalogue, note: 'older vintage; superseded by the November 2022 extracts'}
+
+  - id: oscar_mfo
+    title: OSCAR II in-year monthly forecast and outturn (MFO) annual files
+    publisher: HM Treasury
+    licence: OGL-3.0
+    used_for: Departments' own monthly forecast returns, FY2021-22 and FY2022-23
+    fetch: true
+    commit: false
+    discover:
+      - page: /government/publications/oscar-annual-release-november-2022
+        release: *title_month_year
+        files:
+          - {match: '^Transparency_MFO_.*\.zip$', action: fetch}
+      - page: /government/publications/oscar-ii-publishing-raw-data-from-the-database
+        release: *title_month_year
+      - page: /government/publications/oscar-annual-release-november-2024
+        release: *title_month_year
+      - page: /government/publications/oscar-annual-release-november-2025
+        release: *title_month_year
+    files:
+      - {match: '^MFO_.*\.zip$', action: fetch}
+
+  - id: estimates_del
+    title: Main and Supplementary Estimates, Departmental DEL budgets tables
+    publisher: HM Treasury
+    licence: OGL-3.0
+    used_for: Plan (budget) at department group x resource/capital DEL from FY2022-23
+    fetch: true
+    commit: false
+    discover:
+      - collection: /government/collections/hmt-main-estimates
+        path_regex: '^/government/publications/main-supply-estimates-\d{4}-to-\d{2,4}$'
+        release: {from: path, pattern: 'main-supply-estimates-(?P<y1>\d{4})-to-(?P<yy>\d{2,4})$', template: '{y1}-{yy}-mains'}
+        since: '2022'
+      - collection: /government/collections/hmt-supplementary-estimates
+        path_regex: '^/government/publications/supplementary-estimates-\d{4}-\d{2}$'
+        release: {from: path, pattern: 'supplementary-estimates-(?P<y1>\d{4})-(?P<yy>\d{2})$', template: '{y1}-{yy}-supps'}
+        since: '2022'
+      - collection: /government/collections/hmt-supplementary-estimates
+        path_regex: '^/government/publications/out-of-turn-supplementary-estimates-\d{4}-\d{2}$'
+        release: {from: path, pattern: 'supplementary-estimates-(?P<y1>\d{4})-(?P<yy>\d{2})$', template: '{y1}-{yy}-oot-supps'}
+        since: '2022'
+    files:
+      - {match: '(?i)\.xlsx$', title: '^Departmental DEL budgets', action: fetch}
+    known_gaps:
+      - release: 2024-25-mains
+        note: 'Main Estimates 2024-25 published the DEL tables as PDF only; that year uses the Supplementary Estimates'
+
+  - id: pesa
+    title: PESA Chapter 1 tables and the Spending Review 2025 DEL tables
+    publisher: HM Treasury
+    licence: OGL-3.0
+    used_for: AME and admin plans where they exist; Spending Review group names
+    fetch: true
+    commit: false
+    discover:
+      - collection: /government/collections/public-expenditure-statistical-analyses-pesa
+        path_regex: '^/government/statistics/public-expenditure-statistical-analyses-\d{4}$'
+        release: {from: path, pattern: 'analyses-(?P<year>\d{4})$', template: '{year}'}
+        since: '2022'
+      - page: /government/publications/supporting-documents-for-spending-review-2025
+        release: {value: sr2025}
+        files:
+          - {match: '^SR25_Department_DEL_tables\.xlsx$', action: fetch}
+    files:
+      - {match: '^PESA_2026_CP_Chapter_1_tables\.xlsx$', action: fetch, note: 'reported earlier as holding Chapter 10 tables at source; on 2026-11-16 its sheets were Table_1_1 to Table_1_14 (Chapter 1)'}
+      - {match: '^PESA_\d{4}_CP_Chapter_1_tables\.xlsx$', action: fetch}
+      - {match: '^PESA_\d{4}_Dec_Chapter_1_tables.*\.xlsx$', action: fetch, note: 'December update (Chapter 1 and Chapter 2 tables)'}
+
+  - id: pss
+    title: Public Spending Statistics, July 2026
+    publisher: HM Treasury
+    licence: OGL-3.0
+    used_for: Independent outturn cross-check (FY2021-22 to FY2025-26) on the data controls page
+    fetch: true
+    commit: false
+    discover:
+      - page: /government/statistics/public-spending-statistics-release-july-2026
+        release: *title_month_year
+    files:
+      - {match: '^PSS_Database_\d{4}\.xlsx$', action: fetch}
+      - {match: '^July_PSS_\d{4}_Chapter_1\.xlsx$', action: fetch}
+
+  - id: gdp_deflator
+    title: GDP deflators at market prices, and money GDP (latest three releases)
+    publisher: HM Treasury
+    licence: OGL-3.0
+    used_for: Real-terms restatement; three vintages to show the base-year shift
+    fetch: true
+    commit: false
+    discover:
+      - collection: /government/collections/gdp-deflators-at-market-prices-and-money-gdp
+        group: GDP deflators
+        path_regex: 'gdp-deflators-at-market-prices-and-money-gdp-[a-z]+-\d{4}'
+        release: {from: path, pattern: 'money-gdp-(?P<month>[a-z]+)-(?P<year>\d{4})-(?P<event>.+)$', template: '{year}-{month}-{event}'}
+        latest: 3
+    files:
+      - {match: '(?i)\.xlsx$', action: fetch}
+
+  - id: ons_cpi
+    title: ONS consumer price indices, D7BT (CPI index) and D7G7 (CPI annual rate)
+    publisher: Office for National Statistics
+    licence: OGL-3.0
+    used_for: Price index for real-terms comparisons and what-if seeds
+    fetch: true
+    commit: false
+    volatile: true
+    discover:
+      - url: 'https://www.ons.gov.uk/generator?format=csv&uri=/economy/inflationandpriceindices/timeseries/d7bt/mm23'
+        filename: d7bt.csv
+        page_url: 'https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7bt/mm23'
+        release: {value: latest}
+      - url: 'https://www.ons.gov.uk/generator?format=csv&uri=/economy/inflationandpriceindices/timeseries/d7g7/mm23'
+        filename: d7g7.csv
+        page_url: 'https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g7/mm23'
+        release: {value: latest}
+    files:
+      - {match: '\.csv$', action: fetch}

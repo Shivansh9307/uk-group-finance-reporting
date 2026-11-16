@@ -1,0 +1,34 @@
+{
+  "base_path": "/government/publications/oscar-annual-release-november-2024",
+  "title": "OSCAR annual release: November 2024",
+  "first_published_at": "2024-11-28T09:30:17+00:00",
+  "public_updated_at": "2024-11-28T09:30:17+00:00",
+  "details": {
+    "attachments": [
+      {
+        "attachment_type": "file",
+        "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "file_size": 12138817,
+        "filename": "BUD_2019-20.xlsx",
+        "title": "OSCAR Annual Data: 2019-20",
+        "url": "https://assets.publishing.service.gov.uk/media/6745b2b683f3d6d843be96c2/BUD_2019-20.xlsx"
+      },
+      {
+        "attachment_type": "file",
+        "content_type": "application/zip",
+        "file_size": 438663615,
+        "filename": "MFO_23-24.zip",
+        "title": "OSCAR Annual Data: 2023-24 (In Year)",
+        "url": "https://assets.publishing.service.gov.uk/media/6745b371bdeffdc82cffe12c/MFO_23-24.zip"
+      },
+      {
+        "attachment_type": "file",
+        "content_type": "application/pdf",
+        "file_size": 386596,
+        "filename": "Understanding_OSCAR_Data_Release_2024.pdf",
+        "title": "Understanding the OSCAR release document",
+        "url": "https://assets.publishing.service.gov.uk/media/6745b085e7cf64050b8098b9/Understanding_OSCAR_Data_Release_2024.pdf"
+      }
+    ]
+  }
+}
