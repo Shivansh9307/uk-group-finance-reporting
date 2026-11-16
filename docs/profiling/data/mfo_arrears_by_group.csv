@@ -1,0 +1,105 @@
+fiscal_year,department_group_code,department_group_name,tdel_final_gbp_thousand,settled_pct_lag_minus1,settled_pct_lag0,settled_pct_lag1,settled_pct_lag2,verdict
+2017-18,DOH033.GROUP,Department of Health,125905529,16.67,0,0,0,revises actuals heavily
+2017-18,DFE022.GROUP,Department for Education,79753147,0,8.33,54.55,60,one month in arrears
+2017-18,MOD017.GROUP,Ministry of Defence,43219106,0,0,9.09,90,two months in arrears
+2017-18,SCT075.GROUP,Scottish Government,18645611,8.33,0,81.82,90,one month in arrears
+2017-18,CLG085.GROUP,"Department for Levelling Up, Housing and Communities",15742107,0,83.33,100,100,current
+2017-18,WAG090.GROUP,Welsh Assembly Government,15141827,0,16.67,100,90,one month in arrears
+2017-18,BIS084.GROUP,"Department for Business, Energy and Industrial Strategy",12244675,0,25,36.36,50,two months in arrears
+2017-18,NIE099.GROUP,Northern Ireland Executive,11781842,8.33,16.67,90.91,100,one month in arrears
+2017-18,HOF034.GROUP,Home Office,11021863,0,66.67,81.82,100,current
+2017-18,DID030.GROUP,"Foreign, Commonwealth and Development Office",10274833,8.33,83.33,72.73,80,current
+2017-18,DFT004.GROUP,Department for Transport,9813994,8.33,41.67,100,100,one month in arrears
+2017-18,MOJ047.GROUP,Ministry of Justice,8041499,16.67,0,81.82,70,one month in arrears
+2017-18,DWP032.GROUP,Department for Work and Pensions,6510251,16.67,41.67,45.45,50,two months in arrears
+2017-18,HMR041.GROUP,HM Revenue and Customs,4231858,16.67,91.67,100,100,current
+2017-18,EFR003.GROUP,"Department for Environment, Food and Rural Affairs",2504766,8.33,91.67,100,100,current
+2017-18,DCM048.GROUP,"Department for Digital, Culture, Media and Sport",1963605,0,0,0,0,revises actuals heavily
+2017-18,FCO027.GROUP,Foreign and Commonwealth Office,1941778,8.33,66.67,100,100,current
+2018-19,DOH033.GROUP,Department of Health,131230811,16.67,25,18.18,20,revises actuals heavily
+2018-19,DFE022.GROUP,Department for Education,75750310,16.67,8.33,63.64,80,one month in arrears
+2018-19,MOD017.GROUP,Ministry of Defence,44075308,0,8.33,90.91,90,one month in arrears
+2018-19,SCT075.GROUP,Scottish Government,20726533,75,83.33,90.91,100,current
+2018-19,WAG090.GROUP,Welsh Assembly Government,16175758,8.33,8.33,9.09,80,two months in arrears
+2018-19,CLG085.GROUP,"Department for Levelling Up, Housing and Communities",14682225,0,83.33,90.91,100,current
+2018-19,NIE099.GROUP,Northern Ireland Executive,12315993,0,0,90.91,100,one month in arrears
+2018-19,DFT004.GROUP,Department for Transport,12114051,0,33.33,90.91,100,one month in arrears
+2018-19,BIS084.GROUP,"Department for Business, Energy and Industrial Strategy",12092740,8.33,25,72.73,70,one month in arrears
+2018-19,HOF034.GROUP,Home Office,11663448,33.33,100,100,100,current
+2018-19,DID030.GROUP,"Foreign, Commonwealth and Development Office",10299343,8.33,75,81.82,90,current
+2018-19,MOJ047.GROUP,Ministry of Justice,8465887,8.33,16.67,90.91,100,one month in arrears
+2018-19,DWP032.GROUP,Department for Work and Pensions,6217334,0,58.33,45.45,50,two months in arrears
+2018-19,HMR041.GROUP,HM Revenue and Customs,4437741,25,41.67,45.45,50,two months in arrears
+2018-19,EFR003.GROUP,"Department for Environment, Food and Rural Affairs",2672793,0,83.33,90.91,90,current
+2018-19,FCO027.GROUP,Foreign and Commonwealth Office,2552995,0,91.67,90.91,100,current
+2018-19,DCM048.GROUP,"Department for Digital, Culture, Media and Sport",2054275,0,0,45.45,50,two months in arrears
+2019-20,DOH033.GROUP,Department of Health,141304594,50,50,63.64,80,current
+2019-20,DFE022.GROUP,Department for Education,84310512,16.67,0,81.82,80,one month in arrears
+2019-20,MOD017.GROUP,Ministry of Defence,46022622,8.33,0,100,100,one month in arrears
+2019-20,DFT004.GROUP,Department for Transport,25782116,0,66.67,90.91,90,current
+2019-20,SCT075.GROUP,Scottish Government,22444422,100,100,100,100,current
+2019-20,CLG085.GROUP,"Department for Levelling Up, Housing and Communities",19566434,8.33,100,100,100,current
+2019-20,WAG090.GROUP,Welsh Assembly Government,15181263,8.33,25,18.18,100,two months in arrears
+2019-20,BIS084.GROUP,"Department for Business, Energy and Industrial Strategy",14047935,0,66.67,100,100,current
+2019-20,NIE099.GROUP,Northern Ireland Executive,13197526,41.67,25,100,100,one month in arrears
+2019-20,HOF034.GROUP,Home Office,12124828,8.33,41.67,36.36,50,two months in arrears
+2019-20,DID030.GROUP,"Foreign, Commonwealth and Development Office",10037639,8.33,91.67,100,100,current
+2019-20,MOJ047.GROUP,Ministry of Justice,8846032,0,25,100,100,one month in arrears
+2019-20,DWP032.GROUP,Department for Work and Pensions,5963274,8.33,100,100,100,current
+2019-20,HMR041.GROUP,HM Revenue and Customs,4659196,16.67,83.33,90.91,90,current
+2019-20,EFR003.GROUP,"Department for Environment, Food and Rural Affairs",3040207,0,91.67,100,100,current
+2019-20,FCO027.GROUP,Foreign and Commonwealth Office,2730771,8.33,66.67,90.91,100,current
+2019-20,DCM048.GROUP,"Department for Digital, Culture, Media and Sport",2392238,0,0,27.27,40,revises actuals heavily
+2019-20,CAB010.GROUP,Cabinet Office,1096328,0,8.33,9.09,10,revises actuals heavily
+2020-21,DOH033.GROUP,Department of Health,194306090,0,0,9.09,10,revises actuals heavily
+2020-21,DFE022.GROUP,Department for Education,83931878,0,25,90.91,100,one month in arrears
+2020-21,MOD017.GROUP,Ministry of Defence,49375205,0,16.67,90.91,100,one month in arrears
+2020-21,BIS084.GROUP,"Department for Business, Energy and Industrial Strategy",46567547,0,75,90.91,100,current
+2020-21,DFT004.GROUP,Department for Transport,40823367,0,58.33,100,100,current
+2020-21,SCT075.GROUP,Scottish Government,36480135,91.67,91.67,100,100,current
+2020-21,CLG085.GROUP,"Department for Levelling Up, Housing and Communities",33287526,8.33,91.67,100,100,current
+2020-21,WAG090.GROUP,Welsh Assembly Government,21958033,8.33,0,100,100,one month in arrears
+2020-21,NIE099.GROUP,Northern Ireland Executive,17262161,25,0,54.55,80,one month in arrears
+2020-21,HOF034.GROUP,Home Office,15344226,0,91.67,100,100,current
+2020-21,MOJ047.GROUP,Ministry of Justice,10211549,0,83.33,100,100,current
+2020-21,DID030.GROUP,"Foreign, Commonwealth and Development Office",9962569,0,75,90.91,90,current
+2020-21,DWP032.GROUP,Department for Work and Pensions,6980680,8.33,75,90.91,90,current
+2020-21,EFR003.GROUP,"Department for Environment, Food and Rural Affairs",5602794,0,91.67,100,100,current
+2020-21,HMR041.GROUP,HM Revenue and Customs,5351371,0,83.33,90.91,100,current
+2020-21,DCM048.GROUP,"Department for Digital, Culture, Media and Sport",4526696,0,0,9.09,20,revises actuals heavily
+2020-21,FCO027.GROUP,Foreign and Commonwealth Office,2815438,16.67,25,45.45,50,two months in arrears
+2020-21,CAB010.GROUP,Cabinet Office,1822927,0,25,54.55,60,one month in arrears
+2021-22,DOH033.GROUP,Department of Health,192558646,9.09,16.67,27.27,60,two months in arrears
+2021-22,DFE022.GROUP,Department for Education,76564176,0,8.33,90.91,100,one month in arrears
+2021-22,MOD017.GROUP,Ministry of Defence,53310280,0,0,81.82,80,one month in arrears
+2021-22,DFT004.GROUP,Department for Transport,37829994,0,8.33,100,100,one month in arrears
+2021-22,SCT075.GROUP,Scottish Government,34584511,81.82,91.67,100,100,current
+2021-22,CLG085.GROUP,"Department for Levelling Up, Housing and Communities",30273346,0,83.33,90.91,90,current
+2021-22,BIS084.GROUP,"Department for Business, Energy and Industrial Strategy",28674650,0,66.67,100,100,current
+2021-22,WAG090.GROUP,Welsh Assembly Government,19062272,0,0,100,100,one month in arrears
+2021-22,NIE099.GROUP,Northern Ireland Executive,16234175,0,16.67,81.82,80,one month in arrears
+2021-22,HOF034.GROUP,Home Office,15283855,0,91.67,100,100,current
+2021-22,MOJ047.GROUP,Ministry of Justice,10740648.173673097000227,0,66.67,100,100,current
+2021-22,DWP032.GROUP,Department for Work and Pensions,9597982,18.18,83.33,90.91,100,current
+2021-22,DID030.GROUP,"Foreign, Commonwealth and Development Office",9415247,0,50,90.91,100,current
+2021-22,HMR041.GROUP,HM Revenue and Customs,6352770,18.18,100,100,100,current
+2021-22,EFR003.GROUP,"Department for Environment, Food and Rural Affairs",5796250,0,91.67,100,100,current
+2021-22,DCM048.GROUP,"Department for Digital, Culture, Media and Sport",2688129,0,0,0,30,revises actuals heavily
+2021-22,CAB010.GROUP,Cabinet Office,1532807.30028,0,16.67,18.18,30,revises actuals heavily
+2022-23,DOH033.GROUP,DEPARTMENT OF HEALTH (GROUP),186912078,8.33,0,18.18,40,revises actuals heavily
+2022-23,DFE022.GROUP,DEPARTMENT FOR EDUCATION (GROUP),73175600,16.67,33.33,81.82,100,one month in arrears
+2022-23,MOD017.GROUP,MINISTRY OF DEFENCE (GROUP),57328112,0,0,18.18,20,revises actuals heavily
+2022-23,DFT004.GROUP,DEPARTMENT FOR TRANSPORT (GROUP),37634631,0,66.67,100,100,current
+2022-23,SCT075.GROUP,SCOTTISH GOVERNMENT (GROUP),32956283,41.67,41.67,45.45,60,two months in arrears
+2022-23,BIS084.GROUP,"DEPARTMENT FOR SCIENCE, INNOVATION AND TECHNOLOGY (GROUP)",32180339,0,33.33,45.45,50,two months in arrears
+2022-23,CLG085.GROUP,"DEPARTMENT FOR LEVELLING UP, HOUSING AND COMMUNITIES (GROUP)",22636298,0,83.33,100,100,current
+2022-23,WAG090.GROUP,WELSH ASSEMBLY GOVERNMENT (GROUP),19044084,8.33,16.67,90.91,100,one month in arrears
+2022-23,HOF034.GROUP,HOME OFFICE (GROUP),17869127,16.67,100,100,100,current
+2022-23,NIE099.GROUP,NORTHERN IRELAND EXECUTIVE (GROUP),16232194,8.33,8.33,72.73,90,one month in arrears
+2022-23,MOJ047.GROUP,MINISTRY OF JUSTICE (GROUP),11449012.664082011,0,83.33,100,100,current
+2022-23,DID030.GROUP,"FOREIGN, COMMONWEALTH AND DEVELOPMENT OFFICE (GROUP)",9625334,0,8.33,0,0,revises actuals heavily
+2022-23,DWP032.GROUP,DEPARTMENT FOR WORK AND PENSIONS (GROUP),9145719,8.33,83.33,100,100,current
+2022-23,HMR041.GROUP,HM REVENUE AND CUSTOMS (GROUP),7035751.9288,25,66.67,63.64,80,current
+2022-23,EFR003.GROUP,"DEPARTMENT FOR ENVIRONMENT, FOOD AND RURAL AFFAIRS (GROUP)",6194575,0,100,100,100,current
+2022-23,DCM048.GROUP,"DEPARTMENT FOR CULTURE, MEDIA AND SPORT (GROUP)",2731379,8.33,0,9.09,20,revises actuals heavily
+2022-23,CAB010.GROUP,CABINET OFFICE (GROUP),1287378,0,25,36.36,30,revises actuals heavily

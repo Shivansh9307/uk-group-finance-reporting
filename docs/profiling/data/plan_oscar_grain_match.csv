@@ -1,0 +1,31 @@
+fiscal_year,grain,plan_keys,outturn_keys,keys_in_both,outturn_on_planned_keys_pct,plan_on_outturn_keys_pct,abs_variance_pct_of_abs_outturn
+2017-18,group x control budget,88,83,83,100,99.39,4.69
+2017-18,group x control budget x economic budget,128,125,122,99.95,99.39,5.03
+2017-18,organisation x control budget x economic budget,420,434,378,98.58,98.28,11.02
+2017-18,organisation x control budget x economic group,1368,2142,1148,94.31,89.11,37.54
+2017-18,organisation x control budget x economic category,1633,2757,1336,92.96,88.53,39.39
+2017-18,organisation x sub-segment x economic category,4391,6726,3296,86.81,84.66,47.79
+2018-19,group x control budget,88,83,82,99.93,99.35,5.91
+2018-19,group x control budget x economic budget,130,123,122,99.93,99.35,5.92
+2018-19,organisation x control budget x economic budget,419,427,387,99.86,99.38,6.3
+2018-19,organisation x control budget x economic group,1348,2111,1193,96.72,99,21.68
+2018-19,organisation x control budget x economic category,1590,2738,1389,95.53,98.65,22.19
+2018-19,organisation x sub-segment x economic category,4204,6982,3491,91.79,92.86,44.13
+2019-20,group x control budget,86,84,83,100,99.37,3.74
+2019-20,group x control budget x economic budget,129,130,124,99.95,99.37,4.07
+2019-20,organisation x control budget x economic budget,431,442,404,99.93,99.42,5.39
+2019-20,organisation x control budget x economic group,1425,2014,1253,96.17,99.05,21.79
+2019-20,organisation x control budget x economic category,1677,2561,1453,94.92,98.81,22.96
+2019-20,organisation x sub-segment x economic category,4398,7137,3667,89.23,93.45,35.87
+2020-21,group x control budget,88,86,86,100,100,8.81
+2020-21,group x control budget x economic budget,132,132,128,99.98,99.93,8.91
+2020-21,organisation x control budget x economic budget,442,465,422,99.93,99.93,9.91
+2020-21,organisation x control budget x economic group,1402,2057,1265,97.03,98.76,29.51
+2020-21,organisation x control budget x economic category,1661,2610,1456,96.14,98.57,31.35
+2020-21,organisation x sub-segment x economic category,4382,7245,3679,91.32,94.94,39.49
+2021-22,group x control budget,88,85,85,100,100,5.85
+2021-22,group x control budget x economic budget,130,129,124,100,100,5.87
+2021-22,organisation x control budget x economic budget,443,456,428,99.96,99.99,6.32
+2021-22,organisation x control budget x economic group,1439,1946,1303,97.42,98.81,19.33
+2021-22,organisation x control budget x economic category,1709,2488,1525,95.93,98.69,21.99
+2021-22,organisation x sub-segment x economic category,4495,6909,3826,91.89,95.46,29.71

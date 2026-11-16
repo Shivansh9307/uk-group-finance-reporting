@@ -73,6 +73,21 @@ def _zip_head(args) -> int:
     return 0
 
 
+def _profile(args) -> int:
+    from .config import data_dir
+    from .profile import extract, mfo, plans
+
+    root = find_repo_root()
+    raw = data_dir(root)
+    if args.what in ("extract", "mfo", "all"):
+        scans = extract.run(root, raw, args.cache_dir)
+        if args.what != "extract":
+            mfo.run(root, raw, args.cache_dir, scans)
+    if args.what in ("plans", "all"):
+        plans.run(root, raw)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="ukfr")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -88,6 +103,10 @@ def main(argv: list[str] | None = None) -> int:
     z.add_argument("-n", "--lines", type=int, default=5)
     z.add_argument("--encoding", default="utf-8")
     z.set_defaults(func=_zip_head)
+    p = sub.add_parser("profile", help="profile source files and write docs/profiling/data and data/audit CSVs")
+    p.add_argument("what", choices=["extract", "mfo", "plans", "all"])
+    p.add_argument("--cache-dir", type=Path, help="keep full-stream scan results here and reuse them")
+    p.set_defaults(func=_profile)
     args = ap.parse_args(argv)
     return args.func(args)
 

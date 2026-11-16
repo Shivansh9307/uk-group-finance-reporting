@@ -1,0 +1,4 @@
+# Lines cut from published source files: keep them byte for byte (Windows-1252, CRLF in the MFO file).
+extract_*.txt binary
+mfo_*.csv binary
+ons_*.csv binary

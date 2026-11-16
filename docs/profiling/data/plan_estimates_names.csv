@@ -1,0 +1,660 @@
+release,file,sheet,measure,year,row,raw_name,clean_name,kind,value_as_published,value_gbp_thousand
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,6,Health and Social Care,Health and Social Care,line,169.948,169948000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,7,Education3,Education,line,73.837,73837000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,8,Home Office4,Home Office,line,15.141,15141000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,9,Justice,Justice,line,10.255,10255000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,10,Law Officers' Departments,Law Officers' Departments,line,0.803,803000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,11,Defence,Defence,line,40.897,40897000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,12,Single Intelligence Account,Single Intelligence Account,line,3.125,3125000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,8.525,8525000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,3.1,3100000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,15,DLUHC Local Government,DLUHC Local Government,line,11.766,11766000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,16,Transport,Transport,line,16.618,16618000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,17,"Business, Energy and Industrial Strategy","Business, Energy and Industrial Strategy",line,16.321,16321000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,18,"Digital, Culture, Media and Sport","Digital, Culture, Media and Sport",line,2.245,2245000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,19,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.79,4790000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,20,International Trade,International Trade,line,0.571,571000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,21,Work and Pensions,Work and Pensions,line,8.9,8900000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,22,HM Revenue and Customs,HM Revenue and Customs,line,6.379,6379000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,23,HM Treasury,HM Treasury,line,0.367,367000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,24,Cabinet Office,Cabinet Office,line,0.908,908000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,25,Scotland5,Scotland,line,27.015,27015000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,26,Wales,Wales,line,17.056,17056000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,27,Northern Ireland,Northern Ireland,line,14.596,14596000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,28,Small and Independent Bodies,Small and Independent Bodies,line,2.567,2567000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL inc,RDEL,2022-23,29,Total Resource DEL6,Total Resource DEL,total,455.729,455729000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,6,Health and Social Care,Health and Social Care,line,168.207,168207000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,7,Education3,Education,line,77.104,77104000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,8,Home Office4,Home Office,line,14.576,14576000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,9,Justice,Justice,line,9.4,9400000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,10,Law Officers' Departments,Law Officers' Departments,line,0.766,766000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,11,Defence,Defence,line,32.147,32147000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,12,Single Intelligence Account,Single Intelligence Account,line,2.603,2603000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,8.193,8193000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,3.051,3051000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,15,DLUHC Local Government,DLUHC Local Government,line,11.766,11766000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,16,Transport,Transport,line,8.339,8339000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,17,"Business, Energy and Industrial Strategy","Business, Energy and Industrial Strategy",line,15.953,15953000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,18,"Digital, Culture, Media and Sport","Digital, Culture, Media and Sport",line,2.045,2045000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,19,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.503,4503000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,20,International Trade,International Trade,line,0.551,551000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,21,Work and Pensions,Work and Pensions,line,8.416,8416000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,22,HM Revenue and Customs,HM Revenue and Customs,line,5.907,5907000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,23,HM Treasury,HM Treasury,line,0.353,353000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,24,Cabinet Office,Cabinet Office,line,0.698,698000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,25,Scotland,Scotland,line,35.279,35279000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,26,Wales,Wales,line,15.273,15273000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,27,Northern Ireland,Northern Ireland,line,13.434,13434000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,28,Small and Independent Bodies,Small and Independent Bodies,line,2.386,2386000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,29,Total Resource DEL excluding depreciation5,Total Resource DEL excluding depreciation,total,440.948,440948000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,6,Health and Social Care,Health and Social Care,line,12.048,12048000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,7,Education3,Education,line,6.365,6365000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,8,Home Office4,Home Office,line,1.168,1168000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,9,Justice,Justice,line,1.76,1760000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,10,Law Officers' Departments,Law Officers' Departments,line,0.058,58000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,11,Defence,Defence,line,18.491,18491000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,12,Single Intelligence Account,Single Intelligence Account,line,1.243,1243000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,2.645,2645000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,9.584,9584000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,15,Transport,Transport,line,20.147,20147000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,16,"Business, Energy and Industrial Strategy","Business, Energy and Industrial Strategy",line,19.059,19059000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,17,"Digital, Culture, Media and Sport","Digital, Culture, Media and Sport",line,0.831,831000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,18,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,2.126,2126000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,19,International Trade,International Trade,line,0.025,25000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,20,Work and Pensions,Work and Pensions,line,0.854,854000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,21,HM Revenue and Customs,HM Revenue and Customs,line,0.676,676000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,22,HM Treasury,HM Treasury,line,0.01,10000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,23,Cabinet Office,Cabinet Office,line,1.12,1120000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,24,Scotland,Scotland,line,7.193,7193000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,25,Wales,Wales,line,2.982,2982000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,26,Northern Ireland,Northern Ireland,line,2.064,2064000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,27,Small and Independent Bodies,Small and Independent Bodies,line,0.427,427000
+2022-23-mains,Main_Estimates_DEL_tables_Updated_1.xlsx,CDEL,CDEL,2022-23,28,Total Capital DEL5,Total Capital DEL,total,110.875,110875000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,6,Health and Social Care,Health and Social Care,line,169.948,169948000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,7,Education3,Education,line,73.837,73837000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,8,Home Office4,Home Office,line,15.141,15141000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,9,Justice,Justice,line,10.255,10255000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,10,Law Officers' Departments,Law Officers' Departments,line,0.803,803000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,11,Defence,Defence,line,40.897,40897000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,12,Single Intelligence Account,Single Intelligence Account,line,3.125,3125000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,8.525,8525000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,3.1,3100000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,15,DLUHC Local Government,DLUHC Local Government,line,11.766,11766000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,16,Transport,Transport,line,16.618,16618000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,17,"Business, Energy and Industrial Strategy5","Business, Energy and Industrial Strategy",line,16.497,16497000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,18,"Digital, Culture, Media and Sport","Digital, Culture, Media and Sport",line,2.245,2245000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,19,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.79,4790000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,20,International Trade,International Trade,line,0.571,571000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,21,Work and Pensions,Work and Pensions,line,8.9,8900000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,22,HM Revenue and Customs,HM Revenue and Customs,line,6.379,6379000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,23,HM Treasury,HM Treasury,line,0.367,367000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,24,Cabinet Office,Cabinet Office,line,0.908,908000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,25,Scotland6,Scotland,line,27.015,27015000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,26,Wales,Wales,line,17.056,17056000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,27,Northern Ireland,Northern Ireland,line,14.596,14596000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,28,Small and Independent Bodies,Small and Independent Bodies,line,2.567,2567000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL inc,RDEL,2022-23,29,Total Resource DEL7,Total Resource DEL,total,455.905,455905000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,6,Health and Social Care,Health and Social Care,line,168.207,168207000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,7,Education3,Education,line,77.104,77104000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,8,Home Office4,Home Office,line,14.576,14576000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,9,Justice,Justice,line,9.4,9400000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,10,Law Officers' Departments,Law Officers' Departments,line,0.766,766000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,11,Defence,Defence,line,32.147,32147000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,12,Single Intelligence Account,Single Intelligence Account,line,2.603,2603000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,8.193,8193000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,3.051,3051000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,15,DLUHC Local Government,DLUHC Local Government,line,11.766,11766000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,16,Transport,Transport,line,8.339,8339000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,17,"Business, Energy and Industrial Strategy5","Business, Energy and Industrial Strategy",line,16.129,16129000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,18,"Digital, Culture, Media and Sport","Digital, Culture, Media and Sport",line,2.045,2045000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,19,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.503,4503000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,20,International Trade,International Trade,line,0.551,551000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,21,Work and Pensions,Work and Pensions,line,8.416,8416000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,22,HM Revenue and Customs,HM Revenue and Customs,line,5.907,5907000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,23,HM Treasury,HM Treasury,line,0.353,353000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,24,Cabinet Office,Cabinet Office,line,0.698,698000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,25,Scotland,Scotland,line,35.279,35279000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,26,Wales,Wales,line,15.273,15273000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,27,Northern Ireland,Northern Ireland,line,13.434,13434000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,28,Small and Independent Bodies,Small and Independent Bodies,line,2.386,2386000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,RDEL ex,RDEL_EX_DEPN,2022-23,29,Total Resource DEL excluding depreciation6,Total Resource DEL excluding depreciation,total,441.124,441124000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,6,Health and Social Care,Health and Social Care,line,12.048,12048000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,7,Education3,Education,line,6.365,6365000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,8,Home Office4,Home Office,line,1.168,1168000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,9,Justice,Justice,line,1.76,1760000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,10,Law Officers' Departments,Law Officers' Departments,line,0.058,58000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,11,Defence,Defence,line,18.491,18491000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,12,Single Intelligence Account,Single Intelligence Account,line,1.243,1243000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,2.645,2645000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,9.584,9584000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,15,Transport,Transport,line,20.147,20147000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,16,"Business, Energy and Industrial Strategy","Business, Energy and Industrial Strategy",line,19.059,19059000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,17,"Digital, Culture, Media and Sport","Digital, Culture, Media and Sport",line,0.831,831000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,18,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,2.126,2126000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,19,International Trade,International Trade,line,0.025,25000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,20,Work and Pensions,Work and Pensions,line,0.854,854000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,21,HM Revenue and Customs,HM Revenue and Customs,line,0.676,676000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,22,HM Treasury,HM Treasury,line,0.01,10000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,23,Cabinet Office,Cabinet Office,line,1.12,1120000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,24,Scotland,Scotland,line,7.193,7193000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,25,Wales,Wales,line,2.982,2982000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,26,Northern Ireland,Northern Ireland,line,2.064,2064000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,27,Small and Independent Bodies,Small and Independent Bodies,line,0.427,427000
+2022-23-oot-supps,Main_Estimates_DEL_tables_OUTOFTURN_Updated.xlsx,CDEL,CDEL,2022-23,28,Total Capital DEL5,Total Capital DEL,total,110.875,110875000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,7,Health and Social Care,Health and Social Care,line,176.148,176148000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,8,Education,Education,line,77.731,77731000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,9,Home Office,Home Office,line,17.743,17743000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,10,Justice,Justice,line,10.246,10246000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,11,Law Officers' Departments,Law Officers' Departments,line,0.794,794000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,12,Defence,Defence,line,40.881,40881000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,13,Single Intelligence Account,Single Intelligence Account,line,3.314,3314000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,14,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,7.614,7614000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,15,"DLUHC Levelling up, Housing and Communities","DLUHC Levelling up, Housing and Communities",line,4.387,4387000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,16,DLUHC Local Government,DLUHC Local Government,line,11.852,11852000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,17,Transport,Transport,line,18.087,18087000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,18,"Business, Energy and Industrial Strategy","Business, Energy and Industrial Strategy",line,17.446,17446000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,19,"Digital, Culture, Media and Sport","Digital, Culture, Media and Sport",line,2.3,2300000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.743,4743000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,21,International Trade,International Trade,line,0.57,570000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,22,Work and Pensions,Work and Pensions,line,8.767,8767000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,23,HM Revenue and Customs,HM Revenue and Customs,line,6.4,6400000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,24,HM Treasury,HM Treasury,line,0.381,381000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,25,Cabinet Office,Cabinet Office,line,0.979,979000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,26,Scotland,Scotland,line,26.928,26928000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,27,Wales,Wales,line,16.873,16873000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,28,Northern Ireland,Northern Ireland,line,14.61,14610000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,29,Small and Independent Bodies,Small and Independent Bodies,line,2.569,2569000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL inc,RDEL,2022-23,30,Total Resource DEL,Total Resource DEL,total,471.363,471363000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,7,Health and Social Care,Health and Social Care,line,173.929,173929000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,8,Education,Education,line,76.987,76987000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,9,Home Office,Home Office,line,16.922,16922000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,10,Justice,Justice,line,9.38,9380000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,11,Law Officers' Departments,Law Officers' Departments,line,0.758,758000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,12,Defence,Defence,line,32.631,32631000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,13,Single Intelligence Account,Single Intelligence Account,line,2.658,2658000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,14,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,7.26,7260000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,15,"DLUHC Levelling up, Housing and Communities","DLUHC Levelling up, Housing and Communities",line,4.338,4338000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,16,DLUHC Local Government,DLUHC Local Government,line,11.852,11852000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,17,Transport,Transport,line,8.737,8737000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,18,"Business, Energy and Industrial Strategy","Business, Energy and Industrial Strategy",line,17.041,17041000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,19,"Digital, Culture, Media and Sport","Digital, Culture, Media and Sport",line,2.1,2100000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.464,4464000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,21,International Trade,International Trade,line,0.551,551000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,22,Work and Pensions,Work and Pensions,line,8.174,8174000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,23,HM Revenue and Customs,HM Revenue and Customs,line,5.859,5859000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,24,HM Treasury,HM Treasury,line,0.37,370000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,25,Cabinet Office,Cabinet Office,line,0.751,751000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,26,Scotland,Scotland,line,35.993,35993000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,27,Wales,Wales,line,15.641,15641000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,28,Northern Ireland,Northern Ireland,line,13.784,13784000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,29,Small and Independent Bodies,Small and Independent Bodies,line,2.369,2369000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,RDEL,RDEL_EX_DEPN,2022-23,30,Total Resource DEL excluding depreciation,Total Resource DEL excluding depreciation,total,452.549,452549000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,7,Health and Social Care,Health and Social Care,line,11.193,11193000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,8,Education,Education,line,5.888,5888000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,9,Home Office,Home Office,line,1.16,1160000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,10,Justice,Justice,line,1.458,1458000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,11,Law Officers' Departments,Law Officers' Departments,line,0.059,59000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,12,Defence,Defence,line,20.472,20472000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,13,Single Intelligence Account,Single Intelligence Account,line,1.172,1172000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,14,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,2.306,2306000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,15,"DLUHC Levelling up, Housing and Communities","DLUHC Levelling up, Housing and Communities",line,7.155,7155000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,16,Transport,Transport,line,20.588,20588000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,17,"Business, Energy and Industrial Strategy","Business, Energy and Industrial Strategy",line,19.858,19858000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,18,"Digital, Culture, Media and Sport","Digital, Culture, Media and Sport",line,0.67,670000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,19,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,1.762,1762000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,20,International Trade,International Trade,line,0.022,22000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,21,Work and Pensions,Work and Pensions,line,0.576,576000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,22,HM Revenue and Customs,HM Revenue and Customs,line,0.661,661000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,23,HM Treasury,HM Treasury,line,0.015,15000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,24,Cabinet Office,Cabinet Office,line,0.795,795000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,25,Scotland,Scotland,line,6.412,6412000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,26,Wales,Wales,line,2.824,2824000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,27,Northern Ireland,Northern Ireland,line,2.114,2114000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,28,Small and Independent Bodies,Small and Independent Bodies,line,0.404,404000
+2022-23-supps,Diggicom_supps_tables_forpublication.xlsx,CDEL,CDEL,2022-23,29,Total Capital DEL,Total Capital DEL,total,107.565,107565000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,6,Health and Social Care,Health and Social Care,line,178.578,178578000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,7,Education3,Education,line,87.929,87929000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,8,Home Office4,Home Office,line,15.242,15242000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,9,Justice,Justice,line,10.879,10879000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,10,Law Officers' Departments,Law Officers' Departments,line,0.844,844000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,11,Defence,Defence,line,41.011,41011000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,12,Single Intelligence Account,Single Intelligence Account,line,3.518,3518000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,8.178,8178000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,3.039,3039000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,15,DLUHC Local Government,DLUHC Local Government,line,14.625,14625000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,16,"Culture, Media and Sport","Culture, Media and Sport",line,1.686,1686000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,0.563,563000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,18,Transport,Transport,line,17.042,17042000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,19,Energy Security and Net Zero,Energy Security and Net Zero,line,2.057,2057000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.79,4790000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,21,Business and Trade,Business and Trade,line,1.605,1605000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,22,Work and Pensions,Work and Pensions,line,9.024,9024000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,23,HM Revenue and Customs,HM Revenue and Customs,line,6.375,6375000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,24,HM Treasury,HM Treasury,line,0.354,354000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,25,Cabinet Office,Cabinet Office,line,0.95,950000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,26,Scotland5,Scotland,line,28.404,28404000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,27,Wales,Wales,line,17.792,17792000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,28,Northern Ireland,Northern Ireland,line,14.854,14854000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,29,Small and Independent Bodies,Small and Independent Bodies,line,2.69,2690000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL inc,RDEL,2023-24,30,Total Resource DEL6,Total Resource DEL,total,472.025,472025000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,6,Health and Social Care,Health and Social Care,line,174.111,174111000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,7,Education3,Education,line,81.688,81688000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,8,Home Office4,Home Office,line,14.518,14518000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,9,Justice,Justice,line,9.977,9977000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,10,Law Officers' Departments,Law Officers' Departments,line,0.808,808000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,11,Defence,Defence,line,32.205,32205000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,12,Single Intelligence Account,Single Intelligence Account,line,2.825,2825000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,7.844,7844000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,2.989,2989000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,15,DLUHC Local Government,DLUHC Local Government,line,14.625,14625000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,16,"Culture, Media and Sport","Culture, Media and Sport",line,1.524,1524000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,0.251,251000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,18,Transport,Transport,line,6.933,6933000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,19,Energy Security and Net Zero,Energy Security and Net Zero,line,1.955,1955000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.449,4449000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,21,Business and Trade,Business and Trade,line,1.539,1539000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,22,Work and Pensions,Work and Pensions,line,8.412,8412000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,23,HM Revenue and Customs,HM Revenue and Customs,line,5.674,5674000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,24,HM Treasury,HM Treasury,line,0.34,340000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,25,Cabinet Office,Cabinet Office,line,0.764,764000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,26,Scotland,Scotland,line,36.717,36717000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,27,Wales,Wales,line,15.988,15988000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,28,Northern Ireland,Northern Ireland,line,13.68,13680000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,29,Small and Independent Bodies,Small and Independent Bodies,line,2.483,2483000
+2023-24-mains,Mains_DELBudget_table.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,30,Total Resource DEL excluding depreciation5,Total Resource DEL excluding depreciation,total,442.3,442300000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,6,Health and Social Care,Health and Social Care,line,12.088,12088000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,7,Education3,Education,line,7.039,7039000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,8,Home Office4,Home Office,line,1.037,1037000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,9,Justice,Justice,line,2.308,2308000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,10,Law Officers' Departments,Law Officers' Departments,line,0.034,34000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,11,Defence,Defence,line,18.338,18338000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,12,Single Intelligence Account,Single Intelligence Account,line,1.283,1283000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,3.641,3641000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,7.194,7194000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,15,"Culture, Media and Sport","Culture, Media and Sport",line,0.662,662000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,16,"Science, Innovation and Technology","Science, Innovation and Technology",line,13.081,13081000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,17,Transport,Transport,line,20.705,20705000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,18,Energy Security and Net Zero,Energy Security and Net Zero,line,5.914,5914000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,19,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,2.823,2823000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,20,Business and Trade,Business and Trade,line,1.054,1054000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,21,Work and Pensions,Work and Pensions,line,0.8,800000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,22,HM Revenue and Customs,HM Revenue and Customs,line,0.627,627000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,23,HM Treasury,HM Treasury,line,0.008,8000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,24,Cabinet Office,Cabinet Office,line,0.366,366000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,25,Scotland,Scotland,line,5.95,5950000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,26,Wales,Wales,line,3.147,3147000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,27,Northern Ireland,Northern Ireland,line,2.116,2116000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,28,Small and Independent Bodies,Small and Independent Bodies,line,0.357,357000
+2023-24-mains,Mains_DELBudget_table.xlsx,CDEL,CDEL,2023-24,29,Total Capital DEL5,Total Capital DEL,total,110.571,110571000
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,6,Health and Social Care,Health and Social Care,line,183.861416,183861416
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,7,Education3,Education,line,106.677874,106677874
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,8,Home Office4,Home Office,line,20.239411,20239411
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,9,Justice,Justice,line,11.399862,11399862
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,10,Law Officers' Departments,Law Officers' Departments,line,0.92266,922660
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,11,Defence,Defence,line,43.807394,43807394
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,12,Single Intelligence Account,Single Intelligence Account,line,3.518085,3518085
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,8.181815,8181815
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,3.47009,3470090
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,15,DLUHC Local Government,DLUHC Local Government,line,14.601487,14601487
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,16,"Culture, Media and Sport","Culture, Media and Sport",line,1.775629,1775629
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,0.688095,688095
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,18,Transport,Transport,line,20.362591,20362591
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,19,Energy Security and Net Zero,Energy Security and Net Zero,line,1.748376,1748376
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,5.381611,5381611
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,21,Business and Trade,Business and Trade,line,1.96688,1966880
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,22,Work and Pensions,Work and Pensions,line,9.162869,9162869
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,23,HM Revenue and Customs,HM Revenue and Customs,line,6.693934,6693934
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,24,HM Treasury,HM Treasury,line,0.394909,394909
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,25,Cabinet Office,Cabinet Office,line,1.095104,1095104
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,26,Scotland5,Scotland,line,28.869787,28869787
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,27,Wales,Wales,line,17.650104,17650104
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,28,Northern Ireland,Northern Ireland,line,15.995107,15995107
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,29,Small and Independent Bodies,Small and Independent Bodies,line,2.700545,2700545
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL inc,RDEL,2023-24,30,Total Resource DEL6,Total Resource DEL,total,511.165635,511165635
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,6,Health and Social Care,Health and Social Care,line,178.488496,178488496
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,7,Education3,Education,line,81.938072,81938072
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,8,Home Office4,Home Office,line,19.239683,19239683
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,9,Justice,Justice,line,10.483116,10483116
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,10,Law Officers' Departments,Law Officers' Departments,line,0.882741,882741
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,11,Defence,Defence,line,35.001212,35001212
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,12,Single Intelligence Account,Single Intelligence Account,line,2.824921,2824921
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,7.776226,7776226
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,3.425247,3425247
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,15,DLUHC Local Government,DLUHC Local Government,line,14.601487,14601487
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,16,"Culture, Media and Sport","Culture, Media and Sport",line,1.598438,1598438
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,0.336128,336128
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,18,Transport,Transport,line,8.203965,8203965
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,19,Energy Security and Net Zero,Energy Security and Net Zero,line,1.646326,1646326
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.823185,4823185
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,21,Business and Trade,Business and Trade,line,1.900922,1900922
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,22,Work and Pensions,Work and Pensions,line,8.551341,8551341
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,23,HM Revenue and Customs,HM Revenue and Customs,line,5.992637,5992637
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,24,HM Treasury,HM Treasury,line,0.381216,381216
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,25,Cabinet Office,Cabinet Office,line,0.913201,913201
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,26,Scotland,Scotland,line,26.347182,26347182
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,27,Wales,Wales,line,16.453273,16453273
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,28,Northern Ireland,Northern Ireland,line,14.847116,14847116
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,29,Small and Independent Bodies,Small and Independent Bodies,line,2.482815,2482815
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,RDEL ex,RDEL_EX_DEPN,2023-24,30,Total Resource DEL excluding depreciation5,Total Resource DEL excluding depreciation,total,449.138946,449138946
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,6,Health and Social Care,Health and Social Care,line,10.988845,10988845
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,7,Education3,Education,line,6.341125,6341125
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,8,Home Office4,Home Office,line,1.539841,1539841
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,9,Justice,Justice,line,1.518494,1518494
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,10,Law Officers' Departments,Law Officers' Departments,line,0.0481,48100
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,11,Defence,Defence,line,19.196726,19196726
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,12,Single Intelligence Account,Single Intelligence Account,line,1.37878,1378780
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,3.588237,3588237
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,14,"DLUHC Levelling Up, Housing and Communities","DLUHC Levelling Up, Housing and Communities",line,7.124095,7124095
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,15,"Culture, Media and Sport","Culture, Media and Sport",line,0.603687,603687
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,16,"Science, Innovation and Technology","Science, Innovation and Technology",line,12.607989,12607989
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,17,Transport,Transport,line,22.149471,22149471
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,18,Energy Security and Net Zero,Energy Security and Net Zero,line,5.909567,5909567
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,19,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,2.112646,2112646
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,20,Business and Trade,Business and Trade,line,1.397037,1397037
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,21,Work and Pensions,Work and Pensions,line,0.691008,691008
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,22,HM Revenue and Customs,HM Revenue and Customs,line,0.751178,751178
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,23,HM Treasury,HM Treasury,line,0.007252,7252
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,24,Cabinet Office,Cabinet Office,line,0.648015,648015
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,25,Scotland,Scotland,line,6.38548,6385480
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,26,Wales,Wales,line,3.119224,3119224
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,27,Northern Ireland,Northern Ireland,line,2.138124,2138124
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,28,Small and Independent Bodies,Small and Independent Bodies,line,0.413359,413359
+2023-24-supps,Diggicom_supps_tables_forpublication_23-24.xlsx,CDEL,CDEL,2023-24,29,Total Capital DEL5,Total Capital DEL,total,110.65828,110658280
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,6,Health and Social Care,Health and Social Care,line,198.491,198491000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,7,Education,Education,line,114.627,114627000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,8,Home Office2,Home Office,line,19.261,19261000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,9,Justice,Justice,line,12.212,12212000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,10,Law Officers' Departments,Law Officers' Departments,line,0.945,945000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,11,Defence,Defence,line,46.394,46394000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,12,Single Intelligence Account,Single Intelligence Account,line,4.152,4152000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,8.729,8729000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,4.357,4357000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,15,MHCLG Local Government,MHCLG Local Government,line,11.356,11356000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,16,"Culture, Media and Sport","Culture, Media and Sport",line,1.826,1826000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,1.036,1036000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,18,Transport,Transport,line,20.545,20545000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,19,Energy Security and Net Zero,Energy Security and Net Zero,line,1.657,1657000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,5.694,5694000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,21,Business and Trade,Business and Trade,line,1.78,1780000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,22,Work and Pensions,Work and Pensions,line,9.591,9591000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,23,HM Revenue and Customs,HM Revenue and Customs,line,6.052,6052000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,24,HM Treasury,HM Treasury,line,0.367,367000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,25,Cabinet Office,Cabinet Office,line,0.916,916000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,26,Scottish Government3,Scottish Government,line,26.965,26965000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,27,Welsh Government,Welsh Government,line,18.469,18469000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,28,Northern Ireland Executive,Northern Ireland Executive,line,16.541,16541000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,29,Small and Independent Bodies,Small and Independent Bodies,line,3.063,3063000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2024-25,30,Total Resource DEL4,Total Resource DEL,total,535.026,535026000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,6,Health and Social Care,Health and Social Care,line,193.301,193301000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,7,Education,Education,line,89.231,89231000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,8,Home Office2,Home Office,line,18.373,18373000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,9,Justice,Justice,line,11.173,11173000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,10,Law Officers' Departments,Law Officers' Departments,line,0.911,911000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,11,Defence,Defence,line,37.608,37608000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,12,Single Intelligence Account,Single Intelligence Account,line,3.088,3088000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,8.323,8323000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,4.257,4257000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,15,MHCLG Local Government,MHCLG Local Government,line,11.356,11356000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,16,"Culture, Media and Sport","Culture, Media and Sport",line,1.646,1646000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,0.584,584000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,18,Transport,Transport,line,8.278,8278000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,19,Energy Security and Net Zero,Energy Security and Net Zero,line,1.599,1599000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,5.009,5009000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,21,Business and Trade,Business and Trade,line,1.735,1735000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,22,Work and Pensions,Work and Pensions,line,9.14,9140000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,23,HM Revenue and Customs,HM Revenue and Customs,line,5.206,5206000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,24,HM Treasury,HM Treasury,line,0.356,356000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,25,Cabinet Office,Cabinet Office,line,0.688,688000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,26,Scottish Government3,Scottish Government,line,39.925,39925000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,27,Welsh Government,Welsh Government,line,17.231,17231000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,28,Northern Ireland Executive,Northern Ireland Executive,line,15.657,15657000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,29,Small and Independent Bodies,Small and Independent Bodies,line,2.845,2845000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2024-25,30,Total Resource DEL excluding depreciation4,Total Resource DEL excluding depreciation,total,487.52,487520000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,6,Health and Social Care,Health and Social Care,line,11.644,11644000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,7,Education,Education,line,5.717,5717000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,8,Home Office2,Home Office,line,1.801,1801000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,9,Justice,Justice,line,1.689,1689000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,10,Law Officers' Departments,Law Officers' Departments,line,0.088,88000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,11,Defence,Defence,line,22.704,22704000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,12,Single Intelligence Account,Single Intelligence Account,line,1.421,1421000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,2.737,2737000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,8.445,8445000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,15,"Culture, Media and Sport","Culture, Media and Sport",line,0.726,726000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,16,"Science, Innovation and Technology","Science, Innovation and Technology",line,13.267,13267000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,17,Transport,Transport,line,20.666,20666000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,18,Energy Security and Net Zero,Energy Security and Net Zero,line,5.79,5790000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,19,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,2.3,2300000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,20,Business and Trade,Business and Trade,line,1.508,1508000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,21,Work and Pensions,Work and Pensions,line,0.625,625000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,22,HM Revenue and Customs,HM Revenue and Customs,line,0.743,743000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,23,HM Treasury,HM Treasury,line,0.769,769000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,24,Cabinet Office,Cabinet Office,line,0.362,362000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,25,Scottish Government,Scottish Government,line,5.92,5920000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,26,Welsh Government,Welsh Government,line,3.2,3200000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,27,Northern Ireland Executive,Northern Ireland Executive,line,2.049,2049000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,28,Small and Independent Bodies,Small and Independent Bodies,line,0.416,416000
+2024-25-supps,2024-25_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2024-25,29,Total Capital DEL3,Total Capital DEL,total,114.588,114588000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,6,Health and Social Care,Health and Social Care,line,208.139,208139000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,7,Education,Education,line,102.647,102647000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,8,Home Office2,Home Office,line,20.459,20459000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,9,Justice,Justice,line,13.006,13006000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,10,Law Officers' Departments,Law Officers' Departments,line,1.061,1061000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,11,Defence,Defence,line,47.389,47389000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,12,Single Intelligence Account,Single Intelligence Account,line,4.377,4377000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,8.675,8675000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,4.629,4629000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,15,MHCLG Local Government,MHCLG Local Government,line,13.849,13849000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,16,"Culture, Media and Sport","Culture, Media and Sport",line,1.733,1733000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,1.072,1072000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,18,Transport,Transport,line,20.39,20390000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,19,Energy Security and Net Zero,Energy Security and Net Zero,line,1.993,1993000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,5.523,5523000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,21,Business and Trade,Business and Trade,line,2.035,2035000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,22,Work and Pensions,Work and Pensions,line,10.677,10677000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,23,HM Revenue and Customs,HM Revenue and Customs,line,6.8,6800000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,24,HM Treasury,HM Treasury,line,0.427,427000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,25,Cabinet Office,Cabinet Office,line,1.129,1129000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,26,Scottish Government3,Scottish Government,line,28.122,28122000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,27,Welsh Government,Welsh Government,line,19.261,19261000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,28,Northern Ireland Executive,Northern Ireland Executive,line,17.289,17289000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,29,Small and Independent Bodies,Small and Independent Bodies,line,3.123,3123000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,30,Total Resource DEL4,Total Resource DEL,total,543.804,543804000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,6,Health and Social Care,Health and Social Care,line,202.949,202949000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,7,Education,Education,line,95.129,95129000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,8,Home Office2,Home Office,line,19.57,19570000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,9,Justice,Justice,line,11.966,11966000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,10,Law Officers' Departments,Law Officers' Departments,line,1.027,1027000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,11,Defence,Defence,line,38.603,38603000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,12,Single Intelligence Account,Single Intelligence Account,line,3.313,3313000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,8.268,8268000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,4.53,4530000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,15,MHCLG Local Government,MHCLG Local Government,line,13.849,13849000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,16,"Culture, Media and Sport","Culture, Media and Sport",line,1.553,1553000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,0.62,620000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,18,Transport,Transport,line,8.123,8123000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,19,Energy Security and Net Zero,Energy Security and Net Zero,line,1.936,1936000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.838,4838000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,21,Business and Trade,Business and Trade,line,1.99,1990000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,22,Work and Pensions,Work and Pensions,line,10.229,10229000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,23,HM Revenue and Customs,HM Revenue and Customs,line,5.95,5950000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,24,HM Treasury,HM Treasury,line,0.415,415000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,25,Cabinet Office,Cabinet Office,line,0.9,900000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,26,Scottish Government3,Scottish Government,line,41.732,41732000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,27,Welsh Government,Welsh Government,line,18.023,18023000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,28,Northern Ireland Executive,Northern Ireland Executive,line,16.405,16405000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,29,Small and Independent Bodies,Small and Independent Bodies,line,2.894,2894000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,30,Total Resource DEL excluding depreciation4,Total Resource DEL excluding depreciation,total,514.813,514813000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,6,Health and Social Care,Health and Social Care,line,13.616,13616000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,7,Education,Education,line,6.778,6778000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,8,Home Office2,Home Office,line,1.593,1593000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,9,Justice,Justice,line,2.04,2040000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,10,Law Officers' Departments,Law Officers' Departments,line,0.067,67000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,11,Defence,Defence,line,23.067,23067000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,12,Single Intelligence Account,Single Intelligence Account,line,1.675,1675000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,3.439,3439000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,9.055,9055000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,15,"Culture, Media and Sport","Culture, Media and Sport",line,0.753,753000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,16,"Science, Innovation and Technology","Science, Innovation and Technology",line,14.669,14669000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,17,Transport,Transport,line,21.565,21565000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,18,Energy Security and Net Zero,Energy Security and Net Zero,line,11.39,11390000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,19,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,2.7,2700000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,20,Business and Trade,Business and Trade,line,1.528,1528000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,21,Work and Pensions,Work and Pensions,line,0.756,756000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,22,HM Revenue and Customs,HM Revenue and Customs,line,0.875,875000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,23,HM Treasury,HM Treasury,line,0.828,828000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,24,Cabinet Office,Cabinet Office,line,0.48,480000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,25,Scottish Government,Scottish Government,line,6.555,6555000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,26,Welsh Government,Welsh Government,line,3.378,3378000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,27,Northern Ireland Executive,Northern Ireland Executive,line,2.223,2223000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,28,Small and Independent Bodies,Small and Independent Bodies,line,0.439,439000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,29,Total Capital DEL3,Total Capital DEL,total,129.468,129468000
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,6,Health and Social Care,Health and Social Care,line,1492.318,1492318
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,7,Education,Education,line,1127.353,1127353
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,8,Home Office2,Home Office,line,255.944,255944
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,9,Justice,Justice,line,84.335,84335
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,10,Law Officers' Departments,Law Officers' Departments,line,11.106,11106
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,11,Defence,Defence,line,207.301,207301
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,12,Single Intelligence Account,Single Intelligence Account,line,19.78,19780
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,10.142,10142
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,6.087,6087
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,15,MHCLG Local Government,MHCLG Local Government,line,514.976,514976
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,16,"Culture, Media and Sport","Culture, Media and Sport",line,11.83,11830
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,14.482,14482
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,18,Transport,Transport,line,97.007,97007
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,19,Energy Security and Net Zero,Energy Security and Net Zero,line,24.84,24840
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,30.792,30792
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,21,Business and Trade,Business and Trade,line,9.301,9301
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,22,Work and Pensions,Work and Pensions,line,72.33,72330
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,23,HM Revenue and Customs,HM Revenue and Customs,line,53.764,53764
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,24,HM Treasury,HM Treasury,line,3.981,3981
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,25,Cabinet Office,Cabinet Office,line,9.89,9890
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,26,Scottish Government,Scottish Government,line,338.92,338920
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,27,Welsh Government,Welsh Government,line,185.389,185389
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,28,Northern Ireland Executive,Northern Ireland Executive,line,145.969,145969
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,29,Small and Independent Bodies,Small and Independent Bodies,line,17.567,17567
+2025-26-mains,2025-26_Mains_DEL_tables_for_publication.xlsx,Direct impact of tax changes,RDEL_EX_DEPN_TAX_ALLOWANCE,2025-26,30,Total Resource DEL excluding depreciation,Total Resource DEL excluding depreciation,total,4745.402,4745402
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,6,Health and Social Care,Health and Social Care,line,210.675916,210675916
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,7,Education,Education,line,121.852178,121852178
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,8,Home Office2,Home Office,line,19.113655,19113655
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,9,Justice,Justice,line,12.961023,12961023
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,10,Law Officers' Departments,Law Officers' Departments,line,1.049693,1049693
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,11,Defence,Defence,line,58.231616,58231616
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,12,Single Intelligence Account,Single Intelligence Account,line,4.178747,4178747
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,8.217356,8217356
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,4.750249,4750249
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,15,MHCLG Local Government,MHCLG Local Government,line,13.849438,13849438
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,16,"Culture, Media and Sport","Culture, Media and Sport",line,1.793758,1793758
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,1.177546,1177546
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,18,Transport,Transport,line,19.99877,19998770
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,19,Energy Security and Net Zero,Energy Security and Net Zero,line,2.069922,2069922
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,5.615213,5615213
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,21,Business and Trade,Business and Trade,line,2.3952,2395200
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,22,Work and Pensions,Work and Pensions,line,10.280192,10280192
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,23,HM Revenue and Customs,HM Revenue and Customs,line,6.736364,6736364
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,24,HM Treasury,HM Treasury,line,0.432623,432623
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,25,Cabinet Office,Cabinet Office,line,1.103156,1103156
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,26,Scottish Government3,Scottish Government,line,29.918577,29918577
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,27,Welsh Government,Welsh Government,line,21.840068,21840068
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,28,Northern Ireland Executive,Northern Ireland Executive,line,19.273945,19273945
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,29,Small and Independent Bodies,Small and Independent Bodies,line,3.20056,3200560
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL inc,RDEL,2025-26,30,Total Resource DEL4,Total Resource DEL,total,580.715765,580715765
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,6,Health and Social Care,Health and Social Care,line,204.469259,204469259
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,7,Education,Education,line,95.097114,95097114
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,8,Home Office2,Home Office,line,18.199407,18199407
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,9,Justice,Justice,line,11.936211,11936211
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,10,Law Officers' Departments,Law Officers' Departments,line,1.010944,1010944
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,11,Defence,Defence,line,39.118792,39118792
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,12,Single Intelligence Account,Single Intelligence Account,line,3.317747,3317747
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,7.851521,7851521
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,4.703693,4703693
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,15,MHCLG Local Government,MHCLG Local Government,line,13.849438,13849438
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,16,"Culture, Media and Sport","Culture, Media and Sport",line,1.577069,1577069
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,0.675463,675463
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,18,Transport,Transport,line,7.732327,7732327
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,19,Energy Security and Net Zero,Energy Security and Net Zero,line,1.97912,1979120
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.917816,4917816
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,21,Business and Trade,Business and Trade,line,2.343967,2343967
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,22,Work and Pensions,Work and Pensions,line,9.782234,9782234
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,23,HM Revenue and Customs,HM Revenue and Customs,line,5.886661,5886661
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,24,HM Treasury,HM Treasury,line,0.422643,422643
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,25,Cabinet Office,Cabinet Office,line,0.795331,795331
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,26,Scottish Government3,Scottish Government,line,41.568426,41568426
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,27,Welsh Government,Welsh Government,line,18.146383,18146383
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,28,Northern Ireland Executive,Northern Ireland Executive,line,16.894052,16894052
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,29,Small and Independent Bodies,Small and Independent Bodies,line,2.960306,2960306
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,RDEL ex,RDEL_EX_DEPN,2025-26,30,Total Resource DEL excluding depreciation4,Total Resource DEL excluding depreciation,total,515.235924,515235924
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,6,Health and Social Care,Health and Social Care,line,13.624735,13624735
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,7,Education,Education,line,6.994867,6994867
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,8,Home Office2,Home Office,line,1.858235,1858235
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,9,Justice,Justice,line,2.303342,2303342
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,10,Law Officers' Departments,Law Officers' Departments,line,0.0667,66700
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,11,Defence,Defence,line,23.130816,23130816
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,12,Single Intelligence Account,Single Intelligence Account,line,1.711474,1711474
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,3.210477,3210477
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,8.777092,8777092
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,15,"Culture, Media and Sport","Culture, Media and Sport",line,0.73401,734010
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,16,"Science, Innovation and Technology","Science, Innovation and Technology",line,14.486327,14486327
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,17,Transport,Transport,line,21.639151,21639151
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,18,Energy Security and Net Zero,Energy Security and Net Zero,line,11.728226,11728226
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,19,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,2.646677,2646677
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,20,Business and Trade,Business and Trade,line,2.154253,2154253
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,21,Work and Pensions,Work and Pensions,line,0.722104,722104
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,22,HM Revenue and Customs,HM Revenue and Customs,line,0.899233,899233
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,23,HM Treasury,HM Treasury,line,0.820166,820166
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,24,Cabinet Office,Cabinet Office,line,0.521014,521014
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,25,Scottish Government,Scottish Government,line,6.571857,6571857
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,26,Welsh Government,Welsh Government,line,3.370713,3370713
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,27,Northern Ireland Executive,Northern Ireland Executive,line,2.26259,2262590
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,28,Small and Independent Bodies,Small and Independent Bodies,line,0.514187,514187
+2025-26-supps,2025-26_Supps_DEL_tables_for_publication.xlsx,CDEL,CDEL,2025-26,29,Total Capital DEL3,Total Capital DEL,total,130.748246,130748246
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,6,Health and Social Care,Health and Social Care,line,212.300407,212300407
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,7,Education,Education,line,94.18174,94181740
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,8,Home Office2,Home Office,line,20.250954,20250954
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,9,Justice,Justice,line,12.693149,12693149
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,10,Law Officers' Departments,Law Officers' Departments,line,1.108434,1108434
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,11,Defence,Defence,line,39.632279,39632279
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,12,Single Intelligence Account,Single Intelligence Account,line,3.514591,3514591
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,6.286562,6286562
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,4.216078,4216078
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,15,MHCLG Local Government,MHCLG Local Government,line,18.401268,18401268
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,16,"Culture, Media and Sport","Culture, Media and Sport",line,1.581481,1581481
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,17,"Science, Innovation and Technology","Science, Innovation and Technology",line,0.917806,917806
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,18,Transport,Transport,line,7.870969,7870969
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,19,Energy Security and Net Zero,Energy Security and Net Zero,line,2.021038,2021038
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,20,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,4.814088,4814088
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,21,Business and Trade,Business and Trade,line,1.998137,1998137
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,22,Work and Pensions,Work and Pensions,line,13.890764,13890764
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,23,HM Revenue and Customs,HM Revenue and Customs,line,6.738167,6738167
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,24,HM Treasury,HM Treasury,line,0.432993,432993
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,25,Cabinet Office,Cabinet Office,line,1.13372,1133720
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,26,Scottish Government3,Scottish Government,line,27.353898,27353898
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,27,o/w block grant adjustments,o/w block grant adjustments,memo,-16.053623,-16053623
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,28,Welsh Government,Welsh Government,line,18.951986,18951986
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,29,Northern Ireland Executive,Northern Ireland Executive,line,16.701452,16701452
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,30,Small and Independent Bodies,Small and Independent Bodies,line,3.025376,3025376
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,31,o/w depreciation,o/w depreciation,memo,0.354622,354622
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,RDEL,RDEL,2026-27,32,Total Resource DEL4,Total Resource DEL,total,520.017337,520017337
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,6,Health and Social Care,Health and Social Care,line,13.937693,13937693
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,7,Education,Education,line,8.216583,8216583
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,8,Home Office2,Home Office,line,1.848446,1848446
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,9,Justice,Justice,line,2.362667,2362667
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,10,Law Officers' Departments,Law Officers' Departments,line,0.08361,83610
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,11,Defence,Defence,line,25.474121,25474121
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,12,Single Intelligence Account,Single Intelligence Account,line,2.024279,2024279
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,13,"Foreign, Commonwealth and Development Office","Foreign, Commonwealth and Development Office",line,3.140297,3140297
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,14,"MHCLG Housing, Communities and Local Government","MHCLG Housing, Communities and Local Government",line,10.283633,10283633
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,15,"Culture, Media and Sport","Culture, Media and Sport",line,0.75225,752250
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,16,"Science, Innovation and Technology","Science, Innovation and Technology",line,15.209226,15209226
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,17,Transport,Transport,line,22.316726,22316726
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,18,Energy Security and Net Zero,Energy Security and Net Zero,line,8.547192,8547192
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,19,"Environment, Food and Rural Affairs","Environment, Food and Rural Affairs",line,2.76326,2763260
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,20,Business and Trade,Business and Trade,line,1.211879,1211879
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,21,Work and Pensions,Work and Pensions,line,0.999435,999435
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,22,HM Revenue and Customs,HM Revenue and Customs,line,0.872633,872633
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,23,HM Treasury,HM Treasury,line,0.826027,826027
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,24,Cabinet Office,Cabinet Office,line,0.64323,643230
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,25,Scottish Government,Scottish Government,line,7.127058,7127058
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,26,Welsh Government,Welsh Government,line,3.607478,3607478
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,27,Northern Ireland Executive,Northern Ireland Executive,line,2.439534,2439534
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,28,Small and Independent Bodies,Small and Independent Bodies,line,0.571663,571663
+2026-27-mains,2026-27_Mains_DEL_tables.xlsx,CDEL,CDEL,2026-27,29,Total Capital DEL3,Total Capital DEL,total,135.25892,135258920
