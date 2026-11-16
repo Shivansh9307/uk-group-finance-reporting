@@ -1,0 +1,38 @@
+SHA-256 (first 16 hex) of every file under the spike project folders, taken with a spike helper.
+hash_v3: after editing TMDL on disk and running pbir desktop refresh --model (Desktop open).
+hash_v5: about 30 minutes later, after a data refresh, many queries, a CloseMainWindow (save prompt shown, not answered) and Stop-Process.
+
+Spike files compared (excluding files I edited myself in between):
+  files: 27 before, 27 after
+  result: identical, no file added, removed or changed
+
+Desktop also wrote no .pbi folder, cache.abf or localSettings.json into either project while open.
+pbir desktop refresh --model: hash list before and after the reload identical (all 45 files).
+
+37230AE65210ACBF  Spike.pbip
+E8C57A6B388524A0  Spike.Report/.platform
+3B41E5684EFCC8E0  Spike.Report/definition.pbir
+09AE45B23FA903FF  Spike.Report/definition/pages/30778e673c98a0e1/page.json
+4FFB5DDC00F0EBF0  Spike.Report/definition/pages/pages.json
+69B795B846AEB919  Spike.Report/definition/report.json
+C8BDD966A85F1EAA  Spike.Report/definition/version.json
+8607A05A4310D20C  Spike.Report/StaticResources/RegisteredResources/sqlbi.json
+DA064521275C8F3F  Spike.SemanticModel/definition.pbism
+6DC255F8D359B641  Spike.SemanticModel/definition/database.tmdl
+3C2029DFF1EBCAAF  Spike.SemanticModel/definition/expressions.tmdl
+F5B7A7B0450EE46C  Spike.SemanticModel/definition/functions.tmdl
+D8D78007465E2E0E  Spike.SemanticModel/definition/model.tmdl
+C4BE9EE9EE31EE83  Spike.SemanticModel/definition/perspectives/Finance.tmdl
+DFAC9C2B05439AC5  Spike.SemanticModel/definition/perspectives/Organisation View.tmdl
+FD3DD35767820F3B  Spike.SemanticModel/definition/relationships.tmdl
+45CA7B3110719564  Spike.SemanticModel/definition/roles/OLS Paybill.tmdl
+72C87C531D964F24  Spike.SemanticModel/definition/roles/RLS and OLS.tmdl
+8034648AFAFC6BA4  Spike.SemanticModel/definition/roles/RLS Org.tmdl
+E6B577BB288C6B2E  Spike.SemanticModel/definition/tables/Account.tmdl
+E69093FE3EFF04B7  Spike.SemanticModel/definition/tables/Date.tmdl
+3AA74C0F4F626298  Spike.SemanticModel/definition/tables/Fact Monthly.tmdl
+163C53BB8605DA34  Spike.SemanticModel/definition/tables/Fact.tmdl
+17EA6A23969B0FC6  Spike.SemanticModel/definition/tables/Measure Selector.tmdl
+AA5ADBE0B4FBDD8A  Spike.SemanticModel/definition/tables/Organisation.tmdl
+C2E5D63196841B6F  Spike.SemanticModel/definition/tables/Time Intelligence.tmdl
+C09A8973D823E15F  Spike.SemanticModel/definition/tables/User Org.tmdl

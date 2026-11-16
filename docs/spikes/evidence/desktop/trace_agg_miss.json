@@ -1,0 +1,63 @@
+{
+    "query_file":  "a02_miss_account.dax",
+    "query_sha256":  "46a78031e08d51b71e89cf77414ea51fc7685cb1c822e62ad9f71fa3d6109fc8",
+    "run_utc":  "2026-11-16T22:17:42Z",
+    "cold":  true,
+    "roles":  "",
+    "user":  "",
+    "rows_returned":  4,
+    "error":  null,
+    "total_ms":  4102,
+    "total_cpu_ms":  141,
+    "se_ms":  0,
+    "fe_ms_derived":  4102,
+    "se_query_count":  0,
+    "se_cache_hits":  0,
+    "se_queries":  [
+
+                   ],
+    "query_plan":  {
+                       "logical":  "GroupSemiJoin: RelLogOp DependOnCols()() 0-1 RequiredCols(0, 1)(\u0027Account\u0027[Account Class], \u0027\u0027[Amount])\n\tScan_Vertipaq: RelLogOp DependOnCols()() 0-0 RequiredCols(0)(\u0027Account\u0027[Account Class])\n\tSum_Vertipaq: ScaLogOp MeasureRef=[Amount] DependOnCols(0)(\u0027Account\u0027[Account Class]) Currency DominantValue=BLANK\n\t\tScan_Vertipaq: RelLogOp DependOnCols(0)(\u0027Account\u0027[Account Class]) 1-17 RequiredCols(0, 17)(\u0027Account\u0027[Account Class], \u0027Sales Detail\u0027[amount_gbp])\n\t\t\u0027Sales Detail\u0027[amount_gbp]: ScaLogOp DependOnCols(17)(\u0027Sales Detail\u0027[amount_gbp]) Currency DominantValue=NONE\n",
+                       "physical":  "GroupSemijoin: IterPhyOp LogOp=GroupSemiJoin IterCols(0, 1)(\u0027Account\u0027[Account Class], \u0027\u0027[Amount])\n\tSpool_Iterator\u003cSpoolIterator\u003e: IterPhyOp LogOp=Sum_Vertipaq IterCols(0)(\u0027Account\u0027[Account Class]) #Records=4 #KeyCols=22 #ValueCols=1\n\t\tProjectionSpool\u003cProjectFusion\u003cCopy\u003e\u003e: SpoolPhyOp #Records=4\n\t\t\tDirectQueryResult : IterPhyOp #FieldCols=1 #ValueCols=1 Fields(\u0027Account\u0027[Account Class])\n"
+                   },
+    "direct_query":  [
+                         {
+                             "duration_ms":  768,
+                             "cpu_ms":  109,
+                             "sql":  "\nSELECT \nTOP (1000001) *\nFROM \n(\n\nSELECT [t2].[account_class] AS [c11],SUM([t3].[amount])\n AS [a0]\nFROM \n((\nselect [$Table].[date_key] as [date_key],\n    [$Table].[month_key] as [month_key],\n    [$Table].[org_key] as [org_key],\n    [$Table].[account_key] as [account_key],\n    [$Table].[amount] as [amount],\n    [$Table].[load_date] as [load_date]\nfrom [dw].[spike_v_fact] as [$Table]\n) AS [t3]\n\n LEFT OUTER JOIN \n\n(\nselect [$Table].[account_key] as [account_key],\n    [$Table].[account_code] as [account_code],\n    [$Table].[account_name] as [account_name],\n    [$Table].[account_class] as [account_class]\nfrom [dw].[spike_v_dim_account] as [$Table]\n) AS [t2] on \n(\n[t3].[account_key] = [t2].[account_key]\n)\n)\n\nGROUP BY [t2].[account_class]\n)\n AS [MainTable]\nWHERE \n(\n\nNOT(\n(\n[a0] IS NULL \n)\n)\n\n)\n "
+                         }
+                     ],
+    "aggregation_rewrites":  [
+                                 {
+                                     "table":  "Sales Detail",
+                                     "matchingResult":  "attemptFailed",
+                                     "failureReasons":  [
+                                                            {
+                                                                "alternateSource":  "Sales Agg",
+                                                                "reason":  "no column mapping",
+                                                                "column":  "Account[Account Class]"
+                                                            }
+                                                        ],
+                                     "dataRequest":  [
+                                                         {
+                                                             "aggregation":  "Sum",
+                                                             "table":  "Sales Detail",
+                                                             "column":  "amount_gbp"
+                                                         },
+                                                         {
+                                                             "table":  "Account",
+                                                             "column":  "Account Class"
+                                                         }
+                                                     ]
+                                 }
+                             ],
+    "unavailable_events":  [
+
+                           ],
+    "event_counts":  {
+                         "DAXQueryPlan":  2,
+                         "AggregateTableRewriteQuery":  1,
+                         "DirectQueryEnd":  1,
+                         "QueryEnd":  1
+                     }
+}

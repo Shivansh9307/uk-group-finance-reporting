@@ -1,0 +1,9 @@
+table,rows,table_size_bytes,columns_size_bytes
+Fact,2000000,13389868,13387804
+Organisation,200,3213200,3213200
+Account,100,3204896,3204896
+Date,1096,1179948,1179948
+Fact Monthly,164160,1097236,1097236
+User Org,4,1066408,1066408
+Measure Selector,3,35248,35248
+Time Intelligence,4,17906,17906

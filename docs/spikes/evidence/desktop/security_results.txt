@@ -1,0 +1,68 @@
+Run with tools/run_dax.ps1 -Roles and -User (ActAs). Users are fictional (spike.example).
+
+### q07c_ols_unrelated_ols.csv
+rows,amount
+2000000,5998824487.94
+
+### q07c_ols_unrelated_rls_ols_alice.csv
+rows,amount
+30000,89970855.63
+
+### q08_rls_org_rls_alice.csv
+orgs_visible,amount,upn
+3,89970855.63,"alice@spike.example"
+
+### q08_rls_org_rls_bob.csv
+orgs_visible,amount,upn
+1,29983114.55,"bob@spike.example"
+
+### q08_rls_org_rls_nobody.csv
+orgs_visible,amount,upn
+,,"nobody@spike.example"
+
+### q08_rls_org_rls_ols_alice.csv
+orgs_visible,amount,upn
+3,89970855.63,"alice@spike.example"
+
+### q08_rls_org_rls_self.csv
+orgs_visible,amount,upn
+,,"<machine>\<user>"
+
+### console output of the OLS and two-role runs
+$ run_dax.ps1 -Filter "q07*.dax" -Roles "OLS Paybill" -User alice@spike.example
+FAILED  q07_ols_column.dax as [OLS Paybill] alice@spike.example
+        22:11:52 [INF] Starting File command
+        Exporting to file...
+        22:11:53 [ERR] Error: Query (3, 27) Column 'Paybill Cost' in table 'Organisation' cannot be found or 
+        may not be used in this expression.
+        
+FAILED  q07b_ols_measure.dax as [OLS Paybill] alice@spike.example
+        22:11:53 [INF] Starting File command
+        Exporting to file...
+        22:11:54 [ERR] Error: Query (3, 24) The value for 'Paybill Total (OLS)' cannot be determined. Either 
+        the column doesn't exist, or there is no current row for this column.
+        
+ok      q07c_ols_unrelated.dax as [OLS Paybill] alice@spike.example -> results\security\q07c_ols_unrelated_ols.csv
+
+$ run_dax.ps1 -Filter "q07*.dax" -Roles "RLS and OLS" -User alice@spike.example
+FAILED  q07_ols_column.dax as [RLS and OLS] alice@spike.example
+        22:11:57 [INF] Starting File command
+        Exporting to file...
+        22:11:57 [ERR] Error: Query (3, 27) Column 'Paybill Cost' in table 'Organisation' cannot be found or 
+        may not be used in this expression.
+        
+FAILED  q07b_ols_measure.dax as [RLS and OLS] alice@spike.example
+        22:11:58 [INF] Starting File command
+        Exporting to file...
+        22:11:58 [ERR] Error: Query (3, 24) The value for 'Paybill Total (OLS)' cannot be determined. Either 
+        the column doesn't exist, or there is no current row for this column.
+        
+ok      q07c_ols_unrelated.dax as [RLS and OLS] alice@spike.example -> results\security\q07c_ols_unrelated_rls_ols_alice.csv
+
+$ run_dax.ps1 -Filter "q07c*.dax" -Roles "RLS Org,OLS Paybill" -User alice@spike.example
+FAILED  q07c_ols_unrelated.dax as [RLS Org,OLS Paybill] alice@spike.example
+        22:12:01 [INF] Starting File command
+        Exporting to file...
+        22:12:02 [ERR] Error: The combination of active roles results in a dynamic security configuration that
+        is currently not supported. Please contact the administrator of the database to 
+        resolve this issue.

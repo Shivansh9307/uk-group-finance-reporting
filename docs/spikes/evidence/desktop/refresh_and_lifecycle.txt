@@ -1,0 +1,62 @@
+### first full refresh request through TOM RequestRefresh (Model, Full)
+Requesting a full refresh on localhost:62972 ...
+Refresh failed: Exception calling "SaveChanges" with "0" argument(s): "Failed to save modifications to the server. 
+Error returned: 'An unexpected exception occurred.
+An unexpected exception occurred.
+The current operation was cancelled because another operation in the transaction failed.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+'."
+At tools\run_dax.ps1:140 char:17
++         catch { throw "Refresh failed: $($_.Exception.Message)" }
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Refresh failed:... occurred.
+'.":String) [], RuntimeException
+    + FullyQualifiedErrorId : Refresh failed: Exception calling "SaveChanges" with "0" argument(s): "Failed to save mo 
+   difications to the server. Error returned: 'An unexpected exception occurred.
+An unexpected exception occurred.
+The current operation was cancelled because another operation in the transaction failed.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+An unexpected exception occurred.
+'."
+
+### refresh policy read back from the engine after refresh
+policy type=Basic rolling=3 Year incremental=3 Month mode=Import
+polling expression present: True
+partitions: Fact (M, refreshed 2026-11-16 22:04:48Z)
+
+### refresh through run_dax.ps1 (TMSL, applyRefreshPolicy false)
+Requesting a full refresh on localhost:62972 ...
+Refresh finished in 6.8 s
+ok      q00_smoke.dax -> results\q00_smoke.csv
+
+### second project (same server and database), no dialog shown
+Requesting a full refresh on localhost:53371 ...
+Refresh finished in 4.5 s
+ok      a00_smoke.dax -> results_agg\a00_smoke.csv
+
+### reopen after Stop-Process: timings
+3.5s engine listening on port 60254 (pid 24152)
+  13.6s window title 'Spike'
+
+### reopen after Stop-Process: partition state, then refresh with no dialog
+Date / Date: mode=Import state=NoData policy=False err=
+  Fact / Fact: mode=Import state=NoData policy=True err=
+Requesting a full refresh on localhost:60254 ...
+Refresh finished in 12.4 s
+ok      q00_smoke.dax -> results\q00_smoke.csv
+
+### benchmark under a role
+ok      q10_trace_basic.dax as [RLS Org] alice@spike.example -> results\bench\q10_trace_basic_rls.csv

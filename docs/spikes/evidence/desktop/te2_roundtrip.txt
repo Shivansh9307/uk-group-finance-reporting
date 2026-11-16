@@ -1,0 +1,93 @@
+$ TabularEditor <copy of Spike definition> -S set_descriptions.csx -TMDL <after>
+
+Tabular Editor 2.29.0 (build 2.29.9750.30716)
+--------------------------------
+Loading model...
+Loaded script: <spike>\te2\set_descriptions.csx
+Executing script 0...
+Descriptions set on 10 measures
+Saving Model.bim file to TMDL ...
+
+$ git diff --no-index --stat before after
+ {before => after}/database.tmdl                    |  2 +
+ {before => after}/expressions.tmdl                 |  1 +
+ {before => after}/functions.tmdl                   |  1 +
+ {before => after}/model.tmdl                       | 10 ++++
+ {before => after}/perspectives/Finance.tmdl        |  1 +
+ .../perspectives/Organisation View.tmdl            |  1 +
+ {before => after}/relationships.tmdl               |  1 +
+ {before => after}/roles/OLS Paybill.tmdl           |  1 +
+ {before => after}/roles/RLS Org.tmdl               |  1 +
+ {before => after}/roles/RLS and OLS.tmdl           |  1 +
+ {before => after}/tables/Account.tmdl              |  1 +
+ {before => after}/tables/Date.tmdl                 |  1 +
+ {before => after}/tables/Fact Monthly.tmdl         |  2 +
+ {before => after}/tables/Fact.tmdl                 | 60 ++++++++++++----------
+ {before => after}/tables/Measure Selector.tmdl     |  1 +
+ {before => after}/tables/Organisation.tmdl         |  1 +
+ {before => after}/tables/Time Intelligence.tmdl    |  8 +--
+ {before => after}/tables/User Org.tmdl             |  1 +
+ 18 files changed, 62 insertions(+), 33 deletions(-)
+
+Changed lines other than the ten new /// descriptions, by kind (git diff, counted):
+  blank lines added between objects and at file ends: 22
+  model.tmdl: + ref role (3 lines), + ref perspective (2 lines), + annotation __TEdtr = 1
+  database.tmdl: + compatibilityMode: powerBI
+  measures and calculation item written with ``` fences are rewritten as plain indented blocks
+  Fact.tmdl: refreshPolicy block moved after the measures and its M re-indented one tab shallower
+
+Semantic comparison: both folders loaded with the TOM TMDL serializer and serialised to TMSL; JSON compared
+with descriptions removed and whitespace in expressions normalised. Output:
+  LEN /model/annotations 1 2      (the added __TEdtr annotation)
+  descriptions after: 10
+Nothing dropped: function, field parameter extendedProperty and relatedColumnDetails, refreshPolicy
+(incl. pollingExpression), calculation item formatStringDefinition, columnPermission, perspectives all identical.
+
+$ TabularEditor <copy of SpikeAgg definition> -S set_descriptions.csx -TMDL <after>
+Executing script 0...
+Descriptions set on 2 measures
+Saving Model.bim file to TMDL ...
+ 9 files changed, 17 insertions(+), 3 deletions(-)
+alternateOf (sum, count) and partition modes dual / directQuery / import kept.
+
+$ Best Practice Analyzer (spike rules.json, 3 rules)
+$ TabularEditor <Spike definition> -A rules.json
+
+Tabular Editor 2.29.0 (build 2.29.9750.30716)
+--------------------------------
+Loading model...
+Running Best Practice Analyzer...
+=================================
+Measure [Amount] violates rule "Measures should have a description"
+Measure [Rows] violates rule "Measures should have a description"
+Measure [Reload Probe] violates rule "Measures should have a description"
+Measure [Amount Scaled] violates rule "Measures should have a description"
+Measure [Average Amount (UDF)] violates rule "Measures should have a description"
+Measure [Amount Previous Month (OFFSET)] violates rule "Measures should have a description"
+Measure [Amount Rolling 3M (WINDOW)] violates rule "Measures should have a description"
+Measure [Org Rank (RANK)] violates rule "Measures should have a description"
+Measure [Paybill Total (OLS)] violates rule "Measures should have a description"
+Measure [Monthly Rows] violates rule "Measures should have a description"
+Column 'Time Intelligence'[Ordinal] violates rule "Hidden integer columns should not summarise"
+Calculation Item YoY % violates rule "Calculation items with a format string expression (inventory)"
+=================================
+exit 1
+$ TabularEditor <SpikeAgg definition> -A rules.json
+
+Tabular Editor 2.29.0 (build 2.29.9750.30716)
+--------------------------------
+Loading model...
+Running Best Practice Analyzer...
+=================================
+Measure [Amount] violates rule "Measures should have a description"
+Measure [Rows] violates rule "Measures should have a description"
+Column 'Sales Agg'[row_count] violates rule "Hidden integer columns should not summarise"
+=================================
+exit 1
+
+rules.json used:
+[
+  {"ID": "SPIKE_MEASURE_NO_DESCRIPTION", "Name": "Measures should have a description", "Category": "Documentation", "Severity": 2, "Scope": "Measure", "Expression": "string.IsNullOrWhitespace(Description)", "CompatibilityLevel": 1200},
+  {"ID": "SPIKE_HIDDEN_KEY_SUMMARIZE", "Name": "Hidden integer columns should not summarise", "Category": "Formatting", "Severity": 3, "Scope": "DataColumn", "Expression": "IsHidden and DataType = \"Int64\" and SummarizeBy <> \"None\"", "CompatibilityLevel": 1200},
+  {"ID": "SPIKE_CALCITEM_FORMAT", "Name": "Calculation items with a format string expression (inventory)", "Category": "Inventory", "Severity": 1, "Scope": "CalculationItem", "Expression": "not string.IsNullOrWhitespace(FormatStringExpression)", "CompatibilityLevel": 1500}
+]

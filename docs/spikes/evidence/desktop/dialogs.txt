@@ -1,0 +1,33 @@
+Desktop dialog texts, read from the command line with UI Automation / the IE document of the dialog window
+(spike helper, not committed). Window titles are as listed by EnumWindows for the PBIDesktop process.
+
+1. Opening Spike.pbip with a measure named like a column in the same table (Amount vs amount):
+   window "Issues were found"
+   There's a problem with the definition content in your Power BI Project.
+   The 'Amount' measure cannot be created because a column with the same name already exists.
+   Buttons: Copy details to clipboard / Send a Frown / Close. The main window stays "Untitled - Power BI Desktop".
+
+2. Opening a copy of the spike at compatibilityLevel 1567 that contains a DAX function:
+   window "Issues were found"
+   There's a problem with the definition content in your Power BI Project.
+   Failed to add a deserialized Model object into the model - name: 'Model', detailed error: The database
+   compatibility level of 1567 is below the minimal compatability level of 1702 needed for
+   [model Model].[function Spike.SafeDivide].
+
+3. Process.CloseMainWindow() on Spike after a data refresh (unsaved changes):
+   window "Microsoft Power BI Desktop"
+   Do you want to save your changes?
+   Buttons: Save / Don't save / Cancel
+   The prompt blocks until someone clicks. Stop-Process closes Desktop with no prompt and no file written.
+
+4. First connection to localhost / UKGroupFinance (the owner clicked through it while my TMSL refresh of one
+   table was waiting; I was not polling the windows at that moment, so I did not capture the wording).
+   What the traces show (Desktop Mashup trace, times UTC):
+     22:01:02  engine starts refreshing table Account and waits
+     22:02:46  Desktop's own process evaluates a preview of Account with RequireEncryption=True and gets
+               Microsoft.Mashup.Engine.Interface.ResourceEncryptedConnectionException
+     22:02:52  the same evaluation with RequireEncryption=False succeeds
+     22:02:53  first SQL batches arrive at SQL Server (Extended Events), encrypt_option FALSE, NTLM
+     22:02:55  the engine's refresh of Account completes (114.6 s in total)
+   This matches the sequence expected in docs/spikes/environment.md: credential dialog (Windows, use my
+   current credentials, Connect), then the encryption-support message (OK to connect unencrypted).

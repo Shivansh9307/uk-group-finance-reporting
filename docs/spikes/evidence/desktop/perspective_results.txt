@@ -1,0 +1,115 @@
+### runs
+$ run_dax.ps1 -Filter "q09*.dax" -Perspective Finance
+ok      q09_perspective_in.dax in perspective [Finance] -> results\perspective\q09_perspective_in_finance.csv
+ok      q09b_perspective_out.dax in perspective [Finance] -> results\perspective\q09b_perspective_out_finance.csv
+ok      q09c_perspective_dmv.dax in perspective [Finance] -> results\perspective\q09c_perspective_dmv_finance.csv
+$ run_dax.ps1 -Filter "q09*.dax" -Perspective "Organisation View"
+ok      q09_perspective_in.dax in perspective [Organisation View] -> results\perspective\q09_perspective_in_orgview.csv
+ok      q09b_perspective_out.dax in perspective [Organisation View] -> results\perspective\q09b_perspective_out_orgview.csv
+ok      q09c_perspective_dmv.dax in perspective [Organisation View] -> results\perspective\q09c_perspective_dmv_orgview.csv
+$ run_dax.ps1 -Filter "q09c*.dax" (no perspective)
+ok      q09c_perspective_dmv.dax -> results\perspective\q09c_perspective_dmv_model.csv
+
+### bogus perspective and MDX scope
+$ run_dax.ps1 -Filter q09_perspective_in.dax -Perspective NoSuchPerspective
+FAILED  q09_perspective_in.dax in perspective [NoSuchPerspective]
+        22:12:32 [INF] Starting File command
+        Exporting to file...
+        22:12:32 [ERR] Error: The NoSuchPerspective cube does not exist.
+$ MDX against cube [Finance], measure outside the perspective
+   nd
+ | A | value=5998824487.94 | formatted=5,998,824,487.9 bn | format_string=
+$ MDX against cube [Finance], measure inside the perspective
+   nd
+ | A | value=5998824487.94 | formatted=5,998,824,487.94 | format_string=
+
+### q09_perspective_in_finance.csv
+Year,Amount
+2023,1505741800.86
+2024,2003342631.51
+2025,1997539425.85
+2026,492200629.72
+
+### q09_perspective_in_orgview.csv
+Year,Amount
+2023,1505741800.86
+2024,2003342631.51
+2025,1997539425.85
+2026,492200629.72
+
+### q09b_perspective_out_finance.csv
+Org Group,Amount Scaled
+"Group 1",599809963.2
+"Group 2",599882886.19
+"Group 3",599935046.63
+"Group 4",599796609.14
+"Group 5",599838821.94
+"Group 6",599950332.01
+"Group 7",599902597.21
+"Group 8",599834055
+"Group 9",599946347.66
+"Group 10",599927828.96
+
+### q09b_perspective_out_orgview.csv
+Org Group,Amount Scaled
+"Group 1",599809963.2
+"Group 2",599882886.19
+"Group 3",599935046.63
+"Group 4",599796609.14
+"Group 5",599838821.94
+"Group 6",599950332.01
+"Group 7",599902597.21
+"Group 8",599834055
+"Group 9",599946347.66
+"Group 10",599927828.96
+
+### q09c_perspective_dmv_finance.csv
+CUBE_NAME,MEASURE_NAME
+"Model","Amount"
+"Model","Rows"
+"Model","Amount Scaled"
+"Model","Average Amount (UDF)"
+"Model","Amount Previous Month (OFFSET)"
+"Model","Amount Rolling 3M (WINDOW)"
+"Model","Org Rank (RANK)"
+"Model","Paybill Total (OLS)"
+"Model","Reload Probe"
+"Model","Monthly Rows"
+"Model","__Default measure"
+"Finance","Amount"
+"Finance","Rows"
+"Organisation View","Amount"
+
+### q09c_perspective_dmv_model.csv
+CUBE_NAME,MEASURE_NAME
+"Model","Amount"
+"Model","Rows"
+"Model","Amount Scaled"
+"Model","Average Amount (UDF)"
+"Model","Amount Previous Month (OFFSET)"
+"Model","Amount Rolling 3M (WINDOW)"
+"Model","Org Rank (RANK)"
+"Model","Paybill Total (OLS)"
+"Model","Reload Probe"
+"Model","Monthly Rows"
+"Model","__Default measure"
+"Finance","Amount"
+"Finance","Rows"
+"Organisation View","Amount"
+
+### q09c_perspective_dmv_orgview.csv
+CUBE_NAME,MEASURE_NAME
+"Model","Amount"
+"Model","Rows"
+"Model","Amount Scaled"
+"Model","Average Amount (UDF)"
+"Model","Amount Previous Month (OFFSET)"
+"Model","Amount Rolling 3M (WINDOW)"
+"Model","Org Rank (RANK)"
+"Model","Paybill Total (OLS)"
+"Model","Reload Probe"
+"Model","Monthly Rows"
+"Model","__Default measure"
+"Finance","Amount"
+"Finance","Rows"
+"Organisation View","Amount"

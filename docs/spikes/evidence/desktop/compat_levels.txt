@@ -1,0 +1,37 @@
+Offline probe with the TOM TMDL serializer (DeserializeDatabaseFromFolder) on copies of the Spike definition.
+Round 1: without the DAX function. Round 2: also without the measure formatStringDefinition. Round 3: also without sourceQueryCulture.
+
+== 1200: below the minimal compatability level of 1601 needed for [model Model]
+== 1400: below the minimal compatability level of 1601 needed for [model Model]
+== 1450: below the minimal compatability level of 1601 needed for [model Model]
+== 1500: below the minimal compatability level of 1601 needed for [model Model]
+== 1550: below the minimal compatability level of 1601 needed for [model Model]
+== 1560: below the minimal compatability level of 1601 needed for [model Model]
+== 1565: below the minimal compatability level of 1601 needed for [model Model]
+== 1567: below the minimal compatability level of 1601 needed for [model Model]
+== 1600: below the minimal compatability level of 1601 needed for [model Model]
+== 1601: compat: 1601
+== 1604: compat: 1604
+== 1605: compat: 1605
+== 1606: compat: 1606
+== 1700: compat: 1700
+== 1701: compat: 1701
+== 1702: compat: 1702
+== 1200: level of 1520 needed for [model Model]::[SourceQueryCulture]
+== 1400: level of 1520 needed for [model Model]::[SourceQueryCulture]
+== 1450: level of 1520 needed for [model Model]::[SourceQueryCulture]
+== 1455: level of 1520 needed for [model Model]::[SourceQueryCulture]
+== 1460: level of 1520 needed for [model Model]::[SourceQueryCulture]
+== 1470: level of 1520 needed for [model Model]::[SourceQueryCulture]
+== 1500: level of 1520 needed for [model Model]::[SourceQueryCulture]
+== 1520: compat: 1520
+== 1540: compat: 1540
+== 1550: compat: 1550
+== 1560: compat: 1560
+== 1565: compat: 1565
+== 1567: compat: 1567
+== 1200: level of 1500 needed for [model Model].[table 'Time Intelligence'].[CalculationGroup].[CalculationItem]::[Ordinal]
+== 1400: level of 1500 needed for [model Model].[table 'Time Intelligence'].[CalculationGroup].[CalculationItem]::[Ordinal]
+== 1450: level of 1500 needed for [model Model].[table 'Time Intelligence'].[CalculationGroup].[CalculationItem]::[Ordinal]
+== 1470: level of 1500 needed for [model Model].[table 'Time Intelligence'].[CalculationGroup].[CalculationItem]::[Ordinal]
+== 1500: compat: 1500

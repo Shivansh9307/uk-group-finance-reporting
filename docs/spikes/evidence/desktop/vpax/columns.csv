@@ -1,0 +1,33 @@
+table,column,data_type,column_type,encoding,cardinality,dictionary_bytes,data_bytes,hierarchies_bytes,total_bytes,is_hidden
+Account,Account Code,String,Data,HASH,100,1066448,224,816,1067488,False
+Account,Account Name,String,Data,HASH,100,1066448,224,816,1067488,False
+Account,Account Class,String,Data,HASH,4,1065680,160,48,1065888,False
+Account,account_key,Int64,Data,HASH,100,2720,224,816,3760,True
+Date,Fiscal Year,String,Data,HASH,3,1065672,136,32,1065840,False
+Date,Date,DateTime,Data,HASH,1096,42776,1888,8784,53448,False
+Date,date_key,Int64,Data,HASH,1096,21320,1888,8784,31992,True
+Date,Month Name,String,Data,HASH,12,17340,680,112,18132,False
+Date,Month Start,DateTime,Data,HASH,36,2568,1008,304,3880,False
+Date,month_key,Int64,Data,HASH,36,1440,1008,304,2752,False
+Date,Month No,Int64,Data,HASH,12,1344,680,112,2136,True
+Date,Year,Int64,Data,HASH,4,1312,136,48,1496,False
+Fact,amount_gbp,Decimal,Data,VALUE,1000000,144,5333464,4000008,9333616,True
+Fact,org_key,Int64,Data,HASH,200,5168,2000136,1616,2006920,True
+Fact,account_key,Int64,Data,HASH,100,2720,1777912,816,1781448,True
+Fact,load_date,DateTime,Data,HASH,3288,157692,32776,26320,216788,True
+Fact,date_key,Int64,Data,HASH,1096,21320,16392,8784,46496,True
+Fact,month_key,Int64,Data,HASH,36,1440,520,304,2264,True
+Fact Monthly,amount_gbp,Decimal,Data,VALUE,164160,144,438168,656648,1094960,False
+Fact Monthly,month_key,Int64,Data,HASH,3,1308,408,32,1748,False
+Measure Selector,Measure Selector Fields,String,CalculatedTableColumn,HASH,3,17196,136,32,17364,True
+Measure Selector,Measure Selector,String,CalculatedTableColumn,HASH,3,17148,136,32,17316,False
+Measure Selector,Measure Selector Order,Int64,CalculatedTableColumn,VALUE,3,144,136,16,296,True
+Organisation,Org Code,String,Data,HASH,200,1067248,336,1616,1069200,False
+Organisation,Org Name,String,Data,HASH,200,1067248,336,1616,1069200,False
+Organisation,Org Group,String,Data,HASH,10,1065728,232,96,1066056,False
+Organisation,org_key,Int64,Data,HASH,200,5168,336,1616,7120,True
+Organisation,Paybill Cost,Decimal,Data,VALUE,200,144,400,808,1352,False
+Time Intelligence,Period,String,Data,HASH,4,17146,136,48,17330,False
+Time Intelligence,Ordinal,Int64,Data,VALUE,4,144,136,24,304,True
+User Org,user_principal_name,String,Data,HASH,2,1065664,136,32,1065832,False
+User Org,org_key,Int64,Data,VALUE,4,144,136,24,304,False

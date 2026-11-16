@@ -1,0 +1,36 @@
+Expected values computed in SQL Server from the spike scratch tables (sqlcmd).
+fact_rows,fact_amount
+---------,-----------
+2000000,5998824487.9400
+
+fiscal_year,amount
+-----------,------
+2023-24,2003586468.9100
+2024-25,1998262470.3100
+2025-26,1996975548.7200
+
+month_key,amount
+---------,------
+202504,164210436.5500
+202505,169540485.3700
+202506,164095608.9500
+202507,169769293.0600
+
+month_key,n
+---------,-
+202601,56544
+202602,51072
+202603,56544
+
+user_principal_name,orgs,amount
+-------------------,----,------
+alice@spike.example,3,89970855.6300
+bob@spike.example,1,29983114.5500
+
+org_name,amount
+--------,------
+Spike organisation 60,30043371.0100
+Spike organisation 92,30037961.6000
+Spike organisation 29,30036427.0900
+
+

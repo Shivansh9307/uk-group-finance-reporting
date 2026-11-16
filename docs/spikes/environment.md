@@ -108,7 +108,9 @@ The engine uses its self-generated certificate, which no client trusts.
 1. the credential dialog: choose **Windows** → **Use my current credentials** → **Connect**;
 2. an encryption-support message saying the encrypted connection failed: choose **OK** to connect unencrypted.
 
-The unencrypted connection is acceptable here because it never leaves the machine. Desktop remembers the choice per data source (File → Options and settings → Data source settings → Edit Permissions → "Encrypt connections" unticked). I will confirm the exact wording when the model first connects.
+The unencrypted connection is acceptable here because it never leaves the machine. Desktop remembers the choice per data source (File → Options and settings → Data source settings → Edit Permissions → "Encrypt connections" unticked).
+
+**Tested** in the Desktop spike ([desktop_capabilities.md](desktop_capabilities.md), rows 2a–2c): Desktop's traces show a failed encrypted attempt followed by an unencrypted connection once the dialogs were answered. The choice then held for a second project and for later sessions. I did not capture the dialogs' exact wording.
 
 ## Analysis Services service
 

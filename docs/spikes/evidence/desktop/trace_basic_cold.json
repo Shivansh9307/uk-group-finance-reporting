@@ -1,0 +1,50 @@
+{
+    "query_file":  "q10_trace_basic.dax",
+    "query_sha256":  "e201e1074a5e4a676d04641fb98e6204dc2ff404c89ac506fc7ea0745e2f75e9",
+    "run_utc":  "2026-11-16T22:09:03Z",
+    "cold":  true,
+    "roles":  "",
+    "user":  "",
+    "rows_returned":  30,
+    "error":  null,
+    "total_ms":  10,
+    "total_cpu_ms":  0,
+    "se_ms":  3,
+    "fe_ms_derived":  7,
+    "se_query_count":  1,
+    "se_cache_hits":  0,
+    "se_queries":  [
+                       {
+                           "subclass":  "VertiPaqScanInternal",
+                           "duration_ms":  3,
+                           "cpu_ms":  0,
+                           "cached":  false,
+                           "xmsql":  "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Date (10)].[Fiscal Year (54)] AS [Date (10)$Fiscal Year (54)], [Organisation (13)].[Org Group (58)] AS [Organisation (13)$Org Group (58)],\r\nCOUNT() AS [$Measure0], SUM([Fact (19)].[amount gbp (68)]) AS [$Measure1]\r\nFROM [Fact (19)]\r\n\tLEFT OUTER JOIN [Date (10)] ON [Fact (19)].[date key (64)]=[Date (10)].[date key (47)]\r\n\tLEFT OUTER JOIN [Organisation (13)] ON [Fact (19)].[org key (66)]=[Organisation (13)].[org key (55)];\r\n"
+                       },
+                       {
+                           "subclass":  "VertiPaqScan",
+                           "duration_ms":  3,
+                           "cpu_ms":  0,
+                           "cached":  false,
+                           "xmsql":  "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Date (10)].[Fiscal Year (54)] AS [Date (10)$Fiscal Year (54)], [Organisation (13)].[Org Group (58)] AS [Organisation (13)$Org Group (58)],\r\nCOUNT() AS [$Measure0], SUM([Fact (19)].[amount gbp (68)]) AS [$Measure1]\r\nFROM [Fact (19)]\r\n\tLEFT OUTER JOIN [Date (10)] ON [Fact (19)].[date key (64)]=[Date (10)].[date key (47)]\r\n\tLEFT OUTER JOIN [Organisation (13)] ON [Fact (19)].[org key (66)]=[Organisation (13)].[org key (55)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 78, 1248]\r\n"
+                       }
+                   ],
+    "query_plan":  {
+                       "logical":  "GroupSemiJoin: RelLogOp DependOnCols()() 0-3 RequiredCols(0, 1, 2, 3)(\u0027Date\u0027[Fiscal Year], \u0027Organisation\u0027[Org Group], \u0027\u0027[Amount], \u0027\u0027[Rows])\n\tScan_Vertipaq: RelLogOp DependOnCols()() 0-0 RequiredCols(0)(\u0027Date\u0027[Fiscal Year])\n\tScan_Vertipaq: RelLogOp DependOnCols()() 1-1 RequiredCols(1)(\u0027Organisation\u0027[Org Group])\n\tSum_Vertipaq: ScaLogOp MeasureRef=[Amount] DependOnCols(0, 1)(\u0027Date\u0027[Fiscal Year], \u0027Organisation\u0027[Org Group]) Currency DominantValue=BLANK\n\t\tScan_Vertipaq: RelLogOp DependOnCols(0, 1)(\u0027Date\u0027[Fiscal Year], \u0027Organisation\u0027[Org Group]) 2-28 RequiredCols(0, 1, 27)(\u0027Date\u0027[Fiscal Year], \u0027Organisation\u0027[Org Group], \u0027Fact\u0027[amount_gbp])\n\t\t\u0027Fact\u0027[amount_gbp]: ScaLogOp DependOnCols(27)(\u0027Fact\u0027[amount_gbp]) Currency DominantValue=NONE\n\tCount_Vertipaq: ScaLogOp MeasureRef=[Rows] DependOnCols(0, 1)(\u0027Date\u0027[Fiscal Year], \u0027Organisation\u0027[Org Group]) Integer DominantValue=BLANK\n\t\tScan_Vertipaq: RelLogOp DependOnCols(0, 1)(\u0027Date\u0027[Fiscal Year], \u0027Organisation\u0027[Org Group]) 2-28 RequiredCols(0, 1)(\u0027Date\u0027[Fiscal Year], \u0027Organisation\u0027[Org Group])\n",
+                       "physical":  "Spool_Iterator\u003cSpoolIterator\u003e: IterPhyOp LogOp=GroupSemiJoin IterCols(0, 1, 2, 3)(\u0027Date\u0027[Fiscal Year], \u0027Organisation\u0027[Org Group], \u0027\u0027[Amount], \u0027\u0027[Rows]) #Records=30 #KeyCols=2 #ValueCols=2\n\tAggregationSpool\u003cGroupSemiJoin\u003e: SpoolPhyOp #Records=30\n\t\tSpool_Iterator\u003cSpoolIterator\u003e: IterPhyOp LogOp=Sum_Vertipaq IterCols(0, 1)(\u0027Date\u0027[Fiscal Year], \u0027Organisation\u0027[Org Group]) #Records=30 #KeyCols=40 #ValueCols=2\n\t\t\tProjectionSpool\u003cProjectFusion\u003cCopy, Copy\u003e\u003e: SpoolPhyOp #Records=30\n\t\t\t\tCache: IterPhyOp #FieldCols=2 #ValueCols=2\n\t\tSpool_Iterator\u003cSpoolIterator\u003e: IterPhyOp LogOp=Count_Vertipaq IterCols(0, 1)(\u0027Date\u0027[Fiscal Year], \u0027Organisation\u0027[Org Group]) #Records=30 #KeyCols=40 #ValueCols=2\n\t\t\tProjectionSpool\u003cProjectFusion\u003cCopy, Copy\u003e\u003e: SpoolPhyOp #Records=30\n\t\t\t\tCache: IterPhyOp #FieldCols=2 #ValueCols=2\n"
+                   },
+    "direct_query":  [
+
+                     ],
+    "aggregation_rewrites":  [
+
+                             ],
+    "unavailable_events":  [
+
+                           ],
+    "event_counts":  {
+                         "DAXQueryPlan":  2,
+                         "VertiPaqSEQueryEnd":  2,
+                         "QueryEnd":  1
+                     }
+}

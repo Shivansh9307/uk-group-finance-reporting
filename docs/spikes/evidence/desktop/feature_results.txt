@@ -1,0 +1,140 @@
+Spike model, compatibility level 1702, Power BI Desktop Store 2.159.1231.0.
+Queries run with tools/run_dax.ps1 -WindowTitle Spike. Expected values from SQL are in sql_baselines.txt.
+
+### q00_smoke.dax
+EVALUATE ROW("rows", [Rows], "amount", [Amount], "probe", [Reload Probe])
+--- result
+rows,amount,probe
+2000000,5998824487.94,42
+
+### q01_calc_group.dax
+// Calculation group: Current, YTD, PY, YoY % by fiscal year (FY ends 31 March).
+EVALUATE
+SUMMARIZECOLUMNS(
+    'Date'[Fiscal Year],
+    'Time Intelligence'[Period],
+    "Amount", [Amount]
+)
+ORDER BY 'Date'[Fiscal Year], 'Time Intelligence'[Period]
+--- result
+Fiscal Year,Period,Amount
+"2023-24","Current",2003586468.91
+"2023-24","YTD",2003586468.91
+"2024-25","Current",1998262470.31
+"2024-25","PY",2003586468.91
+"2024-25","YoY %",-0.0026572342559771753
+"2024-25","YTD",1998262470.31
+"2025-26","Current",1996975548.72
+"2025-26","PY",1998262470.31
+"2025-26","YoY %",-0.00064402029719366836
+"2025-26","YTD",1996975548.72
+
+### q03_field_parameter.dax
+// Field parameter table: rows and the NAMEOF field references.
+EVALUATE
+SUMMARIZECOLUMNS(
+    'Measure Selector'[Measure Selector],
+    'Measure Selector'[Measure Selector Fields],
+    'Measure Selector'[Measure Selector Order]
+)
+ORDER BY 'Measure Selector'[Measure Selector Order]
+--- result
+Measure Selector,Measure Selector Fields,Measure Selector Order
+"Amount","'Fact'[Amount]",0
+"Rows","'Fact'[Rows]",1
+"Amount Scaled","'Fact'[Amount Scaled]",2
+
+### q04_udf.dax
+// DAX user-defined function, called from a measure and directly in a query.
+EVALUATE
+ROW(
+    "udf_measure", [Average Amount (UDF)],
+    "inline_divide", DIVIDE([Amount], [Rows]),
+    "udf_direct", Spike.SafeDivide(10, 4),
+    "udf_zero_denominator", Spike.SafeDivide(10, 0)
+)
+--- result
+udf_measure,inline_divide,udf_direct,udf_zero_denominator
+2999.4122,2999.4122,2.5,
+
+### q05_offset_window.dax
+// OFFSET (previous month) and WINDOW (rolling three months) for April to July 2025.
+EVALUATE
+CALCULATETABLE(
+    SUMMARIZECOLUMNS(
+        'Date'[month_key],
+        "Amount", [Amount],
+        "Prev Month", [Amount Previous Month (OFFSET)],
+        "Rolling 3M", [Amount Rolling 3M (WINDOW)]
+    ),
+    'Date'[month_key] >= 202504, 'Date'[month_key] <= 202507
+)
+ORDER BY 'Date'[month_key]
+--- result
+month_key,Amount,Prev Month,Rolling 3M
+202504,164210436.55,,164210436.55
+202505,169540485.37,164210436.55,333750921.92
+202506,164095608.95,169540485.37,497846530.87
+202507,169769293.06,164095608.95,503405387.38
+
+### q06_rank.dax
+// RANK over organisations by amount; top five.
+EVALUATE
+TOPN(
+    5,
+    SUMMARIZECOLUMNS('Organisation'[Org Name], "Amount", [Amount], "Rank", [Org Rank (RANK)]),
+    [Rank], ASC
+)
+ORDER BY [Rank]
+--- result
+Org Name,Amount,Rank
+"Spike organisation 60",30043371.01,1
+"Spike organisation 92",30037961.6,2
+"Spike organisation 29",30036427.09,3
+"Spike organisation 123",30035131.68,4
+"Spike organisation 18",30031727.04,5
+
+### q11_multi_partition.dax
+// Table with three hand-written M partitions.
+EVALUATE
+SUMMARIZECOLUMNS('Fact Monthly'[month_key], "Rows", [Monthly Rows])
+ORDER BY 'Fact Monthly'[month_key]
+--- result
+month_key,Rows
+202601,56544
+202602,51072
+202603,56544
+
+### q12_reload_probe.dax
+// Measure added on disk while Desktop was open, then reloaded with pbir desktop refresh --model.
+EVALUATE
+ROW("probe", [Reload Probe])
+--- result
+probe
+42
+
+### format strings (MDX cell properties)
+Add-Type : Unable to load one or more of the requested types. Retrieve the LoaderExceptions property for more 
+information.
+At spike\ps\mdx.ps1:3 char:1
++ Add-Type -Path $adomd
++ ~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Add-Type], ReflectionTypeLoadException
+    + FullyQualifiedErrorId : System.Reflection.ReflectionTypeLoadException,Microsoft.PowerShell.Commands.AddTypeComma 
+   nd
+ 
+Current | Amount | value=1996975548.72 | formatted=1,996,975,548.72 | format_string=#,0.00
+Current | Amount Scaled | value=1996975548.72 | formatted=1,996,975,548.7 bn | format_string=#,0.0,,," bn"
+YTD | Amount | value=1996975548.72 | formatted=1,996,975,548.72 | format_string=#,0.00
+YTD | Amount Scaled | value=1996975548.72 | formatted=1,996,975,548.7 bn | format_string=#,0.0,,," bn"
+PY | Amount | value=1998262470.31 | formatted=1,998,262,470.31 | format_string=#,0.00
+PY | Amount Scaled | value=1998262470.31 | formatted=1,998,262,470.3 bn | format_string=#,0.0,,," bn"
+YoY % | Amount | value=-0.000644020297193668 | formatted=-0.1% | format_string=0.0%
+YoY % | Amount Scaled | value=-0.000644020297193668 | formatted=-0.1% | format_string=0.0%
+Add-Type : Unable to load one or more of the requested types. Retrieve the LoaderExceptions property for more 
+information.
+At spike\ps\mdx.ps1:3 char:1
+Group 1 | A | value=99518448.66 | formatted=99,518,448.7 m | format_string=#,0.0,," m"
+Group 3 | A | value=99633083.25 | formatted=99,633,083.3 m | format_string=#,0.0,," m"
+Group 5 | A | value=99548366.06 | formatted=99,548,366.1 m | format_string=#,0.0,," m"
+ | A | value=2627026.45 | formatted=2,627,026.5 m | format_string=#,0.0,," m"
