@@ -1,0 +1,416 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Fixture paths. Later tasks point these at the real model, warehouse files and report.
+  BPA_MODEL_DIR: tests/fixtures/ci_spike/Minimal.SemanticModel/definition
+  BPA_RULES: tests/fixtures/ci_spike/bpa-rules.json
+  BPA_FAIL_AT_SEVERITY: "3"   # violations at or above this severity fail the job; below it they only warn
+  SQL_FIXTURE_DIR: tests/fixtures/ci_spike/sql
+  REPORT_DIR: tests/fixtures/ci_spike/Minimal.Report
+  REPORT_RULES: tests/fixtures/ci_spike/report-rules.json
+  REPORT_RULES_NEGATIVE: tests/fixtures/ci_spike/report-rules-negative.json
+
+  # Tool pins. The sha256 values are the release-asset digests published on GitHub,
+  # checked again after download.
+  TE2_VERSION: "2.29.0"
+  TE2_SHA256: c0d3a7abda4572baaf3aeedf9cb342ce7ad4d9840e6438d6b13df02267d308a4
+  FABINSP_VERSION: "v4.0.0"
+  FABINSP_SHA256: ac4ef0c92c74f18e22eeaa6cc21763dfbcebe1541fb5f6c8b81495cb8bf96fae
+  MSSQL_IMAGE: mcr.microsoft.com/mssql/server:2022-latest
+
+  # Throwaway SA password for the SQL container that lives for one job. Not a secret,
+  # but never printed: it is masked in the first step that uses it.
+  CI_SQL_SA_PASSWORD: Ci_Spike_Throwaway_2026x
+
+jobs:
+  model-bpa:
+    name: model-bpa
+    runs-on: windows-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # restore + save instead of actions/cache, so the cache is written even when BPA fails
+      # (actions/cache only saves in its post step on a successful job).
+      - name: Restore Tabular Editor 2 from cache
+        id: te2-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/te2
+          key: te2-portable-${{ env.TE2_VERSION }}-${{ env.TE2_SHA256 }}
+
+      - name: Download Tabular Editor 2 portable
+        if: steps.te2-cache.outputs.cache-hit != 'true'
+        run: |
+          $sw = [Diagnostics.Stopwatch]::StartNew()
+          $zip = Join-Path $env:RUNNER_TEMP 'TabularEditor.Portable.zip'
+          Invoke-WebRequest -Uri "https://github.com/TabularEditor/TabularEditor/releases/download/$env:TE2_VERSION/TabularEditor.Portable.zip" -OutFile $zip
+          $actual = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -ne $env:TE2_SHA256) { throw "sha256 mismatch: got $actual" }
+          Expand-Archive $zip -DestinationPath (Join-Path $env:RUNNER_TEMP 'te2') -Force
+          Write-Host "Downloaded and verified in $([math]::Round($sw.Elapsed.TotalSeconds,1)) s"
+
+      - name: Save Tabular Editor 2 to cache
+        if: steps.te2-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/te2
+          key: te2-portable-${{ env.TE2_VERSION }}-${{ env.TE2_SHA256 }}
+
+      - name: Check which compatibility levels TE2 loads
+        # TE2 reads compatibilityLevel from database.tmdl; this loads copies of the fixture at
+        # 1600, 1606 (current Desktop) and 1702 and prints what TE2 sees. Informational only.
+        run: |
+          $te = Join-Path $env:RUNNER_TEMP 'te2/TabularEditor.exe'
+          foreach ($cl in 1600, 1606, 1702) {
+            $dir = Join-Path $env:RUNNER_TEMP "cl$cl/definition"
+            New-Item -ItemType Directory -Force (Split-Path $dir) | Out-Null
+            Copy-Item -Recurse $env:BPA_MODEL_DIR $dir
+            Set-Content (Join-Path $dir 'database.tmdl') "database`r`n`tcompatibilityLevel: $cl`r`n"
+            # -S runs an inline C# script after load; Info() writes to the console.
+            & $te $dir -S 'Info("loaded at compatibility level " + Model.Database.CompatibilityLevel);' | Select-String 'loaded|rror'
+            Write-Host "compatibilityLevel $cl -> exit $LASTEXITCODE"
+          }
+
+      - name: Best Practice Analyzer
+        run: |
+          $sw = [Diagnostics.Stopwatch]::StartNew()
+          ./.github/scripts/run-bpa.ps1 `
+            -TabularEditor (Join-Path $env:RUNNER_TEMP 'te2/TabularEditor.exe') `
+            -Model $env:BPA_MODEL_DIR `
+            -Rules $env:BPA_RULES `
+            -FailAtSeverity ([int]$env:BPA_FAIL_AT_SEVERITY) `
+            -TrxPath (Join-Path $env:RUNNER_TEMP 'bpa-results.trx')
+          $code = $LASTEXITCODE
+          Write-Host "BPA step took $([math]::Round($sw.Elapsed.TotalSeconds,1)) s"
+          exit $code
+
+      - name: Upload BPA results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: bpa-results
+          path: ${{ runner.temp }}/bpa-results.trx
+          if-no-files-found: ignore
+          retention-days: 14
+
+  pipeline-sql:
+    name: pipeline-sql
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # sqlcmd (ODBC build) reads these, so the password never goes on its command line.
+      # SQLCMDPASSWORD is copied from CI_SQL_SA_PASSWORD in the first step, because job-level
+      # env cannot read the workflow-level env context.
+      SQLCMDSERVER: localhost,1433
+      SQLCMDUSER: sa
+      SQLCMDDBNAME: CiSpike
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Start SQL Server container
+        # Started with docker run rather than a services: block, because services cannot read
+        # the workflow-level env context, and this also lets me time start-to-ready exactly.
+        run: |
+          echo "::add-mask::$CI_SQL_SA_PASSWORD"
+          echo "SQLCMDPASSWORD=$CI_SQL_SA_PASSWORD" >> "$GITHUB_ENV"
+          SQLCMDPASSWORD="$CI_SQL_SA_PASSWORD"
+          t0=$(date +%s.%N)
+          docker pull -q "$MSSQL_IMAGE" >/dev/null
+          t1=$(date +%s.%N)
+          docker run -d --name mssql -p 1433:1433 \
+            -e ACCEPT_EULA=Y -e MSSQL_PID=Developer -e MSSQL_SA_PASSWORD="$SQLCMDPASSWORD" \
+            "$MSSQL_IMAGE" >/dev/null
+          t2=$(date +%s.%N)
+          echo "pull_s=$(echo "$t1 - $t0" | bc)" | tee -a "$RUNNER_TEMP/timings.txt"
+          echo "CONTAINER_STARTED=$t2" >> "$GITHUB_ENV"
+
+      - name: Probe client tools on the runner image
+        run: |
+          set +e
+          echo "image: $ImageOS $ImageVersion"
+          for t in sqlcmd bcp; do printf '%s -> %s\n' "$t" "$(command -v $t || echo 'not on PATH')"; done
+          ls -1 /opt/mssql-tools18/bin /opt/mssql-tools/bin 2>/dev/null
+          sqlcmd --version 2>/dev/null | head -n 3 || sqlcmd -? 2>/dev/null | head -n 3
+          echo "ODBC drivers:"; odbcinst -q -d 2>/dev/null || echo "odbcinst not found"
+          python3 --version
+
+      - name: Wait for SQL Server to report ready
+        # Uses the container log, so it needs no client tools and times the server alone.
+        run: |
+          for i in $(seq 1 180); do
+            if docker logs mssql 2>&1 | grep -q "ready for client connections"; then
+              t=$(date +%s.%N)
+              echo "container_start_to_ready_s=$(echo "$t - $CONTAINER_STARTED" | bc)" | tee -a "$RUNNER_TEMP/timings.txt"
+              exit 0
+            fi
+            sleep 0.5
+          done
+          echo "::error::SQL Server did not report ready within 90 s"; docker logs mssql | tail -n 30; exit 1
+
+      - name: Install Python drivers
+        id: py_install
+        run: |
+          t0=$(date +%s.%N)
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install -q --disable-pip-version-check pyodbc mssql-python
+          echo "python_drivers_install_s=$(echo "$(date +%s.%N) - $t0" | bc)" | tee -a "$RUNNER_TEMP/timings.txt"
+          "$RUNNER_TEMP/venv/bin/pip" list 2>/dev/null | grep -Ei '^(pyodbc|mssql-python) '
+
+      - name: Probe Python drivers before any Microsoft ODBC package is installed
+        id: py_probe
+        # Answers "does a Python driver connect without extra setup": pyodbc needs a system ODBC
+        # driver; mssql-python ships its own. Retries because the server may still be recovering
+        # system databases just after the ready message.
+        continue-on-error: true
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" -I - <<'PY'
+          import os, time
+          import pyodbc
+          print("pyodbc sees ODBC drivers:", pyodbc.drivers() or "none")
+          import mssql_python
+          cs = (f"Server={os.environ['SQLCMDSERVER']};Database=master;UID={os.environ['SQLCMDUSER']};"
+                f"PWD={os.environ['SQLCMDPASSWORD']};Encrypt=yes;TrustServerCertificate=yes")
+          for attempt in range(30):
+              try:
+                  conn = mssql_python.connect(cs)
+                  break
+              except Exception as exc:
+                  last = exc
+                  time.sleep(1)
+          else:
+              raise SystemExit(f"mssql-python could not connect: {last}")
+          cur = conn.cursor()
+          cur.execute("SELECT CAST(SERVERPROPERTY('ProductVersion') AS nvarchar(32))")
+          print("mssql-python connected without a system ODBC driver; server", cur.fetchone()[0])
+          print(f"container_start_to_first_login_s={time.time() - float(os.environ['CONTAINER_STARTED']):.1f}"
+                f" (attempt {attempt + 1})")
+          conn.close()
+          PY
+
+      - name: Install mssql-tools18 if bcp is missing
+        run: |
+          if command -v bcp >/dev/null && bcp -v >/dev/null 2>&1; then echo "bcp already present"; exit 0; fi
+          t0=$(date +%s.%N)
+          if ! grep -rqs packages.microsoft.com /etc/apt/sources.list.d/; then
+            curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg
+            curl -fsSL "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list" | sudo tee /etc/apt/sources.list.d/mssql-release.list >/dev/null
+          fi
+          sudo apt-get update -qq
+          # mssql-tools18 depends on msodbcsql18, so this also installs ODBC Driver 18.
+          sudo ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt-get install -y -qq mssql-tools18 >/dev/null
+          t1=$(date +%s.%N)
+          echo "tools_install_s=$(echo "$t1 - $t0" | bc)" | tee -a "$RUNNER_TEMP/timings.txt"
+
+      - name: Put the ODBC sqlcmd and bcp first on PATH
+        run: |
+          echo "/opt/mssql-tools18/bin" >> "$GITHUB_PATH"
+
+      - name: Wait for SQL Server to accept logins
+        run: |
+          sqlcmd -? | head -n 2
+          for i in $(seq 1 90); do
+            if sqlcmd -C -d master -l 2 -b -Q "SELECT 1" >/dev/null 2>&1; then
+              echo "container_start_to_login_ok_s=$(echo "$(date +%s.%N) - $CONTAINER_STARTED" | bc)" | tee -a "$RUNNER_TEMP/timings.txt"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::SQL Server did not accept logins within 90 s"; docker logs mssql | tail -n 30; exit 1
+
+      - name: Create database and raw schema
+        run: sqlcmd -C -b -d master -v DB="$SQLCMDDBNAME" -i "$SQL_FIXTURE_DIR/create_raw.sql"
+
+      # Each load approach below truncates raw.spend_line, loads the same CSV and checks the
+      # control file. They are allowed to fail; the summary step records which ones held.
+
+      - name: "Load A: bcp straight from the CSV (comma, no quoting)"
+        id: bcp_csv
+        continue-on-error: true
+        run: |
+          sqlcmd -C -b -Q "TRUNCATE TABLE raw.spend_line"
+          # bcp has no CSV quote handling: -t, splits inside quoted descriptions. -F 2 skips the
+          # header, -C 65001 reads UTF-8, -u trusts the self-signed certificate (bcp 18).
+          bcp raw.spend_line in "$SQL_FIXTURE_DIR/spend_fixture.csv" -S "$SQLCMDSERVER" -d "$SQLCMDDBNAME" \
+            -U sa -P "$SQLCMDPASSWORD" -u -c -t, -r '\n' -F 2 -C 65001 -e "$RUNNER_TEMP/bcp_csv.err" -m 10 || true
+          head -n 6 "$RUNNER_TEMP/bcp_csv.err" 2>/dev/null || true
+          bash "$SQL_FIXTURE_DIR/assert_control.sh" bcp-csv
+
+      - name: "Load B1: normalise to TSV, bcp with -C 65001"
+        id: bcp_tsv_cp
+        continue-on-error: true
+        run: |
+          python3 -I "$SQL_FIXTURE_DIR/csv_to_tsv.py" "$SQL_FIXTURE_DIR/spend_fixture.csv" "$RUNNER_TEMP/spend.tsv"
+          sqlcmd -C -b -Q "TRUNCATE TABLE raw.spend_line"
+          t0=$(date +%s.%N)
+          bcp raw.spend_line in "$RUNNER_TEMP/spend.tsv" -S "$SQLCMDSERVER" -d "$SQLCMDDBNAME" \
+            -U sa -P "$SQLCMDPASSWORD" -u -c -t '\t' -r '\n' -C 65001
+          echo "bcp_tsv_cp_s=$(echo "$(date +%s.%N) - $t0" | bc)" | tee -a "$RUNNER_TEMP/timings.txt"
+          bash "$SQL_FIXTURE_DIR/assert_control.sh" bcp-tsv-65001
+
+      - name: "Load B2: normalise to TSV, bcp without -C"
+        id: bcp_tsv
+        continue-on-error: true
+        run: |
+          sqlcmd -C -b -Q "TRUNCATE TABLE raw.spend_line"
+          bcp raw.spend_line in "$RUNNER_TEMP/spend.tsv" -S "$SQLCMDSERVER" -d "$SQLCMDDBNAME" \
+            -U sa -P "$SQLCMDPASSWORD" -u -c -t '\t' -r '\n'
+          bash "$SQL_FIXTURE_DIR/assert_control.sh" bcp-tsv-default
+
+      - name: "Load C: BULK INSERT FORMAT = 'CSV' (file copied into the container)"
+        id: bulk_csv
+        continue-on-error: true
+        run: |
+          docker cp "$SQL_FIXTURE_DIR/spend_fixture.csv" mssql:/tmp/spend_fixture.csv
+          sqlcmd -C -b -Q "TRUNCATE TABLE raw.spend_line;
+            BULK INSERT raw.spend_line FROM '/tmp/spend_fixture.csv'
+            WITH (FORMAT = 'CSV', FIELDQUOTE = '\"', FIRSTROW = 2, ROWTERMINATOR = '0x0a');"
+          # CODEPAGE is rejected on Linux (Msg 16202), so it is left out here.
+          bash "$SQL_FIXTURE_DIR/assert_control.sh" bulk-insert-csv
+
+      - name: "Load D: Python, pyodbc + ODBC Driver 18"
+        id: py_pyodbc
+        continue-on-error: true
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" -I "$SQL_FIXTURE_DIR/load_python.py" pyodbc \
+            "$SQL_FIXTURE_DIR/spend_fixture.csv" "$SQL_FIXTURE_DIR/spend_fixture.control"
+
+      - name: "Load E: Python, mssql-python"
+        id: py_mssql
+        continue-on-error: true
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" -I "$SQL_FIXTURE_DIR/load_python.py" mssql-python \
+            "$SQL_FIXTURE_DIR/spend_fixture.csv" "$SQL_FIXTURE_DIR/spend_fixture.control"
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### SQL container load"
+            echo
+            echo "| Approach | Outcome |"
+            echo "|---|---|"
+            echo "| mssql-python connects before ODBC Driver 18 is installed | ${{ steps.py_probe.outcome }} |"
+            echo "| A bcp from CSV, comma delimiter | ${{ steps.bcp_csv.outcome }} |"
+            echo "| B1 TSV + bcp -C 65001 | ${{ steps.bcp_tsv_cp.outcome }} |"
+            echo "| B2 TSV + bcp, no -C | ${{ steps.bcp_tsv.outcome }} |"
+            echo "| C BULK INSERT FORMAT='CSV' | ${{ steps.bulk_csv.outcome }} |"
+            echo "| D pyodbc + ODBC Driver 18 | ${{ steps.py_pyodbc.outcome }} |"
+            echo "| E mssql-python | ${{ steps.py_mssql.outcome }} |"
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/timings.txt" 2>/dev/null
+            echo '```'
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+          # The loader I recommend (Python + pyodbc) must hold; the others are informational.
+          test "${{ steps.py_pyodbc.outcome }}" = "success"
+
+  report-checks:
+    name: report-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Probe .NET runtimes
+        id: dotnet
+        run: |
+          dotnet --list-runtimes 2>/dev/null || echo "dotnet not found"
+          if dotnet --list-runtimes 2>/dev/null | grep -q '^Microsoft.NETCore.App 10\.'; then
+            echo "have10=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "have10=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install .NET 10 runtime
+        if: steps.dotnet.outputs.have10 != 'true'
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          dotnet-version: 10.0.x
+
+      # restore + save instead of actions/cache, so the cache is written even when a later
+      # step fails (actions/cache only saves in its post step on a successful job).
+      - name: Restore Fab Inspector from cache
+        id: fi-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/fab-inspector
+          key: fab-inspector-linux-x64-${{ env.FABINSP_VERSION }}-${{ env.FABINSP_SHA256 }}
+
+      - name: Download Fab Inspector CLI
+        if: steps.fi-cache.outputs.cache-hit != 'true'
+        run: |
+          t0=$(date +%s.%N)
+          zip="$RUNNER_TEMP/linux-x64-FabInspCLI.zip"
+          curl -fsSL -o "$zip" "https://github.com/NatVanG/fab-inspector/releases/download/$FABINSP_VERSION/linux-x64-FabInspCLI.zip"
+          echo "$FABINSP_SHA256  $zip" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/fab-inspector"
+          unzip -q "$zip" -d "$RUNNER_TEMP/fab-inspector"
+          echo "download_s=$(echo "$(date +%s.%N) - $t0" | bc)"
+
+      - name: Save Fab Inspector to cache
+        if: steps.fi-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/fab-inspector
+          key: fab-inspector-linux-x64-${{ env.FABINSP_VERSION }}-${{ env.FABINSP_SHA256 }}
+
+      - name: Locate CLI
+        run: |
+          exe="$RUNNER_TEMP/fab-inspector/linux-x64/FabInspCLI/fab-inspector"
+          chmod +x "$exe"
+          echo "FABINSP=$exe" >> "$GITHUB_ENV"
+
+      - name: Report rules
+        run: bash .github/scripts/run-report-rules.sh "$FABINSP" "$REPORT_DIR" "$REPORT_RULES" "$RUNNER_TEMP/report-checks"
+
+      - name: Negative control (must fail)
+        # The same rule with a limit of one visual per page. The step passes only if the gate
+        # script exits non-zero, which proves a failing rule would fail the build.
+        run: |
+          # The expected failure is demoted to a notice so a green run carries no red annotation.
+          if bash .github/scripts/run-report-rules.sh "$FABINSP" "$REPORT_DIR" "$REPORT_RULES_NEGATIVE" "$RUNNER_TEMP/report-checks-negative" \
+              | sed -u 's/^::error::/::notice::/'; then
+            echo "::error::the negative control passed; the gate is not detecting failed rules"; exit 1
+          fi
+          echo "negative control failed as expected"
+
+      - name: Exit code with -formats GitHub on a failing rule (informational)
+        continue-on-error: true
+        run: |
+          set +e
+          "$FABINSP" -fabricitem "$REPORT_DIR" -rules "$REPORT_RULES_NEGATIVE" -formats "GitHub" \
+            | sed 's/^::error/::warning/'   # demoted so this probe does not add a red annotation
+          echo "exit code with -formats GitHub: ${PIPESTATUS[0]}"
+
+      - name: Upload report check results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: report-checks
+          path: |
+            ${{ runner.temp }}/report-checks
+            ${{ runner.temp }}/report-checks-negative
+          if-no-files-found: ignore
+          retention-days: 14

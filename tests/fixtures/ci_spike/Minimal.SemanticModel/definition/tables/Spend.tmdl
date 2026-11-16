@@ -1,0 +1,38 @@
+/// CI fixture only: a two-row inline table that is never refreshed.
+table Spend
+	lineageTag: a0778eb5-cd02-4d41-8f85-59b440b02634
+
+	/// Total spend in £000.
+	measure 'Total Spend' = SUM ( Spend[Amount] )
+		formatString: #,##0
+		lineageTag: f0c52af3-7a12-4b8a-b9d3-234c396cc291
+
+	/// Number of spend lines in the current filter context.
+	measure 'Spend Rows' = COUNTROWS ( Spend )
+		lineageTag: 2adc8e0a-88c3-4062-a061-2c16d57dd4bc
+
+	column Department
+		dataType: string
+		lineageTag: e4252c34-da19-4b4f-abca-4e95340d7866
+		summarizeBy: none
+		sourceColumn: Department
+
+	column Amount
+		dataType: decimal
+		isHidden
+		formatString: #,##0
+		lineageTag: 0d167c00-05c5-4f02-8a7f-eed89e64e74f
+		summarizeBy: none
+		sourceColumn: Amount
+
+	partition Spend = m
+		mode: import
+		source =
+				let
+				    Source = #table(
+				        type table [Department = text, Amount = Currency.Type],
+				        {{"HM Treasury", 100}, {"Cabinet Office", 250}}
+				    )
+				in
+				    Source
+

@@ -1,0 +1,46 @@
+[
+  {
+    "ID": "META_COLUMN_NO_DESCRIPTION",
+    "Name": "Visible column has no description",
+    "Category": "Metadata",
+    "Description": "Visible columns should carry a description so that report authors know what they hold.",
+    "Severity": 1,
+    "Scope": "DataColumn, CalculatedColumn",
+    "Expression": "not IsHidden and string.IsNullOrWhitespace(Description)",
+    "FixExpression": null,
+    "CompatibilityLevel": 1200
+  },
+  {
+    "ID": "FORMAT_MEASURE_NO_FORMAT_STRING",
+    "Name": "Measure has no format string",
+    "Category": "Formatting",
+    "Description": "Every measure should state how it is displayed.",
+    "Severity": 2,
+    "Scope": "Measure",
+    "Expression": "string.IsNullOrWhitespace(FormatString)",
+    "FixExpression": null,
+    "CompatibilityLevel": 1200
+  },
+  {
+    "ID": "META_MEASURE_NO_DESCRIPTION",
+    "Name": "Measure has no description",
+    "Category": "Metadata",
+    "Description": "Every measure needs a description that states its unit and sign convention.",
+    "Severity": 3,
+    "Scope": "Measure",
+    "Expression": "string.IsNullOrWhitespace(Description)",
+    "FixExpression": null,
+    "CompatibilityLevel": 1200
+  },
+  {
+    "ID": "DAX_AVOID_IFERROR",
+    "Name": "Avoid IFERROR in measures",
+    "Category": "DAX Expressions",
+    "Description": "IFERROR forces cell-by-cell evaluation; use DIVIDE or explicit tests instead.",
+    "Severity": 4,
+    "Scope": "Measure",
+    "Expression": "RegEx.IsMatch(Expression, \"(?i)IFERROR\\s*\\(\")",
+    "FixExpression": null,
+    "CompatibilityLevel": 1200
+  }
+]
