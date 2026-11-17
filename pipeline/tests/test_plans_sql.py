@@ -122,7 +122,7 @@ def _sql_sums(db) -> dict[tuple[str, str, str], Decimal]:
 def test_fy2023_24_consistency_figures_are_reproduced(db):
     """plan-sources.md section 13 (plan_consistency_2023_24.csv): the Estimates plan, the PESA 2023 plan and the
     PESA 2024 outturn for every Spending Review group and measure, to the pound thousand. The BUD outturn column
-    needs the annual BUD, which another task loads, so it is not checked here."""
+    needs the annual BUD, which this change does not load, so it is not checked here."""
     columns = {
         "est": "Estimates 2023-24-supps gbp_thousand",
         "pesa23": "PESA 2023 (plans) gbp_thousand",
