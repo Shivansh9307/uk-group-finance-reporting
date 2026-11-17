@@ -121,7 +121,7 @@ sources:
     licence: OGL-3.0
     used_for: Plan (budget) at department group x resource/capital DEL from FY2022-23
     fetch: true
-    commit: false
+    commit: true
     discover:
       - collection: /government/collections/hmt-main-estimates
         path_regex: '^/government/publications/main-supply-estimates-\d{4}-to-\d{2,4}$'
@@ -147,7 +147,7 @@ sources:
     licence: OGL-3.0
     used_for: AME and admin plans where they exist; Spending Review group names
     fetch: true
-    commit: false
+    commit: true
     discover:
       - collection: /government/collections/public-expenditure-statistical-analyses-pesa
         path_regex: '^/government/statistics/public-expenditure-statistical-analyses-\d{4}$'
