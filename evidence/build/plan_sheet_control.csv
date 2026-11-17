@@ -1,0 +1,385 @@
+family,edition,sheet,section,year_label,status_label,measure,unit,total_label,line_count,lines_sum,published_total,difference,tolerance,status
+estimates,2022-23-mains,CDEL,Capital DEL,2022-23,plans,CDEL,£ billion,Total Capital DEL,22,110.876,110.875,-0.001,0.0115,pass
+estimates,2022-23-mains,RDEL ex,Resource DEL excluding depreciation,2022-23,plans,RDEL_EX_DEPN,£ billion,Total Resource DEL excluding depreciation,23,440.95,440.948,-0.002,0.012,pass
+estimates,2022-23-mains,RDEL inc,Resource DEL,2022-23,plans,RDEL,£ billion,Total Resource DEL,23,455.73,455.729,-0.001,0.012,pass
+estimates,2022-23-oot-supps,CDEL,Capital DEL,2022-23,plans,CDEL,£ billion,Total Capital DEL,22,110.876,110.875,-0.001,0.0115,pass
+estimates,2022-23-oot-supps,RDEL ex,Resource DEL excluding depreciation,2022-23,plans,RDEL_EX_DEPN,£ billion,Total Resource DEL excluding depreciation,23,441.126,441.124,-0.002,0.012,pass
+estimates,2022-23-oot-supps,RDEL inc,Resource DEL,2022-23,plans,RDEL,£ billion,Total Resource DEL,23,455.906,455.905,-0.001,0.012,pass
+estimates,2022-23-supps,CDEL,Capital DEL,2022-23,plans,CDEL,£ billion,Total Capital DEL,22,107.564,107.565,0.001,0.0115,pass
+estimates,2022-23-supps,RDEL,Total Resource DEL excluding depreciation,2022-23,plans,RDEL_EX_DEPN,£ billion,Total Resource DEL excluding depreciation,23,452.549,452.549,0,0.012,pass
+estimates,2022-23-supps,RDEL inc,Total Resource DEL,2022-23,plans,RDEL,£ billion,Total Resource DEL,23,471.363,471.363,0,0.012,pass
+estimates,2023-24-mains,CDEL,Capital DEL,2023-24,plans,CDEL,£ billion,Total Capital DEL,23,110.572,110.571,-0.001,0.012,pass
+estimates,2023-24-mains,RDEL ex,Resource DEL excluding depreciation,2023-24,plans,RDEL_EX_DEPN,£ billion,Total Resource DEL excluding depreciation,24,442.299,442.3,0.001,0.0125,pass
+estimates,2023-24-mains,RDEL inc,Resource DEL,2023-24,plans,RDEL,£ billion,Total Resource DEL,24,472.029,472.025,-0.004,0.0125,pass
+estimates,2023-24-supps,CDEL,Capital DEL,2023-24,plans,CDEL,£ billion,Total Capital DEL,23,110.65828,110.65828,0,0.000012,pass
+estimates,2023-24-supps,RDEL ex,Resource DEL excluding depreciation,2023-24,plans,RDEL_EX_DEPN,£ billion,Total Resource DEL excluding depreciation,24,449.138946,449.138946,0,0.0000125,pass
+estimates,2023-24-supps,RDEL inc,Resource DEL,2023-24,plans,RDEL,£ billion,Total Resource DEL,24,511.165635,511.165635,0,0.0000125,pass
+estimates,2024-25-supps,CDEL,Capital DEL,2024-25,plans,CDEL,£ billion,Total Capital DEL,23,114.587,114.588,0.001,0.012,pass
+estimates,2024-25-supps,RDEL ex,Resource DEL excluding depreciation,2024-25,plans,RDEL_EX_DEPN,£ billion,Total Resource DEL excluding depreciation,24,487.52,487.52,0,0.0125,pass
+estimates,2024-25-supps,RDEL inc,Resource DEL,2024-25,plans,RDEL,£ billion,Total Resource DEL,24,535.026,535.026,0,0.0125,pass
+estimates,2025-26-mains,CDEL,Capital DEL,2025-26,plans,CDEL,£ billion,Total Capital DEL,23,129.469,129.468,-0.001,0.012,pass
+estimates,2025-26-mains,Direct impact of tax changes,Resource DEL excluding depreciation,2025-26,plans,RDEL_EX_DEPN_TAX_ALLOWANCE,£ million,Total Resource DEL excluding depreciation,24,4745.404,4745.402,-0.002,0.0125,pass
+estimates,2025-26-mains,RDEL ex,Resource DEL excluding depreciation,2025-26,plans,RDEL_EX_DEPN,£ billion,Total Resource DEL excluding depreciation,24,514.812,514.813,0.001,0.0125,pass
+estimates,2025-26-mains,RDEL inc,Resource DEL,2025-26,plans,RDEL,£ billion,Total Resource DEL,24,543.805,543.804,-0.001,0.0125,pass
+estimates,2025-26-supps,CDEL,Capital DEL,2025-26,plans,CDEL,£ billion,Total Capital DEL,23,130.748246,130.748246,0,0.000012,pass
+estimates,2025-26-supps,RDEL ex,Resource DEL excluding depreciation,2025-26,plans,RDEL_EX_DEPN,£ billion,Total Resource DEL excluding depreciation,24,515.235924,515.235924,0,0.0000125,pass
+estimates,2025-26-supps,RDEL inc,Resource DEL,2025-26,plans,RDEL,£ billion,Total Resource DEL,24,580.715765,580.715765,0,0.0000125,pass
+estimates,2026-27-mains,CDEL,Capital DEL,2026-27,plans,CDEL,£ billion,Total Capital DEL,23,135.25892,135.25892,0,0.000012,pass
+estimates,2026-27-mains,RDEL,Resource DEL,2026-27,plans,RDEL_EX_DEPN,£ billion,Total Resource DEL,24,520.017337,520.017337,0,0.0000125,pass
+pesa,2022,Table_1_10,Total DEL by departmental group,2017-18,outturn,TDEL,£ million,Total DEL by departmental group,31,371384,371384,0,16,pass
+pesa,2022,Table_1_10,Total DEL by departmental group,2018-19,outturn,TDEL,£ million,Total DEL by departmental group,31,383689,383690,1,16,pass
+pesa,2022,Table_1_10,Total DEL by departmental group,2019-20,outturn,TDEL,£ million,Total DEL by departmental group,31,415664,415665,1,16,pass
+pesa,2022,Table_1_10,Total DEL by departmental group,2020-21,outturn,TDEL,£ million,Total DEL by departmental group,31,565914,565914,0,16,pass
+pesa,2022,Table_1_10,Total DEL by departmental group,2021-22,outturn,TDEL,£ million,Total DEL by departmental group,31,544821,544822,1,16,pass
+pesa,2022,Table_1_10,Total DEL by departmental group,2022-23,plans,TDEL,£ million,Total DEL by departmental group,31,536047,536047,0,16,pass
+pesa,2022,Table_1_10,Total DEL by departmental group,2023-24,plans,TDEL,£ million,Total DEL by departmental group,31,542414,542413,-1,16,pass
+pesa,2022,Table_1_10,Total DEL by departmental group,2024-25,plans,TDEL,£ million,Total DEL by departmental group,31,555230,555227,-3,16,pass
+pesa,2022,Table_1_3,Resource DEL by departmental group,2017-18,outturn,RDEL,£ million,Total resource DEL,29,331855,331856,1,15,pass
+pesa,2022,Table_1_3,Resource DEL by departmental group,2018-19,outturn,RDEL,£ million,Total resource DEL,29,332453,332454,1,15,pass
+pesa,2022,Table_1_3,Resource DEL by departmental group,2019-20,outturn,RDEL,£ million,Total resource DEL,29,371559,371559,0,15,pass
+pesa,2022,Table_1_3,Resource DEL by departmental group,2020-21,outturn,RDEL,£ million,Total resource DEL,29,494778,494779,1,15,pass
+pesa,2022,Table_1_3,Resource DEL by departmental group,2021-22,outturn,RDEL,£ million,Total resource DEL,29,467295,467297,2,15,pass
+pesa,2022,Table_1_3,Resource DEL by departmental group,2022-23,plans,RDEL,£ million,Total resource DEL,29,452194,452193,-1,15,pass
+pesa,2022,Table_1_3,Resource DEL by departmental group,2023-24,plans,RDEL,£ million,Total resource DEL,29,466003,466004,1,15,pass
+pesa,2022,Table_1_3,Resource DEL by departmental group,2024-25,plans,RDEL,£ million,Total resource DEL,29,475654,475654,0,15,pass
+pesa,2022,Table_1_3,Resource departmental AME by departmental group,2017-18,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,23,432917,432919,2,12,pass
+pesa,2022,Table_1_3,Resource departmental AME by departmental group,2018-19,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,23,244562,244562,0,12,pass
+pesa,2022,Table_1_3,Resource departmental AME by departmental group,2019-20,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,23,374956,374955,-1,12,pass
+pesa,2022,Table_1_3,Resource departmental AME by departmental group,2020-21,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,23,493042,493040,-2,12,pass
+pesa,2022,Table_1_3,Resource departmental AME by departmental group,2021-22,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,23,622795,622795,0,12,pass
+pesa,2022,Table_1_3,Resource departmental AME by departmental group,2022-23,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,23,510473,510473,0,12,pass
+pesa,2022,Table_1_3,Resource departmental AME by departmental group,2023-24,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,23,506956,506954,-2,12,pass
+pesa,2022,Table_1_3,Resource departmental AME by departmental group,2024-25,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,23,525853,525853,0,12,pass
+pesa,2022,Table_1_5,Resource DEL excluding depreciation by departmental group,2017-18,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,315759,315758,-1,15,pass
+pesa,2022,Table_1_5,Resource DEL excluding depreciation by departmental group,2018-19,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,321130,321128,-2,15,pass
+pesa,2022,Table_1_5,Resource DEL excluding depreciation by departmental group,2019-20,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,345508,345505,-3,15,pass
+pesa,2022,Table_1_5,Resource DEL excluding depreciation by departmental group,2020-21,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,470998,470997,-1,15,pass
+pesa,2022,Table_1_5,Resource DEL excluding depreciation by departmental group,2021-22,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,451792,451792,0,15,pass
+pesa,2022,Table_1_5,Resource DEL excluding depreciation by departmental group,2022-23,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,437414,437412,-2,15,pass
+pesa,2022,Table_1_5,Resource DEL excluding depreciation by departmental group,2023-24,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,438982,438980,-2,15,pass
+pesa,2022,Table_1_5,Resource DEL excluding depreciation by departmental group,2024-25,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,450554,450553,-1,15,pass
+pesa,2022,Table_1_7,,2017-18,outturn,ADMIN,£ million,Total administration budgets,20,9396,9394,-2,10.5,pass
+pesa,2022,Table_1_7,,2018-19,outturn,ADMIN,£ million,Total administration budgets,20,10186,10186,0,10.5,pass
+pesa,2022,Table_1_7,,2019-20,outturn,ADMIN,£ million,Total administration budgets,20,10391,10391,0,10.5,pass
+pesa,2022,Table_1_7,,2020-21,outturn,ADMIN,£ million,Total administration budgets,20,11041,11039,-2,10.5,pass
+pesa,2022,Table_1_7,,2021-22,outturn,ADMIN,£ million,Total administration budgets,20,11807,11808,1,10.5,pass
+pesa,2022,Table_1_7,,2022-23,plans,ADMIN,£ million,Total administration budgets,20,13433,13432,-1,10.5,pass
+pesa,2022,Table_1_7,,2023-24,plans,ADMIN,£ million,Total administration budgets,20,12844,12844,0,10.5,pass
+pesa,2022,Table_1_7,,2024-25,plans,ADMIN,£ million,Total administration budgets,20,12610,12608,-2,10.5,pass
+pesa,2022,Table_1_7a,,2017-18,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,9004,9004,0,10.5,pass
+pesa,2022,Table_1_7a,,2018-19,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,9765,9764,-1,10.5,pass
+pesa,2022,Table_1_7a,,2019-20,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,9890,9889,-1,10.5,pass
+pesa,2022,Table_1_7a,,2020-21,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,10592,10591,-1,10.5,pass
+pesa,2022,Table_1_7a,,2021-22,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11318,11319,1,10.5,pass
+pesa,2022,Table_1_7a,,2022-23,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,12125,12124,-1,10.5,pass
+pesa,2022,Table_1_7a,,2023-24,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11885,11886,1,10.5,pass
+pesa,2022,Table_1_7a,,2024-25,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11651,11650,-1,10.5,pass
+pesa,2022,Table_1_8,Capital DEL by departmental group,2017-18,outturn,CDEL,£ million,Total capital DEL,28,55626,55626,0,14.5,pass
+pesa,2022,Table_1_8,Capital DEL by departmental group,2018-19,outturn,CDEL,£ million,Total capital DEL,28,62561,62562,1,14.5,pass
+pesa,2022,Table_1_8,Capital DEL by departmental group,2019-20,outturn,CDEL,£ million,Total capital DEL,28,70158,70159,1,14.5,pass
+pesa,2022,Table_1_8,Capital DEL by departmental group,2020-21,outturn,CDEL,£ million,Total capital DEL,28,94915,94917,2,14.5,pass
+pesa,2022,Table_1_8,Capital DEL by departmental group,2021-22,outturn,CDEL,£ million,Total capital DEL,28,93031,93030,-1,14.5,pass
+pesa,2022,Table_1_8,Capital DEL by departmental group,2022-23,plans,CDEL,£ million,Total capital DEL,28,98636,98635,-1,14.5,pass
+pesa,2022,Table_1_8,Capital DEL by departmental group,2023-24,plans,CDEL,£ million,Total capital DEL,28,103433,103433,0,14.5,pass
+pesa,2022,Table_1_8,Capital DEL by departmental group,2024-25,plans,CDEL,£ million,Total capital DEL,28,104675,104674,-1,14.5,pass
+pesa,2022,Table_1_8,Capital departmental AME by departmental group,2017-18,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,18,21125,21127,2,9.5,pass
+pesa,2022,Table_1_8,Capital departmental AME by departmental group,2018-19,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,18,12631,12631,0,9.5,pass
+pesa,2022,Table_1_8,Capital departmental AME by departmental group,2019-20,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,18,23084,23085,1,9.5,pass
+pesa,2022,Table_1_8,Capital departmental AME by departmental group,2020-21,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,18,37361,37361,0,9.5,pass
+pesa,2022,Table_1_8,Capital departmental AME by departmental group,2021-22,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,18,18020,18021,1,9.5,pass
+pesa,2022,Table_1_8,Capital departmental AME by departmental group,2022-23,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,18,40211,40210,-1,9.5,pass
+pesa,2022,Table_1_8,Capital departmental AME by departmental group,2023-24,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,18,37219,37218,-1,9.5,pass
+pesa,2022,Table_1_8,Capital departmental AME by departmental group,2024-25,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,18,37436,37435,-1,9.5,pass
+pesa,2023,Table_1_10,Total DEL by departmental group,2018-19,outturn,TDEL,£ million,Total DEL by departmental group,30,381789,381789,0,15.5,pass
+pesa,2023,Table_1_10,Total DEL by departmental group,2019-20,outturn,TDEL,£ million,Total DEL by departmental group,30,413623,413623,0,15.5,pass
+pesa,2023,Table_1_10,Total DEL by departmental group,2020-21,outturn,TDEL,£ million,Total DEL by departmental group,30,563572,563572,0,15.5,pass
+pesa,2023,Table_1_10,Total DEL by departmental group,2021-22,outturn,TDEL,£ million,Total DEL by departmental group,30,542597,542596,-1,15.5,pass
+pesa,2023,Table_1_10,Total DEL by departmental group,2022-23,outturn,TDEL,£ million,Total DEL by departmental group,30,545785,545784,-1,15.5,pass
+pesa,2023,Table_1_10,Total DEL by departmental group,2023-24,plans,TDEL,£ million,Total DEL by departmental group,30,557510,557508,-2,15.5,pass
+pesa,2023,Table_1_10,Total DEL by departmental group,2024-25,plans,TDEL,£ million,Total DEL by departmental group,30,564471,564473,2,15.5,pass
+pesa,2023,Table_1_3,Resource DEL by departmental group,2018-19,outturn,RDEL,£ million,Total resource DEL,29,332457,332457,0,15,pass
+pesa,2023,Table_1_3,Resource DEL by departmental group,2019-20,outturn,RDEL,£ million,Total resource DEL,29,371560,371561,1,15,pass
+pesa,2023,Table_1_3,Resource DEL by departmental group,2020-21,outturn,RDEL,£ million,Total resource DEL,29,494777,494778,1,15,pass
+pesa,2023,Table_1_3,Resource DEL by departmental group,2021-22,outturn,RDEL,£ million,Total resource DEL,29,469627,469629,2,15,pass
+pesa,2023,Table_1_3,Resource DEL by departmental group,2022-23,outturn,RDEL,£ million,Total resource DEL,29,454798,454799,1,15,pass
+pesa,2023,Table_1_3,Resource DEL by departmental group,2023-24,plans,RDEL,£ million,Total resource DEL,29,481249,481245,-4,15,pass
+pesa,2023,Table_1_3,Resource DEL by departmental group,2024-25,plans,RDEL,£ million,Total resource DEL,29,489401,489401,0,15,pass
+pesa,2023,Table_1_3,Resource departmental AME by departmental group,2018-19,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,244330,244330,0,12.5,pass
+pesa,2023,Table_1_3,Resource departmental AME by departmental group,2019-20,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,375294,375293,-1,12.5,pass
+pesa,2023,Table_1_3,Resource departmental AME by departmental group,2020-21,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,497752,497750,-2,12.5,pass
+pesa,2023,Table_1_3,Resource departmental AME by departmental group,2021-22,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,619877,619877,0,12.5,pass
+pesa,2023,Table_1_3,Resource departmental AME by departmental group,2022-23,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,369156,369156,0,12.5,pass
+pesa,2023,Table_1_3,Resource departmental AME by departmental group,2023-24,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,504127,504129,2,12.5,pass
+pesa,2023,Table_1_3,Resource departmental AME by departmental group,2024-25,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,499711,499709,-2,12.5,pass
+pesa,2023,Table_1_5,Resource DEL excluding depreciation by departmental group,2018-19,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,319230,319228,-2,15,pass
+pesa,2023,Table_1_5,Resource DEL excluding depreciation by departmental group,2019-20,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,343466,343464,-2,15,pass
+pesa,2023,Table_1_5,Resource DEL excluding depreciation by departmental group,2020-21,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,468657,468655,-2,15,pass
+pesa,2023,Table_1_5,Resource DEL excluding depreciation by departmental group,2021-22,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,449574,449574,0,15,pass
+pesa,2023,Table_1_5,Resource DEL excluding depreciation by departmental group,2022-23,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,445474,445472,-2,15,pass
+pesa,2023,Table_1_5,Resource DEL excluding depreciation by departmental group,2023-24,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,450913,450914,1,15,pass
+pesa,2023,Table_1_5,Resource DEL excluding depreciation by departmental group,2024-25,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,455120,455120,0,15,pass
+pesa,2023,Table_1_7,,2018-19,outturn,ADMIN,£ million,Total administration budgets,20,10187,10186,-1,10.5,pass
+pesa,2023,Table_1_7,,2019-20,outturn,ADMIN,£ million,Total administration budgets,20,10396,10395,-1,10.5,pass
+pesa,2023,Table_1_7,,2020-21,outturn,ADMIN,£ million,Total administration budgets,20,11041,11038,-3,10.5,pass
+pesa,2023,Table_1_7,,2021-22,outturn,ADMIN,£ million,Total administration budgets,20,11635,11635,0,10.5,pass
+pesa,2023,Table_1_7,,2022-23,outturn,ADMIN,£ million,Total administration budgets,20,12273,12274,1,10.5,pass
+pesa,2023,Table_1_7,,2023-24,plans,ADMIN,£ million,Total administration budgets,20,13695,13695,0,10.5,pass
+pesa,2023,Table_1_7,,2024-25,plans,ADMIN,£ million,Total administration budgets,20,13228,13227,-1,10.5,pass
+pesa,2023,Table_1_7a,,2018-19,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,9765,9764,-1,10.5,pass
+pesa,2023,Table_1_7a,,2019-20,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,9894,9894,0,10.5,pass
+pesa,2023,Table_1_7a,,2020-21,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,10591,10590,-1,10.5,pass
+pesa,2023,Table_1_7a,,2021-22,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11149,11151,2,10.5,pass
+pesa,2023,Table_1_7a,,2022-23,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11481,11481,0,10.5,pass
+pesa,2023,Table_1_7a,,2023-24,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11954,11956,2,10.5,pass
+pesa,2023,Table_1_7a,,2024-25,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11251,11252,1,10.5,pass
+pesa,2023,Table_1_8,Capital DEL by departmental group,2018-19,outturn,CDEL,£ million,Total capital DEL,28,62561,62562,1,14.5,pass
+pesa,2023,Table_1_8,Capital DEL by departmental group,2019-20,outturn,CDEL,£ million,Total capital DEL,28,70157,70159,2,14.5,pass
+pesa,2023,Table_1_8,Capital DEL by departmental group,2020-21,outturn,CDEL,£ million,Total capital DEL,28,94916,94917,1,14.5,pass
+pesa,2023,Table_1_8,Capital DEL by departmental group,2021-22,outturn,CDEL,£ million,Total capital DEL,28,93023,93022,-1,14.5,pass
+pesa,2023,Table_1_8,Capital DEL by departmental group,2022-23,outturn,CDEL,£ million,Total capital DEL,28,100312,100312,0,14.5,pass
+pesa,2023,Table_1_8,Capital DEL by departmental group,2023-24,plans,CDEL,£ million,Total capital DEL,28,106595,106594,-1,14.5,pass
+pesa,2023,Table_1_8,Capital DEL by departmental group,2024-25,plans,CDEL,£ million,Total capital DEL,28,109350,109353,3,14.5,pass
+pesa,2023,Table_1_8,Capital departmental AME by departmental group,2018-19,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,20,12631,12631,0,10.5,pass
+pesa,2023,Table_1_8,Capital departmental AME by departmental group,2019-20,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,20,24001,24002,1,10.5,pass
+pesa,2023,Table_1_8,Capital departmental AME by departmental group,2020-21,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,20,37398,37397,-1,10.5,pass
+pesa,2023,Table_1_8,Capital departmental AME by departmental group,2021-22,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,20,17965,17966,1,10.5,pass
+pesa,2023,Table_1_8,Capital departmental AME by departmental group,2022-23,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,20,33898,33896,-2,10.5,pass
+pesa,2023,Table_1_8,Capital departmental AME by departmental group,2023-24,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,20,96724,96725,1,10.5,pass
+pesa,2023,Table_1_8,Capital departmental AME by departmental group,2024-25,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,20,37389,37388,-1,10.5,pass
+pesa,2024,Table_1_10,Total DEL by departmental group,2019-20,outturn,TDEL,£ million,Total DEL,29,410017,410016,-1,15,pass
+pesa,2024,Table_1_10,Total DEL by departmental group,2020-21,outturn,TDEL,£ million,Total DEL,29,552830,552830,0,15,pass
+pesa,2024,Table_1_10,Total DEL by departmental group,2021-22,outturn,TDEL,£ million,Total DEL,29,535233,535232,-1,15,pass
+pesa,2024,Table_1_10,Total DEL by departmental group,2022-23,outturn,TDEL,£ million,Total DEL,29,541384,541384,0,15,pass
+pesa,2024,Table_1_10,Total DEL by departmental group,2023-24,outturn,TDEL,£ million,Total DEL,29,558930,558929,-1,15,pass
+pesa,2024,Table_1_10,Total DEL by departmental group,2024-25,plans,TDEL,£ million,Total DEL,29,569554,569553,-1,15,pass
+pesa,2024,Table_1_3,Resource DEL by departmental group,2019-20,outturn,RDEL,£ million,Total resource DEL,28,367956,367956,0,14.5,pass
+pesa,2024,Table_1_3,Resource DEL by departmental group,2020-21,outturn,RDEL,£ million,Total resource DEL,28,484039,484038,-1,14.5,pass
+pesa,2024,Table_1_3,Resource DEL by departmental group,2021-22,outturn,RDEL,£ million,Total resource DEL,28,462140,462144,4,14.5,pass
+pesa,2024,Table_1_3,Resource DEL by departmental group,2022-23,outturn,RDEL,£ million,Total resource DEL,28,449874,449874,0,14.5,pass
+pesa,2024,Table_1_3,Resource DEL by departmental group,2023-24,outturn,RDEL,£ million,Total resource DEL,28,479760,479760,0,14.5,pass
+pesa,2024,Table_1_3,Resource DEL by departmental group,2024-25,plans,RDEL,£ million,Total resource DEL,28,488750,488752,2,14.5,pass
+pesa,2024,Table_1_3,Resource departmental AME by departmental group,2019-20,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,378895,378894,-1,12.5,pass
+pesa,2024,Table_1_3,Resource departmental AME by departmental group,2020-21,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,508491,508490,-1,12.5,pass
+pesa,2024,Table_1_3,Resource departmental AME by departmental group,2021-22,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,625576,625576,0,12.5,pass
+pesa,2024,Table_1_3,Resource departmental AME by departmental group,2022-23,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,353680,353681,1,12.5,pass
+pesa,2024,Table_1_3,Resource departmental AME by departmental group,2023-24,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,419861,419863,2,12.5,pass
+pesa,2024,Table_1_3,Resource departmental AME by departmental group,2024-25,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,551762,551761,-1,12.5,pass
+pesa,2024,Table_1_5,Resource DEL excluding depreciation by departmental group,2019-20,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,28,339861,339859,-2,14.5,pass
+pesa,2024,Table_1_5,Resource DEL excluding depreciation by departmental group,2020-21,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,28,457917,457914,-3,14.5,pass
+pesa,2024,Table_1_5,Resource DEL excluding depreciation by departmental group,2021-22,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,28,442089,442089,0,14.5,pass
+pesa,2024,Table_1_5,Resource DEL excluding depreciation by departmental group,2022-23,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,28,441060,441058,-2,14.5,pass
+pesa,2024,Table_1_5,Resource DEL excluding depreciation by departmental group,2023-24,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,28,452164,452165,1,14.5,pass
+pesa,2024,Table_1_5,Resource DEL excluding depreciation by departmental group,2024-25,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,28,458784,458782,-2,14.5,pass
+pesa,2024,Table_1_7,,2019-20,outturn,ADMIN,£ million,Total administration budgets,20,10386,10385,-1,10.5,pass
+pesa,2024,Table_1_7,,2020-21,outturn,ADMIN,£ million,Total administration budgets,20,11036,11033,-3,10.5,pass
+pesa,2024,Table_1_7,,2021-22,outturn,ADMIN,£ million,Total administration budgets,20,11635,11635,0,10.5,pass
+pesa,2024,Table_1_7,,2022-23,outturn,ADMIN,£ million,Total administration budgets,20,12184,12185,1,10.5,pass
+pesa,2024,Table_1_7,,2023-24,outturn,ADMIN,£ million,Total administration budgets,20,12657,12657,0,10.5,pass
+pesa,2024,Table_1_7,,2024-25,plans,ADMIN,£ million,Total administration budgets,20,14015,14016,1,10.5,pass
+pesa,2024,Table_1_7a,,2019-20,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,9887,9885,-2,10.5,pass
+pesa,2024,Table_1_7a,,2020-21,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,10585,10586,1,10.5,pass
+pesa,2024,Table_1_7a,,2021-22,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11148,11151,3,10.5,pass
+pesa,2024,Table_1_7a,,2022-23,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11433,11433,0,10.5,pass
+pesa,2024,Table_1_7a,,2023-24,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11922,11920,-2,10.5,pass
+pesa,2024,Table_1_7a,,2024-25,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,12131,12133,2,10.5,pass
+pesa,2024,Table_1_8,Capital DEL by departmental group,2019-20,outturn,CDEL,£ million,Total capital DEL,27,70155,70157,2,14,pass
+pesa,2024,Table_1_8,Capital DEL by departmental group,2020-21,outturn,CDEL,£ million,Total capital DEL,27,94914,94916,2,14,pass
+pesa,2024,Table_1_8,Capital DEL by departmental group,2021-22,outturn,CDEL,£ million,Total capital DEL,27,93144,93143,-1,14,pass
+pesa,2024,Table_1_8,Capital DEL by departmental group,2022-23,outturn,CDEL,£ million,Total capital DEL,27,100326,100326,0,14,pass
+pesa,2024,Table_1_8,Capital DEL by departmental group,2023-24,outturn,CDEL,£ million,Total capital DEL,27,106763,106764,1,14,pass
+pesa,2024,Table_1_8,Capital DEL by departmental group,2024-25,plans,CDEL,£ million,Total capital DEL,27,110772,110771,-1,14,pass
+pesa,2024,Table_1_8,Capital departmental AME by departmental group,2019-20,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,21,24001,24002,1,11,pass
+pesa,2024,Table_1_8,Capital departmental AME by departmental group,2020-21,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,21,37398,37397,-1,11,pass
+pesa,2024,Table_1_8,Capital departmental AME by departmental group,2021-22,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,21,17965,17966,1,11,pass
+pesa,2024,Table_1_8,Capital departmental AME by departmental group,2022-23,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,21,34288,34287,-1,11,pass
+pesa,2024,Table_1_8,Capital departmental AME by departmental group,2023-24,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,21,76332,76330,-2,11,pass
+pesa,2024,Table_1_8,Capital departmental AME by departmental group,2024-25,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,21,102672,102671,-1,11,pass
+pesa,2026,Table_1_3,Resource DEL by departmental group,2021-22,outturn,RDEL,£ million,Total resource DEL,27,433326,433326,0,14,pass
+pesa,2026,Table_1_3,Resource DEL by departmental group,2022-23,outturn,RDEL,£ million,Total resource DEL,27,430111,430112,1,14,pass
+pesa,2026,Table_1_3,Resource DEL by departmental group,2023-24,outturn,RDEL,£ million,Total resource DEL,27,440917,440915,-2,14,pass
+pesa,2026,Table_1_3,Resource DEL by departmental group,2024-25,outturn,RDEL,£ million,Total resource DEL,27,469578,469578,0,14,pass
+pesa,2026,Table_1_3,Resource DEL by departmental group,2025-26,outturn,RDEL,£ million,Total resource DEL,27,496669,496670,1,14,pass
+pesa,2026,Table_1_3,Resource DEL by departmental group,2026-27,plans,RDEL,£ million,Total resource DEL,27,521055,521057,2,14,pass
+pesa,2026,Table_1_3,Resource DEL by departmental group,2027-28,plans,RDEL,£ million,Total resource DEL,27,535253,535256,3,14,pass
+pesa,2026,Table_1_3,Resource DEL by departmental group,2028-29,plans,RDEL,£ million,Total resource DEL,27,552405,552404,-1,14,pass
+pesa,2026,Table_1_3,Resource departmental AME by departmental group,2021-22,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,654622,654623,1,12.5,pass
+pesa,2026,Table_1_3,Resource departmental AME by departmental group,2022-23,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,373788,373787,-1,12.5,pass
+pesa,2026,Table_1_3,Resource departmental AME by departmental group,2023-24,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,465988,465988,0,12.5,pass
+pesa,2026,Table_1_3,Resource departmental AME by departmental group,2024-25,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,539207,539206,-1,12.5,pass
+pesa,2026,Table_1_3,Resource departmental AME by departmental group,2025-26,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,562894,562894,0,12.5,pass
+pesa,2026,Table_1_3,Resource departmental AME by departmental group,2026-27,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,655105,655106,1,12.5,pass
+pesa,2026,Table_1_3,Resource departmental AME by departmental group,2027-28,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,642045,642044,-1,12.5,pass
+pesa,2026,Table_1_3,Resource departmental AME by departmental group,2028-29,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,648854,648854,0,12.5,pass
+pesa,2026,Table_1_5,,2021-22,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11152,11154,2,10.5,pass
+pesa,2026,Table_1_5,,2022-23,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11410,11411,1,10.5,pass
+pesa,2026,Table_1_5,,2023-24,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11958,11959,1,10.5,pass
+pesa,2026,Table_1_5,,2024-25,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,12312,12315,3,10.5,pass
+pesa,2026,Table_1_5,,2025-26,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,13760,13759,-1,10.5,pass
+pesa,2026,Table_1_5,,2026-27,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,14808,14808,0,10.5,pass
+pesa,2026,Table_1_5,,2027-28,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,13983,13982,-1,10.5,pass
+pesa,2026,Table_1_5,,2028-29,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,13259,13260,1,10.5,pass
+pesa,2026,Table_1_6,Capital DEL by departmental group,2021-22,outturn,CDEL,£ million,Total capital DEL,28,92652,92652,0,14.5,pass
+pesa,2026,Table_1_6,Capital DEL by departmental group,2022-23,outturn,CDEL,£ million,Total capital DEL,28,100096,100097,1,14.5,pass
+pesa,2026,Table_1_6,Capital DEL by departmental group,2023-24,outturn,CDEL,£ million,Total capital DEL,28,106256,106257,1,14.5,pass
+pesa,2026,Table_1_6,Capital DEL by departmental group,2024-25,outturn,CDEL,£ million,Total capital DEL,28,111588,111587,-1,14.5,pass
+pesa,2026,Table_1_6,Capital DEL by departmental group,2025-26,outturn,CDEL,£ million,Total capital DEL,28,127532,127532,0,14.5,pass
+pesa,2026,Table_1_6,Capital DEL by departmental group,2026-27,plans,CDEL,£ million,Total capital DEL,28,127847,127847,0,14.5,pass
+pesa,2026,Table_1_6,Capital DEL by departmental group,2027-28,plans,CDEL,£ million,Total capital DEL,28,139484,139484,0,14.5,pass
+pesa,2026,Table_1_6,Capital DEL by departmental group,2028-29,plans,CDEL,£ million,Total capital DEL,28,141554,141556,2,14.5,pass
+pesa,2026,Table_1_6,Capital DEL by departmental group,2029-30,plans,CDEL,£ million,Total capital DEL,28,144776,144774,-2,14.5,pass
+pesa,2026,Table_1_6,Capital departmental AME by departmental group,2021-22,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,23,18491,18491,0,12,pass
+pesa,2026,Table_1_6,Capital departmental AME by departmental group,2022-23,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,23,33571,33569,-2,12,pass
+pesa,2026,Table_1_6,Capital departmental AME by departmental group,2023-24,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,23,76787,76788,1,12,pass
+pesa,2026,Table_1_6,Capital departmental AME by departmental group,2024-25,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,23,66361,66361,0,12,pass
+pesa,2026,Table_1_6,Capital departmental AME by departmental group,2025-26,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,23,59752,59752,0,12,pass
+pesa,2026,Table_1_6,Capital departmental AME by departmental group,2026-27,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,23,79560,79560,0,12,pass
+pesa,2026,Table_1_6,Capital departmental AME by departmental group,2027-28,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,23,62335,62332,-3,12,pass
+pesa,2026,Table_1_6,Capital departmental AME by departmental group,2028-29,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,23,61892,61890,-2,12,pass
+pesa,2026,Table_1_6,Capital departmental AME by departmental group,2029-30,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,23,0,,,12,no total
+pesa,2026,Table_1_9,Total DEL by departmental group,2021-22,outturn,TDEL,£ million,Total DEL,29,534890,534892,2,15,pass
+pesa,2026,Table_1_9,Total DEL by departmental group,2022-23,outturn,TDEL,£ million,Total DEL,29,541360,541362,2,15,pass
+pesa,2026,Table_1_9,Total DEL by departmental group,2023-24,outturn,TDEL,£ million,Total DEL,29,558435,558434,-1,15,pass
+pesa,2026,Table_1_9,Total DEL by departmental group,2024-25,outturn,TDEL,£ million,Total DEL,29,595892,595892,0,15,pass
+pesa,2026,Table_1_9,Total DEL by departmental group,2025-26,outturn,TDEL,£ million,Total DEL,29,639808,639807,-1,15,pass
+pesa,2026,Table_1_9,Total DEL by departmental group,2026-27,plans,TDEL,£ million,Total DEL,29,664957,664958,1,15,pass
+pesa,2026,Table_1_9,Total DEL by departmental group,2027-28,plans,TDEL,£ million,Total DEL,29,690857,690859,2,15,pass
+pesa,2026,Table_1_9,Total DEL by departmental group,2028-29,plans,TDEL,£ million,Total DEL,29,709819,709820,1,15,pass
+pesa,2025-07,Table _1_18,Total DEL by departmental group,2026-27,plans,TDEL,£ million,Total DEL,29,678183,678183,0,15,pass
+pesa,2025-07,Table _1_18,Total DEL by departmental group,2027-28,plans,TDEL,£ million,Total DEL,29,696902,696903,1,15,pass
+pesa,2025-07,Table _1_18,Total DEL by departmental group,2028-29,plans,TDEL,£ million,Total DEL,29,716915,716916,1,15,pass
+pesa,2025-07,Table_1_10,Total DEL by departmental group,2020-21,outturn,TDEL,£ million,Total DEL,29,552851,552851,0,15,pass
+pesa,2025-07,Table_1_10,Total DEL by departmental group,2021-22,outturn,TDEL,£ million,Total DEL,29,535274,535274,0,15,pass
+pesa,2025-07,Table_1_10,Total DEL by departmental group,2022-23,outturn,TDEL,£ million,Total DEL,29,541606,541607,1,15,pass
+pesa,2025-07,Table_1_10,Total DEL by departmental group,2023-24,outturn,TDEL,£ million,Total DEL,29,558807,558807,0,15,pass
+pesa,2025-07,Table_1_10,Total DEL by departmental group,2024-25,outturn,TDEL,£ million,Total DEL,29,596228,596228,0,15,pass
+pesa,2025-07,Table_1_10,Total DEL by departmental group,2025-26,plans,TDEL,£ million,Total DEL,29,632297,632299,2,15,pass
+pesa,2025-07,Table_1_16,Resource DEL excluding depreciation by departmental group,2026-27,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,25,535515,535515,0,13,pass
+pesa,2025-07,Table_1_16,Resource DEL excluding depreciation by departmental group,2027-28,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,25,551640,551639,-1,13,pass
+pesa,2025-07,Table_1_16,Resource DEL excluding depreciation by departmental group,2028-29,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,25,567809,567808,-1,13,pass
+pesa,2025-07,Table_1_17,Capital DEL by departmental group,2026-27,plans,CDEL,£ million,Total capital DEL,28,142669,142667,-2,14.5,pass
+pesa,2025-07,Table_1_17,Capital DEL by departmental group,2027-28,plans,CDEL,£ million,Total capital DEL,28,145268,145264,-4,14.5,pass
+pesa,2025-07,Table_1_17,Capital DEL by departmental group,2028-29,plans,CDEL,£ million,Total capital DEL,28,149110,149109,-1,14.5,pass
+pesa,2025-07,Table_1_17,Capital DEL by departmental group,2029-30,plans,CDEL,£ million,Total capital DEL,28,151914,151913,-1,14.5,pass
+pesa,2025-07,Table_1_3,Resource DEL by departmental group,2020-21,outturn,RDEL,£ million,Total resource DEL,29,484061,484062,1,15,pass
+pesa,2025-07,Table_1_3,Resource DEL by departmental group,2021-22,outturn,RDEL,£ million,Total resource DEL,29,462191,462193,2,15,pass
+pesa,2025-07,Table_1_3,Resource DEL by departmental group,2022-23,outturn,RDEL,£ million,Total resource DEL,29,449989,449987,-2,15,pass
+pesa,2025-07,Table_1_3,Resource DEL by departmental group,2023-24,outturn,RDEL,£ million,Total resource DEL,29,481000,480998,-2,15,pass
+pesa,2025-07,Table_1_3,Resource DEL by departmental group,2024-25,outturn,RDEL,£ million,Total resource DEL,29,516666,516667,1,15,pass
+pesa,2025-07,Table_1_3,Resource DEL by departmental group,2025-26,plans,RDEL,£ million,Total resource DEL,29,539962,539962,0,15,pass
+pesa,2025-07,Table_1_3,Resource departmental AME by departmental group,2020-21,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,508491,508490,-1,12.5,pass
+pesa,2025-07,Table_1_3,Resource departmental AME by departmental group,2021-22,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,625576,625577,1,12.5,pass
+pesa,2025-07,Table_1_3,Resource departmental AME by departmental group,2022-23,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,353773,353775,2,12.5,pass
+pesa,2025-07,Table_1_3,Resource departmental AME by departmental group,2023-24,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,425670,425670,0,12.5,pass
+pesa,2025-07,Table_1_3,Resource departmental AME by departmental group,2024-25,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,496847,496848,1,12.5,pass
+pesa,2025-07,Table_1_3,Resource departmental AME by departmental group,2025-26,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,576478,576478,0,12.5,pass
+pesa,2025-07,Table_1_5,Resource DEL excluding depreciation by departmental group,2020-21,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,457936,457935,-1,15,pass
+pesa,2025-07,Table_1_5,Resource DEL excluding depreciation by departmental group,2021-22,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,442132,442132,0,15,pass
+pesa,2025-07,Table_1_5,Resource DEL excluding depreciation by departmental group,2022-23,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,441158,441157,-1,15,pass
+pesa,2025-07,Table_1_5,Resource DEL excluding depreciation by departmental group,2023-24,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,452099,452098,-1,15,pass
+pesa,2025-07,Table_1_5,Resource DEL excluding depreciation by departmental group,2024-25,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,484342,484342,0,15,pass
+pesa,2025-07,Table_1_5,Resource DEL excluding depreciation by departmental group,2025-26,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,29,511155,511156,1,15,pass
+pesa,2025-07,Table_1_7,,2020-21,outturn,ADMIN,£ million,Total administration budgets,20,11035,11033,-2,10.5,pass
+pesa,2025-07,Table_1_7,,2021-22,outturn,ADMIN,£ million,Total administration budgets,20,11634,11635,1,10.5,pass
+pesa,2025-07,Table_1_7,,2022-23,outturn,ADMIN,£ million,Total administration budgets,20,12186,12186,0,10.5,pass
+pesa,2025-07,Table_1_7,,2023-24,outturn,ADMIN,£ million,Total administration budgets,20,12686,12687,1,10.5,pass
+pesa,2025-07,Table_1_7,,2024-25,outturn,ADMIN,£ million,Total administration budgets,20,12972,12972,0,10.5,pass
+pesa,2025-07,Table_1_7,,2025-26,plans,ADMIN,£ million,Total administration budgets,20,15513,15513,0,10.5,pass
+pesa,2025-07,Table_1_7a,,2020-21,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,10587,10586,-1,10.5,pass
+pesa,2025-07,Table_1_7a,,2021-22,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11150,11151,1,10.5,pass
+pesa,2025-07,Table_1_7a,,2022-23,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11434,11435,1,10.5,pass
+pesa,2025-07,Table_1_7a,,2023-24,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11942,11942,0,10.5,pass
+pesa,2025-07,Table_1_7a,,2024-25,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,12251,12250,-1,10.5,pass
+pesa,2025-07,Table_1_7a,,2025-26,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,14142,14142,0,10.5,pass
+pesa,2025-07,Table_1_8,Capital DEL by departmental group,2020-21,outturn,CDEL,£ million,Total capital DEL,26,94915,94916,1,13.5,pass
+pesa,2025-07,Table_1_8,Capital DEL by departmental group,2021-22,outturn,CDEL,£ million,Total capital DEL,26,93143,93143,0,13.5,pass
+pesa,2025-07,Table_1_8,Capital DEL by departmental group,2022-23,outturn,CDEL,£ million,Total capital DEL,26,100452,100451,-1,13.5,pass
+pesa,2025-07,Table_1_8,Capital DEL by departmental group,2023-24,outturn,CDEL,£ million,Total capital DEL,26,106707,106709,2,13.5,pass
+pesa,2025-07,Table_1_8,Capital DEL by departmental group,2024-25,outturn,CDEL,£ million,Total capital DEL,26,111886,111886,0,13.5,pass
+pesa,2025-07,Table_1_8,Capital DEL by departmental group,2025-26,plans,CDEL,£ million,Total capital DEL,26,121144,121143,-1,13.5,pass
+pesa,2025-07,Table_1_8,Capital departmental AME by departmental group,2020-21,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,37398,37397,-1,11.5,pass
+pesa,2025-07,Table_1_8,Capital departmental AME by departmental group,2021-22,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,17965,17965,0,11.5,pass
+pesa,2025-07,Table_1_8,Capital departmental AME by departmental group,2022-23,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,33182,33180,-2,11.5,pass
+pesa,2025-07,Table_1_8,Capital departmental AME by departmental group,2023-24,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,76237,76237,0,11.5,pass
+pesa,2025-07,Table_1_8,Capital departmental AME by departmental group,2024-25,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,66234,66234,0,11.5,pass
+pesa,2025-07,Table_1_8,Capital departmental AME by departmental group,2025-26,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,74622,74620,-2,11.5,pass
+pesa,2025-12,Table_1_10,Total DEL by departmental group,2020-21,outturn,TDEL,£ million,Total DEL,29,552851,552851,0,15,pass
+pesa,2025-12,Table_1_10,Total DEL by departmental group,2021-22,outturn,TDEL,£ million,Total DEL,29,535275,535276,1,15,pass
+pesa,2025-12,Table_1_10,Total DEL by departmental group,2022-23,outturn,TDEL,£ million,Total DEL,29,541606,541607,1,15,pass
+pesa,2025-12,Table_1_10,Total DEL by departmental group,2023-24,outturn,TDEL,£ million,Total DEL,29,558767,558768,1,15,pass
+pesa,2025-12,Table_1_10,Total DEL by departmental group,2024-25,outturn,TDEL,£ million,Total DEL,29,596356,596354,-2,15,pass
+pesa,2025-12,Table_1_10,Total DEL by departmental group,2025-26,plans,TDEL,£ million,Total DEL,29,635303,635303,0,15,pass
+pesa,2025-12,Table_1_10,Total DEL by departmental group,2026-27,plans,TDEL,£ million,Total DEL,29,664684,664683,-1,15,pass
+pesa,2025-12,Table_1_10,Total DEL by departmental group,2027-28,plans,TDEL,£ million,Total DEL,29,691009,691007,-2,15,pass
+pesa,2025-12,Table_1_10,Total DEL by departmental group,2028-29,plans,TDEL,£ million,Total DEL,29,708602,708604,2,15,pass
+pesa,2025-12,Table_1_3,Resource DEL by departmental group,2020-21,outturn,RDEL,£ million,Total resource DEL,27,484061,484062,1,14,pass
+pesa,2025-12,Table_1_3,Resource DEL by departmental group,2021-22,outturn,RDEL,£ million,Total resource DEL,27,462193,462195,2,14,pass
+pesa,2025-12,Table_1_3,Resource DEL by departmental group,2022-23,outturn,RDEL,£ million,Total resource DEL,27,449989,449987,-2,14,pass
+pesa,2025-12,Table_1_3,Resource DEL by departmental group,2023-24,outturn,RDEL,£ million,Total resource DEL,27,481004,481001,-3,14,pass
+pesa,2025-12,Table_1_3,Resource DEL by departmental group,2024-25,outturn,RDEL,£ million,Total resource DEL,27,516480,516481,1,14,pass
+pesa,2025-12,Table_1_3,Resource DEL by departmental group,2025-26,plans,RDEL,£ million,Total resource DEL,27,544898,544901,3,14,pass
+pesa,2025-12,Table_1_3,Resource DEL by departmental group,2026-27,plans,RDEL,£ million,Total resource DEL,27,562233,562234,1,14,pass
+pesa,2025-12,Table_1_3,Resource DEL by departmental group,2027-28,plans,RDEL,£ million,Total resource DEL,27,578680,578682,2,14,pass
+pesa,2025-12,Table_1_3,Resource DEL by departmental group,2028-29,plans,RDEL,£ million,Total resource DEL,27,595687,595687,0,14,pass
+pesa,2025-12,Table_1_3,Resource departmental AME by departmental group,2020-21,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,508491,508490,-1,12.5,pass
+pesa,2025-12,Table_1_3,Resource departmental AME by departmental group,2021-22,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,625574,625574,0,12.5,pass
+pesa,2025-12,Table_1_3,Resource departmental AME by departmental group,2022-23,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,353771,353773,2,12.5,pass
+pesa,2025-12,Table_1_3,Resource departmental AME by departmental group,2023-24,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,425714,425714,0,12.5,pass
+pesa,2025-12,Table_1_3,Resource departmental AME by departmental group,2024-25,outturn,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,494620,494622,2,12.5,pass
+pesa,2025-12,Table_1_3,Resource departmental AME by departmental group,2025-26,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,581945,581945,0,12.5,pass
+pesa,2025-12,Table_1_3,Resource departmental AME by departmental group,2026-27,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,595480,595479,-1,12.5,pass
+pesa,2025-12,Table_1_3,Resource departmental AME by departmental group,2027-28,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,607242,607243,1,12.5,pass
+pesa,2025-12,Table_1_3,Resource departmental AME by departmental group,2028-29,plans,RESOURCE_DEPT_AME,£ million,Total resource departmental AME,24,613805,613803,-2,12.5,pass
+pesa,2025-12,Table_1_5,Resource DEL excluding depreciation by departmental group,2020-21,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,27,457936,457935,-1,14,pass
+pesa,2025-12,Table_1_5,Resource DEL excluding depreciation by departmental group,2021-22,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,27,442134,442133,-1,14,pass
+pesa,2025-12,Table_1_5,Resource DEL excluding depreciation by departmental group,2022-23,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,27,441158,441157,-1,14,pass
+pesa,2025-12,Table_1_5,Resource DEL excluding depreciation by departmental group,2023-24,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,27,452062,452060,-2,14,pass
+pesa,2025-12,Table_1_5,Resource DEL excluding depreciation by departmental group,2024-25,outturn,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,27,484358,484358,0,14,pass
+pesa,2025-12,Table_1_5,Resource DEL excluding depreciation by departmental group,2025-26,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,27,513851,513853,2,14,pass
+pesa,2025-12,Table_1_5,Resource DEL excluding depreciation by departmental group,2026-27,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,27,535308,535309,1,14,pass
+pesa,2025-12,Table_1_5,Resource DEL excluding depreciation by departmental group,2027-28,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,27,550857,550856,-1,14,pass
+pesa,2025-12,Table_1_5,Resource DEL excluding depreciation by departmental group,2028-29,plans,RDEL_EX_DEPN,£ million,Total Resource DEL excluding depreciation,27,566322,566321,-1,14,pass
+pesa,2025-12,Table_1_7,,2020-21,outturn,ADMIN,£ million,Total administration budgets,20,11035,11033,-2,10.5,pass
+pesa,2025-12,Table_1_7,,2021-22,outturn,ADMIN,£ million,Total administration budgets,20,11634,11635,1,10.5,pass
+pesa,2025-12,Table_1_7,,2022-23,outturn,ADMIN,£ million,Total administration budgets,20,12186,12186,0,10.5,pass
+pesa,2025-12,Table_1_7,,2023-24,outturn,ADMIN,£ million,Total administration budgets,20,12694,12694,0,10.5,pass
+pesa,2025-12,Table_1_7,,2024-25,outturn,ADMIN,£ million,Total administration budgets,20,13000,13001,1,10.5,pass
+pesa,2025-12,Table_1_7,,2025-26,plans,ADMIN,£ million,Total administration budgets,20,16044,16043,-1,10.5,pass
+pesa,2025-12,Table_1_7,,2026-27,plans,ADMIN,£ million,Total administration budgets,20,16103,16103,0,10.5,pass
+pesa,2025-12,Table_1_7,,2027-28,plans,ADMIN,£ million,Total administration budgets,20,15367,15368,1,10.5,pass
+pesa,2025-12,Table_1_7,,2028-29,plans,ADMIN,£ million,Total administration budgets,20,14745,14745,0,10.5,pass
+pesa,2025-12,Table_1_7a,,2020-21,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,10587,10586,-1,10.5,pass
+pesa,2025-12,Table_1_7a,,2021-22,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11150,11151,1,10.5,pass
+pesa,2025-12,Table_1_7a,,2022-23,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11434,11435,1,10.5,pass
+pesa,2025-12,Table_1_7a,,2023-24,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,11950,11950,0,10.5,pass
+pesa,2025-12,Table_1_7a,,2024-25,outturn,ADMIN_EX_DEPN,£ million,Total administration budgets,20,12283,12283,0,10.5,pass
+pesa,2025-12,Table_1_7a,,2025-26,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,14633,14634,1,10.5,pass
+pesa,2025-12,Table_1_7a,,2026-27,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,14705,14704,-1,10.5,pass
+pesa,2025-12,Table_1_7a,,2027-28,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,13936,13937,1,10.5,pass
+pesa,2025-12,Table_1_7a,,2028-29,plans,ADMIN_EX_DEPN,£ million,Total administration budgets,20,13223,13223,0,10.5,pass
+pesa,2025-12,Table_1_8,Capital DEL by departmental group,2020-21,outturn,CDEL,£ million,Total capital DEL,27,94915,94916,1,14,pass
+pesa,2025-12,Table_1_8,Capital DEL by departmental group,2021-22,outturn,CDEL,£ million,Total capital DEL,27,93143,93143,0,14,pass
+pesa,2025-12,Table_1_8,Capital DEL by departmental group,2022-23,outturn,CDEL,£ million,Total capital DEL,27,100452,100451,-1,14,pass
+pesa,2025-12,Table_1_8,Capital DEL by departmental group,2023-24,outturn,CDEL,£ million,Total capital DEL,27,106706,106708,2,14,pass
+pesa,2025-12,Table_1_8,Capital DEL by departmental group,2024-25,outturn,CDEL,£ million,Total capital DEL,27,111996,111996,0,14,pass
+pesa,2025-12,Table_1_8,Capital DEL by departmental group,2025-26,plans,CDEL,£ million,Total capital DEL,27,121451,121450,-1,14,pass
+pesa,2025-12,Table_1_8,Capital DEL by departmental group,2026-27,plans,CDEL,£ million,Total capital DEL,27,129375,129374,-1,14,pass
+pesa,2025-12,Table_1_8,Capital DEL by departmental group,2027-28,plans,CDEL,£ million,Total capital DEL,27,140153,140151,-2,14,pass
+pesa,2025-12,Table_1_8,Capital DEL by departmental group,2028-29,plans,CDEL,£ million,Total capital DEL,27,142283,142283,0,14,pass
+pesa,2025-12,Table_1_8,Capital DEL by departmental group,2029-30,plans,CDEL,£ million,Total capital DEL,27,145639,145637,-2,14,pass
+pesa,2025-12,Table_1_8,Capital departmental AME by departmental group,2020-21,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,37398,37397,-1,11.5,pass
+pesa,2025-12,Table_1_8,Capital departmental AME by departmental group,2021-22,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,17965,17965,0,11.5,pass
+pesa,2025-12,Table_1_8,Capital departmental AME by departmental group,2022-23,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,33182,33180,-2,11.5,pass
+pesa,2025-12,Table_1_8,Capital departmental AME by departmental group,2023-24,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,76300,76302,2,11.5,pass
+pesa,2025-12,Table_1_8,Capital departmental AME by departmental group,2024-25,outturn,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,65814,65813,-1,11.5,pass
+pesa,2025-12,Table_1_8,Capital departmental AME by departmental group,2025-26,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,74801,74799,-2,11.5,pass
+pesa,2025-12,Table_1_8,Capital departmental AME by departmental group,2026-27,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,58222,58221,-1,11.5,pass
+pesa,2025-12,Table_1_8,Capital departmental AME by departmental group,2027-28,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,58673,58671,-2,11.5,pass
+pesa,2025-12,Table_1_8,Capital departmental AME by departmental group,2028-29,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,58901,58898,-3,11.5,pass
+pesa,2025-12,Table_1_8,Capital departmental AME by departmental group,2029-30,plans,CAPITAL_DEPT_AME,£ million,Total capital departmental AME,22,0,,,11.5,no total
+pesa,sr2025,Table 5.4 CDEL,,2023-24,outturn,CDEL,£ billion (current prices),Total Capital DEL,28,106.763,106.763,0,0.0145,pass
+pesa,sr2025,Table 5.4 CDEL,,2024-25,plans,CDEL,£ billion (current prices),Total Capital DEL,28,114.588071,114.588071,0,0.0000145,pass
+pesa,sr2025,Table 5.4 CDEL,,2025-26,plans,CDEL,£ billion (current prices),Total Capital DEL,28,131.30448441203691,131.304484412037,0.00000000000009,0.000000014,pass
+pesa,sr2025,Table 5.4 CDEL,,2026-27,plans,CDEL,£ billion (current prices),Total Capital DEL,28,142.66685322794316,142.666853227943,-0.00000000000016,0.000000014,pass
+pesa,sr2025,Table 5.4 CDEL,,2027-28,plans,CDEL,£ billion (current prices),Total Capital DEL,28,145.26481847207432,145.264818472074,-0.00000000000032,0.000000014,pass
+pesa,sr2025,Table 5.4 CDEL,,2028-29,plans,CDEL,£ billion (current prices),Total Capital DEL,28,149.10898801545927,149.108988015459,-0.00000000000027,0.000000014,pass
+pesa,sr2025,Table 5.4 CDEL,,2029-30,plans,CDEL,£ billion (current prices),Total Capital DEL,28,151.912568000510942,151.912568000511,0.000000000000058,0.000000014,pass
