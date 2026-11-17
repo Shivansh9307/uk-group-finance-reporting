@@ -159,8 +159,8 @@ What explains the gaps:
   2024-25, the year not yet restated by a later vintage, does non-budget line up (-2.2%).
 - **AME moves after June.** Provisions, impairments and pension-scheme adjustments are loaded after
   the in-year June snapshot, in both directions (-35% to +8%).
-- **The June snapshot is not final outturn.** The annual-extract profiling (T04b,
-  `oscar-annual-extracts.md`) found the June in-year snapshot differs from the final R13 return by
+- **The June snapshot is not final outturn.** My annual-extract profiling
+  (`oscar-annual-extracts.md`) found the June in-year snapshot differs from the final R13 return by
   up to 2.7% of DEL programme in FY2020-21; part of the DEL gap here is that post-June movement,
   not a boundary difference.
 - **DEL is close.** Within -2.5% to +3.4% in total for every year on the latest vintage (-3.2% to
