@@ -1,0 +1,61 @@
+financial_year,vintage,level,inyear_release,inyear_amount,bud_amount,gap,gap_share_of_bud,tolerance_share,status,is_latest_vintage_for_year,basis_note
+2018-19,2023-11,AME,2019-06,245895976,380696161,-134800185,-0.354088,,boundary difference,1,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2018-19,2023-11,DEL,2019-06,390649513,390935540,-286027,-0.000731,0.035,pass,1,control: DEL at total level; the June in-year snapshot is not final outturn
+2018-19,2023-11,NON-BUDGET,2019-06,113409952,1134122759,-1020712807,-0.900002,,boundary difference,1,restated files carry non-budget layers that the in-year files do not
+2018-19,2023-11,TOTAL,2019-06,749955441,1905754460,-1155799019,-0.606478,,boundary difference,1,sum of the control budget levels; inherits the AME and non-budget differences
+2019-20,2023-11,AME,2020-06,429094689,476913775,-47819086,-0.100267,,boundary difference,0,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2019-20,2023-11,DEL,2020-06,423501638,437409820,-13908182,-0.031796,0.035,pass,0,control: DEL at total level; the June in-year snapshot is not final outturn
+2019-20,2023-11,NON-BUDGET,2020-06,116260380,278684108,-162423728,-0.582823,,boundary difference,0,restated files carry non-budget layers that the in-year files do not
+2019-20,2023-11,TOTAL,2020-06,968856707,1193007703,-224150996,-0.187887,,boundary difference,0,sum of the control budget levels; inherits the AME and non-budget differences
+2019-20,2024-11,AME,2020-06,429094689,480515346,-51420657,-0.107011,,boundary difference,1,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2019-20,2024-11,DEL,2020-06,423501638,434137388,-10635750,-0.024498,0.035,pass,1,control: DEL at total level; the June in-year snapshot is not final outturn
+2019-20,2024-11,NON-BUDGET,2020-06,116260380,278900963,-162640583,-0.583148,,boundary difference,1,restated files carry non-budget layers that the in-year files do not
+2019-20,2024-11,TOTAL,2020-06,968856707,1193553697,-224696990,-0.188258,,boundary difference,1,sum of the control budget levels; inherits the AME and non-budget differences
+2020-21,2023-11,AME,2021-06,535511231,586032190,-50520959,-0.086208,,boundary difference,0,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2020-21,2023-11,DEL,2021-06,575941962,585760633,-9818671,-0.016762,0.035,pass,0,control: DEL at total level; the June in-year snapshot is not final outturn
+2020-21,2023-11,NON-BUDGET,2021-06,28154049,356120089,-327966040,-0.920942,,boundary difference,0,restated files carry non-budget layers that the in-year files do not
+2020-21,2023-11,TOTAL,2021-06,1139607242,1527912912,-388305670,-0.254141,,boundary difference,0,sum of the control budget levels; inherits the AME and non-budget differences
+2020-21,2024-11,AME,2021-06,535511231,596771715,-61260484,-0.102653,,boundary difference,0,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2020-21,2024-11,DEL,2021-06,575941962,575341148,600814,0.001044,0.035,pass,0,control: DEL at total level; the June in-year snapshot is not final outturn
+2020-21,2024-11,NON-BUDGET,2021-06,28154049,356823539,-328669490,-0.921098,,boundary difference,0,restated files carry non-budget layers that the in-year files do not
+2020-21,2024-11,TOTAL,2021-06,1139607242,1528936402,-389329160,-0.25464,,boundary difference,0,sum of the control budget levels; inherits the AME and non-budget differences
+2020-21,2025-11,AME,2021-06,535511231,596771715,-61260484,-0.102653,,boundary difference,1,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2020-21,2025-11,DEL,2021-06,575941962,575365191,576771,0.001002,0.035,pass,1,control: DEL at total level; the June in-year snapshot is not final outturn
+2020-21,2025-11,NON-BUDGET,2021-06,28154049,356823539,-328669490,-0.921098,,boundary difference,1,restated files carry non-budget layers that the in-year files do not
+2020-21,2025-11,TOTAL,2021-06,1139607242,1528960445,-389353203,-0.254652,,boundary difference,1,sum of the control budget levels; inherits the AME and non-budget differences
+2021-22,2023-11,AME,2022-06,641469587,699451472,-57981885,-0.082896,,boundary difference,0,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2021-22,2023-11,DEL,2022-06,555563023,558386445,-2823422,-0.005056,0.035,pass,0,control: DEL at total level; the June in-year snapshot is not final outturn
+2021-22,2023-11,NON-BUDGET,2022-06,39253067,361043135,-321790068,-0.891278,,boundary difference,0,restated files carry non-budget layers that the in-year files do not
+2021-22,2023-11,TOTAL,2022-06,1236285677,1618881052,-382595375,-0.236333,,boundary difference,0,sum of the control budget levels; inherits the AME and non-budget differences
+2021-22,2024-11,AME,2022-06,641469587,706951329,-65481742,-0.092625,,boundary difference,0,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2021-22,2024-11,DEL,2022-06,555563023,551022072,4540951,0.00824,0.035,pass,0,control: DEL at total level; the June in-year snapshot is not final outturn
+2021-22,2024-11,NON-BUDGET,2022-06,39253067,361039162,-321786095,-0.891277,,boundary difference,0,restated files carry non-budget layers that the in-year files do not
+2021-22,2024-11,TOTAL,2022-06,1236285677,1619012563,-382726886,-0.236395,,boundary difference,0,sum of the control budget levels; inherits the AME and non-budget differences
+2021-22,2025-11,AME,2022-06,641469587,706950330,-65480743,-0.092624,,boundary difference,1,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2021-22,2025-11,DEL,2022-06,555563023,551071751,4491272,0.00815,0.035,pass,1,control: DEL at total level; the June in-year snapshot is not final outturn
+2021-22,2025-11,NON-BUDGET,2022-06,39253067,361039162,-321786095,-0.891277,,boundary difference,1,restated files carry non-budget layers that the in-year files do not
+2021-22,2025-11,TOTAL,2022-06,1236285677,1619061243,-382775566,-0.236418,,boundary difference,1,sum of the control budget levels; inherits the AME and non-budget differences
+2022-23,2023-11,AME,2023-06,429833149.618,409534149,20299000.618,0.049566,,boundary difference,0,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2022-23,2023-11,DEL,2023-06,548830529.9276,545739735,3090794.9276,0.005663,0.035,pass,0,control: DEL at total level; the June in-year snapshot is not final outturn
+2022-23,2023-11,NON-BUDGET,2023-06,27700647,224193980,-196493333,-0.876443,,boundary difference,0,restated files carry non-budget layers that the in-year files do not
+2022-23,2023-11,TOTAL,2023-06,1006364326.5456,1179467864,-173103537.4544,-0.146764,,boundary difference,0,sum of the control budget levels; inherits the AME and non-budget differences
+2022-23,2024-11,AME,2023-06,429833149.618,399110757,30722392.618,0.076977,,boundary difference,0,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2022-23,2024-11,DEL,2023-06,548830529.9276,541126443,7704086.9276,0.014237,0.035,pass,0,control: DEL at total level; the June in-year snapshot is not final outturn
+2022-23,2024-11,NON-BUDGET,2023-06,27700647,353131709,-325431062,-0.921557,,boundary difference,0,restated files carry non-budget layers that the in-year files do not
+2022-23,2024-11,TOTAL,2023-06,1006364326.5456,1293368909,-287004582.4544,-0.221904,,boundary difference,0,sum of the control budget levels; inherits the AME and non-budget differences
+2022-23,2025-11,AME,2023-06,429833149.618,398131803,31701346.618,0.079625,,boundary difference,1,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2022-23,2025-11,DEL,2023-06,548830529.9276,541336588,7493941.9276,0.013843,0.035,pass,1,control: DEL at total level; the June in-year snapshot is not final outturn
+2022-23,2025-11,NON-BUDGET,2023-06,27700647,353988332,-326287685,-0.921747,,boundary difference,1,restated files carry non-budget layers that the in-year files do not
+2022-23,2025-11,TOTAL,2023-06,1006364326.5456,1293456723,-287092396.4544,-0.221957,,boundary difference,1,sum of the control budget levels; inherits the AME and non-budget differences
+2023-24,2024-11,AME,2024-06,498012010.2636,506930423,-8918412.7364,-0.017592,,boundary difference,0,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2023-24,2024-11,DEL,2024-06,595834926.0604,576221123,19613803.0604,0.034038,0.035,pass,0,control: DEL at total level; the June in-year snapshot is not final outturn
+2023-24,2024-11,NON-BUDGET,2024-06,66638099.3057,419172662,-352534562.6943,-0.841024,,boundary difference,0,restated files carry non-budget layers that the in-year files do not
+2023-24,2024-11,TOTAL,2024-06,1160485035.6297,1502324208,-341839172.3703,-0.22754,,boundary difference,0,sum of the control budget levels; inherits the AME and non-budget differences
+2023-24,2025-11,AME,2024-06,498012010.2636,515563177,-17551166.7364,-0.034042,,boundary difference,1,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2023-24,2025-11,DEL,2024-06,595834926.0604,576426073,19408853.0604,0.033671,0.035,pass,1,control: DEL at total level; the June in-year snapshot is not final outturn
+2023-24,2025-11,NON-BUDGET,2024-06,66638099.3057,437171563,-370533463.6943,-0.847569,,boundary difference,1,restated files carry non-budget layers that the in-year files do not
+2023-24,2025-11,TOTAL,2024-06,1160485035.6297,1529160813,-368675777.3703,-0.241096,,boundary difference,1,sum of the control budget levels; inherits the AME and non-budget differences
+2024-25,2025-11,AME,2025-06,542168415,567091839,-24923424,-0.043949,,boundary difference,1,"AME moves after June (provisions, impairments, pension adjustments are loaded later)"
+2024-25,2025-11,DEL,2025-06,620635447,615232027,5403420,0.008782,0.035,pass,1,control: DEL at total level; the June in-year snapshot is not final outturn
+2024-25,2025-11,NON-BUDGET,2025-06,65059288,66526369,-1467081,-0.022052,,boundary difference,1,restated files carry non-budget layers that the in-year files do not
+2024-25,2025-11,TOTAL,2025-06,1227863150,1248850235,-20987085,-0.016805,,boundary difference,1,sum of the control budget levels; inherits the AME and non-budget differences

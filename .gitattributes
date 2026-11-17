@@ -18,3 +18,5 @@ evidence/build/*.csv text eol=lf
 
 # Authored CSV files are text with LF line ends so the loaded text does not depend on git autocrlf.
 authored/*.csv text eol=lf
+# Written by a `--scope full` build (the audit tables that need the large source files); pinned to LF.
+evidence/full/*.csv text eol=lf

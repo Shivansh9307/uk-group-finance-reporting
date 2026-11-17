@@ -59,8 +59,18 @@ def test_the_audit_export_is_deterministic_and_matches_the_committed_evidence(db
         assert a.read_bytes() == b.read_bytes()
         assert b"\r" not in a.read_bytes()
     committed = repo_root / DEFAULT_AUDIT_DIR
-    for p in first:
-        assert (committed / p.name).read_bytes().replace(b"\r\n", b"\n") == p.read_bytes(), (
-            f"{p.name} differs from the committed copy; rebuild and commit evidence/build"
-        )
-    assert {p.name for p in committed.glob("*.csv")} == {p.name for p in first}
+    committed_names = {p.name for p in committed.glob("*.csv")}
+    exported = {p.name: p for p in first}
+    # evidence/build holds what a committed-scope build writes. A database built with --scope full has more
+    # audit tables (and more rows in table_counts.csv): every committed file must still be in the export and
+    # equal to it, except table_counts.csv, which then has to contain every committed row.
+    assert committed_names <= set(exported), sorted(committed_names - set(exported))
+    full_scope = set(exported) != committed_names
+    for name in sorted(committed_names):
+        want = (committed / name).read_bytes().replace(b"\r\n", b"\n")
+        got = exported[name].read_bytes()
+        if full_scope and name == "table_counts.csv":
+            missing = set(want.splitlines()) - set(got.splitlines())
+            assert not missing, f"{name}: committed rows missing from the export: {sorted(missing)[:3]}"
+        else:
+            assert want == got, f"{name} differs from the committed copy; rebuild and commit evidence/build"

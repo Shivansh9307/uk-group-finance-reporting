@@ -35,7 +35,7 @@ SCOPES = ("committed", "full")
 
 _FILE_RE = re.compile(r"^(\d{3})_([a-z0-9][a-z0-9_]*)\.sql$")
 _GO_RE = re.compile(r"^\s*GO(?:\s+\d+)?\s*(?:--.*)?$", re.IGNORECASE)
-_HEADER_RE = re.compile(r"^\s*--\s*(phase|scope|test|marker)\s*:\s*(.+?)\s*$", re.IGNORECASE)
+_HEADER_RE = re.compile(r"^\s*--\s*(phase|scope|test|marker|requires)\s*:\s*(.+?)\s*$", re.IGNORECASE)
 
 
 class SqlLayoutError(ValueError):
@@ -98,7 +98,7 @@ def _only_comments(body: str) -> bool:
 
 
 def header_directives(text: str, limit: int = 12) -> dict[str, str]:
-    """`-- key: value` lines among the first `limit` lines (phase, scope, test, marker)."""
+    """`-- key: value` lines among the first `limit` lines (phase, scope, test, marker, requires)."""
     found: dict[str, str] = {}
     for line in text.splitlines()[:limit]:
         m = _HEADER_RE.match(line)
