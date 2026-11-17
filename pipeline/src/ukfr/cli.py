@@ -130,10 +130,15 @@ def _build(args) -> int:
 
 
 def _control(args) -> int:
-    from .controls import inyear_independent
-
     root = find_repo_root()
-    path = inyear_independent.run(root, args.out)
+    if args.what == "inyear":
+        from .controls import inyear_independent
+
+        path = inyear_independent.run(root, args.out)
+    else:
+        from .controls import bud_independent
+
+        path = (bud_independent.run_bud if args.what == "bud" else bud_independent.run_pss)(root, args.out)
     print(f"wrote {path}")
     return 0
 
@@ -168,8 +173,8 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--list-stages", action="store_true", help="print the load stages and exit")
     b.set_defaults(func=_build)
     c = sub.add_parser("control", help="independent recomputation of source-file controls")
-    c.add_argument("what", choices=["inyear"])
-    c.add_argument("--out", type=Path, help="output CSV (default data/audit/inyear_independent_control.csv)")
+    c.add_argument("what", choices=["inyear", "bud", "pss"])
+    c.add_argument("--out", type=Path, help="output CSV (default data/audit/<what>_independent_control.csv)")
     c.set_defaults(func=_control)
     args = ap.parse_args(argv)
     return args.func(args)
