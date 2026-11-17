@@ -85,6 +85,13 @@ def _profile(args) -> int:
             mfo.run(root, raw, args.cache_dir, scans)
     if args.what in ("plans", "all"):
         plans.run(root, raw)
+    if args.what in ("inyear", "bud", "all"):
+        from .profile import bud, inyear
+
+        if args.what != "bud":
+            inyear.run(root)
+        if args.what != "inyear":
+            bud.run(root)  # reads inyear's BEIS output, so it runs after it
     return 0
 
 
@@ -104,7 +111,7 @@ def main(argv: list[str] | None = None) -> int:
     z.add_argument("--encoding", default="utf-8")
     z.set_defaults(func=_zip_head)
     p = sub.add_parser("profile", help="profile source files and write docs/profiling/data and data/audit CSVs")
-    p.add_argument("what", choices=["extract", "mfo", "plans", "all"])
+    p.add_argument("what", choices=["extract", "mfo", "plans", "inyear", "bud", "all"])
     p.add_argument("--cache-dir", type=Path, help="keep full-stream scan results here and reuse them")
     p.set_defaults(func=_profile)
     args = ap.parse_args(argv)

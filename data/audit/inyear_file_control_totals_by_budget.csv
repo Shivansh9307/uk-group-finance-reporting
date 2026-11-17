@@ -1,0 +1,225 @@
+release,filename,dimension,value,rows,amount
+2019-03,OSCAR_in-year_dataset_21Mar2019.zip,control_budget_code,AME,8813,273172920
+2019-03,OSCAR_in-year_dataset_21Mar2019.zip,control_budget_code,DEL,37398,279449139
+2019-03,OSCAR_in-year_dataset_21Mar2019.zip,control_budget_code,NON-BUDGET,1047,87243600
+2019-03,OSCAR_in-year_dataset_21Mar2019.zip,economic_budget_code,CAPITAL,7951,52348443
+2019-03,OSCAR_in-year_dataset_21Mar2019.zip,economic_budget_code,OTHER NON-BUDGET,38,45684160
+2019-03,OSCAR_in-year_dataset_21Mar2019.zip,economic_budget_code,RESOURCE,38496,503978446
+2019-03,OSCAR_in-year_dataset_21Mar2019.zip,economic_budget_code,n/a,773,37854610
+2019-06,OSCAR_in-year_dataset_21_Jun_2019.zip,control_budget_code,AME,12464,245895976
+2019-06,OSCAR_in-year_dataset_21_Jun_2019.zip,control_budget_code,DEL,51461,390649513
+2019-06,OSCAR_in-year_dataset_21_Jun_2019.zip,control_budget_code,NON-BUDGET,1434,113409952
+2019-06,OSCAR_in-year_dataset_21_Jun_2019.zip,economic_budget_code,CAPITAL,11163,69314995
+2019-06,OSCAR_in-year_dataset_21_Jun_2019.zip,economic_budget_code,OTHER NON-BUDGET,53,62383912
+2019-06,OSCAR_in-year_dataset_21_Jun_2019.zip,economic_budget_code,RESOURCE,53114,560083850
+2019-06,OSCAR_in-year_dataset_21_Jun_2019.zip,economic_budget_code,n/a,1029,58172684
+2019-09,OSCAR_in_year_dataset_September_2019.zip,control_budget_code,AME,2585,91890014
+2019-09,OSCAR_in_year_dataset_September_2019.zip,control_budget_code,DEL,11676,103421081
+2019-09,OSCAR_in_year_dataset_September_2019.zip,control_budget_code,NON-BUDGET,304,21797596
+2019-09,OSCAR_in_year_dataset_September_2019.zip,economic_budget_code,CAPITAL,2373,20882380
+2019-09,OSCAR_in_year_dataset_September_2019.zip,economic_budget_code,OTHER NON-BUDGET,7,8246997
+2019-09,OSCAR_in_year_dataset_September_2019.zip,economic_budget_code,RESOURCE,11925,170520086
+2019-09,OSCAR_in_year_dataset_September_2019.zip,economic_budget_code,n/a,260,17459228
+2019-12,OSCAR_in_year_dataset_December_2019.zip,control_budget_code,AME,8652,185104252
+2019-12,OSCAR_in_year_dataset_December_2019.zip,control_budget_code,DEL,38832,203788996
+2019-12,OSCAR_in_year_dataset_December_2019.zip,control_budget_code,NON-BUDGET,870,40173938
+2019-12,OSCAR_in_year_dataset_December_2019.zip,economic_budget_code,CAPITAL,9678,38938634
+2019-12,OSCAR_in_year_dataset_December_2019.zip,economic_budget_code,OTHER NON-BUDGET,42,23619149
+2019-12,OSCAR_in_year_dataset_December_2019.zip,economic_budget_code,RESOURCE,37872,329835338
+2019-12,OSCAR_in_year_dataset_December_2019.zip,economic_budget_code,n/a,762,36674065
+2020-03,OSCAR_in_year_dataset_March_2020.zip,control_budget_code,AME,8615,268622411
+2020-03,OSCAR_in_year_dataset_March_2020.zip,control_budget_code,DEL,39005,307574885
+2020-03,OSCAR_in_year_dataset_March_2020.zip,control_budget_code,NON-BUDGET,953,85364091
+2020-03,OSCAR_in_year_dataset_March_2020.zip,economic_budget_code,CAPITAL,8313,59978140
+2020-03,OSCAR_in_year_dataset_March_2020.zip,economic_budget_code,OTHER NON-BUDGET,60,37146963
+2020-03,OSCAR_in_year_dataset_March_2020.zip,economic_budget_code,RESOURCE,39336,506684663
+2020-03,OSCAR_in_year_dataset_March_2020.zip,economic_budget_code,n/a,864,57751621
+2020-06,OSCAR_in_year_dataset_June_2020.zip,control_budget_code,AME,11993,429094689
+2020-06,OSCAR_in_year_dataset_June_2020.zip,control_budget_code,DEL,52727,423501638
+2020-06,OSCAR_in_year_dataset_June_2020.zip,control_budget_code,NON-BUDGET,1286,116260380
+2020-06,OSCAR_in_year_dataset_June_2020.zip,economic_budget_code,CAPITAL,11622,89693726
+2020-06,OSCAR_in_year_dataset_June_2020.zip,economic_budget_code,OTHER NON-BUDGET,81,48078806
+2020-06,OSCAR_in_year_dataset_June_2020.zip,economic_budget_code,RESOURCE,53164,752493937
+2020-06,OSCAR_in_year_dataset_June_2020.zip,economic_budget_code,n/a,1139,78590238
+2020-09,OSCAR_in_year_dataset_Sep_2020.zip,control_budget_code,AME,4044,87447929
+2020-09,OSCAR_in_year_dataset_Sep_2020.zip,control_budget_code,DEL,17700,157768739
+2020-09,OSCAR_in_year_dataset_Sep_2020.zip,control_budget_code,NON-BUDGET,285,-2089900
+2020-09,OSCAR_in_year_dataset_Sep_2020.zip,economic_budget_code,CAPITAL,4560,25408836
+2020-09,OSCAR_in_year_dataset_Sep_2020.zip,economic_budget_code,OTHER NON-BUDGET,18,11356534
+2020-09,OSCAR_in_year_dataset_Sep_2020.zip,economic_budget_code,RESOURCE,17244,218995930
+2020-09,OSCAR_in_year_dataset_Sep_2020.zip,economic_budget_code,n/a,207,-12634532
+2020-12,OSCAR_in_year_dataset_December_2020.zip,control_budget_code,AME,8640,261470842
+2020-12,OSCAR_in_year_dataset_December_2020.zip,control_budget_code,DEL,40044,275388184
+2020-12,OSCAR_in_year_dataset_December_2020.zip,control_budget_code,NON-BUDGET,750,10509399
+2020-12,OSCAR_in_year_dataset_December_2020.zip,economic_budget_code,CAPITAL,10446,51264425
+2020-12,OSCAR_in_year_dataset_December_2020.zip,economic_budget_code,OTHER NON-BUDGET,42,32704031
+2020-12,OSCAR_in_year_dataset_December_2020.zip,economic_budget_code,RESOURCE,38358,483853569
+2020-12,OSCAR_in_year_dataset_December_2020.zip,economic_budget_code,n/a,588,-20453600
+2021-03,OSCAR_in_year_dataset_March_2021.zip,control_budget_code,AME,14328,362784828
+2021-03,OSCAR_in_year_dataset_March_2021.zip,control_budget_code,DEL,63792,414881521
+2021-03,OSCAR_in_year_dataset_March_2021.zip,control_budget_code,NON-BUDGET,1134,14408576
+2021-03,OSCAR_in_year_dataset_March_2021.zip,economic_budget_code,CAPITAL,16731,81688339
+2021-03,OSCAR_in_year_dataset_March_2021.zip,economic_budget_code,OTHER NON-BUDGET,72,48401794
+2021-03,OSCAR_in_year_dataset_March_2021.zip,economic_budget_code,RESOURCE,61578,693237921
+2021-03,OSCAR_in_year_dataset_March_2021.zip,economic_budget_code,n/a,873,-31253129
+2021-06,OSCAR_in_year_dataset_June_2021.zip,control_budget_code,AME,20688,535511231
+2021-06,OSCAR_in_year_dataset_June_2021.zip,control_budget_code,DEL,90612,575941962
+2021-06,OSCAR_in_year_dataset_June_2021.zip,control_budget_code,NON-BUDGET,1956,28154049
+2021-06,OSCAR_in_year_dataset_June_2021.zip,economic_budget_code,CAPITAL,24588,129063207
+2021-06,OSCAR_in_year_dataset_June_2021.zip,economic_budget_code,OTHER NON-BUDGET,84,61720699
+2021-06,OSCAR_in_year_dataset_June_2021.zip,economic_budget_code,RESOURCE,87144,978750366
+2021-06,OSCAR_in_year_dataset_June_2021.zip,economic_budget_code,n/a,1440,-29927030
+2021-09,OSCAR_in_year_dataset_Sep_2021.zip,control_budget_code,AME,4068,130578393
+2021-09,OSCAR_in_year_dataset_Sep_2021.zip,control_budget_code,DEL,18330,146601839
+2021-09,OSCAR_in_year_dataset_Sep_2021.zip,control_budget_code,NON-BUDGET,375,11731523
+2021-09,OSCAR_in_year_dataset_Sep_2021.zip,economic_budget_code,CAPITAL,5109,45665498
+2021-09,OSCAR_in_year_dataset_Sep_2021.zip,economic_budget_code,NA,270,-8903071
+2021-09,OSCAR_in_year_dataset_Sep_2021.zip,economic_budget_code,OTHER NON-BUDGET,15,21771813
+2021-09,OSCAR_in_year_dataset_Sep_2021.zip,economic_budget_code,RESOURCE,17379,230377515
+2021-12,OSCAR_in_year_dataset_Dec_2021.zip,control_budget_code,AME,8556,200126105
+2021-12,OSCAR_in_year_dataset_Dec_2021.zip,control_budget_code,DEL,39108,271005460
+2021-12,OSCAR_in_year_dataset_Dec_2021.zip,control_budget_code,NON-BUDGET,780,19846538
+2021-12,OSCAR_in_year_dataset_Dec_2021.zip,economic_budget_code,CAPITAL,10932,43603077
+2021-12,OSCAR_in_year_dataset_Dec_2021.zip,economic_budget_code,NA,552,-19744425
+2021-12,OSCAR_in_year_dataset_Dec_2021.zip,economic_budget_code,OTHER NON-BUDGET,30,41953514
+2021-12,OSCAR_in_year_dataset_Dec_2021.zip,economic_budget_code,RESOURCE,36930,425165937
+2022-03,OSCAR_in_year_dataset_Mar_2022.zip,control_budget_code,AME,14202,435772502
+2022-03,OSCAR_in_year_dataset_Mar_2022.zip,control_budget_code,DEL,62595,392466544
+2022-03,OSCAR_in_year_dataset_Mar_2022.zip,control_budget_code,NON-BUDGET,1179,34076434
+2022-03,OSCAR_in_year_dataset_Mar_2022.zip,economic_budget_code,CAPITAL,17721,65952420
+2022-03,OSCAR_in_year_dataset_Mar_2022.zip,economic_budget_code,NA,846,-33137203
+2022-03,OSCAR_in_year_dataset_Mar_2022.zip,economic_budget_code,OTHER NON-BUDGET,45,70640928
+2022-03,OSCAR_in_year_dataset_Mar_2022.zip,economic_budget_code,RESOURCE,59364,758859335
+2022-06,OSCAR_in_year_dataset_June_2022.zip,control_budget_code,AME,20400,641469587
+2022-06,OSCAR_in_year_dataset_June_2022.zip,control_budget_code,DEL,86436,555563023
+2022-06,OSCAR_in_year_dataset_June_2022.zip,control_budget_code,NON-BUDGET,1680,39253067
+2022-06,OSCAR_in_year_dataset_June_2022.zip,economic_budget_code,CAPITAL,24936,108304291
+2022-06,OSCAR_in_year_dataset_June_2022.zip,economic_budget_code,NA,1116,-43110635
+2022-06,OSCAR_in_year_dataset_June_2022.zip,economic_budget_code,OTHER NON-BUDGET,60,86949717
+2022-06,OSCAR_in_year_dataset_June_2022.zip,economic_budget_code,RESOURCE,82404,1084142304
+2022-09,OSCAR_in_year_dataset_Sep_2022.zip,control_budget_code,AME,4152,160031387
+2022-09,OSCAR_in_year_dataset_Sep_2022.zip,control_budget_code,DEL,19257,131639033
+2022-09,OSCAR_in_year_dataset_Sep_2022.zip,control_budget_code,NON-BUDGET,378,4550962
+2022-09,OSCAR_in_year_dataset_Sep_2022.zip,economic_budget_code,CAPITAL,5304,26429630
+2022-09,OSCAR_in_year_dataset_Sep_2022.zip,economic_budget_code,NA,261,-11853280
+2022-09,OSCAR_in_year_dataset_Sep_2022.zip,economic_budget_code,OTHER NON-BUDGET,24,18327360
+2022-09,OSCAR_in_year_dataset_Sep_2022.zip,economic_budget_code,RESOURCE,18198,263317672
+2022-12,OSCAR_in_year_dataset_Dec_2022.zip,control_budget_code,TOTAL AME,5639,324652661
+2022-12,OSCAR_in_year_dataset_Dec_2022.zip,control_budget_code,TOTAL DEL,27190,258614757
+2022-12,OSCAR_in_year_dataset_Dec_2022.zip,control_budget_code,TOTAL NON-BUDGET,581,11327613
+2022-12,OSCAR_in_year_dataset_Dec_2022.zip,economic_budget_code,CAPITAL,6226,47198761
+2022-12,OSCAR_in_year_dataset_Dec_2022.zip,economic_budget_code,NA,451,-29878202
+2022-12,OSCAR_in_year_dataset_Dec_2022.zip,economic_budget_code,OTHER NON-BUDGET,30,43473769
+2022-12,OSCAR_in_year_dataset_Dec_2022.zip,economic_budget_code,RESOURCE,26703,533800703
+2023-03,OSCAR_in_year_dataset_Mar_2023.zip,control_budget_code,TOTAL AME,8785,364733053.899044
+2023-03,OSCAR_in_year_dataset_Mar_2023.zip,control_budget_code,TOTAL DEL,41837,394923592.190739298
+2023-03,OSCAR_in_year_dataset_Mar_2023.zip,control_budget_code,TOTAL NON-BUDGET,848,17312350.59
+2023-03,OSCAR_in_year_dataset_Mar_2023.zip,economic_budget_code,CAPITAL,9730,87432708.087054
+2023-03,OSCAR_in_year_dataset_Mar_2023.zip,economic_budget_code,NA,655,-44798423.18
+2023-03,OSCAR_in_year_dataset_Mar_2023.zip,economic_budget_code,OTHER NON-BUDGET,37,65249299
+2023-03,OSCAR_in_year_dataset_Mar_2023.zip,economic_budget_code,RESOURCE,41048,669085412.772729298
+2023-06,OSCAR_in_year_dataset_June_2023.zip,control_budget_code,TOTAL AME,12538,429833149.617992
+2023-06,OSCAR_in_year_dataset_June_2023.zip,control_budget_code,TOTAL DEL,57524,548830529.92710
+2023-06,OSCAR_in_year_dataset_June_2023.zip,control_budget_code,TOTAL NON-BUDGET,1150,27700647.0
+2023-06,OSCAR_in_year_dataset_June_2023.zip,economic_budget_code,CAPITAL,13833,129172955.371462
+2023-06,OSCAR_in_year_dataset_June_2023.zip,economic_budget_code,NA,877,-58591454.77
+2023-06,OSCAR_in_year_dataset_June_2023.zip,economic_budget_code,OTHER NON-BUDGET,50,90048747
+2023-06,OSCAR_in_year_dataset_June_2023.zip,economic_budget_code,RESOURCE,56452,845734078.94363
+2023-09,OSCAR_in_year_dataset_September_2023.zip,control_budget_code,TOTAL AME,2754,163856460.94697
+2023-09,OSCAR_in_year_dataset_September_2023.zip,control_budget_code,TOTAL DEL,13699,141478758.02057769
+2023-09,OSCAR_in_year_dataset_September_2023.zip,control_budget_code,TOTAL NON-BUDGET,279,15707118
+2023-09,OSCAR_in_year_dataset_September_2023.zip,economic_budget_code,CAPITAL,3171,36985775.99709
+2023-09,OSCAR_in_year_dataset_September_2023.zip,economic_budget_code,NA,202,-7066154
+2023-09,OSCAR_in_year_dataset_September_2023.zip,economic_budget_code,OTHER NON-BUDGET,12,22968428
+2023-09,OSCAR_in_year_dataset_September_2023.zip,economic_budget_code,RESOURCE,13347,268154286.97045769
+2023-12,OSCAR_in_year_dataset_December_2023.zip,control_budget_code,TOTAL AME,5854,291021886.00000
+2023-12,OSCAR_in_year_dataset_December_2023.zip,control_budget_code,TOTAL DEL,28111,275165051.6276947
+2023-12,OSCAR_in_year_dataset_December_2023.zip,control_budget_code,TOTAL NON-BUDGET,547,29795493
+2023-12,OSCAR_in_year_dataset_December_2023.zip,economic_budget_code,CAPITAL,6581,73819731.4120
+2023-12,OSCAR_in_year_dataset_December_2023.zip,economic_budget_code,NA,389,-14831305
+2023-12,OSCAR_in_year_dataset_December_2023.zip,economic_budget_code,OTHER NON-BUDGET,24,44707230
+2023-12,OSCAR_in_year_dataset_December_2023.zip,economic_budget_code,RESOURCE,27518,492286774.2156947
+2024-03,OSCAR_in_year_dataset_March_2024.zip,control_budget_code,TOTAL AME,9023,394572433.8562589999999893419
+2024-03,OSCAR_in_year_dataset_March_2024.zip,control_budget_code,TOTAL DEL,42879,421082292.45847150
+2024-03,OSCAR_in_year_dataset_March_2024.zip,control_budget_code,TOTAL NON-BUDGET,828,49142922.0957
+2024-03,OSCAR_in_year_dataset_March_2024.zip,economic_budget_code,CAPITAL,10340,112923460.61558000
+2024-03,OSCAR_in_year_dataset_March_2024.zip,economic_budget_code,NA,586,-21891325.944
+2024-03,OSCAR_in_year_dataset_March_2024.zip,economic_budget_code,OTHER NON-BUDGET,38,71160959
+2024-03,OSCAR_in_year_dataset_March_2024.zip,economic_budget_code,RESOURCE,41766,702604554.7388504999999893419
+2024-06,OSCAR_in-year_dataset.zip,control_budget_code,TOTAL AME,12876,498012010.2644679999999893419
+2024-06,OSCAR_in-year_dataset.zip,control_budget_code,TOTAL DEL,59186,595834926.05409120
+2024-06,OSCAR_in-year_dataset.zip,control_budget_code,TOTAL NON-BUDGET,1158,66638099.3057
+2024-06,OSCAR_in-year_dataset.zip,economic_budget_code,CAPITAL,14768,179248630.49041000
+2024-06,OSCAR_in-year_dataset.zip,economic_budget_code,NA,816,-24873114.734
+2024-06,OSCAR_in-year_dataset.zip,economic_budget_code,OTHER NON-BUDGET,53,92168847
+2024-06,OSCAR_in-year_dataset.zip,economic_budget_code,RESOURCE,57583,913940672.8678491999999893419
+2024-09,OSCAR_in_year_dataset_September_2024.zip,control_budget_code,TOTAL AME,3062,140165621.128540081
+2024-09,OSCAR_in_year_dataset_September_2024.zip,control_budget_code,TOTAL DEL,14031,144675465.807888021
+2024-09,OSCAR_in_year_dataset_September_2024.zip,control_budget_code,TOTAL NON-BUDGET,238,14113168.99999999
+2024-09,OSCAR_in_year_dataset_September_2024.zip,economic_budget_code,CAPITAL,3532,37005864.9917001
+2024-09,OSCAR_in_year_dataset_September_2024.zip,economic_budget_code,NA,163,-7824060.00000001
+2024-09,OSCAR_in_year_dataset_September_2024.zip,economic_budget_code,OTHER NON-BUDGET,13,24284818
+2024-09,OSCAR_in_year_dataset_September_2024.zip,economic_budget_code,RESOURCE,13623,245487632.944728002
+2024-12,OSCAR_in_year_dataset_December_2024.zip,control_budget_code,TOTAL AME,6231,267729750.104244992
+2024-12,OSCAR_in_year_dataset_December_2024.zip,control_budget_code,TOTAL DEL,28560,285966002.366287742
+2024-12,OSCAR_in_year_dataset_December_2024.zip,control_budget_code,TOTAL NON-BUDGET,603,36719478.58308
+2024-12,OSCAR_in_year_dataset_December_2024.zip,economic_budget_code,CAPITAL,7150,75608782.2567478
+2024-12,OSCAR_in_year_dataset_December_2024.zip,economic_budget_code,NA,465,-12972657.167
+2024-12,OSCAR_in_year_dataset_December_2024.zip,economic_budget_code,OTHER NON-BUDGET,28,49408749
+2024-12,OSCAR_in_year_dataset_December_2024.zip,economic_budget_code,RESOURCE,27751,478370356.963864934
+2025-03,OSCAR_in_year_dataset_March_2025.zip,control_budget_code,TOTAL AME,9447,430840972.171112701
+2025-03,OSCAR_in_year_dataset_March_2025.zip,control_budget_code,TOTAL DEL,43641,444611464.72496093
+2025-03,OSCAR_in_year_dataset_March_2025.zip,control_budget_code,TOTAL NON-BUDGET,890,50579815.558064
+2025-03,OSCAR_in_year_dataset_March_2025.zip,economic_budget_code,CAPITAL,10814,113484927.73892579
+2025-03,OSCAR_in_year_dataset_March_2025.zip,economic_budget_code,NA,643,-22357323.833
+2025-03,OSCAR_in_year_dataset_March_2025.zip,economic_budget_code,OTHER NON-BUDGET,43,72679357
+2025-03,OSCAR_in_year_dataset_March_2025.zip,economic_budget_code,RESOURCE,42478,762225291.548211841
+2025-06,OSCAR_in_year_dataset_June_2025.zip,control_budget_code,TOTAL AME,13936,542168415
+2025-06,OSCAR_in_year_dataset_June_2025.zip,control_budget_code,TOTAL DEL,60280,620635447
+2025-06,OSCAR_in_year_dataset_June_2025.zip,control_budget_code,TOTAL NON-BUDGET,1218,65059288
+2025-06,OSCAR_in_year_dataset_June_2025.zip,economic_budget_code,CAPITAL,15805,175197326
+2025-06,OSCAR_in_year_dataset_June_2025.zip,economic_budget_code,NA,938,-29166366
+2025-06,OSCAR_in_year_dataset_June_2025.zip,economic_budget_code,OTHER NON-BUDGET,57,94868633
+2025-06,OSCAR_in_year_dataset_June_2025.zip,economic_budget_code,RESOURCE,58634,986963557
+2025-09,OSCAR_in_year_dataset_September_2025.zip,control_budget_code,TOTAL AME,3155,136266126
+2025-09,OSCAR_in_year_dataset_September_2025.zip,control_budget_code,TOTAL DEL,13023,157600696
+2025-09,OSCAR_in_year_dataset_September_2025.zip,control_budget_code,TOTAL NON-BUDGET,298,10589560
+2025-09,OSCAR_in_year_dataset_September_2025.zip,economic_budget_code,CAPITAL,3382,35869867
+2025-09,OSCAR_in_year_dataset_September_2025.zip,economic_budget_code,NA,242,-9385582
+2025-09,OSCAR_in_year_dataset_September_2025.zip,economic_budget_code,OTHER NON-BUDGET,10,19984841
+2025-09,OSCAR_in_year_dataset_September_2025.zip,economic_budget_code,RESOURCE,12842,257987256
+2025-12,OSCAR_in_year_dataset_December_2025.zip,control_budget_code,TOTAL AME,7017,257237409
+2025-12,OSCAR_in_year_dataset_December_2025.zip,control_budget_code,TOTAL DEL,26818,312619115
+2025-12,OSCAR_in_year_dataset_December_2025.zip,control_budget_code,TOTAL NON-BUDGET,534,31520984
+2025-12,OSCAR_in_year_dataset_December_2025.zip,economic_budget_code,CAPITAL,7001,68971043
+2025-12,OSCAR_in_year_dataset_December_2025.zip,economic_budget_code,NA,429,-21268435
+2025-12,OSCAR_in_year_dataset_December_2025.zip,economic_budget_code,OTHER NON-BUDGET,28,52353337
+2025-12,OSCAR_in_year_dataset_December_2025.zip,economic_budget_code,RESOURCE,26911,501321563
+2026-03,OSCAR_in_year_dataset_March_2026.zip,control_budget_code,TOTAL AME,11799,423261865.61374399801342867683772161603
+2026-03,OSCAR_in_year_dataset_March_2026.zip,control_budget_code,TOTAL DEL,40995,475686686.9222277020141223428784304040081
+2026-03,OSCAR_in_year_dataset_March_2026.zip,control_budget_code,TOTAL NON-BUDGET,810,47868671.105070000939
+2026-03,OSCAR_in_year_dataset_March_2026.zip,economic_budget_code,CAPITAL,10882,115326066.382280000046328499481430404008
+2026-03,OSCAR_in_year_dataset_March_2026.zip,economic_budget_code,NA,652,-32721817.6860399991000024
+2026-03,OSCAR_in_year_dataset_March_2026.zip,economic_budget_code,OTHER NON-BUDGET,43,80552462
+2026-03,OSCAR_in_year_dataset_March_2026.zip,economic_budget_code,RESOURCE,42027,783660512.9448017000202249202347216160301
+2026-03,OSCAR_in_year_dataset_March_2026.ods,control_budget_code,TOTAL AME,11799,423261865.61374399801342867683772161603
+2026-03,OSCAR_in_year_dataset_March_2026.ods,control_budget_code,TOTAL DEL,40995,475686686.9222277020141223428784304040081
+2026-03,OSCAR_in_year_dataset_March_2026.ods,control_budget_code,TOTAL NON-BUDGET,810,47868671.105070000939
+2026-03,OSCAR_in_year_dataset_March_2026.ods,economic_budget_code,CAPITAL,10882,115326066.382280000046328499481430404008
+2026-03,OSCAR_in_year_dataset_March_2026.ods,economic_budget_code,NA,652,-32721817.6860399991000024
+2026-03,OSCAR_in_year_dataset_March_2026.ods,economic_budget_code,OTHER NON-BUDGET,43,80552462
+2026-03,OSCAR_in_year_dataset_March_2026.ods,economic_budget_code,RESOURCE,42027,783660512.9448017000202249202347216160301
+2026-06,OSCAR_in_year_dataset_June_2026.zip,control_budget_code,TOTAL AME,16511,559872086.419134000000113687
+2026-06,OSCAR_in_year_dataset_June_2026.zip,control_budget_code,TOTAL DEL,56886,671195851.2484783000000320217
+2026-06,OSCAR_in_year_dataset_June_2026.zip,control_budget_code,TOTAL NON-BUDGET,1123,62575345.60406
+2026-06,OSCAR_in_year_dataset_June_2026.zip,economic_budget_code,CAPITAL,15619,179459734.7414300000000284217
+2026-06,OSCAR_in_year_dataset_June_2026.zip,economic_budget_code,NA,949,-42337697.004
+2026-06,OSCAR_in_year_dataset_June_2026.zip,economic_budget_code,OTHER NON-BUDGET,58,105798074
+2026-06,OSCAR_in_year_dataset_June_2026.zip,economic_budget_code,RESOURCE,57894,1050723171.534242300000117287
+2026-09,OSCAR_in_year_dataset_Sep_2026.csv,control_budget_code,TOTAL AME,4319,142411783.73465909
+2026-09,OSCAR_in_year_dataset_Sep_2026.csv,control_budget_code,TOTAL DEL,12510,158857017.250966201
+2026-09,OSCAR_in_year_dataset_Sep_2026.csv,control_budget_code,TOTAL NON-BUDGET,273,14323902.9994011
+2026-09,OSCAR_in_year_dataset_Sep_2026.csv,economic_budget_code,CAPITAL,3649,39523348.3712592
+2026-09,OSCAR_in_year_dataset_Sep_2026.csv,economic_budget_code,NA,212,-9540248
+2026-09,OSCAR_in_year_dataset_Sep_2026.csv,economic_budget_code,OTHER NON-BUDGET,13,28107422
+2026-09,OSCAR_in_year_dataset_Sep_2026.csv,economic_budget_code,RESOURCE,13228,257502181.613767191
