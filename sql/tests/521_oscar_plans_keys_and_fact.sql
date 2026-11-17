@@ -1,5 +1,6 @@
 -- test: every OSCAR plan key has one department group and one Spending Review group, every plan row has an amount that parses, all rows are PLANS rows with a recognised control budget, and the grain A rows of dw.fact_plan carry the whole OSCAR total
 -- marker: localdata
+-- requires: raw.plan_oscar, raw.plan_oscar_expected, raw.plan_source_file, stg.plan_oscar
 SELECT 'key with more than one department group or Spending Review group' AS problem, financial_year AS k1, organisation_code AS k2, NULL AS k3
 FROM (
     SELECT o.year_short_name AS financial_year, o.organisation_code
@@ -32,6 +33,10 @@ UNION ALL
 SELECT 'fact grain A total differs from the raw plan rows', financial_year, NULL, CAST(f.amount AS varchar(40))
 FROM (SELECT financial_year, SUM(amount) AS amount FROM dw.fact_plan WHERE grain_code = 'A' GROUP BY financial_year) AS f
 WHERE f.amount <> (SELECT SUM(CAST(LTRIM(RTRIM(o.amount_text)) AS decimal(19,4))) FROM raw.plan_oscar AS o WHERE o.year_short_name = f.financial_year)
+UNION ALL
+SELECT 'fact grain A total differs from stg.plan_oscar', f.financial_year, NULL, CAST(f.amount AS varchar(40))
+FROM (SELECT financial_year, SUM(amount) AS amount FROM dw.fact_plan WHERE grain_code = 'A' GROUP BY financial_year) AS f
+WHERE f.amount <> (SELECT SUM(amount) FROM stg.plan_oscar AS s WHERE s.financial_year = f.financial_year)
 UNION ALL
 SELECT 'raw plan row count differs from stg source rows', NULL, NULL, CAST(COUNT(*) AS varchar(20))
 FROM raw.plan_oscar

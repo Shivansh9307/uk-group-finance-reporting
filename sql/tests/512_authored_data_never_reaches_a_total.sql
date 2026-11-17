@@ -1,4 +1,4 @@
--- test: nothing authored can reach a real total: the authored plan tables hold no amount columns, the plan dimensions hold no amounts, and the fact total of each grain equals the total of the published figures it comes from
+-- test: nothing authored can reach a real total: the authored plan tables hold no amount columns, the plan dimensions hold no amounts, and the fact total of the Estimates grains equals the total of the published figures they come from (grain A is checked in 521)
 SELECT s.name + '.' + t.name AS object_name, c.name AS detail, ty.name AS type_name, 'authored table has a numeric column' AS problem
 FROM sys.columns AS c
 JOIN sys.tables AS t ON t.object_id = c.object_id
@@ -13,10 +13,6 @@ JOIN sys.tables AS t ON t.object_id = c.object_id
 JOIN sys.schemas AS s ON s.schema_id = t.schema_id
 WHERE s.name = 'dw' AND t.name IN ('dim_sr_group', 'dim_plan_source', 'dim_plan_grain')
   AND c.name IN ('amount', 'amount_k', 'amount_total', 'value')
-UNION ALL
-SELECT 'grain A', NULL, CAST(SUM(amount) AS varchar(40)), 'fact total differs from stg.plan_oscar'
-FROM dw.fact_plan WHERE grain_code = 'A'
-HAVING SUM(amount) <> (SELECT COALESCE(SUM(amount), 0) FROM stg.plan_oscar)
 UNION ALL
 SELECT 'grain B and C', NULL, CAST(SUM(amount) AS varchar(40)), 'fact total differs from the final-plan Estimates lines'
 FROM dw.fact_plan WHERE grain_code IN ('B', 'C')

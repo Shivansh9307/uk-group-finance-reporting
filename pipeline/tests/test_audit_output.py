@@ -70,9 +70,12 @@ def test_the_audit_export_is_deterministic_and_matches_the_committed_evidence(db
     if scope == "full":
         assert committed_names <= set(exported), sorted(committed_names - set(exported))
         return
-    assert committed_names == set(exported), (sorted(committed_names - set(exported)), sorted(set(exported) - committed_names))
+    assert committed_names == set(exported), (
+        sorted(committed_names - set(exported)),
+        sorted(set(exported) - committed_names),
+    )
     for name in sorted(committed_names):
-        want = (committed / name).read_bytes().replace(b"
-", b"
-")
-        assert want == exported[name].read_bytes(), f"{name} differs from the committed copy; rebuild and commit evidence/build"
+        want = (committed / name).read_bytes().replace(b"\r\n", b"\n")
+        assert want == exported[name].read_bytes(), (
+            f"{name} differs from the committed copy; rebuild and commit evidence/build"
+        )

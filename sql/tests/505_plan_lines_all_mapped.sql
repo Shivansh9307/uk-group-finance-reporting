@@ -7,11 +7,6 @@ SELECT 'pesa', edition, row_label_clean, 'line has no entry in stg.plan_name_map
 FROM stg.plan_pesa_line WHERE row_kind = 'line' AND target_name IS NULL
 GROUP BY edition, row_label_clean
 UNION ALL
-SELECT 'oscar', year_short_name, sr_group_name, 'SR group has no entry in stg.plan_name_map'
-FROM raw.plan_oscar AS o
-WHERE NOT EXISTS (SELECT 1 FROM stg.plan_name_map AS m WHERE m.name_family = 'oscar_extract' AND m.plan_name = o.sr_group_name)
-GROUP BY year_short_name, sr_group_name
-UNION ALL
 SELECT 'map', m.name_family, m.plan_name, 'target is not in dw.dim_sr_group with the same type'
 FROM stg.plan_name_map AS m
 WHERE NOT EXISTS (SELECT 1 FROM dw.dim_sr_group AS g WHERE g.sr_group_name = m.target_name AND g.member_type = m.target_type)

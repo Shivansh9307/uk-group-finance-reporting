@@ -1,6 +1,6 @@
 -- dw.fact_plan: spending plans, real published numbers only, at four grains (grain_code).
 --   A  OSCAR Plans (FY2017-18 to FY2021-22): financial year x organisation x control budget detail x
---      economic budget. Needs the annual extracts (scope full); empty in a committed-scope build.
+--      economic budget. Needs the annual extracts, so it is added by dw/525 in a full-scope build only.
 --   B  Estimates, FY2023-24 to FY2026-27: financial year x Spending Review group x measure, from the one
 --      final-plan workbook per year (Supplementary Estimate where it exists, Main Estimate for FY2026-27).
 --      Measures: resource DEL excluding depreciation (RDEL_EX_DEPN) and capital DEL (CDEL).
@@ -55,26 +55,7 @@ CREATE TABLE dw.fact_plan (
 );
 GO
 
-WITH oscar AS (
-    SELECT
-        'A' AS grain_code, ps.plan_source_key, o.financial_year, g.sr_group_key, o.organisation_code,
-        o.control_budget_detail, o.economic_budget AS economic_budget,
-        CASE WHEN o.control_budget_detail IN ('DEL PROG', 'DEL ADMIN') AND o.economic_budget = 'RESOURCE' THEN 'RDEL'
-             WHEN o.control_budget_detail IN ('DEL PROG', 'DEL ADMIN') AND o.economic_budget = 'CAPITAL' THEN 'CDEL'
-             WHEN o.control_budget_detail = 'DEPT AME' AND o.economic_budget = 'RESOURCE' THEN 'RAME'
-             WHEN o.control_budget_detail = 'DEPT AME' AND o.economic_budget = 'CAPITAL' THEN 'CAME'
-             WHEN o.control_budget_detail = 'NON-DEPT AME' THEN 'NON_DEPT_AME'
-             WHEN o.control_budget_detail = 'NON-BUDGET' THEN 'NON_BUDGET'
-             ELSE 'UNCLASSIFIED' END AS measure,
-        SUM(o.amount) AS amount, SUM(o.source_rows) AS source_line_count, CAST(0 AS bit) AS is_part_of_other_measure
-    FROM stg.plan_oscar AS o
-    JOIN stg.plan_name_map AS m ON m.name_family = 'oscar_extract' AND m.plan_name = o.sr_group_name
-    JOIN dw.dim_sr_group AS g ON g.sr_group_name = m.target_name
-    JOIN dw.dim_plan_source AS ps ON ps.plan_source_code = 'OSCAR_PLANS_2022_11'
-    GROUP BY ps.plan_source_key, o.financial_year, g.sr_group_key, o.organisation_code, o.control_budget_detail,
-             o.economic_budget
-),
-estimates AS (
+WITH estimates AS (
     SELECT
         CASE WHEN l.year_label = '2022-23' THEN 'C' ELSE 'B' END AS grain_code,
         ps.plan_source_key, l.year_label AS financial_year, g.sr_group_key,
@@ -127,8 +108,7 @@ pesa AS (
     GROUP BY ps.plan_source_key, l.year_label, g.sr_group_key, l.fact_measure
 ),
 allrows AS (
-    SELECT * FROM oscar
-    UNION ALL SELECT * FROM estimates
+    SELECT * FROM estimates
     UNION ALL SELECT * FROM pesa
 )
 INSERT INTO dw.fact_plan
@@ -147,36 +127,7 @@ CREATE UNIQUE INDEX ux_dw_fact_plan_natural ON dw.fact_plan
     (plan_source_key, financial_year, sr_group_key, organisation_code, control_budget_detail, economic_budget, measure);
 GO
 
-UPDATE ps SET fact_plan_rows = c.n
-FROM dw.dim_plan_source AS ps
-JOIN (SELECT plan_source_key, COUNT(*) AS n FROM dw.fact_plan GROUP BY plan_source_key) AS c
-  ON c.plan_source_key = ps.plan_source_key;
-GO
-
-CREATE TABLE dw.plan_coverage (
-    plan_source_key  int            NOT NULL,
-    financial_year   varchar(7)     NOT NULL,
-    measure          varchar(40)    NOT NULL,
-    grain_code       char(1)        NOT NULL,
-    row_count        int            NOT NULL,
-    source_line_count int           NOT NULL,
-    amount_total     decimal(19,4)  NOT NULL,    -- GBP thousands; part measures (ADMIN) are not part of the DEL totals
-    CONSTRAINT pk_dw_plan_coverage PRIMARY KEY (plan_source_key, financial_year, measure, grain_code),
-    CONSTRAINT fk_dw_plan_coverage_source FOREIGN KEY (plan_source_key) REFERENCES dw.dim_plan_source (plan_source_key)
-);
-GO
-
-INSERT INTO dw.plan_coverage (plan_source_key, financial_year, measure, grain_code, row_count, source_line_count, amount_total)
-SELECT plan_source_key, financial_year, measure, grain_code, COUNT(*), SUM(source_line_count), SUM(amount)
-FROM dw.fact_plan
-GROUP BY plan_source_key, financial_year, measure, grain_code;
-GO
-
 EXEC sys.sp_addextendedproperty @name = N'MS_Description',
     @value = N'Spending plans from OSCAR Plans, the Estimates and PESA, at four grains (grain_code). Real published numbers only; the Spending Review group each line belongs to comes from the authored name map. GBP thousands.',
     @level0type = N'SCHEMA', @level0name = N'dw', @level1type = N'TABLE', @level1name = N'fact_plan';
-GO
-EXEC sys.sp_addextendedproperty @name = N'MS_Description',
-    @value = N'What fact_plan holds: rows, source lines and totals by plan source, financial year, measure and grain.',
-    @level0type = N'SCHEMA', @level0name = N'dw', @level1type = N'TABLE', @level1name = N'plan_coverage';
 GO

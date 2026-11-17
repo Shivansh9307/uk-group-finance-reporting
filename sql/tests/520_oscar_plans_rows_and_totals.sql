@@ -1,5 +1,6 @@
 -- test: OSCAR Plans have 8,902 rows at the load grain for FY2019-20 to FY2021-22, the rows read per extract equal the extract's own plan row count, and the totals tie to plan_oscar_totals.csv per year, department group, control budget detail and economic budget (amounts and source row counts)
 -- marker: localdata
+-- requires: raw.plan_oscar, raw.plan_oscar_expected, raw.plan_source_file, stg.plan_oscar
 SELECT 'row count' AS control, '2019-20 to 2021-22' AS key1, CAST(COUNT(*) AS varchar(40)) AS actual, '8902' AS expected
 FROM stg.plan_oscar WHERE financial_year IN ('2019-20', '2020-21', '2021-22')
 HAVING COUNT(*) <> 8902
