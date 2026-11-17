@@ -114,6 +114,7 @@ EXPECTED_COLUMNS = (
     "plans_gbp_thousand",
 )
 
+
 def file_sha256(path: Path) -> str:
     h = hashlib.sha256()
     with open(path, "rb") as fh:
@@ -134,7 +135,11 @@ def manifest_files(repo_root: Path, source_ids: tuple[str, ...]) -> list[tuple[R
     out = []
     for r in read_rows(repo_root / FILES_CSV):
         if r.source_id in source_ids and r.fetched == "yes":
-            path = (data_dir(repo_root) / r.path[len(RAW_PREFIX) :]) if r.path.startswith(RAW_PREFIX) else repo_root / r.path
+            path = (
+                (data_dir(repo_root) / r.path[len(RAW_PREFIX) :])
+                if r.path.startswith(RAW_PREFIX)
+                else repo_root / r.path
+            )
             out.append((r, path))
     return sorted(out, key=lambda x: (x[0].source_id, edition_of(x[0]), x[0].filename))
 

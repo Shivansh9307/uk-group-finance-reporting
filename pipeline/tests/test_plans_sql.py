@@ -28,7 +28,10 @@ def test_estimates_measure_comes_from_the_sheet_title(db):
     """Every sheet of every Estimates workbook gets the measure the profiling read from its title; the sheet
     called 'RDEL' in the 2022-23 Supplementary Estimate is the excluding-depreciation table."""
     expected = {(r["release"], r["sheet"]): r["measure"] for r in read("plan_estimates_inventory.csv")}
-    got = {(r[0], r[1]): r[2] for r in db.query("SELECT DISTINCT edition, sheet, measure_from_title FROM stg.plan_estimates_line")}
+    got = {
+        (r[0], r[1]): r[2]
+        for r in db.query("SELECT DISTINCT edition, sheet, measure_from_title FROM stg.plan_estimates_line")
+    }
     assert got == expected
     assert got[("2022-23-supps", "RDEL")] == "RDEL_EX_DEPN"
     assert got[("2022-23-mains", "RDEL ex")] == "RDEL_EX_DEPN"
@@ -37,16 +40,23 @@ def test_estimates_measure_comes_from_the_sheet_title(db):
     assert got[("2026-27-mains", "RDEL")] == "RDEL"
     final = {
         (r[0], r[1]): r[2]
-        for r in db.query("SELECT DISTINCT edition, sheet, measure FROM stg.plan_estimates_line WHERE edition = '2026-27-mains'")
+        for r in db.query(
+            "SELECT DISTINCT edition, sheet, measure FROM stg.plan_estimates_line WHERE edition = '2026-27-mains'"
+        )
     }
     assert final[("2026-27-mains", "RDEL")] == "RDEL_EX_DEPN"
 
 
 @pytest.mark.db
 def test_the_final_plan_workbook_per_year_is_the_one_the_profiling_chose(db):
-    expected = {(r["release"], r["sheet"]) for r in read("plan_estimates_inventory.csv") if r["best_final_plan_for_year"] == "yes"}
+    expected = {
+        (r["release"], r["sheet"])
+        for r in read("plan_estimates_inventory.csv")
+        if r["best_final_plan_for_year"] == "yes"
+    }
     got = {
-        (r[0], r[1]) for r in db.query("SELECT DISTINCT edition, sheet FROM stg.plan_estimates_line WHERE is_final_plan = 1")
+        (r[0], r[1])
+        for r in db.query("SELECT DISTINCT edition, sheet FROM stg.plan_estimates_line WHERE is_final_plan = 1")
     }
     assert len(expected) == 14
     assert got == expected
@@ -67,7 +77,8 @@ def test_pesa_department_group_sections_equal_the_profiling_inventory(db):
     got = {
         (r[0], r[1], r[2], r[3])
         for r in db.query(
-            "SELECT DISTINCT edition, sheet, section, measure_from_title FROM stg.plan_pesa_line WHERE row_kind = 'line'"
+            "SELECT DISTINCT edition, sheet, section, measure_from_title "
+            "FROM stg.plan_pesa_line WHERE row_kind = 'line'"
         )
     }
     # the ADMIN table of PESA 2026 is read as ADMIN from its title in both
@@ -87,13 +98,15 @@ def _sql_sums(db) -> dict[tuple[str, str, str], Decimal]:
         UNION ALL
         SELECT 'pesa23', target_name, measure_from_title, SUM(amount_k)
         FROM stg.plan_pesa_line
-        WHERE edition = '2023' AND year_label = '2023-24' AND status_label = 'plans' AND row_kind = 'line' AND line_role <> 'component'
+        WHERE edition = '2023' AND year_label = '2023-24' AND status_label = 'plans'
+          AND row_kind = 'line' AND line_role <> 'component'
           AND measure_from_title IN ('RDEL', 'RDEL_EX_DEPN', 'CDEL')
         GROUP BY target_name, measure_from_title
         UNION ALL
         SELECT 'pesa24', target_name, measure_from_title, SUM(amount_k)
         FROM stg.plan_pesa_line
-        WHERE edition = '2024' AND year_label = '2023-24' AND status_label = 'outturn' AND row_kind = 'line' AND line_role <> 'component'
+        WHERE edition = '2024' AND year_label = '2023-24' AND status_label = 'outturn'
+          AND row_kind = 'line' AND line_role <> 'component'
           AND measure_from_title IN ('RDEL', 'RDEL_EX_DEPN', 'CDEL')
         GROUP BY target_name, measure_from_title
         """
@@ -122,7 +135,9 @@ def test_fy2023_24_consistency_figures_are_reproduced(db):
         "[Single Intelligence Account]": "Single Intelligence Account",
     }
     sums = _sql_sums(db)
-    groups = {r[0] for r in db.query("SELECT sr_group_name FROM dw.dim_sr_group WHERE member_type = 'spending_review_group'")}
+    groups = {
+        r[0] for r in db.query("SELECT sr_group_name FROM dw.dim_sr_group WHERE member_type = 'spending_review_group'")
+    }
     checked = 0
     totals = {k: Decimal(0) for k in ((s, m) for s in columns for m in ("RDEL", "RDEL_EX_DEPN", "CDEL"))}
     for row in read("plan_consistency_2023_24.csv"):
@@ -131,7 +146,7 @@ def test_fy2023_24_consistency_figures_are_reproduced(db):
             continue
         sql_name = non_department.get(name, name)
         if sql_name not in groups and name not in non_department:
-            continue  # lines the profiling left unmapped as '[name]' and that are several lines here (Levelling Up Fund)
+            continue  # '[name]' lines the profiling left unmapped, several lines here (Levelling Up Fund)
         for key, col in columns.items():
             published = row[col]
             got = sums.get((key, sql_name, measure))
