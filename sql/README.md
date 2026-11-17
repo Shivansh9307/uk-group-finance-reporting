@@ -22,6 +22,7 @@ Prefix ranges are reserved per task so that parallel branches never collide:
 | Prefixes | Used by |
 |---|---|
 | 000-099 | the in-year raw load and the build framework |
+| 200-299 | the authored loader's typed tables, the organisation and department dimensions |
 | 200-599 | later tasks, each task takes its own block |
 
 ## Phases
