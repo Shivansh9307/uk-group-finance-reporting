@@ -16,7 +16,8 @@
 --   segment_key, account_key, control_budget_key, period_key, scenario_key (1 = Outturn)
 --   amount_delta             DECIMAL(19,4), GBP thousands, spending positive, income negative
 --   revision_no              0 on the first delta row of a line, then 1, 2 ... "as first reported" is revision 0
---   dq_issue_id              the unit-error finding (rule a in dw.dq_issue) the row belongs to, else NULL
+--   dq_issue_id              the unit-error finding (rule a in dw.dq_issue) the row belongs to, else NULL: the
+--                            row that corrected the error and the row that set the wrong amount
 -- There are no foreign key constraints: the dimension tables are rebuilt by earlier files in the same run
 -- and a test proves that every key resolves.
 
@@ -78,12 +79,21 @@ FROM #delta AS d
 JOIN dw.dim_segment AS sg ON sg.segment_key = d.segment_key
 LEFT JOIN #csm AS csm ON csm.organisation_key = d.organisation_key AND csm.sub_segment_code = sg.sub_segment_code
 LEFT JOIN (
-    SELECT i.organisation_key, i.segment_key, i.account_key, i.control_budget_key, i.period_key, r.release_key,
+    -- the rows of a unit error: the delta row of the line in the release that corrected it, and the latest
+    -- delta row of the line at or before the release that first showed the pair (the row that set the amount)
+    SELECT i.organisation_key, i.segment_key, i.account_key, i.control_budget_key, i.period_key, k.release_key,
            MIN(i.dq_issue_id) AS dq_issue_id
     FROM dw.dq_issue AS i
-    JOIN dw.dim_release AS r ON r.label IN (i.release_from, i.release_to)
-    WHERE i.flags_fact_rows = 1
-    GROUP BY i.organisation_key, i.segment_key, i.account_key, i.control_budget_key, i.period_key, r.release_key
+    JOIN dw.dim_release AS rf ON rf.label = i.release_from
+    JOIN dw.dim_release AS rt ON rt.label = i.release_to
+    CROSS APPLY (VALUES
+        (rt.release_key),
+        ((SELECT MAX(x.release_seq) FROM #delta AS x
+          WHERE x.organisation_key = i.organisation_key AND x.segment_key = i.segment_key AND x.account_key = i.account_key
+            AND x.control_budget_key = i.control_budget_key AND x.period_key = i.period_key AND x.release_seq <= rf.release_key))
+    ) AS k (release_key)
+    WHERE i.flags_fact_rows = 1 AND k.release_key IS NOT NULL
+    GROUP BY i.organisation_key, i.segment_key, i.account_key, i.control_budget_key, i.period_key, k.release_key
 ) AS q
   ON q.release_key = d.release_seq AND q.organisation_key = d.organisation_key AND q.segment_key = d.segment_key
  AND q.account_key = d.account_key AND q.control_budget_key = d.control_budget_key AND q.period_key = d.period_key;

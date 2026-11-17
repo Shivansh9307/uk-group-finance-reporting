@@ -2,10 +2,12 @@
 -- over the data, never by a hard-coded key.
 --   rule 'a'  unit error: a line whose absolute amount is over GBP 1bn (1,000,000 in thousands) in one of two
 --             consecutive releases of one year, with the same sign, changing by a factor between 900 and 1,100
---             from one release to the next. One finding per line and release pair. The delta rows of the
---             line in both releases carry the finding's id in dw.fact_outturn.dq_issue_id. The sign test
---             keeps out a line that really changes from a small to a large amount (HMRC filled in a COVID-19
---             subsidy line for April to June 2020 in December 2020: a different sign and a factor of 1,043).
+--             from one release to the next. One finding per line and release pair. Two fact rows carry the
+--             finding's id in dw.fact_outturn.dq_issue_id: the line's delta row in the second release (the
+--             correction) and its latest delta row at or before the first release (the row that set the amount). The sign test
+--             keeps out a line that really changes from a small to a large amount (the HMRC subsidy line
+--             X041A094 goes from -1,811 to 1,890,000 between December 2021 and March 2022: a different
+--             sign and a factor of 1,043).
 --             The rule cannot see an error that is not corrected in the next release, or one on a line that
 --             first appears already wrong.
 --   rule 'b'  a release whose Quarter column disagrees with its Month column (September 2022 labels all of
