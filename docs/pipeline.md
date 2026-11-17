@@ -172,3 +172,9 @@ derived SQL 12.0 s); database tests 4.0 s (36 passed); rebuild into a second dat
 `diff -r` against the first audit output and `git diff --exit-code` against the committed copy both
 clean. The load dominates: the stage that reads and bulk-loads 1.55 million rows is about 80% of each
 build, and the two builds are about 75% of the job.
+
+A second run on the same code plus this page (run
+[44144047525](https://github.com/Shivansh9307/uk-group-finance-reporting/actions/runs/44144047525)) took
+5 min 0 s: the two builds took 130.6 s and 130.2 s (stage 109.7 s and 108.8 s, derived SQL 20.4 s and
+21.0 s), the database tests 5.4 s. So the runner's speed varied by about a factor of two between the
+two runs; the job stayed well under the ten minutes I would treat as too slow.
