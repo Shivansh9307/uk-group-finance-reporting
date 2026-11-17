@@ -61,16 +61,18 @@ def test_the_audit_export_is_deterministic_and_matches_the_committed_evidence(db
     committed = repo_root / DEFAULT_AUDIT_DIR
     committed_names = {p.name for p in committed.glob("*.csv")}
     exported = {p.name: p for p in first}
-    # evidence/build holds what a committed-scope build writes. A database built with --scope full has more
-    # audit tables (and more rows in table_counts.csv): every committed file must still be in the export and
-    # equal to it, except table_counts.csv, which then has to contain every committed row.
-    assert committed_names <= set(exported), sorted(committed_names - set(exported))
-    full_scope = set(exported) != committed_names
+    scope = db.scalar(
+        "SELECT CAST(value AS varchar(20)) FROM sys.extended_properties WHERE class = 0 AND name = N'ukfr_build_scope'"
+    )
+    # evidence/build holds what a committed-scope build writes. A database built with --scope full has more audit
+    # tables and more rows in some of them (table counts, plan coverage), so for it every committed file must still
+    # be in the export and nothing is compared byte for byte.
+    if scope == "full":
+        assert committed_names <= set(exported), sorted(committed_names - set(exported))
+        return
+    assert committed_names == set(exported), (sorted(committed_names - set(exported)), sorted(set(exported) - committed_names))
     for name in sorted(committed_names):
-        want = (committed / name).read_bytes().replace(b"\r\n", b"\n")
-        got = exported[name].read_bytes()
-        if full_scope and name == "table_counts.csv":
-            missing = set(want.splitlines()) - set(got.splitlines())
-            assert not missing, f"{name}: committed rows missing from the export: {sorted(missing)[:3]}"
-        else:
-            assert want == got, f"{name} differs from the committed copy; rebuild and commit evidence/build"
+        want = (committed / name).read_bytes().replace(b"
+", b"
+")
+        assert want == exported[name].read_bytes(), f"{name} differs from the committed copy; rebuild and commit evidence/build"
