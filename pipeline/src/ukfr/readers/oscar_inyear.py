@@ -359,8 +359,15 @@ def _ods_rows(data: bytes, where: str, stats: ReadStats) -> Iterator[tuple[list[
         raise InyearFormatError(f"{where}: no sheet starts with a known header (sheets: {stats.other_sheets})")
 
 
-def read_inyear(f: InyearFile, repo_root: Path, stats: ReadStats | None = None) -> Iterator[InyearRow]:
-    """Yield the canonical rows of one in-year file. Pass a `ReadStats` to collect file facts."""
+def read_inyear(
+    f: InyearFile, repo_root: Path, stats: ReadStats | None = None, lenient: bool = False
+) -> Iterator[InyearRow]:
+    """Yield the canonical rows of one in-year file. Pass a `ReadStats` to collect file facts.
+
+    With `lenient=True` a row whose Amount cannot be read exactly is yielded with `amount=None` and
+    `amount_form='unparseable'` instead of raising, so a loader can quarantine it. Headers that are
+    not recognised still raise.
+    """
     stats = stats if stats is not None else ReadStats()
     where = f"{f.release}/{f.member or f.filename}"
     data = _open_bytes(f, repo_root)
@@ -369,10 +376,12 @@ def read_inyear(f: InyearFile, repo_root: Path, stats: ReadStats | None = None) 
         source = _ods_rows(data, where, stats)
     else:
         source = ((r, None) for r in _csv_rows(data, where, stats))
-    yield from _rows(source, f.release, where, stats, is_ods)
+    yield from _rows(source, f.release, where, stats, is_ods, lenient)
 
 
-def read_inyear_bytes(data: bytes, release: str, kind: str = "csv", stats: ReadStats | None = None):
+def read_inyear_bytes(
+    data: bytes, release: str, kind: str = "csv", stats: ReadStats | None = None, lenient: bool = False
+):
     """Same as `read_inyear` for bytes already in memory (`kind` 'csv' or 'ods'). Used by tests."""
     stats = stats if stats is not None else ReadStats()
     where = f"{release}/<bytes>"
@@ -380,10 +389,12 @@ def read_inyear_bytes(data: bytes, release: str, kind: str = "csv", stats: ReadS
         source = _ods_rows(data, where, stats)
     else:
         source = ((r, None) for r in _csv_rows(data, where, stats))
-    yield from _rows(source, release, where, stats, kind == "ods")
+    yield from _rows(source, release, where, stats, kind == "ods", lenient)
 
 
-def _rows(source, release: str, where: str, stats: ReadStats, is_ods: bool) -> Iterator[InyearRow]:
+def _rows(
+    source, release: str, where: str, stats: ReadStats, is_ods: bool, lenient: bool = False
+) -> Iterator[InyearRow]:
     header = None
     width = 0
     index: dict[str, int] = {}
@@ -417,7 +428,9 @@ def _rows(source, release: str, where: str, stats: ReadStats, is_ods: bool) -> I
         try:
             amount, form = parse_amount(amount_text)
         except InyearFormatError as exc:
-            raise InyearFormatError(f"{where} line {line}: {exc}") from exc
+            if not lenient:
+                raise InyearFormatError(f"{where} line {line}: {exc}") from exc
+            amount, form = None, "unparseable"
         if is_ods and kinds is not None:
             kind = kinds[index["amount"]] if index["amount"] < len(kinds) else ""
             form = f"ods_{kind}_{form}" if kind else f"ods_empty_{form}"
