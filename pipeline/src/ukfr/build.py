@@ -75,6 +75,20 @@ def create_schemas(db: Db) -> None:
         db.execute(f"IF SCHEMA_ID(N'{s}') IS NULL EXEC(N'CREATE SCHEMA {quote_name(s)}')")
 
 
+SCOPE_PROPERTY = "ukfr_build_scope"
+
+
+def record_scope(db: Db, scope: str) -> None:
+    """Remember the scope of the last build as a database property, so that a test can tell a build that
+    read the files outside git (whose audit output has more rows) from one that did not."""
+    db.execute(
+        f"IF EXISTS (SELECT 1 FROM sys.extended_properties WHERE class = 0 AND name = N'{SCOPE_PROPERTY}') "
+        f"EXEC sys.sp_updateextendedproperty @name = N'{SCOPE_PROPERTY}', @value = ? "
+        f"ELSE EXEC sys.sp_addextendedproperty @name = N'{SCOPE_PROPERTY}', @value = ?;",
+        (scope, scope),
+    )
+
+
 def export_audit(db: Db, out_dir: Path) -> list[Path]:
     """Write each table in schema `audit` to `<out_dir>/<table>.csv`, sorted by primary key (then by
     the whole row), UTF-8, LF line ends. Removes CSVs there that no longer have a table."""
@@ -148,6 +162,7 @@ def build(
     timed("database", lambda: create_database(settings, recreate, log))
     with Db(settings) as db:
         create_schemas(db)
+        record_scope(db, scope)
         timed("pre sql", lambda: sqlrunner.run_files(db, pre, log))
         for stage in stages:
             ctx = StageContext(repo_root, db, scope, log)
