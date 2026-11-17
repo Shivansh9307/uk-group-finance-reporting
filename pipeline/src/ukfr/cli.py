@@ -1,4 +1,4 @@
-"""Command line: `ukfr fetch` and `ukfr zip-head`."""
+"""Command line: `ukfr fetch`, `ukfr build`, `ukfr control`, `ukfr profile` and `ukfr zip-head`."""
 
 from __future__ import annotations
 
@@ -95,6 +95,49 @@ def _profile(args) -> int:
     return 0
 
 
+def _build(args) -> int:
+    from . import build as buildmod
+    from .db import DbSettings
+    from .stages import all_stages
+
+    if args.list_stages:
+        for s in all_stages():
+            print(f"{s.name:20} scope={s.scope:9} {s.description}")
+        return 0
+    root = find_repo_root()
+    settings = DbSettings.from_env()
+    if args.recreate and buildmod.is_main_database(settings) and not args.yes:
+        print(
+            f"--recreate would drop database {settings.database}; pass --yes or set UKFR_SQL_DATABASE",
+            file=sys.stderr,
+        )
+        return 2
+    try:
+        buildmod.build(
+            settings,
+            root,
+            scope=args.scope,
+            stage_names=args.stage,
+            recreate=args.recreate,
+            skip_sql=args.skip_sql,
+            audit_dir=args.audit_dir,
+            wait_seconds=args.wait,
+        )
+    except (ValueError, RuntimeError) as exc:
+        print(f"build failed: {exc}", file=sys.stderr)
+        return 1
+    return 0
+
+
+def _control(args) -> int:
+    from .controls import inyear_independent
+
+    root = find_repo_root()
+    path = inyear_independent.run(root, args.out)
+    print(f"wrote {path}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="ukfr")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -114,6 +157,20 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("what", choices=["extract", "mfo", "plans", "inyear", "bud", "all"])
     p.add_argument("--cache-dir", type=Path, help="keep full-stream scan results here and reuse them")
     p.set_defaults(func=_profile)
+    b = sub.add_parser("build", help="create the database, load the sources, run the SQL, write the audit CSVs")
+    b.add_argument("--scope", choices=["committed", "full"], default="committed", help="committed: files in git only")
+    b.add_argument("--stage", action="append", metavar="NAME", help="run only this load stage (repeatable)")
+    b.add_argument("--recreate", action="store_true", help="drop the database first")
+    b.add_argument("--yes", action="store_true", help="allow --recreate on the default database name")
+    b.add_argument("--skip-sql", action="store_true", help="run the pre SQL and the stages, not the post SQL or audit")
+    b.add_argument("--audit-dir", type=Path, help="where the audit CSVs go (default evidence/build)")
+    b.add_argument("--wait", type=float, default=0, metavar="SECONDS", help="retry the first login for this long")
+    b.add_argument("--list-stages", action="store_true", help="print the load stages and exit")
+    b.set_defaults(func=_build)
+    c = sub.add_parser("control", help="independent recomputation of source-file controls")
+    c.add_argument("what", choices=["inyear"])
+    c.add_argument("--out", type=Path, help="output CSV (default data/audit/inyear_independent_control.csv)")
+    c.set_defaults(func=_control)
     args = ap.parse_args(argv)
     return args.func(args)
 
