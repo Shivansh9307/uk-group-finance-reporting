@@ -1,0 +1,218 @@
+release,rows,key,distinct_keys,duplicate_groups,rows_in_duplicate_groups,groups_exact_repeat,groups_same_attributes_different_amount,groups_differing_in_other_columns,abs_amount_in_duplicate_groups
+2019-03,47258,"K_seg: sub-segment, econ category, month",45053,879,3084,0,0,879,111433906
+2019-03,47258,"K_org_seg: org, sub-segment, econ category, month",47258,0,0,0,0,0,0
+2019-03,47258,"K_plan: org, sub-segment, econ category, control budget detail, month",47258,0,0,0,0,0,0
+2019-03,47258,K0: K_plan + economic budget,47258,0,0,0,0,0,0
+2019-03,47258,K1: K0 + control budget code,47258,0,0,0,0,0,0
+2019-03,47258,K2: K1 + PESA economic group,47258,0,0,0,0,0,0
+2019-03,47258,K_all: every non-amount column,47258,0,0,0,0,0,0
+2019-06,65359,"K_seg: sub-segment, econ category, month",62225,1208,4342,0,0,1208,150134452
+2019-06,65359,"K_org_seg: org, sub-segment, econ category, month",65359,0,0,0,0,0,0
+2019-06,65359,"K_plan: org, sub-segment, econ category, control budget detail, month",65359,0,0,0,0,0,0
+2019-06,65359,K0: K_plan + economic budget,65359,0,0,0,0,0,0
+2019-06,65359,K1: K0 + control budget code,65359,0,0,0,0,0,0
+2019-06,65359,K2: K1 + PESA economic group,65359,0,0,0,0,0,0
+2019-06,65359,K_all: every non-amount column,65359,0,0,0,0,0,0
+2019-09,14565,"K_seg: sub-segment, econ category, month",13874,260,951,0,0,260,42274613
+2019-09,14565,"K_org_seg: org, sub-segment, econ category, month",14565,0,0,0,0,0,0
+2019-09,14565,"K_plan: org, sub-segment, econ category, control budget detail, month",14565,0,0,0,0,0,0
+2019-09,14565,K0: K_plan + economic budget,14565,0,0,0,0,0,0
+2019-09,14565,K1: K0 + control budget code,14565,0,0,0,0,0,0
+2019-09,14565,K2: K1 + PESA economic group,14565,0,0,0,0,0,0
+2019-09,14565,K_all: every non-amount column,14565,0,0,0,0,0,0
+2019-12,48354,"K_seg: sub-segment, econ category, month",46476,732,2610,0,0,732,84392904
+2019-12,48354,"K_org_seg: org, sub-segment, econ category, month",48354,0,0,0,0,0,0
+2019-12,48354,"K_plan: org, sub-segment, econ category, control budget detail, month",48354,0,0,0,0,0,0
+2019-12,48354,K0: K_plan + economic budget,48354,0,0,0,0,0,0
+2019-12,48354,K1: K0 + control budget code,48354,0,0,0,0,0,0
+2019-12,48354,K2: K1 + PESA economic group,48354,0,0,0,0,0,0
+2019-12,48354,K_all: every non-amount column,48354,0,0,0,0,0,0
+2020-03,48573,"K_seg: sub-segment, econ category, month",46295,892,3170,0,0,892,125476893
+2020-03,48573,"K_org_seg: org, sub-segment, econ category, month",48573,0,0,0,0,0,0
+2020-03,48573,"K_plan: org, sub-segment, econ category, control budget detail, month",48573,0,0,0,0,0,0
+2020-03,48573,K0: K_plan + economic budget,48573,0,0,0,0,0,0
+2020-03,48573,K1: K0 + control budget code,48573,0,0,0,0,0,0
+2020-03,48573,K2: K1 + PESA economic group,48573,0,0,0,0,0,0
+2020-03,48573,K_all: every non-amount column,48573,0,0,0,0,0,0
+2020-06,66006,"K_seg: sub-segment, econ category, month",63046,1128,4088,0,0,1128,169343236
+2020-06,66006,"K_org_seg: org, sub-segment, econ category, month",66006,0,0,0,0,0,0
+2020-06,66006,"K_plan: org, sub-segment, econ category, control budget detail, month",66006,0,0,0,0,0,0
+2020-06,66006,K0: K_plan + economic budget,66006,0,0,0,0,0,0
+2020-06,66006,K1: K0 + control budget code,66006,0,0,0,0,0,0
+2020-06,66006,K2: K1 + PESA economic group,66006,0,0,0,0,0,0
+2020-06,66006,K_all: every non-amount column,66006,0,0,0,0,0,0
+2020-09,22029,"K_seg: sub-segment, econ category, month",21366,264,927,0,0,264,14398811
+2020-09,22029,"K_org_seg: org, sub-segment, econ category, month",22029,0,0,0,0,0,0
+2020-09,22029,"K_plan: org, sub-segment, econ category, control budget detail, month",22029,0,0,0,0,0,0
+2020-09,22029,K0: K_plan + economic budget,22029,0,0,0,0,0,0
+2020-09,22029,K1: K0 + control budget code,22029,0,0,0,0,0,0
+2020-09,22029,K2: K1 + PESA economic group,22029,0,0,0,0,0,0
+2020-09,22029,K_all: every non-amount column,22029,0,0,0,0,0,0
+2020-12,49434,"K_seg: sub-segment, econ category, month",47544,756,2646,0,0,756,30877507
+2020-12,49434,"K_org_seg: org, sub-segment, econ category, month",49434,0,0,0,0,0,0
+2020-12,49434,"K_plan: org, sub-segment, econ category, control budget detail, month",49434,0,0,0,0,0,0
+2020-12,49434,K0: K_plan + economic budget,49434,0,0,0,0,0,0
+2020-12,49434,K1: K0 + control budget code,49434,0,0,0,0,0,0
+2020-12,49434,K2: K1 + PESA economic group,49434,0,0,0,0,0,0
+2020-12,49434,K_all: every non-amount column,49434,0,0,0,0,0,0
+2021-03,79254,"K_seg: sub-segment, econ category, month",76293,1206,4167,0,0,1206,47925132
+2021-03,79254,"K_org_seg: org, sub-segment, econ category, month",79254,0,0,0,0,0,0
+2021-03,79254,"K_plan: org, sub-segment, econ category, control budget detail, month",79254,0,0,0,0,0,0
+2021-03,79254,K0: K_plan + economic budget,79254,0,0,0,0,0,0
+2021-03,79254,K1: K0 + control budget code,79254,0,0,0,0,0,0
+2021-03,79254,K2: K1 + PESA economic group,79254,0,0,0,0,0,0
+2021-03,79254,K_all: every non-amount column,79254,0,0,0,0,0,0
+2021-06,113256,"K_seg: sub-segment, econ category, month",108684,1968,6540,0,0,1968,67729686
+2021-06,113256,"K_org_seg: org, sub-segment, econ category, month",113256,0,0,0,0,0,0
+2021-06,113256,"K_plan: org, sub-segment, econ category, control budget detail, month",113256,0,0,0,0,0,0
+2021-06,113256,K0: K_plan + economic budget,113256,0,0,0,0,0,0
+2021-06,113256,K1: K0 + control budget code,113256,0,0,0,0,0,0
+2021-06,113256,K2: K1 + PESA economic group,113256,0,0,0,0,0,0
+2021-06,113256,K_all: every non-amount column,113256,0,0,0,0,0,0
+2021-09,22773,"K_seg: sub-segment, econ category, month",21900,357,1230,0,0,357,17775447
+2021-09,22773,"K_org_seg: org, sub-segment, econ category, month",22773,0,0,0,0,0,0
+2021-09,22773,"K_plan: org, sub-segment, econ category, control budget detail, month",22773,0,0,0,0,0,0
+2021-09,22773,K0: K_plan + economic budget,22773,0,0,0,0,0,0
+2021-09,22773,K1: K0 + control budget code,22773,0,0,0,0,0,0
+2021-09,22773,K2: K1 + PESA economic group,22773,0,0,0,0,0,0
+2021-09,22773,K_all: every non-amount column,22773,0,0,0,0,0,0
+2021-12,48444,"K_seg: sub-segment, econ category, month",46626,732,2550,0,0,732,36206300
+2021-12,48444,"K_org_seg: org, sub-segment, econ category, month",48444,0,0,0,0,0,0
+2021-12,48444,"K_plan: org, sub-segment, econ category, control budget detail, month",48444,0,0,0,0,0,0
+2021-12,48444,K0: K_plan + economic budget,48444,0,0,0,0,0,0
+2021-12,48444,K1: K0 + control budget code,48444,0,0,0,0,0,0
+2021-12,48444,K2: K1 + PESA economic group,48444,0,0,0,0,0,0
+2021-12,48444,K_all: every non-amount column,48444,0,0,0,0,0,0
+2022-03,77976,"K_seg: sub-segment, econ category, month",75069,1188,4095,0,0,1188,54898145
+2022-03,77976,"K_org_seg: org, sub-segment, econ category, month",77976,0,0,0,0,0,0
+2022-03,77976,"K_plan: org, sub-segment, econ category, control budget detail, month",77976,0,0,0,0,0,0
+2022-03,77976,K0: K_plan + economic budget,77976,0,0,0,0,0,0
+2022-03,77976,K1: K0 + control budget code,77976,0,0,0,0,0,0
+2022-03,77976,K2: K1 + PESA economic group,77976,0,0,0,0,0,0
+2022-03,77976,K_all: every non-amount column,77976,0,0,0,0,0,0
+2022-06,108516,"K_seg: sub-segment, econ category, month",104520,1644,5640,0,0,1644,74603644
+2022-06,108516,"K_org_seg: org, sub-segment, econ category, month",108516,0,0,0,0,0,0
+2022-06,108516,"K_plan: org, sub-segment, econ category, control budget detail, month",108516,0,0,0,0,0,0
+2022-06,108516,K0: K_plan + economic budget,108516,0,0,0,0,0,0
+2022-06,108516,K1: K0 + control budget code,108516,0,0,0,0,0,0
+2022-06,108516,K2: K1 + PESA economic group,108516,0,0,0,0,0,0
+2022-06,108516,K_all: every non-amount column,108516,0,0,0,0,0,0
+2022-09,23787,"K_seg: sub-segment, econ category, month",22956,309,1140,0,0,309,17456438
+2022-09,23787,"K_org_seg: org, sub-segment, econ category, month",23787,0,0,0,0,0,0
+2022-09,23787,"K_plan: org, sub-segment, econ category, control budget detail, month",23787,0,0,0,0,0,0
+2022-09,23787,K0: K_plan + economic budget,23787,0,0,0,0,0,0
+2022-09,23787,K1: K0 + control budget code,23787,0,0,0,0,0,0
+2022-09,23787,K2: K1 + PESA economic group,23787,0,0,0,0,0,0
+2022-09,23787,K_all: every non-amount column,23787,0,0,0,0,0,0
+2022-12,33410,"K_seg: sub-segment, econ category, month",32034,537,1913,0,0,537,35780379
+2022-12,33410,"K_org_seg: org, sub-segment, econ category, month",33410,0,0,0,0,0,0
+2022-12,33410,"K_plan: org, sub-segment, econ category, control budget detail, month",33410,0,0,0,0,0,0
+2022-12,33410,K0: K_plan + economic budget,33410,0,0,0,0,0,0
+2022-12,33410,K1: K0 + control budget code,33410,0,0,0,0,0,0
+2022-12,33410,K2: K1 + PESA economic group,33410,0,0,0,0,0,0
+2022-12,33410,K_all: every non-amount column,33410,0,0,0,0,0,0
+2023-03,51470,"K_seg: sub-segment, econ category, month",49376,808,2902,0,0,808,53865478
+2023-03,51470,"K_org_seg: org, sub-segment, econ category, month",51470,0,0,0,0,0,0
+2023-03,51470,"K_plan: org, sub-segment, econ category, control budget detail, month",51470,0,0,0,0,0,0
+2023-03,51470,K0: K_plan + economic budget,51470,0,0,0,0,0,0
+2023-03,51470,K1: K0 + control budget code,51470,0,0,0,0,0,0
+2023-03,51470,K2: K1 + PESA economic group,51470,0,0,0,0,0,0
+2023-03,51470,K_all: every non-amount column,51470,0,0,0,0,0,0
+2023-06,71212,"K_seg: sub-segment, econ category, month",68373,1087,3926,0,0,1087,73772118
+2023-06,71212,"K_org_seg: org, sub-segment, econ category, month",71212,0,0,0,0,0,0
+2023-06,71212,"K_plan: org, sub-segment, econ category, control budget detail, month",71212,0,0,0,0,0,0
+2023-06,71212,K0: K_plan + economic budget,71212,0,0,0,0,0,0
+2023-06,71212,K1: K0 + control budget code,71212,0,0,0,0,0,0
+2023-06,71212,K2: K1 + PESA economic group,71212,0,0,0,0,0,0
+2023-06,71212,K_all: every non-amount column,71212,0,0,0,0,0,0
+2023-09,16732,"K_seg: sub-segment, econ category, month",16141,249,840,0,0,249,18383770
+2023-09,16732,"K_org_seg: org, sub-segment, econ category, month",16732,0,0,0,0,0,0
+2023-09,16732,"K_plan: org, sub-segment, econ category, control budget detail, month",16732,0,0,0,0,0,0
+2023-09,16732,K0: K_plan + economic budget,16732,0,0,0,0,0,0
+2023-09,16732,K1: K0 + control budget code,16732,0,0,0,0,0,0
+2023-09,16732,K2: K1 + PESA economic group,16732,0,0,0,0,0,0
+2023-09,16732,K_all: every non-amount column,16732,0,0,0,0,0,0
+2023-12,34512,"K_seg: sub-segment, econ category, month",33284,520,1748,0,0,520,37147082
+2023-12,34512,"K_org_seg: org, sub-segment, econ category, month",34512,0,0,0,0,0,0
+2023-12,34512,"K_plan: org, sub-segment, econ category, control budget detail, month",34512,0,0,0,0,0,0
+2023-12,34512,K0: K_plan + economic budget,34512,0,0,0,0,0,0
+2023-12,34512,K1: K0 + control budget code,34512,0,0,0,0,0,0
+2023-12,34512,K2: K1 + PESA economic group,34512,0,0,0,0,0,0
+2023-12,34512,K_all: every non-amount column,34512,0,0,0,0,0,0
+2024-03,52730,"K_seg: sub-segment, econ category, month",50853,779,2656,0,0,779,58007519
+2024-03,52730,"K_org_seg: org, sub-segment, econ category, month",52730,0,0,0,0,0,0
+2024-03,52730,"K_plan: org, sub-segment, econ category, control budget detail, month",52730,0,0,0,0,0,0
+2024-03,52730,K0: K_plan + economic budget,52730,0,0,0,0,0,0
+2024-03,52730,K1: K0 + control budget code,52730,0,0,0,0,0,0
+2024-03,52730,K2: K1 + PESA economic group,52730,0,0,0,0,0,0
+2024-03,52730,K_all: every non-amount column,52730,0,0,0,0,0,0
+2024-06,73220,"K_seg: sub-segment, econ category, month",70643,1028,3605,0,0,1028,76087861
+2024-06,73220,"K_org_seg: org, sub-segment, econ category, month",73220,0,0,0,0,0,0
+2024-06,73220,"K_plan: org, sub-segment, econ category, control budget detail, month",73220,0,0,0,0,0,0
+2024-06,73220,K0: K_plan + economic budget,73220,0,0,0,0,0,0
+2024-06,73220,K1: K0 + control budget code,73220,0,0,0,0,0,0
+2024-06,73220,K2: K1 + PESA economic group,73220,0,0,0,0,0,0
+2024-06,73220,K_all: every non-amount column,73220,0,0,0,0,0,0
+2024-09,17331,"K_seg: sub-segment, econ category, month",16696,253,888,0,0,253,21218308
+2024-09,17331,"K_org_seg: org, sub-segment, econ category, month",17331,0,0,0,0,0,0
+2024-09,17331,"K_plan: org, sub-segment, econ category, control budget detail, month",17331,0,0,0,0,0,0
+2024-09,17331,K0: K_plan + economic budget,17331,0,0,0,0,0,0
+2024-09,17331,K1: K0 + control budget code,17331,0,0,0,0,0,0
+2024-09,17331,K2: K1 + PESA economic group,17331,0,0,0,0,0,0
+2024-09,17331,K_all: every non-amount column,17331,0,0,0,0,0,0
+2024-12,35394,"K_seg: sub-segment, econ category, month",34021,538,1911,0,0,538,44746399.49
+2024-12,35394,"K_org_seg: org, sub-segment, econ category, month",35394,0,0,0,0,0,0
+2024-12,35394,"K_plan: org, sub-segment, econ category, control budget detail, month",35394,0,0,0,0,0,0
+2024-12,35394,K0: K_plan + economic budget,35394,0,0,0,0,0,0
+2024-12,35394,K1: K0 + control budget code,35394,0,0,0,0,0,0
+2024-12,35394,K2: K1 + PESA economic group,35394,0,0,0,0,0,0
+2024-12,35394,K_all: every non-amount column,35394,0,0,0,0,0,0
+2025-03,53978,"K_seg: sub-segment, econ category, month",51904,800,2874,0,0,800,65273766
+2025-03,53978,"K_org_seg: org, sub-segment, econ category, month",53978,0,0,0,0,0,0
+2025-03,53978,"K_plan: org, sub-segment, econ category, control budget detail, month",53978,0,0,0,0,0,0
+2025-03,53978,K0: K_plan + economic budget,53978,0,0,0,0,0,0
+2025-03,53978,K1: K0 + control budget code,53978,0,0,0,0,0,0
+2025-03,53978,K2: K1 + PESA economic group,53978,0,0,0,0,0,0
+2025-03,53978,K_all: every non-amount column,53978,0,0,0,0,0,0
+2025-06,75434,"K_seg: sub-segment, econ category, month",72647,1056,3843,0,0,1056,31817172
+2025-06,75434,"K_org_seg: org, sub-segment, econ category, month",75434,0,0,0,0,0,0
+2025-06,75434,"K_plan: org, sub-segment, econ category, control budget detail, month",75434,0,0,0,0,0,0
+2025-06,75434,K0: K_plan + economic budget,75434,0,0,0,0,0,0
+2025-06,75434,K1: K0 + control budget code,75434,0,0,0,0,0,0
+2025-06,75434,K2: K1 + PESA economic group,75434,0,0,0,0,0,0
+2025-06,75434,K_all: every non-amount column,75434,0,0,0,0,0,0
+2025-09,16476,"K_seg: sub-segment, econ category, month",15819,256,913,0,0,256,25001146
+2025-09,16476,"K_org_seg: org, sub-segment, econ category, month",16476,0,0,0,0,0,0
+2025-09,16476,"K_plan: org, sub-segment, econ category, control budget detail, month",16476,0,0,0,0,0,0
+2025-09,16476,K0: K_plan + economic budget,16476,0,0,0,0,0,0
+2025-09,16476,K1: K0 + control budget code,16476,0,0,0,0,0,0
+2025-09,16476,K2: K1 + PESA economic group,16476,0,0,0,0,0,0
+2025-09,16476,K_all: every non-amount column,16476,0,0,0,0,0,0
+2025-12,34369,"K_seg: sub-segment, econ category, month",33027,531,1873,0,0,531,48319392
+2025-12,34369,"K_org_seg: org, sub-segment, econ category, month",34369,0,0,0,0,0,0
+2025-12,34369,"K_plan: org, sub-segment, econ category, control budget detail, month",34369,0,0,0,0,0,0
+2025-12,34369,K0: K_plan + economic budget,34369,0,0,0,0,0,0
+2025-12,34369,K1: K0 + control budget code,34369,0,0,0,0,0,0
+2025-12,34369,K2: K1 + PESA economic group,34369,0,0,0,0,0,0
+2025-12,34369,K_all: every non-amount column,34369,0,0,0,0,0,0
+2026-03,53604,"K_seg: sub-segment, econ category, month",51351,971,3224,0,0,971,74357428
+2026-03,53604,"K_org_seg: org, sub-segment, econ category, month",53604,0,0,0,0,0,0
+2026-03,53604,"K_plan: org, sub-segment, econ category, control budget detail, month",53604,0,0,0,0,0,0
+2026-03,53604,K0: K_plan + economic budget,53604,0,0,0,0,0,0
+2026-03,53604,K1: K0 + control budget code,53604,0,0,0,0,0,0
+2026-03,53604,K2: K1 + PESA economic group,53604,0,0,0,0,0,0
+2026-03,53604,K_all: every non-amount column,53604,0,0,0,0,0,0
+2026-06,74520,"K_seg: sub-segment, econ category, month",71448,1315,4387,0,0,1315,99538711
+2026-06,74520,"K_org_seg: org, sub-segment, econ category, month",74520,0,0,0,0,0,0
+2026-06,74520,"K_plan: org, sub-segment, econ category, control budget detail, month",74520,0,0,0,0,0,0
+2026-06,74520,K0: K_plan + economic budget,74520,0,0,0,0,0,0
+2026-06,74520,K1: K0 + control budget code,74520,0,0,0,0,0,0
+2026-06,74520,K2: K1 + PESA economic group,74520,0,0,0,0,0,0
+2026-06,74520,K_all: every non-amount column,74520,0,0,0,0,0,0
+2026-09,17102,"K_seg: sub-segment, econ category, month",16351,317,1068,0,0,317,23035163
+2026-09,17102,"K_org_seg: org, sub-segment, econ category, month",17102,0,0,0,0,0,0
+2026-09,17102,"K_plan: org, sub-segment, econ category, control budget detail, month",17102,0,0,0,0,0,0
+2026-09,17102,K0: K_plan + economic budget,17102,0,0,0,0,0,0
+2026-09,17102,K1: K0 + control budget code,17102,0,0,0,0,0,0
+2026-09,17102,K2: K1 + PESA economic group,17102,0,0,0,0,0,0
+2026-09,17102,K_all: every non-amount column,17102,0,0,0,0,0,0

@@ -1,0 +1,114 @@
+column,value,normalised_value,first_release,last_release,n_releases,rows
+control_budget_code,AME,AME,2019-03,2022-09,15,152200
+control_budget_code,DEL,DEL,2019-03,2022-09,15,668973
+control_budget_code,NON-BUDGET,NON-BUDGET,2019-03,2022-09,15,14411
+control_budget_code,TOTAL AME,AME,2022-12,2026-09,16,132946
+control_budget_code,TOTAL DEL,DEL,2022-12,2026-09,16,567170
+control_budget_code,TOTAL NON-BUDGET,NON-BUDGET,2022-12,2026-09,16,11378
+control_budget_code + control_budget_detail_code,AME | DEPT AME,AME | DEPT AME,2019-03,2022-09,15,150836
+control_budget_code + control_budget_detail_code,AME | NON-DEPT AME,AME | NON-DEPT AME,2019-03,2022-09,15,1364
+control_budget_code + control_budget_detail_code,DEL | DEL ADMIN,DEL | DEL ADMIN,2019-03,2022-09,15,150295
+control_budget_code + control_budget_detail_code,DEL | DEL PROG,DEL | DEL PROG,2019-03,2022-09,15,518678
+control_budget_code + control_budget_detail_code,NON-BUDGET | NON-BUDGET,NON-BUDGET | NON-BUDGET,2019-03,2022-09,15,14411
+control_budget_code + control_budget_detail_code,TOTAL AME | DEPT AME,AME | DEPT AME,2022-12,2026-09,16,132151
+control_budget_code + control_budget_detail_code,TOTAL AME | NON-DEPT AME,AME | NON-DEPT AME,2022-12,2026-09,16,795
+control_budget_code + control_budget_detail_code,TOTAL DEL | DEL ADMIN,DEL | DEL ADMIN,2022-12,2026-09,16,123894
+control_budget_code + control_budget_detail_code,TOTAL DEL | DEL PROG,DEL | DEL PROG,2022-12,2026-09,16,443276
+control_budget_code + control_budget_detail_code,TOTAL NON-BUDGET | NON-BUDGET,NON-BUDGET | NON-BUDGET,2022-12,2026-09,16,11378
+control_budget_detail_code,DEL ADMIN,,2019-03,2026-09,31,274189
+control_budget_detail_code,DEL PROG,,2019-03,2026-09,31,961954
+control_budget_detail_code,DEPT AME,,2019-03,2026-09,31,282987
+control_budget_detail_code,NON-BUDGET,,2019-03,2026-09,31,25789
+control_budget_detail_code,NON-DEPT AME,,2019-03,2026-09,31,2159
+economic_budget_code,CAPITAL,CAPITAL,2019-03,2026-09,31,313910
+economic_budget_code,NA,N/A,2021-09,2026-09,21,11714
+economic_budget_code,OTHER NON-BUDGET,OTHER NON-BUDGET,2019-03,2026-09,31,1208
+economic_budget_code,RESOURCE,RESOURCE,2019-03,2026-09,31,1212311
+economic_budget_code,n/a,N/A,2019-03,2021-06,10,7935
+pesa_economic_group_code,CAPITAL GRANTS ABROAD (NET),,2019-03,2026-09,31,6269
+pesa_economic_group_code,CAPITAL GRANTS TO PERSONS & NON-PROFIT (NET),,2019-03,2026-09,31,23127
+pesa_economic_group_code,CAPITAL GRANTS TO PRIVATE SECTOR COMPANIES (NET),,2019-03,2026-09,31,22698
+pesa_economic_group_code,CAPITAL SUPPORT FOR LOCAL GOVERNMENT (NET),,2019-03,2026-09,31,24259
+pesa_economic_group_code,CAPITAL SUPPORT FOR PUBLIC CORPORATIONS,,2019-03,2026-09,31,7907
+pesa_economic_group_code,CHANGE IN PENSION SCHEME LIABILITIES,,2019-03,2026-09,31,11140
+pesa_economic_group_code,CURRENT GRANTS ABROAD (NET),,2019-03,2026-09,31,19507
+pesa_economic_group_code,CURRENT GRANTS TO LOCAL GOVERNMENT (NET),,2019-03,2026-09,31,48118
+pesa_economic_group_code,CURRENT GRANTS TO PERSONS AND NON-PROFIT (NET),,2019-03,2026-09,31,81573
+pesa_economic_group_code,DEPRECIATION,,2019-03,2026-09,31,125949
+pesa_economic_group_code,INCOME FROM SALES OF ASSETS,,2019-03,2026-09,31,16137
+pesa_economic_group_code,INCOME FROM SALES OF GOODS AND SERVICES,,2019-03,2026-09,31,79133
+pesa_economic_group_code,NET LENDING TO THE PRIVATE SECTOR AND ABROAD,,2019-03,2026-09,31,28650
+pesa_economic_group_code,NET PUBLIC SERVICE PENSIONS,,2019-03,2026-09,31,23310
+pesa_economic_group_code,OTHER CAPITAL,,2019-03,2026-09,31,22326
+pesa_economic_group_code,OTHER NON-BUDGET,,2019-03,2026-09,31,1199
+pesa_economic_group_code,OTHER RESOURCE,,2019-03,2026-09,31,254514
+pesa_economic_group_code,PURCHASE OF ASSETS,,2019-03,2026-09,31,102788
+pesa_economic_group_code,PURCHASE OF GOODS AND SERVICES,,2019-03,2026-09,31,271689
+pesa_economic_group_code,RELEASE OF PROVISION,,2019-03,2026-09,31,20430
+pesa_economic_group_code,RELEASE OF PROVISIONS COVERING PENSION BENEFITS,,2019-03,2026-09,31,10530
+pesa_economic_group_code,RENTALS,,2019-03,2026-09,31,45012
+pesa_economic_group_code,STAFF COSTS,,2019-03,2026-09,31,218534
+pesa_economic_group_code,SUBSIDIES TO PRIVATE SECTOR COMPANIES,,2019-03,2026-09,31,16034
+pesa_economic_group_code,SUBSIDIES TO PUBLIC CORPORATIONS,,2019-03,2026-09,31,4621
+pesa_economic_group_code,TAKE UP OF PROVISIONS,,2019-03,2026-09,31,33819
+pesa_economic_group_code,UNALLOCATED FUNDS - CAPITAL,,2019-03,2026-09,31,1015
+pesa_economic_group_code,UNALLOCATED FUNDS - RESOURCE,,2019-03,2026-09,31,578
+pesa_economic_group_code,UNWINDING OF DISCOUNT RATE ON PENSION SCHEME LIAB,,2019-03,2026-09,31,6554
+pesa_economic_group_code,n/a,,2019-03,2026-09,31,19658
+pesa_economic_group_name,,,2021-09,2026-09,21,992990
+pesa_economic_group_name,Capital grants abroad (net),,2019-03,2021-06,10,3046
+pesa_economic_group_name,Capital grants to persons & non-profit bodies (net),,2019-03,2021-06,10,8566
+pesa_economic_group_name,Capital grants to private sector companies (net),,2019-03,2021-06,10,7686
+pesa_economic_group_name,Capital support for local government (net),,2019-03,2021-06,10,8620
+pesa_economic_group_name,Capital support for public corporations,,2019-03,2021-06,10,2929
+pesa_economic_group_name,Change in pension scheme liabilities,,2019-03,2021-06,10,4619
+pesa_economic_group_name,Current grants abroad (net),,2019-03,2021-06,10,8667
+pesa_economic_group_name,Current grants to local government (net),,2019-03,2021-06,10,16300
+pesa_economic_group_name,Current grants to persons and non-profit bodies (net),,2019-03,2021-06,10,29196
+pesa_economic_group_name,Depreciation,,2019-03,2021-06,10,44917
+pesa_economic_group_name,Income from sales of assets,,2019-03,2021-06,10,6813
+pesa_economic_group_name,Income from sales of goods and services,,2019-03,2021-06,10,29201
+pesa_economic_group_name,Net lending to the private sector and abroad,,2019-03,2021-06,10,10116
+pesa_economic_group_name,Net public service pensions,,2019-03,2021-06,10,8412
+pesa_economic_group_name,Other capital,,2019-03,2021-06,10,7505
+pesa_economic_group_name,Other non-budget,,2019-03,2021-06,10,497
+pesa_economic_group_name,Other resource,,2019-03,2021-06,10,88937
+pesa_economic_group_name,Purchase of assets,,2019-03,2021-06,10,34599
+pesa_economic_group_name,Purchase of goods and services,,2019-03,2021-06,10,94922
+pesa_economic_group_name,Release of provision,,2019-03,2021-06,10,8536
+pesa_economic_group_name,Release of provisions covering payments of pension benefits,,2019-03,2021-06,10,3734
+pesa_economic_group_name,Rentals,,2019-03,2021-06,10,17954
+pesa_economic_group_name,Staff costs,,2019-03,2021-06,10,75412
+pesa_economic_group_name,Subsidies to private sector companies,,2019-03,2021-06,10,6265
+pesa_economic_group_name,Subsidies to public corporations,,2019-03,2021-06,10,2010
+pesa_economic_group_name,Take up of provisions,,2019-03,2021-06,10,13574
+pesa_economic_group_name,Unallocated funds - capital,,2019-03,2021-06,10,399
+pesa_economic_group_name,Unallocated funds - resource,,2019-03,2021-06,10,272
+pesa_economic_group_name,Unwinding of the discount rate on pension scheme liabilities,,2019-03,2021-06,10,2449
+pesa_economic_group_name,n/a,,2019-03,2021-06,10,7935
+version,MFO_202122_R04_PSF_v6,,2021-09,2021-09,1,22773
+version,MFO_202122_R07_PSF_v6,,2021-12,2021-12,1,48444
+version,MFO_202122_R10_PSF_v5,,2022-03,2022-03,1,77976
+version,MFO_202122_R13_v1,,2022-06,2022-06,1,108516
+version,MFO_2022-23_R07_v1,,2022-12,2022-12,1,33410
+version,MFO_2022-23_R10_v1,,2023-03,2023-03,1,51470
+version,MFO_2022-23_R13_v1,,2023-06,2023-06,1,71212
+version,MFO_202223_R04_v1,,2022-09,2022-09,1,23787
+version,MFO_2023-24_R04_v1,,2023-09,2023-09,1,16732
+version,MFO_2023-24_R07_v1,,2023-12,2023-12,1,34512
+version,MFO_2023-24_R11_PSF_v4,,2024-03,2024-03,1,52730
+version,MFO_2023-24_R13_v1,,2024-06,2024-06,1,73220
+version,MFO_2024-25_R04_v1,,2024-09,2024-09,1,17331
+version,MFO_2024-25_R07_v1,,2024-12,2024-12,1,35394
+version,MFO_2024-25_R10_v1,,2025-03,2025-03,1,53978
+version,MFO_2024-25_R13_v1,,2025-06,2025-06,1,75434
+version,MFO_2025-26_R04_PSF_v8,,2025-09,2025-09,1,16476
+version,MFO_2025-26_R07_PSF_v6 - WD9 1415,,2025-12,2025-12,1,34369
+version,MFO_2025-26_R11_PSF_v5 - WD9 1730,,2026-03,2026-03,1,53604
+version,MFO_2025-26_R13_v1,,2026-06,2026-06,1,74520
+version,MFO_2026-27_R05_PSF_v5 - WD10 1530,,2026-09,2026-09,1,17102
+version,OUTTURN,,2019-06,2021-06,2,178615
+version,RETURN10_FEB,,2019-03,2021-03,3,175085
+version,RETURN12_APR,,2020-06,2020-06,1,66006
+version,RETURN4_AUG,,2019-09,2020-09,2,36594
+version,RETURN7_NOV,,2019-12,2020-12,2,97788
