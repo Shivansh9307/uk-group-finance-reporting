@@ -23,7 +23,8 @@ Prefix ranges are reserved per task so that parallel branches never collide:
 |---|---|
 | 000-099 | the in-year raw load and the build framework |
 | 200-299 | the authored loader's typed tables, the organisation and department dimensions |
-| 200-599 | later tasks, each task takes its own block |
+| 400-449 | the annual restated (BUD) and PSS load, `dw.fact_outturn_annual`, their reference maps and controls (scope full) |
+| 300-399, 450-599 | later tasks, each task takes its own block |
 
 ## Phases
 

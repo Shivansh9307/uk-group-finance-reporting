@@ -134,7 +134,8 @@ quarantined; file hashes match the manifest; period 0 exists only in June 2019; 
 from the month; staged rows trace to raw rows; `audit.file_control` passes for every file.
 
 The independent control (`ukfr control inyear`, `data/audit/inyear_independent_control.csv`) is
-described in [data-dictionary/inyear-raw.md](data-dictionary/inyear-raw.md). The organisation and department dimensions and the authored CSV loader are in [data-dictionary/organisation.md](data-dictionary/organisation.md).
+described in [data-dictionary/inyear-raw.md](data-dictionary/inyear-raw.md). The organisation and department dimensions and the authored CSV loader are in [data-dictionary/organisation.md](data-dictionary/organisation.md). The annual restated (BUD) workbooks and the PSS database, loaded only with `--scope full`, are in
+[data-dictionary/annual-restated.md](data-dictionary/annual-restated.md).
 
 ## Determinism
 
