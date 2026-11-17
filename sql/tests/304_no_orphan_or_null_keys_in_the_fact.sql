@@ -1,0 +1,13 @@
+-- test: every key in the fact is not NULL and exists in its dimension, none resolves to Unknown, a dq_issue_id exists in dw.dq_issue, and no zero amount is stored
+SELECT 'release_key' AS key_name, COUNT(*) AS rows_wrong FROM dw.fact_outturn AS f WHERE f.release_key IS NULL OR NOT EXISTS (SELECT 1 FROM dw.dim_release AS d WHERE d.release_key = f.release_key) HAVING COUNT(*) > 0
+UNION ALL SELECT 'organisation_key', COUNT(*) FROM dw.fact_outturn AS f WHERE f.organisation_key IS NULL OR NOT EXISTS (SELECT 1 FROM dw.dim_organisation AS d WHERE d.organisation_key = f.organisation_key) HAVING COUNT(*) > 0
+UNION ALL SELECT 'department_key', COUNT(*) FROM dw.fact_outturn AS f WHERE f.department_key IS NULL OR NOT EXISTS (SELECT 1 FROM dw.dim_department AS d WHERE d.department_key = f.department_key) HAVING COUNT(*) > 0
+UNION ALL SELECT 'current_department_key', COUNT(*) FROM dw.fact_outturn AS f WHERE f.current_department_key IS NULL OR NOT EXISTS (SELECT 1 FROM dw.dim_department AS d WHERE d.department_key = f.current_department_key) HAVING COUNT(*) > 0
+UNION ALL SELECT 'segment_key', COUNT(*) FROM dw.fact_outturn AS f WHERE f.segment_key IS NULL OR NOT EXISTS (SELECT 1 FROM dw.dim_segment AS d WHERE d.segment_key = f.segment_key) HAVING COUNT(*) > 0
+UNION ALL SELECT 'account_key', COUNT(*) FROM dw.fact_outturn AS f WHERE f.account_key IS NULL OR NOT EXISTS (SELECT 1 FROM dw.dim_account AS d WHERE d.account_key = f.account_key) HAVING COUNT(*) > 0
+UNION ALL SELECT 'control_budget_key', COUNT(*) FROM dw.fact_outturn AS f WHERE f.control_budget_key IS NULL OR NOT EXISTS (SELECT 1 FROM dw.dim_control_budget AS d WHERE d.control_budget_key = f.control_budget_key) HAVING COUNT(*) > 0
+UNION ALL SELECT 'period_key', COUNT(*) FROM dw.fact_outturn AS f WHERE f.period_key IS NULL OR NOT EXISTS (SELECT 1 FROM dw.dim_period AS d WHERE d.period_key = f.period_key) HAVING COUNT(*) > 0
+UNION ALL SELECT 'scenario_key (must be 1, Outturn)', COUNT(*) FROM dw.fact_outturn AS f WHERE f.scenario_key IS NULL OR f.scenario_key <> 1 OR NOT EXISTS (SELECT 1 FROM dw.dim_scenario AS d WHERE d.scenario_key = f.scenario_key) HAVING COUNT(*) > 0
+UNION ALL SELECT 'dq_issue_id', COUNT(*) FROM dw.fact_outturn AS f WHERE f.dq_issue_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM dw.dq_issue AS d WHERE d.dq_issue_id = f.dq_issue_id) HAVING COUNT(*) > 0
+UNION ALL SELECT 'Unknown (-1) in organisation, segment, account or control budget', COUNT(*) FROM dw.fact_outturn AS f WHERE f.segment_key = -1 OR f.account_key = -1 OR f.control_budget_key = -1 OR f.organisation_key = -1 HAVING COUNT(*) > 0
+UNION ALL SELECT 'zero amount stored', COUNT(*) FROM dw.fact_outturn AS f WHERE f.amount_delta = 0 HAVING COUNT(*) > 0;
