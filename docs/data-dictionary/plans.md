@@ -25,13 +25,13 @@ scope, which CI runs. The OSCAR Plans come from the five November 2022 annual ex
 | `raw.plan_source_file` | 16 | 21 | one workbook or extract zip |
 | `raw.plan_estimates` | 659 | 659 | sheet x row x year, as published |
 | `raw.plan_pesa` | 31,289 | 31,289 | sheet x row x year, as published (PESA 2022 to 2026, the December 2025 update and SR25) |
-| `raw.plan_oscar` | 0 | 135,958 | one PLANS row of an extract |
-| `raw.plan_oscar_expected` | 0 | 1,639 | control figures from two csv files in git |
+| `raw.plan_oscar` | not created | 135,958 | one PLANS row of an extract |
+| `raw.plan_oscar_expected` | not created | 1,639 | control figures from two csv files in git |
 | `authored.plan_name_map`, `authored.sr_group`, `authored.plan_source` | 97, 31, 17 | same | the three authored files, as text |
 | `stg.plan_name_map`, `stg.sr_group`, `stg.plan_source` | 97, 31, 17 | same | the same, typed and checked |
 | `stg.plan_estimates_line` | 659 | 659 | a typed Estimates cell |
 | `stg.plan_pesa_line` | 9,826 | 9,826 | a typed cell of a nominal department-group table |
-| `stg.plan_oscar` | 0 | 14,960 | financial year x organisation x economic category x control budget detail x economic budget |
+| `stg.plan_oscar` | not created | 14,960 | financial year x organisation x economic category x control budget detail x economic budget |
 | `dw.dim_sr_group` | 31 | 31 | one Spending Review group or non-department member |
 | `dw.dim_plan_source` | 16 | 17 | one plan source and edition |
 | `dw.dim_plan_grain` | 4 | 4 | grain code A to D |
@@ -163,7 +163,7 @@ including it in the December 2025 update (a comparison of three published totals
 
 | Column | Meaning |
 |---|---|
-| `plan_fact_key` | row number in the order of the natural key below |
+| `plan_fact_key` | row number: the Estimates and PESA rows in the order of the natural key below, then (full scope) the OSCAR rows in the same order |
 | `plan_source_key` | `dw.dim_plan_source` |
 | `financial_year` | `2022-23` |
 | `sr_group_key` | `dw.dim_sr_group` |

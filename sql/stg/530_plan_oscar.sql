@@ -1,3 +1,4 @@
+-- scope: full
 -- OSCAR Plans from the November 2022 annual extracts, at the load grain
 --   financial year x organisation x economic category x control budget detail x economic budget.
 -- Plans carry no month (every row is 'Period 0'), so there is no period in the key. Rows that net to zero
@@ -6,7 +7,7 @@
 -- amount = the sum of the extract amounts (GBP thousands, whole numbers), DECIMAL(19,4).
 -- department group and Spending Review group are attributes of the organisation in that year; a test
 -- proves each key has exactly one of each.
--- Runs in both scopes: in a committed-scope build raw.plan_oscar is empty and so is this table.
+-- Full scope only: the extracts are not in git.
 
 DROP TABLE IF EXISTS stg.plan_oscar;
 GO
