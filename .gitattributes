@@ -15,3 +15,6 @@ data/audit/*.csv text eol=lf
 docs/profiling/data/*.csv text eol=lf
 # Written by `ukfr build`; pinned to LF so a rebuild leaves git status clean and CI can diff it.
 evidence/build/*.csv text eol=lf
+
+# Authored CSV files are text with LF line ends so the loaded text does not depend on git autocrlf.
+authored/*.csv text eol=lf
