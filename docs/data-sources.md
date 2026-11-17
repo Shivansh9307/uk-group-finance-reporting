@@ -19,7 +19,7 @@ All sources are published under the Open Government Licence v3.0 (see
 |---|---|---|---|---|---|
 | `oscar_inyear` | OSCAR II in-year releases, quarterly, March 2019 to September 2026 (31 releases) | HM Treasury | [HMT OSCAR collection](https://www.gov.uk/government/collections/hmt-oscar-publishing-from-the-database), "In-year data" | zip holding one CSV; September 2026 a bare CSV; March 2026 a zip holding an ODS | Outturn by organisation, segment and account, as reported in each quarterly snapshot |
 | `oscar_annual_bud` | OSCAR annual releases November 2023, 2024 and 2025 (five years each) plus the "Understanding OSCAR" notes and the Period/Version relationship workbook | HM Treasury | Annual release pages in the same collection | xlsx (9 to 15 MB each), pdf, docx | Restated annual outturn on the current structure; how periods and versions relate |
-| `oscar_annual_extract` | November 2022 annual extracts, 2017-18 to 2021-22; the November 2019 to 2021 extracts are listed only | HM Treasury | [November 2022 annual release](https://www.gov.uk/government/publications/oscar-annual-release-november-2022) | zip holding one pipe-delimited txt of about 3 GB | Plans and departments' monthly forecast returns to FY2021-22, if profiling finds complete return sets |
+| `oscar_annual_extract` | November 2022 annual extracts, 2017-18 to 2021-22; the November 2019 to 2021 extracts are listed only | HM Treasury | [November 2022 annual release](https://www.gov.uk/government/publications/oscar-annual-release-november-2022) | zip holding one pipe-delimited txt of about 3 GB | Plans to FY2021-22 and departments' monthly forecast returns for FY2017-18 to FY2020-21 |
 | `oscar_mfo` | Monthly forecast and outturn (MFO) files for FY2021-22 and FY2022-23 | HM Treasury | November 2022 and November 2023 annual release pages | zip holding one CSV per return | Departments' own monthly forecasts for the backtest |
 | `estimates_del` | "Departmental DEL budgets: tables" from Main and Supplementary Estimates, FY2022-23 to FY2026-27 | HM Treasury | [Main Estimates](https://www.gov.uk/government/collections/hmt-main-estimates) and [Supplementary Estimates](https://www.gov.uk/government/collections/hmt-supplementary-estimates) collections | xlsx | Plan at department group x resource/capital DEL from FY2022-23 |
 | `pesa` | PESA Chapter 1 tables 2022 to 2026, the PESA 2025 December update, and the Spending Review 2025 DEL tables | HM Treasury | [PESA collection](https://www.gov.uk/government/collections/public-expenditure-statistical-analyses-pesa); [SR25 supporting documents](https://www.gov.uk/government/publications/supporting-documents-for-spending-review-2025) | xlsx | AME and admin plans where they exist; Spending Review group names |
@@ -120,8 +120,10 @@ September 2026 CSV uses CRLF, and a converted copy would no longer match its sha
 
 Both pages still list these files with a size, but the asset server returns 404 for them
 (**tested**: the 2026-11-16 fetch, `data/manifest/dead_links.csv`). They are the only source of
-departments' own monthly forecast returns after FY2022-23, so the forecast backtest covers FY2021-22
-and FY2022-23 only, plus earlier years if the annual extracts turn out to hold complete return sets.
+departments' own monthly forecast returns after FY2022-23, so the forecast backtest stops at
+FY2022-23. It covers six years, FY2017-18 to FY2022-23: the annual extracts hold a complete set of
+monthly returns for FY2017-18 to FY2020-21 (**tested**: `docs/profiling/oscar-annual-extracts.md`),
+and the MFO files cover the last two.
 
 ## File quirks I observed
 
