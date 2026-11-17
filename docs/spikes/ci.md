@@ -8,6 +8,8 @@ I ran this spike on 16 November 2026 to answer three questions before the projec
 
 All three are proven on fixtures under `tests/fixtures/ci_spike/`. The workflow is `.github/workflows/ci.yml`; it runs on pull requests and on pushes to `main`.
 
+Later note: the `pipeline-sql` job now runs the real build and tests ([docs/pipeline.md](../pipeline.md)), so the SQL fixtures and load experiments A to E described below were removed from the repository. The runs and findings below stay as I recorded them.
+
 Runner images seen: `windows-2025-vs2026` 20261103.298.1 and `ubuntu-26.04` 20261111.196.1 (`ubuntu-latest` already points at 26.04).
 
 ## Runs
