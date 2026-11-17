@@ -1,0 +1,80 @@
+Validating Cov
+
+
+✓ Cov validation passed
+
+Pages: 10, Visuals: 50
+Fields: 135 (model loaded)
+Field scope: queryState, sortDefinition, filterConfig, objects.*, selector 
+metadata, bookmark snapshots; unsupported: visual interactions
+Semantic: core visual catalog v0.1.1 (preview; advisory)
+
+                                 Warnings (20)                                 
+┌─────────────────────────┬─────────────────────────┬─────────────────────────┐
+│ Location                │ Code                    │ Message                 │
+├─────────────────────────┼─────────────────────────┼─────────────────────────┤
+│ Core (837d7e8bc3c10619) │ INVALID_FORMAT          │ Field 'Running actual'  │
+│ > Department detail     │                         │ not found. Use format   │
+│ (tableEx, table_dept)   │                         │ 'Table.Field'.          │
+│ Matrix                  │ INVALID_FORMAT          │ Field 'Share of parent' │
+│ (c39dd6fd6144b0cf) >    │                         │ not found. Use format   │
+│ Department hierarchy    │                         │ 'Table.Field'.          │
+│ (pivotTable, mx_hier)   │                         │                         │
+│ Nav > f30f4331          │ TEXTBOX_HEIGHT_BELOW_F… │ Textbox height 48px is  │
+│                         │                         │ below the ~54px floor   │
+│                         │                         │ for 24pt text; content  │
+│                         │                         │ will scroll or clip     │
+│ Core > kpi_actu         │ VISUAL_UNDERSIZED       │ kpi is undersized       │
+│                         │                         │ (616x140px, recommend   │
+│                         │                         │ >= 290x200px)           │
+│ Core > table_de         │ TOO_MANY_FIELDS         │ Visual has 5 fields     │
+│                         │                         │ (recommend <=4)         │
+│ Matrix > mx_hier        │ TOO_MANY_FIELDS         │ Visual has 5 fields     │
+│                         │                         │ (recommend <=4)         │
+│ Matrix > 44145ccb       │ TEXTBOX_HEIGHT_BELOW_F… │ Textbox height 48px is  │
+│                         │                         │ below the ~54px floor   │
+│                         │                         │ for 24pt text; content  │
+│                         │                         │ will scroll or clip     │
+│ Formats > fmt_tabl      │ TOO_MANY_FIELDS         │ Visual has 8 fields     │
+│                         │                         │ (recommend <=4)         │
+│ Formats > 6e980757      │ TEXTBOX_HEIGHT_BELOW_F… │ Textbox height 48px is  │
+│                         │                         │ below the ~54px floor   │
+│                         │                         │ for 24pt text; content  │
+│                         │                         │ will scroll or clip     │
+│ Variance > 221fb869     │ TEXTBOX_HEIGHT_BELOW_F… │ Textbox height 48px is  │
+│                         │                         │ below the ~54px floor   │
+│                         │                         │ for 24pt text; content  │
+│                         │                         │ will scroll or clip     │
+│ Variance > wf_plan_     │ VISUAL_LEVEL_FILTERS    │ Visual has 1            │
+│                         │                         │ visual-level filter(s)  │
+│ Slicers > sl_date_      │ VISUAL_UNDERSIZED       │ slicer is undersized    │
+│                         │                         │ (400x100px, recommend   │
+│                         │                         │ >= 160x120px)           │
+│ Slicers > sl_dim_p      │ VISUAL_UNDERSIZED       │ slicer is undersized    │
+│                         │                         │ (400x100px, recommend   │
+│                         │                         │ >= 160x120px)           │
+│ Slicers > sl_measu      │ VISUAL_UNDERSIZED       │ slicer is undersized    │
+│                         │                         │ (400x100px, recommend   │
+│                         │                         │ >= 160x120px)           │
+│ Slicers > 3f340f6c      │ TEXTBOX_HEIGHT_BELOW_F… │ Textbox height 48px is  │
+│                         │                         │ below the ~54px floor   │
+│                         │                         │ for 24pt text; content  │
+│                         │                         │ will scroll or clip     │
+│ Detail > 346e80f8       │ TEXTBOX_HEIGHT_BELOW_F… │ Textbox height 48px is  │
+│                         │                         │ below the ~54px floor   │
+│                         │                         │ for 24pt text; content  │
+│                         │                         │ will scroll or clip     │
+│ Tip > tip_card          │ VISUAL_UNDERSIZED       │ card is undersized      │
+│                         │                         │ (304x100px, recommend   │
+│                         │                         │ >= 280x140px)           │
+│ Layout > col_topn       │ VISUAL_LEVEL_FILTERS    │ Visual has 1            │
+│                         │                         │ visual-level filter(s)  │
+│ Variance copy >         │ TEXTBOX_HEIGHT_BELOW_F… │ Textbox height 48px is  │
+│ 2ccfbff4                │                         │ below the ~54px floor   │
+│                         │                         │ for 24pt text; content  │
+│                         │                         │ will scroll or clip     │
+│ Variance copy >         │ VISUAL_LEVEL_FILTERS    │ Visual has 1            │
+│ 229116cb                │                         │ visual-level filter(s)  │
+└─────────────────────────┴─────────────────────────┴─────────────────────────┘
+
+Valid (20 warnings, 2 info)
