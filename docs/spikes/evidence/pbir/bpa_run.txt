@@ -1,0 +1,313 @@
+
+WARN Cov: Passed (12 warnings, 46 info)
+┌─────┬───────────────────────┬───────────────────────┬───────────────────────┐
+│ Sev │ Rule                  │ Location              │ Message               │
+├─────┼───────────────────────┼───────────────────────┼───────────────────────┤
+│ INF │ PBIR_ACTIVE_PAGE_NOT… │ Cov                   │ The active (landing)  │
+│     │                       │                       │ page is not the first │
+│     │                       │                       │ page in the page      │
+│     │                       │                       │ order. Users expect   │
+│     │                       │                       │ to land on the first  │
+│     │                       │                       │ page. Either reorder  │
+│     │                       │                       │ pages or change the   │
+│     │                       │                       │ active page.          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Nav.Page/bm_nav.Visu… │ Visual 'bm_nav'       │
+│     │                       │                       │ (bookmarkNavigator)   │
+│     │                       │                       │ has no alt text       │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Nav.Page/btn_bm_hidd… │ Visual                │
+│     │                       │                       │ 'btn_bm_hidden'       │
+│     │                       │                       │ (actionButton) has no │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Nav.Page/btn_bm_show… │ Visual 'btn_bm_shown' │
+│     │                       │                       │ (actionButton) has no │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Nav.Page/btn_go_vari… │ Visual                │
+│     │                       │                       │ 'btn_go_variance'     │
+│     │                       │                       │ (actionButton) has no │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Nav.Page/92d03374379… │ Visual                │
+│     │                       │                       │ '92d03374379721fa'    │
+│     │                       │                       │ (cardVisual) has no   │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Nav.Page/page_nav.Vi… │ Visual 'page_nav'     │
+│     │                       │                       │ (pageNavigator) has   │
+│     │                       │                       │ no alt text           │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Core.Page/btn_drill.… │ Visual 'btn_drill'    │
+│     │                       │                       │ (actionButton) has no │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Core.Page/card_multi… │ Visual 'card_multi'   │
+│     │                       │                       │ (cardVisual) has no   │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_OVERSIZED_CARD   │ Core.Page/kpi_actual… │ Visual 'kpi_actual'   │
+│     │                       │                       │ is width 616px,       │
+│     │                       │                       │ height 140px          │
+│     │                       │                       │ (recommend <=300px    │
+│     │                       │                       │ for cards/KPIs)       │
+│ WRN │ PBIR_VISUAL_UNDERSIZ… │ Core.Page/kpi_actual… │ Visual 'kpi_actual'   │
+│     │                       │                       │ (kpi) is width 616px, │
+│     │                       │                       │ height 140px          │
+│     │                       │                       │ (recommend >= width   │
+│     │                       │                       │ 290px, height 200px)  │
+│ INF │ PBIR_NO_ALT_TEXT      │ Core.Page/kpi_actual… │ Visual 'kpi_actual'   │
+│     │                       │                       │ (kpi) has no alt text │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Core.Page/line_trend… │ Visual 'line_trend'   │
+│     │                       │                       │ (lineChart) has no    │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ WRN │ PBIR_TOO_MANY_FIELDS  │ Core.Page/table_dept… │ Visual 'table_dept'   │
+│     │                       │                       │ has 5 fields          │
+│     │                       │                       │ (recommend <=4)       │
+│ INF │ PBIR_NO_ALT_TEXT      │ Core.Page/table_dept… │ Visual 'table_dept'   │
+│     │                       │                       │ (tableEx) has no alt  │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_HARDCODED_COLOR  │ Core.Page/table_dept… │ Visual 'table_dept'   │
+│     │                       │                       │ (tableEx) uses        │
+│     │                       │                       │ hardcoded hex colors  │
+│     │                       │                       │ instead of theme      │
+│     │                       │                       │ references. Use theme │
+│     │                       │                       │ tokens for consistent │
+│     │                       │                       │ styling and easier    │
+│     │                       │                       │ maintenance.          │
+│ INF │ PBIR_OVERSIZED_CARD   │ Matrix.Page/card_sca… │ Visual 'card_scaled'  │
+│     │                       │                       │ is width 416px,       │
+│     │                       │                       │ height 150px          │
+│     │                       │                       │ (recommend <=300px    │
+│     │                       │                       │ for cards/KPIs)       │
+│ INF │ PBIR_NO_ALT_TEXT      │ Matrix.Page/card_sca… │ Visual 'card_scaled'  │
+│     │                       │                       │ (card) has no alt     │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Matrix.Page/mx_calcg… │ Visual 'mx_calcgroup' │
+│     │                       │                       │ (pivotTable) has no   │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ WRN │ PBIR_TOO_MANY_FIELDS  │ Matrix.Page/mx_hier.… │ Visual 'mx_hier' has  │
+│     │                       │                       │ 5 fields (recommend   │
+│     │                       │                       │ <=4)                  │
+│ INF │ PBIR_NO_ALT_TEXT      │ Matrix.Page/mx_hier.… │ Visual 'mx_hier'      │
+│     │                       │                       │ (pivotTable) has no   │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_HARDCODED_COLOR  │ Matrix.Page/mx_hier.… │ Visual 'mx_hier'      │
+│     │                       │                       │ (pivotTable) uses     │
+│     │                       │                       │ hardcoded hex colors  │
+│     │                       │                       │ instead of theme      │
+│     │                       │                       │ references. Use theme │
+│     │                       │                       │ tokens for consistent │
+│     │                       │                       │ styling and easier    │
+│     │                       │                       │ maintenance.          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Matrix.Page/mx_state… │ Visual 'mx_statement' │
+│     │                       │                       │ (pivotTable) has no   │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ WRN │ PBIR_SHOW_ALL_ITEMS   │ Matrix.Page/mx_state… │ Visual 'mx_statement' │
+│     │                       │                       │ has 'Show items with  │
+│     │                       │                       │ no data' enabled.     │
+│     │                       │                       │ This forces the       │
+│     │                       │                       │ engine to return all  │
+│     │                       │                       │ category              │
+│     │                       │                       │ combinations, causing │
+│     │                       │                       │ significant           │
+│     │                       │                       │ performance           │
+│     │                       │                       │ degradation on large  │
+│     │                       │                       │ models.               │
+│ INF │ PBIR_OVERSIZED_CARD   │ Formats.Page/card_fm… │ Visual 'card_fmtA' is │
+│     │                       │                       │ width 400px, height   │
+│     │                       │                       │ 150px (recommend      │
+│     │                       │                       │ <=300px for           │
+│     │                       │                       │ cards/KPIs)           │
+│ INF │ PBIR_NO_ALT_TEXT      │ Formats.Page/card_fm… │ Visual 'card_fmtA'    │
+│     │                       │                       │ (card) has no alt     │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_OVERSIZED_CARD   │ Formats.Page/card_fm… │ Visual 'card_fmtE' is │
+│     │                       │                       │ width 400px, height   │
+│     │                       │                       │ 150px (recommend      │
+│     │                       │                       │ <=300px for           │
+│     │                       │                       │ cards/KPIs)           │
+│ INF │ PBIR_NO_ALT_TEXT      │ Formats.Page/card_fm… │ Visual 'card_fmtE'    │
+│     │                       │                       │ (card) has no alt     │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ WRN │ PBIR_TOO_MANY_FIELDS  │ Formats.Page/fmt_tab… │ Visual 'fmt_table'    │
+│     │                       │                       │ has 8 fields          │
+│     │                       │                       │ (recommend <=4)       │
+│ INF │ PBIR_NO_ALT_TEXT      │ Formats.Page/fmt_tab… │ Visual 'fmt_table'    │
+│     │                       │                       │ (tableEx) has no alt  │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Variance.Page/dt_var… │ Visual 'dt_variance'  │
+│     │                       │                       │ (decompositionTreeVi… │
+│     │                       │                       │ has no alt text       │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ WRN │ PBIR_VISUAL_LEVEL_FI… │ Variance.Page/wf_pla… │ Visual                │
+│     │                       │                       │ 'wf_plan_actual' has  │
+│     │                       │                       │ 1 visual-level        │
+│     │                       │                       │ filter(s).            │
+│     │                       │                       │ Visual-level filters  │
+│     │                       │                       │ are hard to discover  │
+│     │                       │                       │ and maintain.         │
+│ INF │ PBIR_NO_ALT_TEXT      │ Variance.Page/wf_pla… │ Visual                │
+│     │                       │                       │ 'wf_plan_actual'      │
+│     │                       │                       │ (waterfallChart) has  │
+│     │                       │                       │ no alt text           │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Slicers.Page/bar_dim… │ Visual                │
+│     │                       │                       │ 'bar_dim_param'       │
+│     │                       │                       │ (clusteredBarChart)   │
+│     │                       │                       │ has no alt text       │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Slicers.Page/sl_acct… │ Visual                │
+│     │                       │                       │ 'sl_acct_tiles'       │
+│     │                       │                       │ (advancedSlicerVisua… │
+│     │                       │                       │ has no alt text       │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ WRN │ PBIR_VISUAL_UNDERSIZ… │ Slicers.Page/sl_date… │ Visual                │
+│     │                       │                       │ 'sl_date_between'     │
+│     │                       │                       │ (slicer) is width     │
+│     │                       │                       │ 400px, height 100px   │
+│     │                       │                       │ (recommend >= width   │
+│     │                       │                       │ 160px, height 120px)  │
+│ INF │ PBIR_NO_ALT_TEXT      │ Slicers.Page/sl_date… │ Visual                │
+│     │                       │                       │ 'sl_date_between'     │
+│     │                       │                       │ (slicer) has no alt   │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Slicers.Page/sl_dept… │ Visual                │
+│     │                       │                       │ 'sl_dept_dropdown'    │
+│     │                       │                       │ (slicer) has no alt   │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ WRN │ PBIR_VISUAL_UNDERSIZ… │ Slicers.Page/sl_dim_… │ Visual 'sl_dim_param' │
+│     │                       │                       │ (slicer) is width     │
+│     │                       │                       │ 400px, height 100px   │
+│     │                       │                       │ (recommend >= width   │
+│     │                       │                       │ 160px, height 120px)  │
+│ INF │ PBIR_NO_ALT_TEXT      │ Slicers.Page/sl_dim_… │ Visual 'sl_dim_param' │
+│     │                       │                       │ (slicer) has no alt   │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Slicers.Page/sl_fy.V… │ Visual 'sl_fy'        │
+│     │                       │                       │ (slicer) has no alt   │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ WRN │ PBIR_VISUAL_UNDERSIZ… │ Slicers.Page/sl_meas… │ Visual                │
+│     │                       │                       │ 'sl_measure_param'    │
+│     │                       │                       │ (slicer) is width     │
+│     │                       │                       │ 400px, height 100px   │
+│     │                       │                       │ (recommend >= width   │
+│     │                       │                       │ 160px, height 120px)  │
+│ INF │ PBIR_NO_ALT_TEXT      │ Slicers.Page/sl_meas… │ Visual                │
+│     │                       │                       │ 'sl_measure_param'    │
+│     │                       │                       │ (slicer) has no alt   │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Slicers.Page/tbl_mea… │ Visual                │
+│     │                       │                       │ 'tbl_measure_param'   │
+│     │                       │                       │ (tableEx) has no alt  │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Detail.Page/btn_back… │ Visual 'btn_back'     │
+│     │                       │                       │ (actionButton) has no │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Detail.Page/tbl_acco… │ Visual 'tbl_accounts' │
+│     │                       │                       │ (tableEx) has no alt  │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_OVERSIZED_CARD   │ Tip.Page/tip_card.Vi… │ Visual 'tip_card' is  │
+│     │                       │                       │ width 304px, height   │
+│     │                       │                       │ 100px (recommend      │
+│     │                       │                       │ <=300px for           │
+│     │                       │                       │ cards/KPIs)           │
+│ WRN │ PBIR_VISUAL_UNDERSIZ… │ Tip.Page/tip_card.Vi… │ Visual 'tip_card'     │
+│     │                       │                       │ (card) is width       │
+│     │                       │                       │ 304px, height 100px   │
+│     │                       │                       │ (recommend >= width   │
+│     │                       │                       │ 280px, height 140px)  │
+│ INF │ PBIR_NO_ALT_TEXT      │ Tip.Page/tip_card.Vi… │ Visual 'tip_card'     │
+│     │                       │                       │ (card) has no alt     │
+│     │                       │                       │ text (accessibility   │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Tip.Page/tip_line.Vi… │ Visual 'tip_line'     │
+│     │                       │                       │ (lineChart) has no    │
+│     │                       │                       │ alt text              │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_PAGE_EXCEEDS_VI… │ Layout.Page           │ Page 'Layout' is      │
+│     │                       │                       │ 800px tall (max       │
+│     │                       │                       │ recommended 720px).   │
+│     │                       │                       │ Tall pages force      │
+│     │                       │                       │ scrolling and harm    │
+│     │                       │                       │ the viewing           │
+│     │                       │                       │ experience.           │
+│ INF │ PBIR_NO_ALT_TEXT      │ Layout.Page/col_dril… │ Visual 'col_drill'    │
+│     │                       │                       │ (clusteredColumnChar… │
+│     │                       │                       │ has no alt text       │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Layout.Page/col_smal… │ Visual                │
+│     │                       │                       │ 'col_smallmult'       │
+│     │                       │                       │ (clusteredColumnChar… │
+│     │                       │                       │ has no alt text       │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ WRN │ PBIR_VISUAL_LEVEL_FI… │ Layout.Page/col_topn… │ Visual 'col_topn' has │
+│     │                       │                       │ 1 visual-level        │
+│     │                       │                       │ filter(s).            │
+│     │                       │                       │ Visual-level filters  │
+│     │                       │                       │ are hard to discover  │
+│     │                       │                       │ and maintain.         │
+│ INF │ PBIR_NO_ALT_TEXT      │ Layout.Page/col_topn… │ Visual 'col_topn'     │
+│     │                       │                       │ (clusteredColumnChar… │
+│     │                       │                       │ has no alt text       │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ INF │ PBIR_NO_ALT_TEXT      │ Variance              │ Visual                │
+│     │                       │ copy.Page/3c0a48818b… │ '3c0a48818b1ca5f3'    │
+│     │                       │                       │ (decompositionTreeVi… │
+│     │                       │                       │ has no alt text       │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+│ WRN │ PBIR_VISUAL_LEVEL_FI… │ Variance              │ Visual                │
+│     │                       │ copy.Page/229116cb60… │ '229116cb603ad67d'    │
+│     │                       │                       │ has 1 visual-level    │
+│     │                       │                       │ filter(s).            │
+│     │                       │                       │ Visual-level filters  │
+│     │                       │                       │ are hard to discover  │
+│     │                       │                       │ and maintain.         │
+│ INF │ PBIR_NO_ALT_TEXT      │ Variance              │ Visual                │
+│     │                       │ copy.Page/229116cb60… │ '229116cb603ad67d'    │
+│     │                       │                       │ (waterfallChart) has  │
+│     │                       │                       │ no alt text           │
+│     │                       │                       │ (accessibility        │
+│     │                       │                       │ requirement)          │
+└─────┴───────────────────────┴───────────────────────┴───────────────────────┘
