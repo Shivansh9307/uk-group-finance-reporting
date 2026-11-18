@@ -1,0 +1,109 @@
+/// Real outturn from the 31 OSCAR in-year releases as revision deltas: one row for each change a release makes to a line (organisation version, sub-segment, economic category, control budget detail, period), only non-zero deltas. The sum of the deltas up to a release equals what that release reports. GBP thousands, spending positive, income negative. Source view dw.v_model_fact_outturn.
+table 'Fact Outturn'
+	lineageTag: cb607bbf-daa1-5cc8-a027-41f68dfb1127
+
+	column 'Release Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 568ac449-f7a6-55fe-9155-55b9f6b4f8bc
+		summarizeBy: none
+		sourceColumn: release_key
+
+	column 'Organisation Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: eb8eb204-c4d3-5b3e-8f51-4d56a273313d
+		summarizeBy: none
+		sourceColumn: organisation_key
+
+	column 'Current Department Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ed0010c4-2cb0-5a77-9b08-fa08325d0c0b
+		summarizeBy: none
+		sourceColumn: current_department_key
+
+	column 'Segment Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 15d6bced-5405-5eca-9c3b-8e932ebcba35
+		summarizeBy: none
+		sourceColumn: segment_key
+
+	column 'Account Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 906dd163-ba6b-5e3f-bf93-b2e846fc9ead
+		summarizeBy: none
+		sourceColumn: account_key
+
+	column 'Control Budget Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 62d660ee-d368-5be4-9672-638add02df25
+		summarizeBy: none
+		sourceColumn: control_budget_key
+
+	column 'Period Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: aaa5b0ad-5451-5cfd-b420-6a1bc67b8b39
+		summarizeBy: none
+		sourceColumn: period_key
+
+	column 'Scenario Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 89c0c050-09d8-5374-a789-91aadbde7da1
+		summarizeBy: none
+		sourceColumn: scenario_key
+
+	column 'Spending Review Group Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5c1e5bb4-d5db-57fd-8221-0779b14461ed
+		summarizeBy: none
+		sourceColumn: sr_group_key
+
+	column 'Data Quality Issue Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3f11aae0-c353-5f85-bcea-7058f93e4b15
+		summarizeBy: none
+		sourceColumn: dq_issue_key
+
+	/// Change in the line's amount made by the release, GBP thousands. Hidden: use the measures.
+	column 'Amount Delta'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		lineageTag: 7845babe-a63a-5811-b3dd-4e4d632ee053
+		summarizeBy: none
+		sourceColumn: amount_delta
+
+	/// 0 on the first delta of a line (as first reported), then 1, 2, 3.
+	column 'Revision Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 85eb2da1-eed1-5976-805c-2e6d8feb322b
+		summarizeBy: none
+		sourceColumn: revision_no
+
+	partition 'Fact Outturn' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_fact_outturn"]}[Data]
+				in
+				    Data

@@ -1,0 +1,37 @@
+/// Rows of the two ONS CPI files that did not parse, with the file and the reason. Empty when every row parses (tested by tests/dax/705). Annual and quarterly rows are not loaded and are not failures; a row of any other shape after the data starts, a value that is not a number or a month out of order lands here.
+table 'CPI Quarantine'
+	lineageTag: fd9147d7-d280-5a8b-89b6-895252118bb4
+
+	/// File the row was read from.
+	column 'Source File'
+		dataType: string
+		lineageTag: fa2522ab-7e9d-59e1-a126-55fba7bfe124
+		summarizeBy: none
+		sourceColumn: FileName
+
+	/// First field of the row.
+	column 'Row Label'
+		dataType: string
+		lineageTag: c1191015-447a-56df-bb4c-d800b9648531
+		summarizeBy: none
+		sourceColumn: Row Label
+
+	/// Why the row was not loaded.
+	column Reason
+		dataType: string
+		lineageTag: 76a55389-1206-50c2-a815-a98cba44fd83
+		summarizeBy: none
+		sourceColumn: Reason
+
+	partition 'CPI Quarantine' = m
+		mode: import
+		source =
+				let
+				    Parsed = Table.AddColumn(#"CPI Raw", "Parsed", (r) => fnParseCpi(r[FileName], r[Data]), type table),
+				    Kept = Table.SelectColumns(Parsed, {"FileName", "Parsed"}),
+				    Expanded = Table.ExpandTableColumn(Kept, "Parsed", {"Row Label", "Status", "Reason"}),
+				    Bad = Table.SelectRows(Expanded, each [Status] <> "ok"),
+				    Shaped = Table.SelectColumns(Bad, {"FileName", "Row Label", "Reason"}),
+				    Typed = Table.TransformColumnTypes(Shaped, {{"FileName", type text}, {"Row Label", type text}, {"Reason", type text}})
+				in
+				    Typed

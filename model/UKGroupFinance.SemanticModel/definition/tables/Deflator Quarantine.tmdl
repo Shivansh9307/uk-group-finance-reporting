@@ -1,0 +1,44 @@
+/// Rows of the three GDP deflator workbooks that did not parse, with the file and the reason. Empty when every row parses (tested by tests/dax/705). Nothing is dropped silently: a row that is neither a financial-year row nor a blank or note line lands here.
+table 'Deflator Quarantine'
+	lineageTag: 7f6321a4-65c5-56b7-ad4f-92da676ca8e7
+
+	/// Release id in the file manifest.
+	column 'Vintage Id'
+		dataType: string
+		lineageTag: 84e30820-211c-56c8-b5b3-6c3b369bc37c
+		summarizeBy: none
+		sourceColumn: VintageId
+
+	/// Workbook the row was read from.
+	column 'Source File'
+		dataType: string
+		lineageTag: bcc6fcbb-7385-5587-8d6c-a28fbe8a5ea9
+		summarizeBy: none
+		sourceColumn: FileName
+
+	/// Text of the row's label cell.
+	column 'Row Label'
+		dataType: string
+		lineageTag: a2baaf59-a952-585c-89eb-603e9c765404
+		summarizeBy: none
+		sourceColumn: Row Label
+
+	/// Why the row was not loaded.
+	column Reason
+		dataType: string
+		lineageTag: 70a1f438-895a-521f-8bea-adfe115d5913
+		summarizeBy: none
+		sourceColumn: Reason
+
+	partition 'Deflator Quarantine' = m
+		mode: import
+		source =
+				let
+				    Parsed = Table.AddColumn(#"Deflator Raw", "Parsed", (r) => fnParseGdpDeflator(r[VintageId], r[FileName], r[Sheet]), type table),
+				    Kept = Table.SelectColumns(Parsed, {"VintageId", "FileName", "Parsed"}),
+				    Expanded = Table.ExpandTableColumn(Kept, "Parsed", {"Row Label", "Status", "Reason"}),
+				    Bad = Table.SelectRows(Expanded, each [Status] <> "ok"),
+				    Shaped = Table.SelectColumns(Bad, {"VintageId", "FileName", "Row Label", "Reason"}),
+				    Typed = Table.TransformColumnTypes(Shaped, {{"VintageId", type text}, {"FileName", type text}, {"Row Label", type text}, {"Reason", type text}})
+				in
+				    Typed

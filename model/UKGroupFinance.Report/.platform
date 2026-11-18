@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "UKGroupFinance"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2ea6b89a-d079-4b3d-bbdb-1b2ad77cf340"
+  }
+}

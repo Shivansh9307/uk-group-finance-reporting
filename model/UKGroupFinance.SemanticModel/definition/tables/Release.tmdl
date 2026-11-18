@@ -1,0 +1,98 @@
+/// One row per OSCAR in-year release (March 2019 to September 2026, 31 in all). Each release restates the year to date, and Fact Outturn stores the change since the previous release of the same year, so the release is how a view as at a point in time is built. Source view dw.v_model_release.
+table Release
+	lineageTag: 50e05308-0cf6-5e60-9696-1225b34e7775
+
+	/// Equal to the release sequence.
+	column 'Release Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: 672337b2-4eae-5ffe-89e1-3d572824f1e1
+		summarizeBy: none
+		sourceColumn: release_key
+
+	/// Release month, for example Jun 2024.
+	column Release
+		dataType: string
+		lineageTag: e2348877-c5df-5b03-b4cc-d357ab977f2f
+		summarizeBy: none
+		sourceColumn: display_label
+		sortByColumn: 'Release Sequence'
+
+	/// Release month as yyyy-mm, the label used in the data tests.
+	column 'Release Label'
+		dataType: string
+		lineageTag: 519cde8d-de22-5b7d-8b1c-a9b0ac86842a
+		summarizeBy: none
+		sourceColumn: label
+		sortByColumn: 'Release Sequence'
+
+	/// 1 for March 2019, in publication order.
+	column 'Release Sequence'
+		dataType: int64
+		formatString: 0
+		lineageTag: abd479ee-9e8f-5345-a4fe-7f5fd08a075c
+		summarizeBy: none
+		sourceColumn: release_seq
+
+	/// The financial year the release reports on.
+	column 'Release Financial Year'
+		dataType: string
+		lineageTag: d73e1a6c-4d42-5c7e-bc97-4c25440a15ab
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	/// Date of the first publication of the release page.
+	column 'First Published'
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 14f0c7cd-c3c7-59b9-991a-8396aac1286e
+		summarizeBy: none
+		sourceColumn: first_published
+
+	/// Latest period the release covers: 3, 6, 9 or 12 (one March release reports to 9).
+	column 'Highest Period Reported'
+		dataType: int64
+		formatString: 0
+		lineageTag: 742adc38-270d-5794-82d7-98f68aa914ec
+		summarizeBy: none
+		sourceColumn: highest_period
+
+	/// 0 for the first release of a financial year, then 1, 2, 3.
+	column 'Release Number In Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1891bb60-f1b9-5e88-82be-cc2ce3e28314
+		summarizeBy: none
+		sourceColumn: release_in_year
+
+	/// Version label carried by the release data, as published.
+	column 'Source Version Label'
+		dataType: string
+		lineageTag: 9ca2768c-6097-5d0b-9209-54e58ad3b420
+		summarizeBy: none
+		sourceColumn: version_label
+
+	/// True for the most recent release.
+	column 'Is Latest Release'
+		dataType: boolean
+		lineageTag: e65eea7b-035c-5756-9377-3309c4ec445f
+		summarizeBy: none
+		sourceColumn: is_latest_release
+
+	/// True for the release that covers period 12, the closing view of a year.
+	column 'Is Year-End Release'
+		dataType: boolean
+		lineageTag: d225cb75-ddfe-5258-92ba-cce49678aa82
+		summarizeBy: none
+		sourceColumn: is_year_end_release
+
+	partition Release = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_release"]}[Data]
+				in
+				    Data

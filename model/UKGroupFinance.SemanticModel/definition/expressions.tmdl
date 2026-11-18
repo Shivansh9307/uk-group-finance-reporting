@@ -1,0 +1,190 @@
+expression Server = "localhost" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: b8f32ed1-e131-50da-b3b2-667fc73c3a21
+	queryGroup: Parameters
+
+expression Database = "UKGroupFinance" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: 468c72bf-4259-53b0-9ee2-103f66edb0f3
+	queryGroup: Parameters
+
+expression 'Deflator Raw' =
+		let
+		    // The three GDP deflator workbooks this model reads, in one place. The links are the file_url values of
+		    // data/manifest/files.csv (source id gdp_deflator); test 703 compares what is loaded with the pinned copies.
+		    Sources = {
+		        [VintageId = "2026-06-quarterly-national-accounts", Vintage = "June 2026 QNA", VintageOrder = 1, IsDefault = false, FileName = "GDP_Deflators_Qtrly_National_Accounts_June_2026_update.xlsx", Url = "https://assets.publishing.service.gov.uk/media/6a43dbc7167a99cf0018d9a0/GDP_Deflators_Qtrly_National_Accounts_June_2026_update.xlsx"],
+		        [VintageId = "2026-09-quarterly-national-accounts", Vintage = "September 2026 QNA", VintageOrder = 2, IsDefault = false, FileName = "GDP_Deflators_Qtrly_National_Accounts_September_2026.xlsx", Url = "https://assets.publishing.service.gov.uk/media/6abe277f26660e5f62a7f1e9/GDP_Deflators_Qtrly_National_Accounts_September_2026.xlsx"],
+		        [VintageId = "2026-10-budget", Vintage = "October 2026 Budget", VintageOrder = 3, IsDefault = true, FileName = "GDP_Deflators_Budget_October_2026_update.xlsx", Url = "https://assets.publishing.service.gov.uk/media/6ae32ab0a5c2f99e3a7b82e3/GDP_Deflators_Budget_October_2026_update.xlsx"]
+		    },
+		    AsTable = Table.FromRecords(Sources),
+		    // Raw cells of the one sheet, no header promotion. This query reads the web and nothing else; the parsing
+		    // lives in fnParseGdpDeflator so that no query both reads a source and calls another query.
+		    Workbooks = Table.AddColumn(AsTable, "Workbook", (r) => Excel.Workbook(Web.Contents(r[Url]), false, true), type table),
+		    Sheets = Table.AddColumn(Workbooks, "Sheet", (r) => let s = Table.SelectRows(r[Workbook], each [Kind] = "Sheet") in if Table.RowCount(s) = 1 then s{0}[Data] else null)
+		in
+		    Table.RemoveColumns(Sheets, {"Workbook"})
+	lineageTag: e4542c30-44c2-5c2a-93cb-cc5a94f8f603
+	queryGroup: 'Web Sources'
+
+expression 'CPI Raw' =
+		let
+		    // The two ONS series this model reads. The links are the file_url values of data/manifest/files.csv
+		    // (source id ons_cpi). ONS regenerates the files each month, so the pinned copies can be a month behind.
+		    Sources = {
+		        [FileName = "d7bt.csv", Url = "https://www.ons.gov.uk/generator?format=csv&uri=/economy/inflationandpriceindices/timeseries/d7bt/mm23"],
+		        [FileName = "d7g7.csv", Url = "https://www.ons.gov.uk/generator?format=csv&uri=/economy/inflationandpriceindices/timeseries/d7g7/mm23"]
+		    },
+		    AsTable = Table.FromRecords(Sources)
+		in
+		    Table.AddColumn(AsTable, "Data", (r) => Csv.Document(Web.Contents(r[Url]), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]), type table)
+	lineageTag: 3d93b234-10d9-59e3-b6e2-297d6eca4c54
+	queryGroup: 'Web Sources'
+
+expression fnParseGdpDeflator =
+		(vintageId as text, fileName as text, sheet as nullable table) as table =>
+		let
+		    // One function for the shape of an HM Treasury GDP deflator workbook: a header block, a header row that holds
+		    // the words "Financial year", a column headed "... = 100" and a column headed "per cent change ...", then one
+		    // row per financial year. Everything is found by header text, never by sheet or column position. A row that
+		    // cannot be read is returned with Status "rejected" and a reason, and is never dropped.
+		    Out = type table [#"Financial Year" = nullable text, #"Row Label" = nullable text, Status = text, Reason = nullable text, #"Is Forecast" = nullable logical, #"Index Published" = nullable number, #"Per Cent Change" = nullable number, #"Chained Index" = nullable number],
+		    Reject = (label as nullable text, reason as text) as record =>
+		        [#"Financial Year" = null, #"Row Label" = label, Status = "rejected", Reason = reason, #"Is Forecast" = null, #"Index Published" = null, #"Per Cent Change" = null, #"Chained Index" = null],
+		    Txt = (v as any) as text => if v = null then "" else Text.Trim(Text.From(v)),
+		    Cell = (r as list, c as number) as any => if c >= 0 and c < List.Count(r) then r{c} else null,
+		    IsNum = (v as any) as logical => v is number,
+		    Digits = {"0".."9"},
+		    IsYearLabel = (t as text) as logical =>
+		        Text.Length(t) >= 7
+		        and Text.Length(Text.Select(Text.Start(t, 4), Digits)) = 4
+		        and Text.Middle(t, 4, 1) = "-"
+		        and Text.Length(Text.Select(Text.Middle(t, 5, 2), Digits)) = 2,
+		    Rows = if sheet = null then {} else List.Buffer(Table.ToRows(sheet)),
+		    IsHeaderRow = (r as list) as logical =>
+		        List.Contains(List.Transform(r, Txt), "Financial year", Comparer.OrdinalIgnoreCase)
+		        and List.AnyTrue(List.Transform(r, each Text.Contains(Txt(_), "= 100"))),
+		    HeaderPos = List.PositionOf(List.Transform(List.FirstN(Rows, 30), IsHeaderRow), true),
+		    HeaderCells = if HeaderPos < 0 then {} else List.Transform(Rows{HeaderPos}, Txt),
+		    YearCol = List.PositionOf(HeaderCells, "Financial year", Occurrence.First, Comparer.OrdinalIgnoreCase),
+		    IndexCol = List.PositionOf(List.Transform(HeaderCells, each Text.Contains(_, "= 100")), true),
+		    PctCol = List.PositionOf(List.Transform(HeaderCells, each Text.Contains(Text.Lower(_), "per cent change")), true),
+		    Label = (r as list) as text => Txt(Cell(r, YearCol)),
+		    Body = if HeaderPos < 0 then {} else List.Skip(Rows, HeaderPos + 1),
+		    FirstYear = List.PositionOf(List.Transform(Body, (r) => IsYearLabel(Label(r))), true),
+		    Block = if FirstYear < 0 then {} else List.FirstN(List.Skip(Body, FirstYear), (r) => IsYearLabel(Label(r))),
+		    Outside = if FirstYear < 0 then Body else List.FirstN(Body, FirstYear) & List.Skip(Body, FirstYear + List.Count(Block)),
+		    Stray = List.Transform(
+		        List.Select(Outside, (r) => IsYearLabel(Label(r)) or IsNum(Cell(r, IndexCol)) or IsNum(Cell(r, PctCol))),
+		        (r) => Reject(Label(r), if IsYearLabel(Label(r)) then "a financial-year row after the end of the data block" else "numbers on a row whose label is not a financial year")),
+		    Parse = (r as list) as record =>
+		        let
+		            lab = Label(r),
+		            suffix = Text.Trim(Text.Middle(lab, 7)),
+		            ix = Cell(r, IndexCol),
+		            pc = Cell(r, PctCol),
+		            idx = if IsNum(ix) then ix else null,
+		            pct = if IsNum(pc) then pc else null,
+		            fwd = idx = null or suffix <> "",
+		            problem =
+		                if not (IsNum(ix) or Txt(ix) = "-" or Txt(ix) = "") then "index cell is neither a number nor a dash"
+		                else if not (IsNum(pc) or Txt(pc) = "-" or Txt(pc) = "") then "per cent change cell is neither a number nor a dash"
+		                else if fwd and pct = null then "forecast year with no per cent change, so it cannot be chained"
+		                else null
+		        in
+		            [Year = Text.Start(lab, 7), Label = lab, Idx = idx, Pct = pct, Fwd = fwd, Problem = problem],
+		    Chain = List.Accumulate(
+		        List.Transform(Block, Parse),
+		        {},
+		        (acc, p) =>
+		            let
+		                prior = List.Select(acc, each [Status] = "ok"),
+		                prev = if List.Count(prior) = 0 then null else List.Last(prior)[Level],
+		                problem =
+		                    if p[Problem] <> null then p[Problem]
+		                    else if List.Contains(List.Transform(prior, each [Year]), p[Year]) then "financial year appears more than once in the file"
+		                    else if p[Fwd] and prev = null then "forecast year with no earlier level to chain from"
+		                    else null,
+		                level = if problem <> null then null else if p[Fwd] then Number.Round(prev * (1 + p[Pct] / 100), 4) else p[Idx]
+		            in
+		                acc & {[Year = p[Year], Label = p[Label], Idx = p[Idx], Pct = p[Pct], Fwd = p[Fwd], Status = if problem = null then "ok" else "rejected", Reason = problem, Level = level]}
+		    ),
+		    FromChain = List.Transform(
+		        Chain,
+		        (c) => [#"Financial Year" = c[Year], #"Row Label" = c[Label], Status = c[Status], Reason = c[Reason], #"Is Forecast" = c[Fwd], #"Index Published" = c[Idx], #"Per Cent Change" = c[Pct], #"Chained Index" = c[Level]]),
+		    Problems =
+		        if sheet = null then {Reject(fileName, "the workbook does not have exactly one sheet")}
+		        else if HeaderPos < 0 then {Reject(fileName, "no header row with the words Financial year and a column headed = 100 in the first 30 rows")}
+		        else if YearCol < 0 or IndexCol < 0 or PctCol < 0 then {Reject(fileName, "header row has no per cent change column")}
+		        else if List.Count(Block) = 0 then {Reject(fileName, "no financial-year rows under the header")}
+		        else {}
+		in
+		    Table.FromRecords(Problems & (if List.Count(Problems) > 0 then {} else FromChain & Stray), Out)
+	lineageTag: 04e8fb27-5243-539d-b1eb-73907635d0dc
+	queryGroup: 'Web Sources'
+
+expression fnParseCpi =
+		(fileName as text, csv as nullable table) as table =>
+		let
+		    // One function for the shape of an ONS time-series CSV: key/value metadata lines (Title, CDID, Unit, Release
+		    // date ...), then annual rows ("1989"), quarterly rows ("1989 Q1") and monthly rows ("1989 JAN") in that order.
+		    // Rows are classified by the shape of the first field, not by position. Only the monthly block is loaded. A row of
+		    // another shape after the data starts, a value that is not a number, a block out of order or a month that does
+		    // not follow the one before it is returned with Status "rejected" and a reason.
+		    Out = type table [#"Series Id" = nullable text, #"Series Title" = nullable text, Unit = nullable text, #"Release Date" = nullable text, #"Month Start Date" = nullable date, Value = nullable number, #"Row Label" = nullable text, Status = text, Reason = nullable text],
+		    Reject = (label as nullable text, reason as text) as record =>
+		        [#"Series Id" = null, #"Series Title" = null, Unit = null, #"Release Date" = null, #"Month Start Date" = null, Value = null, #"Row Label" = label, Status = "rejected", Reason = reason],
+		    Txt = (v as any) as text => if v = null then "" else Text.Trim(Text.From(v)),
+		    Months = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"},
+		    Digits = {"0".."9"},
+		    Rows = if csv = null then {} else List.Buffer(Table.ToRows(csv)),
+		    First = (r as list) as text => Txt(if List.Count(r) > 0 then r{0} else null),
+		    Second = (r as list) as text => Txt(if List.Count(r) > 1 then r{1} else null),
+		    FourDigits = (k as text) as logical => Text.Length(k) >= 4 and Text.Length(Text.Select(Text.Start(k, 4), Digits)) = 4,
+		    Kind = (k as text) as nullable text =>
+		        if Text.Length(k) = 4 and FourDigits(k) then "annual"
+		        else if Text.Length(k) = 7 and FourDigits(k) and Text.Middle(k, 4, 2) = " Q" and List.Contains({"1", "2", "3", "4"}, Text.End(k, 1)) then "quarterly"
+		        else if Text.Length(k) = 8 and FourDigits(k) and Text.Middle(k, 4, 1) = " " and List.Contains(Months, Text.End(k, 3)) then "monthly"
+		        else null,
+		    Rank = (kind as text) as number => if kind = "annual" then 1 else if kind = "quarterly" then 2 else 3,
+		    FirstData = List.PositionOf(List.Transform(Rows, (r) => Kind(First(r)) <> null), true),
+		    MetaRows = if FirstData < 0 then Rows else List.FirstN(Rows, FirstData),
+		    DataRows = if FirstData < 0 then {} else List.Skip(Rows, FirstData),
+		    Meta = (key as text) as nullable text =>
+		        let m = List.Select(MetaRows, (r) => First(r) = key) in if List.Count(m) = 0 then null else Second(m{0}),
+		    SeriesId = Meta("CDID"),
+		    Walk = List.Accumulate(
+		        DataRows,
+		        [Rank = 0, Prev = null, Items = {}],
+		        (s, r) =>
+		            let
+		                k = First(r),
+		                v = Second(r),
+		                kind = Kind(k),
+		                num = try Number.FromText(v, "en-US") otherwise null,
+		                month = if kind = "monthly" then #date(Number.FromText(Text.Start(k, 4)), List.PositionOf(Months, Text.End(k, 3)) + 1, 1) else null,
+		                problem =
+		                    if kind = null then "unexpected row after the data started"
+		                    else if Rank(kind) < s[Rank] then "block out of order: " & kind & " rows after a later block"
+		                    else if kind = "monthly" and num = null then "value is not a number"
+		                    else if kind = "monthly" and s[Prev] <> null and month <= s[Prev] then "month does not follow the month before it"
+		                    else null,
+		                item =
+		                    if problem <> null then Reject(k, problem)
+		                    else if kind <> "monthly" then null
+		                    else [#"Series Id" = SeriesId, #"Series Title" = Meta("Title"), Unit = Meta("Unit"), #"Release Date" = Meta("Release date"), #"Month Start Date" = month, Value = num, #"Row Label" = k, Status = "ok", Reason = null]
+		            in
+		                [
+		                    Rank = if problem = null then Rank(kind) else s[Rank],
+		                    Prev = if problem = null and kind = "monthly" then month else s[Prev],
+		                    Items = if item = null then s[Items] else s[Items] & {item}
+		                ]
+		    ),
+		    Problems =
+		        if csv = null then {Reject(fileName, "the file could not be read")}
+		        else if SeriesId = null or SeriesId = "" then {Reject(fileName, "no CDID line in the metadata")}
+		        else if FirstData < 0 then {Reject(fileName, "no annual, quarterly or monthly rows found")}
+		        else if not List.AnyTrue(List.Transform(Walk[Items], (i) => i[Status] = "ok")) then {Reject(fileName, "no monthly rows found")}
+		        else {}
+		in
+		    Table.FromRecords(Problems & (if List.Count(Problems) > 0 then {} else Walk[Items]), Out)
+	lineageTag: 0c2a4f04-b783-5054-a5fc-71c4a4d664e3
+	queryGroup: 'Web Sources'

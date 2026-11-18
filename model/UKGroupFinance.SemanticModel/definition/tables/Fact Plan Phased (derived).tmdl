@@ -1,0 +1,134 @@
+/// DERIVED, not published: each plan row spread over periods 1 to 12 by a share taken from the prior year's outturn (or twelve flat twelfths where there is none). The monthly plan is my allocation of a published annual figure; the twelve rows of a plan row add up to it exactly. Scenario is Plan (phased), which is flagged derived. It never enters a real total and must never be shown as a published monthly budget. Source view dw.v_model_fact_plan_phased.
+table 'Fact Plan Phased (derived)'
+	lineageTag: 5062fe90-72fd-53c1-b03e-fbb10cb1df39
+
+	column 'Plan Fact Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4a9b183b-6bd7-537f-b70c-3150b9b53735
+		summarizeBy: none
+		sourceColumn: plan_fact_key
+
+	column 'Period Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 115cd2f2-06d3-5095-a1c3-44ed1d18143e
+		summarizeBy: none
+		sourceColumn: period_key
+
+	column 'Plan Source Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 23b39c69-8d5e-5aaa-b623-3a1f4cf69d3d
+		summarizeBy: none
+		sourceColumn: plan_source_key
+
+	column 'Spending Review Group Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ad5fa579-df4f-5779-8822-c383421afe2e
+		summarizeBy: none
+		sourceColumn: sr_group_key
+
+	column 'Scenario Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ee665617-1ac3-5924-bf1e-8ab2a725d97e
+		summarizeBy: none
+		sourceColumn: scenario_key
+
+	/// DERIVED row. OSCAR organisation code; filled for grain A only.
+	column 'Plan Organisation Code'
+		dataType: string
+		displayFolder: Derived
+		lineageTag: 098219de-c429-57f9-90b0-35c92f95db01
+		summarizeBy: none
+		sourceColumn: organisation_code
+
+	/// DERIVED row. Control budget detail as the plan source gives it.
+	column 'Plan Control Budget Detail'
+		dataType: string
+		displayFolder: Derived
+		lineageTag: 7b948de0-395d-5da5-9b18-f94acae81979
+		summarizeBy: none
+		sourceColumn: control_budget_detail
+
+	/// DERIVED row. RESOURCE, CAPITAL or n/a.
+	column 'Plan Economic Budget'
+		dataType: string
+		displayFolder: Derived
+		lineageTag: b66ea44e-37a6-5c27-abba-2d84ef061154
+		summarizeBy: none
+		sourceColumn: economic_budget
+
+	/// DERIVED row. Plan measure; the measures overlap by design.
+	column 'Plan Measure'
+		dataType: string
+		displayFolder: Derived
+		lineageTag: 066fce26-ab9f-5f63-a787-1ac9cee1cd6e
+		summarizeBy: none
+		sourceColumn: measure
+
+	column 'Plan Grain Key'
+		dataType: string
+		isHidden
+		lineageTag: 2055ba27-ed15-5717-bae5-079780aa26d3
+		summarizeBy: none
+		sourceColumn: grain_code
+
+	/// True for administration budgets, which are part of resource DEL.
+	column 'Is Part Of Other Measure'
+		dataType: boolean
+		displayFolder: Derived
+		lineageTag: 79679afb-77f6-56a4-ac8a-e07555b2b165
+		summarizeBy: none
+		sourceColumn: is_part_of_other_measure
+
+	/// Share of the annual plan placed in this period; can be negative where a prior-year month was.
+	column 'Phasing Share'
+		dataType: double
+		formatString: 0.0000000000
+		displayFolder: Derived
+		lineageTag: a270ab49-1f4e-59a8-b0ae-4d1ca1852bdc
+		summarizeBy: none
+		sourceColumn: share
+
+	/// Annual plan times the share, GBP thousands. Derived. Hidden: use the measures.
+	column 'Phased Amount'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		displayFolder: Derived
+		lineageTag: fcca6529-63d7-566e-893b-62078a722768
+		summarizeBy: none
+		sourceColumn: amount
+
+	/// prior_year_outturn, flat_no_prior_year or flat_prior_not_positive.
+	column 'Phasing Method'
+		dataType: string
+		displayFolder: Derived
+		lineageTag: 7ad13b03-3ac9-511c-b17d-36d0b99503eb
+		summarizeBy: none
+		sourceColumn: method
+
+	/// Always true: the monthly plan is derived, not published.
+	column 'Is Derived'
+		dataType: boolean
+		displayFolder: Derived
+		lineageTag: d16066b4-bf6c-5cd8-9f6d-ec83f4fce635
+		summarizeBy: none
+		sourceColumn: is_derived
+
+	partition 'Fact Plan Phased (derived)' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_fact_plan_phased"]}[Data]
+				in
+				    Data

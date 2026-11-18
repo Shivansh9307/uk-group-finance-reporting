@@ -1,0 +1,77 @@
+/// One row per financial year and period: period 1 is April, period 12 is March. Period 0 holds amounts the source does not allocate to a month (71 rows of the June 2019 release) and counts in year totals. There is no calendar date table and no auto date/time. Source view dw.v_model_fiscal_period.
+table 'Fiscal Period'
+	lineageTag: f2251e21-5b3a-5cc7-a614-de29694092b7
+
+	/// yyyypp, with yyyy the calendar year the financial year starts in.
+	column 'Period Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: 6dd0906b-a579-53ff-9623-7a50eb094c54
+		summarizeBy: none
+		sourceColumn: period_key
+
+	/// Relationship column to Fiscal Year; use Fiscal Year[Financial Year].
+	column 'Financial Year'
+		dataType: string
+		isHidden
+		lineageTag: 6e8b5106-86fc-531a-97b3-e868fb804a09
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	/// 0 to 12. Period 0 is not allocated to a month.
+	column 'Period Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 815a630f-b576-5c40-938d-598b6342ec17
+		summarizeBy: none
+		sourceColumn: period
+
+	/// Period number and month, for example P01 Apr.
+	column Period
+		dataType: string
+		lineageTag: 5bbcd040-b1fb-5b9d-8d78-8a54def535bc
+		summarizeBy: none
+		sourceColumn: period_label
+		sortByColumn: 'Period Number'
+
+	/// Calendar month name; period 0 reads Not allocated to a month.
+	column Month
+		dataType: string
+		lineageTag: f37a5a70-5d29-547d-be87-42072ba67b3d
+		summarizeBy: none
+		sourceColumn: month_name
+		sortByColumn: 'Period Number'
+
+	/// First day of the calendar month; blank for period 0.
+	column 'Month Start Date'
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: ac1444a9-773f-5844-aee4-d8b16137738e
+		summarizeBy: none
+		sourceColumn: month_start_date
+
+	/// 1 to 4 (April to June is 1); blank for period 0.
+	column 'Fiscal Quarter'
+		dataType: int64
+		formatString: 0
+		lineageTag: 08ada37c-1762-548b-be0b-3d89e207942b
+		summarizeBy: none
+		sourceColumn: fiscal_quarter
+
+	/// True for the not-allocated period.
+	column 'Is Period 0'
+		dataType: boolean
+		lineageTag: fb2ccb1e-9b3e-5121-be9c-1a301325afbc
+		summarizeBy: none
+		sourceColumn: is_period0
+
+	partition 'Fiscal Period' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_fiscal_period"]}[Data]
+				in
+				    Data

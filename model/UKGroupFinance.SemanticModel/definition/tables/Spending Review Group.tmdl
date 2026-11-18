@@ -1,0 +1,63 @@
+/// The 23 Spending Review groups of the latest annual release plus the members that plans and outturn need: the Single Intelligence Account (plan only), the combined pre-2023 group of BEIS, DCMS and DIT, six non-department members and one outturn-only member for former department lines. Plans are published by group, and outturn reaches the group through the bridge built from the current-structure department. Authored names and types, no amount. Source view dw.v_model_sr_group.
+table 'Spending Review Group'
+	lineageTag: 2f56bd5c-0a22-51cb-9857-11d745548f23
+
+	column 'Spending Review Group Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: 2b10a716-bbb5-5c78-8ea6-b57de8d56e66
+		summarizeBy: none
+		sourceColumn: sr_group_key
+
+	/// Group name.
+	column 'Spending Review Group'
+		dataType: string
+		lineageTag: c891025d-8430-565e-aa9e-9475d9e692be
+		summarizeBy: none
+		sourceColumn: sr_group_name
+
+	/// Group code.
+	column 'Group Code'
+		dataType: string
+		lineageTag: 9f1eea89-b320-5846-93fd-621731250113
+		summarizeBy: none
+		sourceColumn: sr_group_code
+
+	/// Department group, plan only, combined pre-2023, non-department or outturn only.
+	column 'Member Type'
+		dataType: string
+		lineageTag: 4cddd5a1-f6dc-55d5-bab3-53be52c8fb2f
+		summarizeBy: none
+		sourceColumn: member_type
+
+	/// True for the groups that are departments.
+	column 'Is Department Group'
+		dataType: boolean
+		lineageTag: 48d06a4f-8ae6-5700-bf1d-ebc1bde061e1
+		summarizeBy: none
+		sourceColumn: is_department_group
+
+	/// True where outturn lines can be assigned to the member.
+	column 'Has Outturn'
+		dataType: boolean
+		lineageTag: af6cfa1a-3347-5670-a52f-ad3e568d6298
+		summarizeBy: none
+		sourceColumn: has_outturn
+
+	/// What the member is.
+	column 'Group Description'
+		dataType: string
+		lineageTag: e5438f30-9573-57d3-8ec8-8e6fa8ebd0e4
+		summarizeBy: none
+		sourceColumn: description
+
+	partition 'Spending Review Group' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_sr_group"]}[Data]
+				in
+				    Data

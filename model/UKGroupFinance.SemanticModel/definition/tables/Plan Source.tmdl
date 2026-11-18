@@ -1,0 +1,120 @@
+/// Each source and edition a plan comes from: OSCAR Plans, the Estimates workbooks, PESA editions and Spending Review 2025. Carries the basis, whether Scotland is before or after the block grant adjustment and whether the edition is the final plan of its year. Authored descriptions of published files. Source view dw.v_model_plan_source.
+table 'Plan Source'
+	lineageTag: e56d68ec-e017-5e2d-8a2d-a18646238a00
+
+	column 'Plan Source Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: dbfe01ed-77a3-5fb2-8d11-8b43875d324b
+		summarizeBy: none
+		sourceColumn: plan_source_key
+
+	/// Edition of the source, for example Supplementary Estimate 2024-25.
+	column 'Plan Source'
+		dataType: string
+		lineageTag: 1b04f3c0-08fd-5b9a-b88b-0c9000032871
+		summarizeBy: none
+		sourceColumn: edition_label
+
+	/// Code of the plan source and edition.
+	column 'Plan Source Code'
+		dataType: string
+		lineageTag: edadc28a-6d16-5913-a272-d9c5961a6119
+		summarizeBy: none
+		sourceColumn: plan_source_code
+
+	/// OSCAR Plans, Estimates, PESA or Spending Review.
+	column Family
+		dataType: string
+		lineageTag: 70ba77a0-1a1d-54ed-891e-d3f72365aa3a
+		summarizeBy: none
+		sourceColumn: family
+
+	/// Edition within the family.
+	column Edition
+		dataType: string
+		lineageTag: c5973a5f-059f-559c-8145-1c810d951f9e
+		summarizeBy: none
+		sourceColumn: edition
+
+	/// Financial year of an Estimates edition; blank for the others.
+	column 'Plan Year'
+		dataType: string
+		lineageTag: d32c4360-a118-50a5-9309-9c6ba60ab9a4
+		summarizeBy: none
+		sourceColumn: plan_year
+
+	/// Date the source was first published.
+	column 'First Published'
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 80d9154b-e179-59f0-99c0-5694581236fb
+		summarizeBy: none
+		sourceColumn: first_published
+
+	/// What the source's rows are at.
+	column 'Grain Description'
+		dataType: string
+		lineageTag: 6939754b-1135-5c41-9ac7-806ba4465dc2
+		summarizeBy: none
+		sourceColumn: grain_description
+
+	/// The basis the figures are set on.
+	column 'Plan Basis'
+		dataType: string
+		lineageTag: f308a7b6-cf5e-5e8c-8dda-0de1a8708fed
+		summarizeBy: none
+		sourceColumn: plan_basis
+
+	/// Whether the figures include the block grant adjustment.
+	column 'Includes Block Grant Adjustment'
+		dataType: string
+		lineageTag: 5090ffee-05bb-597a-aa3a-80faf4403e93
+		summarizeBy: none
+		sourceColumn: includes_block_grant_adjustment
+
+	/// gross_of_bga, net_of_bga, same_as_oscar_outturn or not_applicable.
+	column 'Scotland BGA Flag'
+		dataType: string
+		lineageTag: 327af433-dfe0-5283-a182-d5cb81883783
+		summarizeBy: none
+		sourceColumn: scotland_bga_flag
+
+	/// How the flag was decided.
+	column 'Scotland BGA Rule'
+		dataType: string
+		lineageTag: 62f33b06-f770-5004-a3ee-c1f928a23a17
+		summarizeBy: none
+		sourceColumn: scotland_bga_rule
+
+	/// Whether resource figures exclude depreciation.
+	column 'Resource Basis'
+		dataType: string
+		lineageTag: 863f18a3-52c4-5658-964d-6c2ef2022cec
+		summarizeBy: none
+		sourceColumn: resource_basis
+
+	/// Evidence for the resource basis.
+	column 'Resource Basis Evidence'
+		dataType: string
+		lineageTag: 4a924f52-af75-5660-8914-eaeebc1ae6a8
+		summarizeBy: none
+		sourceColumn: resource_basis_evidence
+
+	/// True for the edition taken as the year's plan.
+	column 'Is Final Plan For Year'
+		dataType: boolean
+		lineageTag: 15a47b53-8a48-5416-a03f-ebb37a426184
+		summarizeBy: none
+		sourceColumn: is_final_plan_for_year
+
+	partition 'Plan Source' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_plan_source"]}[Data]
+				in
+				    Data

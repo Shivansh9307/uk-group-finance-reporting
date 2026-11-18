@@ -1,0 +1,110 @@
+/// Real plans as published, at the grain of their source (see Plan Grain): OSCAR Plans by organisation to 2021-22, Estimates by Spending Review group from 2022-23, PESA departmental AME and administration budgets by group to 2028-29. Held for the year, not by month; compare with outturn only at the plan's grain or coarser. GBP thousands. Source view dw.v_model_fact_plan.
+table 'Fact Plan'
+	lineageTag: fbab6938-a069-50fa-9e7e-c9a3a1c6b615
+
+	column 'Plan Fact Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 34da8999-9394-52e5-a85b-7610fd8a0dd8
+		summarizeBy: none
+		sourceColumn: plan_fact_key
+
+	column 'Plan Source Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 070db1de-f70c-58df-b1ba-d5551408fcd6
+		summarizeBy: none
+		sourceColumn: plan_source_key
+
+	column 'Fiscal Year Key'
+		dataType: string
+		isHidden
+		lineageTag: 0da4753f-023b-54d3-a1bb-31fbc25563f4
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	column 'Spending Review Group Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 332c5fba-8e91-5920-a8b3-6e0cb471b871
+		summarizeBy: none
+		sourceColumn: sr_group_key
+
+	column 'Scenario Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f785ad9b-91e8-59de-adbb-298cda43418e
+		summarizeBy: none
+		sourceColumn: scenario_key
+
+	/// OSCAR organisation code; filled for grain A (OSCAR Plans) only.
+	column 'Plan Organisation Code'
+		dataType: string
+		lineageTag: 693cef30-17bd-5b89-92b5-704b1fcb4b7d
+		summarizeBy: none
+		sourceColumn: organisation_code
+
+	/// Control budget detail as the source gives it (DEL, DEL PROG, DEL ADMIN, DEPT AME ...).
+	column 'Plan Control Budget Detail'
+		dataType: string
+		lineageTag: 3b8c5e81-9c2d-5c78-be23-539bb091d71f
+		summarizeBy: none
+		sourceColumn: control_budget_detail
+
+	/// RESOURCE, CAPITAL or n/a.
+	column 'Plan Economic Budget'
+		dataType: string
+		lineageTag: 106e3d1d-1833-5870-8822-d6ae79a2d12e
+		summarizeBy: none
+		sourceColumn: economic_budget
+
+	/// RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME, ADMIN, ADMIN_EX_DEPN, NON_DEPT_AME, NON_BUDGET or UNCLASSIFIED. The measures overlap by design: never add them.
+	column 'Plan Measure'
+		dataType: string
+		lineageTag: 46f7ed42-71bc-5f81-ba08-4b8cfb0cebbf
+		summarizeBy: none
+		sourceColumn: measure
+
+	column 'Plan Grain Key'
+		dataType: string
+		isHidden
+		lineageTag: ee7eb2de-247a-52ec-ae7c-57df045d45f7
+		summarizeBy: none
+		sourceColumn: grain_code
+
+	/// Plan amount, GBP thousands. Hidden: use the measures.
+	column 'Plan Amount'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		lineageTag: 46711f17-a774-5405-829e-4f1b6cd9a194
+		summarizeBy: none
+		sourceColumn: amount
+
+	/// Published lines or extract rows added into the row.
+	column 'Source Line Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 781ec3d7-60a0-579e-a479-defde9d5a282
+		summarizeBy: none
+		sourceColumn: source_line_count
+
+	/// True for administration budgets, which are part of resource DEL and are never added to it.
+	column 'Is Part Of Other Measure'
+		dataType: boolean
+		lineageTag: 17b9b228-df63-5621-b272-0e5ab0a852f4
+		summarizeBy: none
+		sourceColumn: is_part_of_other_measure
+
+	partition 'Fact Plan' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_fact_plan"]}[Data]
+				in
+				    Data

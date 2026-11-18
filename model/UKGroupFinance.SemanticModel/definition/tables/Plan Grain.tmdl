@@ -1,0 +1,34 @@
+/// The four grains a plan is published at (A OSCAR organisation, B Estimates group, C Estimates 2022-23, D PESA group). A plan can be compared with outturn only at its own grain or coarser. Source view dw.v_model_plan_grain.
+table 'Plan Grain'
+	lineageTag: 967df021-454e-5145-b277-a62717bdda74
+
+	/// A, B, C or D.
+	column 'Grain Code'
+		dataType: string
+		isKey
+		lineageTag: 5eea9981-d3aa-5070-aee2-15f1d5cc4812
+		summarizeBy: none
+		sourceColumn: grain_code
+
+	/// Name of the grain.
+	column 'Plan Grain'
+		dataType: string
+		lineageTag: 83aad322-5ad4-5c20-afb0-0000fd6a3897
+		summarizeBy: none
+		sourceColumn: grain_name
+
+	/// What the grain is and what it can be compared with.
+	column 'Grain Description'
+		dataType: string
+		lineageTag: af460abb-fd65-554b-9789-3200c6233d00
+		summarizeBy: none
+		sourceColumn: description
+
+	partition 'Plan Grain' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_plan_grain"]}[Data]
+				in
+				    Data

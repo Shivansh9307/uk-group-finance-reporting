@@ -1,0 +1,51 @@
+/// The five scenarios the model compares: Outturn and Plan (published), Plan (phased) and Own forecast (derived), and Departments' forecast (published). Only Outturn, Plan and Plan (phased) carry rows today. Source view dw.v_model_scenario.
+table Scenario
+	lineageTag: 284795af-5766-53a5-880b-89f90885654b
+
+	column 'Scenario Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: ba2b2e1b-d981-5f6c-b55f-38a31c8d0711
+		summarizeBy: none
+		sourceColumn: scenario_key
+
+	/// Scenario name.
+	column Scenario
+		dataType: string
+		lineageTag: 4709caea-81de-5513-9e4d-48a682e54b1e
+		summarizeBy: none
+		sourceColumn: scenario_name
+		sortByColumn: 'Scenario Sort Order'
+
+	column 'Scenario Sort Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c9380747-435d-50db-93d1-ac3c8c5cb987
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	/// True where the scenario is computed in the warehouse and is not a published number.
+	column 'Is Derived'
+		dataType: boolean
+		lineageTag: 41f4d148-5a8d-5ee7-8d98-445da8cad326
+		summarizeBy: none
+		sourceColumn: is_derived
+
+	/// What the scenario holds and whether it is published or derived.
+	column 'Scenario Description'
+		dataType: string
+		lineageTag: 75d89348-96b4-5e6b-af07-991d050aac0a
+		summarizeBy: none
+		sourceColumn: description
+
+	partition Scenario = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_scenario"]}[Data]
+				in
+				    Data

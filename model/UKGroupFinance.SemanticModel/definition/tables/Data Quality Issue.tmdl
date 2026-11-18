@@ -1,0 +1,131 @@
+/// The data-quality findings the build records: a unit error in the NHS Pension Scheme lines, a wrong quarter label, the June 2019 period 0 rows and a coding error. Fact Outturn points at a finding where it flags rows; every other row points at the member No issue flagged, which is a label and holds no amount. Source view dw.v_model_data_quality.
+table 'Data Quality Issue'
+	lineageTag: 2615563e-c05d-523a-8957-9971824509ea
+
+	/// 0 is the No issue flagged member.
+	column 'Data Quality Issue Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: f0050780-af18-5e05-b5ac-5306a9deb841
+		summarizeBy: none
+		sourceColumn: dq_issue_key
+
+	/// Kind of finding.
+	column 'Issue Type'
+		dataType: string
+		lineageTag: c1ee639a-a17a-5f95-83d0-d49fcdc9ea03
+		summarizeBy: none
+		sourceColumn: issue_type
+
+	/// Rule that found it (a to d).
+	column 'Issue Rule'
+		dataType: string
+		lineageTag: b5a689b5-b4dd-58c2-8265-dd07cb68deac
+		summarizeBy: none
+		sourceColumn: issue_rule
+
+	/// True where fact rows carry the finding's key.
+	column 'Flags Fact Rows'
+		dataType: boolean
+		lineageTag: 6d759b4d-46b3-5ddd-b0da-a1994ba13a68
+		summarizeBy: none
+		sourceColumn: flags_fact_rows
+
+	/// What was found.
+	column 'Issue Description'
+		dataType: string
+		lineageTag: 95e70f98-a7ef-5e2c-b911-2017ed1ff317
+		summarizeBy: none
+		sourceColumn: description
+
+	/// What the model does about it.
+	column Treatment
+		dataType: string
+		lineageTag: 6bf2619a-d56a-53ed-909e-29f1736b1149
+		summarizeBy: none
+		sourceColumn: treatment
+
+	/// First release affected.
+	column 'Release From'
+		dataType: string
+		lineageTag: 04229d2c-964e-5875-b0a0-7e578f2ed83c
+		summarizeBy: none
+		sourceColumn: release_from
+
+	/// Last release affected.
+	column 'Release To'
+		dataType: string
+		lineageTag: 2115750f-8192-5725-a736-770112ac5bbc
+		summarizeBy: none
+		sourceColumn: release_to
+
+	/// Organisation the finding is about, where it is about one.
+	column 'Organisation Code'
+		dataType: string
+		lineageTag: 1fa5c736-cfbb-58d2-8e93-495d3c80df44
+		summarizeBy: none
+		sourceColumn: organisation_code
+
+	/// Sub-segment the finding is about.
+	column 'Sub-Segment Code'
+		dataType: string
+		lineageTag: 5ddb448b-0f0d-5b27-bca6-a20aad903313
+		summarizeBy: none
+		sourceColumn: sub_segment_code
+
+	/// Economic category the finding is about.
+	column 'Economic Category Code'
+		dataType: string
+		lineageTag: 9223b77f-507b-5bfd-af85-1dffa71779b5
+		summarizeBy: none
+		sourceColumn: economic_category_code
+
+	/// Control budget detail the finding is about.
+	column 'Control Budget Detail Code'
+		dataType: string
+		lineageTag: 3b606dd5-f54c-5643-baf6-4a993240b1c8
+		summarizeBy: none
+		sourceColumn: control_budget_detail_code
+
+	column 'Period Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 45d6286d-5aac-50b7-97ac-4f60dc4cd8b3
+		summarizeBy: none
+		sourceColumn: period_key
+
+	/// Amount before the correction, GBP thousands.
+	column 'Amount Before'
+		dataType: decimal
+		formatString: #,##0.00
+		lineageTag: f2eb175d-16b7-57c4-8125-253ce8023fc3
+		summarizeBy: none
+		sourceColumn: amount_before
+
+	/// Amount after the correction, GBP thousands.
+	column 'Amount After'
+		dataType: decimal
+		formatString: #,##0.00
+		lineageTag: 8525a2c5-494c-533d-9f58-a45b77c690dc
+		summarizeBy: none
+		sourceColumn: amount_after
+
+	/// Rows in the source that carry the finding.
+	column 'Rows Affected'
+		dataType: int64
+		formatString: #,##0
+		lineageTag: e916442d-4f32-5710-b520-ab145c4965cf
+		summarizeBy: none
+		sourceColumn: rows_affected
+
+	partition 'Data Quality Issue' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_data_quality"]}[Data]
+				in
+				    Data

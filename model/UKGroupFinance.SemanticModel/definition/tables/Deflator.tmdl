@@ -1,0 +1,93 @@
+/// HM Treasury GDP deflators at market prices (2025-26 = 100), one row per financial year and vintage, read over the web from the three workbooks pinned in the file manifest and parsed by header text in Power Query. Forecast years have no published index: Chained Index carries the published level for outturn years and, for forecast years, the level chained from the year before with its published per cent change (four decimals at each step), so real terms use one vintage throughout. Default vintage: October 2026 Budget. Rows that fail to parse are in Deflator Quarantine. Real, published data; internet needed at refresh.
+table Deflator
+	lineageTag: 62063b34-9d63-54e1-a39d-0a3137e8cfc9
+
+	/// Financial year, 1955-56 to 2031-32 depending on the vintage.
+	column 'Financial Year'
+		dataType: string
+		lineageTag: 08ee4768-9132-5323-94ed-a410b8f73195
+		summarizeBy: none
+		sourceColumn: Financial Year
+
+	/// Release of the deflators: June 2026 QNA, September 2026 QNA or October 2026 Budget.
+	column Vintage
+		dataType: string
+		lineageTag: 63688161-0b37-5618-8ce6-987b326713f6
+		summarizeBy: none
+		sourceColumn: Vintage
+		sortByColumn: 'Vintage Order'
+
+	/// Release id in the file manifest.
+	column 'Vintage Id'
+		dataType: string
+		lineageTag: d5daa2fc-df70-589f-ba6f-11e613f4b77a
+		summarizeBy: none
+		sourceColumn: VintageId
+
+	/// 1 for the oldest vintage.
+	column 'Vintage Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6bb9659b-1236-5c2b-84f0-3c195203f5de
+		summarizeBy: none
+		sourceColumn: VintageOrder
+
+	/// True for the vintage real terms use unless another is chosen (October 2026 Budget).
+	column 'Is Default Vintage'
+		dataType: boolean
+		lineageTag: 7a4574ad-5384-5c82-8fab-a3fabaaefb15
+		summarizeBy: none
+		sourceColumn: IsDefault
+
+	/// Outturn where the workbook publishes an index, Forecast where it publishes only a per cent change.
+	column 'Year Status'
+		dataType: string
+		lineageTag: 6f6fb715-7bfb-5709-a60a-513f87f9a252
+		summarizeBy: none
+		sourceColumn: Year Status
+
+	/// Published index, 2025-26 = 100; blank for forecast years.
+	column 'Index Published'
+		dataType: double
+		formatString: 0.0000
+		lineageTag: b489a90e-ef70-59fc-9b51-9661ef3baf1c
+		summarizeBy: none
+		sourceColumn: Index Published
+
+	/// Published per cent change on the previous year.
+	column 'Per Cent Change'
+		dataType: double
+		formatString: 0.0000
+		lineageTag: d81a518e-dc77-577b-948e-252c1d9fa41c
+		summarizeBy: none
+		sourceColumn: Per Cent Change
+
+	/// Index used for real terms: published for outturn years, chained for forecast years.
+	column 'Chained Index'
+		dataType: double
+		formatString: 0.0000
+		lineageTag: f0892fd6-989f-5330-a1c6-68d098cbc506
+		summarizeBy: none
+		sourceColumn: Chained Index
+
+	/// Workbook the row was read from.
+	column 'Source File'
+		dataType: string
+		lineageTag: 2213e45e-f369-5d50-b3db-51f012a80666
+		summarizeBy: none
+		sourceColumn: FileName
+
+	partition Deflator = m
+		mode: import
+		source =
+				let
+				    Parsed = Table.AddColumn(#"Deflator Raw", "Parsed", (r) => fnParseGdpDeflator(r[VintageId], r[FileName], r[Sheet]), type table),
+				    Kept = Table.SelectColumns(Parsed, {"VintageId", "Vintage", "VintageOrder", "IsDefault", "FileName", "Parsed"}),
+				    Expanded = Table.ExpandTableColumn(Kept, "Parsed", {"Financial Year", "Status", "Is Forecast", "Index Published", "Per Cent Change", "Chained Index"}),
+				    Good = Table.SelectRows(Expanded, each [Status] = "ok"),
+				    Labelled = Table.AddColumn(Good, "Year Status", each if [Is Forecast] = true then "Forecast" else "Outturn", type text),
+				    Shaped = Table.SelectColumns(Labelled, {"Financial Year", "Vintage", "VintageId", "VintageOrder", "IsDefault", "Year Status", "Index Published", "Per Cent Change", "Chained Index", "FileName"}),
+				    Typed = Table.TransformColumnTypes(Shaped, {{"Financial Year", type text}, {"Vintage", type text}, {"VintageId", type text}, {"VintageOrder", Int64.Type}, {"IsDefault", type logical}, {"Index Published", type number}, {"Per Cent Change", type number}, {"Chained Index", type number}, {"FileName", type text}})
+				in
+				    Typed

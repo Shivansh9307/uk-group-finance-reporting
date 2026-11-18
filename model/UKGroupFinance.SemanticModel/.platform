@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "UKGroupFinance"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5d3c7a1e-2b4f-4c68-9e0a-7f1d2c3b4a59"
+  }
+}

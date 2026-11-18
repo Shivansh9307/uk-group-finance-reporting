@@ -1,0 +1,64 @@
+/// One row per OSCAR sub-segment code (3,765, plus Unknown): the finest spending line the source reports. Source view dw.v_model_segment.
+table 'Sub-Segment'
+	lineageTag: d9dfae41-0360-576c-9a18-39d5866d5d2f
+
+	column 'Segment Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: 38cd1e42-972f-54e1-9857-515e7d46f5b6
+		summarizeBy: none
+		sourceColumn: segment_key
+
+	/// Sub-segment name without its code.
+	column 'Sub-Segment'
+		dataType: string
+		lineageTag: a319af80-6446-5b19-a4f0-4524f1519675
+		summarizeBy: none
+		sourceColumn: segment_label
+
+	/// Code and name as published in the latest release that reports it.
+	column 'Sub-Segment Name'
+		dataType: string
+		lineageTag: fd62d729-26c2-561b-8e97-7a2f5d4fd5e0
+		summarizeBy: none
+		sourceColumn: segment_name
+
+	/// OSCAR sub-segment code.
+	column 'Sub-Segment Code'
+		dataType: string
+		lineageTag: c27ca8d3-3922-5304-91c3-26fd92bdf3da
+		summarizeBy: none
+		sourceColumn: sub_segment_code
+
+	/// First release that reports the code.
+	column 'First Release'
+		dataType: string
+		lineageTag: 23bb48dc-4434-574c-8bc9-77c1e74d6441
+		summarizeBy: none
+		sourceColumn: first_release
+
+	/// Last release that reports the code.
+	column 'Last Release'
+		dataType: string
+		lineageTag: fcf4ec40-5f90-54a2-bb15-6b06f5277d78
+		summarizeBy: none
+		sourceColumn: last_release
+
+	/// Number of releases that report the code.
+	column 'Releases Reported'
+		dataType: int64
+		formatString: 0
+		lineageTag: ec0a2471-e703-5c59-8e0f-111e9545f1ac
+		summarizeBy: none
+		sourceColumn: n_releases
+
+	partition 'Sub-Segment' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_segment"]}[Data]
+				in
+				    Data

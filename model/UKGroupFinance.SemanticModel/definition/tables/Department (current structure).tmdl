@@ -1,0 +1,56 @@
+/// The departments of today's structure (63 members: 59 departments and 4 Unallocated members for lines of closed or split departments that no current department took over). Fact Outturn joins on the current-department key written in the warehouse, so every line sits in exactly one department, restated onto the current structure with no weights. Source view dw.v_model_department.
+table 'Department (current structure)'
+	lineageTag: c7642a03-373a-5490-8025-443cb66e8dd7
+
+	column 'Department Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: 69d959ab-0fc5-53db-8702-0f9f09c62b25
+		summarizeBy: none
+		sourceColumn: department_key
+
+	/// Department name in the current structure.
+	column Department
+		dataType: string
+		lineageTag: 9abf7b68-9259-5d84-8470-0d9e772f8f9d
+		summarizeBy: none
+		sourceColumn: department_name
+
+	/// Three-digit OSCAR department number; Unallocated members read U and the former number.
+	column 'Department Number'
+		dataType: string
+		lineageTag: 50526b97-e145-5086-a172-d2ba4a01ef1d
+		summarizeBy: none
+		sourceColumn: department_number
+
+	/// Department, or Unallocated for the lines of a department that no longer exists.
+	column 'Department Type'
+		dataType: string
+		lineageTag: 455a7f0a-4c09-5a29-b0e2-9951a983a148
+		summarizeBy: none
+		sourceColumn: member_type
+
+	/// First release in which the naming period applies.
+	column 'Valid From Release'
+		dataType: string
+		lineageTag: 9e851601-62cc-5141-ad4f-cd0aaacf7095
+		summarizeBy: none
+		sourceColumn: valid_from_release
+
+	/// Last release in which the naming period applies.
+	column 'Valid To Release'
+		dataType: string
+		lineageTag: c485ba31-73e1-56a2-88e0-334cb2beade0
+		summarizeBy: none
+		sourceColumn: valid_to_release
+
+	partition 'Department (current structure)' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_department"]}[Data]
+				in
+				    Data

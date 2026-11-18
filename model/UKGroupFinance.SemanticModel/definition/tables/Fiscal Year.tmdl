@@ -1,0 +1,30 @@
+/// One row per UK financial year (April to March), 2018-19 to 2028-29. The plan is published by year, so Fact Plan relates here; Fiscal Period relates here too, which gives outturn and plan one year slicer. Source view dw.v_model_fiscal_year.
+table 'Fiscal Year'
+	lineageTag: 4986b3b2-1be0-5930-b880-261664b383fe
+
+	/// Financial year written as 2024-25.
+	column 'Financial Year'
+		dataType: string
+		isKey
+		lineageTag: 65b53bbf-424b-53e8-b10a-41e86d20550b
+		summarizeBy: none
+		sourceColumn: financial_year
+		sortByColumn: 'Year Start'
+
+	/// Calendar year in which the financial year starts. Sort key.
+	column 'Year Start'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 83fa6f78-a5cb-5b18-8fb9-6f4a89d24f51
+		summarizeBy: none
+		sourceColumn: fiscal_year_start
+
+	partition 'Fiscal Year' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_fiscal_year"]}[Data]
+				in
+				    Data

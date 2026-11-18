@@ -1,0 +1,114 @@
+/// One row per economic category (127, plus Unknown), with its economic budget, PESA economic group and whether it runs as expenditure or income. The flow comes from the final digit of the code, with 12 authored exceptions (Flow Basis says which). Source view dw.v_model_account.
+table Account
+	lineageTag: 630e97c7-c5e9-5ac3-9e9e-2e53692daf71
+
+	column 'Account Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: 3c0491d5-f9dd-567e-ae59-f9542235b329
+		summarizeBy: none
+		sourceColumn: account_key
+
+	/// Code and name of the economic category.
+	column 'Economic Category'
+		dataType: string
+		lineageTag: 30f59bc9-d659-51c1-9e8b-7ba5e95b9f40
+		summarizeBy: none
+		sourceColumn: economic_category_label
+
+	/// OSCAR economic category code.
+	column 'Economic Category Code'
+		dataType: string
+		lineageTag: 35eb3e6c-cb11-5a0a-bdcf-487b2665f7d9
+		summarizeBy: none
+		sourceColumn: economic_category_code
+
+	/// OSCAR economic category name.
+	column 'Economic Category Name'
+		dataType: string
+		lineageTag: fb156391-1b7c-50cd-95ff-85c98f458e65
+		summarizeBy: none
+		sourceColumn: economic_category_name
+
+	/// Public Expenditure Statistical Analyses economic group.
+	column 'PESA Economic Group'
+		dataType: string
+		lineageTag: 2460076b-4269-56f4-a685-c94983434600
+		summarizeBy: none
+		sourceColumn: pesa_economic_group
+
+	/// Code of the PESA economic group.
+	column 'PESA Economic Group Code'
+		dataType: string
+		lineageTag: 361de03d-26e6-5e21-ba0e-f31dd737727d
+		summarizeBy: none
+		sourceColumn: pesa_economic_group_code
+
+	/// Resource, capital or other; the basis a plan is set on.
+	column 'Economic Budget'
+		dataType: string
+		lineageTag: 7b500f75-df3c-5892-b2c1-dbac4025bed3
+		summarizeBy: none
+		sourceColumn: economic_budget
+
+	/// Whether the category runs as Expenditure, Income or Not applicable.
+	column 'Income Or Expenditure'
+		dataType: string
+		lineageTag: b91cc0c3-f169-5480-aace-e899c172d54f
+		summarizeBy: none
+		sourceColumn: flow
+
+	/// digit rule, or authored where I set it by hand.
+	column 'Flow Basis'
+		dataType: string
+		lineageTag: 296d8060-5b30-5b99-9adb-294d18043183
+		summarizeBy: none
+		sourceColumn: flow_basis
+
+	/// Spellings of the code in the releases.
+	column 'Source Codes'
+		dataType: string
+		isHidden
+		lineageTag: dde2a681-9954-5a61-8b61-1133d1b686a6
+		summarizeBy: none
+		sourceColumn: source_codes
+
+	/// First release that reports the category.
+	column 'First Release'
+		dataType: string
+		lineageTag: cf414d98-3245-562e-9831-deb49f089987
+		summarizeBy: none
+		sourceColumn: first_release
+
+	/// Last release that reports the category.
+	column 'Last Release'
+		dataType: string
+		lineageTag: 93280ab0-93ee-526b-bfd6-f702e38b46be
+		summarizeBy: none
+		sourceColumn: last_release
+
+	hierarchy 'Economic Hierarchy'
+		lineageTag: caf8ba00-0a85-5e54-aa86-fd0dc0312886
+
+		level 'Economic Budget'
+			lineageTag: 066d0fc4-b47f-5752-bbda-a59df9ba2b05
+			column: 'Economic Budget'
+
+		level 'PESA Economic Group'
+			lineageTag: 616076ad-7876-54e4-8e7c-c0c08dcb9e42
+			column: 'PESA Economic Group'
+
+		level 'Economic Category'
+			lineageTag: 3b0d04be-043c-577d-b86c-47210a63a87a
+			column: 'Economic Category'
+
+	partition Account = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_account"]}[Data]
+				in
+				    Data

@@ -1,0 +1,83 @@
+relationship 00c6fca9-7da6-54d1-a25b-ae4f9d726aba
+	fromColumn: 'Fact Outturn'.'Release Key'
+	toColumn: Release.'Release Key'
+
+relationship 7820b5e3-a15c-5278-a314-b79ac6a42a88
+	fromColumn: 'Fact Outturn'.'Organisation Key'
+	toColumn: 'Organisation (as reported)'.'Organisation Key'
+
+relationship 11aa62fd-ba4c-54d3-acfe-df9e188e002e
+	fromColumn: 'Fact Outturn'.'Current Department Key'
+	toColumn: 'Department (current structure)'.'Department Key'
+
+relationship 1eec25a5-437f-5fa6-adbb-ae0cd0a78ebc
+	fromColumn: 'Fact Outturn'.'Segment Key'
+	toColumn: 'Sub-Segment'.'Segment Key'
+
+relationship 687d26c8-564f-5a6b-9976-fdc7cfee1fc5
+	fromColumn: 'Fact Outturn'.'Account Key'
+	toColumn: Account.'Account Key'
+
+relationship 0d853171-31a3-56cd-99f1-8337dc61bf7a
+	fromColumn: 'Fact Outturn'.'Control Budget Key'
+	toColumn: 'Control Budget'.'Control Budget Key'
+
+relationship f480c1c1-16aa-5a65-a557-925e8fe7524c
+	fromColumn: 'Fact Outturn'.'Period Key'
+	toColumn: 'Fiscal Period'.'Period Key'
+
+relationship 82ae87ce-83e9-525e-8a9e-3225f75abe1f
+	fromColumn: 'Fact Outturn'.'Scenario Key'
+	toColumn: Scenario.'Scenario Key'
+
+relationship 0c3bbb26-faec-5d72-995a-828cd047237d
+	fromColumn: 'Fact Outturn'.'Spending Review Group Key'
+	toColumn: 'Spending Review Group'.'Spending Review Group Key'
+
+relationship c0500811-6fc1-5982-b4b6-05bbbc8b881a
+	fromColumn: 'Fact Outturn'.'Data Quality Issue Key'
+	toColumn: 'Data Quality Issue'.'Data Quality Issue Key'
+
+relationship 0b786a0d-6b9e-521b-b649-23bb2b9e91b1
+	fromColumn: 'Fact Plan'.'Plan Source Key'
+	toColumn: 'Plan Source'.'Plan Source Key'
+
+relationship df312251-4569-58e6-ba90-b92026c1d04b
+	fromColumn: 'Fact Plan'.'Fiscal Year Key'
+	toColumn: 'Fiscal Year'.'Financial Year'
+
+relationship d994f218-7037-5f91-8c47-0c5d091650d8
+	fromColumn: 'Fact Plan'.'Spending Review Group Key'
+	toColumn: 'Spending Review Group'.'Spending Review Group Key'
+
+relationship cc89be0a-6bdb-581c-af82-06bf097de029
+	fromColumn: 'Fact Plan'.'Scenario Key'
+	toColumn: Scenario.'Scenario Key'
+
+relationship 61a92127-6332-596b-9ab4-65a7fe1525ef
+	fromColumn: 'Fact Plan'.'Plan Grain Key'
+	toColumn: 'Plan Grain'.'Grain Code'
+
+relationship afea84ce-9d2e-5c11-b3e4-2d731e5e219e
+	fromColumn: 'Fact Plan Phased (derived)'.'Period Key'
+	toColumn: 'Fiscal Period'.'Period Key'
+
+relationship 3a1de5be-2bd6-55e1-9e31-c633372b235d
+	fromColumn: 'Fact Plan Phased (derived)'.'Plan Source Key'
+	toColumn: 'Plan Source'.'Plan Source Key'
+
+relationship 06eabd7e-9e30-59af-95c8-621fcc3320d3
+	fromColumn: 'Fact Plan Phased (derived)'.'Spending Review Group Key'
+	toColumn: 'Spending Review Group'.'Spending Review Group Key'
+
+relationship 7d7e35ae-6af6-56d7-ab08-ba723efe9528
+	fromColumn: 'Fact Plan Phased (derived)'.'Scenario Key'
+	toColumn: Scenario.'Scenario Key'
+
+relationship f6283dc2-51d3-548a-a394-d291de349bd5
+	fromColumn: 'Fact Plan Phased (derived)'.'Plan Grain Key'
+	toColumn: 'Plan Grain'.'Grain Code'
+
+relationship 14964121-87fe-552b-9037-333795ddb668
+	fromColumn: 'Fiscal Period'.'Financial Year'
+	toColumn: 'Fiscal Year'.'Financial Year'

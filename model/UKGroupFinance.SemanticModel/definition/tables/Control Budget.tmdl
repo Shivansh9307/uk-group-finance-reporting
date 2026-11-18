@@ -1,0 +1,63 @@
+/// The control budget of a line: DEL, AME or Non-budget, with the five OSCAR detail codes under it (DEL PROG, DEL ADMIN, DEPT AME, NON-DEPT AME, NON-BUDGET). Source view dw.v_model_control_budget.
+table 'Control Budget'
+	lineageTag: 1b8ac287-1db6-5035-88b1-08e481042c0b
+
+	column 'Control Budget Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: 15a51b6d-40c5-5286-b70e-34f91b9af377
+		summarizeBy: none
+		sourceColumn: control_budget_key
+
+	/// DEL, AME or Non-budget.
+	column 'Control Budget'
+		dataType: string
+		lineageTag: 2734efa2-79e1-51c3-add6-a5e2a7ef138d
+		summarizeBy: none
+		sourceColumn: control_budget
+
+	/// Display name of the detail code.
+	column 'Control Budget Detail'
+		dataType: string
+		lineageTag: 658d023f-4ff0-59d2-ab1d-bf13fb0a7b24
+		summarizeBy: none
+		sourceColumn: control_budget_detail
+
+	/// OSCAR control budget detail code.
+	column 'Control Budget Detail Code'
+		dataType: string
+		lineageTag: e81bb568-6a4b-56da-80d7-e27ccf9ebe22
+		summarizeBy: none
+		sourceColumn: control_budget_detail_code
+
+	/// The labels the releases publish for the control budget.
+	column 'Published Labels'
+		dataType: string
+		lineageTag: e6bfe4af-40f8-535b-aeda-f23be9744f5f
+		summarizeBy: none
+		sourceColumn: published_labels
+
+	/// First release that reports the code.
+	column 'First Release'
+		dataType: string
+		lineageTag: 0e1c0ee5-96a6-5028-ba5d-ebcde3234860
+		summarizeBy: none
+		sourceColumn: first_release
+
+	/// Last release that reports the code.
+	column 'Last Release'
+		dataType: string
+		lineageTag: f6b7a53c-fc88-5ade-ad9f-73f7299d8aa0
+		summarizeBy: none
+		sourceColumn: last_release
+
+	partition 'Control Budget' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_control_budget"]}[Data]
+				in
+				    Data

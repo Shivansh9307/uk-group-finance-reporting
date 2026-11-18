@@ -1,0 +1,122 @@
+/// One row per version of an organisation (Type 2, 408 versions plus Unknown): a new version starts when the code, the department or the name really changes. Fact Outturn joins here on the version the release used, so this is the structure as each release reported it. The department columns say which department that version sat under. Source view dw.v_model_organisation.
+table 'Organisation (as reported)'
+	lineageTag: 70ee0527-44c3-577f-b937-7df7daa8298d
+
+	/// Surrogate key of the version.
+	column 'Organisation Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: dd7243fe-b8cc-5275-a4c4-a5e0b31bcef3
+		summarizeBy: none
+		sourceColumn: organisation_key
+
+	/// Display name of the version.
+	column Organisation
+		dataType: string
+		lineageTag: d3718f83-b02b-5f0d-9aab-553f2ee93220
+		summarizeBy: none
+		sourceColumn: organisation_name
+
+	/// OSCAR organisation code of the version.
+	column 'Organisation Code'
+		dataType: string
+		lineageTag: 821b544f-d3de-5081-b3ee-eb910f05fe1a
+		summarizeBy: none
+		sourceColumn: organisation_code
+
+	/// Key that follows a body across versions: the three-letter prefix, or an authored key.
+	column 'Durable Key'
+		dataType: string
+		lineageTag: 61c1c80b-f91e-546d-8d94-75ed6d002963
+		summarizeBy: none
+		sourceColumn: durable_key
+
+	/// 1 for the first version of the durable key.
+	column 'Version Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 268e2bca-976f-592b-be31-acfb46a06c94
+		summarizeBy: none
+		sourceColumn: version_no
+
+	/// Department the releases of this version put the organisation under.
+	column 'Department (as reported)'
+		dataType: string
+		lineageTag: b09218e8-d574-516b-add6-4993d7f3c21d
+		summarizeBy: none
+		sourceColumn: department_name_as_reported
+
+	/// Three-digit department number of that department.
+	column 'Department Number (as reported)'
+		dataType: string
+		lineageTag: 0dfdc74d-df53-5a48-af5b-274084d3cf54
+		summarizeBy: none
+		sourceColumn: department_number_as_reported
+
+	/// First release of the version.
+	column 'Valid From Release'
+		dataType: string
+		lineageTag: 9cec0f71-21fe-5720-aaf8-bfb1e51effb3
+		summarizeBy: none
+		sourceColumn: valid_from_release
+
+	/// Last release before the next version starts.
+	column 'Valid To Release'
+		dataType: string
+		lineageTag: bb7027cd-18db-5c9e-8676-34210352fd0c
+		summarizeBy: none
+		sourceColumn: valid_to_release
+
+	/// Releases in the range with non-zero rows.
+	column 'Releases Reported'
+		dataType: int64
+		formatString: 0
+		lineageTag: 359a320b-f8f4-503f-a5f8-33cc8e40c5bf
+		summarizeBy: none
+		sourceColumn: n_releases_reported
+
+	/// What started the version: first release, code change, department change, department renamed or name change.
+	column 'Version Reason'
+		dataType: string
+		lineageTag: 1d26a0da-12e2-5c58-a564-67276e4754e4
+		summarizeBy: none
+		sourceColumn: version_reason
+
+	/// prefix, or the authored reason for the key.
+	column 'Durable Key Rule'
+		dataType: string
+		lineageTag: 18ca986d-90af-5a45-8204-946ffa521a1c
+		summarizeBy: none
+		sourceColumn: durable_key_rule
+
+	/// Where the body went when it ended, where authored.
+	column 'Successor Durable Key'
+		dataType: string
+		lineageTag: 55b66fba-269a-5498-a202-37a031285102
+		summarizeBy: none
+		sourceColumn: successor_durable_key
+
+	/// True for the last version of a key that the latest release reports.
+	column 'Is Current Version'
+		dataType: boolean
+		lineageTag: aaf4e47c-ff7d-5194-a0b8-bb9c377f7349
+		summarizeBy: none
+		sourceColumn: is_current
+
+	/// True for the last version of the key, current or not.
+	column 'Is Latest Version'
+		dataType: boolean
+		lineageTag: fdee6a83-0ec5-5a3b-a16a-aa2b288da7c6
+		summarizeBy: none
+		sourceColumn: is_latest_version
+
+	partition 'Organisation (as reported)' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_organisation"]}[Data]
+				in
+				    Data
