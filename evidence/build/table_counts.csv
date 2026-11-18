@@ -6,7 +6,7 @@ authored,department_sr_group,63
 authored,organisation_key_override,14
 authored,plan_name_map,97
 authored,plan_source,17
-authored,sr_group,31
+authored,sr_group,32
 dw,current_structure_department,76
 dw,current_structure_line,5480
 dw,current_structure_organisation,278
@@ -20,7 +20,7 @@ dw,dim_plan_source,16
 dw,dim_release,31
 dw,dim_scenario,5
 dw,dim_segment,3766
-dw,dim_sr_group,31
+dw,dim_sr_group,32
 dw,dq_issue,6
 dw,fact_outturn,658554
 dw,fact_plan,749
@@ -56,5 +56,5 @@ stg,plan_name_map,97
 stg,plan_pesa_line,9826
 stg,plan_source,17
 stg,release,31
-stg,sr_group,31
+stg,sr_group,32
 stg,subsegment_label,58524

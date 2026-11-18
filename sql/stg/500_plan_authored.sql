@@ -26,8 +26,8 @@ SELECT LTRIM(RTRIM(sr_group_code)), LTRIM(RTRIM(sr_group_name)), LTRIM(RTRIM(mem
 FROM authored.sr_group;
 GO
 
-IF EXISTS (SELECT 1 FROM stg.sr_group WHERE member_type NOT IN ('spending_review_group', 'plan_only', 'non_department', 'combined_pre_2023'))
-    THROW 50001, 'authored/sr_group.csv: member_type must be spending_review_group, plan_only, non_department or combined_pre_2023', 1;
+IF EXISTS (SELECT 1 FROM stg.sr_group WHERE member_type NOT IN ('spending_review_group', 'plan_only', 'non_department', 'combined_pre_2023', 'outturn_only'))
+    THROW 50001, 'authored/sr_group.csv: member_type must be spending_review_group, plan_only, non_department, combined_pre_2023 or outturn_only', 1;
 IF EXISTS (SELECT 1 FROM stg.sr_group WHERE evidence = '' OR note = '')
     THROW 50002, 'authored/sr_group.csv: every row needs evidence and a note', 1;
 GO
