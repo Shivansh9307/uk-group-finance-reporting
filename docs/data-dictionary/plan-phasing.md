@@ -51,25 +51,39 @@ that fills it. The department number then picks the group from `authored/departm
 |---|---:|---|
 | `organisation exception` | 205 | the organisation has its own row for the department number: department 085 feeds CLG Communities and CLG Local Government, and I split it by organisation (durable key `LGV`), never by weight |
 | `department` | 5,239 | the department number's own row |
-| `unallocated member` | 36 (6 organisations) | the current department is an Unallocated member of `dim_department` (U084, U011, U077, U035: lines of a closed or split department with no current home, from `stg.current_structure_map`). They go to the non-department member `Unallocated central funds`, and are marked by this rule so that they can be left out; see below |
+| `unallocated member` | 36 (6 organisations) | the current department is an Unallocated member of `dim_department` (U084, U011, U077, U035: lines of a closed or split department with no current home, from `stg.current_structure_map`). They go to the outturn-only member `Unallocated: former department lines`, and are marked by this rule so that they can be left out; see below |
 | `unknown department` | 0 | the structure map has no department; a test fails if any pair lands here |
 
 A current department of type Department that has no row in the file stops the build with the list of numbers
 (`sql/dw/550`). **Tested**: `sql/tests/551_bridge_follows_the_authored_department_rule.sql` recomputes the group
 of every pair from the authored table, checks that every current row of the file is used, that department 085
 is split into exactly two groups, that every pair whose current department is an Unallocated member is bridged
-by the `unallocated member` rule to `Unallocated central funds` and no other pair is, and that no pair lands
-in a plan-only or the combined pre-2023 member.
+by the `unallocated member` rule to `Unallocated: former department lines` and no other pair is, and that no pair lands
+in a plan-only, non-department or the combined pre-2023 member. `sql/tests/550` also fails if any line of
+`dw.outturn_plan_line` is in `Unallocated central funds`.
 
 **Unallocated lines.** The current-structure map sends the lines of a closed or split department that no
 current department took over to an Unallocated member (BEIS shared lines, the Electoral Commission, the
 Assets Recovery Agency, the Department for Exiting the European Union). The Spending Review groups have no
-such member, so I put those 36 pairs in the one non-department member that exists, `Unallocated central
-funds`, and every row carries `bridge_rule = 'unallocated member'`. Each line has exactly one group; none is
-dropped. That member is also where the plans put funds not yet allocated to a department (Levelling Up Fund
-and similar), which is a different thing: where a plan row of that member is phased, its profile is made
-from these outturn lines, which is a weak basis, and the profile method says how it was made. I did not add
-a separate member because `authored/sr_group.csv` belongs to the plan load.
+such member, so the bridge puts those 36 pairs in an outturn-only member of `dw.dim_sr_group`,
+`Unallocated: former department lines` (`authored/sr_group.csv`, member type `outturn_only`), and every row
+carries `bridge_rule = 'unallocated member'`. Each line has exactly one group; none is dropped.
+
+I first put these lines in `Unallocated central funds`, the member where the plans put funds not yet allocated
+to a department (Levelling Up Fund and similar). That overloaded one member with two unrelated meanings, and a
+plan row of that member would have been phased on the outturn of closed departments. The new member has outturn
+and no plan row; `Unallocated central funds` has plan rows (when a source publishes one) and no outturn line. A
+plan row of `Unallocated central funds` therefore finds no outturn line in its profile and takes the existing
+fallback, `flat_no_prior_year` (twelve flat twelfths). **Tested**: `sql/tests/506` (exactly one `outturn_only`
+member, with outturn, not a department group, no plan row and no plan name mapped to it) and `sql/tests/550`
+(no outturn line in a plan-side member, none in `Unallocated central funds`).
+
+Effect on the phasing profile, measured on builds of `main` and of this change: **none**, because `dw.fact_plan`
+holds no row for `Unallocated central funds` in either scope (the lines the name map sends there appear only in
+PESA tables that the plan fact does not take). The method counts (committed scope: `prior_year_outturn` 553,
+`flat_no_prior_year` 167, `flat_prior_not_positive` 29; full scope: 2,331, 1,808 and 335) are the same before and
+after; `evidence/build/plan_phasing_summary.csv` is unchanged. The change is a correction of what the bridge
+says, ahead of any plan row for that member, not of a number.
 
 The combined pre-2023 group (BEIS, DCMS and DIT, which FY2022-23 plans are published as) is not a bridge
 target: the outturn lines are on the current structure. It is used only for the phasing profile of a plan
@@ -86,10 +100,10 @@ at least one, and the 31 rows are exactly the ones pinned in the test (BIS084 al
 | Organisations | Bridge group | BUD group | Why |
 |---|---|---|---|
 | 21 organisations with a code ending 084 (ACA, BBB, BPA, CIS, CSE, FFL, FRC, MEI, NPI to Business and Trade; CCC, CNC, COL, EHL, ESC, LCC, NDA, OGA, SAL, SCG, UKA, UKG to Energy Security and Net Zero) | Business and Trade or Energy Security and Net Zero | Science, Innovation and Technology | the BUD last lists them in FY2022-23 under the old BEIS group, which `BIS084.GROUP` maps to Science, Innovation and Technology; the bridge puts them where `stg.current_structure_map` says their lines went after the February 2023 reorganisation. This is the intended difference between the current structure and an annual file on the structure of its year |
-| BIS084 (the BEIS core department) | Business and Trade (46 pairs), Energy Security and Net Zero (46), Education (1), Unallocated central funds (23); Science, Innovation and Technology (99 pairs) agrees | Science, Innovation and Technology | the BUD keeps the whole core department in one group; the current-structure map decides line by line which successor department each sub-segment went to. One organisation with five bridge rows is the intended result of a split, not an error |
+| BIS084 (the BEIS core department) | Business and Trade (46 pairs), Energy Security and Net Zero (46), Education (1), Unallocated: former department lines (23); Science, Innovation and Technology (99 pairs) agrees | Science, Innovation and Technology | the BUD keeps the whole core department in one group; the current-structure map decides line by line which successor department each sub-segment went to. One organisation with five bridge rows is the intended result of a split, not an error |
 | OFC048, ICO048 | Science, Innovation and Technology | Culture, Media and Sport | Ofcom and the Information Commissioner's Office are listed under the old DCMS group in FY2022-23; the current structure puts them with DSIT |
-| PSH084, STS084 | Unallocated central funds | Science, Innovation and Technology | their lines are in the BEIS shared lines (U084) of the current-structure map |
-| ELC011, ARA035 | Unallocated central funds | Small and Independent Bodies | the Electoral Commission and the Assets Recovery Agency no longer exist as current departments; their lines are Unallocated members of the map |
+| PSH084, STS084 | Unallocated: former department lines | Science, Innovation and Technology | their lines are in the BEIS shared lines (U084) of the current-structure map |
+| ELC011, ARA035 | Unallocated: former department lines | Small and Independent Bodies | the Electoral Commission and the Assets Recovery Agency no longer exist as current departments; their lines are Unallocated members of the map |
 
 Also in the audit, not disagreements: 16 organisation codes (28 pairs) are in the bridge but not in the
 newest BUD (for example `DEU077`, the Department for Exiting the European Union, now an Unallocated member,
@@ -297,12 +311,20 @@ What I can and cannot say about the gaps (none of this is tested beyond the figu
 
 ## Nothing derived reaches a real total
 
-**Tested**: `sql/tests/558_nothing_derived_reaches_a_real_total.sql` pins the row counts and sums of
-`dw.fact_outturn` (658,554 rows, 9,098,653,566.4360) and `dw.fact_plan` (749 rows, 7,785,863,653.0000 in
-the committed scope; 5,372 rows, 21,532,485,408.0000 in the full scope) to the values from a build of the
-branch point, before these files existed. It also checks that the profile and the phased plan are flagged
-derived, that their table descriptions start with DERIVED, that no view, procedure or foreign key
-references `dw.fact_plan_phased`, and that the `Plan (phased)` scenario is the derived one.
+**Tested**, two checks:
+
+- `pipeline/tests/test_real_totals.py` compares the row count and the sum of each real fact (`dw.fact_outturn`,
+  `dw.fact_plan`, and in full scope `dw.fact_outturn_annual`) with `evidence/expected/real_fact_totals.csv`, one set
+  of rows per build scope. The committed-scope values (658,554 rows, 9,098,653,566.4360 for the outturn; 749 rows,
+  7,785,863,653.0000 for the plans) are the ones recorded from a build of the branch point, before these files
+  existed, and they are unchanged by this feature. A derived or authored object that added to or took from a real
+  fact would move one of them and fail the test. The expected values used to be literals inside the SQL test; they
+  are in one file so that a legitimate change is made in one place: rebuild, run `ukfr real-totals --write`, review
+  the diff and commit it with the change that explains it. The same module's second test checks that exactly the
+  phasing profile and the phased plan carry `is_derived` and that every row of both is flagged.
+- `sql/tests/558_nothing_derived_reaches_a_real_total.sql` checks that the profile and the phased plan are
+  flagged derived, that their table descriptions start with DERIVED, that no view, procedure or foreign key
+  references `dw.fact_plan_phased`, and that the `Plan (phased)` scenario is the derived one.
 `pipeline/tests/test_plan_phasing_sql.py::test_only_the_phasing_files_read_the_phased_plan` checks that the
 only SQL files that name the phased plan are the one that builds it and its audit summary (and the `DROP`
 that keeps the build re-runnable).

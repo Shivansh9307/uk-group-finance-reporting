@@ -28,6 +28,7 @@ Prefix ranges are reserved per task so that parallel branches never collide:
 | 500-549 | the spending plans: Estimates, PESA and OSCAR Plans, the plan name map, `dw.fact_plan` |
 | 450-499 | the current-structure map (`sql/dw/290` is its one file below this range, because the outturn fact reads it), its sub-segment labels, audits, tests and the hold-out against the 2025 annual file (scope full) |
 | 550-599 | the outturn to Spending Review group bridge, the phasing profile and phased plan (derived), outturn on the plan's basis (annual and in-year), and their audits |
+| 600-649 | the pipeline close-out: reserved for reconciliation checks that need their own SQL (none yet; the assertion inventory, the real-totals pin and the negative control are Python, under `pipeline/`) |
 
 ## Phases
 
@@ -87,4 +88,6 @@ SELECT ... FROM ... WHERE <violation>;
 
 A test is one batch (no `GO`). The build never runs them; `pytest` does, through
 `pipeline/tests/test_sql_invariants.py`, which collects every `.sql` file in the folder and marks it
-`db`. See [docs/pipeline.md](../docs/pipeline.md).
+`db`. A file without a `-- test:` header fails (`ukfr inventory` and `pipeline/tests/test_inventory.py` check
+it), and the list of every test with its scope, marker and evidence file is generated into
+[docs/reconciliation.md](../docs/reconciliation.md).

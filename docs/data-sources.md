@@ -100,13 +100,22 @@ calls.
 
 ## Committed versus fetched
 
-Only the OSCAR in-year files are kept in git: 32 files, 27.6 MB in total (31 releases, plus the
-March 2026 ODS). They are the core outturn fact, they are small, and with them in the repository
-anyone can clone it and rebuild the model's main tables, and CI can rebuild the database without
-downloading anything. I set a 60 MB cap in `sources.yml`; the fetcher stops before downloading if
-the committed set would exceed it. Everything else (about 620 MB: the annual BUD workbooks, the
-annual extracts, the MFO files and the plan tables) is downloaded by the fetcher into
-`$UKFR_DATA_DIR`, and the manifest's sha256 proves the downloaded copy is the one I used.
+Three sources are kept in git, 48 files and 28.7 MB in all (`commit: true` in `sources.yml`):
+
+| Source | Files | Size | Why it is in git |
+|---|---|---|---|
+| `oscar_inyear` | 32 (31 releases, plus the March 2026 ODS) | 27.6 MB | the core outturn fact |
+| `estimates_del` | 9 workbooks, FY2022-23 to FY2026-27 | 0.30 MB | the plans from FY2022-23, small enough to commit |
+| `pesa` | 7 workbooks (PESA 2022 to 2026, the December 2025 update, the Spending Review 2025 DEL tables) | 0.81 MB | departmental AME and administration plans |
+
+With them in the repository anyone can clone it and rebuild the model's main tables, and CI can
+rebuild the database without downloading anything. I set a 60 MB cap in `sources.yml`; the fetcher
+stops before downloading if the committed set would exceed it. Everything else is downloaded by the
+fetcher into `$UKFR_DATA_DIR` (620 MB, from the manifest): the annual BUD workbooks (177.7 MB), the
+annual extracts (283.9 MB), the MFO files (155.8 MB), the Public Spending Statistics workbooks
+(2.7 MB, `commit: false`) and the deflators and ONS series. The manifest's sha256 proves the downloaded
+copy is the one I used. **Tested**: `uv run --project pipeline ukfr fetch --verify` checks all 48
+committed files and every raw file that is present.
 
 `.gitattributes` marks `data/committed/**` as binary so git never rewrites line endings: the
 September 2026 CSV uses CRLF, and a converted copy would no longer match its sha256.
