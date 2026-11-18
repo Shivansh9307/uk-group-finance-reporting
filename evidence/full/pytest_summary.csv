@@ -1,0 +1,8 @@
+metric,value
+build scope,full
+UKFR_REQUIRE_DB,1
+passed,341
+failed,0
+errors,0
+skipped,0
+duration_s,83.64

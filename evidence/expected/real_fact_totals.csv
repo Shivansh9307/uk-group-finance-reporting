@@ -1,3 +1,6 @@
 scope,fact,amount_column,rows,amount_sum
 committed,dw.fact_outturn,amount_delta,658554,9098653566.4360
+full,dw.fact_outturn,amount_delta,658554,9098653566.4360
+full,dw.fact_outturn_annual,amount,97250,21781709229.0000
 committed,dw.fact_plan,amount,749,7785863653.0000
+full,dw.fact_plan,amount,5372,21532485408.0000
