@@ -1,0 +1,15 @@
+SELECT { [Measures].[Comparison Amount] } ON COLUMNS,
+       CROSSJOIN(
+           { [Display Unit].[Unit].[All], [Display Unit].[Unit].[£k], [Display Unit].[Unit].[£m], [Display Unit].[Unit].[£bn] },
+           CROSSJOIN(
+               { [Time Intelligence].[Time Calculation].[Current], [Time Intelligence].[Time Calculation].[YTD],
+                 [Time Intelligence].[Time Calculation].[PY], [Time Intelligence].[Time Calculation].[YoY],
+                 [Time Intelligence].[Time Calculation].[YoY %] },
+               { [Scenario Comparison].[Comparison].[Actual], [Scenario Comparison].[Comparison].[Plan],
+                 [Scenario Comparison].[Comparison].[Variance], [Scenario Comparison].[Comparison].[Variance %],
+                 [Scenario Comparison].[Comparison].[Favourable/Adverse] }
+           )
+       ) ON ROWS
+FROM [Model]
+WHERE ( [Fiscal Year].[Financial Year].&[2020-21], [Organisation (as reported)].[Organisation Code].&[DFE022], [Fact Plan].[Plan Measure].&[RDEL] )
+CELL PROPERTIES VALUE, FORMATTED_VALUE
