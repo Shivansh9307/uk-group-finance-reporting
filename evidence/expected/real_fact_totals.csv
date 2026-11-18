@@ -1,0 +1,3 @@
+scope,fact,amount_column,rows,amount_sum
+committed,dw.fact_outturn,amount_delta,658554,9098653566.4360
+committed,dw.fact_plan,amount,749,7785863653.0000
