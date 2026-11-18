@@ -262,3 +262,45 @@ function 'Format.ForUnit' = ```
 		        )
 		    )
 		```
+
+/// The sign a statement line is presented in: -1 for a line shown with income positive, 1 for a line as reported (spending positive, income negative). 1 when no single line is in context.
+function 'Pnl.SignFactor' = ```
+		( ) =>
+		    IF ( SELECTEDVALUE ( 'Statement Line'[Sign Presentation] ) = "income positive", -1, 1 )
+		```
+
+/// A measure evaluated for the statement line in context: over the accounts of every detail line the line adds up (the keys come from the hidden Detail Line Keys column, written |3|4|5|), in the sign the line is presented in. BLANK for a spacer, when no single line is in context, and when the measure has nothing there. A detail line sums its own accounts; a subtotal or total sums the detail lines under the lines it lists, so a total equals the sum of its members by construction and a spacer has no amount.
+function 'Pnl.LineAmount' = ```
+		( m : EXPR ) =>
+		    VAR LineType = SELECTEDVALUE ( 'Statement Line'[Line Type] )
+		    VAR KeyList = SELECTEDVALUE ( 'Statement Line'[Detail Line Keys] )
+		    VAR DetailKeys =
+		        SELECTCOLUMNS (
+		            FILTER (
+		                ALL ( 'Statement Line'[Line Key], 'Statement Line'[Detail Line Keys] ),
+		                NOT ISBLANK ( KeyList ) && CONTAINSSTRING ( KeyList, "|" & 'Statement Line'[Line Key] & "|" )
+		            ),
+		            "k", 'Statement Line'[Line Key]
+		        )
+		    VAR Amount =
+		        CALCULATE ( m, REMOVEFILTERS ( 'Statement Line' ), TREATAS ( DetailKeys, 'Statement Line'[Line Key] ) )
+		    RETURN
+		        IF ( ISBLANK ( LineType ) || LineType = "spacer" || ISBLANK ( Amount ), BLANK (), Amount * Pnl.SignFactor () )
+		```
+
+/// A measure evaluated at the plan scope of the statement line in context, for the lines that sit at a published plan's grain: the economic budget RESOURCE or CAPITAL, or ALL accounts. Only the voted budgets are compared (RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME); administration rows and the OSCAR Plans measures NON_DEPT_AME, NON_BUDGET and UNCLASSIFIED are left out (the non-budget plan is gross and the outturn is net). The economic budget is a direct filter on Account, so the plan grain guard sees a selection at its grain and leaves the plan in place for OSCAR Plans years and blanks it for the later sources, which carry no economic budget. BLANK for a line without a plan scope. A selection already in the filter context on the same columns is kept (KEEPFILTERS).
+function 'Pnl.AtPlanScope' = ```
+		( m : EXPR ) =>
+		    VAR PlanScope = SELECTEDVALUE ( 'Statement Line'[Plan Scope] )
+		    VAR LineType = SELECTEDVALUE ( 'Statement Line'[Line Type] )
+		    VAR Amount =
+		        SWITCH (
+		            PlanScope,
+		            "ALL", CALCULATE ( m, REMOVEFILTERS ( 'Statement Line' ), KEEPFILTERS ( 'Fact Plan'[Plan Measure] IN { "RDEL", "RDEL_EX_DEPN", "CDEL", "RAME", "CAME" } ) ),
+		            "RESOURCE", CALCULATE ( m, REMOVEFILTERS ( 'Statement Line' ), KEEPFILTERS ( 'Fact Plan'[Plan Measure] IN { "RDEL", "RDEL_EX_DEPN", "CDEL", "RAME", "CAME" } ), KEEPFILTERS ( 'Account'[Economic Budget] = "RESOURCE" ) ),
+		            "CAPITAL", CALCULATE ( m, REMOVEFILTERS ( 'Statement Line' ), KEEPFILTERS ( 'Fact Plan'[Plan Measure] IN { "RDEL", "RDEL_EX_DEPN", "CDEL", "RAME", "CAME" } ), KEEPFILTERS ( 'Account'[Economic Budget] = "CAPITAL" ) ),
+		            BLANK ()
+		        )
+		    RETURN
+		        IF ( ISBLANK ( LineType ) || ISBLANK ( Amount ), BLANK (), Amount * Pnl.SignFactor () )
+		```

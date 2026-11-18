@@ -37,6 +37,15 @@ BASE_MEASURES = {
     "Plan": ("Fact Plan", "Plan"),
     "Plan Below Grain": ("Fact Plan", "Plan"),
     "Plan (phased)": ("Fact Plan Phased (derived)", "Plan\\Derived"),
+    "Statement Amount": ("Fact Outturn", "Statement"),
+    "Statement Amount (plan basis)": ("Fact Outturn", "Statement"),
+    "Statement Variance": ("Fact Outturn", "Statement"),
+    "Statement Variance %": ("Fact Outturn", "Statement"),
+    "Statement Plan": ("Fact Plan", "Statement"),
+    "Statement Amount PY (OFFSET)": ("Fact Outturn", "Statement\\Windows"),
+    "Statement Amount Running (WINDOW)": ("Fact Outturn", "Statement\\Windows"),
+    "Statement Amount Moving 3 Months (WINDOW)": ("Fact Outturn", "Statement\\Windows"),
+    "Department Rank (Statement Amount)": ("Fact Outturn", "Statement\\Windows"),
 }
 GROUPS = {"Scenario Comparison": 10, "Time Intelligence": 20, "Display Unit": 30}
 
@@ -339,7 +348,7 @@ def test_every_function_is_used_by_a_measure_an_item_or_another_function_and_eve
         uses = len(re.findall(rf"(?<![\w.']){re.escape(name)}\s*\(", haystack))
         own = len(re.findall(rf"(?<![\w.']){re.escape(name)}\s*\(", functions[f"'{name}'"]))
         assert uses - own >= 1, f"{name} is never called"
-    called = set(re.findall(r"\b((?:Grain|Plan|Basis|Window|Format)\.[A-Za-z0-9]+)\s*\(", haystack))
+    called = set(re.findall(r"\b((?:Grain|Plan|Basis|Window|Format|Pnl)\.[A-Za-z0-9]+)\s*\(", haystack))
     assert called <= names, sorted(called - names)
 
 
@@ -354,3 +363,49 @@ def test_the_grain_guard_is_written_once_and_both_plan_measures_call_it(measures
             assert "Grain.BelowGrain" not in m.expression, m.name
     # the rows of the plan that are added up are chosen in one place, for both measures
     assert "Plan.RowsInScope" in plan.expression and "Plan.RowsInScope" in phased.expression
+
+
+# ------------------------------------------------------------------------------------------ the statement
+def test_the_statement_functions_are_in_the_pnl_namespace_because_statement_is_reserved(functions, measures, items):
+    # "Statement.SignFactor" is a syntax error in a DAX query on this engine; the namespace is Pnl
+    names = {k.strip("'") for k in functions}
+    assert {"Pnl.SignFactor", "Pnl.LineAmount", "Pnl.AtPlanScope"} <= names
+    assert not any(n.startswith("Statement.") for n in names)
+    haystack = _all_expressions(measures, items, functions)
+    assert not re.search(r"(?<![\w'])Statement\.[A-Za-z]+\s*\(", haystack)
+
+
+def test_the_statement_amount_is_the_outturn_of_the_line_and_the_plan_measures_use_the_same_scope_function(measures):
+    by_name = {m.name: m for m in measures}
+    assert re.sub(r"\s+", " ", by_name["Statement Amount"].expression) == "Pnl.LineAmount ( [Outturn] )"
+    assert re.sub(r"\s+", " ", by_name["Statement Plan"].expression) == "Pnl.AtPlanScope ( [Plan] )"
+    assert "Pnl.AtPlanScope ( [Comparison Amount] )" in by_name["Statement Amount (plan basis)"].expression
+    assert "ISBLANK ( [Statement Plan] )" in by_name["Statement Amount (plan basis)"].expression
+
+
+def test_the_window_measures_use_the_window_functions_they_are_named_for(measures):
+    by_name = {m.name: m for m in measures}
+    assert "OFFSET (" in by_name["Statement Amount PY (OFFSET)"].expression
+    assert "WINDOW (" in by_name["Statement Amount Running (WINDOW)"].expression
+    assert "WINDOW (" in by_name["Statement Amount Moving 3 Months (WINDOW)"].expression
+    assert "RANK (" in by_name["Department Rank (Statement Amount)"].expression
+
+
+def test_the_field_parameter_points_at_four_measures_that_exist(table_text, measures):
+    text = table_text["Statement Measure"]
+    refs = re.findall(r"NAMEOF \( '([^']+)'\[([^\]]+)\] \)", text)
+    assert len(refs) == 4
+    by_name = {m.name: m.table for m in measures}
+    for table, name in refs:
+        assert by_name.get(name) == table, f"{table}[{name}] is not a measure"
+    assert '"version": 3' in text and '"kind": 2' in text, "ParameterMetadata marks the field parameter"
+
+
+def test_the_statement_measures_act_through_the_calculation_groups(items):
+    by_name = {(i.group, i.name): i for i in items}
+    for name in ("Plan", "Variance", "Variance %", "Favourable/Adverse", "Actual"):
+        assert "[Statement Amount]" in by_name[("Scenario Comparison", name)].expression, name
+    for unit in ("£k", "£m", "£bn"):
+        assert "[Statement Amount]" in by_name[("Display Unit", unit)].expression
+        scaled = by_name[("Display Unit", unit)].expression
+        assert "[Statement Variance %]" not in scaled, "a percentage is never scaled"

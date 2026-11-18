@@ -180,7 +180,7 @@ def test_sort_by_columns_exist_and_are_hidden_or_visible_on_purpose(tables):
 
 def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(tables, repo_root):
     views = set()
-    sql_text = "\n".join(p.read_text(encoding="utf-8") for p in sorted((repo_root / "sql" / "dw").glob("70?_*.sql")))
+    sql_text = "\n".join(p.read_text(encoding="utf-8") for p in sorted((repo_root / "sql" / "dw").glob("7[04]?_*.sql")))
     created = set(re.findall(r"CREATE VIEW dw\.(v_model_\w+)", sql_text))
     used: list[str] = []
     for n, t in tables.items():
@@ -198,7 +198,11 @@ def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(t
         n for n, t in tables.items() if "	calculationGroup" in t.text and not t.partition_source.strip()
     }
     assert calculation_groups == {"Time Intelligence", "Scenario Comparison", "Display Unit"}
-    assert views - calculation_groups == {"Deflator", "Deflator Quarantine", "CPI", "CPI Quarantine"}
+    web_tables = {"Deflator", "Deflator Quarantine", "CPI", "CPI Quarantine"}
+    assert views - calculation_groups == web_tables | {"Statement Measure"}
+    # the one calculated table is the field parameter: a table constructor of NAMEOF references and no source data
+    parameter = tables["Statement Measure"]
+    assert "= calculated" in parameter.text and "NAMEOF" in parameter.partition_source
 
 
 def test_derived_and_real_tables_are_labelled(tables):
@@ -212,7 +216,7 @@ def test_derived_and_real_tables_are_labelled(tables):
 
 # ----------------------------------------------------------------------------------------- relationships
 def test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one(relationships, tables):
-    assert len(relationships) == 21
+    assert len(relationships) == 22
     seen = set()
     for r in relationships:
         for end in ("fromColumn", "toColumn"):

@@ -81,3 +81,7 @@ relationship f6283dc2-51d3-548a-a394-d291de349bd5
 relationship 14964121-87fe-552b-9037-333795ddb668
 	fromColumn: 'Fiscal Period'.'Financial Year'
 	toColumn: 'Fiscal Year'.'Financial Year'
+
+relationship 72713e86-258a-43f1-9a34-0cccea73b872
+	fromColumn: Account.'Statement Line Key'
+	toColumn: 'Statement Line'.'Line Key'

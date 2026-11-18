@@ -1,0 +1,51 @@
+/// Field parameter for the statement: Outturn, Plan, Variance and Variance % of the statement amount, so that one visual can switch between them. Each row points at a measure (Statement Amount, Statement Plan, Statement Variance, Statement Variance %). I defined it in the model; putting it on a visual needs one step in Desktop that pbir cannot do (remove the field, drag the parameter back in), and the report uses the Scenario Comparison items instead where it can. Calculated table, no source data.
+table 'Statement Measure'
+	lineageTag: c607cfc6-e741-4271-a5c2-6f6da3e683a3
+
+	/// Which statement measure to show.
+	column 'Statement Measure'
+		lineageTag: 0455044b-1895-4933-ae91-bd3eab509482
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Statement Measure Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Statement Measure Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Statement Measure Fields'
+		isHidden
+		lineageTag: 54decfce-1c69-44a1-933f-9567b86c22a8
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Statement Measure Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Statement Measure Order'
+		isHidden
+		formatString: 0
+		lineageTag: dbfccab5-7fb3-4648-9624-e246daf57277
+		summarizeBy: none
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Statement Measure' = calculated
+		mode: import
+		source =
+				{
+				    ("Outturn", NAMEOF ( 'Fact Outturn'[Statement Amount] ), 0),
+				    ("Plan", NAMEOF ( 'Fact Plan'[Statement Plan] ), 1),
+				    ("Variance", NAMEOF ( 'Fact Outturn'[Statement Variance] ), 2),
+				    ("Variance %", NAMEOF ( 'Fact Outturn'[Statement Variance %] ), 3)
+				}
+
+	annotation PBI_Id = 595d12ab9dae4d3890fef4d97cbbfcc4

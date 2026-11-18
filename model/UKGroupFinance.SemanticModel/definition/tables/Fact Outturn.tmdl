@@ -134,6 +134,102 @@ table 'Fact Outturn'
 		displayFolder: Plan
 		lineageTag: 58ace511-bcb8-56ae-a51f-1b03c1102e4d
 
+	/// The group income and expenditure statement: the outturn of the statement line in context, in GBP thousands, in the sign the line is presented in (income lines positive, the net and total lines as reported, spending positive). A detail line sums the accounts the authored rules give it; a subtotal or total sums the detail lines under the lines it lists; a spacer, and a context with more than one line, give BLANK. The total line equals Outturn. Put Statement Line[Line] on rows; Control Budget on columns splits it into DEL, AME and non-budget.
+	measure 'Statement Amount' = Pnl.LineAmount ( [Outturn] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Statement
+		lineageTag: 70206046-b61e-459a-90f0-c608a41263df
+
+
+	/// The statement amount on the plan's basis, only where the line has a plan (the net resource line, the net capital line and the total line, in a year the source gives a plan at that level): for each voted budget the year has, the outturn of the control budget detail and economic budget it is made of, within the line's economic budget. This is the Actual that Variance is taken against; BLANK where Statement Plan is BLANK.
+	measure 'Statement Amount (plan basis)' =
+			IF ( ISBLANK ( [Statement Plan] ), BLANK (), Pnl.AtPlanScope ( [Comparison Amount] ) )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Statement
+		lineageTag: 8e1ac7fe-1ca9-478b-ac5b-f5c5385d3da3
+
+
+	/// Statement amount on the plan's basis less the plan, GBP thousands, in the sign the line is presented in. With spending positive, below zero is favourable. BLANK where either side is BLANK.
+	measure 'Statement Variance' =
+			VAR Actual = [Statement Amount (plan basis)]
+			VAR PlanAmount = [Statement Plan]
+			RETURN
+			    IF ( ISBLANK ( Actual ) || ISBLANK ( PlanAmount ), BLANK (), Actual - PlanAmount )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Statement
+		lineageTag: 7160b5a6-803a-4674-bec3-ab61caf0c00a
+
+
+	/// Statement variance divided by the absolute statement plan. BLANK where the plan is zero or either side is BLANK.
+	measure 'Statement Variance %' =
+			VAR Actual = [Statement Amount (plan basis)]
+			VAR PlanAmount = [Statement Plan]
+			RETURN
+			    IF ( ISBLANK ( Actual ) || ISBLANK ( PlanAmount ), BLANK (), DIVIDE ( Actual - PlanAmount, ABS ( PlanAmount ) ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Statement
+		lineageTag: a62e1436-3f3c-4715-bb02-34569ff3eff9
+
+
+	/// The statement amount of the previous financial year, by OFFSET over the Fiscal Year table in order of year start (the year before in the table, whatever a slicer selects). Use it at year grain; BLANK for the first year and for a year the previous year of which has no outturn.
+	measure 'Statement Amount PY (OFFSET)' =
+			CALCULATE (
+			    [Statement Amount],
+			    OFFSET ( -1, ALL ( 'Fiscal Year'[Financial Year], 'Fiscal Year'[Year Start] ), ORDERBY ( 'Fiscal Year'[Year Start], ASC ) )
+			)
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Statement\Windows
+		lineageTag: 76a329b5-881e-44ba-81a2-b55c2e4d0298
+
+
+	/// The statement amount added up from period 0 to the period in context within each financial year, by WINDOW over Fiscal Period (a running total that restarts every year). Use it with Fiscal Period[Financial Year] and Fiscal Period[Period Number] on the visual.
+	measure 'Statement Amount Running (WINDOW)' =
+			CALCULATE (
+			    [Statement Amount],
+			    WINDOW (
+			        1, ABS, 0, REL,
+			        ALLSELECTED ( 'Fiscal Period'[Financial Year], 'Fiscal Period'[Period Number] ),
+			        ORDERBY ( 'Fiscal Period'[Period Number], ASC ),
+			        PARTITIONBY ( 'Fiscal Period'[Financial Year] )
+			    )
+			)
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Statement\Windows
+		lineageTag: 99df98a7-f0a8-4169-8f3d-bea3dcafddda
+
+
+	/// The statement amount of the period in context and the two before it, by WINDOW over the allocated months (period 1 to 12) of every year in order, so the window crosses the year end. Period 0 is not a month: it gets BLANK and is not in anyone's window. Use it with Fiscal Period[Financial Year] and Fiscal Period[Period Number] on the visual.
+	measure 'Statement Amount Moving 3 Months (WINDOW)' =
+			CALCULATE (
+			    [Statement Amount],
+			    WINDOW (
+			        -2, REL, 0, REL,
+			        FILTER ( ALLSELECTED ( 'Fiscal Period'[Period Key], 'Fiscal Period'[Period Number] ), 'Fiscal Period'[Period Number] >= 1 ),
+			        ORDERBY ( 'Fiscal Period'[Period Key], ASC )
+			    ),
+			    REMOVEFILTERS ( 'Fiscal Year' ),
+			    REMOVEFILTERS ( 'Fiscal Period'[Financial Year], 'Fiscal Period'[Period Number] )
+			)
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Statement\Windows
+		lineageTag: 2cf94197-3e63-4495-849a-04ad3ba85a59
+
+
+	/// Rank of the department in context among the departments that have a statement amount in the context (1 is the largest amount; equal amounts share a rank and the next rank is skipped), by RANK over the departments of the current structure. Put Department (current structure)[Department] on rows and one statement line and year in the filter context.
+	measure 'Department Rank (Statement Amount)' =
+			IF (
+			    ISBLANK ( [Statement Amount] ),
+			    BLANK (),
+			    RANK (
+			        SKIP,
+			        FILTER ( ALLSELECTED ( 'Department (current structure)' ), NOT ISBLANK ( [Statement Amount] ) ),
+			        ORDERBY ( [Statement Amount], DESC )
+			    )
+			)
+		formatString: 0
+		displayFolder: Statement\Windows
+		lineageTag: c346715c-2368-4376-bdd6-db48539f9174
+
 	partition 'Fact Outturn' = m
 		mode: import
 		source =

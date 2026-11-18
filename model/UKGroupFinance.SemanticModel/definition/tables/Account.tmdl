@@ -1,4 +1,4 @@
-/// One row per economic category (127, plus Unknown), with its economic budget, PESA economic group and whether it runs as expenditure or income. The flow comes from the final digit of the code, with 12 authored exceptions (Flow Basis says which). Source view dw.v_model_account.
+/// One row per economic category (127, plus Unknown), with its economic budget, PESA economic group and whether it runs as expenditure or income. The flow comes from the final digit of the code, with 12 authored exceptions (Flow Basis says which). Each category also carries the detail line of the income and expenditure statement it is added to (Statement Line Key, authored rules). Source view dw.v_model_account.
 table Account
 	lineageTag: 630e97c7-c5e9-5ac3-9e9e-2e53692daf71
 
@@ -10,6 +10,14 @@ table Account
 		lineageTag: 3c0491d5-f9dd-567e-ae59-f9542235b329
 		summarizeBy: none
 		sourceColumn: account_key
+
+	column 'Statement Line Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3b952a1d-23bb-4a9e-8aa2-613c808ebd47
+		summarizeBy: none
+		sourceColumn: statement_line_key
 
 	/// Code and name of the economic category.
 	column 'Economic Category'

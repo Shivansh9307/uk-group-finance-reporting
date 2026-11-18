@@ -121,6 +121,13 @@ table 'Fact Plan'
 		displayFolder: Plan
 		lineageTag: 12c55800-7b7f-5642-a9c7-98e38052efc7
 
+	/// The published plan of the statement line in context, in GBP thousands, only on a line that sits at a plan's grain: the net resource line (economic budget RESOURCE), the net capital line (CAPITAL) and the total line (every account), and only in a year where the source publishes a plan at that level (the OSCAR Plans years for RESOURCE and CAPITAL; every year with a plan for the total). The voted budgets only: RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME. BLANK on every other line.
+	measure 'Statement Plan' = Pnl.AtPlanScope ( [Plan] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Statement
+		lineageTag: d7b11670-3415-4340-a5c0-65e60d5d06aa
+
+
 	partition 'Fact Plan' = m
 		mode: import
 		source =

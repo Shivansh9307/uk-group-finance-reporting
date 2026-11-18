@@ -1,4 +1,4 @@
-/// Calculation group that shows an amount in GBP thousands, millions or billions. It divides the value (the data is in GBP thousands) and sets a dynamic format string with the unit suffix; no number format scales with commas. It acts on the amount measures only, leaves percentages and indicators unscaled, and gives Variance %, YoY % and Favourable/Adverse their own formats. Precedence 30: the outermost, so its format string is the one that applies when a unit is selected.
+/// Calculation group that shows an amount in GBP thousands, millions or billions. It divides the value (the data is in GBP thousands) and sets a dynamic format string with the unit suffix; no number format scales with commas. It acts on the amount measures only (the base, plan, comparison and statement amounts), leaves percentages and indicators unscaled, and gives Variance %, YoY % and Favourable/Adverse their own formats. Precedence 30: the outermost, so its format string is the one that applies when a unit is selected.
 table 'Display Unit'
 	lineageTag: 9639172a-3b67-5323-b8da-f19b6fe1192c
 
@@ -7,21 +7,21 @@ table 'Display Unit'
 
 		/// GBP thousands, the unit the data is held in (no scaling).
 		calculationItem '£k' =
-				IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount] ), Format.Scale ( SELECTEDMEASURE (), "k" ), SELECTEDMEASURE () )
+				IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)] ), Format.Scale ( SELECTEDMEASURE (), "k" ), SELECTEDMEASURE () )
 			ordinal: 0
-			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount] ), Format.ForUnit ( "k" ), SELECTEDMEASUREFORMATSTRING () )
+			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)] ), Format.ForUnit ( "k" ), SELECTEDMEASUREFORMATSTRING () )
 
 		/// GBP millions: the value divided by 1,000.
 		calculationItem '£m' =
-				IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount] ), Format.Scale ( SELECTEDMEASURE (), "m" ), SELECTEDMEASURE () )
+				IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)] ), Format.Scale ( SELECTEDMEASURE (), "m" ), SELECTEDMEASURE () )
 			ordinal: 1
-			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount] ), Format.ForUnit ( "m" ), SELECTEDMEASUREFORMATSTRING () )
+			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)] ), Format.ForUnit ( "m" ), SELECTEDMEASUREFORMATSTRING () )
 
 		/// GBP billions: the value divided by 1,000,000.
 		calculationItem '£bn' =
-				IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount] ), Format.Scale ( SELECTEDMEASURE (), "bn" ), SELECTEDMEASURE () )
+				IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)] ), Format.Scale ( SELECTEDMEASURE (), "bn" ), SELECTEDMEASURE () )
 			ordinal: 2
-			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount] ), Format.ForUnit ( "bn" ), SELECTEDMEASUREFORMATSTRING () )
+			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)] ), Format.ForUnit ( "bn" ), SELECTEDMEASUREFORMATSTRING () )
 
 	/// The unit to show an amount in: GBP thousands, millions or billions.
 	column Unit
