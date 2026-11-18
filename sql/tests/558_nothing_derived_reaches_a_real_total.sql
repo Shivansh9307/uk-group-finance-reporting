@@ -1,4 +1,4 @@
--- test: the phased plan and the phasing profile are flagged derived, labelled DERIVED, and nothing outside this feature reads or points at the phased plan (the row counts and sums of the real facts are pinned in evidence/expected/real_fact_totals.csv and checked by pipeline/tests/test_real_totals.py)
+-- test: the phased plan and the phasing profile are flagged derived, labelled DERIVED, and nothing outside this feature reads or points at the phased plan, except the model's derived-labelled view of it, which sql/tests/706 pins (the row counts and sums of the real facts are pinned in evidence/expected/real_fact_totals.csv and checked by pipeline/tests/test_real_totals.py)
 SELECT 'derived row not flagged' AS problem, 'dw.plan_phasing_profile' AS detail, CAST(NULL AS nvarchar(100)) AS got, CAST(NULL AS nvarchar(100)) AS expected
 FROM dw.plan_phasing_profile WHERE is_derived <> 1 GROUP BY is_derived
 UNION ALL
@@ -15,6 +15,7 @@ UNION ALL
 SELECT 'a view or procedure reads the phased plan', OBJECT_SCHEMA_NAME(d.referencing_id) + '.' + OBJECT_NAME(d.referencing_id), NULL, NULL
 FROM sys.sql_expression_dependencies AS d
 WHERE d.referenced_id = OBJECT_ID('dw.fact_plan_phased')
+  AND d.referencing_id <> OBJECT_ID('dw.v_model_fact_plan_phased')  -- the model's own view of it; sql/tests/706 pins that it is the only one
 UNION ALL
 SELECT 'a foreign key points at the phased plan', OBJECT_NAME(fk.parent_object_id), NULL, NULL
 FROM sys.foreign_keys AS fk WHERE fk.referenced_object_id = OBJECT_ID('dw.fact_plan_phased')

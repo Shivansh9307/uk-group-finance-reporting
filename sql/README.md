@@ -29,6 +29,7 @@ Prefix ranges are reserved per task so that parallel branches never collide:
 | 450-499 | the current-structure map (`sql/dw/290` is its one file below this range, because the outturn fact reads it), its sub-segment labels, audits, tests and the hold-out against the 2025 annual file (scope full) |
 | 550-599 | the outturn to Spending Review group bridge, the phasing profile and phased plan (derived), outturn on the plan's basis (annual and in-year), and their audits |
 | 600-649 | the pipeline close-out: reserved for reconciliation checks that need their own SQL (none yet; the assertion inventory, the real-totals pin and the negative control are Python, under `pipeline/`) |
+| 700-719 | the views the semantic model reads (`dw.v_model_*`, one per model table) and their tests; see [docs/model.md](../docs/model.md) |
 
 ## Phases
 
