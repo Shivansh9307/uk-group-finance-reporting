@@ -10,9 +10,12 @@
 --     department              the department number's own row
 --     unallocated member      the current department is an Unallocated member of dim_department (lines of a closed
 --                             or split department with no current home: U084, U011, U077, U035): it goes to the
---                             non-department member 'Unallocated central funds'
---     unknown department      the structure map has no department for the pair: the same non-department member.
+--                             outturn-only member 'Unallocated: former department lines'. It is not the plans'
+--                             'Unallocated central funds' (funds not yet allocated to a department), so a plan row
+--                             of that member is never phased on these lines.
+--     unknown department      the structure map has no department for the pair: the same outturn-only member.
 --                             A test fails if any pair lands here, so it cannot hide a real department.
+--   No pair is ever bridged to a non-department, plan-only or combined member (tested).
 --   A department of member type Department that has no row in the file stops the build.
 --   No weights and no estimates: a pair has one group or the build fails.
 -- Authored mapping applied to real keys; it holds no amount.
@@ -65,7 +68,7 @@ LEFT JOIN dw.dim_sr_group AS gx ON gx.sr_group_code = rx.sr_group_code
 LEFT JOIN stg.department_sr_group AS rd
        ON rd.department_number = d.department_number AND rd.durable_key = '' AND rd.basis = 'current'
 LEFT JOIN dw.dim_sr_group AS gd ON gd.sr_group_code = rd.sr_group_code
-CROSS JOIN (SELECT sr_group_key FROM dw.dim_sr_group WHERE sr_group_code = 'NONDEPT_UNALLOC') AS gu;
+CROSS JOIN (SELECT sr_group_key FROM dw.dim_sr_group WHERE sr_group_code = 'OUTTURN_ONLY_UNALLOC') AS gu;
 GO
 
 EXEC sys.sp_addextendedproperty @name = N'MS_Description',

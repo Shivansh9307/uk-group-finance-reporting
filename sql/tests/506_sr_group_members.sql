@@ -1,4 +1,4 @@
--- test: dw.dim_sr_group holds the 23 Spending Review groups with the names of the latest BUD, the Single Intelligence Account as plan-only, one combined pre-2023 member and the non-department members
+-- test: dw.dim_sr_group holds the 23 Spending Review groups with the names of the latest BUD, the Single Intelligence Account as plan-only, one combined pre-2023 member, the non-department members and one outturn-only member with outturn and no plan row
 WITH expected(name) AS (
     SELECT n FROM (VALUES
         (N'Business and Trade'), (N'Cabinet Office'), (N'CLG Communities'), (N'CLG Local Government'),
@@ -24,6 +24,12 @@ WHERE (SELECT COUNT(*) FROM dw.dim_sr_group WHERE member_type = 'plan_only' AND 
 UNION ALL
 SELECT 'combined pre-2023', 'must be exactly one combined_pre_2023 member'
 WHERE (SELECT COUNT(*) FROM dw.dim_sr_group WHERE member_type = 'combined_pre_2023') <> 1
+UNION ALL
+SELECT 'outturn-only', 'must be exactly one outturn_only member, with outturn, not a department group and with no plan row'
+WHERE (SELECT COUNT(*) FROM dw.dim_sr_group WHERE member_type = 'outturn_only' AND has_outturn = 1 AND is_department_group = 0) <> 1
+   OR (SELECT COUNT(*) FROM dw.dim_sr_group WHERE member_type = 'outturn_only') <> 1
+   OR EXISTS (SELECT 1 FROM dw.fact_plan AS p JOIN dw.dim_sr_group AS g ON g.sr_group_key = p.sr_group_key WHERE g.member_type = 'outturn_only')
+   OR EXISTS (SELECT 1 FROM stg.plan_name_map AS m JOIN dw.dim_sr_group AS g ON g.sr_group_name = m.target_name WHERE g.member_type = 'outturn_only')
 UNION ALL
 SELECT 'non-department', 'expected at least one non_department member and none flagged as a department group'
 WHERE (SELECT COUNT(*) FROM dw.dim_sr_group WHERE member_type = 'non_department') < 5

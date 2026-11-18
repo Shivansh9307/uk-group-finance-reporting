@@ -1,5 +1,5 @@
 sr_group_code,sr_group_name,department_numbers,pairs,organisation_codes,exception_pairs
-NONDEPT_UNALLOC,Unallocated central funds,U011 U035 U077 U084,36,6,0
+OUTTURN_ONLY_UNALLOC,Unallocated: former department lines,U011 U035 U077 U084,36,6,0
 SR_003,"Environment, Food and Rural Affairs",003,798,15,0
 SR_004,Transport,004,225,14,0
 SR_010,Cabinet Office,010 901 915,87,8,0

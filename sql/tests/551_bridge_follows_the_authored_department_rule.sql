@@ -5,7 +5,7 @@ WITH expected AS (
                      WHERE r.department_number = b.department_number AND r.basis = 'current' AND r.durable_key = o.durable_key),
                     (SELECT TOP 1 g.sr_group_key FROM authored.department_sr_group AS r JOIN dw.dim_sr_group AS g ON g.sr_group_code = r.sr_group_code
                      WHERE r.department_number = b.department_number AND r.basis = 'current' AND r.durable_key = ''),
-                    (SELECT sr_group_key FROM dw.dim_sr_group WHERE sr_group_code = 'NONDEPT_UNALLOC')) AS want
+                    (SELECT sr_group_key FROM dw.dim_sr_group WHERE sr_group_code = 'OUTTURN_ONLY_UNALLOC')) AS want
     FROM dw.outturn_sr_group_bridge AS b
     JOIN dw.dim_organisation AS o ON o.organisation_key = b.organisation_key
 )
@@ -27,18 +27,18 @@ FROM dw.outturn_sr_group_bridge AS b
 WHERE bridge_rule = 'organisation exception' AND durable_key NOT IN
       (SELECT durable_key FROM authored.department_sr_group WHERE durable_key <> '' AND basis = 'current')
 UNION ALL
-SELECT 'Unallocated department member not bridged to Unallocated central funds', CAST(b.organisation_key AS nvarchar(20)), b.sub_segment_code
+SELECT 'Unallocated department member not bridged to the outturn-only member', CAST(b.organisation_key AS nvarchar(20)), b.sub_segment_code
 FROM dw.outturn_sr_group_bridge AS b
 JOIN dw.dim_department AS d ON d.department_key = b.current_department_key
 JOIN dw.dim_sr_group AS g ON g.sr_group_key = b.sr_group_key
-WHERE d.member_type = 'Unallocated' AND (b.bridge_rule <> 'unallocated member' OR g.sr_group_code <> 'NONDEPT_UNALLOC')
+WHERE d.member_type = 'Unallocated' AND (b.bridge_rule <> 'unallocated member' OR g.sr_group_code <> 'OUTTURN_ONLY_UNALLOC')
 UNION ALL
 SELECT 'pair bridged as unallocated whose department is not an Unallocated member', CAST(b.organisation_key AS nvarchar(20)), b.sub_segment_code
 FROM dw.outturn_sr_group_bridge AS b
 JOIN dw.dim_department AS d ON d.department_key = b.current_department_key
 WHERE b.bridge_rule = 'unallocated member' AND d.member_type <> 'Unallocated'
 UNION ALL
-SELECT 'bridge group is a pre-2023 combined or plan-only member', CAST(b.organisation_key AS nvarchar(20)), b.sub_segment_code
+SELECT 'bridge group is a pre-2023 combined, plan-only or non-department member', CAST(b.organisation_key AS nvarchar(20)), b.sub_segment_code
 FROM dw.outturn_sr_group_bridge AS b
 JOIN dw.dim_sr_group AS g ON g.sr_group_key = b.sr_group_key
-WHERE g.member_type IN ('combined_pre_2023', 'plan_only');
+WHERE g.member_type IN ('combined_pre_2023', 'plan_only', 'non_department');
