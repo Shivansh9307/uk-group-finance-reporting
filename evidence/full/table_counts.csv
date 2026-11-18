@@ -8,6 +8,9 @@ authored,plan_name_map,97
 authored,plan_source,17
 authored,pss_sr_group_alias,3
 authored,sr_group,32
+authored,statement_account_rule,31
+authored,statement_line,39
+dw,account_statement_line,128
 dw,bud_group_current_department,68
 dw,current_structure_department,76
 dw,current_structure_line,5480
@@ -37,6 +40,8 @@ dw,outturn_sr_group_bridge,5480
 dw,plan_coverage,69
 dw,plan_measure_selection,10
 dw,plan_phasing_profile,53688
+dw,statement_line,39
+dw,statement_line_member,110
 quarantine,oscar_bud,0
 quarantine,oscar_inyear,0
 quarantine,pss,0
@@ -80,4 +85,6 @@ stg,pss_outturn,41171
 stg,pss_sr_group_map,23
 stg,release,31
 stg,sr_group,32
+stg,statement_account_rule,31
+stg,statement_line,39
 stg,subsegment_label,58524
