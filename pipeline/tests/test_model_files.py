@@ -194,7 +194,11 @@ def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(t
             views.add(n)
     assert len(used) == len(set(used)), "two tables read the same view"
     assert set(used) == created, sorted(set(used) ^ created)
-    assert views == {"Deflator", "Deflator Quarantine", "CPI", "CPI Quarantine"}
+    calculation_groups = {
+        n for n, t in tables.items() if "	calculationGroup" in t.text and not t.partition_source.strip()
+    }
+    assert calculation_groups == {"Time Intelligence", "Scenario Comparison", "Display Unit"}
+    assert views - calculation_groups == {"Deflator", "Deflator Quarantine", "CPI", "CPI Quarantine"}
 
 
 def test_derived_and_real_tables_are_labelled(tables):

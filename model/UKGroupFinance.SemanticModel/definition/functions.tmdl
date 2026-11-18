@@ -1,0 +1,264 @@
+/// True when something has been selected on a table, so that the filter context holds fewer of its rows than the table has. A selection of every row does not count. Used by the plan grain guard.
+function 'Grain.IsNarrowed' = ```
+		( t : TABLEREF ) =>
+		    COUNTROWS ( t ) < CALCULATE ( COUNTROWS ( t ), REMOVEFILTERS ( t ) )
+		```
+
+/// The plan grain guard, written once. True when the filter context is finer than the grain at which the plan rows in context are published, so that a plan figure there would be a number the source never gave. Rules: fewer fiscal periods than the years in context have (skipped when allowMonth is true, for the phased plan); any sub-segment, data quality issue or current-structure department selected; any economic attribute finer than the economic budget; any organisation attribute finer than the organisation code; and, unless every plan row in context is grain A (OSCAR Plans: organisation x control budget detail x economic budget), any organisation, control budget or economic budget selection.
+function 'Grain.BelowGrain' = ```
+		( allowMonth : BOOLEAN ) =>
+		    VAR PeriodYears = VALUES ( 'Fiscal Period'[Financial Year] )
+		    VAR PeriodsOfYears =
+		        COUNTROWS ( FILTER ( ALL ( 'Fiscal Period' ), 'Fiscal Period'[Financial Year] IN PeriodYears ) )
+		    VAR PartialYear = NOT allowMonth && COUNTROWS ( 'Fiscal Period' ) < PeriodsOfYears
+		    VAR NotOnlyGrainA =
+		        COUNTROWS ( FILTER ( DISTINCT ( 'Fact Plan'[Plan Grain Key] ), 'Fact Plan'[Plan Grain Key] <> "A" ) ) > 0
+		    VAR AccountBelowBudget =
+		        COUNTROWS ( 'Account' )
+		            < CALCULATE ( COUNTROWS ( 'Account' ), ALLEXCEPT ( 'Account', 'Account'[Economic Budget] ) )
+		    VAR OrganisationBelowCode =
+		        COUNTROWS ( 'Organisation (as reported)' )
+		            < CALCULATE (
+		                COUNTROWS ( 'Organisation (as reported)' ),
+		                ALLEXCEPT (
+		                    'Organisation (as reported)',
+		                    'Organisation (as reported)'[Organisation Code],
+		                    'Organisation (as reported)'[Durable Key]
+		                )
+		            )
+		    RETURN
+		        PartialYear
+		            || Grain.IsNarrowed ( 'Sub-Segment' )
+		            || Grain.IsNarrowed ( 'Data Quality Issue' )
+		            || Grain.IsNarrowed ( 'Department (current structure)' )
+		            || AccountBelowBudget
+		            || OrganisationBelowCode
+		            || (
+		                NotOnlyGrainA
+		                    && (
+		                        Grain.IsNarrowed ( 'Organisation (as reported)' )
+		                            || Grain.IsNarrowed ( 'Control Budget' )
+		                            || Grain.IsNarrowed ( 'Account' )
+		                    )
+		            )
+		```
+
+/// The plan rows that the filter context selects, as a table of Fact Plan. Rows of an administration budget (part of resource DEL) are left out unless a plan measure has been chosen. When the plan rows are OSCAR Plans, a selection of organisation codes, control budget detail codes or economic budgets on the outturn side narrows the plan rows to the same codes, because those are the keys the source is published at. Both Plan and Plan (phased) read it, so they always add up the same rows.
+function 'Plan.RowsInScope' = ```
+		( measureChosen : BOOLEAN ) =>
+		    VAR OrganisationOn = Grain.IsNarrowed ( 'Organisation (as reported)' )
+		    VAR OrganisationCodes = VALUES ( 'Organisation (as reported)'[Organisation Code] )
+		    VAR ControlBudgetOn = Grain.IsNarrowed ( 'Control Budget' )
+		    VAR ControlBudgetCodes = VALUES ( 'Control Budget'[Control Budget Detail Code] )
+		    VAR EconomicBudgetOn = Grain.IsNarrowed ( 'Account' )
+		    VAR EconomicBudgets = VALUES ( 'Account'[Economic Budget] )
+		    RETURN
+		        FILTER (
+		            'Fact Plan',
+		            ( measureChosen || NOT 'Fact Plan'[Is Part Of Other Measure] )
+		                && ( NOT OrganisationOn || 'Fact Plan'[Plan Organisation Code] IN OrganisationCodes )
+		                && ( NOT ControlBudgetOn || 'Fact Plan'[Plan Control Budget Detail] IN ControlBudgetCodes )
+		                && (
+		                    NOT EconomicBudgetOn
+		                        || SWITCH ( 'Fact Plan'[Plan Economic Budget], "n/a", "NA", 'Fact Plan'[Plan Economic Budget] )
+		                            IN EconomicBudgets
+		                )
+		        )
+		```
+
+/// Outturn on the basis of one plan measure in one financial year: the control budget detail and economic budget that the measure is made of (dw.plan_measure_selection), and for the excluding-depreciation measures the economic group DEPRECIATION left out. The in-year files have no ringfence column, so other non-cash items stay in; the exact basis exists only in the annual files. Non-departmental AME, non-budget and unclassified (the grain A measures that dw.plan_measure_selection does not define) are my additions: their control budget detail alone, and for unclassified the lines whose economic budget is neither resource nor capital. Any other measure returns BLANK. Existing selections on the same columns are kept (KEEPFILTERS), so a slicer can only narrow the basis.
+function 'Basis.OutturnFor' = ```
+		( yr : STRING, m : STRING ) =>
+		    SWITCH (
+		        m,
+		        "RDEL", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] IN { "DEL PROG", "DEL ADMIN" } ), KEEPFILTERS ( 'Account'[Economic Budget] = "RESOURCE" ) ),
+		        "RDEL_EX_DEPN", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] IN { "DEL PROG", "DEL ADMIN" } ), KEEPFILTERS ( 'Account'[Economic Budget] = "RESOURCE" ), KEEPFILTERS ( 'Account'[PESA Economic Group Code] <> "DEPRECIATION" ) ),
+		        "CDEL", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] IN { "DEL PROG", "DEL ADMIN" } ), KEEPFILTERS ( 'Account'[Economic Budget] = "CAPITAL" ) ),
+		        "RAME", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = "DEPT AME" ), KEEPFILTERS ( 'Account'[Economic Budget] = "RESOURCE" ) ),
+		        "CAME", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = "DEPT AME" ), KEEPFILTERS ( 'Account'[Economic Budget] = "CAPITAL" ) ),
+		        "ADMIN", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = "DEL ADMIN" ), KEEPFILTERS ( 'Account'[Economic Budget] = "RESOURCE" ) ),
+		        "ADMIN_EX_DEPN", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = "DEL ADMIN" ), KEEPFILTERS ( 'Account'[Economic Budget] = "RESOURCE" ), KEEPFILTERS ( 'Account'[PESA Economic Group Code] <> "DEPRECIATION" ) ),
+		        "NON_DEPT_AME", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = "NON-DEPT AME" ) ),
+		        "NON_BUDGET", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = "NON-BUDGET" ) ),
+		        "UNCLASSIFIED", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] IN { "DEL PROG", "DEL ADMIN", "DEPT AME" } ), KEEPFILTERS ( NOT 'Account'[Economic Budget] IN { "RESOURCE", "CAPITAL" } ) ),
+		        BLANK ()
+		    )
+		```
+
+/// True when a plan measure has a rule in Basis.OutturnFor, so that outturn can be put on its basis.
+function 'Basis.HasRule' = ```
+		( m : STRING ) =>
+		    m IN { "RDEL", "RDEL_EX_DEPN", "CDEL", "RAME", "CAME", "ADMIN", "ADMIN_EX_DEPN", "NON_DEPT_AME", "NON_BUDGET", "UNCLASSIFIED" }
+		```
+
+/// Evaluates a measure over a given set of fiscal periods (a table of Period Key values) in place of whatever periods the filter context selects. The years in context stay as they are. Every period-level column is cleared first, so a slicer on the month name or the quarter does not intersect with the window.
+function 'Window.OverPeriods' = ```
+		( m : EXPR, periodKeys : TABLE ) =>
+		    CALCULATE (
+		        m,
+		        REMOVEFILTERS (
+		            'Fiscal Period'[Period Key],
+		            'Fiscal Period'[Period Number],
+		            'Fiscal Period'[Period],
+		            'Fiscal Period'[Month],
+		            'Fiscal Period'[Month Start Date],
+		            'Fiscal Period'[Fiscal Quarter],
+		            'Fiscal Period'[Is Period 0]
+		        ),
+		        TREATAS ( periodKeys, 'Fiscal Period'[Period Key] )
+		    )
+		```
+
+/// The month: the latest allocated month (period 1 to 12) in context, in each year in context. Period 0, which the source does not allocate to a month, is never a month; with only period 0 in context the result is BLANK.
+function 'Window.Mtd' = ```
+		( m : EXPR ) =>
+		    VAR Years = VALUES ( 'Fiscal Period'[Financial Year] )
+		    VAR LatestMonth =
+		        CALCULATE ( MAX ( 'Fiscal Period'[Period Number] ), KEEPFILTERS ( 'Fiscal Period'[Period Number] >= 1 ) )
+		    VAR Keys =
+		        SELECTCOLUMNS (
+		            FILTER (
+		                ALL ( 'Fiscal Period' ),
+		                NOT ISBLANK ( LatestMonth )
+		                    && 'Fiscal Period'[Financial Year] IN Years
+		                    && 'Fiscal Period'[Period Number] = LatestMonth
+		            ),
+		            "k", 'Fiscal Period'[Period Key]
+		        )
+		    RETURN
+		        Window.OverPeriods ( m, Keys )
+		```
+
+/// Quarter to date: the months of the fiscal quarter of the latest allocated month in context, up to that month. The quarter comes from the month (April to June is quarter 1). Period 0 has no quarter and is never in it.
+function 'Window.Qtd' = ```
+		( m : EXPR ) =>
+		    VAR Years = VALUES ( 'Fiscal Period'[Financial Year] )
+		    VAR LatestMonth =
+		        CALCULATE ( MAX ( 'Fiscal Period'[Period Number] ), KEEPFILTERS ( 'Fiscal Period'[Period Number] >= 1 ) )
+		    VAR LatestQuarter =
+		        MAXX ( FILTER ( ALL ( 'Fiscal Period' ), 'Fiscal Period'[Period Number] = LatestMonth ), 'Fiscal Period'[Fiscal Quarter] )
+		    VAR Keys =
+		        SELECTCOLUMNS (
+		            FILTER (
+		                ALL ( 'Fiscal Period' ),
+		                NOT ISBLANK ( LatestMonth )
+		                    && 'Fiscal Period'[Financial Year] IN Years
+		                    && 'Fiscal Period'[Fiscal Quarter] = LatestQuarter
+		                    && 'Fiscal Period'[Period Number] <= LatestMonth
+		            ),
+		            "k", 'Fiscal Period'[Period Key]
+		        )
+		    RETURN
+		        Window.OverPeriods ( m, Keys )
+		```
+
+/// Year to date: every period of each year in context from period 0 up to the latest period in context. Period 0 (amounts not allocated to a month) is therefore counted in the year to date and in the year total.
+function 'Window.Ytd' = ```
+		( m : EXPR ) =>
+		    VAR Years = VALUES ( 'Fiscal Period'[Financial Year] )
+		    VAR LatestPeriod = MAX ( 'Fiscal Period'[Period Number] )
+		    VAR Keys =
+		        SELECTCOLUMNS (
+		            FILTER (
+		                ALL ( 'Fiscal Period' ),
+		                NOT ISBLANK ( LatestPeriod )
+		                    && 'Fiscal Period'[Financial Year] IN Years
+		                    && 'Fiscal Period'[Period Number] <= LatestPeriod
+		            ),
+		            "k", 'Fiscal Period'[Period Key]
+		        )
+		    RETURN
+		        Window.OverPeriods ( m, Keys )
+		```
+
+/// The same periods one financial year earlier (period 3 of 2024-25 becomes period 3 of 2023-24; a whole year becomes the whole previous year, period 0 included). The year selection moves back one year with the periods, so that Fact Plan, which is related to Fiscal Year, moves with them.
+function 'Window.PriorYear' = ```
+		( m : EXPR ) =>
+		    VAR PriorKeys =
+		        SELECTCOLUMNS ( VALUES ( 'Fiscal Period'[Period Key] ), "k", 'Fiscal Period'[Period Key] - 100 )
+		    VAR PriorStarts = SELECTCOLUMNS ( VALUES ( 'Fiscal Year' ), "s", 'Fiscal Year'[Year Start] - 1 )
+		    VAR PriorYears =
+		        SELECTCOLUMNS ( FILTER ( ALL ( 'Fiscal Year' ), 'Fiscal Year'[Year Start] IN PriorStarts ), "y", 'Fiscal Year'[Financial Year] )
+		    RETURN
+		        CALCULATE (
+		            m,
+		            REMOVEFILTERS ( 'Fiscal Year' ),
+		            REMOVEFILTERS (
+		                'Fiscal Period'[Period Key],
+		                'Fiscal Period'[Period Number],
+		                'Fiscal Period'[Period],
+		                'Fiscal Period'[Month],
+		                'Fiscal Period'[Month Start Date],
+		                'Fiscal Period'[Fiscal Quarter],
+		                'Fiscal Period'[Is Period 0]
+		            ),
+		            TREATAS ( PriorYears, 'Fiscal Year'[Financial Year] ),
+		            TREATAS ( PriorKeys, 'Fiscal Period'[Period Key] )
+		        )
+		```
+
+/// Rolling 12 months: the 12 allocated months that end at the latest allocated month in context, taking each year in context separately and crossing financial years (the window of period 3 of 2024-25 is period 4 of 2023-24 to period 3 of 2024-25). The year selection is dropped for the window, which is not a year. Period 0 is not a month and is never in the window, so at period 12 the window is the year total less period 0.
+function 'Window.Rolling12' = ```
+		( m : EXPR ) =>
+		    VAR Months =
+		        ADDCOLUMNS (
+		            CALCULATETABLE ( VALUES ( 'Fiscal Period'[Period Key] ), KEEPFILTERS ( 'Fiscal Period'[Period Number] >= 1 ) ),
+		            "Yr", INT ( 'Fiscal Period'[Period Key] / 100 ),
+		            "Idx", INT ( 'Fiscal Period'[Period Key] / 100 ) * 12 + MOD ( 'Fiscal Period'[Period Key], 100 ) - 1
+		        )
+		    VAR Ends = GROUPBY ( Months, [Yr], "EndIdx", MAXX ( CURRENTGROUP (), [Idx] ) )
+		    VAR Keys =
+		        SELECTCOLUMNS (
+		            FILTER (
+		                ALL ( 'Fiscal Period' ),
+		                'Fiscal Period'[Period Number] >= 1
+		                    && (
+		                        VAR Idx = INT ( 'Fiscal Period'[Period Key] / 100 ) * 12 + MOD ( 'Fiscal Period'[Period Key], 100 ) - 1
+		                        RETURN COUNTROWS ( FILTER ( Ends, Idx > [EndIdx] - 12 && Idx <= [EndIdx] ) ) > 0
+		                    )
+		            ),
+		            "k", 'Fiscal Period'[Period Key]
+		        )
+		    RETURN
+		        CALCULATE ( Window.OverPeriods ( m, Keys ), REMOVEFILTERS ( 'Fiscal Year' ) )
+		```
+
+/// What the calculation items selected in the context produce: "indicator" (Favourable/Adverse), "percent" (Variance %, or YoY % of anything) or "amount". The unit and the format string follow from it.
+function 'Format.ValueKind' = ```
+		( ) =>
+		    VAR Comparison = SELECTEDVALUE ( 'Scenario Comparison'[Comparison] )
+		    VAR TimeCalculation = SELECTEDVALUE ( 'Time Intelligence'[Time Calculation] )
+		    RETURN
+		        SWITCH (
+		            TRUE (),
+		            Comparison = "Favourable/Adverse", "indicator",
+		            Comparison = "Variance %" || TimeCalculation = "YoY %", "percent",
+		            "amount"
+		        )
+		```
+
+/// An amount in GBP thousands shown in the unit "k", "m" or "bn": divided by 1, 1,000 or 1,000,000. A percentage or an indicator is returned unchanged. Scaling is done on the value; no number format scales with commas, because that prints a wrong number on the canvas of this Desktop build.
+function 'Format.Scale' = ```
+		( x : ANYVAL, unit : STRING ) =>
+		    IF (
+		        Format.ValueKind () = "amount",
+		        DIVIDE ( x, SWITCH ( unit, "k", 1, "m", 1000, "bn", 1000000, 1 ) ),
+		        x
+		    )
+		```
+
+/// The dynamic format string for a value in the unit "k", "m" or "bn": a pound amount with the unit suffix, a percentage for Variance % and YoY %, and for Favourable/Adverse the words that go with the indicator (1 shows Favourable, -1 Adverse, 0 On plan).
+function 'Format.ForUnit' = ```
+		( unit : STRING ) =>
+		    SWITCH (
+		        Format.ValueKind (),
+		        "indicator", "[=1]""Favourable"";[=-1]""Adverse"";""On plan""",
+		        "percent", "0.0%;-0.0%;0.0%",
+		        SWITCH (
+		            unit,
+		            "k", "£#,##0""k"";-£#,##0""k"";£0""k""",
+		            "m", "£#,##0.0""m"";-£#,##0.0""m"";£0.0""m""",
+		            "bn", "£#,##0.00""bn"";-£#,##0.00""bn"";£0.00""bn"""
+		        )
+		    )
+		```

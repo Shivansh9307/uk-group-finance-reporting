@@ -1,0 +1,66 @@
+/// Calculation group for comparing outturn with plan: Actual, Plan, Variance, Variance % and Favourable/Adverse. It acts on the measure Comparison Amount only (any other measure passes through), so it can be dropped on a visual of any other measure without changing it. Sign convention: spending positive, income negative, so Actual less Plan below zero is favourable for both. Precedence 10: the innermost of the three calculation groups, so Time Intelligence and Display Unit wrap it.
+table 'Scenario Comparison'
+	lineageTag: 4bd0d0d0-5719-5013-8007-8ac7c32cd61b
+
+	calculationGroup
+		precedence: 10
+
+		/// The outturn on the plan basis (Outturn (plan basis), through Comparison Amount). Chosen over plain Outturn so that Actual, Plan and Variance in one row are on the same basis: Variance would not equal Actual less Plan if Actual held every control budget and Plan only DEL. Pass-through for other measures.
+		calculationItem Actual = SELECTEDMEASURE ()
+			ordinal: 0
+
+		/// The published plan (Plan), BLANK below its grain. Acts only on Comparison Amount.
+		calculationItem Plan = IF ( ISSELECTEDMEASURE ( [Comparison Amount] ), [Plan], SELECTEDMEASURE () )
+			ordinal: 1
+
+		/// Actual less Plan in GBP thousands. With spending positive and income negative, a negative variance is favourable for both spending (under plan) and income (more income than planned, which is more negative). BLANK when either side is BLANK.
+		calculationItem Variance =
+				IF (
+				    ISSELECTEDMEASURE ( [Comparison Amount] ),
+				    VAR Actual = SELECTEDMEASURE ()
+				    VAR PlanAmount = [Plan]
+				    RETURN IF ( ISBLANK ( Actual ) || ISBLANK ( PlanAmount ), BLANK (), Actual - PlanAmount ),
+				    SELECTEDMEASURE ()
+				)
+			ordinal: 2
+
+		/// Variance divided by the absolute plan, so the sign is the sign of the variance (negative is favourable) whether the plan is spending or income. BLANK when the plan is zero or either side is BLANK.
+		calculationItem 'Variance %' =
+				IF (
+				    ISSELECTEDMEASURE ( [Comparison Amount] ),
+				    VAR Actual = SELECTEDMEASURE ()
+				    VAR PlanAmount = [Plan]
+				    RETURN IF ( ISBLANK ( Actual ) || ISBLANK ( PlanAmount ), BLANK (), DIVIDE ( Actual - PlanAmount, ABS ( PlanAmount ) ) ),
+				    SELECTEDMEASURE ()
+				)
+			ordinal: 3
+			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Comparison Amount] ), "0.0%;-0.0%;0.0%", SELECTEDMEASUREFORMATSTRING () )
+
+		/// A signed indicator: 1 where the variance is favourable (below zero), -1 where it is adverse (above zero), 0 where actual equals plan, BLANK where there is no variance. A number, so that conditional formatting can use rules on it; its format string shows the words Favourable, Adverse and On plan.
+		calculationItem 'Favourable/Adverse' =
+				IF (
+				    ISSELECTEDMEASURE ( [Comparison Amount] ),
+				    VAR Actual = SELECTEDMEASURE ()
+				    VAR PlanAmount = [Plan]
+				    VAR Difference = IF ( ISBLANK ( Actual ) || ISBLANK ( PlanAmount ), BLANK (), Actual - PlanAmount )
+				    RETURN IF ( ISBLANK ( Difference ), BLANK (), IF ( Difference < 0, 1, IF ( Difference > 0, -1, 0 ) ) ),
+				    SELECTEDMEASURE ()
+				)
+			ordinal: 4
+			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Comparison Amount] ), "[=1]""Favourable"";[=-1]""Adverse"";""On plan""", SELECTEDMEASUREFORMATSTRING () )
+
+	/// The comparison to show: Actual, Plan, Variance, Variance %, Favourable/Adverse.
+	column Comparison
+		dataType: string
+		lineageTag: 9092b7db-171e-5a41-8ff2-3f54c4ec74b2
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6320123f-93c3-537e-8a44-6eafda5e0af8
+		summarizeBy: none
+		sourceColumn: Ordinal

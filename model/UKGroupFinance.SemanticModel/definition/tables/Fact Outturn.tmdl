@@ -99,6 +99,41 @@ table 'Fact Outturn'
 		summarizeBy: none
 		sourceColumn: revision_no
 
+	/// Real outturn in GBP thousands, spending positive and income negative: the sum of the revision deltas of every release in context. With no release selected it is the latest view of each financial year (what the newest release reports). It never filters releases itself, so a view as at a release is a selection on Release. Not on the plan basis: all control budgets and economic categories. Use Outturn (plan basis) to compare with a plan.
+	measure Outturn = SUM ( 'Fact Outturn'[Amount Delta] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Base
+		lineageTag: a9b46f48-e2ea-5ade-a3d6-848f0441008f
+
+
+	/// Outturn in GBP thousands on the basis of the plan rows in context, the figure that Plan is compared with. For each financial year and plan measure in context it takes the outturn of the control budget detail and economic budget the measure is made of (RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME, ADMIN, ADMIN_EX_DEPN, and my own rules for NON_DEPT_AME, NON_BUDGET and UNCLASSIFIED) and adds them up. Resource DEL excluding depreciation leaves out only the economic group DEPRECIATION, because the in-year files have no ringfence column; other non-cash items stay in (about 5.5bn a year from 2024-25). BLANK when there is no plan row in context. Defined at every grain, including months, where Plan is BLANK.
+	measure 'Outturn (plan basis)' =
+			VAR MeasureChosen = ISFILTERED ( 'Fact Plan'[Plan Measure] )
+			VAR PlanScope =
+			    SUMMARIZE (
+			        FILTER ( 'Fact Plan', MeasureChosen || NOT 'Fact Plan'[Is Part Of Other Measure] ),
+			        'Fiscal Year'[Financial Year],
+			        'Fact Plan'[Plan Measure]
+			    )
+			VAR AnyWithoutRule =
+			    COUNTROWS ( FILTER ( PlanScope, NOT Basis.HasRule ( 'Fact Plan'[Plan Measure] ) ) ) > 0
+			RETURN
+			    IF (
+			        AnyWithoutRule,
+			        BLANK (),
+			        SUMX ( PlanScope, Basis.OutturnFor ( 'Fiscal Year'[Financial Year], 'Fact Plan'[Plan Measure] ) )
+			    )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Plan
+		lineageTag: bd6cb56a-9d8e-5fe4-be25-5820174c8dce
+
+
+	/// The measure to put in a visual together with the Scenario Comparison items. On its own it is Outturn (plan basis), the Actual of a comparison. The Scenario Comparison items act only on this measure and pass every other measure through unchanged.
+	measure 'Comparison Amount' = [Outturn (plan basis)]
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Plan
+		lineageTag: 58ace511-bcb8-56ae-a51f-1b03c1102e4d
+
 	partition 'Fact Outturn' = m
 		mode: import
 		source =

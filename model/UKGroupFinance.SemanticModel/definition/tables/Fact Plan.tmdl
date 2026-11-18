@@ -100,6 +100,27 @@ table 'Fact Plan'
 		summarizeBy: none
 		sourceColumn: is_part_of_other_measure
 
+	/// Published plan in GBP thousands, summed over the plan rows in context, BLANK wherever the filter context is finer than the grain the plan is published at (a month, a sub-segment, an economic category, a department, a data quality issue, and an organisation, control budget or economic budget where the source has none). Grain A (OSCAR Plans) is published by organisation, control budget detail and economic budget, so a selection of those on the outturn side narrows the plan to the same codes. Administration budgets are part of resource DEL and are left out unless a Plan measure is chosen. Plan measures overlap by design; choose one to read it on its own.
+	measure Plan =
+			IF (
+			    Grain.BelowGrain ( FALSE () ),
+			    BLANK (),
+			    CALCULATE (
+			        SUM ( 'Fact Plan'[Plan Amount] ),
+			        Plan.RowsInScope ( ISFILTERED ( 'Fact Plan'[Plan Measure] ) )
+			    )
+			)
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Plan
+		lineageTag: 248e8154-1620-5d1c-9f1d-f1c2470ef7e6
+
+
+	/// 1 where Plan is BLANK because the filter context is finer than the grain the plan is published at, otherwise 0. Use it to say "plan not published at this level" next to a blank.
+	measure 'Plan Below Grain' = IF ( Grain.BelowGrain ( FALSE () ), 1, 0 )
+		formatString: 0
+		displayFolder: Plan
+		lineageTag: 12c55800-7b7f-5642-a9c7-98e38052efc7
+
 	partition 'Fact Plan' = m
 		mode: import
 		source =

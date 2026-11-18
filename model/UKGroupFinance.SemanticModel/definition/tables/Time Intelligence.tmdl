@@ -1,0 +1,73 @@
+/// Calculation group for fiscal-period time intelligence on Fiscal Period and Fiscal Year: Current, MTD, QTD, YTD, PY, YoY, YoY % and Rolling 12 months. No calendar date table and no calendar time-intelligence functions: a window is a set of Fiscal Period rows. Period 0 (not allocated to a month) is in year totals and the year to date and never in a single month. Precedence 20: outside Scenario Comparison (so Variance % of YTD is the variance of the year-to-date amounts, not a year-to-date of the percentages) and inside Display Unit.
+table 'Time Intelligence'
+	lineageTag: 4dd55726-da8c-5834-b2a5-6ed08ceb293e
+
+	calculationGroup
+		precedence: 20
+
+		/// The measure in the period context of the visual: a month in a month row, the year in a year row.
+		calculationItem Current = SELECTEDMEASURE ()
+			ordinal: 0
+
+		/// The month: the latest allocated month (period 1 to 12) in context. Period 0, amounts the source does not allocate to a month, is never a month.
+		calculationItem MTD = Window.Mtd ( SELECTEDMEASURE () )
+			ordinal: 1
+
+		/// Quarter to date: the months of the fiscal quarter (April to June is quarter 1) of the latest allocated month in context, up to that month. The quarter is derived from the month.
+		calculationItem QTD = Window.Qtd ( SELECTEDMEASURE () )
+			ordinal: 2
+
+		/// Year to date: period 0 to the latest period in context in each financial year. Period 0 is counted, so the year to date at period 12 is the year total.
+		calculationItem YTD = Window.Ytd ( SELECTEDMEASURE () )
+			ordinal: 3
+
+		/// The same periods in the previous financial year (a whole year gives the previous year, period 0 included).
+		calculationItem PY = Window.PriorYear ( SELECTEDMEASURE () )
+			ordinal: 4
+
+		/// Current less PY. BLANK where there is no previous year (the first year of the data), and for Variance % and Favourable/Adverse, where a difference between two ratios or two indicators means nothing.
+		calculationItem YoY =
+				VAR Comparison = SELECTEDVALUE ( 'Scenario Comparison'[Comparison] )
+				VAR CurrentValue = SELECTEDMEASURE ()
+				VAR PriorValue = Window.PriorYear ( SELECTEDMEASURE () )
+				RETURN
+				    IF (
+				        Comparison IN { "Variance %", "Favourable/Adverse" } || ISBLANK ( CurrentValue ) || ISBLANK ( PriorValue ),
+				        BLANK (),
+				        CurrentValue - PriorValue
+				    )
+			ordinal: 5
+
+		/// Current less PY, divided by the absolute PY. BLANK where there is no previous year, where PY is zero, and for Variance % and Favourable/Adverse (a percentage change of a ratio or an indicator is meaningless).
+		calculationItem 'YoY %' =
+				VAR Comparison = SELECTEDVALUE ( 'Scenario Comparison'[Comparison] )
+				VAR CurrentValue = SELECTEDMEASURE ()
+				VAR PriorValue = Window.PriorYear ( SELECTEDMEASURE () )
+				RETURN
+				    IF (
+				        Comparison IN { "Variance %", "Favourable/Adverse" } || ISBLANK ( CurrentValue ) || ISBLANK ( PriorValue ),
+				        BLANK (),
+				        DIVIDE ( CurrentValue - PriorValue, ABS ( PriorValue ) )
+				    )
+			ordinal: 6
+			formatStringDefinition = "0.0%;-0.0%;0.0%"
+
+		/// The 12 allocated months ending at the latest allocated month in context, crossing financial years. Period 0 is not a month and is not in the window. Plan is BLANK here, because a rolling window is never a published plan period.
+		calculationItem 'Rolling 12 months' = Window.Rolling12 ( SELECTEDMEASURE () )
+			ordinal: 7
+
+	/// The time calculation to apply: Current, MTD, QTD, YTD, PY, YoY, YoY %, Rolling 12 months.
+	column 'Time Calculation'
+		dataType: string
+		lineageTag: 3dc8f6bc-48c4-53e6-87ea-46ecc92a9b77
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7708e7ae-080e-59c7-bd94-716ab2cf567c
+		summarizeBy: none
+		sourceColumn: Ordinal
