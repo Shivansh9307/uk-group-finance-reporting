@@ -2,6 +2,7 @@ schema_name,table_name,row_count
 authored,account_flow,12
 authored,current_structure_map,20
 authored,department_name,75
+authored,department_sr_group,63
 authored,organisation_key_override,14
 authored,plan_name_map,97
 authored,plan_source,17
@@ -23,9 +24,15 @@ dw,dim_sr_group,31
 dw,dq_issue,6
 dw,fact_outturn,658554
 dw,fact_plan,749
+dw,fact_plan_phased,8988
 dw,organisation_name_alias,587
 dw,organisation_release_map,6853
+dw,outturn_plan_basis_inyear,34048
+dw,outturn_plan_line,101675
+dw,outturn_sr_group_bridge,5480
 dw,plan_coverage,35
+dw,plan_measure_selection,10
+dw,plan_phasing_profile,8988
 quarantine,oscar_inyear,0
 raw,oscar_inyear,1547078
 raw,oscar_inyear_control_expected,32
@@ -37,6 +44,7 @@ raw,profile_inyear_delta_rowcount,31
 stg,account_flow,12
 stg,current_structure_authored,20
 stg,department_period,75
+stg,department_sr_group,63
 stg,inyear_snapshot,1328986
 stg,organisation_key_override,14
 stg,organisation_release,6853

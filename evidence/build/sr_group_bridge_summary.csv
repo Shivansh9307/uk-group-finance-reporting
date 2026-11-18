@@ -1,0 +1,25 @@
+sr_group_code,sr_group_name,department_numbers,pairs,organisation_codes,exception_pairs
+NONDEPT_UNALLOC,Unallocated central funds,U011 U035 U077 U084,36,6,0
+SR_003,"Environment, Food and Rural Affairs",003,798,15,0
+SR_004,Transport,004,225,14,0
+SR_010,Cabinet Office,010 901 915,87,8,0
+SR_013,Business and Trade,013,296,21,0
+SR_017,Defence,017 902,58,12,0
+SR_022,Education,022 904,272,16,0
+SR_030,"Foreign, Commonwealth and Development Office",030 907,300,9,0
+SR_032,Work and Pensions,032,138,8,0
+SR_034,Home Office,034 073,99,9,0
+SR_041,HM Revenue & Customs,041,58,1,0
+SR_047,Justice,047 908,102,10,0
+SR_048,"Culture, Media and Sport",048,281,36,0
+SR_066,Energy Security and Net Zero,066 905,217,33,0
+SR_075,Scotland,075,175,1,0
+SR_084,"Science, Innovation and Technology",084,195,13,0
+SR_087,HM Treasury,087,95,15,0
+SR_090,Wales,090,101,4,0
+SR_099,Northern Ireland,099,192,5,0
+SR_COM,CLG Communities,085,1294,12,0
+SR_LGV,CLG Local Government,085,205,1,205
+SR_LOD,Law Officer's Departments,016 019 089,16,3,0
+SR_NHS,Health (NHS),033 903,117,20,0
+SR_SIB,Small and Independent Bodies,005 009 014 020 025 026 031 036 037 038 042 049 050 057 060 067 068 069 070 071 072 076 078 079 088 091 097,123,31,0
