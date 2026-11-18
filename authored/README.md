@@ -39,6 +39,15 @@ loader refuses a file with no header, a header that is not a plain identifier, a
 | `account_flow.csv` | `authored.account_flow` | one per economic category code that the digit rule does not settle | whether the category is Expenditure, Income or Not applicable, with the profile figures and my reasoning | `stg.account_flow`, `dw.dim_account` |
 | `current_structure_map.csv` | `authored.current_structure_map` | one per organisation and sub-segment, or per organisation | the department a line belongs to in the current structure where the rules cannot decide it: the review of the 15 BEIS sub-segments the November 2023 annual file disagreed on, three lines left in the DSIT group (marked estimated), and the departments that closed into another (DFID to FCDO, DIT to DBT) | `stg.current_structure_authored`, `dw.current_structure_line` |
 | `department_sr_group.csv` | `authored.department_sr_group` | one per department number and basis, plus one per organisation exception | which Spending Review group a current department belongs to (from the latest annual release's own grouping), the one department that feeds two groups (split by organisation), and the departments that make up the combined pre-2023 group | `stg.department_sr_group`, `dw.outturn_sr_group_bridge`, `dw.plan_phasing_profile` |
+| `plan_name_map.csv` | `authored.plan_name_map` | one per published plan name and name family | which member of `sr_group.csv` a name used by the Estimates, PESA, SR25 tables or the OSCAR extracts belongs to, how its line is added (whole, part, component), a confidence and the evidence | `stg.plan_name_map`, `dw.fact_plan`, `dw.outturn_plan_basis_annual` |
+| `plan_source.csv` | `authored.plan_source` | one per plan source and edition | what each Estimates, PESA, SR25 or OSCAR Plans edition covers, whether it is the final plan, and its basis notes | `stg.plan_source`, `dw.dim_plan_source` |
+| `sr_group.csv` | `authored.sr_group` | one per member | the Spending Review groups of the latest annual release, the plan-only Single Intelligence Account, the combined pre-2023 group, the non-department members and the outturn-only member `Unallocated: former department lines` | `stg.sr_group`, `dw.dim_sr_group` |
+
+One more authored table is written in SQL, not as a CSV: `authored.pss_sr_group_alias` (three PSS to OSCAR group
+names, `sql/authored/400_pss_sr_group_alias.sql`, full scope). The register of every authored file and table, with
+its row count, whether it can reach a real total and the test that proves it, is in the repository
+[README](../README.md#register-of-real-authored-derived-and-synthetic-data); a test fails if a file here is missing from it.
+
 
 All are labelled authored in the database (table description) and in the model that imports the
 dimensions. None holds an amount.
