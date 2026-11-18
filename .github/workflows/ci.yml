@@ -31,7 +31,7 @@ env:
 
   # Throwaway SA password for the SQL container that lives for one job. Not a secret,
   # but never printed: it is masked in the first step that uses it.
-  CI_SQL_SA_PASSWORD: Ci_Spike_Throwaway_2026x
+  CI_SQL_SA_PASSWORD: Ci_Throwaway_2026x
 
 jobs:
   model-bpa:
@@ -140,47 +140,81 @@ jobs:
             -e ACCEPT_EULA=Y -e MSSQL_PID=Developer -e MSSQL_SA_PASSWORD="$CI_SQL_SA_PASSWORD" \
             "$MSSQL_IMAGE" >/dev/null
           t2=$(date +%s.%N)
-          echo "pull_s=$(echo "$t1 - $t0" | bc)" | tee -a "$RUNNER_TEMP/timings.txt"
+          echo "container_pull_s=$(printf '%.1f' "$(echo "$t1 - $t0" | bc)")" | tee -a "$RUNNER_TEMP/timings.txt"
           echo "CONTAINER_STARTED=$t2" >> "$GITHUB_ENV"
+
+      # restore + save instead of actions/cache, so the cache is written even when a later step fails
+      # (actions/cache only saves in its post step on a successful job). The key holds the uv version
+      # and the lock file, so a changed dependency makes a new cache.
+      - name: Restore the uv cache
+        id: uv-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-${{ env.UV_VERSION }}-${{ hashFiles('pipeline/uv.lock') }}
 
       - name: Install uv and the project
         run: |
-          t0=$(date +%s.%N)
+          source .github/scripts/step-timer.sh
           python3 -m venv "$RUNNER_TEMP/uv-venv"
           "$RUNNER_TEMP/uv-venv/bin/pip" install -q --disable-pip-version-check "uv==$UV_VERSION"
           echo "$RUNNER_TEMP/uv-venv/bin" >> "$GITHUB_PATH"
-          "$RUNNER_TEMP/uv-venv/bin/uv" sync --project pipeline --frozen
-          echo "uv_sync_s=$(echo "$(date +%s.%N) - $t0" | bc)" | tee -a "$RUNNER_TEMP/timings.txt"
+          echo "uv_cache_hit=${{ steps.uv-cache.outputs.cache-hit }}" | tee -a "$RUNNER_TEMP/timings.txt"
+          timed uv_sync "$RUNNER_TEMP/uv-venv/bin/uv" sync --project pipeline --frozen
 
-      - name: Unit tests that need no database, and the committed-file check
+      - name: Prune the uv cache before it is saved
+        if: always() && steps.uv-cache.outputs.cache-hit != 'true'
+        run: uv cache prune --ci
+
+      - name: Save the uv cache
+        if: always() && steps.uv-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-${{ env.UV_VERSION }}-${{ hashFiles('pipeline/uv.lock') }}
+
+      - name: Committed files, unit tests that need no database, assertion inventory
+        # `ukfr inventory` lists every SQL assertion with its scope and marker and fails when a file in
+        # sql/tests has no `-- test:` header or docs/reconciliation.md is out of date.
         run: |
-          uv run --project pipeline --frozen ukfr fetch --verify
-          uv run --project pipeline --frozen pytest -q -m "not db"
+          source .github/scripts/step-timer.sh
+          timed fetch_verify uv run --project pipeline --frozen ukfr fetch --verify
+          timed unit_tests bash -o pipefail -c 'uv run --project pipeline --frozen pytest -q -m "not db" | tee "$RUNNER_TEMP/pytest-unit.txt"'
+          timed inventory bash -o pipefail -c 'uv run --project pipeline --frozen ukfr inventory | tee "$RUNNER_TEMP/assertion-inventory.txt"'
 
       - name: Build the database from the committed files
         # --wait covers the seconds between the log saying "ready" and the first accepted login.
         run: |
-          t0=$(date +%s.%N)
-          uv run --project pipeline --frozen ukfr build --scope committed --wait 120
-          echo "build_s=$(echo "$(date +%s.%N) - $t0" | bc)" | tee -a "$RUNNER_TEMP/timings.txt"
+          source .github/scripts/step-timer.sh
+          timed build bash -o pipefail -c 'uv run --project pipeline --frozen ukfr build --scope committed --wait 120 | tee "$RUNNER_TEMP/build.txt"'
 
       - name: Database tests
         run: |
-          t0=$(date +%s.%N)
-          uv run --project pipeline --frozen pytest -q -m db
-          echo "db_tests_s=$(echo "$(date +%s.%N) - $t0" | bc)" | tee -a "$RUNNER_TEMP/timings.txt"
+          source .github/scripts/step-timer.sh
+          timed db_tests bash -o pipefail -c 'uv run --project pipeline --frozen pytest -q -m db | tee "$RUNNER_TEMP/pytest-db.txt"'
 
       - name: Rebuild from scratch and compare the audit output
         # A second build into a new database must write byte-identical audit files, and the files
         # committed under evidence/build must be the ones the build writes.
         run: |
-          t0=$(date +%s.%N)
-          UKFR_SQL_DATABASE=UKGroupFinance_rebuild uv run --project pipeline --frozen ukfr build \
+          source .github/scripts/step-timer.sh
+          timed rebuild env UKFR_SQL_DATABASE=UKGroupFinance_rebuild uv run --project pipeline --frozen ukfr build \
             --scope committed --recreate --audit-dir "$RUNNER_TEMP/audit-rebuild"
-          echo "rebuild_s=$(echo "$(date +%s.%N) - $t0" | bc)" | tee -a "$RUNNER_TEMP/timings.txt"
           diff -r evidence/build "$RUNNER_TEMP/audit-rebuild"
           git diff --exit-code -- evidence/build data/audit
           echo "audit output identical across two builds and equal to the committed copy"
+
+      - name: Negative control (the controls must fail on a planted error)
+        # Plants a wrong control total, a wrong raw amount and a wrong fact amount, one at a time, in the
+        # throwaway second database (never the one the tests ran against), runs the controls that must
+        # notice and requires each to FAIL, then restores the value and requires them to pass again.
+        # The step is green only if every planted error was caught. No file in the repository changes.
+        env:
+          UKFR_SQL_DATABASE: UKGroupFinance_rebuild
+        run: |
+          source .github/scripts/step-timer.sh
+          timed negative_control uv run --project pipeline --frozen ukfr negative-control
+          test -z "$(git status --porcelain)" && echo "the working tree is unchanged"
 
       - name: Summary
         if: always()
@@ -188,8 +222,16 @@ jobs:
           {
             echo "### pipeline-sql"
             echo
+            echo "Seconds per step (the job also spends time on checkout, the cache and the container, see the step list):"
             echo '```'
             cat "$RUNNER_TEMP/timings.txt" 2>/dev/null
+            echo '```'
+            echo
+            echo "Test results:"
+            echo '```'
+            for f in pytest-unit pytest-db; do
+              echo "$f: $(tail -n 1 "$RUNNER_TEMP/$f.txt" 2>/dev/null)"
+            done
             echo '```'
           } | tee -a "$GITHUB_STEP_SUMMARY"
 
