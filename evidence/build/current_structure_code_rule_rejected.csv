@@ -1,0 +1,7 @@
+organisation_key,sub_segment_code,organisation_code,code_release,code_organisation_code,code_department_number,code_department_name,chosen_department_number,chosen_department_name,method
+108,X034A165,EHR034,2019-06,EHR034,034,Home Office,010,Cabinet Office,organisation current department
+108,X034A166,EHR034,2019-06,EHR034,034,Home Office,010,Cabinet Office,organisation current department
+279,X048A064,OFC048,2026-09,BFI048,048,"Department for Culture, Media and Sport",084,"Department for Science, Innovation and Technology",organisation current department
+279,X048A065,OFC048,2026-09,BFI048,048,"Department for Culture, Media and Sport",084,"Department for Science, Innovation and Technology",organisation current department
+279,X048A067,OFC048,2026-06,BFI048,048,"Department for Culture, Media and Sport",084,"Department for Science, Innovation and Technology",organisation current department
+279,X048A068,OFC048,2026-09,BFI048,048,"Department for Culture, Media and Sport",084,"Department for Science, Innovation and Technology",organisation current department

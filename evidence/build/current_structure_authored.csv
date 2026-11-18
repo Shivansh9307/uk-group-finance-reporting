@@ -1,0 +1,21 @@
+authored_row,durable_key,sub_segment_code,decision,review_set,is_estimated,current_department_number,lines_matched,lines_decided,lines_changed,rule_department_number,gross_amount
+1,BIS.BEIS,X084A002,follow the restated annual file,beis_bud_2023_11,0,013,1,1,1,084,117189
+2,BIS.BEIS,X084A012,follow the restated annual file,beis_bud_2023_11,0,013,1,1,1,084,2316334
+3,BIS.BEIS,X084A154,follow the restated annual file,beis_bud_2023_11,0,013,1,1,1,084,465920
+4,BIS.BEIS,X084A233,follow the restated annual file,beis_bud_2023_11,0,066,1,1,1,084,15112
+5,BIS.BEIS,X084A234,follow the restated annual file,beis_bud_2023_11,0,066,1,1,1,084,246158
+6,BIS.BEIS,X084A396,follow the restated annual file,beis_bud_2023_11,0,013,1,1,1,084,106604
+7,BIS.BEIS,X084A511,follow the restated annual file,beis_bud_2023_11,0,066,1,1,1,084,159767
+8,BBB,X084A344,follow the restated annual file,beis_bud_2023_11,0,013,1,1,0,013,1351593
+9,BIS.BEIS,X084A267,keep the in-year successor,beis_bud_2023_11,0,013,1,1,0,013,6242
+10,BPA,X084A306,keep the in-year successor,beis_bud_2023_11,0,013,1,1,0,013,4986
+11,BIS.BEIS,X084A323,keep the in-year successor,beis_bud_2023_11,0,066,1,1,0,066,87548
+12,BBB,X084A346,keep the in-year successor,beis_bud_2023_11,0,013,1,1,0,013,463399
+13,BIS.BEIS,X084A524,keep the in-year successor,beis_bud_2023_11,0,066,1,1,0,066,590
+14,OGA,X084A616,keep the in-year successor,beis_bud_2023_11,0,066,1,1,0,066,1481
+15,SAL,X084A621,keep the in-year successor,beis_bud_2023_11,0,066,1,1,0,066,310
+16,BIS.BEIS,X084A031,follow the restated annual file (judgement),beis_bud_2023_11,1,084,1,1,1,U084,346
+17,BIS.BEIS,X084A254,follow the restated annual file (judgement),beis_bud_2023_11,1,084,1,1,1,U084,20700
+18,BIS.BEIS,X084A364,follow the restated annual file (judgement),beis_bud_2023_11,1,084,1,1,1,U084,52
+19,DID.DFID,,organisation successor,,0,030,87,9,0,,94401
+20,UKT.DIT,,organisation successor,,0,013,14,2,0,,8220
