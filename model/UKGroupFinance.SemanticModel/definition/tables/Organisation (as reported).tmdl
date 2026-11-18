@@ -120,3 +120,4 @@ table 'Organisation (as reported)'
 				    Data = Source{[Schema = "dw", Item = "v_model_organisation"]}[Data]
 				in
 				    Data
+

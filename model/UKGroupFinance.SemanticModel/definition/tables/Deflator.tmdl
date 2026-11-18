@@ -91,3 +91,4 @@ table Deflator
 				    Typed = Table.TransformColumnTypes(Shaped, {{"Financial Year", type text}, {"Vintage", type text}, {"VintageId", type text}, {"VintageOrder", Int64.Type}, {"IsDefault", type logical}, {"Index Published", type number}, {"Per Cent Change", type number}, {"Chained Index", type number}, {"FileName", type text}})
 				in
 				    Typed
+

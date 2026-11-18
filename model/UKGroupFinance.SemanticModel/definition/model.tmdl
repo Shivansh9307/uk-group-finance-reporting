@@ -17,13 +17,15 @@ queryGroup 'Web Sources'
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
+annotation __TEdtr = 1
+
 ref table 'Fiscal Year'
 ref table 'Fiscal Period'
 ref table Release
 ref table Scenario
 ref table Account
 ref table 'Control Budget'
-ref table 'Sub-Segment'
+ref table Sub-Segment
 ref table 'Organisation (as reported)'
 ref table 'Department (current structure)'
 ref table 'Spending Review Group'
@@ -43,9 +45,3 @@ ref table 'Deflator Quarantine'
 ref table CPI
 ref table 'CPI Quarantine'
 
-ref expression Server
-ref expression Database
-ref expression 'Deflator Raw'
-ref expression 'CPI Raw'
-ref expression fnParseGdpDeflator
-ref expression fnParseCpi

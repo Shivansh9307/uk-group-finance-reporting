@@ -61,3 +61,4 @@ table 'Spending Review Group'
 				    Data = Source{[Schema = "dw", Item = "v_model_sr_group"]}[Data]
 				in
 				    Data
+

@@ -12,7 +12,7 @@ relationship 11aa62fd-ba4c-54d3-acfe-df9e188e002e
 
 relationship 1eec25a5-437f-5fa6-adbb-ae0cd0a78ebc
 	fromColumn: 'Fact Outturn'.'Segment Key'
-	toColumn: 'Sub-Segment'.'Segment Key'
+	toColumn: Sub-Segment.'Segment Key'
 
 relationship 687d26c8-564f-5a6b-9976-fdc7cfee1fc5
 	fromColumn: 'Fact Outturn'.'Account Key'
@@ -85,3 +85,4 @@ relationship 14964121-87fe-552b-9037-333795ddb668
 relationship 72713e86-258a-43f1-9a34-0cccea73b872
 	fromColumn: Account.'Statement Line Key'
 	toColumn: 'Statement Line'.'Line Key'
+

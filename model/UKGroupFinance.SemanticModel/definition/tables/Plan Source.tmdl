@@ -118,3 +118,4 @@ table 'Plan Source'
 				    Data = Source{[Schema = "dw", Item = "v_model_plan_source"]}[Data]
 				in
 				    Data
+

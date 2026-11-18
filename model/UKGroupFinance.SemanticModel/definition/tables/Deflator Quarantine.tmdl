@@ -42,3 +42,4 @@ table 'Deflator Quarantine'
 				    Typed = Table.TransformColumnTypes(Shaped, {{"VintageId", type text}, {"FileName", type text}, {"Row Label", type text}, {"Reason", type text}})
 				in
 				    Typed
+

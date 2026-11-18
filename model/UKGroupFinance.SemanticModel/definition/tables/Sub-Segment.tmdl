@@ -1,5 +1,5 @@
 /// One row per OSCAR sub-segment code (3,765, plus Unknown): the finest spending line the source reports. Source view dw.v_model_segment.
-table 'Sub-Segment'
+table Sub-Segment
 	lineageTag: d9dfae41-0360-576c-9a18-39d5866d5d2f
 
 	column 'Segment Key'
@@ -12,7 +12,7 @@ table 'Sub-Segment'
 		sourceColumn: segment_key
 
 	/// Sub-segment name without its code.
-	column 'Sub-Segment'
+	column Sub-Segment
 		dataType: string
 		lineageTag: a319af80-6446-5b19-a4f0-4524f1519675
 		summarizeBy: none
@@ -54,7 +54,7 @@ table 'Sub-Segment'
 		summarizeBy: none
 		sourceColumn: n_releases
 
-	partition 'Sub-Segment' = m
+	partition Sub-Segment = m
 		mode: import
 		source =
 				let
@@ -62,3 +62,4 @@ table 'Sub-Segment'
 				    Data = Source{[Schema = "dw", Item = "v_model_segment"]}[Data]
 				in
 				    Data
+

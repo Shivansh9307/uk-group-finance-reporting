@@ -73,7 +73,7 @@ table 'Statement Line'
 		sourceColumn: plan_scope
 
 	/// The line ids that a subtotal or total adds up, separated by spaces; blank for a detail line and a spacer.
-	column 'Members'
+	column Members
 		dataType: string
 		lineageTag: 912307b9-63d7-4732-a56d-689145635f9d
 		summarizeBy: none
@@ -95,3 +95,4 @@ table 'Statement Line'
 				    Data = Source{[Schema = "dw", Item = "v_model_statement_line"]}[Data]
 				in
 				    Data
+

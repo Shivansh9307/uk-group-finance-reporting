@@ -120,3 +120,4 @@ table Account
 				    Data = Source{[Schema = "dw", Item = "v_model_account"]}[Data]
 				in
 				    Data
+

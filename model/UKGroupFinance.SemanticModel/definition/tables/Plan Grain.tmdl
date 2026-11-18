@@ -32,3 +32,4 @@ table 'Plan Grain'
 				    Data = Source{[Schema = "dw", Item = "v_model_plan_grain"]}[Data]
 				in
 				    Data
+

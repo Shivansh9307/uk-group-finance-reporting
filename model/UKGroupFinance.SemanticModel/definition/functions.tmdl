@@ -1,11 +1,10 @@
 /// True when something has been selected on a table, so that the filter context holds fewer of its rows than the table has. A selection of every row does not count. Used by the plan grain guard.
-function 'Grain.IsNarrowed' = ```
+function 'Grain.IsNarrowed' =
 		( t : TABLEREF ) =>
 		    COUNTROWS ( t ) < CALCULATE ( COUNTROWS ( t ), REMOVEFILTERS ( t ) )
-		```
 
 /// The plan grain guard, written once. True when the filter context is finer than the grain at which the plan rows in context are published, so that a plan figure there would be a number the source never gave. Rules: fewer fiscal periods than the years in context have (skipped when allowMonth is true, for the phased plan); any sub-segment, data quality issue or current-structure department selected; any economic attribute finer than the economic budget; any organisation attribute finer than the organisation code; and, unless every plan row in context is grain A (OSCAR Plans: organisation x control budget detail x economic budget), any organisation, control budget or economic budget selection.
-function 'Grain.BelowGrain' = ```
+function 'Grain.BelowGrain' =
 		( allowMonth : BOOLEAN ) =>
 		    VAR PeriodYears = VALUES ( 'Fiscal Period'[Financial Year] )
 		    VAR PeriodsOfYears =
@@ -41,10 +40,9 @@ function 'Grain.BelowGrain' = ```
 		                            || Grain.IsNarrowed ( 'Account' )
 		                    )
 		            )
-		```
 
 /// The plan rows that the filter context selects, as a table of Fact Plan. Rows of an administration budget (part of resource DEL) are left out unless a plan measure has been chosen. When the plan rows are OSCAR Plans, a selection of organisation codes, control budget detail codes or economic budgets on the outturn side narrows the plan rows to the same codes, because those are the keys the source is published at. Both Plan and Plan (phased) read it, so they always add up the same rows.
-function 'Plan.RowsInScope' = ```
+function 'Plan.RowsInScope' =
 		( measureChosen : BOOLEAN ) =>
 		    VAR OrganisationOn = Grain.IsNarrowed ( 'Organisation (as reported)' )
 		    VAR OrganisationCodes = VALUES ( 'Organisation (as reported)'[Organisation Code] )
@@ -64,10 +62,9 @@ function 'Plan.RowsInScope' = ```
 		                            IN EconomicBudgets
 		                )
 		        )
-		```
 
 /// Outturn on the basis of one plan measure in one financial year: the control budget detail and economic budget that the measure is made of (dw.plan_measure_selection), and for the excluding-depreciation measures the economic group DEPRECIATION left out. The in-year files have no ringfence column, so other non-cash items stay in; the exact basis exists only in the annual files. Non-departmental AME, non-budget and unclassified (the grain A measures that dw.plan_measure_selection does not define) are my additions: their control budget detail alone, and for unclassified the lines whose economic budget is neither resource nor capital. Any other measure returns BLANK. Existing selections on the same columns are kept (KEEPFILTERS), so a slicer can only narrow the basis.
-function 'Basis.OutturnFor' = ```
+function 'Basis.OutturnFor' =
 		( yr : STRING, m : STRING ) =>
 		    SWITCH (
 		        m,
@@ -83,16 +80,14 @@ function 'Basis.OutturnFor' = ```
 		        "UNCLASSIFIED", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] IN { "DEL PROG", "DEL ADMIN", "DEPT AME" } ), KEEPFILTERS ( NOT 'Account'[Economic Budget] IN { "RESOURCE", "CAPITAL" } ) ),
 		        BLANK ()
 		    )
-		```
 
 /// True when a plan measure has a rule in Basis.OutturnFor, so that outturn can be put on its basis.
-function 'Basis.HasRule' = ```
+function 'Basis.HasRule' =
 		( m : STRING ) =>
 		    m IN { "RDEL", "RDEL_EX_DEPN", "CDEL", "RAME", "CAME", "ADMIN", "ADMIN_EX_DEPN", "NON_DEPT_AME", "NON_BUDGET", "UNCLASSIFIED" }
-		```
 
 /// Evaluates a measure over a given set of fiscal periods (a table of Period Key values) in place of whatever periods the filter context selects. The years in context stay as they are. Every period-level column is cleared first, so a slicer on the month name or the quarter does not intersect with the window.
-function 'Window.OverPeriods' = ```
+function 'Window.OverPeriods' =
 		( m : EXPR, periodKeys : TABLE ) =>
 		    CALCULATE (
 		        m,
@@ -107,10 +102,9 @@ function 'Window.OverPeriods' = ```
 		        ),
 		        TREATAS ( periodKeys, 'Fiscal Period'[Period Key] )
 		    )
-		```
 
 /// The month: the latest allocated month (period 1 to 12) in context, in each year in context. Period 0, which the source does not allocate to a month, is never a month; with only period 0 in context the result is BLANK.
-function 'Window.Mtd' = ```
+function 'Window.Mtd' =
 		( m : EXPR ) =>
 		    VAR Years = VALUES ( 'Fiscal Period'[Financial Year] )
 		    VAR LatestMonth =
@@ -127,10 +121,9 @@ function 'Window.Mtd' = ```
 		        )
 		    RETURN
 		        Window.OverPeriods ( m, Keys )
-		```
 
 /// Quarter to date: the months of the fiscal quarter of the latest allocated month in context, up to that month. The quarter comes from the month (April to June is quarter 1). Period 0 has no quarter and is never in it.
-function 'Window.Qtd' = ```
+function 'Window.Qtd' =
 		( m : EXPR ) =>
 		    VAR Years = VALUES ( 'Fiscal Period'[Financial Year] )
 		    VAR LatestMonth =
@@ -150,10 +143,9 @@ function 'Window.Qtd' = ```
 		        )
 		    RETURN
 		        Window.OverPeriods ( m, Keys )
-		```
 
 /// Year to date: every period of each year in context from period 0 up to the latest period in context. Period 0 (amounts not allocated to a month) is therefore counted in the year to date and in the year total.
-function 'Window.Ytd' = ```
+function 'Window.Ytd' =
 		( m : EXPR ) =>
 		    VAR Years = VALUES ( 'Fiscal Period'[Financial Year] )
 		    VAR LatestPeriod = MAX ( 'Fiscal Period'[Period Number] )
@@ -169,10 +161,9 @@ function 'Window.Ytd' = ```
 		        )
 		    RETURN
 		        Window.OverPeriods ( m, Keys )
-		```
 
 /// The same periods one financial year earlier (period 3 of 2024-25 becomes period 3 of 2023-24; a whole year becomes the whole previous year, period 0 included). The year selection moves back one year with the periods, so that Fact Plan, which is related to Fiscal Year, moves with them.
-function 'Window.PriorYear' = ```
+function 'Window.PriorYear' =
 		( m : EXPR ) =>
 		    VAR PriorKeys =
 		        SELECTCOLUMNS ( VALUES ( 'Fiscal Period'[Period Key] ), "k", 'Fiscal Period'[Period Key] - 100 )
@@ -195,10 +186,9 @@ function 'Window.PriorYear' = ```
 		            TREATAS ( PriorYears, 'Fiscal Year'[Financial Year] ),
 		            TREATAS ( PriorKeys, 'Fiscal Period'[Period Key] )
 		        )
-		```
 
 /// Rolling 12 months: the 12 allocated months that end at the latest allocated month in context, taking each year in context separately and crossing financial years (the window of period 3 of 2024-25 is period 4 of 2023-24 to period 3 of 2024-25). The year selection is dropped for the window, which is not a year. Period 0 is not a month and is never in the window, so at period 12 the window is the year total less period 0.
-function 'Window.Rolling12' = ```
+function 'Window.Rolling12' =
 		( m : EXPR ) =>
 		    VAR Months =
 		        ADDCOLUMNS (
@@ -221,10 +211,9 @@ function 'Window.Rolling12' = ```
 		        )
 		    RETURN
 		        CALCULATE ( Window.OverPeriods ( m, Keys ), REMOVEFILTERS ( 'Fiscal Year' ) )
-		```
 
 /// What the calculation items selected in the context produce: "indicator" (Favourable/Adverse), "percent" (Variance %, or YoY % of anything) or "amount". The unit and the format string follow from it.
-function 'Format.ValueKind' = ```
+function 'Format.ValueKind' =
 		( ) =>
 		    VAR Comparison = SELECTEDVALUE ( 'Scenario Comparison'[Comparison] )
 		    VAR TimeCalculation = SELECTEDVALUE ( 'Time Intelligence'[Time Calculation] )
@@ -235,20 +224,18 @@ function 'Format.ValueKind' = ```
 		            Comparison = "Variance %" || TimeCalculation = "YoY %", "percent",
 		            "amount"
 		        )
-		```
 
 /// An amount in GBP thousands shown in the unit "k", "m" or "bn": divided by 1, 1,000 or 1,000,000. A percentage or an indicator is returned unchanged. Scaling is done on the value; no number format scales with commas, because that prints a wrong number on the canvas of this Desktop build.
-function 'Format.Scale' = ```
+function 'Format.Scale' =
 		( x : ANYVAL, unit : STRING ) =>
 		    IF (
 		        Format.ValueKind () = "amount",
 		        DIVIDE ( x, SWITCH ( unit, "k", 1, "m", 1000, "bn", 1000000, 1 ) ),
 		        x
 		    )
-		```
 
 /// The dynamic format string for a value in the unit "k", "m" or "bn": a pound amount with the unit suffix, a percentage for Variance % and YoY %, and for Favourable/Adverse the words that go with the indicator (1 shows Favourable, -1 Adverse, 0 On plan).
-function 'Format.ForUnit' = ```
+function 'Format.ForUnit' =
 		( unit : STRING ) =>
 		    SWITCH (
 		        Format.ValueKind (),
@@ -261,16 +248,14 @@ function 'Format.ForUnit' = ```
 		            "bn", "£#,##0.00""bn"";-£#,##0.00""bn"";£0.00""bn"""
 		        )
 		    )
-		```
 
 /// The sign a statement line is presented in: -1 for a line shown with income positive, 1 for a line as reported (spending positive, income negative). 1 when no single line is in context.
-function 'Pnl.SignFactor' = ```
+function 'Pnl.SignFactor' =
 		( ) =>
 		    IF ( SELECTEDVALUE ( 'Statement Line'[Sign Presentation] ) = "income positive", -1, 1 )
-		```
 
 /// A measure evaluated for the statement line in context: over the accounts of every detail line the line adds up (the keys come from the hidden Detail Line Keys column, written |3|4|5|), in the sign the line is presented in. BLANK for a spacer, when no single line is in context, and when the measure has nothing there. A detail line sums its own accounts; a subtotal or total sums the detail lines under the lines it lists, so a total equals the sum of its members by construction and a spacer has no amount.
-function 'Pnl.LineAmount' = ```
+function 'Pnl.LineAmount' =
 		( m : EXPR ) =>
 		    VAR LineType = SELECTEDVALUE ( 'Statement Line'[Line Type] )
 		    VAR KeyList = SELECTEDVALUE ( 'Statement Line'[Detail Line Keys] )
@@ -286,10 +271,9 @@ function 'Pnl.LineAmount' = ```
 		        CALCULATE ( m, REMOVEFILTERS ( 'Statement Line' ), TREATAS ( DetailKeys, 'Statement Line'[Line Key] ) )
 		    RETURN
 		        IF ( ISBLANK ( LineType ) || LineType = "spacer" || ISBLANK ( Amount ), BLANK (), Amount * Pnl.SignFactor () )
-		```
 
 /// A measure evaluated at the plan scope of the statement line in context, for the lines that sit at a published plan's grain: the economic budget RESOURCE or CAPITAL, or ALL accounts. Only the voted budgets are compared (RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME); administration rows and the OSCAR Plans measures NON_DEPT_AME, NON_BUDGET and UNCLASSIFIED are left out (the non-budget plan is gross and the outturn is net). The economic budget is a direct filter on Account, so the plan grain guard sees a selection at its grain and leaves the plan in place for OSCAR Plans years and blanks it for the later sources, which carry no economic budget. BLANK for a line without a plan scope. A selection already in the filter context on the same columns is kept (KEEPFILTERS).
-function 'Pnl.AtPlanScope' = ```
+function 'Pnl.AtPlanScope' =
 		( m : EXPR ) =>
 		    VAR PlanScope = SELECTEDVALUE ( 'Statement Line'[Plan Scope] )
 		    VAR LineType = SELECTEDVALUE ( 'Statement Line'[Line Type] )
@@ -303,10 +287,9 @@ function 'Pnl.AtPlanScope' = ```
 		        )
 		    RETURN
 		        IF ( ISBLANK ( LineType ) || ISBLANK ( Amount ), BLANK (), Amount * Pnl.SignFactor () )
-		```
 
 /// A measure with the rows flagged in Data Quality Issue left out: the fact rows whose data-quality key is 0, the member that says no issue was flagged. A selection already made on the flagged rows is kept (KEEPFILTERS), so a selection of a finding gives nothing. The flagged rows are whole line-months that were reported in error and corrected in the next release (the NHS Pension Scheme line X903A002), so what is left out is the line-month as a whole, not only the error.
-function 'Restate.Unflagged' = ```
+function 'Restate.Unflagged' =
 		( m : EXPR ) =>
 		    CALCULATE ( m, KEEPFILTERS ( 'Fact Outturn'[Data Quality Issue Key] = 0 ) )
-		```
+

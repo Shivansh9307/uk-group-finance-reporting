@@ -2,6 +2,32 @@
 table 'Fact Plan'
 	lineageTag: fbab6938-a069-50fa-9e7e-c9a3a1c6b615
 
+	/// Published plan in GBP thousands, summed over the plan rows in context, BLANK wherever the filter context is finer than the grain the plan is published at (a month, a sub-segment, an economic category, a department, a data quality issue, and an organisation, control budget or economic budget where the source has none). Grain A (OSCAR Plans) is published by organisation, control budget detail and economic budget, so a selection of those on the outturn side narrows the plan to the same codes. Administration budgets are part of resource DEL and are left out unless a Plan measure is chosen. Plan measures overlap by design; choose one to read it on its own.
+	measure Plan =
+			IF (
+			    Grain.BelowGrain ( FALSE () ),
+			    BLANK (),
+			    CALCULATE (
+			        SUM ( 'Fact Plan'[Plan Amount] ),
+			        Plan.RowsInScope ( ISFILTERED ( 'Fact Plan'[Plan Measure] ) )
+			    )
+			)
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Plan
+		lineageTag: 248e8154-1620-5d1c-9f1d-f1c2470ef7e6
+
+	/// 1 where Plan is BLANK because the filter context is finer than the grain the plan is published at, otherwise 0. Use it to say "plan not published at this level" next to a blank.
+	measure 'Plan Below Grain' = IF ( Grain.BelowGrain ( FALSE () ), 1, 0 )
+		formatString: 0
+		displayFolder: Plan
+		lineageTag: 12c55800-7b7f-5642-a9c7-98e38052efc7
+
+	/// The published plan of the statement line in context, in GBP thousands, only on a line that sits at a plan's grain: the net resource line (economic budget RESOURCE), the net capital line (CAPITAL) and the total line (every account), and only in a year where the source publishes a plan at that level (the OSCAR Plans years for RESOURCE and CAPITAL; every year with a plan for the total). The voted budgets only: RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME. BLANK on every other line.
+	measure 'Statement Plan' = Pnl.AtPlanScope ( [Plan] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Statement
+		lineageTag: d7b11670-3415-4340-a5c0-65e60d5d06aa
+
 	column 'Plan Fact Key'
 		dataType: int64
 		isHidden
@@ -100,34 +126,6 @@ table 'Fact Plan'
 		summarizeBy: none
 		sourceColumn: is_part_of_other_measure
 
-	/// Published plan in GBP thousands, summed over the plan rows in context, BLANK wherever the filter context is finer than the grain the plan is published at (a month, a sub-segment, an economic category, a department, a data quality issue, and an organisation, control budget or economic budget where the source has none). Grain A (OSCAR Plans) is published by organisation, control budget detail and economic budget, so a selection of those on the outturn side narrows the plan to the same codes. Administration budgets are part of resource DEL and are left out unless a Plan measure is chosen. Plan measures overlap by design; choose one to read it on its own.
-	measure Plan =
-			IF (
-			    Grain.BelowGrain ( FALSE () ),
-			    BLANK (),
-			    CALCULATE (
-			        SUM ( 'Fact Plan'[Plan Amount] ),
-			        Plan.RowsInScope ( ISFILTERED ( 'Fact Plan'[Plan Measure] ) )
-			    )
-			)
-		formatString: £#,##0"k";-£#,##0"k";£0"k"
-		displayFolder: Plan
-		lineageTag: 248e8154-1620-5d1c-9f1d-f1c2470ef7e6
-
-
-	/// 1 where Plan is BLANK because the filter context is finer than the grain the plan is published at, otherwise 0. Use it to say "plan not published at this level" next to a blank.
-	measure 'Plan Below Grain' = IF ( Grain.BelowGrain ( FALSE () ), 1, 0 )
-		formatString: 0
-		displayFolder: Plan
-		lineageTag: 12c55800-7b7f-5642-a9c7-98e38052efc7
-
-	/// The published plan of the statement line in context, in GBP thousands, only on a line that sits at a plan's grain: the net resource line (economic budget RESOURCE), the net capital line (CAPITAL) and the total line (every account), and only in a year where the source publishes a plan at that level (the OSCAR Plans years for RESOURCE and CAPITAL; every year with a plan for the total). The voted budgets only: RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME. BLANK on every other line.
-	measure 'Statement Plan' = Pnl.AtPlanScope ( [Plan] )
-		formatString: £#,##0"k";-£#,##0"k";£0"k"
-		displayFolder: Statement
-		lineageTag: d7b11670-3415-4340-a5c0-65e60d5d06aa
-
-
 	partition 'Fact Plan' = m
 		mode: import
 		source =
@@ -136,3 +134,4 @@ table 'Fact Plan'
 				    Data = Source{[Schema = "dw", Item = "v_model_fact_plan"]}[Data]
 				in
 				    Data
+

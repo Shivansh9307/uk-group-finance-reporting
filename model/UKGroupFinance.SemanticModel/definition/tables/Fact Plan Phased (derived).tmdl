@@ -2,6 +2,28 @@
 table 'Fact Plan Phased (derived)'
 	lineageTag: 5062fe90-72fd-53c1-b03e-fbb10cb1df39
 
+	/// DERIVED, not published: the plan rows that Plan adds up, spread over periods 1 to 12 by a share taken from the prior year's outturn (twelve flat twelfths where there is none), in GBP thousands. The only plan measure allowed at month grain. The twelve months of a plan row add up to the published annual figure exactly, but the monthly figures are my allocation and must never be shown as a published monthly budget. BLANK below the group grain (sub-segment, economic category and so on) like Plan, and for FY2017-18, which has no calendar.
+	measure 'Plan (phased)' =
+			IF (
+			    Grain.BelowGrain ( TRUE () ),
+			    BLANK (),
+			    VAR PlanKeys =
+			        SELECTCOLUMNS (
+			            Plan.RowsInScope (
+			                ISFILTERED ( 'Fact Plan'[Plan Measure] ) || ISFILTERED ( 'Fact Plan Phased (derived)'[Plan Measure] )
+			            ),
+			            "k", 'Fact Plan'[Plan Fact Key]
+			        )
+			    RETURN
+			        CALCULATE (
+			            SUM ( 'Fact Plan Phased (derived)'[Phased Amount] ),
+			            TREATAS ( PlanKeys, 'Fact Plan Phased (derived)'[Plan Fact Key] )
+			        )
+			)
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Plan\Derived
+		lineageTag: 0260e1e9-08ca-5ae8-96c5-5321d21ed6c7
+
 	column 'Plan Fact Key'
 		dataType: int64
 		isHidden
@@ -124,28 +146,6 @@ table 'Fact Plan Phased (derived)'
 		summarizeBy: none
 		sourceColumn: is_derived
 
-	/// DERIVED, not published: the plan rows that Plan adds up, spread over periods 1 to 12 by a share taken from the prior year's outturn (twelve flat twelfths where there is none), in GBP thousands. The only plan measure allowed at month grain. The twelve months of a plan row add up to the published annual figure exactly, but the monthly figures are my allocation and must never be shown as a published monthly budget. BLANK below the group grain (sub-segment, economic category and so on) like Plan, and for FY2017-18, which has no calendar.
-	measure 'Plan (phased)' =
-			IF (
-			    Grain.BelowGrain ( TRUE () ),
-			    BLANK (),
-			    VAR PlanKeys =
-			        SELECTCOLUMNS (
-			            Plan.RowsInScope (
-			                ISFILTERED ( 'Fact Plan'[Plan Measure] ) || ISFILTERED ( 'Fact Plan Phased (derived)'[Plan Measure] )
-			            ),
-			            "k", 'Fact Plan'[Plan Fact Key]
-			        )
-			    RETURN
-			        CALCULATE (
-			            SUM ( 'Fact Plan Phased (derived)'[Phased Amount] ),
-			            TREATAS ( PlanKeys, 'Fact Plan Phased (derived)'[Plan Fact Key] )
-			        )
-			)
-		formatString: £#,##0"k";-£#,##0"k";£0"k"
-		displayFolder: Plan\Derived
-		lineageTag: 0260e1e9-08ca-5ae8-96c5-5321d21ed6c7
-
 	partition 'Fact Plan Phased (derived)' = m
 		mode: import
 		source =
@@ -154,3 +154,4 @@ table 'Fact Plan Phased (derived)'
 				    Data = Source{[Schema = "dw", Item = "v_model_fact_plan_phased"]}[Data]
 				in
 				    Data
+

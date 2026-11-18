@@ -49,3 +49,4 @@ table Scenario
 				    Data = Source{[Schema = "dw", Item = "v_model_scenario"]}[Data]
 				in
 				    Data
+

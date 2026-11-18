@@ -65,3 +65,4 @@ table CPI
 				    Typed = Table.TransformColumnTypes(Shaped, {{"Series Id", type text}, {"Series Title", type text}, {"Unit", type text}, {"Month Start Date", type date}, {"Value", type number}, {"Release Date", type text}, {"FileName", type text}})
 				in
 				    Typed
+

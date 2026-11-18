@@ -213,8 +213,12 @@ def items(table_text) -> list[Item]:
 def functions(model_dir) -> dict[str, str]:
     text = (model_dir / "functions.tmdl").read_text(encoding="utf-8")
     found = {}
-    for m in re.finditer(r"^function (\S+) = ```(.*?)```", text, re.MULTILINE | re.DOTALL):
-        found[m.group(1)] = m.group(2)
+    # The body is the indented block after `function 'Name' =`, with or without a ``` fence (the Tabular Editor layout
+    # has none); it ends at the next top-level line.
+    for m in re.finditer(
+        r"^function (\S+) =[ \t]*(?:```)?[ \t]*\n(.*?)(?=^(?:///|function |\S)|\Z)", text, re.MULTILINE | re.DOTALL
+    ):
+        found[m.group(1)] = m.group(2).replace("```", "")
     return found
 
 

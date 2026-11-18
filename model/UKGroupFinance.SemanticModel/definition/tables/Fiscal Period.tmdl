@@ -75,3 +75,4 @@ table 'Fiscal Period'
 				    Data = Source{[Schema = "dw", Item = "v_model_fiscal_period"]}[Data]
 				in
 				    Data
+

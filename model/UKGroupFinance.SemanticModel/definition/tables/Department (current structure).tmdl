@@ -62,3 +62,4 @@ table 'Department (current structure)'
 				    Data = Source{[Schema = "dw", Item = "v_model_department"]}[Data]
 				in
 				    Data
+

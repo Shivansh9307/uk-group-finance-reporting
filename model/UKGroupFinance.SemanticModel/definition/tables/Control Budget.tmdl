@@ -61,3 +61,4 @@ table 'Control Budget'
 				    Data = Source{[Schema = "dw", Item = "v_model_control_budget"]}[Data]
 				in
 				    Data
+

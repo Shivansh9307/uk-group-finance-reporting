@@ -188,3 +188,4 @@ expression fnParseCpi =
 		    Table.FromRecords(Problems & (if List.Count(Problems) > 0 then {} else Walk[Items]), Out)
 	lineageTag: 0c2a4f04-b783-5054-a5fc-71c4a4d664e3
 	queryGroup: 'Web Sources'
+

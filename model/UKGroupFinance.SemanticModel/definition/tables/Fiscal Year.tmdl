@@ -28,3 +28,4 @@ table 'Fiscal Year'
 				    Data = Source{[Schema = "dw", Item = "v_model_fiscal_year"]}[Data]
 				in
 				    Data
+

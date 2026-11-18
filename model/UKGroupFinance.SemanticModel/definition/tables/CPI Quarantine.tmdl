@@ -35,3 +35,4 @@ table 'CPI Quarantine'
 				    Typed = Table.TransformColumnTypes(Shaped, {{"FileName", type text}, {"Row Label", type text}, {"Reason", type text}})
 				in
 				    Typed
+

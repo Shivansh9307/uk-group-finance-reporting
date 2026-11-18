@@ -129,3 +129,4 @@ table 'Data Quality Issue'
 				    Data = Source{[Schema = "dw", Item = "v_model_data_quality"]}[Data]
 				in
 				    Data
+
