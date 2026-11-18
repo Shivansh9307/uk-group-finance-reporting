@@ -1,0 +1,15 @@
+// The GDP deflators the model read over the web: every financial year of the three vintages, with the published
+// index, the published per cent change and the chained index. Expected values are read from the pinned local copies
+// of the same files by the Python reader (tests/expected/703_deflators.py), after their sha256 is checked against the
+// file manifest.
+EVALUATE
+SELECTCOLUMNS (
+    'Deflator',
+    "vintage_id", 'Deflator'[Vintage Id],
+    "financial_year", 'Deflator'[Financial Year],
+    "year_status", 'Deflator'[Year Status],
+    "index_published", 'Deflator'[Index Published],
+    "per_cent_change", 'Deflator'[Per Cent Change],
+    "chained_index", 'Deflator'[Chained Index]
+)
+ORDER BY [vintage_id], [financial_year]

@@ -1,4 +1,5 @@
-"""Command line: fetch, build, build-summary, control, inventory, real-totals, negative-control, profile, zip-head."""
+"""Command line: fetch, build, build-summary, control, inventory, real-totals, negative-control, expected, dax-compare,
+profile, zip-head."""
 
 from __future__ import annotations
 
@@ -200,6 +201,52 @@ def _inventory(args) -> int:
     return 1 if problems else 0
 
 
+def _expected(args) -> int:
+    from . import modeltests, real_totals
+    from .db import Db, DbSettings
+
+    root = find_repo_root()
+    try:
+        with Db(DbSettings.from_env()) as db:
+            scope = real_totals.build_scope(db)
+            done = modeltests.write_expected(root, db, scope, args.filter or "", args.out_dir)
+    except modeltests.ModelTestError as exc:
+        print(f"expected: {exc}", file=sys.stderr)
+        return 1
+    for stem, n in done:
+        print(f"{stem}: {n} rows")
+    print(f"expected: {len(done)} file(s) written, build scope {scope}")
+    return 0 if done else 1
+
+
+def _dax_compare(args) -> int:
+    from . import modeltests
+
+    root = find_repo_root()
+    expected_dir = args.expected_dir or root / modeltests.EXPECTED_DIR
+    try:
+        problems = modeltests.check_pairs(root)
+        outcomes = modeltests.compare_all(root, expected_dir, args.results_dir)
+    except modeltests.ModelTestError as exc:
+        print(f"dax-compare: {exc}", file=sys.stderr)
+        return 1
+    evidence = args.evidence or root / modeltests.EVIDENCE_CSV
+    scope = modeltests.read_scope(expected_dir)
+    modeltests.write_evidence(evidence, outcomes, scope)
+    for p in problems:
+        print("PROBLEM:", p, file=sys.stderr)
+    for o in outcomes:
+        diff = f", max abs difference {o.max_abs_diff}" if o.max_abs_diff else ""
+        print(f"{o.status.upper():16} {o.stem} ({o.expected_rows} expected rows, {o.result_rows} result rows{diff})")
+        for d in o.details:
+            print(f"                 {d}")
+    failed = [o for o in outcomes if not o.ok]
+    print(
+        f"dax-compare: {len(outcomes) - len(failed)} of {len(outcomes)} pass, expected build scope {scope or 'unknown'}"
+    )
+    return 1 if failed or problems or not outcomes else 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="ukfr")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -251,6 +298,19 @@ def main(argv: list[str] | None = None) -> int:
         help="plant wrong numbers in the database UKFR_SQL_DATABASE names and require the control tests to fail",
     )
     n.set_defaults(func=_negative_control)
+    e = sub.add_parser(
+        "expected", help="run tests/expected/*.sql (and .py) against the database; write the expected CSVs"
+    )
+    e.add_argument("--filter", help="only the tests whose name contains this text")
+    e.add_argument("--out-dir", type=Path, help="write the CSVs here instead of tests/expected")
+    e.set_defaults(func=_expected)
+    d = sub.add_parser(
+        "dax-compare", help="compare tests/results with tests/expected; write evidence/model/dax_tests.csv"
+    )
+    d.add_argument("--expected-dir", type=Path, help="default tests/expected")
+    d.add_argument("--results-dir", type=Path, help="default tests/results")
+    d.add_argument("--evidence", type=Path, help="default evidence/model/dax_tests.csv")
+    d.set_defaults(func=_dax_compare)
     args = ap.parse_args(argv)
     return args.func(args)
 

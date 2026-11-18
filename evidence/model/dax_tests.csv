@@ -1,0 +1,7 @@
+test_id,test_name,expected_rows,result_rows,columns,status,max_abs_diff,build_scope
+700,row_counts,16,16,2,pass,0,full
+701,relationship_integrity,21,21,3,pass,0,full
+702,outturn_total_by_release,31,31,2,pass,0,full
+703,deflators,229,229,6,pass,0.000000000000046,full
+704,cpi,918,918,3,pass,0,full
+705,web_table_rows_and_quarantines,4,4,2,pass,0,full

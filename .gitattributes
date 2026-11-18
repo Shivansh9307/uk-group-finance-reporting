@@ -22,3 +22,9 @@ authored/*.csv text eol=lf
 evidence/full/*.csv text eol=lf
 # Pinned expectations for the real facts (ukfr real-totals --write); LF so the file reads the same everywhere.
 evidence/expected/*.csv text eol=lf
+
+# The model tests: expected values written by `ukfr expected`, results written by tools/run_dax_tests.ps1 and the
+# comparison written by `ukfr dax-compare`; LF so a rerun leaves git status clean.
+tests/expected/*.csv text eol=lf
+tests/results/*.csv text eol=lf
+evidence/model/*.csv text eol=lf

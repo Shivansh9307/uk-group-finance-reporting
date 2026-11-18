@@ -1,0 +1,23 @@
+// As at each release, the sum of the Fact Outturn deltas of that release's financial year up to and including the
+// release equals the total the release file reports (audit.file_control, four decimals). The measure is defined in
+// this query only; it is not a model measure.
+DEFINE
+    MEASURE 'Fact Outturn'[Test Delta Total] = SUM ( 'Fact Outturn'[Amount Delta] )
+EVALUATE
+SELECTCOLUMNS (
+    'Release',
+    "release", 'Release'[Release Label],
+    "as_at_total",
+        VAR ReleaseSequence = 'Release'[Release Sequence]
+        VAR ReleaseYear = 'Release'[Release Financial Year]
+        RETURN
+            CALCULATE (
+                [Test Delta Total],
+                FILTER (
+                    ALL ( 'Release' ),
+                    'Release'[Release Financial Year] = ReleaseYear
+                        && 'Release'[Release Sequence] <= ReleaseSequence
+                )
+            )
+)
+ORDER BY [release]

@@ -1,0 +1,15 @@
+probe,what_was_given,rows_ok,rows_rejected,rejected_row_label,reason
+ProbeGdpGood,"the October 2026 Budget workbook as read, no fault planted",77,0,,
+ProbeGdpBad,"October 2026 workbook with five planted faults: n/a in an index cell, a forecast year with no per cent change, a duplicated year, a numeric memo row and a year row after the block",75,5,2019-20,financial year appears more than once in the file
+ProbeGdpBad,"October 2026 workbook with five planted faults: n/a in an index cell, a forecast year with no per cent change, a duplicated year, a numeric memo row and a year row after the block",75,5,2020-21,index cell is neither a number nor a dash
+ProbeGdpBad,"October 2026 workbook with five planted faults: n/a in an index cell, a forecast year with no per cent change, a duplicated year, a numeric memo row and a year row after the block",75,5,"2027-28 (1), (2)","forecast year with no per cent change, so it cannot be chained"
+ProbeGdpBad,"October 2026 workbook with five planted faults: n/a in an index cell, a forecast year with no per cent change, a duplicated year, a numeric memo row and a year row after the block",75,5,Memo item,numbers on a row whose label is not a financial year
+ProbeGdpBad,"October 2026 workbook with five planted faults: n/a in an index cell, a forecast year with no per cent change, a duplicated year, a numeric memo row and a year row after the block",75,5,2031-32,a financial-year row after the end of the data block
+ProbeGdpNoHeader,the workbook without its header rows,0,1,noheader.xlsx,no header row with the words Financial year and a column headed = 100 in the first 30 rows
+ProbeGdpNoSheet,no sheet at all (the workbook did not have exactly one sheet),0,1,nosheet.xlsx,the workbook does not have exactly one sheet
+ProbeCpiGood,"the pinned D7BT file as read, no fault planted",465,0,,
+ProbeCpiBad,"D7BT header with a text value, a repeated month, a quarterly row after months and a row of no known shape",3,4,1988 FEB,value is not a number
+ProbeCpiBad,"D7BT header with a text value, a repeated month, a quarterly row after months and a row of no known shape",3,4,1988 MAR,month does not follow the month before it
+ProbeCpiBad,"D7BT header with a text value, a repeated month, a quarterly row after months and a row of no known shape",3,4,1988 Q1,block out of order: quarterly rows after a later block
+ProbeCpiBad,"D7BT header with a text value, a repeated month, a quarterly row after months and a row of no known shape",3,4,surprise,unexpected row after the data started
+ProbeCpiNoCdid,metadata without a CDID line,0,1,nocdid.csv,no CDID line in the metadata

@@ -1,0 +1,24 @@
+// Every model table has the rows of its base table in the warehouse, or the documented subset:
+// Fiscal Year is one row per financial year of dw.dim_period; Department (current structure) is the live
+// departments; Data Quality Issue is dw.dq_issue plus the No issue flagged member. The web-read tables
+// (Deflator, CPI and their quarantines) are counted by tests 703 to 705.
+EVALUATE
+UNION(
+    ROW("table_name", "Fact Outturn", "row_count", COUNTROWS('Fact Outturn')),
+    ROW("table_name", "Fact Plan", "row_count", COUNTROWS('Fact Plan')),
+    ROW("table_name", "Fact Plan Phased (derived)", "row_count", COUNTROWS('Fact Plan Phased (derived)')),
+    ROW("table_name", "Fiscal Year", "row_count", COUNTROWS('Fiscal Year')),
+    ROW("table_name", "Fiscal Period", "row_count", COUNTROWS('Fiscal Period')),
+    ROW("table_name", "Release", "row_count", COUNTROWS('Release')),
+    ROW("table_name", "Scenario", "row_count", COUNTROWS('Scenario')),
+    ROW("table_name", "Account", "row_count", COUNTROWS('Account')),
+    ROW("table_name", "Control Budget", "row_count", COUNTROWS('Control Budget')),
+    ROW("table_name", "Sub-Segment", "row_count", COUNTROWS('Sub-Segment')),
+    ROW("table_name", "Organisation (as reported)", "row_count", COUNTROWS('Organisation (as reported)')),
+    ROW("table_name", "Department (current structure)", "row_count", COUNTROWS('Department (current structure)')),
+    ROW("table_name", "Spending Review Group", "row_count", COUNTROWS('Spending Review Group')),
+    ROW("table_name", "Plan Source", "row_count", COUNTROWS('Plan Source')),
+    ROW("table_name", "Plan Grain", "row_count", COUNTROWS('Plan Grain')),
+    ROW("table_name", "Data Quality Issue", "row_count", COUNTROWS('Data Quality Issue'))
+)
+ORDER BY [table_name]

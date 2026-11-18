@@ -69,10 +69,11 @@ def test_annual_plan_basis_reproduces_the_fy2023_24_bud_column(annual, repo_root
 
 
 def test_only_the_phasing_files_read_the_phased_plan():
-    """Nothing but dw/560 (which builds it) and the audit summary may use dw.fact_plan_phased, apart from the DROP that
-    keeps the build re-runnable."""
+    """Nothing but dw/560 (which builds it), the audit summary and the model view may use dw.fact_plan_phased, apart
+    from the DROP that keeps the build re-runnable."""
     sql = Path(__file__).resolve().parents[2] / "sql"
-    allowed = {"dw/560_fact_plan_phased.sql", "audit/555_plan_phasing_summary.sql"}
+    # dw/705 holds the semantic model's own view of it (sql/tests/706 pins that it is the only view that reads it)
+    allowed = {"dw/560_fact_plan_phased.sql", "audit/555_plan_phasing_summary.sql", "dw/705_v_model_facts.sql"}
     readers = sorted(
         p.relative_to(sql).as_posix()
         for p in sql.rglob("*.sql")

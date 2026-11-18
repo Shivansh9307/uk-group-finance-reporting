@@ -1,0 +1,12 @@
+// Row counts of the four tables read over the web, and the two quarantines, which must be empty when every row of
+// the real files parses. CPI is counted to September 2026, the last month of the pinned copies. Expected values:
+// tests/expected/705_web_table_rows_and_quarantines.py (rows the Python reader parses; it fails on a row it cannot
+// read, so zero rejected rows is what it expects).
+EVALUATE
+UNION (
+    ROW ( "table_name", "CPI", "row_count", COUNTROWS ( FILTER ( 'CPI', 'CPI'[Month Start Date] <= DATE ( 2026, 9, 1 ) ) ) ),
+    ROW ( "table_name", "CPI Quarantine", "row_count", COUNTROWS ( 'CPI Quarantine' ) + 0 ),
+    ROW ( "table_name", "Deflator", "row_count", COUNTROWS ( 'Deflator' ) ),
+    ROW ( "table_name", "Deflator Quarantine", "row_count", COUNTROWS ( 'Deflator Quarantine' ) + 0 )
+)
+ORDER BY [table_name]

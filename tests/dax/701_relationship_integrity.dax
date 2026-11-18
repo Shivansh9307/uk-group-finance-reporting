@@ -1,0 +1,27 @@
+// No relationship has a blank member: every row of the many side finds its row on the one side. For each of the
+// 21 relationships, the rows of the many side whose RELATED key on the one side is blank.
+EVALUATE
+UNION(
+    ROW("relationship", "Fact Outturn to Release", "many_side_rows", COUNTROWS('Fact Outturn'), "rows_without_member", COUNTROWS(FILTER('Fact Outturn', ISBLANK(RELATED('Release'[Release Key])))) + 0),
+    ROW("relationship", "Fact Outturn to Organisation (as reported)", "many_side_rows", COUNTROWS('Fact Outturn'), "rows_without_member", COUNTROWS(FILTER('Fact Outturn', ISBLANK(RELATED('Organisation (as reported)'[Organisation Key])))) + 0),
+    ROW("relationship", "Fact Outturn to Department (current structure)", "many_side_rows", COUNTROWS('Fact Outturn'), "rows_without_member", COUNTROWS(FILTER('Fact Outturn', ISBLANK(RELATED('Department (current structure)'[Department Key])))) + 0),
+    ROW("relationship", "Fact Outturn to Sub-Segment", "many_side_rows", COUNTROWS('Fact Outturn'), "rows_without_member", COUNTROWS(FILTER('Fact Outturn', ISBLANK(RELATED('Sub-Segment'[Segment Key])))) + 0),
+    ROW("relationship", "Fact Outturn to Account", "many_side_rows", COUNTROWS('Fact Outturn'), "rows_without_member", COUNTROWS(FILTER('Fact Outturn', ISBLANK(RELATED('Account'[Account Key])))) + 0),
+    ROW("relationship", "Fact Outturn to Control Budget", "many_side_rows", COUNTROWS('Fact Outturn'), "rows_without_member", COUNTROWS(FILTER('Fact Outturn', ISBLANK(RELATED('Control Budget'[Control Budget Key])))) + 0),
+    ROW("relationship", "Fact Outturn to Fiscal Period", "many_side_rows", COUNTROWS('Fact Outturn'), "rows_without_member", COUNTROWS(FILTER('Fact Outturn', ISBLANK(RELATED('Fiscal Period'[Period Key])))) + 0),
+    ROW("relationship", "Fact Outturn to Scenario", "many_side_rows", COUNTROWS('Fact Outturn'), "rows_without_member", COUNTROWS(FILTER('Fact Outturn', ISBLANK(RELATED('Scenario'[Scenario Key])))) + 0),
+    ROW("relationship", "Fact Outturn to Spending Review Group", "many_side_rows", COUNTROWS('Fact Outturn'), "rows_without_member", COUNTROWS(FILTER('Fact Outturn', ISBLANK(RELATED('Spending Review Group'[Spending Review Group Key])))) + 0),
+    ROW("relationship", "Fact Outturn to Data Quality Issue", "many_side_rows", COUNTROWS('Fact Outturn'), "rows_without_member", COUNTROWS(FILTER('Fact Outturn', ISBLANK(RELATED('Data Quality Issue'[Data Quality Issue Key])))) + 0),
+    ROW("relationship", "Fact Plan to Plan Source", "many_side_rows", COUNTROWS('Fact Plan'), "rows_without_member", COUNTROWS(FILTER('Fact Plan', ISBLANK(RELATED('Plan Source'[Plan Source Key])))) + 0),
+    ROW("relationship", "Fact Plan to Fiscal Year", "many_side_rows", COUNTROWS('Fact Plan'), "rows_without_member", COUNTROWS(FILTER('Fact Plan', ISBLANK(RELATED('Fiscal Year'[Financial Year])))) + 0),
+    ROW("relationship", "Fact Plan to Spending Review Group", "many_side_rows", COUNTROWS('Fact Plan'), "rows_without_member", COUNTROWS(FILTER('Fact Plan', ISBLANK(RELATED('Spending Review Group'[Spending Review Group Key])))) + 0),
+    ROW("relationship", "Fact Plan to Scenario", "many_side_rows", COUNTROWS('Fact Plan'), "rows_without_member", COUNTROWS(FILTER('Fact Plan', ISBLANK(RELATED('Scenario'[Scenario Key])))) + 0),
+    ROW("relationship", "Fact Plan to Plan Grain", "many_side_rows", COUNTROWS('Fact Plan'), "rows_without_member", COUNTROWS(FILTER('Fact Plan', ISBLANK(RELATED('Plan Grain'[Grain Code])))) + 0),
+    ROW("relationship", "Fact Plan Phased to Fiscal Period", "many_side_rows", COUNTROWS('Fact Plan Phased (derived)'), "rows_without_member", COUNTROWS(FILTER('Fact Plan Phased (derived)', ISBLANK(RELATED('Fiscal Period'[Period Key])))) + 0),
+    ROW("relationship", "Fact Plan Phased to Plan Source", "many_side_rows", COUNTROWS('Fact Plan Phased (derived)'), "rows_without_member", COUNTROWS(FILTER('Fact Plan Phased (derived)', ISBLANK(RELATED('Plan Source'[Plan Source Key])))) + 0),
+    ROW("relationship", "Fact Plan Phased to Spending Review Group", "many_side_rows", COUNTROWS('Fact Plan Phased (derived)'), "rows_without_member", COUNTROWS(FILTER('Fact Plan Phased (derived)', ISBLANK(RELATED('Spending Review Group'[Spending Review Group Key])))) + 0),
+    ROW("relationship", "Fact Plan Phased to Scenario", "many_side_rows", COUNTROWS('Fact Plan Phased (derived)'), "rows_without_member", COUNTROWS(FILTER('Fact Plan Phased (derived)', ISBLANK(RELATED('Scenario'[Scenario Key])))) + 0),
+    ROW("relationship", "Fact Plan Phased to Plan Grain", "many_side_rows", COUNTROWS('Fact Plan Phased (derived)'), "rows_without_member", COUNTROWS(FILTER('Fact Plan Phased (derived)', ISBLANK(RELATED('Plan Grain'[Grain Code])))) + 0),
+    ROW("relationship", "Fiscal Period to Fiscal Year", "many_side_rows", COUNTROWS('Fiscal Period'), "rows_without_member", COUNTROWS(FILTER('Fiscal Period', ISBLANK(RELATED('Fiscal Year'[Financial Year])))) + 0)
+)
+ORDER BY [relationship]

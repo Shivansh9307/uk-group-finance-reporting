@@ -17,6 +17,9 @@ requests a refresh is a .NET Framework build. The DLLs are loaded from the Tabul
 written to the project files. A refresh that fails (for example because no credential is stored for a source yet)
 stops the script with the engine's error text.
 
+-RefreshTable refreshes only the named tables (comma-separated model table names) instead of the whole model, and
+then checks only those tables. Use it to load the tables of one source while another source still needs a click.
+
 -Roles and -User run the queries under row-level security. -Roles alone applies the role to your own Windows
 identity. -User needs -Roles. The local engine rejects EffectiveUserName, so -User uses the ActAs authentication
 scheme, the mechanism Desktop uses for "View as > Other user".
@@ -65,6 +68,14 @@ Run dscmd benchmark (-Cold cold and -Warm warm runs) instead of exporting result
 .PARAMETER Refresh
 Request a full data refresh through TOM before running queries.
 
+.PARAMETER RefreshTable
+Comma-separated model table names. Refresh only these tables (full refresh, no refresh policy) and check only these
+tables are loaded. Wins over -Refresh.
+
+.PARAMETER AllowUnloaded
+Comma-separated table names that may be unloaded (NoData) when the queries run, for example the tables read over the
+web before the first credential has been given. Queries that read them return no rows.
+
 .PARAMETER DscmdPath
 Path to dscmd.exe. Found on PATH or under %LOCALAPPDATA%\Programs\DAX Studio when omitted.
 
@@ -94,6 +105,8 @@ param(
     [int]$Cold = 5,
     [int]$Warm = 5,
     [switch]$Refresh,
+    [string]$RefreshTable = "",
+    [string]$AllowUnloaded = "",
     [string]$DscmdPath = "",
     [string]$TomDir = ""
 )
@@ -137,20 +150,37 @@ try {
     if ($tom.Databases.Count -ne 1) { throw "Expected one database on $server, found $($tom.Databases.Count)." }
     $db = $tom.Databases[0]
     $database = $db.Name
-    if ($Refresh) {
+    $onlyTables = @()
+    if ($RefreshTable) { $onlyTables = @($RefreshTable -split "," | ForEach-Object { $_.Trim() } | Where-Object { $_ }) }
+    if ($Refresh -or $onlyTables.Count -gt 0) {
         Write-Host "Requesting a full refresh on $server ..."
         $started = Get-Date
         # Desktop's engine cannot apply an incremental refresh policy: a refresh that tries to (TOM RequestRefresh, or
         # TMSL without the flag) fails with "An unexpected exception occurred". applyRefreshPolicy=false refreshes the
         # table's own partition instead.
-        $tmsl = '{"refresh":{"type":"full","applyRefreshPolicy":false,"objects":[{"database":"' + $database.Replace('"', '\"') + '"}]}}'
+        $dbName = $database.Replace('"', '\"')
+        if ($onlyTables.Count -gt 0) {
+            foreach ($t in $onlyTables) { if (-not $db.Model.Tables.Contains($t)) { throw "No table named '$t' in the model." } }
+            $objects = ($onlyTables | ForEach-Object { '{"database":"' + $dbName + '","table":"' + $_.Replace('"', '\"') + '"}' }) -join ","
+        }
+        else { $objects = '{"database":"' + $dbName + '"}' }
+        $tmsl = '{"refresh":{"type":"full","applyRefreshPolicy":false,"objects":[' + $objects + ']}}'
         $result = $tom.Execute($tmsl)
         $messages = @($result | ForEach-Object { $_.Messages } | ForEach-Object { $_.Description })
         if ($messages.Count -gt 0) { throw "Refresh failed:`n$($messages -join "`n")" }
         Write-Host ("Refresh finished in {0:N1} s" -f ((Get-Date) - $started).TotalSeconds)
-        $db.Refresh()
+        $tom.Disconnect(); $tom.Connect($server); $db = $tom.Databases[0]
     }
-    $notReady = @($db.Model.Tables | ForEach-Object { $_.Partitions } | Where-Object { $_.State -ne "Ready" })
+    # The metadata cache can lag behind a refresh that has just finished: read the partition states up to three times.
+    for ($try = 1; $try -le 3; $try++) {
+        $checked = @($db.Model.Tables)
+        if ($onlyTables.Count -gt 0) { $checked = @($db.Model.Tables | Where-Object { $onlyTables -contains $_.Name }) }
+        $allowed = @($AllowUnloaded -split "," | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+        $notReady = @($checked | ForEach-Object { $_.Partitions } | Where-Object { $_.State -ne "Ready" -and $allowed -notcontains $_.Table.Name })
+        if ($notReady.Count -eq 0) { break }
+        Start-Sleep -Seconds 2
+        $tom.Disconnect(); $tom.Connect($server); $db = $tom.Databases[0]  # a new connection reads the partition states afresh
+    }
     if ($notReady.Count -gt 0) {
         $names = ($notReady | ForEach-Object { "$($_.Table.Name)/$($_.Name)=$($_.State)" }) -join ", "
         throw "$($notReady.Count) partition(s) are not loaded ($names). Refresh in Desktop or rerun with -Refresh."
