@@ -13,6 +13,7 @@ dw,account_statement_line,128
 dw,current_structure_department,76
 dw,current_structure_line,5480
 dw,current_structure_organisation,278
+dw,department_reported_number,63
 dw,dim_account,128
 dw,dim_control_budget,6
 dw,dim_department,76
