@@ -43,14 +43,14 @@ only authored parts are the two files in `authored/`; they decide keys and displ
 
 | Table | Rows | Grain | Key |
 |---|---|---|---|
-| `authored.department_name` | 71 | one department number and naming period | `_load_order` |
+| `authored.department_name` | 75 | one department number and naming period (71 real periods and the four Unallocated members) | `_load_order` |
 | `authored.organisation_key_override` | 14 | one code and period | `_load_order` |
 | `stg.organisation_release` | 6,853 | one organisation code and release | (`release_seq`, `organisation_code`) |
-| `stg.department_period` | 71 | typed `authored.department_name` | (`department_number`, `valid_from_seq`) |
+| `stg.department_period` | 75 | typed `authored.department_name` | (`department_number`, `valid_from_seq`) |
 | `stg.organisation_key_override` | 14 | typed `authored.organisation_key_override` | `override_id` |
 | `stg.organisation_release_key` | 6,853 | one code and release, with its durable key | (`release_seq`, `organisation_code`) |
 | `stg.organisation_version_row` | 6,852 | one durable key and release, with the change flags and version number | (`durable_key`, `release_seq`) |
-| `dw.dim_department` | 72 | one department number and naming period, plus Unknown | `department_key` |
+| `dw.dim_department` | 76 | one department number and naming period (71 real periods and 4 Unallocated members), plus Unknown | `department_key` |
 | `dw.dim_organisation` | 409 | one version of an organisation, plus Unknown | `organisation_key` |
 | `dw.organisation_name_alias` | 587 | one spelling of a name within a version | (`organisation_key`, `organisation_name`) |
 | `dw.organisation_release_map` | 6,853 | one organisation code and release in the snapshot | (`release`, `organisation_code`) |
@@ -79,6 +79,34 @@ where a different department exists afterwards or the name really changed (DIT t
 to FCDO, the Parliament works body, DCMS losing "Digital", the DLUHC years). Alternating labels
 (Welsh Assembly Government and Welsh Government, ECGD and UK Export Finance, and so on) are listed under
 one period in `published_labels` and are not periods.
+
+### Two flags for "is this department current", and which one to use
+
+There are two flags with different jobs. I did not change either; this is how a model author chooses.
+
+| Flag | Where | Meaning | Use it for |
+|---|---|---|---|
+| `is_current` | `dw.dim_department` | the period covers the latest release (September 2026) and, for a Department, the number is reported in that release | "was this department reported in the latest release" |
+| `is_live` | `dw.current_structure_department` | `is_current`, or an Unallocated member, or the last period of a number that the latest **year-end** release (June 2026, periods 1 to 12) reports | "is this a department that exists today", for example to filter the department a line belongs to in the current structure |
+
+The two differ for three departments, because the September 2026 release is partial (it holds only part of a
+year): the National Audit Office (050), the Crown Estate Office (014) and the Judicial Pensions Scheme (908)
+report in June 2026 and not in September, so `is_current = 0` for them, although they are not closed. Without
+`is_live` their lines would be sent to an Unallocated member. **Tested** on a full-scope build (query below):
+the two flags differ for exactly those three department keys, and `sql/tests/450_current_structure_every_line_has_one_current_department.sql`
+fails if a line's current department is closed.
+
+```sql
+SELECT d.department_number, d.department_name, d.is_current, c.is_live
+FROM dw.dim_department AS d JOIN dw.current_structure_department AS c ON c.department_key = d.department_key
+WHERE d.is_current <> c.is_live;
+```
+
+Rule for the model: filter or label "current departments" with `dw.current_structure_department.is_live`, and
+take the department a line belongs to today from the fact's `current_department_key`, which is built from it.
+Use `dw.dim_department.is_current` only for the question about the latest release. If `is_current` is later
+redefined on the latest year-end release, the two become the same and `is_live` can go.
+([current-structure.md](current-structure.md) has the rule and the evidence for the third clause.)
 
 ## dw.dim_organisation
 

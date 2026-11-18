@@ -63,7 +63,7 @@ uv run --project pipeline ukfr build --scope committed --recreate
 | Option | Meaning |
 |---|---|
 | `--scope committed` (default) | only sources that are in git; what CI runs |
-| `--scope full` | also stages that read files under `UKFR_DATA_DIR`; nothing uses it yet, but a stage and a SQL file can already declare they need it |
+| `--scope full` | also the stages that read files under `UKFR_DATA_DIR` (the annual restated files, the PSS database, the OSCAR Plans), and the SQL files that declare `-- scope: full` |
 | `--stage NAME` (repeatable) | run only these load stages (the `pre` SQL still runs, the `post` SQL runs unless `--skip-sql`) |
 | `--skip-sql` | stop after the load stages |
 | `--recreate` | drop the database first, so the build starts from nothing |

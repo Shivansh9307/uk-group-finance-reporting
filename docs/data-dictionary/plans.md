@@ -11,7 +11,7 @@ was built from them.
 
 ## Where the files are
 
-The Estimates and PESA workbooks are small (316 KB and 800 KB), so they are committed under
+The Estimates and PESA workbooks are small (300 KB and 808 KB), so they are committed under
 `data/committed/estimates_del/<release>/` and `data/committed/pesa/<release>/` with the same sha256 as
 before (**tested**: `ukfr fetch --verify`, 48 committed files ok, 0 failures). They load in the committed
 scope, which CI runs. The OSCAR Plans come from the five November 2022 annual extracts under
@@ -27,12 +27,12 @@ scope, which CI runs. The OSCAR Plans come from the five November 2022 annual ex
 | `raw.plan_pesa` | 31,289 | 31,289 | sheet x row x year, as published (PESA 2022 to 2026, the December 2025 update and SR25) |
 | `raw.plan_oscar` | not created | 135,958 | one PLANS row of an extract |
 | `raw.plan_oscar_expected` | not created | 1,639 | control figures from two csv files in git |
-| `authored.plan_name_map`, `authored.sr_group`, `authored.plan_source` | 97, 31, 17 | same | the three authored files, as text |
-| `stg.plan_name_map`, `stg.sr_group`, `stg.plan_source` | 97, 31, 17 | same | the same, typed and checked |
+| `authored.plan_name_map`, `authored.sr_group`, `authored.plan_source` | 97, 32, 17 | same | the three authored files, as text |
+| `stg.plan_name_map`, `stg.sr_group`, `stg.plan_source` | 97, 32, 17 | same | the same, typed and checked |
 | `stg.plan_estimates_line` | 659 | 659 | a typed Estimates cell |
 | `stg.plan_pesa_line` | 9,826 | 9,826 | a typed cell of a nominal department-group table |
 | `stg.plan_oscar` | not created | 14,960 | financial year x organisation x economic category x control budget detail x economic budget |
-| `dw.dim_sr_group` | 31 | 31 | one Spending Review group or non-department member |
+| `dw.dim_sr_group` | 32 | 32 | one Spending Review group, non-department member or the outturn-only member |
 | `dw.dim_plan_source` | 16 | 17 | one plan source and edition |
 | `dw.dim_plan_grain` | 4 | 4 | grain code A to D |
 | `dw.fact_plan` | 749 | 5,372 | see below |
@@ -65,8 +65,8 @@ classified it), `year_label`, `status_label` (`plans` or `outturn` as written ab
 37 of those rows carry `USAGE_CODE = OUTTURN` although their version is PLANS (24 and 13 rows; DHSC
 pension, housing revenue account and London Underground lines and a few small bodies). They are inside the
 control totals that the profiling published, so they stay in; the count is pinned by
-`sql/tests/521_oscar_plans_keys_and_fact.sql` so a change is noticed. I have not tried to decide whether
-they are real plan lines.
+`sql/tests/521_oscar_plans_keys_and_fact.sql` so a change is noticed. Whether they are real plan lines is a
+judgement, stated with its evidence under "Judgements the data cannot settle" below.
 
 ## Estimates and PESA lines (stg)
 
@@ -96,7 +96,10 @@ allowance for employer National Insurance, not a budget.
 November 2025 annual release), `Single Intelligence Account` (`plan_only`), `Combined pre-2023: BEIS, DCMS
 and DIT` (`combined_pre_2023`) and six `non_department` members (Reserves; OBR allowance for shortfall;
 Budget Exchange adjustment; Unallocated central funds; Memo and accounting lines; Central exchequer and local
-government lines). Each map row has `evidence`, `note` and a `confidence`. `line_role` is `whole`, `part`
+government lines). `sr_group.csv` has 32 rows: those 31 members and one `outturn_only` member,
+`Unallocated: former department lines`, which no plan name maps to and which exists only so that the outturn lines
+of closed or split departments have a group that is not a plan member (see
+[plan-phasing.md](plan-phasing.md)). Each map row has `evidence`, `note` and a `confidence`. `line_role` is `whole`, `part`
 (Transport and High Speed 2, Energy Security and Net Zero and Sizewell C are published as two lines with no
 parent, so the parts are added into one row) or `component` (already inside another line, never added: the
 Scottish block grant adjustment line, `Reserve excluding retained Budget Exchanges`, ratios and SR25 memo
@@ -209,6 +212,51 @@ aggregation but through the same extract reader, so it checks the load, not the 
 
 Which PESA edition feeds a year: the latest edition that still labels the year `plans` for that kind of
 budget (resource AME, capital AME, administration). **Tested**: no year has two (`508`).
+
+## Judgements the data cannot settle
+
+Three decisions I made where the sources do not say what is right. Each is stated with its evidence and my
+confidence, so that a reader can disagree. Figures are from the full-scope build.
+
+**1. The 37 OSCAR Plans rows with `USAGE_CODE = OUTTURN` are kept.** Confidence: medium.
+
+- Evidence: `raw.plan_oscar` has 37 rows whose version is PLANS and whose usage is OUTTURN: 4 in FY2017-18, 4 in
+  FY2018-19, 5 in FY2019-20, 14 in FY2020-21 and 10 in FY2021-22, together GBP 30,880,243 thousand, which is 0.22%
+  of the GBP 13,746,621,755 thousand of all plan rows in the five extracts. They are DHSC pension, housing revenue
+  account and London Underground lines and a few small bodies.
+- Why I keep them: the publisher's own row counts for the PLANS version (`data/audit/extract_file_control_totals.csv`)
+  include them, so dropping them would break the control that ties the load to the published file. I do not know
+  what the usage flag means beyond its name, and no guidance file in the project explains it.
+- What I could be wrong about: they may be outturn lines filed under the plan version by mistake. If so, grain A
+  plan totals are 0.22% too high in those years. The count is pinned by `sql/tests/521`, so a change in source
+  is noticed.
+
+**2. Exiting the European Union maps to the Cabinet Office.** Confidence: medium.
+
+- Evidence: 187 plan rows in the extracts, all of organisation DEU077, FY2017-18 to FY2020-21 (47, 54, 66 and 20
+  rows; GBP 160,797, 186,859, 84,076 and 0 thousand, GBP 431,732 thousand in all). The department closed in
+  January 2020; its functions went to the Cabinet Office, which no file in the project states.
+- What the choice changes: only the Spending Review group of those grain A rows (`authored/plan_name_map.csv`, one row,
+  `confidence = medium`). At organisation grain the plan stays with DEU077. The current-structure map treats the
+  department's outturn lines separately, as an Unallocated member, so the plan and the outturn of this
+  department are not compared at group level.
+- The alternative is a non-department member, which would keep the plan out of every department group; I judged
+  that the Cabinet Office is the more likely owner.
+
+**3. FY2022-23 plans are compared at a combined pre-2023 group.** Confidence: high that it cannot be split, medium
+that the comparison is clean.
+
+- Evidence: the FY2022-23 Estimates and PESA tables are on the department structure of before February 2023, so
+  BEIS, DCMS and DIT are published as they were. In the fact the group `Combined pre-2023: BEIS, DCMS and DIT`
+  holds, for 2022-23, resource DEL excluding depreciation 19,692,000 and capital DEL 20,550,000 (grain C), and
+  administration and AME (grain D), in GBP thousand. No source publishes the split onto the new departments.
+- What I did: the plan is kept at the combined group; its outturn comes from the departments 013, 048 and 084
+  as the release reported them (`pre2023_as_reported` rows of `authored/department_sr_group.csv`), tested by
+  `sql/tests/554`. The other groups map one to one only where the group did not change; for them the as-reported view
+  and the current structure agree.
+- What I could be wrong about: bodies that moved between those three departments inside the combined group are
+  invisible, which is the point of combining them; a body that moved to a department outside the three is not
+  followed. I did not quantify that.
 
 ## Controls
 
