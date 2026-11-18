@@ -25,7 +25,7 @@ then it rests on me running the suite and committing the files together.
 | `tests/results/<NNN>_<name>.csv` | what the model returned | `tools/run_dax_tests.ps1` |
 | `evidence/model/dax_tests.csv` | test id, name, rows, columns, status, largest absolute difference, build scope | `ukfr dax-compare` |
 
-Test numbers 700 to 719 belong to the model skeleton; later model tasks take their own ranges.
+Test numbers 700 to 719 belong to the model skeleton and 720 to 739 to the measures; later model tasks take their own ranges.
 
 ## Run the suite
 
@@ -106,6 +106,38 @@ file and a missing expected file, and that `ukfr dax-compare` exits 1 on a wrong
 | 705 `web_table_rows_and_quarantines` | the row counts of the four web tables, and both quarantines empty | Python reader |
 
 The results of the last run are in `evidence/model/dax_tests.csv`.
+
+### The measure tests (720 to 737)
+
+Each compares a DAX query on the measures with a query over `dw` base tables (or, for 732, a rule written in Python).
+Percentages are multiplied by one million in both queries so the 0.0001 tolerance is tight. 723, 729 and 731 to 734 and
+737 need the OSCAR Plans (grain A) and so a full-scope database; `sql/tests/720` pins the four sign cells and carries the
+`localdata` marker.
+
+| Test | What it proves | Expected values from |
+|---|---|---|
+| 720 `outturn_by_year_department` | `Outturn` by financial year x current-structure department (537 cells) | `dw.fact_outturn` |
+| 721 `outturn_by_year_release` | `Outturn` by year x release (31 cells): the delta each release made | `dw.fact_outturn` |
+| 722 `plan_by_year_group_source` | `Plan` by year x Spending Review group x plan source (387 cells) | `dw.fact_plan` |
+| 723 `plan_grain_guard` | the number of non-blank `Plan` cells at 13 levels in a grain A year and a grain B/D year: 0 below the grain, the number of keys at it | `dw.fact_plan`, the dimensions |
+| 724 `plan_phased_year_equals_plan` | `Plan (phased)` over a year equals `Plan`, by group (270 cells); FY2017-18 has no phased plan | `dw.fact_plan`, `dw.fact_plan_phased` |
+| 725 `plan_phased_by_month` | `Plan (phased)` by year x period (132 cells) and `Plan` BLANK in all | `dw.fact_plan_phased` |
+| 726 `outturn_plan_basis_by_group_measure` | `Outturn (plan basis)` for the seven defined plan measures by year x group (844 cells) | `dw.outturn_plan_basis_inyear` |
+| 727 `time_intelligence_by_year` | the eight time items at year grain, three years x two departments (42 cells) | T-SQL window functions over a period grid |
+| 728 `time_intelligence_by_month` | the same at month grain, periods 0 to 12 (504 cells), the rolling window crossing the year | T-SQL window functions over a period grid |
+| 729 `sign_cases` | the four sign cases: Actual, Plan, Variance, Variance %, indicator for four real cells | `dw.fact_plan`, `dw.fact_outturn` |
+| 730 `calculation_group_combinations` | all 40 time x comparison combinations of one cell, 16 of them BLANK on purpose | `dw.fact_plan`, `dw.fact_outturn` |
+| 731 `display_unit_values` | the comparison items under the three units | `dw.fact_plan`, `dw.fact_outturn` |
+| 732 `format_strings` | what `Format.ForUnit` returns for 40 combinations x 3 units | the rule, in Python |
+| 733 `phased_plan_never_reaches_outturn_or_plan` | the totals of `Outturn`, `Plan` and `Plan (phased)` equal their own facts; BLANK under the scenario `Plan (phased)` | `dw.fact_outturn`, `dw.fact_plan`, `dw.fact_plan_phased` |
+| 734 `plan_grain_a_by_organisation` | `Plan` by organisation code x control budget detail x economic budget, 2019-20 (881 cells) | `dw.fact_plan` |
+| 735 `outturn_plan_basis_other_measures` | `Outturn (plan basis)` for NON_DEPT_AME, NON_BUDGET, UNCLASSIFIED (69 cells) | `dw.fact_outturn` and its dimensions |
+| 736 `outturn_plan_basis_default_measures` | with no measure chosen, the basis adds the measures present and leaves administration out (88 cells) | `dw.outturn_plan_basis_inyear` |
+| 737 `display_unit_with_time_intelligence` | the time items under the three units | `dw.fact_outturn` |
+
+`tools/run_mdx.ps1` and `tests/mdx/format_strings.mdx` are not a DAX test: they ask the engine for the formatted value of
+100 cells and write [evidence/model/format_strings.csv](../evidence/model/format_strings.csv), which is how the format
+string expressions are shown to be in force (the file has no expected values; I read it).
 
 ## Not covered
 
