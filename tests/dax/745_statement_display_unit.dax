@@ -1,0 +1,25 @@
+// The statement under the three display units (GBP thousands, millions, billions) and the comparison items: the net
+// resource line in 2019-20 (a plan) and the total line in 2024-25 (a plan from a later source), and the income line in
+// 2024-25 (no plan). Amounts are divided by the unit; Variance % (parts per million) and Favourable/Adverse are not. The
+// unit label has its pound sign written as GBP.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Statement Line'[Line Id],
+        'Fiscal Year'[Financial Year],
+        'Display Unit'[Unit],
+        'Scenario Comparison'[Comparison],
+        TREATAS ( { ( "R50", "2019-20" ), ( "TOT", "2024-25" ), ( "R20", "2024-25" ) }, 'Statement Line'[Line Id], 'Fiscal Year'[Financial Year] ),
+        "amount",
+            IF (
+                SELECTEDVALUE ( 'Scenario Comparison'[Comparison] ) = "Variance %",
+                [Statement Amount] * 1000000,
+                [Statement Amount]
+            )
+    ),
+    "Line Id", 'Statement Line'[Line Id],
+    "Financial Year", 'Fiscal Year'[Financial Year],
+    "unit_label", SUBSTITUTE ( 'Display Unit'[Unit], UNICHAR ( 163 ), "GBP " ),
+    "Comparison", 'Scenario Comparison'[Comparison],
+    "value", [amount]
+)

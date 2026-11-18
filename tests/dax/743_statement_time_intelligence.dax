@@ -1,0 +1,14 @@
+// The statement under the Time Intelligence items at month grain: the net resource line, total resource income (income
+// positive), pay and the total line, two years, every period 0 to 12, and the items Current, YTD, PY and YoY. The
+// previous year is the same period a year earlier; the year to date runs from period 0.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Statement Line'[Line Id],
+    'Fiscal Year'[Financial Year],
+    'Fiscal Period'[Period Number],
+    'Time Intelligence'[Time Calculation],
+    TREATAS ( { "R50", "R20", "R30", "TOT" }, 'Statement Line'[Line Id] ),
+    TREATAS ( { "2022-23", "2023-24" }, 'Fiscal Year'[Financial Year] ),
+    TREATAS ( { "Current", "YTD", "PY", "YoY" }, 'Time Intelligence'[Time Calculation] ),
+    "value", [Statement Amount]
+)

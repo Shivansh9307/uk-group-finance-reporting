@@ -1,0 +1,14 @@
+// The total line of the statement against Outturn, by financial year: Statement Amount on the line TOT (Net
+// expenditure), Outturn itself, and the sum of Statement Amount over every detail line with each line's presentation
+// sign taken off again (income lines are shown with income positive). All three must be the same number in every year.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    "statement_total", CALCULATE ( [Statement Amount], 'Statement Line'[Line Id] = "TOT" ),
+    "outturn", [Outturn],
+    "detail_lines_as_reported",
+        SUMX (
+            FILTER ( ALL ( 'Statement Line' ), 'Statement Line'[Line Type] = "detail" ),
+            CALCULATE ( [Statement Amount] * Pnl.SignFactor () )
+        )
+)

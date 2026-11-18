@@ -1,0 +1,10 @@
+// The field parameter Statement Measure: its four rows, the measure each one points at (the NAMEOF text in the hidden
+// Fields column) and the order they sort in. Putting the parameter on a visual needs one step in Desktop that pbir cannot
+// do; what is tested here is the parameter itself.
+EVALUATE
+SELECTCOLUMNS (
+    'Statement Measure',
+    "Statement Measure", 'Statement Measure'[Statement Measure],
+    "fields", 'Statement Measure'[Statement Measure Fields],
+    "measure_order", 'Statement Measure'[Statement Measure Order]
+)

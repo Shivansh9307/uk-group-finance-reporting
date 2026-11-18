@@ -1,0 +1,22 @@
+// The statement under the Scenario Comparison and Time Intelligence items together, for the net resource line (a plan
+// line in an OSCAR Plans year, 2019-20, and without a plan in 2024-25), the net capital line, the total line (a plan in
+// both years) and the pay line (no plan on any year). Actual is the amount on the plan's basis where the line has a plan
+// and the statement amount where it has none; Plan, Variance, Variance % and Favourable/Adverse are BLANK where the
+// source publishes no plan at the line's level. Current and YTD give the same whole-year number; PY moves back a year,
+// with the plan and the variance. Variance % is shown in parts per million.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Statement Line'[Line Id],
+    'Fiscal Year'[Financial Year],
+    'Scenario Comparison'[Comparison],
+    'Time Intelligence'[Time Calculation],
+    TREATAS ( { "R50", "C50", "TOT", "R30" }, 'Statement Line'[Line Id] ),
+    TREATAS ( { "2019-20", "2024-25" }, 'Fiscal Year'[Financial Year] ),
+    TREATAS ( { "Current", "YTD", "PY" }, 'Time Intelligence'[Time Calculation] ),
+    "value",
+        IF (
+            SELECTEDVALUE ( 'Scenario Comparison'[Comparison] ) = "Variance %",
+            [Statement Amount] * 1000000,
+            [Statement Amount]
+        )
+)

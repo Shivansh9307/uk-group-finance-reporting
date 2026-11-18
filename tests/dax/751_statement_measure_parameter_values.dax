@@ -1,0 +1,30 @@
+// What each value of the Statement Measure field parameter returns: for every row of the parameter, the measure its order
+// number selects, on two statement cells (the net resource line in 2019-20, the total line in 2024-25). The parameter
+// itself cannot be evaluated by name in a DAX query (a visual expands it), so this switches on the parameter's own order
+// column; test 750 shows which measure each order points at. Variance % is shown in parts per million.
+EVALUATE
+SELECTCOLUMNS (
+    GENERATE (
+        'Statement Measure',
+        SELECTCOLUMNS ( { ( "R50", "2019-20" ), ( "TOT", "2024-25" ) }, "line_id", [Value1], "financial_year", [Value2] )
+    ),
+    "Statement Measure", 'Statement Measure'[Statement Measure],
+    "Line Id", [line_id],
+    "Financial Year", [financial_year],
+    "value",
+        VAR LineId = [line_id]
+        VAR Year = [financial_year]
+        VAR MeasureOrder = 'Statement Measure'[Statement Measure Order]
+        RETURN
+            CALCULATE (
+                SWITCH (
+                    MeasureOrder,
+                    0, [Statement Amount],
+                    1, [Statement Plan],
+                    2, [Statement Variance],
+                    3, [Statement Variance %] * 1000000
+                ),
+                'Statement Line'[Line Id] = LineId,
+                'Fiscal Year'[Financial Year] = Year
+            )
+)

@@ -1,0 +1,13 @@
+// Statement Amount Running (WINDOW): the amount added up from period 0 to each period within the financial year, for the
+// net resource and total lines in two years, periods 0 to 12. Period 0 holds the amounts the source does not allocate
+// to a month (only 2018-19 has any), so the running total of 2019-20 starts at period 1.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Statement Line'[Line Id],
+    'Fiscal Year'[Financial Year],
+    'Fiscal Period'[Period Number],
+    TREATAS ( { "R50", "TOT" }, 'Statement Line'[Line Id] ),
+    TREATAS ( { "2018-19", "2023-24" }, 'Fiscal Year'[Financial Year] ),
+    "statement_amount", [Statement Amount],
+    "running", [Statement Amount Running (WINDOW)]
+)

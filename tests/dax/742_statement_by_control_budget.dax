@@ -1,0 +1,12 @@
+// The statement split by control budget (DEL, AME, Non-budget): net resource, net capital, net other items, the total, total
+// resource income (income positive) and pay, for two years. The columns of a statement are a selection on Control Budget
+// and the rows a selection on Statement Line, so the split needs no measure of its own.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Statement Line'[Line Id],
+    'Fiscal Year'[Financial Year],
+    'Control Budget'[Control Budget],
+    TREATAS ( { "R20", "R30", "R50", "C50", "N30", "TOT" }, 'Statement Line'[Line Id] ),
+    TREATAS ( { "2019-20", "2024-25" }, 'Fiscal Year'[Financial Year] ),
+    "value", [Statement Amount]
+)

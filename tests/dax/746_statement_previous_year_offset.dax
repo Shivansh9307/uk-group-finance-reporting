@@ -1,0 +1,11 @@
+// Statement Amount PY (OFFSET): the statement amount of the previous row of the Fiscal Year table, for four lines and
+// every financial year. The first year has no previous year, and a year that follows the last year with outturn shows the
+// last year's amount as its previous year with a BLANK current amount.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Statement Line'[Line Id],
+    'Fiscal Year'[Financial Year],
+    TREATAS ( { "R50", "TOT", "R30", "R20" }, 'Statement Line'[Line Id] ),
+    "statement_amount", [Statement Amount],
+    "previous_year", [Statement Amount PY (OFFSET)]
+)

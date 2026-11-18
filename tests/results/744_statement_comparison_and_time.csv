@@ -1,0 +1,73 @@
+Line Id,Financial Year,Comparison,Time Calculation,value
+"TOT","2019-20","Variance %","Current",-86704.265902969244
+"TOT","2024-25","Variance %","Current",-98481.80839304089
+"R50","2019-20","Variance %","Current",-86280.749617937225
+"C50","2019-20","Variance %","Current",-90214.92609883986
+"TOT","2019-20","Variance %","YTD",-86704.265902969244
+"TOT","2024-25","Variance %","YTD",-98481.80839304089
+"R50","2019-20","Variance %","YTD",-86280.749617937225
+"C50","2019-20","Variance %","YTD",-90214.92609883986
+"TOT","2019-20","Variance %","PY",-137522.69286924723
+"TOT","2024-25","Variance %","PY",-98875.3279615145
+"R50","2019-20","Variance %","PY",-132246.6464050494
+"C50","2019-20","Variance %","PY",-176013.57014709644
+"R50","2024-25","Actual","Current",986963557
+"R30","2019-20","Actual","Current",133365793
+"R30","2024-25","Actual","Current",210108013
+"C50","2024-25","Actual","Current",175197326
+"TOT","2019-20","Actual","Current",848210036
+"TOT","2024-25","Actual","Current",1132794570
+"R50","2019-20","Actual","Current",757250746
+"C50","2019-20","Actual","Current",90959290
+"TOT","2019-20","Plan","Current",928735353
+"TOT","2024-25","Plan","Current",1256541000
+"R50","2019-20","Plan","Current",828756476
+"C50","2019-20","Plan","Current",99978877
+"TOT","2019-20","Variance","Current",-80525317
+"TOT","2024-25","Variance","Current",-123746430
+"R50","2019-20","Variance","Current",-71505730
+"C50","2019-20","Variance","Current",-9019587
+"TOT","2019-20","Favourable/Adverse","Current",1
+"TOT","2024-25","Favourable/Adverse","Current",1
+"R50","2019-20","Favourable/Adverse","Current",1
+"C50","2019-20","Favourable/Adverse","Current",1
+"R50","2024-25","Actual","YTD",986963557
+"R30","2019-20","Actual","YTD",133365793
+"R30","2024-25","Actual","YTD",210108013
+"C50","2024-25","Actual","YTD",175197326
+"TOT","2019-20","Actual","YTD",848210036
+"TOT","2024-25","Actual","YTD",1132794570
+"R50","2019-20","Actual","YTD",757250746
+"C50","2019-20","Actual","YTD",90959290
+"TOT","2019-20","Plan","YTD",928735353
+"TOT","2024-25","Plan","YTD",1256541000
+"R50","2019-20","Plan","YTD",828756476
+"C50","2019-20","Plan","YTD",99978877
+"TOT","2019-20","Variance","YTD",-80525317
+"TOT","2024-25","Variance","YTD",-123746430
+"R50","2019-20","Variance","YTD",-71505730
+"C50","2019-20","Variance","YTD",-9019587
+"TOT","2019-20","Favourable/Adverse","YTD",1
+"TOT","2024-25","Favourable/Adverse","YTD",1
+"R50","2019-20","Favourable/Adverse","YTD",1
+"C50","2019-20","Favourable/Adverse","YTD",1
+"R50","2024-25","Actual","PY",913940672.8726
+"R30","2024-25","Actual","PY",189517834.5198
+"R30","2019-20","Actual","PY",127051727
+"C50","2024-25","Actual","PY",179248630.4911
+"TOT","2019-20","Actual","PY",644887268
+"TOT","2024-25","Actual","PY",1045888752.0063
+"R50","2019-20","Actual","PY",570616353
+"C50","2019-20","Actual","PY",74270915
+"TOT","2019-20","Plan","PY",747715056
+"TOT","2024-25","Plan","PY",1160648226
+"R50","2019-20","Plan","PY",657578966
+"C50","2019-20","Plan","PY",90136090
+"TOT","2019-20","Variance","PY",-102827788
+"TOT","2024-25","Variance","PY",-114759473.9937
+"R50","2019-20","Variance","PY",-86962613
+"C50","2019-20","Variance","PY",-15865175
+"TOT","2019-20","Favourable/Adverse","PY",1
+"TOT","2024-25","Favourable/Adverse","PY",1
+"R50","2019-20","Favourable/Adverse","PY",1
+"C50","2019-20","Favourable/Adverse","PY",1

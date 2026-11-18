@@ -1,0 +1,13 @@
+// Statement Amount Moving 3 Months (WINDOW): the amount of the month and the two before it, over the allocated months of
+// every year in order, so April and May of a year take in the end of the year before. Period 0 is not a month and gets
+// BLANK. Net resource and total lines, three years, periods 0 to 12.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Statement Line'[Line Id],
+    'Fiscal Year'[Financial Year],
+    'Fiscal Period'[Period Number],
+    TREATAS ( { "R50", "TOT" }, 'Statement Line'[Line Id] ),
+    TREATAS ( { "2018-19", "2019-20", "2023-24" }, 'Fiscal Year'[Financial Year] ),
+    "statement_amount", [Statement Amount],
+    "moving_3_months", [Statement Amount Moving 3 Months (WINDOW)]
+)

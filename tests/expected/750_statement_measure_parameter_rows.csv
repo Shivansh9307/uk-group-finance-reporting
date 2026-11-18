@@ -1,0 +1,5 @@
+Statement Measure,fields,measure_order
+Outturn,'Fact Outturn'[Statement Amount],0
+Plan,'Fact Plan'[Statement Plan],1
+Variance,'Fact Outturn'[Statement Variance],2
+Variance %,'Fact Outturn'[Statement Variance %],3

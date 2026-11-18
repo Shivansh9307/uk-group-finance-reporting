@@ -1,0 +1,12 @@
+// Department Rank (Statement Amount): the rank of each current-structure department by its statement amount, largest
+// first, for pay, net resource expenditure and the total line in 2023-24. A department with no amount in the context has
+// no rank, and equal amounts share a rank.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Statement Line'[Line Id],
+    'Department (current structure)'[Department Number],
+    TREATAS ( { "R30", "R50", "TOT" }, 'Statement Line'[Line Id] ),
+    TREATAS ( { "2023-24" }, 'Fiscal Year'[Financial Year] ),
+    "statement_amount", [Statement Amount],
+    "department_rank", [Department Rank (Statement Amount)]
+)

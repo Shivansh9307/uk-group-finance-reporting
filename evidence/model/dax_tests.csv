@@ -23,3 +23,16 @@ test_id,test_name,expected_rows,result_rows,columns,status,max_abs_diff,build_sc
 735,outturn_plan_basis_other_measures,69,69,4,pass,0,full
 736,outturn_plan_basis_default_measures,88,88,3,pass,0,full
 737,display_unit_with_time_intelligence,24,24,3,pass,0.000049,full
+740,statement_by_line_year,329,329,5,pass,0,full
+741,statement_total_equals_outturn,9,9,4,pass,0,full
+742,statement_by_control_budget,34,34,4,pass,0,full
+743,statement_time_intelligence,384,384,5,pass,0,full
+744,statement_comparison_and_time,72,72,5,pass,0.0000004855,full
+745,statement_display_unit,33,33,5,pass,0.000046,full
+746,statement_previous_year_offset,40,40,4,pass,0,full
+747,statement_running_total_window,50,50,5,pass,0,full
+748,statement_moving_three_months_window,74,74,5,pass,0,full
+749,statement_department_rank,171,171,4,pass,0,full
+750,statement_measure_parameter_rows,4,4,3,pass,0,full
+751,statement_measure_parameter_values,8,8,4,pass,0.000000062775,full
+752,statement_spacers_and_labels,39,39,4,pass,0,full

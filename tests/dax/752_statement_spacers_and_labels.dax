@@ -1,0 +1,16 @@
+// Every statement line in 2024-25: its type, whether Statement Amount is BLANK (1) or not (0), and the length of its
+// label. A spacer has no amount, and its label is made of zero-width characters, a different number for each spacer, so
+// the three spacer rows stay distinct values. The lengths of the real labels are the lengths of the authored labels.
+EVALUATE
+SELECTCOLUMNS (
+    ALL ( 'Statement Line'[Line Id], 'Statement Line'[Line Type], 'Statement Line'[Line] ),
+    "Line Id", 'Statement Line'[Line Id],
+    "Line Type", 'Statement Line'[Line Type],
+    "amount_is_blank",
+        IF (
+            ISBLANK ( CALCULATE ( [Statement Amount], 'Fiscal Year'[Financial Year] = "2024-25" ) ),
+            1,
+            0
+        ),
+    "label_length", LEN ( 'Statement Line'[Line] )
+)

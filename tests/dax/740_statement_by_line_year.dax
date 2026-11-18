@@ -1,0 +1,12 @@
+// The group income and expenditure statement: Statement Amount (the outturn of each line, in the sign the line is
+// presented in), Statement Plan (the plan, only on the net resource, net capital and total lines, only where the source
+// publishes a plan at that level) and Statement Amount (plan basis) for every statement line and every financial year
+// that has either. Spacer lines have no amount and drop out. The expected values are dw.v_statement_pnl.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Statement Line'[Line Id],
+    'Fiscal Year'[Financial Year],
+    "outturn", [Statement Amount],
+    "plan", [Statement Plan],
+    "outturn_plan_basis", [Statement Amount (plan basis)]
+)
