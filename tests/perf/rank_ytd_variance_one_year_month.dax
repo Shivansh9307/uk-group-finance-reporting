@@ -1,0 +1,18 @@
+// Slow measure 2, naive form, shaped like a ranked bar chart: the year-to-date variance % rank of every Spending Review
+// group for one year at period 12 (the only period at which a year-to-date plan exists), with the value it ranks.
+DEFINE
+    MEASURE 'Fact Outturn'[Perf YTD Variance PPM] =
+        CALCULATE (
+            [Comparison Amount],
+            'Time Intelligence'[Time Calculation] = "YTD",
+            'Scenario Comparison'[Comparison] = "Variance %"
+        ) * 1000000
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Spending Review Group'[Spending Review Group],
+    TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ),
+    TREATAS ( { 12 }, 'Fiscal Period'[Period Number] ),
+    "ytd_variance_ppm", [Perf YTD Variance PPM],
+    "group_rank", [Department Group Rank (YTD Variance %)]
+)
+ORDER BY [group_rank], 'Spending Review Group'[Spending Review Group]

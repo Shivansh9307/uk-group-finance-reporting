@@ -1,0 +1,9 @@
+// Slow measure 2, naive form, shaped like a matrix of ranks: three financial years by Spending Review group.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Spending Review Group'[Spending Review Group],
+    TREATAS ( { "2023-24", "2024-25", "2025-26" }, 'Fiscal Year'[Financial Year] ),
+    "group_rank", [Department Group Rank (YTD Variance %)]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Spending Review Group'[Spending Review Group]

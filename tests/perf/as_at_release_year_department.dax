@@ -1,0 +1,10 @@
+// Slow measure 1, naive form, stress shape (more cells than a page would show): Outturn as at Release by release, financial
+// year and department of the current structure.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Release'[Release Label],
+    'Fiscal Year'[Financial Year],
+    'Department (current structure)'[Department Number],
+    "as_at", [Outturn as at Release]
+)
+ORDER BY 'Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]

@@ -1,0 +1,9 @@
+// Slow measure 1, naive form, shaped like a matrix: Outturn as at Release by release (rows) and financial year (columns),
+// the figure each of the 31 releases gave for each year it had reached.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Release'[Release Label],
+    'Fiscal Year'[Financial Year],
+    "as_at", [Outturn as at Release]
+)
+ORDER BY 'Release'[Release Label], 'Fiscal Year'[Financial Year]
