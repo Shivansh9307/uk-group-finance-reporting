@@ -1,8 +1,8 @@
--- test: every model view returns the rows of its base table, except the three documented subsets (department: the live members; fiscal year: one row per year; data quality: plus the "No issue flagged" member)
+-- test: every model view returns the rows of its base table, except the three documented subsets (department: the live members; fiscal year: one row per year of the calendar and of the plan; data quality: plus the "No issue flagged" member)
 SELECT v.view_name, v.view_rows, v.expected_rows
 FROM (VALUES
     ('dw.v_model_fiscal_period',      (SELECT COUNT_BIG(*) FROM dw.v_model_fiscal_period),      (SELECT COUNT_BIG(*) FROM dw.dim_period)),
-    ('dw.v_model_fiscal_year',        (SELECT COUNT_BIG(*) FROM dw.v_model_fiscal_year),        (SELECT COUNT_BIG(DISTINCT financial_year) FROM dw.dim_period)),
+    ('dw.v_model_fiscal_year',        (SELECT COUNT_BIG(*) FROM dw.v_model_fiscal_year),        (SELECT COUNT_BIG(DISTINCT financial_year) FROM (SELECT financial_year FROM dw.dim_period UNION SELECT financial_year FROM dw.fact_plan) AS y)),
     ('dw.v_model_release',            (SELECT COUNT_BIG(*) FROM dw.v_model_release),            (SELECT COUNT_BIG(*) FROM dw.dim_release)),
     ('dw.v_model_scenario',           (SELECT COUNT_BIG(*) FROM dw.v_model_scenario),           (SELECT COUNT_BIG(*) FROM dw.dim_scenario)),
     ('dw.v_model_account',            (SELECT COUNT_BIG(*) FROM dw.v_model_account),            (SELECT COUNT_BIG(*) FROM dw.dim_account)),

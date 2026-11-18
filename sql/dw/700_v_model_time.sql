@@ -14,7 +14,11 @@ CREATE VIEW dw.v_model_fiscal_year
 AS
 SELECT financial_year, fiscal_year_start
 FROM dw.dim_period
-GROUP BY financial_year, fiscal_year_start;
+GROUP BY financial_year, fiscal_year_start
+UNION
+SELECT DISTINCT p.financial_year, CAST(LEFT(p.financial_year, 4) AS smallint)
+FROM dw.fact_plan AS p
+WHERE NOT EXISTS (SELECT 1 FROM dw.dim_period AS d WHERE d.financial_year = p.financial_year);
 GO
 
 DROP VIEW IF EXISTS dw.v_model_fiscal_period;

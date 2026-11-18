@@ -22,7 +22,7 @@ SELECT N'Fact Outturn to Data Quality Issue' AS relationship, (SELECT COUNT_BIG(
 UNION ALL
 SELECT N'Fact Plan to Plan Source' AS relationship, (SELECT COUNT_BIG(*) FROM dw.fact_plan) AS many_side_rows, (SELECT COUNT_BIG(*) FROM dw.fact_plan AS f WHERE NOT EXISTS (SELECT 1 FROM dw.dim_plan_source AS d WHERE d.plan_source_key = f.plan_source_key)) AS rows_without_member
 UNION ALL
-SELECT N'Fact Plan to Fiscal Year' AS relationship, (SELECT COUNT_BIG(*) FROM dw.fact_plan) AS many_side_rows, (SELECT COUNT_BIG(*) FROM dw.fact_plan AS f WHERE NOT EXISTS (SELECT 1 FROM dw.dim_period AS d WHERE d.financial_year = f.financial_year)) AS rows_without_member
+SELECT N'Fact Plan to Fiscal Year' AS relationship, (SELECT COUNT_BIG(*) FROM dw.fact_plan) AS many_side_rows, (SELECT COUNT_BIG(*) FROM dw.fact_plan AS f WHERE NOT EXISTS (SELECT 1 FROM dw.dim_period AS d WHERE d.financial_year = f.financial_year) AND CAST(LEFT(f.financial_year, 4) AS int) >= (SELECT MIN(fiscal_year_start) FROM dw.dim_period)) AS rows_without_member
 UNION ALL
 SELECT N'Fact Plan to Spending Review Group' AS relationship, (SELECT COUNT_BIG(*) FROM dw.fact_plan) AS many_side_rows, (SELECT COUNT_BIG(*) FROM dw.fact_plan AS f WHERE NOT EXISTS (SELECT 1 FROM dw.dim_sr_group AS d WHERE d.sr_group_key = f.sr_group_key)) AS rows_without_member
 UNION ALL

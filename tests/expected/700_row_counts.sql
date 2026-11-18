@@ -5,7 +5,7 @@ SELECT N'Fact Plan' AS table_name, COUNT_BIG(*) AS row_count FROM dw.fact_plan
 UNION ALL
 SELECT N'Fact Plan Phased (derived)' AS table_name, COUNT_BIG(*) AS row_count FROM dw.fact_plan_phased
 UNION ALL
-SELECT N'Fiscal Year' AS table_name, COUNT_BIG(DISTINCT financial_year) AS row_count FROM dw.dim_period
+SELECT N'Fiscal Year' AS table_name, COUNT_BIG(DISTINCT financial_year) AS row_count FROM (SELECT financial_year FROM dw.dim_period UNION SELECT financial_year FROM dw.fact_plan) AS y
 UNION ALL
 SELECT N'Fiscal Period' AS table_name, COUNT_BIG(*) AS row_count FROM dw.dim_period
 UNION ALL

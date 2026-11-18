@@ -1,5 +1,5 @@
 // Every model table has the rows of its base table in the warehouse, or the documented subset:
-// Fiscal Year is one row per financial year of dw.dim_period; Department (current structure) is the live
+// Fiscal Year is one row per financial year of dw.dim_period and of the plan (FY2017-18 has plans and no outturn); Department (current structure) is the live
 // departments; Data Quality Issue is dw.dq_issue plus the No issue flagged member. The web-read tables
 // (Deflator, CPI and their quarantines) are counted by tests 703 to 705.
 EVALUATE
