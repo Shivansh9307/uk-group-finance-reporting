@@ -47,7 +47,9 @@ def authored_rows(repo_root):
 def test_the_review_set_is_the_fifteen_of_the_profile(repo_root):
     codes = disagreements(repo_root)
     assert len(codes) == 15
-    gross = sum(abs(int(r["inyear_amount_full_year"])) for r in cross_check_rows(repo_root) if r["sub_segment_code"] in codes)
+    gross = sum(
+        abs(int(r["inyear_amount_full_year"])) for r in cross_check_rows(repo_root) if r["sub_segment_code"] in codes
+    )
     assert 1_100_000 < gross < 1_110_000  # 1.10bn gross in GBP thousands, as the profile says
 
 
@@ -91,7 +93,8 @@ def test_the_204_beis_sub_segments_split_by_rule_as_documented(db):
         )
         SELECT COALESCE(l.rule_method, l.method), COUNT(*)
         FROM beis AS b
-        JOIN dw.current_structure_line AS l ON l.organisation_key = b.organisation_key AND l.sub_segment_code = b.sub_segment_code
+        JOIN dw.current_structure_line AS l
+          ON l.organisation_key = b.organisation_key AND l.sub_segment_code = b.sub_segment_code
         GROUP BY COALESCE(l.rule_method, l.method)
         """
     )
@@ -107,9 +110,13 @@ def test_the_204_beis_sub_segments_split_by_rule_as_documented(db):
 def test_a_line_of_an_organisation_with_a_home_never_follows_the_code_of_another_department(db):
     """The code rule is only for an organisation whose department closed. The audit table lists the lines it would
     have moved; none of them may carry the code method."""
-    assert db.scalar(
-        "SELECT COUNT(*) FROM audit.current_structure_code_rule_rejected AS r "
-        "JOIN dw.current_structure_line AS l ON l.organisation_key = r.organisation_key AND l.sub_segment_code = r.sub_segment_code "
-        "WHERE l.method <> 'organisation current department'"
-    ) == 0
+    assert (
+        db.scalar(
+            "SELECT COUNT(*) FROM audit.current_structure_code_rule_rejected AS r "
+            "JOIN dw.current_structure_line AS l "
+            "ON l.organisation_key = r.organisation_key AND l.sub_segment_code = r.sub_segment_code "
+            "WHERE l.method <> 'organisation current department'"
+        )
+        == 0
+    )
     assert db.scalar("SELECT COUNT(*) FROM audit.current_structure_code_rule_rejected") > 0

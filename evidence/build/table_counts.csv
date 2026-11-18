@@ -1,13 +1,17 @@
 schema_name,table_name,row_count
 authored,account_flow,12
-authored,department_name,71
+authored,current_structure_map,20
+authored,department_name,75
 authored,organisation_key_override,14
 authored,plan_name_map,97
 authored,plan_source,17
 authored,sr_group,31
+dw,current_structure_department,76
+dw,current_structure_line,5480
+dw,current_structure_organisation,278
 dw,dim_account,128
 dw,dim_control_budget,6
-dw,dim_department,72
+dw,dim_department,76
 dw,dim_organisation,409
 dw,dim_period,143
 dw,dim_plan_grain,4
@@ -31,7 +35,8 @@ raw,plan_pesa,31289
 raw,plan_source_file,16
 raw,profile_inyear_delta_rowcount,31
 stg,account_flow,12
-stg,department_period,71
+stg,current_structure_authored,20
+stg,department_period,75
 stg,inyear_snapshot,1328986
 stg,organisation_key_override,14
 stg,organisation_release,6853
@@ -44,3 +49,4 @@ stg,plan_pesa_line,9826
 stg,plan_source,17
 stg,release,31
 stg,sr_group,31
+stg,subsegment_label,58524

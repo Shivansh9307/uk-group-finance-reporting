@@ -1,0 +1,543 @@
+financial_year,method,former_department_key,former_department_number,former_department_name,current_department_key,current_department_number,current_department_name,current_member_type,lines,rows_n,net_amount,gross_amount
+2018-19,authored line,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,1,131,109240,109240
+2018-19,authored line,51,084,"Department for Business, Energy and Industrial Strategy",8,013,Department for Business and Trade,Department,5,325,305102,305102
+2018-19,authored line,51,084,"Department for Business, Energy and Industrial Strategy",37,066,Department for Energy Security and Net Zero,Department,3,50,110903,110903
+2018-19,authored organisation,7,013,Department for International Trade,8,013,Department for Business and Trade,Department,2,34,3023,3063
+2018-19,authored organisation,18,030,Department for International Development,19,030,"Foreign, Commonwealth and Development Office",Department,8,37,80482,80482
+2018-19,organisation current department,1,003,"Department for Environment, Food and Rural Affairs",1,003,"Department for Environment, Food and Rural Affairs",Department,257,5514,3372477,4745763
+2018-19,organisation current department,2,004,Department for Transport,2,004,Department for Transport,Department,138,4232,21013664,36704874
+2018-19,organisation current department,3,005,Office for National Statistics,3,005,Office for National Statistics,Department,3,83,300136,300136
+2018-19,organisation current department,4,009,Charity Commission,4,009,Charity Commission,Department,2,84,28152,28152
+2018-19,organisation current department,5,010,Cabinet Office,5,010,Cabinet Office,Department,21,1210,693012,731992
+2018-19,organisation current department,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,19,654,84274,360602
+2018-19,organisation current department,9,014,Crown Estate Office,9,014,Crown Estate Office,Department,2,16,238765,238765
+2018-19,organisation current department,10,016,Crown Prosecution Service,10,016,Crown Prosecution Service,Department,4,277,511218,511218
+2018-19,organisation current department,11,017,Ministry of Defence,11,017,Ministry of Defence,Department,39,1050,37644003,54806087
+2018-19,organisation current department,12,019,Serious Fraud Office,12,019,Serious Fraud Office,Department,3,96,56004,56004
+2018-19,organisation current department,13,020,Office of Gas and Electricity Markets,13,020,Office of Gas and Electricity Markets,Department,3,93,2020,49950
+2018-19,organisation current department,14,022,Department for Education,14,022,Department for Education,Department,156,3983,92459023,135820263
+2018-19,organisation current department,15,025,UK Export Finance,15,025,UK Export Finance,Department,7,251,-298662,1328682
+2018-19,organisation current department,16,026,Food Standards Agency,16,026,Food Standards Agency,Department,5,209,92193,92193
+2018-19,organisation current department,19,030,"Foreign, Commonwealth and Development Office",19,030,"Foreign, Commonwealth and Development Office",Department,3,28,36388,36388
+2018-19,organisation current department,20,031,Government Actuary's Department,20,031,Government Actuary's Department,Department,4,98,-2613,3101
+2018-19,organisation current department,21,032,Department for Work and Pensions,21,032,Department for Work and Pensions,Department,99,3187,190383110,194592374
+2018-19,organisation current department,22,033,Department of Health and Social Care,22,033,Department of Health and Social Care,Department,82,2629,235523719,236178101
+2018-19,organisation current department,23,034,Home Office,23,034,Home Office,Department,47,2181,14386569,15624941
+2018-19,organisation current department,25,036,House of Commons: Members,25,036,House of Commons: Members,Department,1,36,16870,16870
+2018-19,organisation current department,26,037,House of Lords,26,037,House of Lords,Department,4,141,211831,212099
+2018-19,organisation current department,27,038,House of Commons: Administration,27,038,House of Commons: Administration,Department,1,167,397179,397179
+2018-19,organisation current department,28,041,HM Revenue and Customs,28,041,HM Revenue and Customs,Department,46,1085,44218883,44305579
+2018-19,organisation current department,29,042,Scotland Office and Office of the Advocate General,29,042,Scotland Office and Office of the Advocate General,Department,7,107,29972795,29972795
+2018-19,organisation current department,30,047,Ministry of Justice,30,047,Ministry of Justice,Department,49,2526,8774055,9102187
+2018-19,organisation current department,31,048,"Department for Digital, Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,2,8,48373,48373
+2018-19,organisation current department,32,048,"Department for Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,126,4268,11807720,12053590
+2018-19,organisation current department,33,049,National Savings and Investments,33,049,National Savings and Investments,Department,3,121,140430,140546
+2018-19,organisation current department,34,050,National Audit Office,34,050,National Audit Office,Department,3,132,68808,69648
+2018-19,organisation current department,35,057,Water Services Regulation Authority,35,057,Water Services Regulation Authority,Department,2,108,-745,987
+2018-19,organisation current department,36,060,Office of the Parliamentary Commissioner,36,060,Office of the Parliamentary Commissioner,Department,3,137,28563,33643
+2018-19,organisation current department,37,066,Department for Energy Security and Net Zero,37,066,Department for Energy Security and Net Zero,Department,22,959,-103689463,110343565
+2018-19,organisation current department,38,067,The National Archives,38,067,The National Archives,Department,3,188,37245,37277
+2018-19,organisation current department,39,068,United Kingdom Supreme Court,39,068,United Kingdom Supreme Court,Department,3,107,6030,6030
+2018-19,organisation current department,40,069,Independent Parliamentary Standards Authority,40,069,Independent Parliamentary Standards Authority,Department,3,120,196380,196380
+2018-19,organisation current department,41,070,Office of Qualifications and Examinations Regulation,41,070,Office of Qualifications and Examinations Regulation,Department,3,72,18230,18564
+2018-19,organisation current department,42,071,Local Government Boundary Commission for England,42,071,Local Government Boundary Commission for England,Department,1,32,2165,2165
+2018-19,organisation current department,43,072,"Office for Standards in Education, Children's Services and Skills",43,072,"Office for Standards in Education, Children's Services and Skills",Department,3,139,130811,132245
+2018-19,organisation current department,44,073,National Crime Agency,44,073,National Crime Agency,Department,3,152,568130,568130
+2018-19,organisation current department,45,075,Scottish Government,45,075,Scottish Government,Department,142,4110,26321337,98236459
+2018-19,organisation current department,46,076,Competition and Markets Authority,46,076,Competition and Markets Authority,Department,3,111,96809,103247
+2018-19,organisation current department,52,084,"Department for Science, Innovation and Technology",52,084,"Department for Science, Innovation and Technology",Department,37,1502,8133759,8279893
+2018-19,organisation current department,53,085,"Ministry of Housing, Communities and Local Government",55,085,"Ministry of Housing, Communities and Local Government",Department,5,114,57815,57815
+2018-19,organisation current department,55,085,"Ministry of Housing, Communities and Local Government",55,085,"Ministry of Housing, Communities and Local Government",Department,186,2756,38857067,44670761
+2018-19,organisation current department,56,087,HM Treasury,56,087,HM Treasury,Department,39,685,-45317801,48977595
+2018-19,organisation current department,57,088,Office of Rail and Road,57,088,Office of Rail and Road,Department,4,158,-10153,10153
+2018-19,organisation current department,58,089,HM Procurator General and Treasury Solicitor,58,089,HM Procurator General and Treasury Solicitor,Department,6,297,5387,19629
+2018-19,organisation current department,59,090,Welsh Government,59,090,Welsh Government,Department,85,4332,18311844,18887010
+2018-19,organisation current department,60,091,Wales Office,60,091,Wales Office,Department,3,61,14651821,14651821
+2018-19,organisation current department,61,097,Northern Ireland Office,61,097,Northern Ireland Office,Department,8,222,15717039,15717995
+2018-19,organisation current department,62,099,Northern Ireland Executive,62,099,Northern Ireland Executive,Department,163,7776,23407518,25119360
+2018-19,organisation current department,63,901,Cabinet Office: Civil Superannuation,63,901,Cabinet Office: Civil Superannuation,Department,2,184,8772022,8772022
+2018-19,organisation current department,64,902,Armed Forces Pension and Compensation Schemes,64,902,Armed Forces Pension and Compensation Schemes,Department,2,116,9116094,9272106
+2018-19,organisation current department,65,903,National Health Service Pension Scheme,65,903,National Health Service Pension Scheme,Department,3,135,0,67967986
+2018-19,organisation current department,66,904,"Teachers' Pension Scheme, England and Wales",66,904,"Teachers' Pension Scheme, England and Wales",Department,5,232,24531101,24621153
+2018-19,organisation current department,67,905,United Kingdom Atomic Energy Authority Pension Schemes,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,1,64,263125,263125
+2018-19,organisation current department,70,908,Ministry of Justice: Judicial Pensions Scheme,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2,84,955871,955871
+2018-19,organisation current department,71,915,Royal Mail Statutory Pension Scheme,71,915,Royal Mail Statutory Pension Scheme,Department,1,36,1168000,1168000
+2018-19,organisation successor,17,027,Foreign and Commonwealth Office,19,030,"Foreign, Commonwealth and Development Office",Department,4,48,1146193,1146193
+2018-19,sub-segment code,7,013,Department for International Trade,8,013,Department for Business and Trade,Department,10,602,426769,426769
+2018-19,sub-segment code,18,030,Department for International Development,19,030,"Foreign, Commonwealth and Development Office",Department,73,1980,10800127,11187159
+2018-19,sub-segment code,51,084,"Department for Business, Energy and Industrial Strategy",52,084,"Department for Science, Innovation and Technology",Department,24,793,1216280,1326938
+2018-19,sub-segment name,17,027,Foreign and Commonwealth Office,19,030,"Foreign, Commonwealth and Development Office",Department,7,242,1446802,1497860
+2018-19,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",8,013,Department for Business and Trade,Department,26,615,-44264,1427292
+2018-19,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",14,022,Department for Education,Department,1,5,0,0
+2018-19,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",37,066,Department for Energy Security and Net Zero,Department,31,786,319066,2827398
+2018-19,unallocated former department,6,011,Electoral Commission,72,U011,Unallocated: former Electoral Commission lines,Unallocated,3,94,16640,16640
+2018-19,unallocated former department,47,077,Department for Exiting the European Union,74,U077,Unallocated: former Department for Exiting the European Union lines,Unallocated,1,24,84012,84012
+2018-19,unallocated former department,51,084,"Department for Business, Energy and Industrial Strategy",75,U084,"Unallocated: former Department for Business, Energy and Industrial Strategy shared lines",Unallocated,18,138,-581331,652961
+2019-20,authored line,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,1,101,284264,284264
+2019-20,authored line,51,084,"Department for Business, Energy and Industrial Strategy",8,013,Department for Business and Trade,Department,5,362,1367499,1367499
+2019-20,authored line,51,084,"Department for Business, Energy and Industrial Strategy",37,066,Department for Energy Security and Net Zero,Department,3,41,17361,17361
+2019-20,authored organisation,7,013,Department for International Trade,8,013,Department for Business and Trade,Department,2,36,2114,2114
+2019-20,authored organisation,18,030,Department for International Development,19,030,"Foreign, Commonwealth and Development Office",Department,7,64,13811,13919
+2019-20,organisation current department,1,003,"Department for Environment, Food and Rural Affairs",1,003,"Department for Environment, Food and Rural Affairs",Department,263,5996,5461566,6111890
+2019-20,organisation current department,2,004,Department for Transport,2,004,Department for Transport,Department,135,4448,27946738,28507908
+2019-20,organisation current department,3,005,Office for National Statistics,3,005,Office for National Statistics,Department,3,84,317454,336610
+2019-20,organisation current department,4,009,Charity Commission,4,009,Charity Commission,Department,2,96,28248,28248
+2019-20,organisation current department,5,010,Cabinet Office,5,010,Cabinet Office,Department,24,1204,1215400,1272456
+2019-20,organisation current department,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,17,666,210118,214780
+2019-20,organisation current department,9,014,Crown Estate Office,9,014,Crown Estate Office,Department,1,12,2357,2357
+2019-20,organisation current department,10,016,Crown Prosecution Service,10,016,Crown Prosecution Service,Department,4,245,564538,564538
+2019-20,organisation current department,11,017,Ministry of Defence,11,017,Ministry of Defence,Department,43,1086,47609697,53002709
+2019-20,organisation current department,12,019,Serious Fraud Office,12,019,Serious Fraud Office,Department,3,96,56352,56352
+2019-20,organisation current department,13,020,Office of Gas and Electricity Markets,13,020,Office of Gas and Electricity Markets,Department,3,99,-30543,33137
+2019-20,organisation current department,14,022,Department for Education,14,022,Department for Education,Department,117,3714,98172952,145742082
+2019-20,organisation current department,15,025,UK Export Finance,15,025,UK Export Finance,Department,7,260,14541,451277
+2019-20,organisation current department,16,026,Food Standards Agency,16,026,Food Standards Agency,Department,4,199,99341,99341
+2019-20,organisation current department,19,030,"Foreign, Commonwealth and Development Office",19,030,"Foreign, Commonwealth and Development Office",Department,3,29,37151,37151
+2019-20,organisation current department,20,031,Government Actuary's Department,20,031,Government Actuary's Department,Department,4,90,-794,1182
+2019-20,organisation current department,21,032,Department for Work and Pensions,21,032,Department for Work and Pensions,Department,92,3236,200477544,200698060
+2019-20,organisation current department,22,033,Department of Health and Social Care,22,033,Department of Health and Social Care,Department,73,2517,262543271,262543271
+2019-20,organisation current department,23,034,Home Office,23,034,Home Office,Department,37,2355,14777353,16333837
+2019-20,organisation current department,25,036,House of Commons: Members,25,036,House of Commons: Members,Department,1,27,17196,17196
+2019-20,organisation current department,26,037,House of Lords,26,037,House of Lords,Department,4,144,189461,189557
+2019-20,organisation current department,27,038,House of Commons: Administration,27,038,House of Commons: Administration,Department,1,166,507118,507118
+2019-20,organisation current department,28,041,HM Revenue and Customs,28,041,HM Revenue and Customs,Department,50,1102,42866376,42965668
+2019-20,organisation current department,29,042,Scotland Office and Office of the Advocate General,29,042,Scotland Office and Office of the Advocate General,Department,6,94,30920588,30920588
+2019-20,organisation current department,30,047,Ministry of Justice,30,047,Ministry of Justice,Department,44,1852,4597577,5137981
+2019-20,organisation current department,31,048,"Department for Digital, Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,3,63,30673,30673
+2019-20,organisation current department,32,048,"Department for Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,127,4402,12441702,12652142
+2019-20,organisation current department,33,049,National Savings and Investments,33,049,National Savings and Investments,Department,4,87,136667,136667
+2019-20,organisation current department,34,050,National Audit Office,34,050,National Audit Office,Department,3,111,66826,66826
+2019-20,organisation current department,35,057,Water Services Regulation Authority,35,057,Water Services Regulation Authority,Department,2,100,-1548,1894
+2019-20,organisation current department,36,060,Office of the Parliamentary Commissioner,36,060,Office of the Parliamentary Commissioner,Department,3,147,30745,30745
+2019-20,organisation current department,37,066,Department for Energy Security and Net Zero,37,066,Department for Energy Security and Net Zero,Department,23,906,12067987,13926115
+2019-20,organisation current department,38,067,The National Archives,38,067,The National Archives,Department,3,186,38676,38700
+2019-20,organisation current department,39,068,United Kingdom Supreme Court,39,068,United Kingdom Supreme Court,Department,3,105,6738,6738
+2019-20,organisation current department,40,069,Independent Parliamentary Standards Authority,40,069,Independent Parliamentary Standards Authority,Department,4,120,200124,200124
+2019-20,organisation current department,41,070,Office of Qualifications and Examinations Regulation,41,070,Office of Qualifications and Examinations Regulation,Department,3,75,19473,19473
+2019-20,organisation current department,42,071,Local Government Boundary Commission for England,42,071,Local Government Boundary Commission for England,Department,1,28,2009,2009
+2019-20,organisation current department,43,072,"Office for Standards in Education, Children's Services and Skills",43,072,"Office for Standards in Education, Children's Services and Skills",Department,3,131,134045,134625
+2019-20,organisation current department,44,073,National Crime Agency,44,073,National Crime Agency,Department,3,151,630740,630740
+2019-20,organisation current department,45,075,Scottish Government,45,075,Scottish Government,Department,137,3699,28713881,103899473
+2019-20,organisation current department,46,076,Competition and Markets Authority,46,076,Competition and Markets Authority,Department,3,114,127013,127013
+2019-20,organisation current department,52,084,"Department for Science, Innovation and Technology",52,084,"Department for Science, Innovation and Technology",Department,40,1518,8186896,8189580
+2019-20,organisation current department,53,085,"Ministry of Housing, Communities and Local Government",55,085,"Ministry of Housing, Communities and Local Government",Department,5,144,0,0
+2019-20,organisation current department,55,085,"Ministry of Housing, Communities and Local Government",55,085,"Ministry of Housing, Communities and Local Government",Department,233,3540,41494712,47692318
+2019-20,organisation current department,56,087,HM Treasury,56,087,HM Treasury,Department,41,727,5972590,90171358
+2019-20,organisation current department,57,088,Office of Rail and Road,57,088,Office of Rail and Road,Department,4,255,6323,6323
+2019-20,organisation current department,58,089,HM Procurator General and Treasury Solicitor,58,089,HM Procurator General and Treasury Solicitor,Department,6,296,17647,17647
+2019-20,organisation current department,59,090,Welsh Government,59,090,Welsh Government,Department,83,4427,19323157,24041279
+2019-20,organisation current department,60,091,Wales Office,60,091,Wales Office,Department,4,88,15054006,15153990
+2019-20,organisation current department,62,099,Northern Ireland Executive,62,099,Northern Ireland Executive,Department,169,7913,25243714,26586980
+2019-20,organisation current department,63,901,Cabinet Office: Civil Superannuation,63,901,Cabinet Office: Civil Superannuation,Department,2,189,10800155,10800155
+2019-20,organisation current department,64,902,Armed Forces Pension and Compensation Schemes,64,902,Armed Forces Pension and Compensation Schemes,Department,2,121,7689618,7689618
+2019-20,organisation current department,65,903,National Health Service Pension Scheme,65,903,National Health Service Pension Scheme,Department,3,134,-2,55471282
+2019-20,organisation current department,66,904,"Teachers' Pension Scheme, England and Wales",66,904,"Teachers' Pension Scheme, England and Wales",Department,5,231,19540552,19540552
+2019-20,organisation current department,67,905,United Kingdom Atomic Energy Authority Pension Schemes,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,1,87,301120,301120
+2019-20,organisation current department,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,1,36,21504,21504
+2019-20,organisation current department,70,908,Ministry of Justice: Judicial Pensions Scheme,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2,96,585180,585180
+2019-20,organisation current department,71,915,Royal Mail Statutory Pension Scheme,71,915,Royal Mail Statutory Pension Scheme,Department,1,36,1207000,1207000
+2019-20,organisation successor,17,027,Foreign and Commonwealth Office,19,030,"Foreign, Commonwealth and Development Office",Department,4,58,1241168,1241168
+2019-20,sub-segment code,7,013,Department for International Trade,8,013,Department for Business and Trade,Department,10,537,495812,496188
+2019-20,sub-segment code,18,030,Department for International Development,19,030,"Foreign, Commonwealth and Development Office",Department,77,2095,11075566,11201920
+2019-20,sub-segment code,51,084,"Department for Business, Energy and Industrial Strategy",52,084,"Department for Science, Innovation and Technology",Department,26,836,1439887,1654035
+2019-20,sub-segment name,17,027,Foreign and Commonwealth Office,19,030,"Foreign, Commonwealth and Development Office",Department,7,247,1545387,1591833
+2019-20,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",8,013,Department for Business and Trade,Department,25,561,1197555,2076099
+2019-20,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",14,022,Department for Education,Department,1,5,49,49
+2019-20,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",37,066,Department for Energy Security and Net Zero,Department,30,806,1569578,1934432
+2019-20,unallocated former department,6,011,Electoral Commission,72,U011,Unallocated: former Electoral Commission lines,Unallocated,4,72,18637,18691
+2019-20,unallocated former department,24,035,Assets Recovery Agency,73,U035,Unallocated: former Assets Recovery Agency lines,Unallocated,1,12,-96,96
+2019-20,unallocated former department,51,084,"Department for Business, Energy and Industrial Strategy",75,U084,"Unallocated: former Department for Business, Energy and Industrial Strategy shared lines",Unallocated,12,93,-103408,182786
+2020-21,authored line,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,3,121,680013,680013
+2020-21,authored line,37,066,Department for Energy Security and Net Zero,37,066,Department for Energy Security and Net Zero,Department,1,1,1423,1423
+2020-21,authored line,51,084,"Department for Business, Energy and Industrial Strategy",8,013,Department for Business and Trade,Department,5,375,485299,485299
+2020-21,authored line,51,084,"Department for Business, Energy and Industrial Strategy",37,066,Department for Energy Security and Net Zero,Department,3,43,18761,18761
+2020-21,authored line,51,084,"Department for Business, Energy and Industrial Strategy",52,084,"Department for Science, Innovation and Technology",Department,1,2,50,50
+2020-21,authored organisation,7,013,Department for International Trade,8,013,Department for Business and Trade,Department,2,32,2052,2052
+2020-21,organisation current department,1,003,"Department for Environment, Food and Rural Affairs",1,003,"Department for Environment, Food and Rural Affairs",Department,336,6188,7109000,9157316
+2020-21,organisation current department,2,004,Department for Transport,2,004,Department for Transport,Department,136,4434,42101679,42695179
+2020-21,organisation current department,3,005,Office for National Statistics,3,005,Office for National Statistics,Department,2,71,506581,506581
+2020-21,organisation current department,4,009,Charity Commission,4,009,Charity Commission,Department,2,84,31400,31400
+2020-21,organisation current department,5,010,Cabinet Office,5,010,Cabinet Office,Department,49,1539,2135784,2657172
+2020-21,organisation current department,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,25,618,219311,664575
+2020-21,organisation current department,9,014,Crown Estate Office,9,014,Crown Estate Office,Department,1,12,2357,2357
+2020-21,organisation current department,10,016,Crown Prosecution Service,10,016,Crown Prosecution Service,Department,4,217,566013,566737
+2020-21,organisation current department,11,017,Ministry of Defence,11,017,Ministry of Defence,Department,43,1123,51040022,54806064
+2020-21,organisation current department,12,019,Serious Fraud Office,12,019,Serious Fraud Office,Department,2,84,57377,57377
+2020-21,organisation current department,13,020,Office of Gas and Electricity Markets,13,020,Office of Gas and Electricity Markets,Department,3,125,3503,3503
+2020-21,organisation current department,14,022,Department for Education,14,022,Department for Education,Department,146,4721,113454023,166278117
+2020-21,organisation current department,15,025,UK Export Finance,15,025,UK Export Finance,Department,7,23,1231586,1413340
+2020-21,organisation current department,16,026,Food Standards Agency,16,026,Food Standards Agency,Department,4,204,103053,104743
+2020-21,organisation current department,19,030,"Foreign, Commonwealth and Development Office",19,030,"Foreign, Commonwealth and Development Office",Department,81,2188,10962802,11095074
+2020-21,organisation current department,20,031,Government Actuary's Department,20,031,Government Actuary's Department,Department,4,93,-966,1302
+2020-21,organisation current department,21,032,Department for Work and Pensions,21,032,Department for Work and Pensions,Department,98,3347,221358120,221719310
+2020-21,organisation current department,22,033,Department of Health and Social Care,22,033,Department of Health and Social Care,Department,62,2191,194629346,197118018
+2020-21,organisation current department,23,034,Home Office,23,034,Home Office,Department,39,2527,17537662,17665300
+2020-21,organisation current department,25,036,House of Commons: Members,25,036,House of Commons: Members,Department,1,25,16447,16447
+2020-21,organisation current department,26,037,House of Lords,26,037,House of Lords,Department,4,138,169113,169113
+2020-21,organisation current department,27,038,House of Commons: Administration,27,038,House of Commons: Administration,Department,1,160,519100,519100
+2020-21,organisation current department,28,041,HM Revenue and Customs,28,041,HM Revenue and Customs,Department,48,1033,121875424,122069300
+2020-21,organisation current department,29,042,Scotland Office and Office of the Advocate General,29,042,Scotland Office and Office of the Advocate General,Department,6,87,39843150,39843150
+2020-21,organisation current department,30,047,Ministry of Justice,30,047,Ministry of Justice,Department,54,2411,10638774,10720046
+2020-21,organisation current department,31,048,"Department for Digital, Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,3,77,47050,47050
+2020-21,organisation current department,32,048,"Department for Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,123,4052,15341577,15369925
+2020-21,organisation current department,33,049,National Savings and Investments,33,049,National Savings and Investments,Department,3,117,184625,184625
+2020-21,organisation current department,34,050,National Audit Office,34,050,National Audit Office,Department,3,86,78420,78420
+2020-21,organisation current department,35,057,Water Services Regulation Authority,35,057,Water Services Regulation Authority,Department,2,92,-206,446
+2020-21,organisation current department,36,060,Office of the Parliamentary Commissioner,36,060,Office of the Parliamentary Commissioner,Department,3,117,31149,31149
+2020-21,organisation current department,37,066,Department for Energy Security and Net Zero,37,066,Department for Energy Security and Net Zero,Department,31,1002,8560321,8666415
+2020-21,organisation current department,38,067,The National Archives,38,067,The National Archives,Department,3,171,40022,40022
+2020-21,organisation current department,39,068,United Kingdom Supreme Court,39,068,United Kingdom Supreme Court,Department,3,98,6679,6679
+2020-21,organisation current department,40,069,Independent Parliamentary Standards Authority,40,069,Independent Parliamentary Standards Authority,Department,2,96,229181,229181
+2020-21,organisation current department,41,070,Office of Qualifications and Examinations Regulation,41,070,Office of Qualifications and Examinations Regulation,Department,2,72,25480,25480
+2020-21,organisation current department,42,071,Local Government Boundary Commission for England,42,071,Local Government Boundary Commission for England,Department,1,35,2125,2125
+2020-21,organisation current department,43,072,"Office for Standards in Education, Children's Services and Skills",43,072,"Office for Standards in Education, Children's Services and Skills",Department,3,128,119221,119441
+2020-21,organisation current department,44,073,National Crime Agency,44,073,National Crime Agency,Department,3,158,643963,643963
+2020-21,organisation current department,45,075,Scottish Government,45,075,Scottish Government,Department,144,4006,38966095,143219305
+2020-21,organisation current department,46,076,Competition and Markets Authority,46,076,Competition and Markets Authority,Department,3,100,105013,105013
+2020-21,organisation current department,48,078,HM Land Registry,48,078,HM Land Registry,Department,3,85,92668,571814
+2020-21,organisation current department,52,084,"Department for Science, Innovation and Technology",52,084,"Department for Science, Innovation and Technology",Department,48,1461,18250557,18415299
+2020-21,organisation current department,55,085,"Ministry of Housing, Communities and Local Government",55,085,"Ministry of Housing, Communities and Local Government",Department,244,3470,39998061,47293137
+2020-21,organisation current department,56,087,HM Treasury,56,087,HM Treasury,Department,40,628,19636194,66763268
+2020-21,organisation current department,57,088,Office of Rail and Road,57,088,Office of Rail and Road,Department,4,268,3297,3297
+2020-21,organisation current department,58,089,HM Procurator General and Treasury Solicitor,58,089,HM Procurator General and Treasury Solicitor,Department,4,263,16008,16008
+2020-21,organisation current department,59,090,Welsh Government,59,090,Welsh Government,Department,82,4508,26448174,31303046
+2020-21,organisation current department,60,091,Wales Office,60,091,Wales Office,Department,4,78,21777453,21834113
+2020-21,organisation current department,61,097,Northern Ireland Office,61,097,Northern Ireland Office,Department,4,120,16394,16394
+2020-21,organisation current department,62,099,Northern Ireland Executive,62,099,Northern Ireland Executive,Department,167,7832,29032518,29709962
+2020-21,organisation current department,63,901,Cabinet Office: Civil Superannuation,63,901,Cabinet Office: Civil Superannuation,Department,2,180,11576164,11576164
+2020-21,organisation current department,64,902,Armed Forces Pension and Compensation Schemes,64,902,Armed Forces Pension and Compensation Schemes,Department,2,106,6639056,6639056
+2020-21,organisation current department,65,903,National Health Service Pension Scheme,65,903,National Health Service Pension Scheme,Department,3,134,2,63752340
+2020-21,organisation current department,66,904,"Teachers' Pension Scheme, England and Wales",66,904,"Teachers' Pension Scheme, England and Wales",Department,5,233,16304792,16465226
+2020-21,organisation current department,67,905,United Kingdom Atomic Energy Authority Pension Schemes,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,2,62,220754,223440
+2020-21,organisation current department,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,1,48,12000,12000
+2020-21,organisation current department,70,908,Ministry of Justice: Judicial Pensions Scheme,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2,72,258317,258317
+2020-21,organisation current department,71,915,Royal Mail Statutory Pension Scheme,71,915,Royal Mail Statutory Pension Scheme,Department,1,36,869300,869300
+2020-21,organisation successor,17,027,Foreign and Commonwealth Office,19,030,"Foreign, Commonwealth and Development Office",Department,5,72,1320169,1320169
+2020-21,sub-segment code,7,013,Department for International Trade,8,013,Department for Business and Trade,Department,10,506,524339,524469
+2020-21,sub-segment code,51,084,"Department for Business, Energy and Industrial Strategy",52,084,"Department for Science, Innovation and Technology",Department,25,890,2838635,2996133
+2020-21,sub-segment name,17,027,Foreign and Commonwealth Office,19,030,"Foreign, Commonwealth and Development Office",Department,7,259,1619179,1648881
+2020-21,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",8,013,Department for Business and Trade,Department,39,777,43682875,45190999
+2020-21,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",14,022,Department for Education,Department,1,2,395,395
+2020-21,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",37,066,Department for Energy Security and Net Zero,Department,33,835,7711075,9285879
+2020-21,unallocated former department,6,011,Electoral Commission,72,U011,Unallocated: former Electoral Commission lines,Unallocated,5,97,20428,20428
+2020-21,unallocated former department,24,035,Assets Recovery Agency,73,U035,Unallocated: former Assets Recovery Agency lines,Unallocated,1,12,-100,100
+2020-21,unallocated former department,51,084,"Department for Business, Energy and Industrial Strategy",75,U084,"Unallocated: former Department for Business, Energy and Industrial Strategy shared lines",Unallocated,11,61,-10940436,10994258
+2021-22,authored line,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,2,127,329586,330766
+2021-22,authored line,51,084,"Department for Business, Energy and Industrial Strategy",8,013,Department for Business and Trade,Department,5,390,366409,366409
+2021-22,authored line,51,084,"Department for Business, Energy and Industrial Strategy",37,066,Department for Energy Security and Net Zero,Department,5,61,163237,163237
+2021-22,authored line,51,084,"Department for Business, Energy and Industrial Strategy",52,084,"Department for Science, Innovation and Technology",Department,1,4,216,216
+2021-22,authored organisation,7,013,Department for International Trade,8,013,Department for Business and Trade,Department,1,22,991,991
+2021-22,organisation current department,1,003,"Department for Environment, Food and Rural Affairs",1,003,"Department for Environment, Food and Rural Affairs",Department,302,6520,7726135,8700839
+2021-22,organisation current department,2,004,Department for Transport,2,004,Department for Transport,Department,143,4742,41606363,42407069
+2021-22,organisation current department,3,005,Office for National Statistics,3,005,Office for National Statistics,Department,2,88,466630,481700
+2021-22,organisation current department,4,009,Charity Commission,4,009,Charity Commission,Department,2,61,32650,32650
+2021-22,organisation current department,5,010,Cabinet Office,5,010,Cabinet Office,Department,15,1254,1529462,1536174
+2021-22,organisation current department,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,23,683,-160806,705328
+2021-22,organisation current department,9,014,Crown Estate Office,9,014,Crown Estate Office,Department,1,12,2357,2357
+2021-22,organisation current department,10,016,Crown Prosecution Service,10,016,Crown Prosecution Service,Department,4,216,627945,633323
+2021-22,organisation current department,11,017,Ministry of Defence,11,017,Ministry of Defence,Department,43,1115,62771747,67491083
+2021-22,organisation current department,12,019,Serious Fraud Office,12,019,Serious Fraud Office,Department,3,147,75643,75643
+2021-22,organisation current department,13,020,Office of Gas and Electricity Markets,13,020,Office of Gas and Electricity Markets,Department,2,122,89100,89100
+2021-22,organisation current department,14,022,Department for Education,14,022,Department for Education,Department,140,4758,103163709,160478637
+2021-22,organisation current department,16,026,Food Standards Agency,16,026,Food Standards Agency,Department,4,155,116531,116531
+2021-22,organisation current department,19,030,"Foreign, Commonwealth and Development Office",19,030,"Foreign, Commonwealth and Development Office",Department,34,820,10388941,10447575
+2021-22,organisation current department,20,031,Government Actuary's Department,20,031,Government Actuary's Department,Department,4,89,-945,1277
+2021-22,organisation current department,21,032,Department for Work and Pensions,21,032,Department for Work and Pensions,Department,99,3607,227974260,228881180
+2021-22,organisation current department,22,033,Department of Health and Social Care,22,033,Department of Health and Social Care,Department,72,2465,239573648,239579368
+2021-22,organisation current department,23,034,Home Office,23,034,Home Office,Department,48,2720,18020521,22637041
+2021-22,organisation current department,25,036,House of Commons: Members,25,036,House of Commons: Members,Department,1,26,16101,16101
+2021-22,organisation current department,26,037,House of Lords,26,037,House of Lords,Department,4,149,170848,183862
+2021-22,organisation current department,27,038,House of Commons: Administration,27,038,House of Commons: Administration,Department,1,174,470180,470180
+2021-22,organisation current department,28,041,HM Revenue and Customs,28,041,HM Revenue and Customs,Department,46,1053,59161471,59227027
+2021-22,organisation current department,29,042,Scotland Office and Office of the Advocate General,29,042,Scotland Office and Office of the Advocate General,Department,6,79,43132370,43132370
+2021-22,organisation current department,30,047,Ministry of Justice,30,047,Ministry of Justice,Department,45,2318,10910044,10972668
+2021-22,organisation current department,31,048,"Department for Digital, Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,3,80,200045,200045
+2021-22,organisation current department,32,048,"Department for Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,123,4028,14354005,14529125
+2021-22,organisation current department,33,049,National Savings and Investments,33,049,National Savings and Investments,Department,4,129,165018,165018
+2021-22,organisation current department,34,050,National Audit Office,34,050,National Audit Office,Department,3,90,79720,81328
+2021-22,organisation current department,35,057,Water Services Regulation Authority,35,057,Water Services Regulation Authority,Department,2,98,-448,1236
+2021-22,organisation current department,36,060,Office of the Parliamentary Commissioner,36,060,Office of the Parliamentary Commissioner,Department,3,109,34280,34280
+2021-22,organisation current department,37,066,Department for Energy Security and Net Zero,37,066,Department for Energy Security and Net Zero,Department,24,1042,117375296,117698092
+2021-22,organisation current department,38,067,The National Archives,38,067,The National Archives,Department,3,177,45580,45864
+2021-22,organisation current department,39,068,United Kingdom Supreme Court,39,068,United Kingdom Supreme Court,Department,3,100,6693,6693
+2021-22,organisation current department,40,069,Independent Parliamentary Standards Authority,40,069,Independent Parliamentary Standards Authority,Department,2,79,216771,216771
+2021-22,organisation current department,41,070,Office of Qualifications and Examinations Regulation,41,070,Office of Qualifications and Examinations Regulation,Department,2,77,25169,25169
+2021-22,organisation current department,42,071,Local Government Boundary Commission for England,42,071,Local Government Boundary Commission for England,Department,1,41,2195,2195
+2021-22,organisation current department,43,072,"Office for Standards in Education, Children's Services and Skills",43,072,"Office for Standards in Education, Children's Services and Skills",Department,3,124,131938,131938
+2021-22,organisation current department,44,073,National Crime Agency,44,073,National Crime Agency,Department,3,147,562161,562161
+2021-22,organisation current department,45,075,Scottish Government,45,075,Scottish Government,Department,157,4095,40883928,142792196
+2021-22,organisation current department,46,076,Competition and Markets Authority,46,076,Competition and Markets Authority,Department,3,92,145748,145748
+2021-22,organisation current department,48,078,HM Land Registry,48,078,HM Land Registry,Department,3,109,157436,790498
+2021-22,organisation current department,50,079,Parliamentary Works Grant,50,079,Parliamentary Works Grant,Department,1,14,122200,122200
+2021-22,organisation current department,52,084,"Department for Science, Innovation and Technology",52,084,"Department for Science, Innovation and Technology",Department,37,1453,8816434,8846032
+2021-22,organisation current department,55,085,"Ministry of Housing, Communities and Local Government",55,085,"Ministry of Housing, Communities and Local Government",Department,294,3999,40483397,62825327
+2021-22,organisation current department,56,087,HM Treasury,56,087,HM Treasury,Department,38,793,39738730,64054404
+2021-22,organisation current department,57,088,Office of Rail and Road,57,088,Office of Rail and Road,Department,4,173,-7090,7852
+2021-22,organisation current department,58,089,HM Procurator General and Treasury Solicitor,58,089,HM Procurator General and Treasury Solicitor,Department,6,263,-1396,23546
+2021-22,organisation current department,59,090,Welsh Government,59,090,Welsh Government,Department,80,4556,22847397,28911433
+2021-22,organisation current department,60,091,Wales Office,60,091,Wales Office,Department,4,92,20347087,20347087
+2021-22,organisation current department,61,097,Northern Ireland Office,61,097,Northern Ireland Office,Department,9,216,21495300,21495300
+2021-22,organisation current department,62,099,Northern Ireland Executive,62,099,Northern Ireland Executive,Department,173,7904,28160480,29514036
+2021-22,organisation current department,63,901,Cabinet Office: Civil Superannuation,63,901,Cabinet Office: Civil Superannuation,Department,2,192,11976419,11976419
+2021-22,organisation current department,64,902,Armed Forces Pension and Compensation Schemes,64,902,Armed Forces Pension and Compensation Schemes,Department,2,118,6509639,6512451
+2021-22,organisation current department,65,903,National Health Service Pension Scheme,65,903,National Health Service Pension Scheme,Department,3,133,11503,75226959
+2021-22,organisation current department,66,904,"Teachers' Pension Scheme, England and Wales",66,904,"Teachers' Pension Scheme, England and Wales",Department,5,230,18040511,18040511
+2021-22,organisation current department,67,905,United Kingdom Atomic Energy Authority Pension Schemes,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,2,53,207836,207836
+2021-22,organisation current department,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,1,29,8273,8273
+2021-22,organisation current department,70,908,Ministry of Justice: Judicial Pensions Scheme,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2,7,299000,299000
+2021-22,organisation current department,71,915,Royal Mail Statutory Pension Scheme,71,915,Royal Mail Statutory Pension Scheme,Department,1,36,696000,696000
+2021-22,sub-segment code,7,013,Department for International Trade,8,013,Department for Business and Trade,Department,11,562,553600,553600
+2021-22,sub-segment code,51,084,"Department for Business, Energy and Industrial Strategy",52,084,"Department for Science, Innovation and Technology",Department,27,913,1700347,1711803
+2021-22,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",8,013,Department for Business and Trade,Department,37,890,2378070,10712026
+2021-22,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",14,022,Department for Education,Department,1,2,0,0
+2021-22,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",37,066,Department for Energy Security and Net Zero,Department,34,995,8768495,10614227
+2021-22,unallocated former department,6,011,Electoral Commission,72,U011,Unallocated: former Electoral Commission lines,Unallocated,3,94,15058,15058
+2021-22,unallocated former department,51,084,"Department for Business, Energy and Industrial Strategy",75,U084,"Unallocated: former Department for Business, Energy and Industrial Strategy shared lines",Unallocated,7,29,7508,7508
+2022-23,authored line,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,3,136,356733,415695
+2022-23,authored line,37,066,Department for Energy Security and Net Zero,37,066,Department for Energy Security and Net Zero,Department,2,11,-368,368
+2022-23,authored line,51,084,"Department for Business, Energy and Industrial Strategy",8,013,Department for Business and Trade,Department,5,412,487656,487980
+2022-23,authored line,51,084,"Department for Business, Energy and Industrial Strategy",37,066,Department for Energy Security and Net Zero,Department,5,73,-114663,198913
+2022-23,authored line,51,084,"Department for Business, Energy and Industrial Strategy",52,084,"Department for Science, Innovation and Technology",Department,3,16,-20672,20832
+2022-23,organisation current department,1,003,"Department for Environment, Food and Rural Affairs",1,003,"Department for Environment, Food and Rural Affairs",Department,370,7107,7317101,9365307
+2022-23,organisation current department,2,004,Department for Transport,2,004,Department for Transport,Department,148,4991,42182342,43399182
+2022-23,organisation current department,3,005,Office for National Statistics,3,005,Office for National Statistics,Department,2,83,386276,394136
+2022-23,organisation current department,4,009,Charity Commission,4,009,Charity Commission,Department,2,56,35046,35046
+2022-23,organisation current department,5,010,Cabinet Office,5,010,Cabinet Office,Department,19,1108,1345699,1352513
+2022-23,organisation current department,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,22,735,48199,540949
+2022-23,organisation current department,9,014,Crown Estate Office,9,014,Crown Estate Office,Department,1,12,2357,2357
+2022-23,organisation current department,10,016,Crown Prosecution Service,10,016,Crown Prosecution Service,Department,4,219,725398,725398
+2022-23,organisation current department,11,017,Ministry of Defence,11,017,Ministry of Defence,Department,43,1111,46668601,71417015
+2022-23,organisation current department,12,019,Serious Fraud Office,12,019,Serious Fraud Office,Department,3,150,73877.65,73877.65
+2022-23,organisation current department,13,020,Office of Gas and Electricity Markets,13,020,Office of Gas and Electricity Markets,Department,5,230,9537.28,92793.28
+2022-23,organisation current department,14,022,Department for Education,14,022,Department for Education,Department,142,4732,89031075,171771509
+2022-23,organisation current department,15,025,UK Export Finance,15,025,UK Export Finance,Department,5,20,-61554,61826
+2022-23,organisation current department,16,026,Food Standards Agency,16,026,Food Standards Agency,Department,4,166,125849,125849
+2022-23,organisation current department,19,030,"Foreign, Commonwealth and Development Office",19,030,"Foreign, Commonwealth and Development Office",Department,31,515,10352809,10352809
+2022-23,organisation current department,20,031,Government Actuary's Department,20,031,Government Actuary's Department,Department,4,97,-720,1090
+2022-23,organisation current department,21,032,Department for Work and Pensions,21,032,Department for Work and Pensions,Department,106,3845,246101734,251273310
+2022-23,organisation current department,22,033,Department of Health and Social Care,22,033,Department of Health and Social Care,Department,68,2203,126469212,252185148
+2022-23,organisation current department,23,034,Home Office,23,034,Home Office,Department,53,2938,19911044,26178560
+2022-23,organisation current department,25,036,House of Commons: Members,25,036,House of Commons: Members,Department,1,24,17307,17307
+2022-23,organisation current department,26,037,House of Lords,26,037,House of Lords,Department,4,144,271419,273661
+2022-23,organisation current department,27,038,House of Commons: Administration,27,038,House of Commons: Administration,Department,1,172,579818,579818
+2022-23,organisation current department,28,041,HM Revenue and Customs,28,041,HM Revenue and Customs,Department,46,1012,42601959,43046189
+2022-23,organisation current department,29,042,Scotland Office and Office of the Advocate General,29,042,Scotland Office and Office of the Advocate General,Department,6,96,45267118,45267118
+2022-23,organisation current department,30,047,Ministry of Justice,30,047,Ministry of Justice,Department,58,2714,11641322.7578,11757845.2374
+2022-23,organisation current department,31,048,"Department for Digital, Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,3,62,552661,553725
+2022-23,organisation current department,32,048,"Department for Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,120,4373,14718520,14854430
+2022-23,organisation current department,33,049,National Savings and Investments,33,049,National Savings and Investments,Department,3,111,189303,189303
+2022-23,organisation current department,34,050,National Audit Office,34,050,National Audit Office,Department,3,89,91149,91803
+2022-23,organisation current department,35,057,Water Services Regulation Authority,35,057,Water Services Regulation Authority,Department,2,48,35393,35393
+2022-23,organisation current department,36,060,Office of the Parliamentary Commissioner,36,060,Office of the Parliamentary Commissioner,Department,3,131,50238,50238
+2022-23,organisation current department,37,066,Department for Energy Security and Net Zero,37,066,Department for Energy Security and Net Zero,Department,24,1046,-108753381,118953251
+2022-23,organisation current department,38,067,The National Archives,38,067,The National Archives,Department,2,171,52674,52674
+2022-23,organisation current department,39,068,United Kingdom Supreme Court,39,068,United Kingdom Supreme Court,Department,3,101,7022,7022
+2022-23,organisation current department,40,069,Independent Parliamentary Standards Authority,40,069,Independent Parliamentary Standards Authority,Department,2,78,230242,230242
+2022-23,organisation current department,41,070,Office of Qualifications and Examinations Regulation,41,070,Office of Qualifications and Examinations Regulation,Department,2,70,28977,28977
+2022-23,organisation current department,42,071,Local Government Boundary Commission for England,42,071,Local Government Boundary Commission for England,Department,1,40,2391,2391
+2022-23,organisation current department,43,072,"Office for Standards in Education, Children's Services and Skills",43,072,"Office for Standards in Education, Children's Services and Skills",Department,3,130,155593,155915
+2022-23,organisation current department,44,073,National Crime Agency,44,073,National Crime Agency,Department,3,135,752593,752593
+2022-23,organisation current department,45,075,Scottish Government,45,075,Scottish Government,Department,159,4449,39397954.8578,144607372.8578
+2022-23,organisation current department,46,076,Competition and Markets Authority,46,076,Competition and Markets Authority,Department,3,88,115981,130429
+2022-23,organisation current department,48,078,HM Land Registry,48,078,HM Land Registry,Department,3,109,116497,856497
+2022-23,organisation current department,50,079,Parliamentary Works Grant,50,079,Parliamentary Works Grant,Department,1,26,80150,80150
+2022-23,organisation current department,52,084,"Department for Science, Innovation and Technology",52,084,"Department for Science, Innovation and Technology",Department,37,1449,9567604,9700630
+2022-23,organisation current department,55,085,"Ministry of Housing, Communities and Local Government",55,085,"Ministry of Housing, Communities and Local Government",Department,306,4477,34415280,52910404
+2022-23,organisation current department,56,087,HM Treasury,56,087,HM Treasury,Department,41,853,132251032,158280282
+2022-23,organisation current department,57,088,Office of Rail and Road,57,088,Office of Rail and Road,Department,4,211,-1776,2680
+2022-23,organisation current department,58,089,HM Procurator General and Treasury Solicitor,58,089,HM Procurator General and Treasury Solicitor,Department,5,253,977,22815
+2022-23,organisation current department,59,090,Welsh Government,59,090,Welsh Government,Department,88,4691,21020056,33042196
+2022-23,organisation current department,60,091,Wales Office,60,091,Wales Office,Department,3,57,19542516,19542516
+2022-23,organisation current department,61,097,Northern Ireland Office,61,097,Northern Ireland Office,Department,9,234,20434031,20434031
+2022-23,organisation current department,62,099,Northern Ireland Executive,62,099,Northern Ireland Executive,Department,174,7811,29280152,31324106
+2022-23,organisation current department,63,901,Cabinet Office: Civil Superannuation,63,901,Cabinet Office: Civil Superannuation,Department,2,192,15924238,15924238
+2022-23,organisation current department,64,902,Armed Forces Pension and Compensation Schemes,64,902,Armed Forces Pension and Compensation Schemes,Department,2,118,8470639,8533617
+2022-23,organisation current department,65,903,National Health Service Pension Scheme,65,903,National Health Service Pension Scheme,Department,3,135,1,101798731
+2022-23,organisation current department,66,904,"Teachers' Pension Scheme, England and Wales",66,904,"Teachers' Pension Scheme, England and Wales",Department,5,226,22053775,22148173
+2022-23,organisation current department,67,905,United Kingdom Atomic Energy Authority Pension Schemes,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,2,88,278216,278216
+2022-23,organisation current department,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,1,29,11733,11733
+2022-23,organisation current department,70,908,Ministry of Justice: Judicial Pensions Scheme,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2,7,369700,369700
+2022-23,organisation current department,71,915,Royal Mail Statutory Pension Scheme,71,915,Royal Mail Statutory Pension Scheme,Department,1,36,876996,876996
+2022-23,sub-segment code,7,013,Department for International Trade,8,013,Department for Business and Trade,Department,11,614,565807,568253
+2022-23,sub-segment code,51,084,"Department for Business, Energy and Industrial Strategy",52,084,"Department for Science, Innovation and Technology",Department,29,948,1894674,1995228
+2022-23,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",8,013,Department for Business and Trade,Department,37,982,2628229,3744477
+2022-23,sub-segment name,51,084,"Department for Business, Energy and Industrial Strategy",37,066,Department for Energy Security and Net Zero,Department,39,1177,47117594,49820008
+2022-23,unallocated former department,6,011,Electoral Commission,72,U011,Unallocated: former Electoral Commission lines,Unallocated,3,104,26800,26800
+2022-23,unallocated former department,51,084,"Department for Business, Energy and Industrial Strategy",75,U084,"Unallocated: former Department for Business, Energy and Industrial Strategy shared lines",Unallocated,5,27,582,5114
+2023-24,organisation current department,1,003,"Department for Environment, Food and Rural Affairs",1,003,"Department for Environment, Food and Rural Affairs",Department,351,7749,10067032,13086356
+2023-24,organisation current department,2,004,Department for Transport,2,004,Department for Transport,Department,149,5010,42800372,44553612
+2023-24,organisation current department,3,005,Office for National Statistics,3,005,Office for National Statistics,Department,2,84,384257,388269
+2023-24,organisation current department,4,009,Charity Commission,4,009,Charity Commission,Department,2,57,34359,34359
+2023-24,organisation current department,5,010,Cabinet Office,5,010,Cabinet Office,Department,19,1300,1512973,1512993
+2023-24,organisation current department,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,73,2652,3164268,7588818
+2023-24,organisation current department,9,014,Crown Estate Office,9,014,Crown Estate Office,Department,1,12,2357,2357
+2023-24,organisation current department,10,016,Crown Prosecution Service,10,016,Crown Prosecution Service,Department,4,230,849146,849146
+2023-24,organisation current department,11,017,Ministry of Defence,11,017,Ministry of Defence,Department,44,1099,58162195,65466103
+2023-24,organisation current department,12,019,Serious Fraud Office,12,019,Serious Fraud Office,Department,2,147,74779.1,74779.1
+2023-24,organisation current department,13,020,Office of Gas and Electricity Markets,13,020,Office of Gas and Electricity Markets,Department,5,208,26629.0184,26629.0184
+2023-24,organisation current department,14,022,Department for Education,14,022,Department for Education,Department,138,4979,134020049,202695665
+2023-24,organisation current department,15,025,UK Export Finance,15,025,UK Export Finance,Department,5,231,273814,458974
+2023-24,organisation current department,16,026,Food Standards Agency,16,026,Food Standards Agency,Department,4,161,124030,127278
+2023-24,organisation current department,19,030,"Foreign, Commonwealth and Development Office",19,030,"Foreign, Commonwealth and Development Office",Department,28,466,13097723,13097723
+2023-24,organisation current department,20,031,Government Actuary's Department,20,031,Government Actuary's Department,Department,4,98,3877,8643
+2023-24,organisation current department,21,032,Department for Work and Pensions,21,032,Department for Work and Pensions,Department,105,3824,280839484,281800900
+2023-24,organisation current department,22,033,Department of Health and Social Care,22,033,Department of Health and Social Care,Department,54,1923,183931058,207285466
+2023-24,organisation current department,23,034,Home Office,23,034,Home Office,Department,45,2895,23670719,30184451
+2023-24,organisation current department,25,036,House of Commons: Members,25,036,House of Commons: Members,Department,1,24,18061,18061
+2023-24,organisation current department,26,037,House of Lords,26,037,House of Lords,Department,4,146,204684,204832
+2023-24,organisation current department,27,038,House of Commons: Administration,27,038,House of Commons: Administration,Department,1,183,534857,534857
+2023-24,organisation current department,28,041,HM Revenue and Customs,28,041,HM Revenue and Customs,Department,44,1054,40401303.2621,40478108.7379
+2023-24,organisation current department,29,042,Scotland Office and Office of the Advocate General,29,042,Scotland Office and Office of the Advocate General,Department,6,94,45266143,45266143
+2023-24,organisation current department,30,047,Ministry of Justice,30,047,Ministry of Justice,Department,57,2783,12978680.0122,13097549.0352
+2023-24,organisation current department,32,048,"Department for Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,109,4009,14704449,15049165
+2023-24,organisation current department,33,049,National Savings and Investments,33,049,National Savings and Investments,Department,4,122,281084,281084
+2023-24,organisation current department,34,050,National Audit Office,34,050,National Audit Office,Department,3,102,92386.34,92386.34
+2023-24,organisation current department,35,057,Water Services Regulation Authority,35,057,Water Services Regulation Authority,Department,2,110,-107.9,1886.64
+2023-24,organisation current department,36,060,Office of the Parliamentary Commissioner,36,060,Office of the Parliamentary Commissioner,Department,3,156,43906,43906
+2023-24,organisation current department,37,066,Department for Energy Security and Net Zero,37,066,Department for Energy Security and Net Zero,Department,92,2896,-7637120,48881822
+2023-24,organisation current department,38,067,The National Archives,38,067,The National Archives,Department,3,138,51954,52002
+2023-24,organisation current department,39,068,United Kingdom Supreme Court,39,068,United Kingdom Supreme Court,Department,3,106,9772,9772
+2023-24,organisation current department,40,069,Independent Parliamentary Standards Authority,40,069,Independent Parliamentary Standards Authority,Department,3,87,242589.15,242589.15
+2023-24,organisation current department,41,070,Office of Qualifications and Examinations Regulation,41,070,Office of Qualifications and Examinations Regulation,Department,2,71,30963,30963
+2023-24,organisation current department,42,071,Local Government Boundary Commission for England,42,071,Local Government Boundary Commission for England,Department,1,35,2478.4,2478.4
+2023-24,organisation current department,43,072,"Office for Standards in Education, Children's Services and Skills",43,072,"Office for Standards in Education, Children's Services and Skills",Department,3,130,154927,154927
+2023-24,organisation current department,44,073,National Crime Agency,44,073,National Crime Agency,Department,3,128,835473,835473
+2023-24,organisation current department,45,075,Scottish Government,45,075,Scottish Government,Department,156,4929,39011045.147,147691444.6864
+2023-24,organisation current department,46,076,Competition and Markets Authority,46,076,Competition and Markets Authority,Department,3,98,153283,153283
+2023-24,organisation current department,48,078,HM Land Registry,48,078,HM Land Registry,Department,3,101,145270,825270
+2023-24,organisation current department,50,079,Parliamentary Works Grant,50,079,Parliamentary Works Grant,Department,1,12,75375,75375
+2023-24,organisation current department,52,084,"Department for Science, Innovation and Technology",52,084,"Department for Science, Innovation and Technology",Department,84,2637,13116847,13506761
+2023-24,organisation current department,55,085,"Ministry of Housing, Communities and Local Government",55,085,"Ministry of Housing, Communities and Local Government",Department,318,4896,41754445,53425503
+2023-24,organisation current department,56,087,HM Treasury,56,087,HM Treasury,Department,31,888,82335417,90759109
+2023-24,organisation current department,57,088,Office of Rail and Road,57,088,Office of Rail and Road,Department,4,182,-5575,7207
+2023-24,organisation current department,58,089,HM Procurator General and Treasury Solicitor,58,089,HM Procurator General and Treasury Solicitor,Department,7,266,4719,22147
+2023-24,organisation current department,59,090,Welsh Government,59,090,Welsh Government,Department,88,4683,22572221,35534543
+2023-24,organisation current department,60,091,Wales Office,60,091,Wales Office,Department,3,56,21671108.1,21671108.1
+2023-24,organisation current department,61,097,Northern Ireland Office,61,097,Northern Ireland Office,Department,9,239,20430673,20430673
+2023-24,organisation current department,62,099,Northern Ireland Executive,62,099,Northern Ireland Executive,Department,176,7906,30643473,32354913
+2023-24,organisation current department,63,901,Cabinet Office: Civil Superannuation,63,901,Cabinet Office: Civil Superannuation,Department,2,188,9938754,9938754
+2023-24,organisation current department,64,902,Armed Forces Pension and Compensation Schemes,64,902,Armed Forces Pension and Compensation Schemes,Department,2,114,5100619,5100619
+2023-24,organisation current department,65,903,National Health Service Pension Scheme,65,903,National Health Service Pension Scheme,Department,3,135,-6,44125506
+2023-24,organisation current department,66,904,"Teachers' Pension Scheme, England and Wales",66,904,"Teachers' Pension Scheme, England and Wales",Department,5,230,10793991,10888177
+2023-24,organisation current department,67,905,United Kingdom Atomic Energy Authority Pension Schemes,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,2,88,288881,288881
+2023-24,organisation current department,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,1,29,19449,19449
+2023-24,organisation current department,70,908,Ministry of Justice: Judicial Pensions Scheme,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2,8,302447,302447
+2023-24,organisation current department,71,915,Royal Mail Statutory Pension Scheme,71,915,Royal Mail Statutory Pension Scheme,Department,1,36,876996,876996
+2024-25,organisation current department,1,003,"Department for Environment, Food and Rural Affairs",1,003,"Department for Environment, Food and Rural Affairs",Department,366,7906,9204022,12443616
+2024-25,organisation current department,2,004,Department for Transport,2,004,Department for Transport,Department,156,5238,42273345,44586299
+2024-25,organisation current department,3,005,Office for National Statistics,3,005,Office for National Statistics,Department,3,84,400765,400913
+2024-25,organisation current department,4,009,Charity Commission,4,009,Charity Commission,Department,2,54,36597,36597
+2024-25,organisation current department,5,010,Cabinet Office,5,010,Cabinet Office,Department,20,1276,1044013,1044145
+2024-25,organisation current department,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,95,2627,3431040,6376276
+2024-25,organisation current department,9,014,Crown Estate Office,9,014,Crown Estate Office,Department,1,12,2357,2357
+2024-25,organisation current department,10,016,Crown Prosecution Service,10,016,Crown Prosecution Service,Department,4,226,881523,881523
+2024-25,organisation current department,11,017,Ministry of Defence,11,017,Ministry of Defence,Department,45,1404,72339266,75844386
+2024-25,organisation current department,12,019,Serious Fraud Office,12,019,Serious Fraud Office,Department,2,112,85101,85101
+2024-25,organisation current department,13,020,Office of Gas and Electricity Markets,13,020,Office of Gas and Electricity Markets,Department,6,223,45961,45961
+2024-25,organisation current department,14,022,Department for Education,14,022,Department for Education,Department,149,5208,139536945,213756747
+2024-25,organisation current department,15,025,UK Export Finance,15,025,UK Export Finance,Department,6,240,2664,296954
+2024-25,organisation current department,16,026,Food Standards Agency,16,026,Food Standards Agency,Department,4,152,124610,124610
+2024-25,organisation current department,19,030,"Foreign, Commonwealth and Development Office",19,030,"Foreign, Commonwealth and Development Office",Department,28,594,12910047,12910047
+2024-25,organisation current department,20,031,Government Actuary's Department,20,031,Government Actuary's Department,Department,5,94,-1576,2242
+2024-25,organisation current department,21,032,Department for Work and Pensions,21,032,Department for Work and Pensions,Department,103,3834,299807104,300641926
+2024-25,organisation current department,22,033,Department of Health and Social Care,22,033,Department of Health and Social Care,Department,57,2002,214603004,214618232
+2024-25,organisation current department,23,034,Home Office,23,034,Home Office,Department,53,2842,21900964,30391336
+2024-25,organisation current department,25,036,House of Commons: Members,25,036,House of Commons: Members,Department,1,25,15886,15886
+2024-25,organisation current department,26,037,House of Lords,26,037,House of Lords,Department,4,145,209127,210351
+2024-25,organisation current department,27,038,House of Commons: Administration,27,038,House of Commons: Administration,Department,1,165,560236,560236
+2024-25,organisation current department,28,041,HM Revenue and Customs,28,041,HM Revenue and Customs,Department,45,1015,38455948,38471940
+2024-25,organisation current department,29,042,Scotland Office and Office of the Advocate General,29,042,Scotland Office and Office of the Advocate General,Department,6,95,48574039,48574039
+2024-25,organisation current department,30,047,Ministry of Justice,30,047,Ministry of Justice,Department,52,2696,14314438,14361246
+2024-25,organisation current department,32,048,"Department for Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,108,4062,14748627,15163801
+2024-25,organisation current department,33,049,National Savings and Investments,33,049,National Savings and Investments,Department,3,72,289957,289957
+2024-25,organisation current department,34,050,National Audit Office,34,050,National Audit Office,Department,2,84,84732,84732
+2024-25,organisation current department,35,057,Water Services Regulation Authority,35,057,Water Services Regulation Authority,Department,2,123,-1703,2459
+2024-25,organisation current department,36,060,Office of the Parliamentary Commissioner,36,060,Office of the Parliamentary Commissioner,Department,3,140,43386,44518
+2024-25,organisation current department,37,066,Department for Energy Security and Net Zero,37,066,Department for Energy Security and Net Zero,Department,78,2925,5668217,29187165
+2024-25,organisation current department,38,067,The National Archives,38,067,The National Archives,Department,2,139,53970,53970
+2024-25,organisation current department,39,068,United Kingdom Supreme Court,39,068,United Kingdom Supreme Court,Department,4,120,9652,9652
+2024-25,organisation current department,40,069,Independent Parliamentary Standards Authority,40,069,Independent Parliamentary Standards Authority,Department,3,80,313001,313001
+2024-25,organisation current department,41,070,Office of Qualifications and Examinations Regulation,41,070,Office of Qualifications and Examinations Regulation,Department,3,114,31112,31112
+2024-25,organisation current department,42,071,Local Government Boundary Commission for England,42,071,Local Government Boundary Commission for England,Department,1,35,2591,2591
+2024-25,organisation current department,43,072,"Office for Standards in Education, Children's Services and Skills",43,072,"Office for Standards in Education, Children's Services and Skills",Department,3,138,160614,160614
+2024-25,organisation current department,44,073,National Crime Agency,44,073,National Crime Agency,Department,3,159,855713,855713
+2024-25,organisation current department,45,075,Scottish Government,45,075,Scottish Government,Department,158,5659,37011262,152933384
+2024-25,organisation current department,46,076,Competition and Markets Authority,46,076,Competition and Markets Authority,Department,3,135,130367,161975
+2024-25,organisation current department,48,078,HM Land Registry,48,078,HM Land Registry,Department,3,105,104048,905662
+2024-25,organisation current department,50,079,Parliamentary Works Grant,50,079,Parliamentary Works Grant,Department,1,15,79082,79082
+2024-25,organisation current department,52,084,"Department for Science, Innovation and Technology",52,084,"Department for Science, Innovation and Technology",Department,83,2998,14246679,14411233
+2024-25,organisation current department,55,085,"Ministry of Housing, Communities and Local Government",55,085,"Ministry of Housing, Communities and Local Government",Department,345,5236,47569550,58172308
+2024-25,organisation current department,56,087,HM Treasury,56,087,HM Treasury,Department,38,864,57858683,78924659
+2024-25,organisation current department,58,089,HM Procurator General and Treasury Solicitor,58,089,HM Procurator General and Treasury Solicitor,Department,6,269,12608,43642
+2024-25,organisation current department,59,090,Welsh Government,59,090,Welsh Government,Department,88,4412,23902524,39524280
+2024-25,organisation current department,60,091,Wales Office,60,091,Wales Office,Department,3,55,20520872,20520872
+2024-25,organisation current department,61,097,Northern Ireland Office,61,097,Northern Ireland Office,Department,12,303,25518598,25518598
+2024-25,organisation current department,62,099,Northern Ireland Executive,62,099,Northern Ireland Executive,Department,176,7888,32080732,35653816
+2024-25,organisation current department,63,901,Cabinet Office: Civil Superannuation,63,901,Cabinet Office: Civil Superannuation,Department,2,181,9643385,9643385
+2024-25,organisation current department,64,902,Armed Forces Pension and Compensation Schemes,64,902,Armed Forces Pension and Compensation Schemes,Department,2,104,4801105,4833901
+2024-25,organisation current department,65,903,National Health Service Pension Scheme,65,903,National Health Service Pension Scheme,Department,3,134,0,36450188
+2024-25,organisation current department,66,904,"Teachers' Pension Scheme, England and Wales",66,904,"Teachers' Pension Scheme, England and Wales",Department,5,232,9254840,9256674
+2024-25,organisation current department,67,905,United Kingdom Atomic Energy Authority Pension Schemes,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,2,88,295198,295198
+2024-25,organisation current department,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,1,29,9808,9808
+2024-25,organisation current department,70,908,Ministry of Justice: Judicial Pensions Scheme,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2,8,242196,242196
+2024-25,organisation current department,71,915,Royal Mail Statutory Pension Scheme,71,915,Royal Mail Statutory Pension Scheme,Department,1,36,1515996,1515996
+2024-25,unallocated former department,6,011,Electoral Commission,72,U011,Unallocated: former Electoral Commission lines,Unallocated,5,108,48322,48322
+2025-26,organisation current department,1,003,"Department for Environment, Food and Rural Affairs",1,003,"Department for Environment, Food and Rural Affairs",Department,162,4768,10758780,12074944
+2025-26,organisation current department,2,004,Department for Transport,2,004,Department for Transport,Department,146,4884,42825453,44702259
+2025-26,organisation current department,3,005,Office for National Statistics,3,005,Office for National Statistics,Department,3,79,413703,413731
+2025-26,organisation current department,4,009,Charity Commission,4,009,Charity Commission,Department,2,54,36039,36039
+2025-26,organisation current department,5,010,Cabinet Office,5,010,Cabinet Office,Department,19,1271,1302289,1302289
+2025-26,organisation current department,8,013,Department for Business and Trade,8,013,Department for Business and Trade,Department,81,2671,5374295,8485391
+2025-26,organisation current department,9,014,Crown Estate Office,9,014,Crown Estate Office,Department,1,15,290,290
+2025-26,organisation current department,10,016,Crown Prosecution Service,10,016,Crown Prosecution Service,Department,4,235,919724,919724
+2025-26,organisation current department,11,017,Ministry of Defence,11,017,Ministry of Defence,Department,46,1434,67307207,71242673
+2025-26,organisation current department,12,019,Serious Fraud Office,12,019,Serious Fraud Office,Department,2,133,90463.74,90463.74
+2025-26,organisation current department,13,020,Office of Gas and Electricity Markets,13,020,Office of Gas and Electricity Markets,Department,7,215,-29785,53023
+2025-26,organisation current department,14,022,Department for Education,14,022,Department for Education,Department,146,5130,155805364,236135504
+2025-26,organisation current department,15,025,UK Export Finance,15,025,UK Export Finance,Department,6,229,5714784,5725038
+2025-26,organisation current department,16,026,Food Standards Agency,16,026,Food Standards Agency,Department,4,145,133039,133039
+2025-26,organisation current department,19,030,"Foreign, Commonwealth and Development Office",19,030,"Foreign, Commonwealth and Development Office",Department,26,561,11860006,11860006
+2025-26,organisation current department,20,031,Government Actuary's Department,20,031,Government Actuary's Department,Department,4,84,-600,1264
+2025-26,organisation current department,21,032,Department for Work and Pensions,21,032,Department for Work and Pensions,Department,102,3764,324072385,324600019
+2025-26,organisation current department,22,033,Department of Health and Social Care,22,033,Department of Health and Social Care,Department,53,1993,229220262,229611472
+2025-26,organisation current department,23,034,Home Office,23,034,Home Office,Department,49,2654,21608711,31361471
+2025-26,organisation current department,25,036,House of Commons: Members,25,036,House of Commons: Members,Department,1,26,17251,17251
+2025-26,organisation current department,26,037,House of Lords,26,037,House of Lords,Department,4,145,220015,228657
+2025-26,organisation current department,27,038,House of Commons: Administration,27,038,House of Commons: Administration,Department,1,157,649994,649994
+2025-26,organisation current department,28,041,HM Revenue and Customs,28,041,HM Revenue and Customs,Department,37,817,36227639,36305535
+2025-26,organisation current department,29,042,Scotland Office and Office of the Advocate General,29,042,Scotland Office and Office of the Advocate General,Department,6,106,52053591,52053591
+2025-26,organisation current department,30,047,Ministry of Justice,30,047,Ministry of Justice,Department,56,2861,15110904.4558,15302555.1798
+2025-26,organisation current department,32,048,"Department for Culture, Media and Sport",32,048,"Department for Culture, Media and Sport",Department,111,5743,3845438,15612126
+2025-26,organisation current department,33,049,National Savings and Investments,33,049,National Savings and Investments,Department,4,76,403607,408839
+2025-26,organisation current department,34,050,National Audit Office,34,050,National Audit Office,Department,3,93,115450,115452
+2025-26,organisation current department,35,057,Water Services Regulation Authority,35,057,Water Services Regulation Authority,Department,2,128,-504.84,1898.38
+2025-26,organisation current department,36,060,Office of the Parliamentary Commissioner,36,060,Office of the Parliamentary Commissioner,Department,3,121,51700,51846
+2025-26,organisation current department,37,066,Department for Energy Security and Net Zero,37,066,Department for Energy Security and Net Zero,Department,84,3240,25403447,29111857
+2025-26,organisation current department,38,067,The National Archives,38,067,The National Archives,Department,2,167,60052,60052
+2025-26,organisation current department,39,068,United Kingdom Supreme Court,39,068,United Kingdom Supreme Court,Department,3,102,8729,8729
+2025-26,organisation current department,40,069,Independent Parliamentary Standards Authority,40,069,Independent Parliamentary Standards Authority,Department,3,73,293090,293090
+2025-26,organisation current department,41,070,Office of Qualifications and Examinations Regulation,41,070,Office of Qualifications and Examinations Regulation,Department,2,109,31279,31279
+2025-26,organisation current department,42,071,Local Government Boundary Commission for England,42,071,Local Government Boundary Commission for England,Department,1,34,2717,2717
+2025-26,organisation current department,43,072,"Office for Standards in Education, Children's Services and Skills",43,072,"Office for Standards in Education, Children's Services and Skills",Department,3,135,184124,185790
+2025-26,organisation current department,44,073,National Crime Agency,44,073,National Crime Agency,Department,3,154,860854.91,860854.91
+2025-26,organisation current department,45,075,Scottish Government,45,075,Scottish Government,Department,148,6630,41054290.0086,223163836.6208
+2025-26,organisation current department,46,076,Competition and Markets Authority,46,076,Competition and Markets Authority,Department,3,138,130622,145620
+2025-26,organisation current department,48,078,HM Land Registry,48,078,HM Land Registry,Department,3,104,40100,1040100
+2025-26,organisation current department,50,079,Parliamentary Works Grant,50,079,Parliamentary Works Grant,Department,2,15,48785,48785
+2025-26,organisation current department,52,084,"Department for Science, Innovation and Technology",52,084,"Department for Science, Innovation and Technology",Department,94,3081,15525249,15736863
+2025-26,organisation current department,55,085,"Ministry of Housing, Communities and Local Government",55,085,"Ministry of Housing, Communities and Local Government",Department,334,5319,50705367,62096779
+2025-26,organisation current department,56,087,HM Treasury,56,087,HM Treasury,Department,23,749,33153624,38162864
+2025-26,organisation current department,57,088,Office of Rail and Road,57,088,Office of Rail and Road,Department,4,206,24,3906
+2025-26,organisation current department,58,089,HM Procurator General and Treasury Solicitor,58,089,HM Procurator General and Treasury Solicitor,Department,7,262,11754,32950
+2025-26,organisation current department,59,090,Welsh Government,59,090,Welsh Government,Department,82,4373,27522620,43962420
+2025-26,organisation current department,60,091,Wales Office,60,091,Wales Office,Department,3,52,24473589,24473589
+2025-26,organisation current department,61,097,Northern Ireland Office,61,097,Northern Ireland Office,Department,14,314,27401945,27401945
+2025-26,organisation current department,62,099,Northern Ireland Executive,62,099,Northern Ireland Executive,Department,172,7846,35828694,38010044
+2025-26,organisation current department,63,901,Cabinet Office: Civil Superannuation,63,901,Cabinet Office: Civil Superannuation,Department,2,185,7996444,7996444
+2025-26,organisation current department,64,902,Armed Forces Pension and Compensation Schemes,64,902,Armed Forces Pension and Compensation Schemes,Department,2,112,5082824,5082824
+2025-26,organisation current department,65,903,National Health Service Pension Scheme,65,903,National Health Service Pension Scheme,Department,3,134,0,43074948
+2025-26,organisation current department,66,904,"Teachers' Pension Scheme, England and Wales",66,904,"Teachers' Pension Scheme, England and Wales",Department,5,233,9654402,9701808
+2025-26,organisation current department,67,905,United Kingdom Atomic Energy Authority Pension Schemes,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,2,88,299499,299499
+2025-26,organisation current department,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,1,29,8398,8398
+2025-26,organisation current department,70,908,Ministry of Justice: Judicial Pensions Scheme,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2,8,252866,252866
+2025-26,organisation current department,71,915,Royal Mail Statutory Pension Scheme,71,915,Royal Mail Statutory Pension Scheme,Department,1,36,1500400,1500400
