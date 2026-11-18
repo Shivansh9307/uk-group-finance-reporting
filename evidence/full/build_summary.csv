@@ -1,0 +1,43 @@
+kind,name,value,unit
+scope,build scope,full,
+step,database,0.6,s
+step,pre sql,0.1,s
+step,stage authored,0.3,s
+rows,authored.account_flow,12,rows
+rows,authored.current_structure_map,20,rows
+rows,authored.department_name,75,rows
+rows,authored.department_sr_group,63,rows
+rows,authored.organisation_key_override,14,rows
+rows,authored.plan_name_map,97,rows
+rows,authored.plan_source,17,rows
+rows,authored.sr_group,32,rows
+step,stage oscar_bud,130.6,s
+rows,oscar_bud.files_loaded,15,rows
+rows,oscar_bud.files_skipped,4,rows
+rows,oscar_bud.rows_read,515949,rows
+rows,oscar_bud.rows_loaded,515949,rows
+rows,oscar_bud.rows_quarantined,0,rows
+step,stage oscar_inyear,106.2,s
+rows,oscar_inyear.files,32,rows
+rows,oscar_inyear.files_loaded,31,rows
+rows,oscar_inyear.rows_read,1547078,rows
+rows,oscar_inyear.rows_loaded,1547078,rows
+rows,oscar_inyear.rows_quarantined,0,rows
+step,stage profile_controls,0.0,s
+rows,profile_controls.profile_inyear_delta_rowcount,31,rows
+step,stage pss,3.1,s
+rows,pss.files_loaded,1,rows
+rows,pss.files_skipped,1,rows
+rows,pss.rows_read,41171,rows
+rows,pss.rows_loaded,41171,rows
+rows,pss.rows_quarantined,0,rows
+step,stage plans,1.2,s
+rows,plans.raw.plan_estimates,659,rows
+rows,plans.raw.plan_pesa,31289,rows
+rows,plans.raw.plan_source_file,16,rows
+step,stage plans_oscar,171.4,s
+rows,plans_oscar.raw.plan_oscar,135958,rows
+rows,plans_oscar.raw.plan_oscar_expected,1639,rows
+step,post sql,158.8,s
+step,audit export,0.4,s
+total,sum of the timed steps,572.7,s
