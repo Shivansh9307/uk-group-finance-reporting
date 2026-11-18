@@ -1,4 +1,4 @@
-"""Command line: `ukfr fetch`, `ukfr build`, `ukfr control`, `ukfr profile` and `ukfr zip-head`."""
+"""Command line: fetch, build, build-summary, control, inventory, real-totals, negative-control, profile, zip-head."""
 
 from __future__ import annotations
 
@@ -143,6 +143,63 @@ def _control(args) -> int:
     return 0
 
 
+def _real_totals(args) -> int:
+    from . import real_totals
+    from .db import Db, DbSettings
+
+    root = find_repo_root()
+    path = root / real_totals.EXPECTED_CSV
+    with Db(DbSettings.from_env()) as db:
+        scope = real_totals.build_scope(db)
+        measured = real_totals.measure(db, scope)
+    for r in measured:
+        print(f"{scope}: {r['fact']} {r['rows']} rows, sum {r['amount_sum']}")
+    if args.write:
+        real_totals.write_expected(path, scope, measured)
+        print(f"wrote {path.relative_to(root).as_posix()} ({scope} rows)")
+    return 0
+
+
+def _negative_control(args) -> int:
+    from . import negative_control
+
+    return negative_control.run()
+
+
+def _build_summary(args) -> int:
+    from . import build_summary
+
+    root = find_repo_root()
+    try:
+        written = build_summary.write_all(
+            args.build_log,
+            args.pytest_log,
+            args.out_dir or root / "evidence" / "full",
+            args.table_counts,
+            require_clean=not args.allow_skips,
+        )
+    except build_summary.SummaryError as exc:
+        print(f"build-summary: {exc}", file=sys.stderr)
+        return 1
+    for p in written:
+        print(f"wrote {p}")
+    return 0
+
+
+def _inventory(args) -> int:
+    from . import inventory
+
+    root = find_repo_root()
+    if args.write:
+        path = inventory.write_doc(root)
+        print(f"wrote the inventory block of {path.relative_to(root).as_posix()}")
+    problems = inventory.problems(root)
+    for p in problems:
+        print("PROBLEM:", p, file=sys.stderr)
+    print(inventory.render_text(root))
+    return 1 if problems else 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="ukfr")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -176,6 +233,24 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("what", choices=["inyear", "bud", "pss"])
     c.add_argument("--out", type=Path, help="output CSV (default data/audit/<what>_independent_control.csv)")
     c.set_defaults(func=_control)
+    t = sub.add_parser("real-totals", help="print the row counts and sums of the real facts; --write pins them")
+    t.add_argument("--write", action="store_true", help="write evidence/expected/real_fact_totals.csv for this scope")
+    t.set_defaults(func=_real_totals)
+    i = sub.add_parser("inventory", help="list every SQL assertion and Python control; fail on a test without a header")
+    i.add_argument("--write", action="store_true", help="rewrite the generated block of docs/reconciliation.md")
+    i.set_defaults(func=_inventory)
+    s = sub.add_parser("build-summary", help="write the committed summary of a full build log and a test run")
+    s.add_argument("--build-log", type=Path, required=True, help="the output of `ukfr build --scope full`")
+    s.add_argument("--pytest-log", type=Path, required=True, help="the output of `pytest -q`")
+    s.add_argument("--table-counts", type=Path, help="evidence/build/table_counts.csv written by that build")
+    s.add_argument("--out-dir", type=Path, help="default evidence/full")
+    s.add_argument("--allow-skips", action="store_true", help="do not require zero skips and zero failures")
+    s.set_defaults(func=_build_summary)
+    n = sub.add_parser(
+        "negative-control",
+        help="plant wrong numbers in the database UKFR_SQL_DATABASE names and require the control tests to fail",
+    )
+    n.set_defaults(func=_negative_control)
     args = ap.parse_args(argv)
     return args.func(args)
 
