@@ -1,0 +1,11 @@
+// The outturn that sits in its department through an estimated mapping, and its share of the department's outturn
+// (in parts per million), by financial year and department of the current structure. Only the Department for
+// Science, Innovation and Technology has an estimated amount; every other department with outturn has a share of 0.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Department (current structure)'[Department Number],
+    "estimated", [Outturn (estimated mapping)],
+    "share_ppm", IF ( ISBLANK ( [Estimated Mapping Share] ), BLANK (), [Estimated Mapping Share] * 1000000 )
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]

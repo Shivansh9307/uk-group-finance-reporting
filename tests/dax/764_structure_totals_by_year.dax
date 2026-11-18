@@ -1,0 +1,16 @@
+// The two structures added over all the departments of the current structure, by financial year: the total, the sum of
+// the departments in the current structure, the sum of the departments in the structure the releases reported, and the
+// sum of the machinery of government transfers (which must be zero). Each sum is a sum of per-department measure values,
+// not the measure at the grand total.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    "total", [Outturn],
+    "sum_current",
+        SUMX ( ALL ( 'Department (current structure)'[Department Key] ), [Outturn (current structure)] ),
+    "sum_as_reported",
+        SUMX ( ALL ( 'Department (current structure)'[Department Key] ), [Outturn (as reported structure)] ),
+    "sum_transfer",
+        SUMX ( ALL ( 'Department (current structure)'[Department Key] ), [Machinery of Government Transfer] )
+)
+ORDER BY 'Fiscal Year'[Financial Year]

@@ -1,0 +1,21 @@
+// Outturn as at Release by department of the current structure, at four releases (one in each of four financial years,
+// two of them year-end releases), on each release's own financial year. Departments with nothing reported up to the
+// release have no row.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Release'[Release Label],
+            'Release'[Release Financial Year],
+            'Fiscal Year'[Financial Year],
+            'Department (current structure)'[Department Number],
+            TREATAS ( { "2019-06", "2021-12", "2023-12", "2026-06" }, 'Release'[Release Label] ),
+            "as_at", [Outturn as at Release]
+        ),
+        'Release'[Release Financial Year] = 'Fiscal Year'[Financial Year]
+    ),
+    "release", 'Release'[Release Label],
+    "department_number", 'Department (current structure)'[Department Number],
+    "as_at", [as_at]
+)
+ORDER BY [release], [department_number]

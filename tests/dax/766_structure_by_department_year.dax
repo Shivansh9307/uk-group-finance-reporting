@@ -1,0 +1,13 @@
+// For each department of the current structure and each financial year: the outturn in today's structure, the outturn
+// of the lines the releases reported under the department's number, and the machinery of government transfer between
+// them. A row exists where any of the three has a value (the Unallocated member U084 has no reported number of its
+// own, and the closed departments' lines show under the department that answers for their number).
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Department (current structure)'[Department Number],
+    "current_structure", [Outturn (current structure)],
+    "as_reported", [Outturn (as reported structure)],
+    "transfer", [Machinery of Government Transfer]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]

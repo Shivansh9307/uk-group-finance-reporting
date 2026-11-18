@@ -1,0 +1,29 @@
+// Department Group Rank (YTD Variance %) for the Spending Review groups that have both a plan and outturn on the plan's
+// basis, in three financial years, with the value it ranks (the Variance % item of Scenario Comparison under the YTD item of
+// Time Intelligence, in parts per million). Rank 1 is the largest variance %; equal values share a rank. A group with no
+// plan, or a plan of zero, has no value and no rank.
+DEFINE
+    MEASURE 'Fact Outturn'[Test YTD Variance PPM] =
+        CALCULATE (
+            [Comparison Amount],
+            'Time Intelligence'[Time Calculation] = "YTD",
+            'Scenario Comparison'[Comparison] = "Variance %"
+        ) * 1000000
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Fiscal Year'[Financial Year],
+            'Spending Review Group'[Spending Review Group],
+            TREATAS ( { "2023-24", "2024-25", "2025-26" }, 'Fiscal Year'[Financial Year] ),
+            "ytd_variance_ppm", [Test YTD Variance PPM],
+            "group_rank", [Department Group Rank (YTD Variance %)]
+        ),
+        NOT ISBLANK ( [ytd_variance_ppm] ) || NOT ISBLANK ( [group_rank] )
+    ),
+    "Financial Year", 'Fiscal Year'[Financial Year],
+    "Spending Review Group", 'Spending Review Group'[Spending Review Group],
+    "ytd_variance_ppm", [ytd_variance_ppm],
+    "group_rank", [group_rank]
+)
+ORDER BY [Financial Year], [Spending Review Group]

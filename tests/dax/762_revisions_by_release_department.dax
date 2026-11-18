@@ -1,0 +1,38 @@
+// The restatement measures by release and department of the current structure, at six releases on each release's own
+// financial year: as at, as first reported, the revision since first reported and its percentage (in parts per
+// million), the change the release made, the part of it that restated earlier figures, and the gross forms.
+DEFINE
+    MEASURE 'Fact Outturn'[Test Revision Percent] =
+        IF ( ISBLANK ( [Revision %] ), BLANK (), [Revision %] * 1000000 )
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Release'[Release Label],
+            'Release'[Release Financial Year],
+            'Fiscal Year'[Financial Year],
+            'Department (current structure)'[Department Number],
+            TREATAS ( { "2019-06", "2020-12", "2021-12", "2023-12", "2025-12", "2026-06" }, 'Release'[Release Label] ),
+            "as_at", [Outturn as at Release],
+            "first_reported", [Outturn as First Reported],
+            "revision_since", [Revision since First Reported],
+            "revision_percent", [Test Revision Percent],
+            "in_release", [Revision in Release],
+            "restatement", [Restatement in Release],
+            "gross", [Gross Revision in Release],
+            "gross_restatement", [Gross Restatement in Release]
+        ),
+        'Release'[Release Financial Year] = 'Fiscal Year'[Financial Year]
+    ),
+    "release", 'Release'[Release Label],
+    "department_number", 'Department (current structure)'[Department Number],
+    "as_at", [as_at],
+    "first_reported", [first_reported],
+    "revision_since", [revision_since],
+    "revision_percent", [revision_percent],
+    "in_release", [in_release],
+    "restatement", [restatement],
+    "gross", [gross],
+    "gross_restatement", [gross_restatement]
+)
+ORDER BY [release], [department_number]

@@ -1,0 +1,14 @@
+// The same sums as test 764 by release instead of by year: each release's own delta rows, placed in the departments of
+// the structure that release reported and of the current structure. The transfer sums to zero for every release.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Release'[Release Label],
+    "total", [Outturn],
+    "sum_current",
+        SUMX ( ALL ( 'Department (current structure)'[Department Key] ), [Outturn (current structure)] ),
+    "sum_as_reported",
+        SUMX ( ALL ( 'Department (current structure)'[Department Key] ), [Outturn (as reported structure)] ),
+    "sum_transfer",
+        SUMX ( ALL ( 'Department (current structure)'[Department Key] ), [Machinery of Government Transfer] )
+)
+ORDER BY 'Release'[Release Label]

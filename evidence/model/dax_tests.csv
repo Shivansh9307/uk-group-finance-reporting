@@ -36,3 +36,13 @@ test_id,test_name,expected_rows,result_rows,columns,status,max_abs_diff,build_sc
 750,statement_measure_parameter_rows,4,4,3,pass,0,full
 751,statement_measure_parameter_values,8,8,4,pass,0.000000062775,full
 752,statement_spacers_and_labels,39,39,4,pass,0,full
+760,as_at_release_equals_file_total,31,31,2,pass,0,full
+761,as_at_release_by_department,237,237,3,pass,0,full
+762,revisions_by_release_department,356,356,10,pass,0.000000994771,full
+763,data_quality_exclusion_by_release,31,31,7,pass,0,full
+764,structure_totals_by_year,9,9,5,pass,0,full
+765,structure_totals_by_release,31,31,5,pass,0,full
+766,structure_by_department_year,537,537,5,pass,0,full
+767,estimated_mapping_share,530,530,4,pass,0.0000005816485,full
+768,rank_by_ytd_variance_percent,69,69,4,pass,0.0000009961,full
+769,restatement_under_time_and_unit,24,24,9,pass,0.000050,full

@@ -1,0 +1,39 @@
+// The restatement measures under the Time Intelligence items Current, YTD, PY and YoY and the three Display Unit items,
+// in period 6 of the release's own financial year, at two releases. Amounts are divided by the unit; the percentage is
+// not. Revision % comes twice, as the model measure (a fraction, BLANK under YoY because a difference of two percentages
+// means nothing) and as a test measure in parts per million that the YoY item does treat as a difference.
+DEFINE
+    MEASURE 'Fact Outturn'[Test Revision Percent PPM] =
+        IF ( ISBLANK ( [Revision %] ), BLANK (), [Revision %] * 1000000 )
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Release'[Release Label],
+            'Release'[Release Financial Year],
+            'Fiscal Year'[Financial Year],
+            'Display Unit'[Unit],
+            'Time Intelligence'[Time Calculation],
+            TREATAS ( { "2021-12", "2024-12" }, 'Release'[Release Label] ),
+            TREATAS ( { 6 }, 'Fiscal Period'[Period Number] ),
+            TREATAS ( { "Current", "YTD", "PY", "YoY" }, 'Time Intelligence'[Time Calculation] ),
+            "as_at", [Outturn as at Release],
+            "first_reported", [Outturn as First Reported],
+            "revision_since", [Revision since First Reported],
+            "revision_percent_ppm", [Test Revision Percent PPM],
+            "revision_percent", [Revision %],
+            "in_release", [Revision in Release]
+        ),
+        'Release'[Release Financial Year] = 'Fiscal Year'[Financial Year]
+    ),
+    "release", 'Release'[Release Label],
+    "unit_label", SUBSTITUTE ( 'Display Unit'[Unit], UNICHAR ( 163 ), "GBP " ),
+    "Time Calculation", 'Time Intelligence'[Time Calculation],
+    "as_at", [as_at],
+    "first_reported", [first_reported],
+    "revision_since", [revision_since],
+    "revision_percent_ppm", [revision_percent_ppm],
+    "revision_percent", [revision_percent],
+    "in_release", [in_release]
+)
+ORDER BY [release], [unit_label], [Time Calculation]

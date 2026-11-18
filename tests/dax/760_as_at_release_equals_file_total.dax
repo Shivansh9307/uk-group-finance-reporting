@@ -1,0 +1,15 @@
+// Outturn as at Release at each of the 31 releases, taken on that release's own financial year, equals the total that
+// release's file reports (audit.file_control, four decimals). The same check as test 702, made with the model measure
+// that a report uses and not with a sum written in the query.
+EVALUATE
+SELECTCOLUMNS (
+    ADDCOLUMNS (
+        SELECTCOLUMNS ( 'Release', "release", 'Release'[Release Label], "own_year", 'Release'[Release Financial Year] ),
+        "as_at_total",
+            VAR OwnYear = [own_year]
+            RETURN CALCULATE ( [Outturn as at Release], 'Fiscal Year'[Financial Year] = OwnYear )
+    ),
+    "release", [release],
+    "as_at_total", [as_at_total]
+)
+ORDER BY [release]

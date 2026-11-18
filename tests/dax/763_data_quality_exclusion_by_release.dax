@@ -1,0 +1,34 @@
+// The exclusion of the rows flagged in Data Quality Issue, release by release, on each release's own financial year.
+// gross and gross_restatement leave in the six flagged rows and the (excl. flagged) variants leave them out. The last
+// restatement column leaves out the whole NHS Pension Scheme pair of lines (X903A002 and its offsetting line X903A003)
+// by sub-segment, to show what a series without the unit error would be. removed_as_at is what the stated pattern
+// (Restate.Unflagged) takes off Outturn as at Release.
+DEFINE
+    MEASURE 'Fact Outturn'[Test As At Unflagged] = Restate.Unflagged ( [Outturn as at Release] )
+    MEASURE 'Fact Outturn'[Test Gross Restatement Without Pair] =
+        CALCULATE (
+            [Gross Restatement in Release],
+            NOT 'Sub-Segment'[Sub-Segment Code] IN { "X903A002", "X903A003" }
+        )
+EVALUATE
+SELECTCOLUMNS (
+    ADDCOLUMNS (
+        SELECTCOLUMNS ( 'Release', "release", 'Release'[Release Label], "own_year", 'Release'[Release Financial Year] ),
+        "removed_as_at",
+            VAR OwnYear = [own_year]
+            RETURN CALCULATE ( [Outturn as at Release] - [Test As At Unflagged], 'Fiscal Year'[Financial Year] = OwnYear ),
+        "gross", [Gross Revision in Release],
+        "gross_excl", [Gross Revision in Release (excl. flagged)],
+        "gross_restatement", [Gross Restatement in Release],
+        "gross_restatement_excl", [Gross Restatement in Release (excl. flagged)],
+        "gross_restatement_without_pair", [Test Gross Restatement Without Pair]
+    ),
+    "release", [release],
+    "removed_as_at", [removed_as_at],
+    "gross", [gross],
+    "gross_excl", [gross_excl],
+    "gross_restatement", [gross_restatement],
+    "gross_restatement_excl", [gross_restatement_excl],
+    "gross_restatement_without_pair", [gross_restatement_without_pair]
+)
+ORDER BY [release]
