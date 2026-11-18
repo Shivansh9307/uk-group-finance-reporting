@@ -71,8 +71,7 @@ EHR034) last appear in June 2019 under the Home Office, while the body is under 
 four Ofcom lines (`X048A064`, `065`, `067`, `068`, OFC048), whose codes are used by the British Film Institute
 in DCMS in 2026 while Ofcom is under DSIT. In each the code's last publisher is a different body or a stale
 record, so following the organisation is right. A seventh case, `X084A344`, is authored (below). **Tested**:
-`pipeline/tests/test_current_structure.py` (no rejected line carries the code method). The prompt's example of a
-line moving out of a department that still exists, DCMS digital lines to DSIT, is not in the data: no line of a
+`pipeline/tests/test_current_structure.py` (no rejected line carries the code method). I looked for a line moving out of a department that still exists (the DCMS digital lines to DSIT in February 2023) and it is not in the data: no line of a
 body that has a home has a code that now sits in another current department apart from these.
 
 ## The BEIS split
