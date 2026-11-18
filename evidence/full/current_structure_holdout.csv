@@ -1,0 +1,566 @@
+financial_year,level,current_department_key,department_number,department_name,member_type,inyear_release,inyear_amount,bud_amount,residual,residual_share_of_bud
+2020-21,DEL,1,003,"Department for Environment, Food and Rural Affairs",Department,2021-06,5600682,5536141,64541,0.011658
+2020-21,DEL,2,004,Department for Transport,Department,2021-06,40828413,40793737,34676,0.00085
+2020-21,DEL,3,005,Office for National Statistics,Department,2021-06,487127,471377,15750,0.033412
+2020-21,DEL,4,009,Charity Commission,Department,2021-06,31400,30767,633,0.020573
+2020-21,DEL,5,010,Cabinet Office,Department,2021-06,1822927,1527271,295656,0.193584
+2020-21,DEL,8,013,Department for Business and Trade,Department,2021-06,24905345,22741124,2164221,0.095167
+2020-21,DEL,10,016,Crown Prosecution Service,Department,2021-06,566375,567014,-639,-0.001126
+2020-21,DEL,11,017,Ministry of Defence,Department,2021-06,49375205,51487700,-2112495,-0.041029
+2020-21,DEL,12,019,Serious Fraud Office,Department,2021-06,57377,57377,0,0
+2020-21,DEL,13,020,Office of Gas and Electricity Markets,Department,2021-06,3503,14194,-10691,-0.753205
+2020-21,DEL,14,022,Department for Education,Department,2021-06,83868537,81686389,2182148,0.026713
+2020-21,DEL,15,025,UK Export Finance,Department,2021-06,784,285,499,1.750877
+2020-21,DEL,16,026,Food Standards Agency,Department,2021-06,103898,103917,-19,-0.000182
+2020-21,DEL,19,030,"Foreign, Commonwealth and Development Office",Department,2021-06,12778007,12784997,-6990,-0.000546
+2020-21,DEL,20,031,Government Actuary's Department,Department,2021-06,-478,-935,457,-0.48877
+2020-21,DEL,21,032,Department for Work and Pensions,Department,2021-06,6806630,7129030,-322400,-0.045223
+2020-21,DEL,22,033,Department of Health and Social Care,Department,2021-06,194306090,194144822,161268,0.00083
+2020-21,DEL,23,034,Home Office,Department,2021-06,15344226,15395193,-50967,-0.00331
+2020-21,DEL,25,036,House of Commons: Members,Department,2021-06,16447,16442,5,0.000304
+2020-21,DEL,26,037,House of Lords,Department,2021-06,161301,162289,-988,-0.006087
+2020-21,DEL,27,038,House of Commons: Administration,Department,2021-06,519100,655595,-136495,-0.2082
+2020-21,DEL,28,041,HM Revenue and Customs,Department,2021-06,5351371,5351371,0,0
+2020-21,DEL,29,042,Scotland Office and Office of the Advocate General,Department,2021-06,14041,14041,0,0
+2020-21,DEL,30,047,Ministry of Justice,Department,2021-06,10211549,10232267,-20718,-0.002024
+2020-21,DEL,32,048,"Department for Culture, Media and Sport",Department,2021-06,4493027,3723941,769086,0.206524
+2020-21,DEL,33,049,National Savings and Investments,Department,2021-06,162275,162275,0,0
+2020-21,DEL,34,050,National Audit Office,Department,2021-06,77720,75223,2497,0.033194
+2020-21,DEL,35,057,Water Services Regulation Authority,Department,2021-06,-206,-224,18,-0.080357
+2020-21,DEL,36,060,Office of the Parliamentary Commissioner,Department,2021-06,30942,30942,0,0
+2020-21,DEL,37,066,Department for Energy Security and Net Zero,Department,2021-06,10131468,10389128,-257660,-0.0248
+2020-21,DEL,38,067,The National Archives,Department,2021-06,40022,40022,0,0
+2020-21,DEL,39,068,United Kingdom Supreme Court,Department,2021-06,6679,6668,11,0.001649
+2020-21,DEL,40,069,Independent Parliamentary Standards Authority,Department,2021-06,229181,208673,20508,0.098278
+2020-21,DEL,41,070,Office of Qualifications and Examinations Regulation,Department,2021-06,25480,25480,0,0
+2020-21,DEL,42,071,Local Government Boundary Commission for England,Department,2021-06,2125,2125,0,0
+2020-21,DEL,43,072,"Office for Standards in Education, Children's Services and Skills",Department,2021-06,119331,119627,-296,-0.002474
+2020-21,DEL,44,073,National Crime Agency,Department,2021-06,543964,545159,-1195,-0.002192
+2020-21,DEL,45,075,Scottish Government,Department,2021-06,36480135,36267849,212286,0.005853
+2020-21,DEL,46,076,Competition and Markets Authority,Department,2021-06,95013,95013,0,0
+2020-21,DEL,48,078,HM Land Registry,Department,2021-06,332241,364860,-32619,-0.089401
+2020-21,DEL,50,079,Parliamentary Works Grant,Department,2021-06,0,93131,-93131,-1
+2020-21,DEL,52,084,"Department for Science, Innovation and Technology",Department,2021-06,12074572,10927477,1147095,0.104973
+2020-21,DEL,55,085,"Ministry of Housing, Communities and Local Government",Department,2021-06,18306969,21813173,-3506204,-0.160737
+2020-21,DEL,56,087,HM Treasury,Department,2021-06,333835,347440,-13605,-0.039157
+2020-21,DEL,57,088,Office of Rail and Road,Department,2021-06,3297,2577,720,0.279394
+2020-21,DEL,58,089,HM Procurator General and Treasury Solicitor,Department,2021-06,16008,5492,10516,1.914785
+2020-21,DEL,59,090,Welsh Government,Department,2021-06,21958033,21920520,37513,0.001711
+2020-21,DEL,60,091,Wales Office,Department,2021-06,5527,4689,838,0.178716
+2020-21,DEL,61,097,Northern Ireland Office,Department,2021-06,16394,29567,-13173,-0.44553
+2020-21,DEL,62,099,Northern Ireland Executive,Department,2021-06,17261912,17241496,20416,0.001184
+2020-21,DEL,72,U011,Unallocated: former Electoral Commission lines,Unallocated,2021-06,20420,20463,-43,-0.002101
+2020-21,DEL,75,U084,"Unallocated: former Department for Business, Energy and Industrial Strategy shared lines",Unallocated,2021-06,15741,0,15741,
+2020-21,TOTAL,-1,NONE,BUD group with no department in the in-year series,None,2021-06,0,210993806,-210993806,-1
+2020-21,TOTAL,1,003,"Department for Environment, Food and Rural Affairs",Department,2021-06,7109000,5960152,1148848,0.192754
+2020-21,TOTAL,2,004,Department for Transport,Department,2021-06,42101679,58088734,-15987055,-0.275217
+2020-21,TOTAL,3,005,Office for National Statistics,Department,2021-06,506581,481352,25229,0.052412
+2020-21,TOTAL,4,009,Charity Commission,Department,2021-06,31400,29977,1423,0.047469
+2020-21,TOTAL,5,010,Cabinet Office,Department,2021-06,2135784,1656613,479171,0.289247
+2020-21,TOTAL,8,013,Department for Business and Trade,Department,2021-06,45593889,33306229,12287660,0.368929
+2020-21,TOTAL,9,014,Crown Estate Office,Department,2021-06,2357,2357,0,0
+2020-21,TOTAL,10,016,Crown Prosecution Service,Department,2021-06,566013,566101,-88,-0.000155
+2020-21,TOTAL,11,017,Ministry of Defence,Department,2021-06,51040022,53778399,-2738377,-0.050919
+2020-21,TOTAL,12,019,Serious Fraud Office,Department,2021-06,57377,57377,0,0
+2020-21,TOTAL,13,020,Office of Gas and Electricity Markets,Department,2021-06,3503,18555,-15052,-0.811209
+2020-21,TOTAL,14,022,Department for Education,Department,2021-06,113454418,112355773,1098645,0.009778
+2020-21,TOTAL,15,025,UK Export Finance,Department,2021-06,1231586,1283672,-52086,-0.040575
+2020-21,TOTAL,16,026,Food Standards Agency,Department,2021-06,103053,103518,-465,-0.004491
+2020-21,TOTAL,19,030,"Foreign, Commonwealth and Development Office",Department,2021-06,13902150,14094814,-192664,-0.013669
+2020-21,TOTAL,20,031,Government Actuary's Department,Department,2021-06,-966,-966,0,0
+2020-21,TOTAL,21,032,Department for Work and Pensions,Department,2021-06,221358120,222833556,-1475436,-0.006621
+2020-21,TOTAL,22,033,Department of Health and Social Care,Department,2021-06,194629346,328501857,-133872511,-0.407524
+2020-21,TOTAL,23,034,Home Office,Department,2021-06,17537662,17555959,-18297,-0.001042
+2020-21,TOTAL,25,036,House of Commons: Members,Department,2021-06,16447,16924,-477,-0.028184
+2020-21,TOTAL,26,037,House of Lords,Department,2021-06,169113,163654,5459,0.033356
+2020-21,TOTAL,27,038,House of Commons: Administration,Department,2021-06,519100,655595,-136495,-0.2082
+2020-21,TOTAL,28,041,HM Revenue and Customs,Department,2021-06,121875424,121875424,0,0
+2020-21,TOTAL,29,042,Scotland Office and Office of the Advocate General,Department,2021-06,39843150,39843150,0,0
+2020-21,TOTAL,30,047,Ministry of Justice,Department,2021-06,10638774,10390719,248055,0.023872
+2020-21,TOTAL,32,048,"Department for Culture, Media and Sport",Department,2021-06,15388627,13924871,1463756,0.105118
+2020-21,TOTAL,33,049,National Savings and Investments,Department,2021-06,184625,184625,0,0
+2020-21,TOTAL,34,050,National Audit Office,Department,2021-06,78420,74784,3636,0.04862
+2020-21,TOTAL,35,057,Water Services Regulation Authority,Department,2021-06,-206,1296,-1502,-1.15895
+2020-21,TOTAL,36,060,Office of the Parliamentary Commissioner,Department,2021-06,31149,31127,22,0.000706
+2020-21,TOTAL,37,066,Department for Energy Security and Net Zero,Department,2021-06,16291580,15963149,328431,0.020574
+2020-21,TOTAL,38,067,The National Archives,Department,2021-06,40022,40022,0,0
+2020-21,TOTAL,39,068,United Kingdom Supreme Court,Department,2021-06,6679,6668,11,0.001649
+2020-21,TOTAL,40,069,Independent Parliamentary Standards Authority,Department,2021-06,229181,209494,19687,0.093974
+2020-21,TOTAL,41,070,Office of Qualifications and Examinations Regulation,Department,2021-06,25480,25480,0,0
+2020-21,TOTAL,42,071,Local Government Boundary Commission for England,Department,2021-06,2125,2125,0,0
+2020-21,TOTAL,43,072,"Office for Standards in Education, Children's Services and Skills",Department,2021-06,119221,119516,-295,-0.002468
+2020-21,TOTAL,44,073,National Crime Agency,Department,2021-06,643963,611240,32723,0.053535
+2020-21,TOTAL,45,075,Scottish Government,Department,2021-06,38966095,42198079,-3231984,-0.07659
+2020-21,TOTAL,46,076,Competition and Markets Authority,Department,2021-06,105013,105013,0,0
+2020-21,TOTAL,48,078,HM Land Registry,Department,2021-06,92668,131358,-38690,-0.294538
+2020-21,TOTAL,50,079,Parliamentary Works Grant,Department,2021-06,0,93925,-93925,-1
+2020-21,TOTAL,52,084,"Department for Science, Innovation and Technology",Department,2021-06,21089242,20001305,1087937,0.054393
+2020-21,TOTAL,55,085,"Ministry of Housing, Communities and Local Government",Department,2021-06,39998061,52581594,-12583533,-0.239314
+2020-21,TOTAL,56,087,HM Treasury,Department,2021-06,19636194,18135766,1500428,0.082733
+2020-21,TOTAL,57,088,Office of Rail and Road,Department,2021-06,3297,2577,720,0.279394
+2020-21,TOTAL,58,089,HM Procurator General and Treasury Solicitor,Department,2021-06,16008,5492,10516,1.914785
+2020-21,TOTAL,59,090,Welsh Government,Department,2021-06,26448174,23630447,2817727,0.119241
+2020-21,TOTAL,60,091,Wales Office,Department,2021-06,21777453,21747926,29527,0.001357
+2020-21,TOTAL,61,097,Northern Ireland Office,Department,2021-06,16394,20192454,-20176060,-0.999188
+2020-21,TOTAL,62,099,Northern Ireland Executive,Department,2021-06,29032518,28510609,521909,0.018305
+2020-21,TOTAL,63,901,Cabinet Office: Civil Superannuation,Department,2021-06,11576164,11576164,0,0
+2020-21,TOTAL,64,902,Armed Forces Pension and Compensation Schemes,Department,2021-06,6639056,6560968,78088,0.011901
+2020-21,TOTAL,65,903,National Health Service Pension Scheme,Department,2021-06,2,4,-2,-0.5
+2020-21,TOTAL,66,904,"Teachers' Pension Scheme, England and Wales",Department,2021-06,16304792,16304792,0,0
+2020-21,TOTAL,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,2021-06,220754,220754,0,0
+2020-21,TOTAL,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,2021-06,12000,11195,805,0.071907
+2020-21,TOTAL,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2021-06,258317,252313,6004,0.023795
+2020-21,TOTAL,71,915,Royal Mail Statutory Pension Scheme,Department,2021-06,869300,869300,0,0
+2020-21,TOTAL,72,U011,Unallocated: former Electoral Commission lines,Unallocated,2021-06,20428,20812,-384,-0.01845
+2020-21,TOTAL,73,U035,Unallocated: former Assets Recovery Agency lines,Unallocated,2021-06,-100,-100,0,0
+2020-21,TOTAL,75,U084,"Unallocated: former Department for Business, Energy and Industrial Strategy shared lines",Unallocated,2021-06,-10940436,0,-10940436,
+2021-22,DEL,1,003,"Department for Environment, Food and Rural Affairs",Department,2022-06,5796250,5672490,123760,0.021817
+2021-22,DEL,2,004,Department for Transport,Department,2022-06,37838459,37720215,118244,0.003134
+2021-22,DEL,3,005,Office for National Statistics,Department,2022-06,474165,474165,0,0
+2021-22,DEL,4,009,Charity Commission,Department,2022-06,32650,32650,0,0
+2021-22,DEL,5,010,Cabinet Office,Department,2022-06,1532818,1257789,275029,0.21866
+2021-22,DEL,8,013,Department for Business and Trade,Department,2022-06,7037037,7177250,-140213,-0.019535
+2021-22,DEL,10,016,Crown Prosecution Service,Department,2022-06,630634,630634,0,0
+2021-22,DEL,11,017,Ministry of Defence,Department,2022-06,53310280,53500310,-190030,-0.003551
+2021-22,DEL,12,019,Serious Fraud Office,Department,2022-06,73143,73137,6,0.000082
+2021-22,DEL,13,020,Office of Gas and Electricity Markets,Department,2022-06,89100,89100,0,0
+2021-22,DEL,14,022,Department for Education,Department,2022-06,76577672,79466342,-2888670,-0.03635
+2021-22,DEL,15,025,UK Export Finance,Department,2022-06,0,1413,-1413,-1
+2021-22,DEL,16,026,Food Standards Agency,Department,2022-06,113902,113822,80,0.000702
+2021-22,DEL,19,030,"Foreign, Commonwealth and Development Office",Department,2022-06,9415247,9348825,66422,0.007104
+2021-22,DEL,20,031,Government Actuary's Department,Department,2022-06,-1016,-1016,0,0
+2021-22,DEL,21,032,Department for Work and Pensions,Department,2022-06,9597982,9597944,38,0.000003
+2021-22,DEL,22,033,Department of Health and Social Care,Department,2022-06,192558646,192667273,-108627,-0.000563
+2021-22,DEL,23,034,Home Office,Department,2022-06,15283855,15270913,12942,0.000847
+2021-22,DEL,25,036,House of Commons: Members,Department,2022-06,16101,16029,72,0.004491
+2021-22,DEL,26,037,House of Lords,Department,2022-06,169836,170373,-537,-0.003151
+2021-22,DEL,27,038,House of Commons: Administration,Department,2022-06,470180,475567,-5387,-0.011327
+2021-22,DEL,28,041,HM Revenue and Customs,Department,2022-06,6352770,6359783,-7013,-0.001102
+2021-22,DEL,29,042,Scotland Office and Office of the Advocate General,Department,2022-06,11548,11548,0,0
+2021-22,DEL,30,047,Ministry of Justice,Department,2022-06,10740602,10797330,-56728,-0.005253
+2021-22,DEL,32,048,"Department for Culture, Media and Sport",Department,2022-06,2671795,2317585,354210,0.152835
+2021-22,DEL,33,049,National Savings and Investments,Department,2022-06,156320,156320,0,0
+2021-22,DEL,34,050,National Audit Office,Department,2022-06,80524,80387,137,0.001704
+2021-22,DEL,35,057,Water Services Regulation Authority,Department,2022-06,-448,-415,-33,0.079518
+2021-22,DEL,36,060,Office of the Parliamentary Commissioner,Department,2022-06,34209,34205,4,0.000116
+2021-22,DEL,37,066,Department for Energy Security and Net Zero,Department,2022-06,11845841,13195068,-1349227,-0.102252
+2021-22,DEL,38,067,The National Archives,Department,2022-06,45722,45722,0,0
+2021-22,DEL,39,068,United Kingdom Supreme Court,Department,2022-06,6693,6678,15,0.002246
+2021-22,DEL,40,069,Independent Parliamentary Standards Authority,Department,2022-06,216771,217885,-1114,-0.005112
+2021-22,DEL,41,070,Office of Qualifications and Examinations Regulation,Department,2022-06,25169,25169,0,0
+2021-22,DEL,42,071,Local Government Boundary Commission for England,Department,2022-06,2195,2241,-46,-0.020526
+2021-22,DEL,43,072,"Office for Standards in Education, Children's Services and Skills",Department,2022-06,131834,131834,0,0
+2021-22,DEL,44,073,National Crime Agency,Department,2022-06,548161,548823,-662,-0.001206
+2021-22,DEL,45,075,Scottish Government,Department,2022-06,34584511,33781581,802930,0.023768
+2021-22,DEL,46,076,Competition and Markets Authority,Department,2022-06,100748,100748,0,0
+2021-22,DEL,48,078,HM Land Registry,Department,2022-06,473967,473967,0,0
+2021-22,DEL,50,079,Parliamentary Works Grant,Department,2022-06,122200,122200,0,0
+2021-22,DEL,52,084,"Department for Science, Innovation and Technology",Department,2022-06,10357694,10461370,-103676,-0.00991
+2021-22,DEL,55,085,"Ministry of Housing, Communities and Local Government",Department,2022-06,30273346,22509917,7763429,0.344889
+2021-22,DEL,56,087,HM Treasury,Department,2022-06,422220,437706,-15486,-0.035379
+2021-22,DEL,57,088,Office of Rail and Road,Department,2022-06,-7090,622,-7712,-12.398713
+2021-22,DEL,58,089,HM Procurator General and Treasury Solicitor,Department,2022-06,-959,-959,0,0
+2021-22,DEL,59,090,Welsh Government,Department,2022-06,19062271,19191073,-128802,-0.006711
+2021-22,DEL,60,091,Wales Office,Department,2022-06,5143,5912,-769,-0.130074
+2021-22,DEL,61,097,Northern Ireland Office,Department,2022-06,26769,25899,870,0.033592
+2021-22,DEL,62,099,Northern Ireland Executive,Department,2022-06,16234175,16258999,-24824,-0.001526
+2021-22,DEL,72,U011,Unallocated: former Electoral Commission lines,Unallocated,2022-06,15058,17328,-2270,-0.131001
+2021-22,DEL,75,U084,"Unallocated: former Department for Business, Energy and Industrial Strategy shared lines",Unallocated,2022-06,6323,0,6323,
+2021-22,TOTAL,-1,NONE,BUD group with no department in the in-year series,None,2022-06,0,225094063,-225094063,-1
+2021-22,TOTAL,1,003,"Department for Environment, Food and Rural Affairs",Department,2022-06,7726135,7542994,183141,0.024279
+2021-22,TOTAL,2,004,Department for Transport,Department,2022-06,41606363,57887864,-16281501,-0.281259
+2021-22,TOTAL,3,005,Office for National Statistics,Department,2022-06,466630,466630,0,0
+2021-22,TOTAL,4,009,Charity Commission,Department,2022-06,32650,32650,0,0
+2021-22,TOTAL,5,010,Cabinet Office,Department,2022-06,1529462,1331227,198235,0.148911
+2021-22,TOTAL,8,013,Department for Business and Trade,Department,2022-06,3467850,4041315,-573465,-0.1419
+2021-22,TOTAL,9,014,Crown Estate Office,Department,2022-06,2357,2357,0,0
+2021-22,TOTAL,10,016,Crown Prosecution Service,Department,2022-06,627945,627945,0,0
+2021-22,TOTAL,11,017,Ministry of Defence,Department,2022-06,62771747,64515139,-1743392,-0.027022
+2021-22,TOTAL,12,019,Serious Fraud Office,Department,2022-06,75643,75637,6,0.000079
+2021-22,TOTAL,13,020,Office of Gas and Electricity Markets,Department,2022-06,89100,89100,0,0
+2021-22,TOTAL,14,022,Department for Education,Department,2022-06,103163709,106001123,-2837414,-0.026767
+2021-22,TOTAL,15,025,UK Export Finance,Department,2022-06,0,-29956,29956,-1
+2021-22,TOTAL,16,026,Food Standards Agency,Department,2022-06,116531,117897,-1366,-0.011586
+2021-22,TOTAL,19,030,"Foreign, Commonwealth and Development Office",Department,2022-06,10388941,9930434,458507,0.046171
+2021-22,TOTAL,20,031,Government Actuary's Department,Department,2022-06,-945,-945,0,0
+2021-22,TOTAL,21,032,Department for Work and Pensions,Department,2022-06,227974260,227768840,205420,0.000901
+2021-22,TOTAL,22,033,Department of Health and Social Care,Department,2022-06,239573648,374530187,-134956539,-0.360335
+2021-22,TOTAL,23,034,Home Office,Department,2022-06,18020521,17532091,488430,0.027859
+2021-22,TOTAL,25,036,House of Commons: Members,Department,2022-06,16101,16029,72,0.004491
+2021-22,TOTAL,26,037,House of Lords,Department,2022-06,170848,170752,96,0.000562
+2021-22,TOTAL,27,038,House of Commons: Administration,Department,2022-06,470180,491898,-21718,-0.044151
+2021-22,TOTAL,28,041,HM Revenue and Customs,Department,2022-06,59161471,58482470,679001,0.01161
+2021-22,TOTAL,29,042,Scotland Office and Office of the Advocate General,Department,2022-06,43132370,43132370,0,0
+2021-22,TOTAL,30,047,Ministry of Justice,Department,2022-06,10910044,11157817,-247773,-0.022206
+2021-22,TOTAL,32,048,"Department for Culture, Media and Sport",Department,2022-06,14554050,13855346,698704,0.050428
+2021-22,TOTAL,33,049,National Savings and Investments,Department,2022-06,165018,165018,0,0
+2021-22,TOTAL,34,050,National Audit Office,Department,2022-06,79720,79583,137,0.001721
+2021-22,TOTAL,35,057,Water Services Regulation Authority,Department,2022-06,-448,-1095,647,-0.590867
+2021-22,TOTAL,36,060,Office of the Parliamentary Commissioner,Department,2022-06,34280,34402,-122,-0.003546
+2021-22,TOTAL,37,066,Department for Energy Security and Net Zero,Department,2022-06,126307028,130896891,-4589863,-0.035064
+2021-22,TOTAL,38,067,The National Archives,Department,2022-06,45580,43780,1800,0.041114
+2021-22,TOTAL,39,068,United Kingdom Supreme Court,Department,2022-06,6693,6678,15,0.002246
+2021-22,TOTAL,40,069,Independent Parliamentary Standards Authority,Department,2022-06,216771,218665,-1894,-0.008661
+2021-22,TOTAL,41,070,Office of Qualifications and Examinations Regulation,Department,2022-06,25169,25169,0,0
+2021-22,TOTAL,42,071,Local Government Boundary Commission for England,Department,2022-06,2195,2200,-5,-0.002272
+2021-22,TOTAL,43,072,"Office for Standards in Education, Children's Services and Skills",Department,2022-06,131938,131938,0,0
+2021-22,TOTAL,44,073,National Crime Agency,Department,2022-06,562161,576493,-14332,-0.02486
+2021-22,TOTAL,45,075,Scottish Government,Department,2022-06,40883928,41322663,-438735,-0.010617
+2021-22,TOTAL,46,076,Competition and Markets Authority,Department,2022-06,145748,145748,0,0
+2021-22,TOTAL,48,078,HM Land Registry,Department,2022-06,157436,152027,5409,0.035579
+2021-22,TOTAL,50,079,Parliamentary Works Grant,Department,2022-06,122200,122200,0,0
+2021-22,TOTAL,52,084,"Department for Science, Innovation and Technology",Department,2022-06,10516997,19175938,-8658941,-0.451552
+2021-22,TOTAL,55,085,"Ministry of Housing, Communities and Local Government",Department,2022-06,40483397,37634423,2848974,0.075701
+2021-22,TOTAL,56,087,HM Treasury,Department,2022-06,39738730,35766669,3972061,0.111054
+2021-22,TOTAL,57,088,Office of Rail and Road,Department,2022-06,-7090,543,-7633,-14.05709
+2021-22,TOTAL,58,089,HM Procurator General and Treasury Solicitor,Department,2022-06,-1396,-1396,0,0
+2021-22,TOTAL,59,090,Welsh Government,Department,2022-06,22847397,20955181,1892216,0.090298
+2021-22,TOTAL,60,091,Wales Office,Department,2022-06,20347087,19873107,473980,0.02385
+2021-22,TOTAL,61,097,Northern Ireland Office,Department,2022-06,21495300,21528031,-32731,-0.00152
+2021-22,TOTAL,62,099,Northern Ireland Executive,Department,2022-06,28160480,28005978,154502,0.005516
+2021-22,TOTAL,63,901,Cabinet Office: Civil Superannuation,Department,2022-06,11976419,11446436,529983,0.046301
+2021-22,TOTAL,64,902,Armed Forces Pension and Compensation Schemes,Department,2022-06,6509639,6709777,-200138,-0.029827
+2021-22,TOTAL,65,903,National Health Service Pension Scheme,Department,2022-06,11503,0,11503,
+2021-22,TOTAL,66,904,"Teachers' Pension Scheme, England and Wales",Department,2022-06,18040511,18040511,0,0
+2021-22,TOTAL,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,2022-06,207836,191994,15842,0.082512
+2021-22,TOTAL,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,2022-06,8273,7274,999,0.137338
+2021-22,TOTAL,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2022-06,299000,228342,70658,0.309439
+2021-22,TOTAL,71,915,Royal Mail Statutory Pension Scheme,Department,2022-06,696000,696000,0,0
+2021-22,TOTAL,72,U011,Unallocated: former Electoral Commission lines,Unallocated,2022-06,15058,16801,-1743,-0.103743
+2021-22,TOTAL,75,U084,"Unallocated: former Department for Business, Energy and Industrial Strategy shared lines",Unallocated,2022-06,7508,0,7508,
+2022-23,DEL,1,003,"Department for Environment, Food and Rural Affairs",Department,2023-06,6194575,6161920,32655,0.005299
+2022-23,DEL,2,004,Department for Transport,Department,2023-06,37634631,37393213,241418,0.006456
+2022-23,DEL,3,005,Office for National Statistics,Department,2023-06,390206,388053,2153,0.005548
+2022-23,DEL,4,009,Charity Commission,Department,2023-06,35046,35046,0,0
+2022-23,DEL,5,010,Cabinet Office,Department,2023-06,1287378,1065223,222155,0.208552
+2022-23,DEL,8,013,Department for Business and Trade,Department,2023-06,1376022,1664025,-288003,-0.173076
+2022-23,DEL,10,016,Crown Prosecution Service,Department,2023-06,722483,722483,0,0
+2022-23,DEL,11,017,Ministry of Defence,Department,2023-06,57328112,57360438,-32326,-0.000563
+2022-23,DEL,12,019,Serious Fraud Office,Department,2023-06,71377.65,71370,7.65,0.000107
+2022-23,DEL,13,020,Office of Gas and Electricity Markets,Department,2023-06,9537.28,9529,8.28,0.000868
+2022-23,DEL,14,022,Department for Education,Department,2023-06,73175600,74341386,-1165786,-0.015681
+2022-23,DEL,15,025,UK Export Finance,Department,2023-06,-2527,1002,-3529,-3.521956
+2022-23,DEL,16,026,Food Standards Agency,Department,2023-06,123771,124231,-460,-0.003702
+2022-23,DEL,19,030,"Foreign, Commonwealth and Development Office",Department,2023-06,9625334,9572065,53269,0.005565
+2022-23,DEL,20,031,Government Actuary's Department,Department,2023-06,-626,-625,-1,0.0016
+2022-23,DEL,21,032,Department for Work and Pensions,Department,2023-06,9145719,9145718,1,0
+2022-23,DEL,22,033,Department of Health and Social Care,Department,2023-06,186912078,186942616,-30538,-0.000163
+2022-23,DEL,23,034,Home Office,Department,2023-06,17869127,15972945,1896182,0.118712
+2022-23,DEL,25,036,House of Commons: Members,Department,2023-06,17307,17434,-127,-0.007284
+2022-23,DEL,26,037,House of Lords,Department,2023-06,228826,211949,16877,0.079627
+2022-23,DEL,27,038,House of Commons: Administration,Department,2023-06,579818,579818,0,0
+2022-23,DEL,28,041,HM Revenue and Customs,Department,2023-06,7035752,7084929,-49177,-0.006941
+2022-23,DEL,29,042,Scotland Office and Office of the Advocate General,Department,2023-06,14592,12626,1966,0.15571
+2022-23,DEL,30,047,Ministry of Justice,Department,2023-06,11448989.9976,11460037,-11047.0024,-0.000963
+2022-23,DEL,32,048,"Department for Culture, Media and Sport",Department,2023-06,2714169,2399569,314600,0.131106
+2022-23,DEL,33,049,National Savings and Investments,Department,2023-06,177526,177526,0,0
+2022-23,DEL,34,050,National Audit Office,Department,2023-06,91476,91476,0,0
+2022-23,DEL,35,057,Water Services Regulation Authority,Department,2023-06,35393,35393,0,0
+2022-23,DEL,36,060,Office of the Parliamentary Commissioner,Department,2023-06,50227,50227,0,0
+2022-23,DEL,37,066,Department for Energy Security and Net Zero,Department,2023-06,20033198,19427602,605596,0.031171
+2022-23,DEL,38,067,The National Archives,Department,2023-06,52674,51472,1202,0.023352
+2022-23,DEL,39,068,United Kingdom Supreme Court,Department,2023-06,7022,7022,0,0
+2022-23,DEL,40,069,Independent Parliamentary Standards Authority,Department,2023-06,230242,231638,-1396,-0.006026
+2022-23,DEL,41,070,Office of Qualifications and Examinations Regulation,Department,2023-06,28977,28977,0,0
+2022-23,DEL,42,071,Local Government Boundary Commission for England,Department,2023-06,2391,2391,0,0
+2022-23,DEL,43,072,"Office for Standards in Education, Children's Services and Skills",Department,2023-06,155754,155754,0,0
+2022-23,DEL,44,073,National Crime Agency,Department,2023-06,726145,727090,-945,-0.001299
+2022-23,DEL,45,075,Scottish Government,Department,2023-06,32956283,31989573,966710,0.030219
+2022-23,DEL,46,076,Competition and Markets Authority,Department,2023-06,123205,121957,1248,0.010233
+2022-23,DEL,48,078,HM Land Registry,Department,2023-06,467497,467497,0,0
+2022-23,DEL,50,079,Parliamentary Works Grant,Department,2023-06,80150,80150,0,0
+2022-23,DEL,52,084,"Department for Science, Innovation and Technology",Department,2023-06,11368921,11551088,-182167,-0.01577
+2022-23,DEL,55,085,"Ministry of Housing, Communities and Local Government",Department,2023-06,22636298,18165917,4470381,0.246086
+2022-23,DEL,56,087,HM Treasury,Department,2023-06,318021,337632,-19611,-0.058083
+2022-23,DEL,57,088,Office of Rail and Road,Department,2023-06,-1776,457,-2233,-4.886214
+2022-23,DEL,58,089,HM Procurator General and Treasury Solicitor,Department,2023-06,641,758,-117,-0.154353
+2022-23,DEL,59,090,Welsh Government,Department,2023-06,19044084,18607126,436958,0.023483
+2022-23,DEL,60,091,Wales Office,Department,2023-06,5476,5411,65,0.012012
+2022-23,DEL,61,097,Northern Ireland Office,Department,2023-06,41596,41477,119,0.002869
+2022-23,DEL,62,099,Northern Ireland Executive,Department,2023-06,16232194,16217875,14319,0.000882
+2022-23,DEL,72,U011,Unallocated: former Electoral Commission lines,Unallocated,2023-06,26800,26102,698,0.026741
+2022-23,DEL,75,U084,"Unallocated: former Department for Business, Energy and Industrial Strategy shared lines",Unallocated,2023-06,2817,0,2817,
+2022-23,TOTAL,-1,NONE,BUD group with no department in the in-year series,None,2023-06,0,180684109,-180684109,-1
+2022-23,TOTAL,1,003,"Department for Environment, Food and Rural Affairs",Department,2023-06,7317101,7508393,-191292,-0.025477
+2022-23,TOTAL,2,004,Department for Transport,Department,2023-06,42182342,60011211,-17828869,-0.297092
+2022-23,TOTAL,3,005,Office for National Statistics,Department,2023-06,386276,384126,2150,0.005597
+2022-23,TOTAL,4,009,Charity Commission,Department,2023-06,35046,35046,0,0
+2022-23,TOTAL,5,010,Cabinet Office,Department,2023-06,1345699,1122317,223382,0.199036
+2022-23,TOTAL,8,013,Department for Business and Trade,Department,2023-06,4086624,3662982,423642,0.115654
+2022-23,TOTAL,9,014,Crown Estate Office,Department,2023-06,2357,2357,0,0
+2022-23,TOTAL,10,016,Crown Prosecution Service,Department,2023-06,725398,725398,0,0
+2022-23,TOTAL,11,017,Ministry of Defence,Department,2023-06,46668601,43719133,2949468,0.067464
+2022-23,TOTAL,12,019,Serious Fraud Office,Department,2023-06,73877.65,73870,7.65,0.000103
+2022-23,TOTAL,13,020,Office of Gas and Electricity Markets,Department,2023-06,9537.28,9529,8.28,0.000868
+2022-23,TOTAL,14,022,Department for Education,Department,2023-06,89031075,73709913,15321162,0.207857
+2022-23,TOTAL,15,025,UK Export Finance,Department,2023-06,-61554,-257792,196238,-0.761226
+2022-23,TOTAL,16,026,Food Standards Agency,Department,2023-06,125849,131066,-5217,-0.039804
+2022-23,TOTAL,19,030,"Foreign, Commonwealth and Development Office",Department,2023-06,10352809,9029659,1323150,0.146533
+2022-23,TOTAL,20,031,Government Actuary's Department,Department,2023-06,-720,-406,-314,0.773399
+2022-23,TOTAL,21,032,Department for Work and Pensions,Department,2023-06,246101734,245050019,1051715,0.004291
+2022-23,TOTAL,22,033,Department of Health and Social Care,Department,2023-06,126469212,254378018,-127908806,-0.502829
+2022-23,TOTAL,23,034,Home Office,Department,2023-06,19911044,17821833,2089211,0.117227
+2022-23,TOTAL,25,036,House of Commons: Members,Department,2023-06,17307,17434,-127,-0.007284
+2022-23,TOTAL,26,037,House of Lords,Department,2023-06,271419,244325,27094,0.110893
+2022-23,TOTAL,27,038,House of Commons: Administration,Department,2023-06,579818,579818,0,0
+2022-23,TOTAL,28,041,HM Revenue and Customs,Department,2023-06,42601959,41014822,1587137,0.038696
+2022-23,TOTAL,29,042,Scotland Office and Office of the Advocate General,Department,2023-06,45267118,47765152,-2498034,-0.052298
+2022-23,TOTAL,30,047,Ministry of Justice,Department,2023-06,11641322.7578,11567555,73767.7578,0.006377
+2022-23,TOTAL,32,048,"Department for Culture, Media and Sport",Department,2023-06,15271181,14758490,512691,0.034738
+2022-23,TOTAL,33,049,National Savings and Investments,Department,2023-06,189303,189303,0,0
+2022-23,TOTAL,34,050,National Audit Office,Department,2023-06,91149,91148,1,0.00001
+2022-23,TOTAL,35,057,Water Services Regulation Authority,Department,2023-06,35393,35393,0,0
+2022-23,TOTAL,36,060,Office of the Parliamentary Commissioner,Department,2023-06,50238,50238,0,0
+2022-23,TOTAL,37,066,Department for Energy Security and Net Zero,Department,2023-06,-61750818,-72996350,11245532,-0.154056
+2022-23,TOTAL,38,067,The National Archives,Department,2023-06,52674,51467,1207,0.023451
+2022-23,TOTAL,39,068,United Kingdom Supreme Court,Department,2023-06,7022,7022,0,0
+2022-23,TOTAL,40,069,Independent Parliamentary Standards Authority,Department,2023-06,230242,231638,-1396,-0.006026
+2022-23,TOTAL,41,070,Office of Qualifications and Examinations Regulation,Department,2023-06,28977,28977,0,0
+2022-23,TOTAL,42,071,Local Government Boundary Commission for England,Department,2023-06,2391,2391,0,0
+2022-23,TOTAL,43,072,"Office for Standards in Education, Children's Services and Skills",Department,2023-06,155593,155593,0,0
+2022-23,TOTAL,44,073,National Crime Agency,Department,2023-06,752593,745436,7157,0.009601
+2022-23,TOTAL,45,075,Scottish Government,Department,2023-06,39397954.8578,39700983,-303028.1422,-0.007632
+2022-23,TOTAL,46,076,Competition and Markets Authority,Department,2023-06,115981,112789,3192,0.0283
+2022-23,TOTAL,48,078,HM Land Registry,Department,2023-06,116497,116497,0,0
+2022-23,TOTAL,50,079,Parliamentary Works Grant,Department,2023-06,80150,80150,0,0
+2022-23,TOTAL,52,084,"Department for Science, Innovation and Technology",Department,2023-06,11441606,11668199,-226593,-0.019419
+2022-23,TOTAL,55,085,"Ministry of Housing, Communities and Local Government",Department,2023-06,34415280,32206063,2209217,0.068596
+2022-23,TOTAL,56,087,HM Treasury,Department,2023-06,132251032,130608429,1642603,0.012576
+2022-23,TOTAL,57,088,Office of Rail and Road,Department,2023-06,-1776,3884,-5660,-1.45726
+2022-23,TOTAL,58,089,HM Procurator General and Treasury Solicitor,Department,2023-06,977,12660,-11683,-0.922827
+2022-23,TOTAL,59,090,Welsh Government,Department,2023-06,21020056,20296312,723744,0.035658
+2022-23,TOTAL,60,091,Wales Office,Department,2023-06,19542516,19594534,-52018,-0.002654
+2022-23,TOTAL,61,097,Northern Ireland Office,Department,2023-06,20434031,19800475,633556,0.031997
+2022-23,TOTAL,62,099,Northern Ireland Executive,Department,2023-06,29280152,29200984,79168,0.002711
+2022-23,TOTAL,63,901,Cabinet Office: Civil Superannuation,Department,2023-06,15924238,15924238,0,0
+2022-23,TOTAL,64,902,Armed Forces Pension and Compensation Schemes,Department,2023-06,8470639,8470744,-105,-0.000012
+2022-23,TOTAL,65,903,National Health Service Pension Scheme,Department,2023-06,1,1,0,0
+2022-23,TOTAL,66,904,"Teachers' Pension Scheme, England and Wales",Department,2023-06,22053775,22053793,-18,0
+2022-23,TOTAL,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,2023-06,278216,242769,35447,0.146011
+2022-23,TOTAL,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,2023-06,11733,9530,2203,0.231164
+2022-23,TOTAL,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2023-06,369700,111138,258562,2.326494
+2022-23,TOTAL,71,915,Royal Mail Statutory Pension Scheme,Department,2023-06,876996,876996,0,0
+2022-23,TOTAL,72,U011,Unallocated: former Electoral Commission lines,Unallocated,2023-06,26800,24922,1878,0.075355
+2022-23,TOTAL,75,U084,"Unallocated: former Department for Business, Energy and Industrial Strategy shared lines",Unallocated,2023-06,582,0,582,
+2023-24,DEL,1,003,"Department for Environment, Food and Rural Affairs",Department,2024-06,7262061,7269893,-7832,-0.001077
+2023-24,DEL,2,004,Department for Transport,Department,2024-06,40660039,41680089,-1020050,-0.024473
+2023-24,DEL,3,005,Office for National Statistics,Department,2024-06,386263,386282,-19,-0.000049
+2023-24,DEL,4,009,Charity Commission,Department,2024-06,34359,34359,0,0
+2023-24,DEL,5,010,Cabinet Office,Department,2024-06,1512973,1285828,227145,0.176652
+2023-24,DEL,8,013,Department for Business and Trade,Department,2024-06,2934168,2851228,82940,0.029089
+2023-24,DEL,10,016,Crown Prosecution Service,Department,2024-06,828455,830263,-1808,-0.002177
+2023-24,DEL,11,017,Ministry of Defence,Department,2024-06,59295879,59370135,-74256,-0.00125
+2023-24,DEL,12,019,Serious Fraud Office,Department,2024-06,74779.1,74782,-2.9,-0.000038
+2023-24,DEL,13,020,Office of Gas and Electricity Markets,Department,2024-06,26629.0184,7528,19101.0184,2.537329
+2023-24,DEL,14,022,Department for Education,Department,2024-06,103970559,96060235,7910324,0.082347
+2023-24,DEL,15,025,UK Export Finance,Department,2024-06,2113,2161,-48,-0.022211
+2023-24,DEL,16,026,Food Standards Agency,Department,2024-06,125654,125393,261,0.002081
+2023-24,DEL,19,030,"Foreign, Commonwealth and Development Office",Department,2024-06,11770052,11451963,318089,0.027775
+2023-24,DEL,20,031,Government Actuary's Department,Department,2024-06,4813,4813,0,0
+2023-24,DEL,21,032,Department for Work and Pensions,Department,2024-06,9589029,9589031,-2,0
+2023-24,DEL,22,033,Department of Health and Social Care,Department,2024-06,193418916,193337850,81066,0.000419
+2023-24,DEL,23,034,Home Office,Department,2024-06,20633919,16238863,4395056,0.27065
+2023-24,DEL,25,036,House of Commons: Members,Department,2024-06,18061,18661,-600,-0.032152
+2023-24,DEL,26,037,House of Lords,Department,2024-06,194458,193713,745,0.003845
+2023-24,DEL,27,038,House of Commons: Administration,Department,2024-06,534857,534859,-2,-0.000003
+2023-24,DEL,28,041,HM Revenue and Customs,Department,2024-06,7417612,7226853,190759,0.026395
+2023-24,DEL,29,042,Scotland Office and Office of the Advocate General,Department,2024-06,13618,13618,0,0
+2023-24,DEL,30,047,Ministry of Justice,Department,2024-06,12798586.2016,12788531,10055.2016,0.000786
+2023-24,DEL,32,048,"Department for Culture, Media and Sport",Department,2024-06,2320383,2222251,98132,0.044158
+2023-24,DEL,33,049,National Savings and Investments,Department,2024-06,258178,211770,46408,0.219143
+2023-24,DEL,34,050,National Audit Office,Department,2024-06,92350.99,95584,-3233.01,-0.033823
+2023-24,DEL,35,057,Water Services Regulation Authority,Department,2024-06,-107.9,-1234,1126.1,-0.91256
+2023-24,DEL,36,060,Office of the Parliamentary Commissioner,Department,2024-06,43273,43461,-188,-0.004325
+2023-24,DEL,37,066,Department for Energy Security and Net Zero,Department,2024-06,6906941,6503779,403162,0.061988
+2023-24,DEL,38,067,The National Archives,Department,2024-06,51978,51978,0,0
+2023-24,DEL,39,068,United Kingdom Supreme Court,Department,2024-06,9772,9772,0,0
+2023-24,DEL,40,069,Independent Parliamentary Standards Authority,Department,2024-06,242529.15,242681,-151.85,-0.000625
+2023-24,DEL,41,070,Office of Qualifications and Examinations Regulation,Department,2024-06,30963,30963,0,0
+2023-24,DEL,42,071,Local Government Boundary Commission for England,Department,2024-06,2478.4,2482,-3.6,-0.00145
+2023-24,DEL,43,072,"Office for Standards in Education, Children's Services and Skills",Department,2024-06,154770,154770,0,0
+2023-24,DEL,44,073,National Crime Agency,Department,2024-06,804806,804806,0,0
+2023-24,DEL,45,075,Scottish Government,Department,2024-06,34493347.0004,33528226,965121.0004,0.028785
+2023-24,DEL,46,076,Competition and Markets Authority,Department,2024-06,128283,129088,-805,-0.006236
+2023-24,DEL,48,078,HM Land Registry,Department,2024-06,480470,479829,641,0.001335
+2023-24,DEL,50,079,Parliamentary Works Grant,Department,2024-06,75375,75375,0,0
+2023-24,DEL,52,084,"Department for Science, Innovation and Technology",Department,2024-06,12964282,13242549,-278267,-0.021013
+2023-24,DEL,55,085,"Ministry of Housing, Communities and Local Government",Department,2024-06,24709496,19208144,5501352,0.286407
+2023-24,DEL,56,087,HM Treasury,Department,2024-06,366980,389759,-22779,-0.058443
+2023-24,DEL,57,088,Office of Rail and Road,Department,2024-06,-5575,1053,-6628,-6.294396
+2023-24,DEL,58,089,HM Procurator General and Treasury Solicitor,Department,2024-06,5024,5816,-792,-0.136176
+2023-24,DEL,59,090,Welsh Government,Department,2024-06,20520198,19921673,598525,0.030043
+2023-24,DEL,60,091,Wales Office,Department,2024-06,5677.1,5572,105.1,0.018862
+2023-24,DEL,61,097,Northern Ireland Office,Department,2024-06,38029,40817,-2788,-0.068304
+2023-24,DEL,62,099,Northern Ireland Executive,Department,2024-06,17627173,17616972,10201,0.000579
+2023-24,DEL,72,U011,Unallocated: former Electoral Commission lines,Unallocated,2024-06,0,31206,-31206,-1
+2023-24,TOTAL,-1,NONE,BUD group with no department in the in-year series,None,2024-06,0,196498014,-196498014,-1
+2023-24,TOTAL,1,003,"Department for Environment, Food and Rural Affairs",Department,2024-06,10067032,9610441,456591,0.047509
+2023-24,TOTAL,2,004,Department for Transport,Department,2024-06,42800372,65794675,-22994303,-0.349485
+2023-24,TOTAL,3,005,Office for National Statistics,Department,2024-06,384257,384276,-19,-0.000049
+2023-24,TOTAL,4,009,Charity Commission,Department,2024-06,34359,34149,210,0.006149
+2023-24,TOTAL,5,010,Cabinet Office,Department,2024-06,1512973,1320915,192058,0.145397
+2023-24,TOTAL,8,013,Department for Business and Trade,Department,2024-06,3164268,3447653,-283385,-0.082196
+2023-24,TOTAL,9,014,Crown Estate Office,Department,2024-06,2357,2357,0,0
+2023-24,TOTAL,10,016,Crown Prosecution Service,Department,2024-06,849146,850954,-1808,-0.002124
+2023-24,TOTAL,11,017,Ministry of Defence,Department,2024-06,58162195,58213408,-51213,-0.000879
+2023-24,TOTAL,12,019,Serious Fraud Office,Department,2024-06,74779.1,74782,-2.9,-0.000038
+2023-24,TOTAL,13,020,Office of Gas and Electricity Markets,Department,2024-06,26629.0184,7528,19101.0184,2.537329
+2023-24,TOTAL,14,022,Department for Education,Department,2024-06,134020049,126066599,7953450,0.063089
+2023-24,TOTAL,15,025,UK Export Finance,Department,2024-06,273814,395389,-121575,-0.307481
+2023-24,TOTAL,16,026,Food Standards Agency,Department,2024-06,124030,127069,-3039,-0.023916
+2023-24,TOTAL,19,030,"Foreign, Commonwealth and Development Office",Department,2024-06,13097723,12110770,986953,0.081493
+2023-24,TOTAL,20,031,Government Actuary's Department,Department,2024-06,3877,3877,0,0
+2023-24,TOTAL,21,032,Department for Work and Pensions,Department,2024-06,280839484,280550785,288699,0.001029
+2023-24,TOTAL,22,033,Department of Health and Social Care,Department,2024-06,183931058,334296329,-150365271,-0.449796
+2023-24,TOTAL,23,034,Home Office,Department,2024-06,23670719,19073871,4596848,0.241002
+2023-24,TOTAL,25,036,House of Commons: Members,Department,2024-06,18061,18717,-656,-0.035048
+2023-24,TOTAL,26,037,House of Lords,Department,2024-06,204684,196808,7876,0.040018
+2023-24,TOTAL,27,038,House of Commons: Administration,Department,2024-06,534857,534859,-2,-0.000003
+2023-24,TOTAL,28,041,HM Revenue and Customs,Department,2024-06,40401303.2621,40499617,-98313.7379,-0.002427
+2023-24,TOTAL,29,042,Scotland Office and Office of the Advocate General,Department,2024-06,45266143,45266143,0,0
+2023-24,TOTAL,30,047,Ministry of Justice,Department,2024-06,12978680.0122,13301266,-322585.9878,-0.024252
+2023-24,TOTAL,32,048,"Department for Culture, Media and Sport",Department,2024-06,14704449,13683169,1021280,0.074637
+2023-24,TOTAL,33,049,National Savings and Investments,Department,2024-06,281084,234958,46126,0.196315
+2023-24,TOTAL,34,050,National Audit Office,Department,2024-06,92386.34,97678,-5291.66,-0.054174
+2023-24,TOTAL,35,057,Water Services Regulation Authority,Department,2024-06,-107.9,-1678,1570.1,-0.935697
+2023-24,TOTAL,36,060,Office of the Parliamentary Commissioner,Department,2024-06,43906,44094,-188,-0.004263
+2023-24,TOTAL,37,066,Department for Energy Security and Net Zero,Department,2024-06,-7637120,-1942887,-5694233,2.93081
+2023-24,TOTAL,38,067,The National Archives,Department,2024-06,51954,51954,0,0
+2023-24,TOTAL,39,068,United Kingdom Supreme Court,Department,2024-06,9772,9772,0,0
+2023-24,TOTAL,40,069,Independent Parliamentary Standards Authority,Department,2024-06,242589.15,242741,-151.85,-0.000625
+2023-24,TOTAL,41,070,Office of Qualifications and Examinations Regulation,Department,2024-06,30963,30963,0,0
+2023-24,TOTAL,42,071,Local Government Boundary Commission for England,Department,2024-06,2478.4,2482,-3.6,-0.00145
+2023-24,TOTAL,43,072,"Office for Standards in Education, Children's Services and Skills",Department,2024-06,154927,154927,0,0
+2023-24,TOTAL,44,073,National Crime Agency,Department,2024-06,835473,835473,0,0
+2023-24,TOTAL,45,075,Scottish Government,Department,2024-06,39011045.147,39084001,-72955.853,-0.001866
+2023-24,TOTAL,46,076,Competition and Markets Authority,Department,2024-06,153283,146900,6383,0.043451
+2023-24,TOTAL,48,078,HM Land Registry,Department,2024-06,145270,141091,4179,0.029619
+2023-24,TOTAL,50,079,Parliamentary Works Grant,Department,2024-06,75375,75375,0,0
+2023-24,TOTAL,52,084,"Department for Science, Innovation and Technology",Department,2024-06,13116847,23650111,-10533264,-0.445379
+2023-24,TOTAL,55,085,"Ministry of Housing, Communities and Local Government",Department,2024-06,41754445,40138036,1616409,0.040271
+2023-24,TOTAL,56,087,HM Treasury,Department,2024-06,82335417,81094581,1240836,0.015301
+2023-24,TOTAL,57,088,Office of Rail and Road,Department,2024-06,-5575,-98,-5477,55.887755
+2023-24,TOTAL,58,089,HM Procurator General and Treasury Solicitor,Department,2024-06,4719,17366,-12647,-0.728262
+2023-24,TOTAL,59,090,Welsh Government,Department,2024-06,22572221,22366040,206181,0.009218
+2023-24,TOTAL,60,091,Wales Office,Department,2024-06,21671108.1,21567003,104105.1,0.004827
+2023-24,TOTAL,61,097,Northern Ireland Office,Department,2024-06,20430673,20954286,-523613,-0.024988
+2023-24,TOTAL,62,099,Northern Ireland Executive,Department,2024-06,30643473,30657813,-14340,-0.000467
+2023-24,TOTAL,63,901,Cabinet Office: Civil Superannuation,Department,2024-06,9938754,9938754,0,0
+2023-24,TOTAL,64,902,Armed Forces Pension and Compensation Schemes,Department,2024-06,5100619,5085793,14826,0.002915
+2023-24,TOTAL,65,903,National Health Service Pension Scheme,Department,2024-06,-6,0,-6,
+2023-24,TOTAL,66,904,"Teachers' Pension Scheme, England and Wales",Department,2024-06,10793991,10793991,0,0
+2023-24,TOTAL,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,2024-06,288881,245028,43853,0.178971
+2023-24,TOTAL,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,2024-06,19449,9156,10293,1.12418
+2023-24,TOTAL,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2024-06,302447,164105,138342,0.843009
+2023-24,TOTAL,71,915,Royal Mail Statutory Pension Scheme,Department,2024-06,876996,876996,0,0
+2023-24,TOTAL,72,U011,Unallocated: former Electoral Commission lines,Unallocated,2024-06,0,29588,-29588,-1
+2024-25,DEL,1,003,"Department for Environment, Food and Rural Affairs",Department,2025-06,7843317,7840658,2659,0.000339
+2024-25,DEL,2,004,Department for Transport,Department,2025-06,39333828,39199792,134036,0.003419
+2024-25,DEL,3,005,Office for National Statistics,Department,2025-06,400605,400605,0,0
+2024-25,DEL,4,009,Charity Commission,Department,2025-06,36597,36597,0,0
+2024-25,DEL,5,010,Cabinet Office,Department,2025-06,1044013,1044013,0,0
+2024-25,DEL,8,013,Department for Business and Trade,Department,2025-06,2496769,2584047,-87278,-0.033775
+2024-25,DEL,10,016,Crown Prosecution Service,Department,2025-06,879005,878802,203,0.00023
+2024-25,DEL,11,017,Ministry of Defence,Department,2025-06,65160295,65179855,-19560,-0.0003
+2024-25,DEL,12,019,Serious Fraud Office,Department,2025-06,85101,85107,-6,-0.00007
+2024-25,DEL,13,020,Office of Gas and Electricity Markets,Department,2025-06,45961,46333,-372,-0.008028
+2024-25,DEL,14,022,Department for Education,Department,2025-06,108411098,109814609,-1403511,-0.01278
+2024-25,DEL,15,025,UK Export Finance,Department,2025-06,2059,2059,0,0
+2024-25,DEL,16,026,Food Standards Agency,Department,2025-06,124541,124665,-124,-0.000994
+2024-25,DEL,19,030,"Foreign, Commonwealth and Development Office",Department,2025-06,11465988,11257438,208550,0.018525
+2024-25,DEL,20,031,Government Actuary's Department,Department,2025-06,-464,-378,-86,0.227513
+2024-25,DEL,21,032,Department for Work and Pensions,Department,2025-06,9940882,9941946,-1064,-0.000107
+2024-25,DEL,22,033,Department of Health and Social Care,Department,2025-06,209690846,209634024,56822,0.000271
+2024-25,DEL,23,034,Home Office,Department,2025-06,19506435,14961080,4545355,0.303811
+2024-25,DEL,25,036,House of Commons: Members,Department,2025-06,15886,15886,0,0
+2024-25,DEL,26,037,House of Lords,Department,2025-06,202739,200100,2639,0.013188
+2024-25,DEL,27,038,House of Commons: Administration,Department,2025-06,560236,560236,0,0
+2024-25,DEL,28,041,HM Revenue and Customs,Department,2025-06,6733378,6561089,172289,0.026259
+2024-25,DEL,29,042,Scotland Office and Office of the Advocate General,Department,2025-06,13899,13899,0,0
+2024-25,DEL,30,047,Ministry of Justice,Department,2025-06,13564487,13564732,-245,-0.000018
+2024-25,DEL,32,048,"Department for Culture, Media and Sport",Department,2025-06,2239342,2195805,43537,0.019827
+2024-25,DEL,33,049,National Savings and Investments,Department,2025-06,288957,326856,-37899,-0.11595
+2024-25,DEL,34,050,National Audit Office,Department,2025-06,84732,104750,-20018,-0.191102
+2024-25,DEL,35,057,Water Services Regulation Authority,Department,2025-06,-1703,-1705,2,-0.001173
+2024-25,DEL,36,060,Office of the Parliamentary Commissioner,Department,2025-06,43952,44009,-57,-0.001295
+2024-25,DEL,37,066,Department for Energy Security and Net Zero,Department,2025-06,6963634,6703364,260270,0.038826
+2024-25,DEL,38,067,The National Archives,Department,2025-06,53970,53970,0,0
+2024-25,DEL,39,068,United Kingdom Supreme Court,Department,2025-06,8656,8616,40,0.004642
+2024-25,DEL,40,069,Independent Parliamentary Standards Authority,Department,2025-06,307351,307351,0,0
+2024-25,DEL,41,070,Office of Qualifications and Examinations Regulation,Department,2025-06,30830,30830,0,0
+2024-25,DEL,42,071,Local Government Boundary Commission for England,Department,2025-06,2591,2591,0,0
+2024-25,DEL,43,072,"Office for Standards in Education, Children's Services and Skills",Department,2025-06,159195,159195,0,0
+2024-25,DEL,44,073,National Crime Agency,Department,2025-06,824606,824606,0,0
+2024-25,DEL,45,075,Scottish Government,Department,2025-06,32885184,31562002,1323182,0.041923
+2024-25,DEL,46,076,Competition and Markets Authority,Department,2025-06,146171,144473,1698,0.011753
+2024-25,DEL,48,078,HM Land Registry,Department,2025-06,502937,467477,35460,0.075853
+2024-25,DEL,50,079,Parliamentary Works Grant,Department,2025-06,79082,79082,0,0
+2024-25,DEL,52,084,"Department for Science, Innovation and Technology",Department,2025-06,13985957,14021927,-35970,-0.002565
+2024-25,DEL,55,085,"Ministry of Housing, Communities and Local Government",Department,2025-06,23559960,23348741,211219,0.009046
+2024-25,DEL,56,087,HM Treasury,Department,2025-06,1108031,1104847,3184,0.002881
+2024-25,DEL,57,088,Office of Rail and Road,Department,2025-06,0,-1510,1510,-1
+2024-25,DEL,58,089,HM Procurator General and Treasury Solicitor,Department,2025-06,12536,12851,-315,-0.024511
+2024-25,DEL,59,090,Welsh Government,Department,2025-06,21470922,21470922,0,0
+2024-25,DEL,60,091,Wales Office,Department,2025-06,5625,5625,0,0
+2024-25,DEL,61,097,Northern Ireland Office,Department,2025-06,69183,69183,0,0
+2024-25,DEL,62,099,Northern Ireland Executive,Department,2025-06,18198635,18197042,1593,0.000087
+2024-25,DEL,72,U011,Unallocated: former Electoral Commission lines,Unallocated,2025-06,47610,41933,5677,0.135382
+2024-25,TOTAL,1,003,"Department for Environment, Food and Rural Affairs",Department,2025-06,9204022,8869666,334356,0.037696
+2024-25,TOTAL,2,004,Department for Transport,Department,2025-06,42273345,41238230,1035115,0.0251
+2024-25,TOTAL,3,005,Office for National Statistics,Department,2025-06,400765,400765,0,0
+2024-25,TOTAL,4,009,Charity Commission,Department,2025-06,36597,36597,0,0
+2024-25,TOTAL,5,010,Cabinet Office,Department,2025-06,1044013,15805013,-14761000,-0.933944
+2024-25,TOTAL,8,013,Department for Business and Trade,Department,2025-06,3431040,2667389,763651,0.286291
+2024-25,TOTAL,9,014,Crown Estate Office,Department,2025-06,2357,2357,0,0
+2024-25,TOTAL,10,016,Crown Prosecution Service,Department,2025-06,881523,881470,53,0.00006
+2024-25,TOTAL,11,017,Ministry of Defence,Department,2025-06,72339266,71896106,443160,0.006163
+2024-25,TOTAL,12,019,Serious Fraud Office,Department,2025-06,85101,85107,-6,-0.00007
+2024-25,TOTAL,13,020,Office of Gas and Electricity Markets,Department,2025-06,45961,46333,-372,-0.008028
+2024-25,TOTAL,14,022,Department for Education,Department,2025-06,139536945,140264791,-727846,-0.005189
+2024-25,TOTAL,15,025,UK Export Finance,Department,2025-06,2664,2081,583,0.280153
+2024-25,TOTAL,16,026,Food Standards Agency,Department,2025-06,124610,127952,-3342,-0.026119
+2024-25,TOTAL,19,030,"Foreign, Commonwealth and Development Office",Department,2025-06,12910047,12521786,388261,0.031006
+2024-25,TOTAL,20,031,Government Actuary's Department,Department,2025-06,-1576,-1490,-86,0.057718
+2024-25,TOTAL,21,032,Department for Work and Pensions,Department,2025-06,299807104,297406537,2400567,0.008071
+2024-25,TOTAL,22,033,Department of Health and Social Care,Department,2025-06,214603004,214210195,392809,0.001833
+2024-25,TOTAL,23,034,Home Office,Department,2025-06,21900964,17407406,4493558,0.25814
+2024-25,TOTAL,25,036,House of Commons: Members,Department,2025-06,15886,15886,0,0
+2024-25,TOTAL,26,037,House of Lords,Department,2025-06,209127,206378,2749,0.01332
+2024-25,TOTAL,27,038,House of Commons: Administration,Department,2025-06,560236,560236,0,0
+2024-25,TOTAL,28,041,HM Revenue and Customs,Department,2025-06,38455948,34336350,4119598,0.119977
+2024-25,TOTAL,29,042,Scotland Office and Office of the Advocate General,Department,2025-06,48574039,48574039,0,0
+2024-25,TOTAL,30,047,Ministry of Justice,Department,2025-06,14314438,14322786,-8348,-0.000582
+2024-25,TOTAL,32,048,"Department for Culture, Media and Sport",Department,2025-06,14748627,13162070,1586557,0.12054
+2024-25,TOTAL,33,049,National Savings and Investments,Department,2025-06,289957,292539,-2582,-0.008826
+2024-25,TOTAL,34,050,National Audit Office,Department,2025-06,84732,105022,-20290,-0.193197
+2024-25,TOTAL,35,057,Water Services Regulation Authority,Department,2025-06,-1703,-1705,2,-0.001173
+2024-25,TOTAL,36,060,Office of the Parliamentary Commissioner,Department,2025-06,43386,43443,-57,-0.001312
+2024-25,TOTAL,37,066,Department for Energy Security and Net Zero,Department,2025-06,5668217,22108931,-16440714,-0.743623
+2024-25,TOTAL,38,067,The National Archives,Department,2025-06,53970,53970,0,0
+2024-25,TOTAL,39,068,United Kingdom Supreme Court,Department,2025-06,9652,8616,1036,0.120241
+2024-25,TOTAL,40,069,Independent Parliamentary Standards Authority,Department,2025-06,313001,313001,0,0
+2024-25,TOTAL,41,070,Office of Qualifications and Examinations Regulation,Department,2025-06,31112,31112,0,0
+2024-25,TOTAL,42,071,Local Government Boundary Commission for England,Department,2025-06,2591,2591,0,0
+2024-25,TOTAL,43,072,"Office for Standards in Education, Children's Services and Skills",Department,2025-06,160614,160614,0,0
+2024-25,TOTAL,44,073,National Crime Agency,Department,2025-06,855713,855712,1,0.000001
+2024-25,TOTAL,45,075,Scottish Government,Department,2025-06,37011262,36838904,172358,0.004678
+2024-25,TOTAL,46,076,Competition and Markets Authority,Department,2025-06,130367,129008,1359,0.010534
+2024-25,TOTAL,48,078,HM Land Registry,Department,2025-06,104048,69163,34885,0.504388
+2024-25,TOTAL,50,079,Parliamentary Works Grant,Department,2025-06,79082,79082,0,0
+2024-25,TOTAL,52,084,"Department for Science, Innovation and Technology",Department,2025-06,14246679,14228982,17697,0.001243
+2024-25,TOTAL,55,085,"Ministry of Housing, Communities and Local Government",Department,2025-06,47569550,46138928,1430622,0.031006
+2024-25,TOTAL,56,087,HM Treasury,Department,2025-06,57858683,63483096,-5624413,-0.088597
+2024-25,TOTAL,57,088,Office of Rail and Road,Department,2025-06,0,-1510,1510,-1
+2024-25,TOTAL,58,089,HM Procurator General and Treasury Solicitor,Department,2025-06,12608,13233,-625,-0.04723
+2024-25,TOTAL,59,090,Welsh Government,Department,2025-06,23902524,23902524,0,0
+2024-25,TOTAL,60,091,Wales Office,Department,2025-06,20520872,20520872,0,0
+2024-25,TOTAL,61,097,Northern Ireland Office,Department,2025-06,25518598,25518598,0,0
+2024-25,TOTAL,62,099,Northern Ireland Executive,Department,2025-06,32080732,33211280,-1130548,-0.034041
+2024-25,TOTAL,63,901,Cabinet Office: Civil Superannuation,Department,2025-06,9643385,9643385,0,0
+2024-25,TOTAL,64,902,Armed Forces Pension and Compensation Schemes,Department,2025-06,4801105,4812241,-11136,-0.002314
+2024-25,TOTAL,66,904,"Teachers' Pension Scheme, England and Wales",Department,2025-06,9254840,9254840,0,0
+2024-25,TOTAL,67,905,United Kingdom Atomic Energy Authority Pension Schemes,Department,2025-06,295198,258363,36835,0.14257
+2024-25,TOTAL,69,907,"Foreign, Commonwealth and Development Office: Overseas Superannuation",Department,2025-06,9808,9660,148,0.01532
+2024-25,TOTAL,70,908,Ministry of Justice: Judicial Pensions Scheme,Department,2025-06,242196,160521,81675,0.508811
+2024-25,TOTAL,71,915,Royal Mail Statutory Pension Scheme,Department,2025-06,1515996,1515996,0,0
+2024-25,TOTAL,72,U011,Unallocated: former Electoral Commission lines,Unallocated,2025-06,48322,43187,5135,0.118901
