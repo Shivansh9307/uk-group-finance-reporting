@@ -138,6 +138,64 @@ described in [data-dictionary/inyear-raw.md](data-dictionary/inyear-raw.md). The
 [data-dictionary/annual-restated.md](data-dictionary/annual-restated.md). The in-year conformed dimensions and the revision-delta fact are in
 [data-dictionary/outturn.md](data-dictionary/outturn.md). The spending plans (Estimates, PESA, OSCAR Plans) are in [data-dictionary/plans.md](data-dictionary/plans.md). The map from every in-year line to its department in the current structure, the authored review of the BEIS split and the hold-out against the 2025 annual file are in [data-dictionary/current-structure.md](data-dictionary/current-structure.md). The outturn-to-group bridge, the phasing of the plans and outturn on the plan's basis are in [data-dictionary/plan-phasing.md](data-dictionary/plan-phasing.md).
 
+## Continuous integration
+
+`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`. The job `pipeline-sql`
+(Ubuntu runner, SQL Server 2022 container started with `docker run`, SQL authentication) is the one that proves
+the pipeline. Its steps, in order, with what each asserts:
+
+| Step | What it does | Fails when |
+|---|---|---|
+| Start SQL Server container | pulls the image and starts the container | the image cannot be pulled |
+| Restore, prune and save the uv cache | `actions/cache/restore` and `actions/cache/save` as separate steps (the save runs after a failed job too), key = uv version and `pipeline/uv.lock`; all actions pinned by commit SHA | never (a cache miss is a miss) |
+| Install uv and the project | `uv sync --frozen` | the lock file and `pyproject.toml` disagree |
+| Committed files, unit tests, assertion inventory | `ukfr fetch --verify`, `pytest -m "not db"`, `ukfr inventory` | a committed file does not match its sha256; a test fails; a file in `sql/tests` has no `-- test:` header; `docs/reconciliation.md` is out of date |
+| Build | `ukfr build --scope committed` | any SQL batch or load fails |
+| Database tests | `pytest -m db` with `UKFR_REQUIRE_DB=1` | any assertion fails, or a database test cannot run |
+| Rebuild and compare | a second build into a second database, then `diff -r` of the audit output against the first build and `git diff --exit-code` against `evidence/build` | the audit output is not identical, or differs from the committed copy |
+| Negative control | `ukfr negative-control` in the second database: plants a wrong control total, a wrong raw amount and a wrong fact amount, requires the controls to fail, restores, requires them to pass, then checks that no file changed | a planted error is not caught, a restore is not clean, or a file changed |
+| Summary | prints the seconds of every step and the test results to the job summary | never |
+
+Every step that matters prints its seconds (`<step>_s=<seconds>`, from `.github/scripts/step-timer.sh`), and the
+Summary step lists them with the test totals. The `model-bpa` and `report-checks` jobs still run on the fixture
+under `tests/fixtures/ci_spike`, because there is no model or report yet.
+
+**Tested** (GitHub Actions, job `pipeline-sql`, seconds per step as the job printed them):
+
+| Step | Run 1, cold cache ([44256921066](https://github.com/Shivansh9307/uk-group-finance-reporting/actions/runs/44256921066)) | Run 2, uv cache hit ([44258121672](https://github.com/Shivansh9307/uk-group-finance-reporting/actions/runs/44258121672)) |
+|---|---:|---:|
+| container image pull | 6.0 | 6.7 |
+| `uv sync` | 0.7 | 0.4 |
+| `ukfr fetch --verify` | 0.4 | 0.2 |
+| unit tests (no database) | 13.3 (182 passed, 2 skipped) | 7.0 (182 passed, 2 skipped) |
+| assertion inventory | 0.3 | 0.2 |
+| committed-scope build | 213.6 (stage `oscar_inyear` 88.4, post SQL 122.9) | 109.1 |
+| database tests | 28.3 (129 passed, 28 skipped) | 14.4 (129 passed, 28 skipped) |
+| rebuild and compare | 216.0 | 109.0 |
+| negative control | 15.2 | 7.3 |
+| whole job | 8 min 30 s | 4 min 32 s |
+
+The 28 skips in the database tests are the assertions whose scope is full: the committed-scope database has no
+table for them. Run 1 missed the uv cache and saved it; run 2 hit it. The cache saved little (`uv sync` takes under a
+second either way); the difference between the two runs is mostly the speed of the runner, which halved the build
+times with no change to the code. Run 1 is the green run in which every planted error was caught
+(`caught` for tests 003, 004, 302 and `test_real_totals`, and `after the restore: pytest exit code 0 (clean)` for each
+plant). Run 2 is the same code with the raw sum control deliberately blinded in a temporary commit (a `WHERE 1 = 0`
+added to `sql/tests/003`, reverted afterwards): its database tests stay green, because the blinded test passes,
+and the negative control step goes red with `NOT CAUGHT: ...test_invariant[003_raw_exact_sum_equals_file_sum.sql]`
+and the job fails. That is how a broken control looks.
+
+### The assertion inventory and the evidence it needs
+
+`ukfr inventory` lists every SQL assertion with its scope and marker and every Python test that reads the database;
+`ukfr inventory --write` rewrites the generated block of [reconciliation.md](reconciliation.md). **Tested**:
+`pipeline/tests/test_inventory.py` fails if a SQL test has no header, if two tests share an id, or if the block is
+out of date. `ukfr real-totals` prints the row count and sum of each real fact and, with `--write`, updates
+`evidence/expected/real_fact_totals.csv` for the scope of the database; `pipeline/tests/test_real_totals.py` compares
+every build with that file. `ukfr build-summary` turns a full build log and a test run into the small files under
+`evidence/full/` (`build_summary.csv`, `pytest_summary.csv`, `table_counts.csv`); it refuses a log with a local path
+or a user name, and a test run with a skip or a failure.
+
 ## Determinism
 
 Everything a build writes is free of timestamps and ordered by primary key, amounts are exact text and
