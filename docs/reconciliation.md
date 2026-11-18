@@ -22,7 +22,20 @@ read are not built; in a full-scope database none is skipped.
 
 **Tested** (local runs on 18 November 2026, Windows 11, SQL Server 2022 Developer, Windows authentication):
 
-@@LOCAL_RESULTS@@
+| Command | Result |
+|---|---|
+| `ukfr fetch --verify` | 48 committed files ok, 0 failures |
+| `ukfr build --scope committed --recreate --yes` into a scratch database | succeeds in 3 min 13 s wall clock: stage `oscar_inyear` 107.9 s, post SQL 81.9 s, the rest 2.5 s |
+| `UKFR_REQUIRE_DB=1 pytest`, committed-scope database | 311 passed, 30 skipped in 37.2 s. The 30 skips are the assertions of scope full (`localdata` or `requires`) |
+| `ukfr build --scope full --recreate --yes` | succeeds in 9 min 33 s wall clock: stage `oscar_bud` 130.6 s, `oscar_inyear` 106.2 s, `plans_oscar` 171.4 s, post SQL 158.8 s, the other stages 4.6 s |
+| `UKFR_REQUIRE_DB=1 pytest`, full-scope database | 341 passed, 0 skipped in 83.6 s |
+
+The machine was quiet for both timed builds: before each I checked that no other `ukfr` process was running and the
+processor was at 2 to 7% (the builds used the local SQL Server instance, nothing else of mine was running). Earlier
+full builds on this machine took 11 to 24 minutes under load; 9 min 33 s is what a quiet machine gave. The full-scope
+results are committed as `evidence/full/build_summary.csv` (seconds per step and rows loaded per stage),
+`evidence/full/pytest_summary.csv` and `evidence/full/table_counts.csv`, written by `ukfr build-summary`, which
+refuses a log with a local path or user name and a test run with a skip or a failure.
 
 ### What CI runs, and what it does not
 
@@ -57,12 +70,22 @@ requires each to fail, then puts the original value back and requires them to pa
 The step is green only if every planted error was caught and every restore is clean; afterwards it checks that
 `git status` shows no change, so no committed file was touched. **Tested** locally and in CI:
 
-@@NEGATIVE_RESULTS@@
+| Where | Result |
+|---|---|
+| local, `ukfr negative-control` against a scratch database built from the committed files (32 s) | all three plants caught (`caught` for `sql/tests/003`, `004`, `302` and `test_real_totals`), each restore clean (`pytest exit code 0`); exit code 0 |
+| CI, run [44256921066](https://github.com/Shivansh9307/uk-group-finance-reporting/actions/runs/44256921066), step "Negative control" (15.2 s) | the same lines in the job log; the step and the job are green |
 
 If a control were broken, for example a test whose query could no longer return a row, the first run for that plant
 would not list the test as failed, the command would print `NOT CAUGHT: <test id>` for it and exit 1, and the CI
 step and job would be red. I checked that the step goes red for a broken control by running it against a database
-where the planted value was already corrected before the check: @@NEGATIVE_BROKEN@@
+where the planted value was already corrected before the check: **tested**, twice. Locally I added `WHERE 1 = 0 AND` to `sql/tests/003` and ran the command: it printed
+`NOT CAUGHT: ...test_invariant[003_raw_exact_sum_equals_file_sum.sql]`, `expected pytest exit code 1 with the error
+planted, got 0` and `negative control FAILED`, and exited 1; the other two plants were still caught. In CI I pushed
+the same change as a temporary commit (run
+[44258121672](https://github.com/Shivansh9307/uk-group-finance-reporting/actions/runs/44258121672)): the database
+tests step stayed green, because the blinded test passes, the negative control step printed `NOT CAUGHT` and failed,
+and the job failed. I then removed the commit from the branch (reset and force-push to my own branch), so the pull
+request holds one coherent change.
 
 ## The chain, source by source
 
@@ -172,11 +195,57 @@ This is **designed**: no table in the database holds a return yet.
 
 ## Judgements I made that the data cannot settle
 
-@@JUDGEMENTS@@
+Three decisions I made where the sources do not say what is right. Each is stated with its evidence and my
+confidence, so that a reader can disagree. Figures are from the full-scope build.
+
+**1. The 37 OSCAR Plans rows with `USAGE_CODE = OUTTURN` are kept.** Confidence: medium.
+
+- Evidence: `raw.plan_oscar` has 37 rows whose version is PLANS and whose usage is OUTTURN: 4 in FY2017-18, 4 in
+  FY2018-19, 5 in FY2019-20, 14 in FY2020-21 and 10 in FY2021-22, together GBP 30,880,243 thousand, which is 0.22%
+  of the GBP 13,746,621,755 thousand of all plan rows in the five extracts. They are DHSC pension, housing revenue
+  account and London Underground lines and a few small bodies.
+- Why I keep them: the publisher's own row counts for the PLANS version (`data/audit/extract_file_control_totals.csv`)
+  include them, so dropping them would break the control that ties the load to the published file. The usage flag
+  says how the line is used (outturn comparison), not that it is not a plan line.
+- What I could be wrong about: they may be outturn lines filed under the plan version by mistake. If so, grain A
+  plan totals are 0.22% too high in those years. The count is pinned by `sql/tests/521`, so a change in source
+  is noticed.
+
+**2. Exiting the European Union maps to the Cabinet Office.** Confidence: medium.
+
+- Evidence: 187 plan rows in the extracts, all of organisation DEU077, FY2017-18 to FY2020-21 (47, 54, 66 and 20
+  rows; GBP 160,797, 186,859, 84,076 and 0 thousand, GBP 431,732 thousand in all). The department closed in
+  January 2020; its functions went to the Cabinet Office, which no file in the project states.
+- What the choice changes: only the Spending Review group of those grain A rows (`authored/plan_name_map.csv`, one row,
+  `confidence = medium`). At organisation grain the plan stays with DEU077. The current-structure map treats the
+  department's outturn lines separately, as an Unallocated member, so the plan and the outturn of this
+  department are not compared at group level.
+- The alternative is a non-department member, which would keep the plan out of every department group; I judged
+  that the Cabinet Office is the more likely owner.
+
+**3. FY2022-23 plans are compared at a combined pre-2023 group.** Confidence: high that it cannot be split, medium
+that the comparison is clean.
+
+- Evidence: the FY2022-23 Estimates and PESA tables are on the department structure of before February 2023, so
+  BEIS, DCMS and DIT are published as they were. In the fact the group `Combined pre-2023: BEIS, DCMS and DIT`
+  holds, for 2022-23, resource DEL excluding depreciation 19,692,000 and capital DEL 20,550,000 (grain C), and
+  administration and AME (grain D), in GBP thousand. No source publishes the split onto the new departments.
+- What I did: the plan is kept at the combined group; its outturn comes from the departments 013, 048 and 084
+  as the release reported them (`pre2023_as_reported` rows of `authored/department_sr_group.csv`), tested by
+  `sql/tests/554`. The other groups map one to one only where the group did not change; for them the as-reported view
+  and the current structure agree.
+- What I could be wrong about: bodies that moved between those three departments inside the combined group are
+  invisible, which is the point of combining them; a body that moved to a department outside the three is not
+  followed. I did not quantify that.
+
+The same three are recorded with their evidence in [data-dictionary/plans.md](data-dictionary/plans.md).
 
 ## Timings
 
-@@TIMINGS@@
+CI, job `pipeline-sql`, whole job: 8 min 30 s on a cold cache and 4 min 32 s with the uv cache restored (runs
+44256921066 and 44258121672; the per-step seconds are in [pipeline.md](pipeline.md#continuous-integration)). The
+runner's speed varied by about a factor of two between the two runs. Local builds: committed scope 3 min 13 s, full
+scope 9 min 33 s, on a quiet machine (see above). The full build is not run in CI.
 
 ## Appendix: every assertion
 

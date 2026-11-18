@@ -17,8 +17,10 @@ from __future__ import annotations
 
 import ast
 import csv
+import getpass
 import io
 import re
+import socket
 from pathlib import Path
 
 STEP = re.compile(r"^(database|pre sql|post sql|audit export|stage [A-Za-z0-9_]+): ([0-9.]+) s$")
@@ -26,7 +28,10 @@ STAGE_COUNTS = re.compile(r"^  ([A-Za-z0-9_]+): (\{.*\})$")
 SCOPE = re.compile(r"^build scope=(\w+)")
 PYTEST_LAST = re.compile(r"^(?:=+ )?((?:\d+ \w+(?:, )?)+)(?: \(.*?\))? in ([0-9.]+)s")
 PYTEST_PART = re.compile(r"(\d+) (\w+)")
-FORBIDDEN = (re.compile(r"[A-Za-z]:\\"), re.compile(r"/Users/"), re.compile(r"/home/"), re.compile(r"Shivansh", re.I))
+FORBIDDEN = [re.compile(r"[A-Za-z]:\\"), re.compile(r"/Users/"), re.compile(r"/home/")]
+for _name in {getpass.getuser(), socket.gethostname()}:  # the account and machine names of whoever runs this
+    if len(_name) > 2:
+        FORBIDDEN.append(re.compile(re.escape(_name), re.I))
 
 
 class SummaryError(ValueError):
