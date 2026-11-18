@@ -25,8 +25,9 @@ then it rests on me running the suite and committing the files together.
 | `tests/results/<NNN>_<name>.csv` | what the model returned | `tools/run_dax_tests.ps1` |
 | `evidence/model/dax_tests.csv` | test id, name, rows, columns, status, largest absolute difference, build scope | `ukfr dax-compare` |
 
-Test numbers 700 to 719 belong to the model skeleton, 720 to 739 to the measures and 740 to 759 to the income and
-expenditure statement; later model tasks take their own ranges.
+Test numbers 700 to 719 belong to the model skeleton, 720 to 739 to the measures, 740 to 759 to the income and
+expenditure statement and 760 to 779 to the restatement and current-structure measures; later model tasks take their own
+ranges.
 
 ## Run the suite
 
@@ -148,6 +149,29 @@ statement computed in SQL), from the fact through the statement tables, or from 
 Plans years). 750 has a Python expected source because the field parameter is a definition, not warehouse data.
 Counts of the engine's result: 740 329 rows, 741 9, 742 34, 743 384, 744 72, 745 33, 746 40, 747 50, 748 74, 749 171,
 750 4, 751 8, 752 39.
+
+### The restatement and current-structure tests (760 to 769)
+
+Ten tests for the measures in the display folders `Restatement` and `Current Structure` and the rank by year-to-date
+variance %. I ran them against a full-scope database and not against a committed-scope one (the expected values of 768 read
+the plans of 2023-24 to 2025-26, which both scopes hold, but I did not compare). Expected values come from `audit.file_control`, from T-SQL window
+functions over a grid of every release, from `dw.dq_issue` with the fact, and from `dw.current_structure_line`; the table is
+in [model.md](model.md#restatement-how-a-figure-changed-from-release-to-release). Every query ends in a full `ORDER BY`.
+
+| Test | What it proves | Rows | Expected values from |
+|---|---|---:|---|
+| 760 `as_at_release_equals_file_total` | `Outturn as at Release` at each of the 31 releases, on its own year, equals the file total | 31 | `audit.file_control` |
+| 761 `as_at_release_by_department` | the same by department of the current structure at four releases | 237 | `dw.fact_outturn` |
+| 762 `revisions_by_release_department` | as at, first reported, revision, `Revision %`, in release, restatement and the two gross forms, six releases by department | 356 | T-SQL window functions |
+| 763 `data_quality_exclusion_by_release` | the exclusion removes exactly the six flagged rows' amounts, in all 31 releases; the gross measures without the whole pair | 31 | `dw.dq_issue`, `dw.fact_outturn` |
+| 764 `structure_totals_by_year` | the total, the sums over departments of the current and as-reported structures and of the transfer, per year | 9 | `dw.fact_outturn`, the three mapping rules |
+| 765 `structure_totals_by_release` | the same per release | 31 | the same |
+| 766 `structure_by_department_year` | current structure, as reported and transfer by department and year | 537 | `dw.current_structure_line`, the three mapping rules |
+| 767 `estimated_mapping_share` | the estimated amount and its share by department and year | 530 | `dw.current_structure_line` |
+| 768 `rank_by_ytd_variance_percent` | the year-to-date variance % and its rank by group, three years | 69 | T-SQL `RANK()` over `dw.outturn_plan_basis_inyear` and `dw.fact_plan` |
+| 769 `restatement_under_time_and_unit` | five measures under Current, YTD, PY, YoY and three units, two releases | 24 | the fact, windows written in T-SQL |
+
+The performance queries (`tests/perf/`) are not tests and have no expected values; `docs/performance.md` says how they are run.
 
 ## Not covered
 

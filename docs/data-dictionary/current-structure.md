@@ -256,3 +256,21 @@ June 2024 release has no row for it.
 - A line of the DSIT core that was not recoded (small residual amounts on codes that moved) stays DSIT: it is a line
   of the DSIT version of the core, which has its own durable key.
 - The mapping is of in-year lines to departments; it does not map plans or annual lines.
+
+## Reading the structure a release reported from a current department
+
+`dw.department_reported_number` (63 rows, one per department number that an outturn line was reported under, `sql/dw/760`)
+says which live department of the current structure answers for each reported number, so that the model can show the
+figure "as reported" on a row of the current structure by number and never by name. Rules, first match wins: a live
+department of type Department carries the number (59); the Unallocated member `U` + the number exists (011, 035, 077);
+otherwise the live department that receives most of the number's lines by absolute net amount (027, the Foreign and
+Commonwealth Office, which goes to the Foreign, Commonwealth and Development Office). The Unallocated member `U084`
+answers for no number, because the live department 084 carries it. `dw.v_model_department` lists each department's numbers
+as `|030|027|`. The table also holds the lines and net amount reported under the number as a note; no measure reads them.
+**Tested**: `sql/tests/760_every_reported_department_number_has_exactly_one_current_department.sql`, and the model tests 764
+to 766 ([../model.md](../model.md#department-structures-as-reported-and-current)).
+
+`dw.v_model_fact_outturn` also carries `mapping_is_estimated`, the `is_estimated` flag of the line's row in
+`stg.current_structure_map` (22 fact rows, the three estimated BEIS lines). **Tested**:
+`sql/tests/761_the_estimated_mapping_flag_on_the_model_fact_is_the_flag_of_the_line.sql`.
+

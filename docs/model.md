@@ -3,8 +3,8 @@
 One Power BI semantic model, `model/UKGroupFinance.pbip` (PBIP: TMDL for the model, PBIR for the report), on the star
 schema that `ukfr build` writes to SQL Server. This page says what is in it, where each table comes from, how the
 tables relate, what the measures and the three calculation groups do, and what I left out and why. The group income and
-expenditure statement has its own section below. There is no restatement measure, no security and no report page yet;
-those are later work. Every claim is labelled
+expenditure statement has its own section below. The restatement measures, the department-structure measures and a rank have their own sections below. There is no security
+and no report page yet; those are later work. Every claim is labelled
 **tested** (with the command and the result file) or **designed**.
 
 ## Decisions
@@ -178,7 +178,7 @@ Six base measures (the statement measures have their own section below), three c
 functions. They are written in TMDL (`functions.tmdl` and the
 fact and calculation-group table files) and tested by DAX tests 720 to 737, each against a query over the `dw` base
 tables (`docs/model-testing.md`). Amounts are GBP thousands, spending positive and income negative. Display folders:
-`Base`, `Plan`, `Plan\Derived`. Every measure has a description and a format string (**tested**:
+`Base`, `Plan`, `Plan\Derived`, `Plan\Ranking`, `Restatement`, `Restatement\Excluding flagged rows` and `Current Structure`. Every measure has a description and a format string (**tested**:
 `pipeline/tests/test_model_measures.py`).
 
 **Where the measures live.** I put each measure on the fact table it sums, not on a measure-only table. A measure table
@@ -374,6 +374,7 @@ unit): [evidence/model/format_strings.csv](../evidence/model/format_strings.csv)
 | `Window.OverPeriods`, `Window.Mtd`, `Window.Qtd`, `Window.Ytd`, `Window.PriorYear`, `Window.Rolling12` | the Time Intelligence items |
 | `Format.ValueKind`, `Format.Scale`, `Format.ForUnit` | the Display Unit items |
 | `Pnl.SignFactor`, `Pnl.LineAmount`, `Pnl.AtPlanScope` | the statement measures (the namespace is `Pnl` because `Statement` is rejected by the DAX parser, below) |
+| `Restate.Unflagged` | the excluding-flagged-rows variants of the gross restatement measures, and the stated pattern for any other measure |
 
 A function name with a dot must be quoted in `functions.tmdl` (`function 'Grain.BelowGrain' =`); unquoted, Desktop reads
 the dot as a namespace and the function loses its prefix, and every call fails to resolve (**tested**:
@@ -521,6 +522,164 @@ four lines) 211.3 and 131.7. I benchmarked only these four, and the warm figure 
 them as "a few hundred milliseconds for the whole statement" and not as a measurement of caching. I did not profile the
 `WINDOW`, `OFFSET` or `RANK` measures or a report page.
 
+## Restatement: how a figure changed from release to release
+
+`Fact Outturn` holds the change each release made to each line and month (the revision delta). `Outturn` is a plain sum of
+those deltas, so with nothing selected on `Release` it is the latest view of every year, and with one release selected it is
+only that release's delta, not the figure as at it. The restatement measures add what a restatement page needs: the figure
+as a release stated it, the figure as first reported, the difference, and the part of a release's change that restates
+what an earlier release had already reported. They live on `Fact Outturn` in the display folder `Restatement`.
+
+### The as-at rule
+
+**The as-at release is the highest `Release Sequence` in context, or the latest release when none is selected.** The
+measures `Outturn as at Release`, `Outturn as First Reported`, `Revision since First Reported` and `Revision %` all use it.
+`Outturn as at Release` is the sum of the deltas of every release up to and including that one, for every financial year
+in context. So for the release of December 2023 the year 2023-24 is what that release reported (and equals its file total),
+the earlier years are the last figure known at that release, and the years after it are BLANK. It is written in the plain form,
+`CALCULATE ( [Outturn], FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )`, and that is deliberate: it is
+the form a report author would write, and `docs/performance.md` times it so that a later rewrite has something to be
+compared with.
+
+**Tested** (`tests/dax/760_as_at_release_equals_file_total.dax`, result
+[tests/results/760_as_at_release_equals_file_total.csv](../tests/results/760_as_at_release_equals_file_total.csv)): for each
+of the 31 releases, on that release's own financial year, `Outturn as at Release` equals the four-decimal total of the
+release's file in `audit.file_control` (the control totals loaded from `data/audit/inyear_file_control_totals.csv`), with a
+largest absolute difference of 0 (`evidence/model/dax_tests.csv`). The expected side reads `audit.file_control` and not
+`dw.fact_outturn`. The same check by department of the current structure at four releases (237 cells, test 761) equals
+`SUM` of the deltas in T-SQL.
+
+### The measures
+
+| Measure | What it returns | Tested by |
+|---|---|---|
+| `Outturn as at Release` | the figure the as-at release stated (above) | 760, 761, 762, 769 |
+| `Outturn as First Reported` | the deltas with `Revision Number` 0 up to the as-at release: each line and month at the amount of the release that first reported it. A line first reported later counts at its first amount, so this is not the total of the first release of the year | 762, 769 |
+| `Revision since First Reported` | as at less first reported, which is the sum of the deltas with `Revision Number` above 0 up to the as-at release. BLANK when neither side has a value, 0 when nothing was restated | 762, 769 |
+| `Revision %` | the revision over the absolute first-reported amount; BLANK when that is 0 | 762, 769 |
+| `Revision in Release` | the change the release or releases in context made to the year-to-date outturn: the sum of their deltas, which is what `Outturn` shows with `Release` on rows. It mixes months reported for the first time with restatements | 762 |
+| `Restatement in Release` | the part of it that changes a figure an earlier release had already reported: the deltas with `Revision Number` above 0 | 762 |
+| `Gross Revision in Release`, `Gross Restatement in Release` | the sum of the absolute deltas of the same two sets, so that increases and decreases do not net off | 762, 763 |
+| `Gross Revision in Release (excl. flagged)`, `Gross Restatement in Release (excl. flagged)` | the two gross measures with the rows flagged in `Data Quality Issue` left out (below) | 763 |
+
+Two judgements. First, `Revision in Release` is what the prompt asked for (a plain sum named so that it cannot be mistaken for
+a total), but on its own it is not a restatement: a delta with `Revision Number` 0 is a month or line reported for the first
+time, and in the first release of a year everything is. In the 31 releases the first release of each year has 0 rows with a
+revision number above 0 and 14,565 to 47,258 rows with 0 (query on `dw.fact_outturn`). A restatement page should therefore
+show `Restatement in Release` and `Gross Restatement in Release`, and use `Revision in Release` for the movement of the
+year-to-date total. Second, the as-first-reported figure is a sum of first amounts by line and month, not "the first
+release's total", because a line can first appear in any release of the year; the revision is therefore the part that was
+reported and later changed, and it is the same whichever release first reported a line.
+
+**Tested**: test 762 (six releases at their own financial years by department, 356 cells, largest difference 0.000001)
+compares eight measures with T-SQL window functions (`SUM() OVER` over a grid of every release, with `revision_no = 0` for
+first reported). For the Department of Health and Social Care (033), the results file shows for the year-end release of
+June 2026 (2025-26): as at 229.2bn, first reported 229.1bn, a revision of +85m (+0.04%); for December 2023, 97.47bn against
+97.46bn first reported (`tests/results/762_revisions_by_release_department.csv`).
+
+### Rows flagged in Data Quality Issue
+
+`dw.dq_issue` flags six fact rows: the first report and the correction of three line-months of the NHS Pension Scheme line
+`NHP903 X903A002` (April and May 2023, reported in September 2023 and corrected in December 2023, and April 2025, reported in
+September 2025 and corrected in March 2026), which a release reported about 1,000 times too large and a later release corrected. `Restate.Unflagged ( m )` is the stated pattern for leaving them out: it evaluates a measure with
+`KEEPFILTERS ( 'Fact Outturn'[Data Quality Issue Key] = 0 )`, where key 0 is the member "No issue flagged". Test 763 shows it
+removes exactly the six rows' amounts: the as-at figure falls by the flagged deltas up to the release and the gross
+measures by the flagged absolute deltas of the release, in every one of the 31 releases (largest difference 0).
+
+**What the data forced, and what I recommend.** The flagged rows are only one half of the error. The scheme's offsetting
+line `X903A003` carries the mirror image in the same release, organisation, period and economic category (for example
+`-4,101,533,695` against `+4,100,000,000` in September 2023) and is not flagged, because the amount it keeps after the correction is
+a factor of 125, 722 and 833 below the amount it was reported at in the three cases, and the rule looks for 900 to 1,100. **Tested**: `sql/tests/762_the_unit_error_has_an_unflagged_mirror_line.sql`
+shows that each of the six flagged rows has an unflagged mirror row of the opposite sign within 1% of its size. That has
+three consequences, all in `tests/results/763_data_quality_exclusion_by_release.csv`:
+
+- A **net** measure is better left alone. The flagged line and its mirror net to a small amount, so `Revision since First
+  Reported` and `Outturn as at Release` are not distorted by the error; leaving out only the flagged half would leave
+  the mirror, about -4,000bn in the as-at figure of September 2023 (`removed_as_at` of 4,320bn in `763`). That is why there
+  are no excluding variants of the net measures and why the pattern is a function and not a set of measures.
+- A **gross** measure is inflated by both lines. The gross restatement of December 2023 is 8,645bn, and 4,329bn when the
+  flagged rows are left out; with both lines left out by sub-segment (the column `gross_restatement_without_pair` of the same
+  file) it is 13.8bn, in line with the neighbouring releases. March 2026 is 12,623bn, 6,321bn and 18.1bn in the same three
+  forms.
+- So **the report should show the gross restatement measures with the `(excl. flagged)` variant and a note, and I recommend
+  that rule a of `dw.dq_issue` flags the mirror line too**. That is a change to `sql/dw/320_dq_issue.sql` and the tests that
+  pin six flagged rows (`sql/tests/309`, `sql/tests/762` here), and I have not made it: it belongs to the owner of that
+  table. When it is made the excluding variant removes both halves and the net measures need no change.
+
+### Calculation groups and the restatement measures
+
+| Combination | Meaningful? | What it returns |
+|---|---|---|
+| Time Intelligence Current, MTD, QTD, YTD, Rolling 12 months | yes, for every amount measure | the measure over the window, as at the same release; `Revision %` over a window is the ratio of the summed parts |
+| Time Intelligence PY | yes | the previous year's figure as at the same release (a closed year: its final figure known then) |
+| Time Intelligence YoY, YoY % | yes for amounts; BLANK for `Revision %` and `Estimated Mapping Share` | the difference of two percentages means nothing, so the two items return BLANK for the share measures |
+| Scenario Comparison (all five items) | not meaningful | the restatement measures are not `Comparison Amount`, so the items pass them through unchanged: `Plan` shows the revision, not a plan. Do not put the restatement measures and the comparison items on one visual |
+| Display Unit £k, £m, £bn | yes for every amount; no effect on `Revision %` and `Estimated Mapping Share` | the value divided by 1, 1,000 or 1,000,000, with the unit's format string |
+
+**Tested** (test 769, 24 cells, largest difference 0.00005): at two releases (December 2021 and December 2024), period 6 of
+their own years, the five revision measures under Current, YTD, PY and YoY and the three units equal T-SQL; `Revision %`
+(the model measure) is BLANK under YoY while the same ratio in parts per million written as a test measure is the difference.
+Not tested: MTD, QTD and Rolling 12 months on these measures (the items are the same functions as in tests 727 and 728), and
+a restatement measure on a visual with a release on one axis and a time item on the other.
+
+## Department structures: as reported and current
+
+A department of the current structure (`Department (current structure)`, 63 members) and the department as a release
+reported it (`Organisation (as reported)[Department Number (as reported)]`) are both related to `Fact Outturn` and both
+active. A reorganisation always shows between releases and never inside one, so "as reported" means "as the release in
+view reports it". The measures live in the display folder `Current Structure`.
+
+| Measure | What it returns | Tested by |
+|---|---|---|
+| `Outturn (current structure)` | the outturn of the lines that belong to the department in context today. Equal to `Outturn` with `Department (current structure)` on rows; named so that a matrix with both structures says which is which | 764 to 766 |
+| `Outturn (as reported structure)` | the outturn of the lines the releases in context reported under the row's department number, whatever department they belong to today | 764 to 766 |
+| `Machinery of Government Transfer` | current less as reported: what the change of structure moved into the department (positive) or out of it (negative) | 764 to 766 |
+| `Outturn (estimated mapping)`, `Estimated Mapping Share` | the part of the department's outturn that is there through an estimated mapping, and its share of the department's net outturn | 767 |
+
+**The rule that finds a department's counterpart.** Never the name: 43 of 51 name changes between consecutive releases are the
+same department under an alternating label. Each department of the current structure carries a hidden column `Reported
+Department Numbers`, written `|030|027|`, built in SQL (`dw.department_reported_number`, `sql/dw/760`), and the as-reported
+measure takes the numbers of the departments in context from it and keeps the lines reported under them (`TREATAS` on
+`Department Number (as reported)`). A number is answered for by the first of three:
+
+1. **own number**: a live department of type Department carries it. 59 numbers.
+2. **Unallocated member**: no live department carries it and the member `U` + the number exists (`U011` the Electoral
+   Commission, `U035` the Assets Recovery Agency, `U077` Exiting the EU): 3 numbers.
+3. **largest receiver**: neither. One number, `027`, the Foreign and Commonwealth Office (last reported in June 2021), whose lines go to the
+   Foreign, Commonwealth and Development Office (FCDO) in the current structure; it is answered for by the live department that receives most of its lines (by absolute net amount), which is
+   FCDO. This is my rule, not a published one. `Unallocated: former BEIS shared lines` (`U084`) answers for no number: its
+   lines were reported under 084, which the live Department for Science, Innovation and Technology carries.
+
+Every number maps to exactly one department, so the as-reported figures added over the departments add back to the total,
+and the transfers sum to zero. **Tested**: `sql/tests/760_every_reported_department_number_has_exactly_one_current_department.sql`
+(every number mapped once, the four non-own numbers are exactly 011, 027, 035 and 077, the numbers in the view's lists are
+the table's), and DAX tests 764 (by year, nine rows) and 765 (by release, 31 rows): the sum over departments of the current
+structure, of the as-reported structure and of the transfer, against the total, are equal and 0 in every year and every
+release (`tests/results/764_structure_totals_by_year.csv`). Test 766 compares all 537 department-year cells with T-SQL
+that places each line by `dw.current_structure_line` and finds the answering department by the three rules written out
+again. For 2022-23 the transfers are, in GBP thousands: DSIT (084) +58,273,954, DBT (013) +3,503,791, DESNZ (066)
+-61,750,818 (it did not exist as a number in that year's releases), DCMS (048) -27,509, `U084` +582, and every other
+department 0. In 2023-24 and later every transfer is 0: the releases already report the new structure.
+
+**`Estimated Mapping Share`.** Three BEIS lines (`X084A031`, `X084A254`, `X084A364`) are placed in the Department for
+Science, Innovation and Technology by judgement (`is_estimated` in `authored/current_structure_map.csv`). The flag travels
+on the fact (the hidden column `Mapping Is Estimated`, from `stg.current_structure_map` in `dw.v_model_fact_outturn`; 22 fact
+rows; **tested**: `sql/tests/761_the_estimated_mapping_flag_on_the_model_fact_is_the_flag_of_the_line.sql`). The share is on net
+amounts, so it can exceed 100% or be negative where a department's net outturn is small; in 2022-23 it is -20,672 of 11,441,606
+for DSIT, that is -0.18% (`tests/results/767_estimated_mapping_share.csv`), and it is 0 for every other department with outturn.
+
+## Rank of the year-to-date variance %
+
+`Department Group Rank (YTD Variance %)` ranks the Spending Review groups by the Variance % item of Scenario Comparison under
+the YTD item of Time Intelligence, largest first (1 is the biggest overspend against plan), and returns BLANK where the group has no
+variance %. It is slow measure 2: the plain form, with both calculation items written out three times inside `RANKX`
+(`docs/performance.md`). It ranks groups, not departments, because the plan has no department. Ties share a rank and the next
+rank is skipped, as T-SQL `RANK()` does; a group with no plan or a plan of zero has no variance % and so no rank, and does not
+count in the others' ranks. Use it with no Time Intelligence or Scenario Comparison item selected: both are set inside the
+measure, and an item from outside would apply to the rank itself. **Tested**: test 768 (69 cells, three years, largest
+difference 0.000001 parts per million) equals `RANK() OVER` over the year-end variance % computed in T-SQL from
+`dw.outturn_plan_basis_inyear` and `dw.fact_plan`. A year to date before period 12 has no plan, so the rank is BLANK there.
+
 ## Parameters and sources
 
 | Name | Default | Used by |
@@ -611,8 +770,7 @@ was answered or cancelled before I could record its second step, so the assets d
 
 ## Not in the model yet
 
-The restatement measures (as at a release, the revision delta), real terms from the deflators,
-security, perspectives, translations and report pages. Tabular Editor 2's Best Practice Analyzer runs in CI on this folder
+Real terms from the deflators, security, perspectives, translations and report pages. Tabular Editor 2's Best Practice Analyzer runs in CI on this folder
 with the four starter rules of the spike; a fuller rule file replaces them later. Not tested: the measures on a report
 canvas (there is none yet), a visual that selects different periods in different years, and the matrix subtotals of the
 calculation groups.
