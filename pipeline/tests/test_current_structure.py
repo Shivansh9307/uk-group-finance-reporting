@@ -120,3 +120,19 @@ def test_a_line_of_an_organisation_with_a_home_never_follows_the_code_of_another
         == 0
     )
     assert db.scalar("SELECT COUNT(*) FROM audit.current_structure_code_rule_rejected") > 0
+
+
+@pytest.mark.db
+def test_is_current_and_is_live_differ_only_for_the_three_departments_the_partial_september_release_omits(db):
+    """`dim_department.is_current` is false for the National Audit Office, the Crown Estate Office and the Judicial
+    Pensions Scheme (they report in June 2026 and not in the partial September 2026 release); `is_live` is true."""
+    rows = db.query(
+        "SELECT d.department_number, d.is_current, c.is_live FROM dw.dim_department AS d "
+        "JOIN dw.current_structure_department AS c ON c.department_key = d.department_key "
+        "WHERE d.is_current <> c.is_live ORDER BY d.department_number"
+    )
+    assert [(r[0], bool(r[1]), bool(r[2])) for r in rows] == [
+        ("014", False, True),
+        ("050", False, True),
+        ("908", False, True),
+    ]
