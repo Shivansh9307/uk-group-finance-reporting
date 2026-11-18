@@ -82,6 +82,14 @@ table 'Fact Outturn'
 		summarizeBy: none
 		sourceColumn: dq_issue_key
 
+	/// 1 on the lines whose current department rests on an estimated driver (is_estimated of stg.current_structure_map: three BEIS lines placed by judgement). Hidden: use Estimated Mapping Share.
+	column 'Mapping Is Estimated'
+		dataType: boolean
+		isHidden
+		lineageTag: 5f086b0c-ef6a-53d9-960d-682564c88892
+		summarizeBy: none
+		sourceColumn: mapping_is_estimated
+
 	/// Change in the line's amount made by the release, GBP thousands. Hidden: use the measures.
 	column 'Amount Delta'
 		dataType: decimal
@@ -229,6 +237,161 @@ table 'Fact Outturn'
 		formatString: 0
 		displayFolder: Statement\Windows
 		lineageTag: c346715c-2368-4376-bdd6-db48539f9174
+
+	/// The outturn as the selected release stated it, in GBP thousands (spending positive, income negative): the sum of the revision deltas of every release up to and including the highest release in context, or up to the latest release when none is selected. For a year the release has not reached yet it is BLANK, and for a closed year it is the final figure known at that release. At a release's own financial year it equals what that release's file reports (tested against the control totals of the files). Written in the plain form, a CALCULATE over a FILTER of all releases; a later rewrite is compared with it.
+	measure 'Outturn as at Release' =
+			VAR AsAt = MAX ( 'Release'[Release Sequence] )
+			RETURN
+			    CALCULATE ( [Outturn], FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Restatement
+		lineageTag: 10385ac7-fa5d-59c8-962f-c33bd7b749c8
+
+	/// The outturn as first reported, in GBP thousands: the sum of the deltas with Revision Number 0, that is the amount each line and month had in the release that first reported it, over the releases up to the as-at release (the highest release in context, or the latest). A line first reported later is counted at its first amount, so this is not the total of the first release of the year.
+	measure 'Outturn as First Reported' =
+			VAR AsAt = MAX ( 'Release'[Release Sequence] )
+			RETURN
+			    CALCULATE ( [Outturn], 'Fact Outturn'[Revision Number] = 0, FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Restatement
+		lineageTag: ab7d34bc-7082-5cc1-bcef-29cbcc3f45f1
+
+	/// How much the outturn has moved since each line and month was first reported, in GBP thousands: Outturn as at Release less Outturn as First Reported, which is the sum of the deltas with a Revision Number above 0 up to the as-at release. Positive means spending grew or income fell since first reported. BLANK where neither side has a value, 0 where nothing was restated.
+	measure 'Revision since First Reported' =
+			VAR AtRelease = [Outturn as at Release]
+			VAR FirstReported = [Outturn as First Reported]
+			RETURN
+			    IF ( ISBLANK ( AtRelease ) && ISBLANK ( FirstReported ), BLANK (), AtRelease - FirstReported )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Restatement
+		lineageTag: 42a137d3-3796-5e56-b699-b0dae6611106
+
+	/// Revision since First Reported as a share of the absolute outturn as first reported. BLANK where nothing was first reported or the first-reported amount is zero. Not an additive measure: a total is the ratio of the totals. Needs no data-quality exclusion: the NHS Pension Scheme unit error and its offsetting line net to a small amount, and leaving out only the flagged half would make the ratio worse, not better.
+	measure 'Revision %' =
+			VAR FirstReported = [Outturn as First Reported]
+			RETURN
+			    DIVIDE ( [Revision since First Reported], ABS ( FirstReported ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Restatement
+		lineageTag: fdb9d6dd-5028-5608-8f8c-37b34f271531
+
+	/// The change the release or releases in context made to the year-to-date outturn, in GBP thousands: the sum of their deltas, which is what Outturn shows when Release is on rows. It is a movement, not a total, and it mixes months reported for the first time with restatements of months already reported (Restatement in Release is the second part alone). With no release selected it is the sum over all releases, which equals Outturn.
+	measure 'Revision in Release' = SUM ( 'Fact Outturn'[Amount Delta] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Restatement
+		lineageTag: f68ff81a-d6ce-5c8e-9b49-04d73b05d34e
+
+	/// The part of Revision in Release that changes a figure an earlier release had already reported, in GBP thousands: the deltas with a Revision Number above 0. It is the restatement proper; a delta with Revision Number 0 is a month or line reported for the first time.
+	measure 'Restatement in Release' = CALCULATE ( SUM ( 'Fact Outturn'[Amount Delta] ), 'Fact Outturn'[Revision Number] > 0 )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Restatement
+		lineageTag: f45f68a7-eab3-5a5e-8fa0-1b3b1482a4c9
+
+	/// The size of everything the release or releases in context changed, in GBP thousands: the sum of the absolute deltas, so increases and decreases do not net off. It includes lines reported for the first time, so in the first release of a year it is the size of the whole year to date. It counts the rows flagged in Data Quality Issue and the unflagged offsetting line of the same unit error, which run to trillions in two releases: the excluding-flagged-rows variant halves that, with a note.
+	measure 'Gross Revision in Release' = SUMX ( 'Fact Outturn', ABS ( 'Fact Outturn'[Amount Delta] ) )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Restatement
+		lineageTag: 6492b5a0-42f2-5079-92e2-f9c4425f0d71
+
+	/// The size of what the release or releases in context restated, in GBP thousands: the sum of the absolute deltas with a Revision Number above 0, so a restatement upward on one line and downward on another do not net off. The measure for how much was restated, as against how much moved. The rows flagged in Data Quality Issue and the offsetting line of the same unit error are counted here, trillions in two releases: see the excluding-flagged-rows variant.
+	measure 'Gross Restatement in Release' = CALCULATE ( SUMX ( 'Fact Outturn', ABS ( 'Fact Outturn'[Amount Delta] ) ), 'Fact Outturn'[Revision Number] > 0 )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Restatement
+		lineageTag: 018b364b-f4e1-58f4-b9a5-44074a55147a
+
+	/// Gross Revision in Release with the rows flagged in Data Quality Issue left out (the six delta rows of the NHS Pension Scheme unit error, line X903A002). It halves the error and does not remove it: the offsetting line X903A003 carries the same error and is not flagged, so in the releases of December 2023 and March 2026 it still holds about 4,300bn and 6,300bn. Use it for the gross restatement page with that note, and see the documentation before using it for anything else.
+	measure 'Gross Revision in Release (excl. flagged)' = Restate.Unflagged ( [Gross Revision in Release] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Restatement\Excluding flagged rows
+		lineageTag: f2de9b52-8606-5460-b63f-04fe82b33f1a
+
+	/// Gross Restatement in Release with the rows flagged in Data Quality Issue left out (the six delta rows of the NHS Pension Scheme unit error, line X903A002). It halves the error and does not remove it: the offsetting line X903A003 carries the same error and is not flagged, so in the releases of December 2023 and March 2026 it still holds about 4,300bn and 6,300bn. Use it for the gross restatement page with that note, and see the documentation before using it for anything else.
+	measure 'Gross Restatement in Release (excl. flagged)' = Restate.Unflagged ( [Gross Restatement in Release] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Restatement\Excluding flagged rows
+		lineageTag: add26219-f7fa-53b1-aac5-819c818e0b3f
+
+	/// Outturn in GBP thousands by the department of today's structure: the sum of the deltas of the lines that belong to the department in context (Fact Outturn is related to Department (current structure) on the department key written in the warehouse, and each department has one number). With Department (current structure) on rows. Equal to Outturn there; it is named so that a matrix holding both structures says which figure is which.
+	measure 'Outturn (current structure)' = SUM ( 'Fact Outturn'[Amount Delta] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Current Structure
+		lineageTag: f03cb177-edf7-5935-bf2d-b27c410fa2a7
+
+	/// Outturn in GBP thousands of the lines that the releases in context reported under the department number of the row, whatever department those lines belong to today. The counterpart of a row of Department (current structure) is found by number, never by name: the numbers that a department answers for are in its hidden column Reported Department Numbers (its own number; for Unallocated U011, U035 and U077 the number after the U; and for the Foreign, Commonwealth and Development Office also 027, the Foreign and Commonwealth Office). A selection on the as-reported department is kept, so it can only narrow. With Department (current structure) on rows. Added over all departments it equals Outturn.
+	measure 'Outturn (as reported structure)' =
+			VAR NumberLists = VALUES ( 'Department (current structure)'[Reported Department Numbers] )
+			VAR Numbers =
+			    FILTER (
+			        ALL ( 'Organisation (as reported)'[Department Number (as reported)] ),
+			        COUNTROWS (
+			            FILTER (
+			                NumberLists,
+			                CONTAINSSTRING (
+			                    'Department (current structure)'[Reported Department Numbers],
+			                    "|" & 'Organisation (as reported)'[Department Number (as reported)] & "|"
+			                )
+			            )
+			        ) > 0
+			    )
+			RETURN
+			    CALCULATE (
+			        [Outturn],
+			        REMOVEFILTERS ( 'Department (current structure)' ),
+			        KEEPFILTERS ( TREATAS ( Numbers, 'Organisation (as reported)'[Department Number (as reported)] ) )
+			    )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Current Structure
+		lineageTag: 256ac1e5-de9a-5a57-b366-c67e1f933b72
+
+	/// What the change of structure moved into the department, in GBP thousands: Outturn (current structure) less Outturn (as reported structure). Positive means the department holds more today than it was reported with; negative means lines it was reported with now sit in another department. Added over all departments of the current structure it is zero (tested for every year and release). BLANK where both are BLANK.
+	measure 'Machinery of Government Transfer' =
+			VAR CurrentStructure = [Outturn (current structure)]
+			VAR AsReported = [Outturn (as reported structure)]
+			RETURN
+			    IF ( ISBLANK ( CurrentStructure ) && ISBLANK ( AsReported ), BLANK (), CurrentStructure - AsReported )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Current Structure
+		lineageTag: e0fe938e-59d5-5e79-9252-34a1e3bdb78a
+
+	/// The part of the outturn, in GBP thousands, that sits in its current department because of an estimated mapping: the lines marked is_estimated in the current-structure map (three BEIS lines placed by judgement and not by a published source). BLANK where the department has none.
+	measure 'Outturn (estimated mapping)' = CALCULATE ( SUM ( 'Fact Outturn'[Amount Delta] ), 'Fact Outturn'[Mapping Is Estimated] = TRUE () )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Current Structure
+		lineageTag: b646649a-ffac-50bc-9420-6cc13da61415
+
+	/// The share of the outturn in context that comes from lines mapped to the current department by an estimated driver: Outturn (estimated mapping) over Outturn (current structure), on net amounts. 0 where the department has outturn and no estimated line; BLANK where it has no outturn or the net outturn is zero. On net amounts it can exceed 100% or be negative where the department's net outturn is small; read it with the amount.
+	measure 'Estimated Mapping Share' =
+			VAR Total = [Outturn (current structure)]
+			RETURN
+			    IF ( ISBLANK ( Total ), BLANK (), DIVIDE ( COALESCE ( [Outturn (estimated mapping)], 0 ), Total ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Current Structure
+		lineageTag: aa1c87b0-44b4-51fe-a94b-ea05ff838103
+
+	/// Rank of the Spending Review group in context among the groups that have a value, by the year-to-date variance % (the Variance % item of Scenario Comparison under the YTD item of Time Intelligence, taken on Comparison Amount), the largest first (1 is the biggest overspend against plan); equal values share a rank and the next rank is skipped. BLANK where the group has no plan or no outturn on the plan's basis. The plan is published by group, not by current department, so the rank is over Spending Review groups. A year-to-date plan exists only at period 12 or for a whole year, so a month before the year end gives BLANK. Written in the plain form: the full CALCULATE with both items inside RANKX. Use it with no Time Intelligence or Scenario Comparison item selected.
+	measure 'Department Group Rank (YTD Variance %)' =
+			VAR YtdVariancePercent =
+			    CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = "YTD", 'Scenario Comparison'[Comparison] = "Variance %" )
+			RETURN
+			    IF (
+			        ISBLANK ( YtdVariancePercent ),
+			        BLANK (),
+			        RANKX (
+			            FILTER (
+			                ALLSELECTED ( 'Spending Review Group' ),
+			                NOT ISBLANK (
+			                    CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = "YTD", 'Scenario Comparison'[Comparison] = "Variance %" )
+			                )
+			            ),
+			            CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = "YTD", 'Scenario Comparison'[Comparison] = "Variance %" ),
+			            ,
+			            DESC,
+			            SKIP
+			        )
+			    )
+		formatString: 0
+		displayFolder: Plan\Ranking
+		lineageTag: 88d10e9b-1bad-57dc-8f49-98c96fd6f2cc
 
 	partition 'Fact Outturn' = m
 		mode: import

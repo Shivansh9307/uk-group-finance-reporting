@@ -25,27 +25,27 @@ table 'Time Intelligence'
 		calculationItem PY = Window.PriorYear ( SELECTEDMEASURE () )
 			ordinal: 4
 
-		/// Current less PY. BLANK where there is no previous year (the first year of the data), and for Variance % and Favourable/Adverse, where a difference between two ratios or two indicators means nothing.
+		/// Current less PY. BLANK where there is no previous year (the first year of the data), and for Variance % and Favourable/Adverse and the share measures (Revision %, Estimated Mapping Share), where a difference between two ratios or two indicators means nothing.
 		calculationItem YoY =
 				VAR Comparison = SELECTEDVALUE ( 'Scenario Comparison'[Comparison] )
 				VAR CurrentValue = SELECTEDMEASURE ()
 				VAR PriorValue = Window.PriorYear ( SELECTEDMEASURE () )
 				RETURN
 				    IF (
-				        Comparison IN { "Variance %", "Favourable/Adverse" } || ISBLANK ( CurrentValue ) || ISBLANK ( PriorValue ),
+				        Comparison IN { "Variance %", "Favourable/Adverse" } || ISSELECTEDMEASURE ( [Revision %], [Estimated Mapping Share] ) || ISBLANK ( CurrentValue ) || ISBLANK ( PriorValue ),
 				        BLANK (),
 				        CurrentValue - PriorValue
 				    )
 			ordinal: 5
 
-		/// Current less PY, divided by the absolute PY. BLANK where there is no previous year, where PY is zero, and for Variance % and Favourable/Adverse (a percentage change of a ratio or an indicator is meaningless).
+		/// Current less PY, divided by the absolute PY. BLANK where there is no previous year, where PY is zero, and for Variance % and Favourable/Adverse and the share measures (a percentage change of a ratio or an indicator is meaningless).
 		calculationItem 'YoY %' =
 				VAR Comparison = SELECTEDVALUE ( 'Scenario Comparison'[Comparison] )
 				VAR CurrentValue = SELECTEDMEASURE ()
 				VAR PriorValue = Window.PriorYear ( SELECTEDMEASURE () )
 				RETURN
 				    IF (
-				        Comparison IN { "Variance %", "Favourable/Adverse" } || ISBLANK ( CurrentValue ) || ISBLANK ( PriorValue ),
+				        Comparison IN { "Variance %", "Favourable/Adverse" } || ISSELECTEDMEASURE ( [Revision %], [Estimated Mapping Share] ) || ISBLANK ( CurrentValue ) || ISBLANK ( PriorValue ),
 				        BLANK (),
 				        DIVIDE ( CurrentValue - PriorValue, ABS ( PriorValue ) )
 				    )

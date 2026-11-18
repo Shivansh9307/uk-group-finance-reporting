@@ -46,6 +46,14 @@ table 'Department (current structure)'
 		summarizeBy: none
 		sourceColumn: valid_to_release
 
+	/// The as-reported department numbers this department answers for, written |030|027|: its own number; for an Unallocated member the number after the U; for the Foreign, Commonwealth and Development Office also 027. Every number the outturn was reported under is in exactly one department's list. Hidden: read by Outturn (as reported structure).
+	column 'Reported Department Numbers'
+		dataType: string
+		isHidden
+		lineageTag: f9bc5069-c35d-5936-a8a4-db5335958577
+		summarizeBy: none
+		sourceColumn: reported_department_numbers
+
 	partition 'Department (current structure)' = m
 		mode: import
 		source =

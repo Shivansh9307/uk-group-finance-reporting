@@ -304,3 +304,9 @@ function 'Pnl.AtPlanScope' = ```
 		    RETURN
 		        IF ( ISBLANK ( LineType ) || ISBLANK ( Amount ), BLANK (), Amount * Pnl.SignFactor () )
 		```
+
+/// A measure with the rows flagged in Data Quality Issue left out: the fact rows whose data-quality key is 0, the member that says no issue was flagged. A selection already made on the flagged rows is kept (KEEPFILTERS), so a selection of a finding gives nothing. The flagged rows are whole line-months that were reported in error and corrected in the next release (the NHS Pension Scheme line X903A002), so what is left out is the line-month as a whole, not only the error.
+function 'Restate.Unflagged' = ```
+		( m : EXPR ) =>
+		    CALCULATE ( m, KEEPFILTERS ( 'Fact Outturn'[Data Quality Issue Key] = 0 ) )
+		```

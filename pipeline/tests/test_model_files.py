@@ -180,7 +180,8 @@ def test_sort_by_columns_exist_and_are_hidden_or_visible_on_purpose(tables):
 
 def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(tables, repo_root):
     views = set()
-    sql_text = "\n".join(p.read_text(encoding="utf-8") for p in sorted((repo_root / "sql" / "dw").glob("7[04]?_*.sql")))
+    view_files = sorted((repo_root / "sql" / "dw").glob("7[046]?_*.sql"))
+    sql_text = "\n".join(p.read_text(encoding="utf-8") for p in view_files)
     created = set(re.findall(r"CREATE VIEW dw\.(v_model_\w+)", sql_text))
     used: list[str] = []
     for n, t in tables.items():

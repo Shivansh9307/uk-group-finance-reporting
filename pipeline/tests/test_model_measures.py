@@ -46,6 +46,22 @@ BASE_MEASURES = {
     "Statement Amount Running (WINDOW)": ("Fact Outturn", "Statement\\Windows"),
     "Statement Amount Moving 3 Months (WINDOW)": ("Fact Outturn", "Statement\\Windows"),
     "Department Rank (Statement Amount)": ("Fact Outturn", "Statement\\Windows"),
+    "Outturn as at Release": ("Fact Outturn", "Restatement"),
+    "Outturn as First Reported": ("Fact Outturn", "Restatement"),
+    "Revision since First Reported": ("Fact Outturn", "Restatement"),
+    "Revision %": ("Fact Outturn", "Restatement"),
+    "Revision in Release": ("Fact Outturn", "Restatement"),
+    "Restatement in Release": ("Fact Outturn", "Restatement"),
+    "Gross Revision in Release": ("Fact Outturn", "Restatement"),
+    "Gross Restatement in Release": ("Fact Outturn", "Restatement"),
+    "Gross Revision in Release (excl. flagged)": ("Fact Outturn", "Restatement\\Excluding flagged rows"),
+    "Gross Restatement in Release (excl. flagged)": ("Fact Outturn", "Restatement\\Excluding flagged rows"),
+    "Outturn (current structure)": ("Fact Outturn", "Current Structure"),
+    "Outturn (as reported structure)": ("Fact Outturn", "Current Structure"),
+    "Machinery of Government Transfer": ("Fact Outturn", "Current Structure"),
+    "Outturn (estimated mapping)": ("Fact Outturn", "Current Structure"),
+    "Estimated Mapping Share": ("Fact Outturn", "Current Structure"),
+    "Department Group Rank (YTD Variance %)": ("Fact Outturn", "Plan\\Ranking"),
 }
 GROUPS = {"Scenario Comparison": 10, "Time Intelligence": 20, "Display Unit": 30}
 
@@ -348,7 +364,7 @@ def test_every_function_is_used_by_a_measure_an_item_or_another_function_and_eve
         uses = len(re.findall(rf"(?<![\w.']){re.escape(name)}\s*\(", haystack))
         own = len(re.findall(rf"(?<![\w.']){re.escape(name)}\s*\(", functions[f"'{name}'"]))
         assert uses - own >= 1, f"{name} is never called"
-    called = set(re.findall(r"\b((?:Grain|Plan|Basis|Window|Format|Pnl)\.[A-Za-z0-9]+)\s*\(", haystack))
+    called = set(re.findall(r"\b((?:Grain|Plan|Basis|Window|Format|Pnl|Restate)\.[A-Za-z0-9]+)\s*\(", haystack))
     assert called <= names, sorted(called - names)
 
 
@@ -409,3 +425,70 @@ def test_the_statement_measures_act_through_the_calculation_groups(items):
         assert "[Statement Amount]" in by_name[("Display Unit", unit)].expression
         scaled = by_name[("Display Unit", unit)].expression
         assert "[Statement Variance %]" not in scaled, "a percentage is never scaled"
+
+
+# ------------------------------------------------------------------------------------------ restatement
+def test_outturn_as_at_release_is_written_in_the_plain_form_over_all_releases(measures):
+    # slow measure 1 is the form a report author would write: CALCULATE over a FILTER of ALL releases up to the
+    # highest in context
+    by_name = {m.name: m for m in measures}
+    e = re.sub(r"\s+", " ", by_name["Outturn as at Release"].expression)
+    assert "MAX ( 'Release'[Release Sequence] )" in e
+    assert "CALCULATE ( [Outturn], FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )" in e
+    assert "RANKX" not in e and "WINDOW" not in e and "OFFSET" not in e, "no rewritten form yet"
+
+
+def test_first_reported_sums_the_deltas_of_revision_zero_up_to_the_as_at_release(measures):
+    by_name = {m.name: m for m in measures}
+    e = re.sub(r"\s+", " ", by_name["Outturn as First Reported"].expression)
+    assert "'Fact Outturn'[Revision Number] = 0" in e and "'Release'[Release Sequence] <= AsAt" in e
+    r = re.sub(r"\s+", " ", by_name["Revision since First Reported"].expression)
+    assert "[Outturn as at Release]" in r and "[Outturn as First Reported]" in r
+
+
+def test_the_data_quality_variants_wrap_the_stated_pattern_and_only_the_gross_measures_have_one(measures, functions):
+    by_name = {m.name: m for m in measures}
+    variants = sorted(n for n in by_name if n.endswith("(excl. flagged)"))
+    assert variants == ["Gross Restatement in Release (excl. flagged)", "Gross Revision in Release (excl. flagged)"]
+    for n in variants:
+        base = n.replace(" (excl. flagged)", "")
+        assert re.sub(r"\s+", " ", by_name[n].expression) == f"Restate.Unflagged ( [{base}] )"
+    body = re.sub(r"\s+", " ", functions["'Restate.Unflagged'"])
+    assert "'Fact Outturn'[Data Quality Issue Key] = 0" in body and "KEEPFILTERS" in body
+
+
+def test_the_current_structure_counterpart_is_found_by_department_number_and_never_by_name(measures):
+    by_name = {m.name: m for m in measures}
+    for n in ("Outturn (as reported structure)", "Outturn (current structure)", "Machinery of Government Transfer"):
+        e = by_name[n].expression
+        assert "'Department (current structure)'[Department]" not in e, f"{n} must not use a name"
+        assert "[Department (as reported)]" not in e, f"{n} must not use a name"
+    assert "Reported Department Numbers" in by_name["Outturn (as reported structure)"].expression
+    assert "Department Number (as reported)" in by_name["Outturn (as reported structure)"].expression
+
+
+def test_the_rank_by_ytd_variance_percent_is_the_plain_form_with_both_items_inside(measures):
+    by_name = {m.name: m for m in measures}
+    e = re.sub(r"\s+", " ", by_name["Department Group Rank (YTD Variance %)"].expression)
+    assert "RANKX (" in e and "ALLSELECTED ( 'Spending Review Group' )" in e
+    assert e.count("'Time Intelligence'[Time Calculation] = \"YTD\"") >= 3
+    assert e.count("'Scenario Comparison'[Comparison] = \"Variance %\"") >= 3
+    assert "Department Rank (Statement Amount)" not in e
+
+
+def test_every_restatement_and_current_structure_amount_is_scaled_by_the_display_unit_and_no_percentage_is(
+    items, measures
+):
+    amounts = [m.name for m in measures if m.props["displayFolder"].startswith(("Restatement", "Current Structure"))]
+    percent = {"Revision %", "Estimated Mapping Share"}
+    assert len(amounts) == 15
+    for unit in ("£k", "£m", "£bn"):
+        expr = next(i for i in items if i.group == "Display Unit" and i.name == unit).expression
+        for n in amounts:
+            assert (f"[{n}]" in expr) == (n not in percent), f"{unit}: {n}"
+
+
+def test_the_share_measures_are_blanked_under_year_on_year(items):
+    for name in ("YoY", "YoY %"):
+        e = next(i for i in items if i.group == "Time Intelligence" and i.name == name).expression
+        assert "ISSELECTEDMEASURE ( [Revision %], [Estimated Mapping Share] )" in e, name
