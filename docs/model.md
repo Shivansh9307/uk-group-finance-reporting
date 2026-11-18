@@ -562,7 +562,7 @@ largest absolute difference of 0 (`evidence/model/dax_tests.csv`). The expected 
 | `Gross Revision in Release`, `Gross Restatement in Release` | the sum of the absolute deltas of the same two sets, so that increases and decreases do not net off | 762, 763 |
 | `Gross Revision in Release (excl. flagged)`, `Gross Restatement in Release (excl. flagged)` | the two gross measures with the rows flagged in `Data Quality Issue` left out (below) | 763 |
 
-Two judgements. First, `Revision in Release` is what the prompt asked for (a plain sum named so that it cannot be mistaken for
+Two judgements. First, `Revision in Release` is the movement measure I set out to build (a plain sum named so that it cannot be mistaken for
 a total), but on its own it is not a restatement: a delta with `Revision Number` 0 is a month or line reported for the first
 time, and in the first release of a year everything is. In the 31 releases the first release of each year has 0 rows with a
 revision number above 0 and 14,565 to 47,258 rows with 0 (query on `dw.fact_outturn`). A restatement page should therefore
