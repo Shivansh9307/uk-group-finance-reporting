@@ -8,7 +8,8 @@
 --                             (department 085 feeds CLG Communities and CLG Local Government; the split is by
 --                             organisation, never by weight)
 --     department              the department number's own row
---     unallocated member      the department is an Unallocated member of dim_department (none yet): it goes to the
+--     unallocated member      the current department is an Unallocated member of dim_department (lines of a closed
+--                             or split department with no current home: U084, U011, U077, U035): it goes to the
 --                             non-department member 'Unallocated central funds'
 --     unknown department      the structure map has no department for the pair: the same non-department member.
 --                             A test fails if any pair lands here, so it cannot hide a real department.
