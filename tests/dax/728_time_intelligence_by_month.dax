@@ -1,0 +1,19 @@
+// Every Time Intelligence item on Outturn for three financial years and two departments at month grain: periods 0
+// to 12 of each year. Period 0 (not allocated to a month) is a row of its own: Current and the year to date count it,
+// and the month, the quarter to date and the rolling 12 months are BLANK there. The previous year is the same period
+// a year earlier, and the rolling window crosses the financial year. YoY % is multiplied by one million.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Fiscal Period'[Period Number],
+    'Department (current structure)'[Department Number],
+    'Time Intelligence'[Time Calculation],
+    TREATAS ( { "2018-19", "2019-20", "2024-25" }, 'Fiscal Year'[Financial Year] ),
+    TREATAS ( { "022", "003" }, 'Department (current structure)'[Department Number] ),
+    "value",
+        IF (
+            SELECTEDVALUE ( 'Time Intelligence'[Time Calculation] ) = "YoY %",
+            [Outturn] * 1000000,
+            [Outturn]
+        )
+)

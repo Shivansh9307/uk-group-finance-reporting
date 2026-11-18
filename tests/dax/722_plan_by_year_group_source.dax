@@ -1,0 +1,11 @@
+// Plan by financial year, Spending Review group and plan source equals the sum of dw.fact_plan on the same keys,
+// leaving out the administration rows that are part of resource DEL (no plan measure is chosen here). Every cell is
+// at the grain of its plan, so none is blanked by the guard.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Spending Review Group'[Spending Review Group],
+    'Plan Source'[Plan Source Code],
+    "plan", [Plan]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Spending Review Group'[Spending Review Group], 'Plan Source'[Plan Source Code]

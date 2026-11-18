@@ -1,0 +1,14 @@
+// Outturn (plan basis) for the three plan measures of OSCAR Plans that dw.plan_measure_selection does not define:
+// NON_DEPT_AME (control budget detail NON-DEPT AME), NON_BUDGET (NON-BUDGET) and UNCLASSIFIED (DEL and departmental AME
+// lines whose economic budget is neither resource nor capital). These rules are mine, so the expected values come from
+// the outturn fact directly, not from a basis table. By year, Spending Review group and plan measure.
+EVALUATE
+FILTER (
+    SUMMARIZECOLUMNS (
+        'Fiscal Year'[Financial Year],
+        'Spending Review Group'[Spending Review Group],
+        'Fact Plan'[Plan Measure],
+        "basis", [Outturn (plan basis)]
+    ),
+    'Fact Plan'[Plan Measure] IN { "NON_DEPT_AME", "NON_BUDGET", "UNCLASSIFIED" }
+)

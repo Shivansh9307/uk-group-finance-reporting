@@ -1,0 +1,14 @@
+// The derived monthly plan never reaches a real total. The totals of the whole model, with no selection: Outturn is the
+// sum of the outturn fact and nothing else; Plan is the sum of the plan fact (less the administration rows that are part
+// of resource DEL) and nothing else; Plan (phased) is the phased fact. Both Outturn and Plan stay BLANK when the
+// Scenario selected is Plan (phased), because neither fact is related to that scenario.
+EVALUATE
+UNION (
+    ROW ( "name", "Outturn, all", "value", [Outturn] ),
+    ROW ( "name", "Plan, all", "value", [Plan] ),
+    ROW ( "name", "Plan (phased), all", "value", [Plan (phased)] ),
+    ROW ( "name", "Outturn on scenario Plan (phased) is blank", "value", IF ( ISBLANK ( CALCULATE ( [Outturn], 'Scenario'[Scenario] = "Plan (phased)" ) ), 1, 0 ) ),
+    ROW ( "name", "Plan on scenario Plan (phased) is blank", "value", IF ( ISBLANK ( CALCULATE ( [Plan], 'Scenario'[Scenario] = "Plan (phased)" ) ), 1, 0 ) ),
+    ROW ( "name", "Plan (phased) rows", "value", COUNTROWS ( 'Fact Plan Phased (derived)' ) ),
+    ROW ( "name", "Plan rows", "value", COUNTROWS ( 'Fact Plan' ) )
+)

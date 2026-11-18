@@ -1,0 +1,14 @@
+// The dynamic format strings, as the model's own function Format.ForUnit returns them, for every Scenario Comparison
+// item together with every Time Intelligence item (40 combinations) and each of the three units, and the kind of
+// value that selects them (amount, percent or indicator). The pound sign in a returned string is written as GBP here so
+// that the comparison does not depend on the encoding of a result file; the model's strings carry the pound sign.
+// The calculation items call Format.ForUnit, so a change in it is a change in what the report shows.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Scenario Comparison'[Comparison],
+    'Time Intelligence'[Time Calculation],
+    "kind", Format.ValueKind (),
+    "format_k", SUBSTITUTE ( Format.ForUnit ( "k" ), UNICHAR ( 163 ), "GBP" ),
+    "format_m", SUBSTITUTE ( Format.ForUnit ( "m" ), UNICHAR ( 163 ), "GBP" ),
+    "format_bn", SUBSTITUTE ( Format.ForUnit ( "bn" ), UNICHAR ( 163 ), "GBP" )
+)

@@ -1,0 +1,11 @@
+// Plan (phased) over the periods of a year, by Spending Review group, equals Plan for the same year and group: the
+// twelve months of a plan row add up to the published annual figure. FY2017-18 has no calendar, so its phased plan is
+// BLANK while its Plan is not.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Spending Review Group'[Spending Review Group],
+    "plan", [Plan],
+    "phased", [Plan (phased)]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Spending Review Group'[Spending Review Group]

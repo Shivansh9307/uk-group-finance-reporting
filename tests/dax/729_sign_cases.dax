@@ -1,0 +1,27 @@
+// The four sign cases of the scenario comparison, each a real cell of the OSCAR Plans (grain A: organisation x
+// year x resource DEL, DEL programme and administration) found by a query on the warehouse:
+//   spending under plan   DFE022 2019-20  (Department for Education, plan 79.3bn, outturn below it)
+//   spending over plan    HOF034 2019-20  (plan above zero, outturn above it)
+//   income above plan     XXX022 2019-20  (an offsetting body whose plan is income, a negative number; more income
+//                                          than planned is more negative)
+//   income below plan     XXX022 2020-21  (the same body, income short of plan)
+// With spending positive and income negative, Actual less Plan below zero is favourable in the first and third and
+// above zero is adverse in the second and fourth. Variance % is shown in parts per million.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Organisation (as reported)'[Organisation Code],
+    'Scenario Comparison'[Comparison],
+    TREATAS (
+        { ( "2019-20", "DFE022" ), ( "2019-20", "HOF034" ), ( "2019-20", "XXX022" ), ( "2020-21", "XXX022" ) },
+        'Fiscal Year'[Financial Year],
+        'Organisation (as reported)'[Organisation Code]
+    ),
+    TREATAS ( { "RDEL" }, 'Fact Plan'[Plan Measure] ),
+    "value",
+        IF (
+            SELECTEDVALUE ( 'Scenario Comparison'[Comparison] ) = "Variance %",
+            [Comparison Amount] * 1000000,
+            [Comparison Amount]
+        )
+)

@@ -1,0 +1,23 @@
+// The Display Unit items on the values of one real cell (DFE022, 2019-20, resource DEL): the amounts are divided by 1,
+// 1,000 and 1,000,000 (GBP thousands, millions, billions), and Variance % and Favourable/Adverse are not scaled. The
+// values are tested here without any format function; the format strings are tested in test 732. The unit label has its
+// pound sign written as GBP for the comparison. Variance % is shown in parts per million.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Display Unit'[Unit],
+        'Scenario Comparison'[Comparison],
+        TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ),
+        TREATAS ( { "DFE022" }, 'Organisation (as reported)'[Organisation Code] ),
+        TREATAS ( { "RDEL" }, 'Fact Plan'[Plan Measure] ),
+        "amount",
+            IF (
+                SELECTEDVALUE ( 'Scenario Comparison'[Comparison] ) = "Variance %",
+                [Comparison Amount] * 1000000,
+                [Comparison Amount]
+            )
+    ),
+    "unit_label", SUBSTITUTE ( 'Display Unit'[Unit], UNICHAR ( 163 ), "GBP " ),
+    "Comparison", 'Scenario Comparison'[Comparison],
+    "value", [amount]
+)

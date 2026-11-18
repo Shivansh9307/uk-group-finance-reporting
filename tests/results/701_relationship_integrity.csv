@@ -14,7 +14,7 @@ relationship,many_side_rows,rows_without_member
 "Fact Plan Phased to Plan Source",53688,0
 "Fact Plan Phased to Scenario",53688,0
 "Fact Plan Phased to Spending Review Group",53688,0
-"Fact Plan to Fiscal Year",5372,898
+"Fact Plan to Fiscal Year",5372,0
 "Fact Plan to Plan Grain",5372,0
 "Fact Plan to Plan Source",5372,0
 "Fact Plan to Scenario",5372,0

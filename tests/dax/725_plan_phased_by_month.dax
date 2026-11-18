@@ -1,0 +1,13 @@
+// Plan (phased) by financial year and period equals the phased fact by period, and Plan is BLANK in every one of
+// those cells (a month is below the grain of a published plan). Period 0 has no phased rows.
+EVALUATE
+FILTER (
+    SUMMARIZECOLUMNS (
+        'Fiscal Year'[Financial Year],
+        'Fiscal Period'[Period Number],
+        "phased", [Plan (phased)],
+        "plan_is_blank", IF ( ISBLANK ( [Plan] ), 1, 0 )
+    ),
+    NOT ISBLANK ( [phased] )
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Fiscal Period'[Period Number]

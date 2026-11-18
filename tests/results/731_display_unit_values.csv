@@ -1,0 +1,16 @@
+unit_label,Comparison,value
+"GBP k","Variance %",-130597.07988893404
+"GBP m","Variance %",-130597.07988893404
+"GBP bn","Variance %",-130597.07988893404
+"GBP k","Actual",68962049
+"GBP k","Plan",79321161
+"GBP k","Variance",-10359112
+"GBP k","Favourable/Adverse",1
+"GBP m","Actual",68962.049
+"GBP m","Plan",79321.161
+"GBP m","Variance",-10359.112
+"GBP m","Favourable/Adverse",1
+"GBP bn","Actual",68.962
+"GBP bn","Plan",79.3212
+"GBP bn","Variance",-10.3591
+"GBP bn","Favourable/Adverse",1

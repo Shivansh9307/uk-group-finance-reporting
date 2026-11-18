@@ -1,0 +1,9 @@
+// Outturn by financial year and department of the current structure equals the sum of dw.fact_outturn on the same
+// keys. Outturn is the sum of every revision delta, so with no release selected it is the latest view of each year.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Department (current structure)'[Department Number],
+    "outturn", [Outturn]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]

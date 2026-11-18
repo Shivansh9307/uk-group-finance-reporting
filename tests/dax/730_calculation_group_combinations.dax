@@ -1,0 +1,25 @@
+// Every Time Intelligence item against every Scenario Comparison item (40 combinations) for one real cell: the
+// Department for Education (DFE022) in 2020-21, resource DEL, from OSCAR Plans (grain A). The cell has a previous year
+// (2019-20), no period 0, and a plan at the grain of the cell. What the combinations must do:
+//   - YTD and Current at the whole year give the year; the plan is present, so Variance, Variance % and
+//     Favourable/Adverse are present; PY moves the year, the plan and the variance back one year;
+//   - MTD, QTD and Rolling 12 months are windows below the grain of a plan: Actual shows, Plan and everything that
+//     needs it is BLANK;
+//   - YoY and YoY % are differences of Actual, Plan and Variance, and are BLANK for Variance % and Favourable/Adverse
+//     (a difference of two ratios or two indicators means nothing).
+// Variance % and YoY % are shown in parts per million.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Time Intelligence'[Time Calculation],
+    'Scenario Comparison'[Comparison],
+    TREATAS ( { "2020-21" }, 'Fiscal Year'[Financial Year] ),
+    TREATAS ( { "DFE022" }, 'Organisation (as reported)'[Organisation Code] ),
+    TREATAS ( { "RDEL" }, 'Fact Plan'[Plan Measure] ),
+    "value",
+        IF (
+            SELECTEDVALUE ( 'Scenario Comparison'[Comparison] ) = "Variance %"
+                || SELECTEDVALUE ( 'Time Intelligence'[Time Calculation] ) = "YoY %",
+            [Comparison Amount] * 1000000,
+            [Comparison Amount]
+        )
+)

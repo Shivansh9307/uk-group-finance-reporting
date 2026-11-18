@@ -1,0 +1,25 @@
+unit_label,Time Calculation,value
+"GBP k","YoY %",101510.15089473342
+"GBP m","YoY %",101510.15089473342
+"GBP bn","YoY %",101510.15089473342
+"GBP k","Current",75962397
+"GBP k","MTD",5918222
+"GBP k","QTD",19316693
+"GBP k","YTD",75962397
+"GBP k","PY",68962049
+"GBP k","YoY",7000348
+"GBP k","Rolling 12 months",75962397
+"GBP m","Current",75962.397
+"GBP m","MTD",5918.222
+"GBP m","QTD",19316.693
+"GBP m","YTD",75962.397
+"GBP m","PY",68962.049
+"GBP m","YoY",7000.348
+"GBP m","Rolling 12 months",75962.397
+"GBP bn","Current",75.9624
+"GBP bn","MTD",5.9182
+"GBP bn","QTD",19.3167
+"GBP bn","YTD",75.9624
+"GBP bn","PY",68.962
+"GBP bn","YoY",7.0003
+"GBP bn","Rolling 12 months",75.9624

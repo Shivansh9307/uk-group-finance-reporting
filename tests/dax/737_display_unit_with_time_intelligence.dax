@@ -1,0 +1,23 @@
+// Display Unit (the outermost calculation group, precedence 30) together with Time Intelligence (precedence 20) on the
+// real cell of test 730: DFE022, 2020-21, resource DEL, Actual. Each Time Intelligence item is divided by the unit
+// (1, 1,000 or 1,000,000), except YoY %, which is a percentage and is not scaled (shown here in parts per million).
+// The unit label has its pound sign written as GBP.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Display Unit'[Unit],
+        'Time Intelligence'[Time Calculation],
+        TREATAS ( { "2020-21" }, 'Fiscal Year'[Financial Year] ),
+        TREATAS ( { "DFE022" }, 'Organisation (as reported)'[Organisation Code] ),
+        TREATAS ( { "RDEL" }, 'Fact Plan'[Plan Measure] ),
+        "amount",
+            IF (
+                SELECTEDVALUE ( 'Time Intelligence'[Time Calculation] ) = "YoY %",
+                [Comparison Amount] * 1000000,
+                [Comparison Amount]
+            )
+    ),
+    "unit_label", SUBSTITUTE ( 'Display Unit'[Unit], UNICHAR ( 163 ), "GBP " ),
+    "Time Calculation", 'Time Intelligence'[Time Calculation],
+    "value", [amount]
+)

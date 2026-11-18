@@ -1,0 +1,12 @@
+// With no plan measure chosen, Outturn (plan basis) adds the basis of every plan measure in the year and group except
+// the administration budgets (part of resource DEL, so adding them would count the same spending twice). From 2022-23
+// the plan measures are RDEL_EX_DEPN, CDEL, RAME and CAME (and the administration rows left out), all defined by
+// dw.plan_measure_selection, so the expected value is the sum of the in-year basis table over those measures at the
+// closing release of the year, for the groups that have a plan row of that measure.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Spending Review Group'[Spending Review Group],
+    TREATAS ( { "2022-23", "2023-24", "2024-25", "2025-26" }, 'Fiscal Year'[Financial Year] ),
+    "basis", [Outturn (plan basis)]
+)

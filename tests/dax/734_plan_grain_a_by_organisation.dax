@@ -1,0 +1,11 @@
+// OSCAR Plans are published by organisation, control budget detail and economic budget, so Plan can be cut at all three.
+// For 2019-20, Plan by organisation code x control budget detail x economic budget equals the plan fact at those keys.
+// The economic budget n/a of the plan is the member NA of Account, which holds both spellings.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Organisation (as reported)'[Organisation Code],
+    'Control Budget'[Control Budget Detail Code],
+    'Account'[Economic Budget],
+    TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ),
+    "plan", [Plan]
+)

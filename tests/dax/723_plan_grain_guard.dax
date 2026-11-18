@@ -1,0 +1,36 @@
+// The plan grain guard. For two years, one of OSCAR Plans (2019-20, grain A: organisation x control budget detail x
+// economic budget) and one of Estimates and PESA (2024-25, grains B and D: Spending Review group x measure), the
+// number of cells of Plan that are not BLANK when the filter context is cut at each level. Below the grain of the
+// source it must be 0: a month, a sub-segment, an economic category, an organisation version, a department and a
+// data quality issue in both years, and an organisation code, a control budget detail and an economic budget where
+// the source has none (2024-25). At its own grain the plan is shown.
+EVALUATE
+UNION (
+    ROW ( "level", "month", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Fiscal Period'[Period Number], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "sub-segment", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Sub-Segment'[Sub-Segment], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "economic category", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Account'[Economic Category], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "organisation version", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Organisation (as reported)'[Organisation], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "department", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Department (current structure)'[Department], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "data quality issue", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Data Quality Issue'[Issue Type], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "organisation code", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Organisation (as reported)'[Organisation Code], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "control budget detail", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Control Budget'[Control Budget Detail Code], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "economic budget", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Account'[Economic Budget], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "financial year", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Fiscal Year'[Financial Year], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "spending review group", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Spending Review Group'[Spending Review Group], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "plan source", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Plan Source'[Plan Source Code], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "plan measure", "year", "2019-20", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Fact Plan'[Plan Measure], "p", [Plan] ), TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "month", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Fiscal Period'[Period Number], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "sub-segment", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Sub-Segment'[Sub-Segment], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "economic category", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Account'[Economic Category], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "organisation version", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Organisation (as reported)'[Organisation], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "department", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Department (current structure)'[Department], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "data quality issue", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Data Quality Issue'[Issue Type], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "organisation code", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Organisation (as reported)'[Organisation Code], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "control budget detail", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Control Budget'[Control Budget Detail Code], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "economic budget", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Account'[Economic Budget], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "financial year", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Fiscal Year'[Financial Year], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "spending review group", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Spending Review Group'[Spending Review Group], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "plan source", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Plan Source'[Plan Source Code], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 ),
+    ROW ( "level", "plan measure", "year", "2024-25", "cells", COUNTROWS ( CALCULATETABLE ( SUMMARIZECOLUMNS ( 'Fact Plan'[Plan Measure], "p", [Plan] ), TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ) ) + 0 )
+)
+ORDER BY [year], [level]

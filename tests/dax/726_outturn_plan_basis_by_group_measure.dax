@@ -1,0 +1,16 @@
+// Outturn (plan basis) by financial year, Spending Review group and plan measure equals dw.outturn_plan_basis_inyear
+// at the closing release of the year (the running sum of the year's deltas, which is what the model's Outturn is
+// with no release selected), for the seven plan measures that table defines. The cells are those that have a plan row
+// and a basis other than zero (the table keeps no zero rows; the model returns 0 for two cells whose lines net to zero).
+EVALUATE
+FILTER (
+    SUMMARIZECOLUMNS (
+        'Fiscal Year'[Financial Year],
+        'Spending Review Group'[Spending Review Group],
+        'Fact Plan'[Plan Measure],
+        "basis", [Outturn (plan basis)]
+    ),
+    'Fact Plan'[Plan Measure] IN { "RDEL", "RDEL_EX_DEPN", "CDEL", "RAME", "CAME", "ADMIN", "ADMIN_EX_DEPN" }
+        && [basis] <> 0
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Spending Review Group'[Spending Review Group], 'Fact Plan'[Plan Measure]

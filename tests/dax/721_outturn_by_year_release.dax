@@ -1,0 +1,9 @@
+// Outturn by financial year and release equals the sum of the deltas that release made to that year. Each release
+// changes only its own financial year (sql test 303), so the table has one row per delta-bearing release and year.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Release'[Release Label],
+    "outturn", [Outturn]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Release'[Release Label]
