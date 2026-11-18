@@ -37,6 +37,7 @@ loader refuses a file with no header, a header that is not a plain identifier, a
 | `department_name.csv` | `authored.department_name` | one per department number and naming period | the display name of each department number in each period, the labels the files use in that period, evidence | `stg.department_period`, `dw.dim_department` |
 | `organisation_key_override.csv` | `authored.organisation_key_override` | one per code and period | the durable key a code gets where its three-letter prefix is not enough (prefix collisions, a prefix change, reused core department codes, a merger, a coding error) | `stg.organisation_key_override`, `dw.dim_organisation` |
 | `account_flow.csv` | `authored.account_flow` | one per economic category code that the digit rule does not settle | whether the category is Expenditure, Income or Not applicable, with the profile figures and my reasoning | `stg.account_flow`, `dw.dim_account` |
+| `current_structure_map.csv` | `authored.current_structure_map` | one per organisation and sub-segment, or per organisation | the department a line belongs to in the current structure where the rules cannot decide it: the review of the 15 BEIS sub-segments the November 2023 annual file disagreed on, three lines left in the DSIT group (marked estimated), and the departments that closed into another (DFID to FCDO, DIT to DBT) | `stg.current_structure_authored`, `dw.current_structure_line` |
 
 All are labelled authored in the database (table description) and in the model that imports the
 dimensions. None holds an amount.
