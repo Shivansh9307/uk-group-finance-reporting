@@ -27,7 +27,7 @@ Prefix ranges are reserved per task so that parallel branches never collide:
 | 400-449 | the annual restated (BUD) and PSS load, `dw.fact_outturn_annual`, their reference maps and controls (scope full) |
 | 500-549 | the spending plans: Estimates, PESA and OSCAR Plans, the plan name map, `dw.fact_plan` |
 | 450-499 | the current-structure map (`sql/dw/290` is its one file below this range, because the outturn fact reads it), its sub-segment labels, audits, tests and the hold-out against the 2025 annual file (scope full) |
-| 550-599 | later tasks, each task takes its own block |
+| 550-599 | the outturn to Spending Review group bridge, the phasing profile and phased plan (derived), outturn on the plan's basis (annual and in-year), and their audits |
 
 ## Phases
 
