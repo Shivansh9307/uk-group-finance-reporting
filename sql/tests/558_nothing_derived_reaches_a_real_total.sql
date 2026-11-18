@@ -1,23 +1,6 @@
--- test: the real facts are what they were before the phasing files existed (row counts and sums recorded from a build of main before these files, per build scope); the phased plan and the profile are flagged derived, labelled DERIVED, and nothing outside this feature reads the phased plan
-WITH scope AS (
-    SELECT CAST(value AS varchar(20)) AS scope FROM sys.extended_properties WHERE class = 0 AND name = N'ukfr_build_scope'
-), facts AS (
-    SELECT 'dw.fact_outturn' AS fact, COUNT_BIG(*) AS n, SUM(amount_delta) AS total FROM dw.fact_outturn
-    UNION ALL
-    SELECT 'dw.fact_plan', COUNT_BIG(*), SUM(amount) FROM dw.fact_plan
-), expected AS (
-    SELECT 'dw.fact_outturn' AS fact, CAST(658554 AS bigint) AS n, CAST(9098653566.4360 AS decimal(28, 4)) AS total, 'committed' AS scope
-    UNION ALL SELECT 'dw.fact_outturn', 658554, 9098653566.4360, 'full'
-    UNION ALL SELECT 'dw.fact_plan', 749, 7785863653.0000, 'committed'
-    UNION ALL SELECT 'dw.fact_plan', 5372, 21532485408.0000, 'full'
-)
-SELECT 'real fact changed' AS problem, r.fact AS detail, CONCAT(r.n, ' rows, ', r.total) AS got, CONCAT(e.n, ' rows, ', e.total) AS expected
-FROM facts AS r
-JOIN scope AS s ON 1 = 1
-JOIN expected AS e ON e.fact = r.fact AND e.scope = s.scope
-WHERE r.n <> e.n OR r.total <> e.total
-UNION ALL
-SELECT 'derived row not flagged', 'dw.plan_phasing_profile', NULL, NULL FROM dw.plan_phasing_profile WHERE is_derived <> 1 GROUP BY is_derived
+-- test: the phased plan and the phasing profile are flagged derived, labelled DERIVED, and nothing outside this feature reads or points at the phased plan (the row counts and sums of the real facts are pinned in evidence/expected/real_fact_totals.csv and checked by pipeline/tests/test_real_totals.py)
+SELECT 'derived row not flagged' AS problem, 'dw.plan_phasing_profile' AS detail, CAST(NULL AS nvarchar(100)) AS got, CAST(NULL AS nvarchar(100)) AS expected
+FROM dw.plan_phasing_profile WHERE is_derived <> 1 GROUP BY is_derived
 UNION ALL
 SELECT 'derived row not flagged', 'dw.fact_plan_phased', NULL, NULL FROM dw.fact_plan_phased WHERE is_derived <> 1 GROUP BY is_derived
 UNION ALL

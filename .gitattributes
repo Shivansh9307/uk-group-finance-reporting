@@ -20,3 +20,5 @@ evidence/build/*.csv text eol=lf
 authored/*.csv text eol=lf
 # Written by a `--scope full` build (the audit tables that need the large source files); pinned to LF.
 evidence/full/*.csv text eol=lf
+# Pinned expectations for the real facts (ukfr real-totals --write); LF so the file reads the same everywhere.
+evidence/expected/*.csv text eol=lf
