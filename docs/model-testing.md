@@ -25,7 +25,8 @@ then it rests on me running the suite and committing the files together.
 | `tests/results/<NNN>_<name>.csv` | what the model returned | `tools/run_dax_tests.ps1` |
 | `evidence/model/dax_tests.csv` | test id, name, rows, columns, status, largest absolute difference, build scope | `ukfr dax-compare` |
 
-Test numbers 700 to 719 belong to the model skeleton and 720 to 739 to the measures; later model tasks take their own ranges.
+Test numbers 700 to 719 belong to the model skeleton, 720 to 739 to the measures and 740 to 759 to the income and
+expenditure statement; later model tasks take their own ranges.
 
 ## Run the suite
 
@@ -138,6 +139,15 @@ Percentages are multiplied by one million in both queries so the 0.0001 toleranc
 `tools/run_mdx.ps1` and `tests/mdx/format_strings.mdx` are not a DAX test: they ask the engine for the formatted value of
 100 cells and write [evidence/model/format_strings.csv](../evidence/model/format_strings.csv), which is how the format
 string expressions are shown to be in force (the file has no expected values; I read it).
+
+### The statement tests (740 to 752)
+
+Thirteen tests for the group income and expenditure statement. Their expected values come from `dw.v_statement_pnl` (the
+statement computed in SQL), from the fact through the statement tables, or from T-SQL window functions; the table is in
+[model.md](model.md#the-group-income-and-expenditure-statement). They need a full-scope database for the plan cells (the OSCAR
+Plans years). 750 has a Python expected source because the field parameter is a definition, not warehouse data.
+Counts of the engine's result: 740 329 rows, 741 9, 742 34, 743 384, 744 72, 745 33, 746 40, 747 50, 748 74, 749 171,
+750 4, 751 8, 752 39.
 
 ## Not covered
 

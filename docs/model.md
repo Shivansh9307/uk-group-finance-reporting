@@ -2,8 +2,9 @@
 
 One Power BI semantic model, `model/UKGroupFinance.pbip` (PBIP: TMDL for the model, PBIR for the report), on the star
 schema that `ukfr build` writes to SQL Server. This page says what is in it, where each table comes from, how the
-tables relate, what the measures and the three calculation groups do, and what I left out and why. There is no statement
-layout, no restatement measure, no security and no report page yet; those are later work. Every claim is labelled
+tables relate, what the measures and the three calculation groups do, and what I left out and why. The group income and
+expenditure statement has its own section below. There is no restatement measure, no security and no report page yet;
+those are later work. Every claim is labelled
 **tested** (with the command and the result file) or **designed**.
 
 ## Decisions
@@ -48,7 +49,7 @@ the warehouse (**tested**: `evidence/model/dax_tests.csv`, test 700). SQL counts
 | Fiscal Period | `dw.v_model_fiscal_period` | 143 | real | year and period 0 to 12 |
 | Release | `dw.v_model_release` | 31 | real | the OSCAR in-year releases |
 | Scenario | `dw.v_model_scenario` | 5 | authored | Outturn, Plan, Plan (phased), Departments' forecast, Own forecast |
-| Account | `dw.v_model_account` | 128 | real, with an authored flow | economic categories (127 and Unknown) |
+| Account | `dw.v_model_account` | 128 | real, with an authored flow and statement line | economic categories (127 and Unknown), each with the statement line it is added to |
 | Control Budget | `dw.v_model_control_budget` | 6 | real | DEL, AME, Non-budget and the five detail codes |
 | Sub-Segment | `dw.v_model_segment` | 3,766 | real | OSCAR sub-segments (3,765 and Unknown) |
 | Organisation (as reported) | `dw.v_model_organisation` | 409 | real, authored keys | Type 2 organisation versions (408 and Unknown) |
@@ -57,6 +58,8 @@ the warehouse (**tested**: `evidence/model/dax_tests.csv`, test 700). SQL counts
 | Plan Source | `dw.v_model_plan_source` | 17 | authored | each plan source and edition |
 | Plan Grain | `dw.v_model_plan_grain` | 4 | authored | the four grains a plan is published at |
 | Data Quality Issue | `dw.v_model_data_quality` | 7 | real findings | six findings and the "No issue flagged" member |
+| Statement Line | `dw.v_model_statement_line` | 39 | authored | the 39 lines of the group income and expenditure statement; no amount |
+| Statement Measure | field parameter (calculated table) | 4 | authored | Outturn, Plan, Variance and Variance % of the statement amount; points at four measures |
 | Time Intelligence | calculation group | 8 items | | Current, MTD, QTD, YTD, PY, YoY, YoY %, Rolling 12 months |
 | Scenario Comparison | calculation group | 5 items | | Actual, Plan, Variance, Variance %, Favourable/Adverse |
 | Display Unit | calculation group | 3 items | | GBP thousands, millions and billions |
@@ -94,11 +97,12 @@ the sort-key columns (`Year Start`, `Scenario Sort Order`, `Vintage Order`) and 
 
 ## Relationships
 
-21 relationships, all active, all many-to-one, all single direction (the one side filters the many side). There are
+22 relationships, all active, all many-to-one, all single direction (the one side filters the many side). There are
 no inactive relationships and no bidirectional ones (**tested**:
 `test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one`), the one side is always
 a key column of a dimension (`test_the_one_side_of_every_relationship_is_a_key_column_of_a_dimension`), and no row of
-the many side meets a blank member (**tested**: DAX test 701, 21 relationships, 0 rows without a member in each).
+the many side meets a blank member (**tested**: DAX test 701, 21 relationships, 0 rows without a member in each; the 22nd, Account to Statement Line, is
+tested by `sql/tests/740`, which shows every account has one line, and by DAX test 741, whose statement total equals Outturn).
 
 | Many side | One side | Via |
 |---|---|---|
@@ -123,6 +127,7 @@ the many side meets a blank member (**tested**: DAX test 701, 21 relationships, 
 | Fact Plan Phased (derived) | Scenario | key of Plan (phased) |
 | Fact Plan Phased (derived) | Plan Grain | grain code |
 | Fiscal Period | Fiscal Year | financial year |
+| Account | Statement Line | statement line key: the detail line of the statement the category is added to |
 
 The two role-playing organisation dimensions are both active on `Fact Outturn`: `Organisation (as reported)` on the
 version the release used (so a department move or rename shows as it was reported), and `Department (current
@@ -169,7 +174,8 @@ warehouse, in each case, and a later model task builds on the answer.
 
 ## Measures
 
-Six measures, three calculation groups and fourteen DAX functions. They are written in TMDL (`functions.tmdl` and the
+Six base measures (the statement measures have their own section below), three calculation groups and eighteen DAX
+functions. They are written in TMDL (`functions.tmdl` and the
 fact and calculation-group table files) and tested by DAX tests 720 to 737, each against a query over the `dw` base
 tables (`docs/model-testing.md`). Amounts are GBP thousands, spending positive and income negative. Display folders:
 `Base`, `Plan`, `Plan\Derived`. Every measure has a description and a format string (**tested**:
@@ -367,6 +373,7 @@ unit): [evidence/model/format_strings.csv](../evidence/model/format_strings.csv)
 | `Basis.OutturnFor`, `Basis.HasRule` | `Outturn (plan basis)` |
 | `Window.OverPeriods`, `Window.Mtd`, `Window.Qtd`, `Window.Ytd`, `Window.PriorYear`, `Window.Rolling12` | the Time Intelligence items |
 | `Format.ValueKind`, `Format.Scale`, `Format.ForUnit` | the Display Unit items |
+| `Pnl.SignFactor`, `Pnl.LineAmount`, `Pnl.AtPlanScope` | the statement measures (the namespace is `Pnl` because `Statement` is rejected by the DAX parser, below) |
 
 A function name with a dot must be quoted in `functions.tmdl` (`function 'Grain.BelowGrain' =`); unquoted, Desktop reads
 the dot as a namespace and the function loses its prefix, and every call fails to resolve (**tested**:
@@ -383,6 +390,136 @@ combination that needs a plan. That is the cost to watch on a matrix of comparis
 row counts per call) is where I would look first; I have not profiled a page or tried to reduce it. These are the test
 queries only.
 
+
+## The group income and expenditure statement
+
+The statement treats central government as one group: income, expenditure by kind, net expenditure for resource and for
+capital, and a total that equals the outturn. The layout and the rules that map an account to a line are authored files
+(`authored/statement_line.csv`, `authored/statement_account_rule.csv`), described with the judgements the account dimension
+forced in [data-dictionary/statement.md](data-dictionary/statement.md). A line is a row of `Statement Line` (39 rows: 28
+detail lines, 7 subtotals, 1 total, 3 spacers); `Account` is related to it, so a detail line filters the accounts it adds
+up and, through them, the outturn.
+
+### Measures
+
+| Measure | Home | What it returns | Tested by |
+|---|---|---|---|
+| `Statement Amount` | Fact Outturn | the outturn of the statement line in context, in the sign the line is presented in; BLANK for a spacer and when more than one line is in context | 740 to 745, 746 to 749, 751, 752 |
+| `Statement Plan` | Fact Plan | the plan of the line, only on the net resource, net capital and total lines and only where the source publishes a plan at that level | 740, 744, 745, 751 |
+| `Statement Amount (plan basis)` | Fact Outturn | where the line has a plan, the outturn on the plan's basis within the line's economic budget; BLANK otherwise | 740, 744 |
+| `Statement Variance`, `Statement Variance %` | Fact Outturn | the basis amount less the plan, and over the absolute plan | 744, 745, 751 |
+| `Statement Amount PY (OFFSET)` | Fact Outturn | the amount of the previous row of `Fiscal Year`, by `OFFSET` | 746 |
+| `Statement Amount Running (WINDOW)` | Fact Outturn | the amount from period 0 to the period in context within each year, by `WINDOW` | 747 |
+| `Statement Amount Moving 3 Months (WINDOW)` | Fact Outturn | the month and the two before it, across years, by `WINDOW`; period 0 is BLANK | 748 |
+| `Department Rank (Statement Amount)` | Fact Outturn | the rank of the department among those with an amount, by `RANK` | 749 |
+
+Display folders: `Statement` and `Statement\Windows`. Every measure has a description and a format string
+(**tested**: `pipeline/tests/test_model_measures.py`).
+
+### How a line is evaluated
+
+`Pnl.LineAmount(m)` takes the one statement line in context and the hidden column `Detail Line Keys` (the detail lines it
+adds up, written `|3|4|5|`, resolved in SQL), removes the filter on `Statement Line`, filters it to those detail lines
+with `TREATAS`, evaluates `m` (the outturn), and multiplies by the sign the line is presented in. So a detail line sums
+its accounts and a subtotal or total sums the detail lines under the lines it lists: a total equals the sum of its
+members by construction, a line is never built from other presented numbers, and a spacer, or a context with several
+lines, has no single line and gives BLANK. I put the list of detail lines on the line itself and not in a member table:
+one table, one relationship, and the list is built and checked in SQL (`dw.statement_line_member`, whose `path_count` is
+1 everywhere, so no amount is added twice).
+
+**Tested.** Test 740 compares `Statement Amount`, `Statement Plan` and `Statement Amount (plan basis)` for every line and
+every year (329 rows, largest difference 0). Test 741 shows the total line, `Outturn` and the sum of the detail lines (each
+sign undone) are the same number in all 9 years with outturn. Test 742 splits six lines by control budget (DEL, AME,
+Non-budget), 2019-20 and 2024-25 (34 cells).
+
+### The plan on a statement line
+
+The published plan has no account, so only the lines that coincide with what a plan is published on carry one: net
+resource expenditure (the economic budget RESOURCE), net capital expenditure (CAPITAL) and the total (every account).
+`Pnl.AtPlanScope(m)` sets the economic budget as a direct filter on `Account`, so the existing grain guard sees a
+selection at its grain: it leaves the plan in place in an OSCAR Plans year (published by economic budget) and blanks it in
+a year whose source (Estimates, PESA) has no economic budget. The plan measures compared are the five voted budgets only
+(RDEL, RDEL excluding depreciation, CDEL, departmental AME resource and capital); administration, non-departmental AME,
+non-budget and unclassified are left out, because the OSCAR non-budget plan is gross and the outturn is net (the reason
+and the figures are in the data dictionary). A statement line with no plan is BLANK in `Statement Plan`, not zero.
+
+### Calculation groups on the statement
+
+`Scenario Comparison` acts on `Comparison Amount` and now also on `Statement Amount`; every other measure passes
+through. On `Statement Amount` the items are:
+
+| Item | What it gives |
+|---|---|
+| Actual | the amount on the plan's basis where the line has a plan, the statement amount itself everywhere else |
+| Plan | `Statement Plan` |
+| Variance, Variance % | `Statement Variance`, `Statement Variance %` |
+| Favourable/Adverse | 1 below zero, -1 above, 0 at zero, on the variance with the presentation sign taken off |
+
+`Time Intelligence` acts on any measure, so YTD, PY, YoY and the rest work on `Statement Amount` unchanged, and
+`Display Unit` scales the statement measures that are amounts (not `Statement Variance %`). **Tested**: test 743
+(Current, YTD, PY and YoY on four lines, two years, every period, equal to T-SQL window functions; 384 cells), test 744
+(the five comparison items with Current, YTD and PY, four lines, two years; 72 cells), test 745 (three units; 33 cells).
+
+### Window functions and rank
+
+- `Statement Amount PY (OFFSET)` takes the previous row of `Fiscal Year` in order of year start, whatever a slicer selects;
+  it is for year grain. The time item PY does the same through a different route and also moves the plan.
+- `Statement Amount Running (WINDOW)` and `Statement Amount Moving 3 Months (WINDOW)` need `Fiscal Year[Financial Year]` and
+  `Fiscal Period[Period Number]` on the visual. The running total restarts every year and includes period 0; the moving
+  window is over the allocated months of every year in order, so April of a year takes in the last two months of the year
+  before, and period 0 is BLANK and in nobody's window.
+- `Department Rank (Statement Amount)` ranks over `ALLSELECTED` of the whole `Department (current structure)` table.
+  My first version ranked over `ALLSELECTED` of the key column only and every department came out first: a group-by
+  on another column of the same table (the number) stays in the context of `ALLSELECTED` on a column, so the relation had
+  one row (found by test 749, which returned 1 where SQL had ranks such as 10, 12 and 23). Over the whole table it matches `RANK()` in T-SQL.
+
+**Tested**: tests 746 (40 cells), 747 (50), 748 (74), 749 (171) equal `LAG`, `SUM() OVER`, a three-row moving
+`SUM() OVER` and `RANK() OVER` in T-SQL (`tests/expected/746` to `749`, largest difference 0).
+
+### The field parameter
+
+`Statement Measure` is a calculated table of four rows (Outturn, Plan, Variance, Variance %) with `NAMEOF` references to
+`Statement Amount`, `Statement Plan`, `Statement Variance` and `Statement Variance %`, and the metadata (`ParameterMetadata`
+version 3, kind 2) that makes Desktop treat it as a field parameter. **Tested**: test 750 (the four rows, the measure each
+points at and the order, equal to the intended rows) and test 751 (each of the four values returns its measure on two
+real cells, switching on the parameter's own order column; 8 cells equal SQL). **Not tested**: a visual that uses the
+parameter. `pbir` 0.9.33 cannot put a field parameter on a visual (it writes a plain column), so a report that wants
+it needs one manual step in Desktop (remove the field from the visual and drag the parameter back in, Save, review the
+diff). I would rather the report page use the `Scenario Comparison` items, which need no manual step.
+
+### Two names the DAX parser refuses
+
+- A function called `Statement.SignFactor` is a syntax error ("The syntax for 'Statement' is incorrect") from a query
+  and from a measure, and the model then fails to refresh; `Statement` is not usable as a namespace on this engine. The
+  functions are `Pnl.*`. A call to a function that does not exist
+  gives "Failed to resolve name" instead, so the name itself is the problem; renaming the namespace to `Pnl` cleared it. I
+  did not look for the reserved word in the language reference.
+- A variable called `Path` is a syntax error in a function body (`PATH` is a function). I called it `KeyList`.
+
+### Tests
+
+| Test | What it proves | Rows | Expected values from |
+|---|---|---:|---|
+| 740 `statement_by_line_year` | `Statement Amount`, `Statement Plan`, `Statement Amount (plan basis)`, every line and year | 329 | `dw.v_statement_pnl` |
+| 741 `statement_total_equals_outturn` | the total line, `Outturn` and the sum of the detail lines are one number per year | 9 | `dw.fact_outturn` |
+| 742 `statement_by_control_budget` | six lines split into DEL, AME, Non-budget | 34 | the fact through the statement tables |
+| 743 `statement_time_intelligence` | Current, YTD, PY, YoY at month grain | 384 | T-SQL window functions |
+| 744 `statement_comparison_and_time` | the five comparison items with Current, YTD, PY | 72 | `dw.v_statement_pnl`, `LAG` |
+| 745 `statement_display_unit` | three units against the comparison items | 33 | `dw.v_statement_pnl` |
+| 746 `statement_previous_year_offset` | `OFFSET` | 40 | `LAG` |
+| 747 `statement_running_total_window` | `WINDOW`, running total | 50 | `SUM() OVER` |
+| 748 `statement_moving_three_months_window` | `WINDOW`, three months across years | 74 | `SUM() OVER` |
+| 749 `statement_department_rank` | `RANK` | 171 | `RANK() OVER` |
+| 750 `statement_measure_parameter_rows` | the field parameter's rows and targets | 4 | the intended rows (Python) |
+| 751 `statement_measure_parameter_values` | what each parameter value returns | 8 | `dw.v_statement_pnl` |
+| 752 `statement_spacers_and_labels` | a spacer is BLANK and its label is distinct | 39 | the layout table |
+
+**Timings** (`tools/run_dax.ps1 -Benchmark -Cold 3 -Warm 3` on the open model, average total duration in milliseconds,
+cold then warm; the tool's output is not committed, these are the figures it printed): test 740 (329 cells, all lines and
+years) 302.3 and 250.0; 741 (9 cells) 52.3 and 56.3; 742 (34 cells) 43.7 and 33.0; 743 (384 cells of Time Intelligence on
+four lines) 211.3 and 131.7. I benchmarked only these four, and the warm figure is not always the smaller one, so I read
+them as "a few hundred milliseconds for the whole statement" and not as a measurement of caching. I did not profile the
+`WINDOW`, `OFFSET` or `RANK` measures or a report page.
 
 ## Parameters and sources
 
@@ -474,7 +611,7 @@ was answered or cancelled before I could record its second step, so the assets d
 
 ## Not in the model yet
 
-The statement layout, the restatement measures (as at a release, the revision delta), real terms from the deflators,
+The restatement measures (as at a release, the revision delta), real terms from the deflators,
 security, perspectives, translations and report pages. Tabular Editor 2's Best Practice Analyzer runs in CI on this folder
 with the four starter rules of the spike; a fuller rule file replaces them later. Not tested: the measures on a report
 canvas (there is none yet), a visual that selects different periods in different years, and the matrix subtotals of the
