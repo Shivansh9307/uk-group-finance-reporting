@@ -7,6 +7,9 @@ authored,organisation_key_override,14
 authored,plan_name_map,97
 authored,plan_source,17
 authored,sr_group,32
+authored,statement_account_rule,31
+authored,statement_line,39
+dw,account_statement_line,128
 dw,current_structure_department,76
 dw,current_structure_line,5480
 dw,current_structure_organisation,278
@@ -33,6 +36,8 @@ dw,outturn_sr_group_bridge,5480
 dw,plan_coverage,35
 dw,plan_measure_selection,10
 dw,plan_phasing_profile,8988
+dw,statement_line,39
+dw,statement_line_member,110
 quarantine,oscar_inyear,0
 raw,oscar_inyear,1547078
 raw,oscar_inyear_control_expected,32
@@ -57,4 +62,6 @@ stg,plan_pesa_line,9826
 stg,plan_source,17
 stg,release,31
 stg,sr_group,32
+stg,statement_account_rule,31
+stg,statement_line,39
 stg,subsegment_label,58524

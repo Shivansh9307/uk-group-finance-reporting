@@ -30,6 +30,7 @@ Prefix ranges are reserved per task so that parallel branches never collide:
 | 550-599 | the outturn to Spending Review group bridge, the phasing profile and phased plan (derived), outturn on the plan's basis (annual and in-year), and their audits |
 | 600-649 | the pipeline close-out: reserved for reconciliation checks that need their own SQL (none yet; the assertion inventory, the real-totals pin and the negative control are Python, under `pipeline/`) |
 | 700-719 | the views the semantic model reads (`dw.v_model_*`, one per model table) and their tests; see [docs/model.md](../docs/model.md) |
+| 740-759 | the group income and expenditure statement: the typed layout (`stg`), the resolved lines and the account mapping (`dw`), the view the model reads for it, and the statement computed in SQL that the model's measures are tested against; see [docs/data-dictionary/statement.md](../docs/data-dictionary/statement.md) |
 
 ## Phases
 

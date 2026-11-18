@@ -16,6 +16,7 @@ FROM (VALUES
     ('dw.v_model_data_quality',       (SELECT COUNT_BIG(*) FROM dw.v_model_data_quality),       (SELECT COUNT_BIG(*) + 1 FROM dw.dq_issue)),
     ('dw.v_model_fact_outturn',       (SELECT COUNT_BIG(*) FROM dw.v_model_fact_outturn),       (SELECT COUNT_BIG(*) FROM dw.fact_outturn)),
     ('dw.v_model_fact_plan',          (SELECT COUNT_BIG(*) FROM dw.v_model_fact_plan),          (SELECT COUNT_BIG(*) FROM dw.fact_plan)),
-    ('dw.v_model_fact_plan_phased',   (SELECT COUNT_BIG(*) FROM dw.v_model_fact_plan_phased),   (SELECT COUNT_BIG(*) FROM dw.fact_plan_phased))
+    ('dw.v_model_fact_plan_phased',   (SELECT COUNT_BIG(*) FROM dw.v_model_fact_plan_phased),   (SELECT COUNT_BIG(*) FROM dw.fact_plan_phased)),
+    ('dw.v_model_statement_line',     (SELECT COUNT_BIG(*) FROM dw.v_model_statement_line),     (SELECT COUNT_BIG(*) FROM dw.statement_line))
 ) AS v(view_name, view_rows, expected_rows)
 WHERE v.view_rows <> v.expected_rows;
