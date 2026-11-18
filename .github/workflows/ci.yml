@@ -13,8 +13,10 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Fixture paths for the model and report jobs. Later tasks point these at the real model and report.
-  BPA_MODEL_DIR: tests/fixtures/ci_spike/Minimal.SemanticModel/definition
+  # Paths for the model and report jobs. The model job runs the Best Practice Analyzer on the real model; the
+  # report job still runs on the fixture until the real report has pages. The rules are the spike's three
+  # starter rules until the rule file of the model work replaces them.
+  BPA_MODEL_DIR: model/UKGroupFinance.SemanticModel/definition
   BPA_RULES: tests/fixtures/ci_spike/bpa-rules.json
   BPA_FAIL_AT_SEVERITY: "3"   # violations at or above this severity fail the job; below it they only warn
   REPORT_DIR: tests/fixtures/ci_spike/Minimal.Report
@@ -72,7 +74,7 @@ jobs:
           key: te2-portable-${{ env.TE2_VERSION }}-${{ env.TE2_SHA256 }}
 
       - name: Check which compatibility levels TE2 loads
-        # TE2 reads compatibilityLevel from database.tmdl; this loads copies of the fixture at
+        # TE2 reads compatibilityLevel from database.tmdl; this loads copies of the model at
         # 1600, 1606 (current Desktop) and 1702 and prints what TE2 sees. Informational only.
         run: |
           $te = Join-Path $env:RUNNER_TEMP 'te2/TabularEditor.exe'

@@ -157,8 +157,10 @@ the pipeline. Its steps, in order, with what each asserts:
 | Summary | prints the seconds of every step and the test results to the job summary | never |
 
 Every step that matters prints its seconds (`<step>_s=<seconds>`, from `.github/scripts/step-timer.sh`), and the
-Summary step lists them with the test totals. The `model-bpa` and `report-checks` jobs still run on the fixture
-under `tests/fixtures/ci_spike`, because there is no model or report yet.
+Summary step lists them with the test totals. The `model-bpa` job runs Tabular Editor 2's Best Practice Analyzer on the real model
+(`model/UKGroupFinance.SemanticModel/definition`, with the spike's three starter rules until a fuller rule file exists); the
+`report-checks` job still runs on the fixture under `tests/fixtures/ci_spike`, because the report has no pages yet. The DAX tests
+of the model run on my machine against Desktop and are described in [model-testing.md](model-testing.md).
 
 **Tested** (GitHub Actions, job `pipeline-sql`, seconds per step as the job printed them):
 
