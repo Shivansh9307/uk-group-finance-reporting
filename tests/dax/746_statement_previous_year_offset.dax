@@ -9,3 +9,4 @@ SUMMARIZECOLUMNS (
     "statement_amount", [Statement Amount],
     "previous_year", [Statement Amount PY (OFFSET)]
 )
+ORDER BY 'Statement Line'[Line Id], 'Fiscal Year'[Financial Year]

@@ -10,3 +10,4 @@ SUMMARIZECOLUMNS (
     "plan", [Statement Plan],
     "outturn_plan_basis", [Statement Amount (plan basis)]
 )
+ORDER BY 'Statement Line'[Line Id], 'Fiscal Year'[Financial Year]

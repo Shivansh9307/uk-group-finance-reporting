@@ -17,3 +17,4 @@ SUMMARIZECOLUMNS (
             [Outturn]
         )
 )
+ORDER BY 'Fiscal Year'[Financial Year], 'Fiscal Period'[Period Number], 'Department (current structure)'[Department Number], 'Time Intelligence'[Time Calculation]

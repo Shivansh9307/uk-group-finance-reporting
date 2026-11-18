@@ -12,3 +12,4 @@ UNION (
     ROW ( "name", "Plan (phased) rows", "value", COUNTROWS ( 'Fact Plan Phased (derived)' ) ),
     ROW ( "name", "Plan rows", "value", COUNTROWS ( 'Fact Plan' ) )
 )
+ORDER BY [name]

@@ -10,3 +10,4 @@ SUMMARIZECOLUMNS (
     TREATAS ( { "2019-20", "2024-25" }, 'Fiscal Year'[Financial Year] ),
     "value", [Statement Amount]
 )
+ORDER BY 'Statement Line'[Line Id], 'Fiscal Year'[Financial Year], 'Control Budget'[Control Budget]

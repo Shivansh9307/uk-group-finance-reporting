@@ -8,3 +8,4 @@ SELECTCOLUMNS (
     "fields", 'Statement Measure'[Statement Measure Fields],
     "measure_order", 'Statement Measure'[Statement Measure Order]
 )
+ORDER BY [measure_order]

@@ -28,3 +28,4 @@ SELECTCOLUMNS (
                 'Fiscal Year'[Financial Year] = Year
             )
 )
+ORDER BY [Statement Measure], [Line Id], [Financial Year]

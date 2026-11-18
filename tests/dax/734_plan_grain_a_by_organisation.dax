@@ -9,3 +9,4 @@ SUMMARIZECOLUMNS (
     TREATAS ( { "2019-20" }, 'Fiscal Year'[Financial Year] ),
     "plan", [Plan]
 )
+ORDER BY 'Organisation (as reported)'[Organisation Code], 'Control Budget'[Control Budget Detail Code], 'Account'[Economic Budget]

@@ -21,3 +21,4 @@ SELECTCOLUMNS (
     "Time Calculation", 'Time Intelligence'[Time Calculation],
     "value", [amount]
 )
+ORDER BY [unit_label], [Time Calculation]

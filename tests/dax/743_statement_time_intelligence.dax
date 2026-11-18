@@ -12,3 +12,4 @@ SUMMARIZECOLUMNS (
     TREATAS ( { "Current", "YTD", "PY", "YoY" }, 'Time Intelligence'[Time Calculation] ),
     "value", [Statement Amount]
 )
+ORDER BY 'Statement Line'[Line Id], 'Fiscal Year'[Financial Year], 'Fiscal Period'[Period Number], 'Time Intelligence'[Time Calculation]

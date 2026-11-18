@@ -12,3 +12,4 @@ FILTER (
     ),
     'Fact Plan'[Plan Measure] IN { "NON_DEPT_AME", "NON_BUDGET", "UNCLASSIFIED" }
 )
+ORDER BY 'Fiscal Year'[Financial Year], 'Spending Review Group'[Spending Review Group], 'Fact Plan'[Plan Measure]

@@ -25,3 +25,4 @@ SUMMARIZECOLUMNS (
             [Comparison Amount]
         )
 )
+ORDER BY 'Fiscal Year'[Financial Year], 'Organisation (as reported)'[Organisation Code], 'Scenario Comparison'[Comparison]

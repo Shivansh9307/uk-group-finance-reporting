@@ -10,3 +10,4 @@ SUMMARIZECOLUMNS (
     "statement_amount", [Statement Amount],
     "department_rank", [Department Rank (Statement Amount)]
 )
+ORDER BY 'Statement Line'[Line Id], 'Department (current structure)'[Department Number]

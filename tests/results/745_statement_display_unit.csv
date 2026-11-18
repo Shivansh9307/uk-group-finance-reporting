@@ -1,34 +1,34 @@
 Line Id,Financial Year,unit_label,Comparison,value
-"TOT","2024-25","GBP k","Variance %",-98481.80839304089
-"R50","2019-20","GBP k","Variance %",-86280.749617937225
-"TOT","2024-25","GBP m","Variance %",-98481.80839304089
-"R50","2019-20","GBP m","Variance %",-86280.749617937225
-"TOT","2024-25","GBP bn","Variance %",-98481.80839304089
-"R50","2019-20","GBP bn","Variance %",-86280.749617937225
-"R20","2024-25","GBP k","Actual",205736989
-"TOT","2024-25","GBP k","Actual",1132794570
-"R50","2019-20","GBP k","Actual",757250746
-"TOT","2024-25","GBP k","Plan",1256541000
-"R50","2019-20","GBP k","Plan",828756476
-"TOT","2024-25","GBP k","Variance",-123746430
-"R50","2019-20","GBP k","Variance",-71505730
-"TOT","2024-25","GBP k","Favourable/Adverse",1
-"R50","2019-20","GBP k","Favourable/Adverse",1
-"R20","2024-25","GBP m","Actual",205736.989
-"TOT","2024-25","GBP m","Actual",1132794.57
-"R50","2019-20","GBP m","Actual",757250.746
-"TOT","2024-25","GBP m","Plan",1256541
-"R50","2019-20","GBP m","Plan",828756.476
-"TOT","2024-25","GBP m","Variance",-123746.43
-"R50","2019-20","GBP m","Variance",-71505.73
-"TOT","2024-25","GBP m","Favourable/Adverse",1
-"R50","2019-20","GBP m","Favourable/Adverse",1
 "R20","2024-25","GBP bn","Actual",205.737
-"TOT","2024-25","GBP bn","Actual",1132.7946
+"R20","2024-25","GBP k","Actual",205736989
+"R20","2024-25","GBP m","Actual",205736.989
 "R50","2019-20","GBP bn","Actual",757.2507
-"TOT","2024-25","GBP bn","Plan",1256.541
-"R50","2019-20","GBP bn","Plan",828.7565
-"TOT","2024-25","GBP bn","Variance",-123.7464
-"R50","2019-20","GBP bn","Variance",-71.5057
-"TOT","2024-25","GBP bn","Favourable/Adverse",1
 "R50","2019-20","GBP bn","Favourable/Adverse",1
+"R50","2019-20","GBP bn","Plan",828.7565
+"R50","2019-20","GBP bn","Variance",-71.5057
+"R50","2019-20","GBP bn","Variance %",-86280.749617937225
+"R50","2019-20","GBP k","Actual",757250746
+"R50","2019-20","GBP k","Favourable/Adverse",1
+"R50","2019-20","GBP k","Plan",828756476
+"R50","2019-20","GBP k","Variance",-71505730
+"R50","2019-20","GBP k","Variance %",-86280.749617937225
+"R50","2019-20","GBP m","Actual",757250.746
+"R50","2019-20","GBP m","Favourable/Adverse",1
+"R50","2019-20","GBP m","Plan",828756.476
+"R50","2019-20","GBP m","Variance",-71505.73
+"R50","2019-20","GBP m","Variance %",-86280.749617937225
+"TOT","2024-25","GBP bn","Actual",1132.7946
+"TOT","2024-25","GBP bn","Favourable/Adverse",1
+"TOT","2024-25","GBP bn","Plan",1256.541
+"TOT","2024-25","GBP bn","Variance",-123.7464
+"TOT","2024-25","GBP bn","Variance %",-98481.80839304089
+"TOT","2024-25","GBP k","Actual",1132794570
+"TOT","2024-25","GBP k","Favourable/Adverse",1
+"TOT","2024-25","GBP k","Plan",1256541000
+"TOT","2024-25","GBP k","Variance",-123746430
+"TOT","2024-25","GBP k","Variance %",-98481.80839304089
+"TOT","2024-25","GBP m","Actual",1132794.57
+"TOT","2024-25","GBP m","Favourable/Adverse",1
+"TOT","2024-25","GBP m","Plan",1256541
+"TOT","2024-25","GBP m","Variance",-123746.43
+"TOT","2024-25","GBP m","Variance %",-98481.80839304089

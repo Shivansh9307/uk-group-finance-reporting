@@ -20,3 +20,4 @@ SUMMARIZECOLUMNS (
             [Statement Amount]
         )
 )
+ORDER BY 'Statement Line'[Line Id], 'Fiscal Year'[Financial Year], 'Scenario Comparison'[Comparison], 'Time Intelligence'[Time Calculation]

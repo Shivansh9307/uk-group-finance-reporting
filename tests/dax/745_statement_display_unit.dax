@@ -23,3 +23,4 @@ SELECTCOLUMNS (
     "Comparison", 'Scenario Comparison'[Comparison],
     "value", [amount]
 )
+ORDER BY [Line Id], [Financial Year], [unit_label], [Comparison]

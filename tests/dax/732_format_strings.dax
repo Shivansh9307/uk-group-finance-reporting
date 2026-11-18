@@ -12,3 +12,4 @@ SUMMARIZECOLUMNS (
     "format_m", SUBSTITUTE ( Format.ForUnit ( "m" ), UNICHAR ( 163 ), "GBP" ),
     "format_bn", SUBSTITUTE ( Format.ForUnit ( "bn" ), UNICHAR ( 163 ), "GBP" )
 )
+ORDER BY 'Scenario Comparison'[Comparison], 'Time Intelligence'[Time Calculation]

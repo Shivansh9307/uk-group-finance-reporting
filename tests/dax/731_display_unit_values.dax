@@ -21,3 +21,4 @@ SELECTCOLUMNS (
     "Comparison", 'Scenario Comparison'[Comparison],
     "value", [amount]
 )
+ORDER BY [unit_label], [Comparison]

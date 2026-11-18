@@ -11,3 +11,4 @@ SUMMARIZECOLUMNS (
     "statement_amount", [Statement Amount],
     "running", [Statement Amount Running (WINDOW)]
 )
+ORDER BY 'Statement Line'[Line Id], 'Fiscal Year'[Financial Year], 'Fiscal Period'[Period Number]

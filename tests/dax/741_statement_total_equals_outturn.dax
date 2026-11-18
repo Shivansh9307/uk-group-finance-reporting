@@ -12,3 +12,4 @@ SUMMARIZECOLUMNS (
             CALCULATE ( [Statement Amount] * Pnl.SignFactor () )
         )
 )
+ORDER BY 'Fiscal Year'[Financial Year]
