@@ -28,10 +28,23 @@ table 'Fact Plan'
 		displayFolder: Statement
 		lineageTag: d7b11670-3415-4340-a5c0-65e60d5d06aa
 
+	/// [Plan] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.
+	measure 'Plan (real terms)' = Real.Deflate ( [Plan] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Real Terms
+		lineageTag: 511cc7f2-aada-4b90-ab0a-ddc4c38f90c6
+
+	/// [Statement Plan] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.
+	measure 'Statement Plan (real terms)' = Real.Deflate ( [Statement Plan] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Real Terms
+		lineageTag: a47a2461-3080-4079-b84d-9db8a786610b
+
 	column 'Plan Fact Key'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 34da8999-9394-52e5-a85b-7610fd8a0dd8
 		summarizeBy: none
 		sourceColumn: plan_fact_key
@@ -40,6 +53,7 @@ table 'Fact Plan'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 070db1de-f70c-58df-b1ba-d5551408fcd6
 		summarizeBy: none
 		sourceColumn: plan_source_key
@@ -47,6 +61,7 @@ table 'Fact Plan'
 	column 'Fiscal Year Key'
 		dataType: string
 		isHidden
+		isAvailableInMdx: false
 		lineageTag: 0da4753f-023b-54d3-a1bb-31fbc25563f4
 		summarizeBy: none
 		sourceColumn: financial_year
@@ -55,6 +70,7 @@ table 'Fact Plan'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 332c5fba-8e91-5920-a8b3-6e0cb471b871
 		summarizeBy: none
 		sourceColumn: sr_group_key
@@ -63,6 +79,7 @@ table 'Fact Plan'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: f785ad9b-91e8-59de-adbb-298cda43418e
 		summarizeBy: none
 		sourceColumn: scenario_key
@@ -98,6 +115,7 @@ table 'Fact Plan'
 	column 'Plan Grain Key'
 		dataType: string
 		isHidden
+		isAvailableInMdx: false
 		lineageTag: ee7eb2de-247a-52ec-ae7c-57df045d45f7
 		summarizeBy: none
 		sourceColumn: grain_code
@@ -107,6 +125,7 @@ table 'Fact Plan'
 		dataType: decimal
 		isHidden
 		formatString: #,##0.0000
+		isAvailableInMdx: false
 		lineageTag: 46711f17-a774-5405-829e-4f1b6cd9a194
 		summarizeBy: none
 		sourceColumn: amount

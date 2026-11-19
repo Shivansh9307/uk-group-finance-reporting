@@ -92,3 +92,5 @@ table Deflator
 				in
 				    Typed
 
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["MINIMIZE_POWER_QUERY_TRANSFORMATIONS"]}
+

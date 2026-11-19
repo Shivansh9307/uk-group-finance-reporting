@@ -8,6 +8,7 @@ table 'Fiscal Period'
 		isHidden
 		isKey
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 6dd0906b-a579-53ff-9623-7a50eb094c54
 		summarizeBy: none
 		sourceColumn: period_key
@@ -16,6 +17,7 @@ table 'Fiscal Period'
 	column 'Financial Year'
 		dataType: string
 		isHidden
+		isAvailableInMdx: false
 		lineageTag: 6e8b5106-86fc-531a-97b3-e868fb804a09
 		summarizeBy: none
 		sourceColumn: financial_year
@@ -75,4 +77,6 @@ table 'Fiscal Period'
 				    Data = Source{[Schema = "dw", Item = "v_model_fiscal_period"]}[Data]
 				in
 				    Data
+
+	annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["SNOWFLAKE_SCHEMA_ARCHITECTURE"]}
 

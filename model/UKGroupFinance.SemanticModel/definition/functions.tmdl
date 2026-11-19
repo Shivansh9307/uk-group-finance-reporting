@@ -293,3 +293,34 @@ function 'Restate.Unflagged' =
 		( m : EXPR ) =>
 		    CALCULATE ( m, KEEPFILTERS ( 'Fact Outturn'[Data Quality Issue Key] = 0 ) )
 
+/// The deflator index for a set of financial years, from the default vintage (October 2026 Budget): a table of Yr (financial year) and Ix (the chained index, which is the published index for an outturn year and the level chained from one vintage for a forecast year). The Deflator table is related to nothing, so the years are matched with TREATAS. A year the vintage does not hold, or one that a filter on Deflator[Financial Year] has removed (test 776 uses this), is absent from the result.
+function 'Real.IndexTable' =
+		( years : TABLE ) =>
+		    VAR AllowedYears = VALUES ( Deflator[Financial Year] )
+		    RETURN
+		        CALCULATETABLE (
+		            SELECTCOLUMNS ( Deflator, "Yr", Deflator[Financial Year], "Ix", Deflator[Chained Index] ),
+		            REMOVEFILTERS ( Deflator ),
+		            TREATAS ( years, Deflator[Financial Year] ),
+		            TREATAS ( AllowedYears, Deflator[Financial Year] ),
+		            Deflator[Is Default Vintage] = TRUE ()
+		        )
+
+/// A measure in 2025-26 prices: for each financial year in context it takes the measure for that year and multiplies it by the index of 2025-26 divided by the index of the year (Real.IndexTable, default vintage), then adds the years. A month takes the index of its financial year. BLANK, never the nominal figure, when a year that has an amount has no index. The index is not related to the facts, so a measure that is deflated sums the same facts as its nominal twin.
+function 'Real.Deflate' =
+		( m : EXPR ) =>
+		    VAR BaseYear = "2025-26"
+		    VAR YearsInContext = VALUES ( 'Fiscal Year'[Financial Year] )
+		    VAR IndexByYear = Real.IndexTable ( UNION ( YearsInContext, ROW ( "Financial Year", BaseYear ) ) )
+		    VAR BaseIndex = MAXX ( FILTER ( IndexByYear, [Yr] = BaseYear ), [Ix] )
+		    VAR PerYear =
+		        ADDCOLUMNS (
+		            YearsInContext,
+		            "@Amount", CALCULATE ( m ),
+		            "@Factor", DIVIDE ( BaseIndex, MAXX ( FILTER ( IndexByYear, [Yr] = 'Fiscal Year'[Financial Year] ), [Ix] ) )
+		        )
+		    VAR WithAmount = FILTER ( PerYear, NOT ISBLANK ( [@Amount] ) )
+		    VAR AnyYearWithoutIndex = COUNTROWS ( FILTER ( WithAmount, ISBLANK ( [@Factor] ) ) ) > 0
+		    RETURN
+		        IF ( AnyYearWithoutIndex, BLANK (), SUMX ( WithAmount, [@Amount] * [@Factor] ) )
+

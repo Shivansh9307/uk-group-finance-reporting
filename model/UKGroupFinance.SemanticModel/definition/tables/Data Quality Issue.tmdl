@@ -8,6 +8,7 @@ table 'Data Quality Issue'
 		isHidden
 		isKey
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: f0050780-af18-5e05-b5ac-5306a9deb841
 		summarizeBy: none
 		sourceColumn: dq_issue_key
@@ -93,9 +94,12 @@ table 'Data Quality Issue'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 45d6286d-5aac-50b7-97ac-4f60dc4cd8b3
 		summarizeBy: none
 		sourceColumn: period_key
+
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["UNNECESSARY_COLUMNS"]}
 
 	/// Amount before the correction, GBP thousands.
 	column 'Amount Before'

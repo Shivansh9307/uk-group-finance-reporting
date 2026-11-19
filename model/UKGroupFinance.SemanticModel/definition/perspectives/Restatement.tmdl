@@ -1,0 +1,157 @@
+/// How a figure moved from release to release: the release, the as-at, first-reported and revision measures, the data-quality findings, and the organisation and department structures (as reported and current) with the structure measures. The comparison items are left out because they do not act on these measures. A perspective narrows the field list and secures nothing.
+perspective Restatement
+
+	perspectiveTable 'Fiscal Year'
+
+		perspectiveColumn 'Financial Year'
+
+	perspectiveTable 'Fiscal Period'
+
+		perspectiveColumn 'Period Number'
+
+		perspectiveColumn Period
+
+		perspectiveColumn Month
+
+		perspectiveColumn 'Month Start Date'
+
+		perspectiveColumn 'Fiscal Quarter'
+
+		perspectiveColumn 'Is Period 0'
+
+	perspectiveTable Release
+
+		perspectiveColumn Release
+
+		perspectiveColumn 'Release Label'
+
+		perspectiveColumn 'Release Sequence'
+
+		perspectiveColumn 'Release Financial Year'
+
+		perspectiveColumn 'First Published'
+
+		perspectiveColumn 'Highest Period Reported'
+
+		perspectiveColumn 'Release Number In Year'
+
+		perspectiveColumn 'Source Version Label'
+
+		perspectiveColumn 'Is Latest Release'
+
+		perspectiveColumn 'Is Year-End Release'
+
+	perspectiveTable 'Organisation (as reported)'
+
+		perspectiveColumn Organisation
+
+		perspectiveColumn 'Organisation Code'
+
+		perspectiveColumn 'Durable Key'
+
+		perspectiveColumn 'Version Number'
+
+		perspectiveColumn 'Department (as reported)'
+
+		perspectiveColumn 'Department Number (as reported)'
+
+		perspectiveColumn 'Valid From Release'
+
+		perspectiveColumn 'Valid To Release'
+
+		perspectiveColumn 'Releases Reported'
+
+		perspectiveColumn 'Version Reason'
+
+		perspectiveColumn 'Durable Key Rule'
+
+		perspectiveColumn 'Successor Durable Key'
+
+		perspectiveColumn 'Is Current Version'
+
+		perspectiveColumn 'Is Latest Version'
+
+	perspectiveTable 'Department (current structure)'
+
+		perspectiveColumn Department
+
+		perspectiveColumn 'Department Number'
+
+		perspectiveColumn 'Department Type'
+
+		perspectiveColumn 'Valid From Release'
+
+		perspectiveColumn 'Valid To Release'
+
+	perspectiveTable 'Data Quality Issue'
+
+		perspectiveColumn 'Issue Type'
+
+		perspectiveColumn 'Issue Rule'
+
+		perspectiveColumn 'Flags Fact Rows'
+
+		perspectiveColumn 'Issue Description'
+
+		perspectiveColumn Treatment
+
+		perspectiveColumn 'Release From'
+
+		perspectiveColumn 'Release To'
+
+		perspectiveColumn 'Organisation Code'
+
+		perspectiveColumn 'Sub-Segment Code'
+
+		perspectiveColumn 'Economic Category Code'
+
+		perspectiveColumn 'Control Budget Detail Code'
+
+		perspectiveColumn 'Amount Before'
+
+		perspectiveColumn 'Amount After'
+
+		perspectiveColumn 'Rows Affected'
+
+	perspectiveTable 'Time Intelligence'
+
+		perspectiveColumn 'Time Calculation'
+
+	perspectiveTable 'Display Unit'
+
+		perspectiveColumn Unit
+
+	perspectiveTable 'Fact Outturn'
+
+		perspectiveMeasure Outturn
+
+		perspectiveMeasure 'Outturn as at Release'
+
+		perspectiveMeasure 'Outturn as First Reported'
+
+		perspectiveMeasure 'Revision since First Reported'
+
+		perspectiveMeasure 'Revision %'
+
+		perspectiveMeasure 'Revision in Release'
+
+		perspectiveMeasure 'Restatement in Release'
+
+		perspectiveMeasure 'Gross Revision in Release'
+
+		perspectiveMeasure 'Gross Restatement in Release'
+
+		perspectiveMeasure 'Gross Revision in Release (excl. flagged)'
+
+		perspectiveMeasure 'Gross Restatement in Release (excl. flagged)'
+
+		perspectiveMeasure 'Outturn (current structure)'
+
+		perspectiveMeasure 'Outturn (as reported structure)'
+
+		perspectiveMeasure 'Machinery of Government Transfer'
+
+		perspectiveMeasure 'Outturn (estimated mapping)'
+
+		perspectiveMeasure 'Estimated Mapping Share'
+

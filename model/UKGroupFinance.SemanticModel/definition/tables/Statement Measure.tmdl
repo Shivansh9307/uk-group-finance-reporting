@@ -1,4 +1,4 @@
-/// Field parameter for the statement: Outturn, Plan, Variance and Variance % of the statement amount, so that one visual can switch between them. Each row points at a measure (Statement Amount, Statement Plan, Statement Variance, Statement Variance %). I defined it in the model; putting it on a visual needs one step in Desktop that pbir cannot do (remove the field, drag the parameter back in), and the report uses the Scenario Comparison items instead where it can. Calculated table, no source data.
+/// AUTHORED field parameter, no amount: field parameter for the statement: Outturn, Plan, Variance and Variance % of the statement amount, so that one visual can switch between them. Each row points at a measure (Statement Amount, Statement Plan, Statement Variance, Statement Variance %). I defined it in the model; putting it on a visual needs one step in Desktop that pbir cannot do (remove the field, drag the parameter back in), and the report uses the Scenario Comparison items instead where it can. Calculated table, no source data.
 table 'Statement Measure'
 	lineageTag: c607cfc6-e741-4271-a5c2-6f6da3e683a3
 
@@ -29,6 +29,8 @@ table 'Statement Measure'
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["UNNECESSARY_COLUMNS"]}
+
 	column 'Statement Measure Order'
 		isHidden
 		formatString: 0
@@ -49,4 +51,6 @@ table 'Statement Measure'
 				}
 
 	annotation PBI_Id = 595d12ab9dae4d3890fef4d97cbbfcc4
+
+	annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["DAX_MEASURES_UNQUALIFIED","REDUCE_USAGE_OF_CALCULATED_TABLES"]}
 

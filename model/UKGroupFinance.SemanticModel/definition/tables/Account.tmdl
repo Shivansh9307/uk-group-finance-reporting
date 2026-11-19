@@ -7,6 +7,7 @@ table Account
 		isHidden
 		isKey
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 3c0491d5-f9dd-567e-ae59-f9542235b329
 		summarizeBy: none
 		sourceColumn: account_key
@@ -15,6 +16,7 @@ table Account
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 3b952a1d-23bb-4a9e-8aa2-613c808ebd47
 		summarizeBy: none
 		sourceColumn: statement_line_key
@@ -79,9 +81,12 @@ table Account
 	column 'Source Codes'
 		dataType: string
 		isHidden
+		isAvailableInMdx: false
 		lineageTag: dde2a681-9954-5a61-8b61-1133d1b686a6
 		summarizeBy: none
 		sourceColumn: source_codes
+
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["UNNECESSARY_COLUMNS"]}
 
 	/// First release that reports the category.
 	column 'First Release'
@@ -120,4 +125,6 @@ table Account
 				    Data = Source{[Schema = "dw", Item = "v_model_account"]}[Data]
 				in
 				    Data
+
+	annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["SNOWFLAKE_SCHEMA_ARCHITECTURE"]}
 

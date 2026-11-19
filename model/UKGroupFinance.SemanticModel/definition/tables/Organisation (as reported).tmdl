@@ -8,6 +8,7 @@ table 'Organisation (as reported)'
 		isHidden
 		isKey
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: dd7243fe-b8cc-5275-a4c4-a5e0b31bcef3
 		summarizeBy: none
 		sourceColumn: organisation_key

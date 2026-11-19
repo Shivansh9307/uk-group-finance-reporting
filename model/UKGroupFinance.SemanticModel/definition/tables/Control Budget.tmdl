@@ -7,6 +7,7 @@ table 'Control Budget'
 		isHidden
 		isKey
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 15a51b6d-40c5-5286-b70e-34f91b9af377
 		summarizeBy: none
 		sourceColumn: control_budget_key

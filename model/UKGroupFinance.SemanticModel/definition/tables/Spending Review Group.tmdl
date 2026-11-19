@@ -1,4 +1,4 @@
-/// The 23 Spending Review groups of the latest annual release plus the members that plans and outturn need: the Single Intelligence Account (plan only), the combined pre-2023 group of BEIS, DCMS and DIT, six non-department members and one outturn-only member for former department lines. Plans are published by group, and outturn reaches the group through the bridge built from the current-structure department. Authored names and types, no amount. Source view dw.v_model_sr_group.
+/// AUTHORED names and mapping, no amount: the 23 Spending Review groups of the latest annual release plus the members that plans and outturn need: the Single Intelligence Account (plan only), the combined pre-2023 group of BEIS, DCMS and DIT, six non-department members and one outturn-only member for former department lines. Plans are published by group, and outturn reaches the group through the bridge built from the current-structure department. Authored names and types, no amount. Source view dw.v_model_sr_group.
 table 'Spending Review Group'
 	lineageTag: 2f56bd5c-0a22-51cb-9857-11d745548f23
 
@@ -7,6 +7,7 @@ table 'Spending Review Group'
 		isHidden
 		isKey
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 2b10a716-bbb5-5c78-8ea6-b57de8d56e66
 		summarizeBy: none
 		sourceColumn: sr_group_key
@@ -14,6 +15,7 @@ table 'Spending Review Group'
 	/// Group name.
 	column 'Spending Review Group'
 		dataType: string
+		displayFolder: Authored
 		lineageTag: c891025d-8430-565e-aa9e-9475d9e692be
 		summarizeBy: none
 		sourceColumn: sr_group_name
@@ -21,6 +23,7 @@ table 'Spending Review Group'
 	/// Group code.
 	column 'Group Code'
 		dataType: string
+		displayFolder: Authored
 		lineageTag: 9f1eea89-b320-5846-93fd-621731250113
 		summarizeBy: none
 		sourceColumn: sr_group_code
@@ -28,6 +31,7 @@ table 'Spending Review Group'
 	/// Department group, plan only, combined pre-2023, non-department or outturn only.
 	column 'Member Type'
 		dataType: string
+		displayFolder: Authored
 		lineageTag: 4cddd5a1-f6dc-55d5-bab3-53be52c8fb2f
 		summarizeBy: none
 		sourceColumn: member_type
@@ -35,6 +39,7 @@ table 'Spending Review Group'
 	/// True for the groups that are departments.
 	column 'Is Department Group'
 		dataType: boolean
+		displayFolder: Authored
 		lineageTag: 48d06a4f-8ae6-5700-bf1d-ebc1bde061e1
 		summarizeBy: none
 		sourceColumn: is_department_group
@@ -42,6 +47,7 @@ table 'Spending Review Group'
 	/// True where outturn lines can be assigned to the member.
 	column 'Has Outturn'
 		dataType: boolean
+		displayFolder: Authored
 		lineageTag: af6cfa1a-3347-5670-a52f-ad3e568d6298
 		summarizeBy: none
 		sourceColumn: has_outturn
@@ -49,6 +55,7 @@ table 'Spending Review Group'
 	/// What the member is.
 	column 'Group Description'
 		dataType: string
+		displayFolder: Authored
 		lineageTag: e5438f30-9573-57d3-8ec8-8e6fa8ebd0e4
 		summarizeBy: none
 		sourceColumn: description

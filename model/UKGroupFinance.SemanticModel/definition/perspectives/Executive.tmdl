@@ -1,0 +1,115 @@
+/// The headline figures for a reader who wants the answer and not the plumbing: outturn, plan, variance on the plan's basis, the group income and expenditure statement, outturn on the current department structure, and each of them in 2025-26 prices, with the year, period, department and Spending Review group to cut them by and the three calculation groups. No keys, no quarantine tables, no restatement detail. A perspective narrows the field list and secures nothing.
+perspective Executive
+
+	perspectiveTable 'Fiscal Year'
+
+		perspectiveColumn 'Financial Year'
+
+	perspectiveTable 'Fiscal Period'
+
+		perspectiveColumn 'Period Number'
+
+		perspectiveColumn Period
+
+		perspectiveColumn Month
+
+		perspectiveColumn 'Month Start Date'
+
+		perspectiveColumn 'Fiscal Quarter'
+
+		perspectiveColumn 'Is Period 0'
+
+	perspectiveTable 'Department (current structure)'
+
+		perspectiveColumn Department
+
+		perspectiveColumn 'Department Number'
+
+		perspectiveColumn 'Department Type'
+
+		perspectiveColumn 'Valid From Release'
+
+		perspectiveColumn 'Valid To Release'
+
+	perspectiveTable 'Spending Review Group'
+
+		perspectiveColumn 'Spending Review Group'
+
+		perspectiveColumn 'Group Code'
+
+		perspectiveColumn 'Member Type'
+
+		perspectiveColumn 'Is Department Group'
+
+		perspectiveColumn 'Has Outturn'
+
+		perspectiveColumn 'Group Description'
+
+	perspectiveTable 'Statement Line'
+
+		perspectiveColumn Line
+
+		perspectiveColumn 'Line (indented)'
+
+		perspectiveColumn 'Line Id'
+
+		perspectiveColumn 'Line Type'
+
+		perspectiveColumn 'Sign Presentation'
+
+		perspectiveColumn 'Indent Level'
+
+		perspectiveColumn 'Plan Scope'
+
+		perspectiveColumn Members
+
+	perspectiveTable 'Time Intelligence'
+
+		perspectiveColumn 'Time Calculation'
+
+	perspectiveTable 'Scenario Comparison'
+
+		perspectiveColumn Comparison
+
+	perspectiveTable 'Display Unit'
+
+		perspectiveColumn Unit
+
+	perspectiveTable 'Fact Outturn'
+
+		perspectiveMeasure Outturn
+
+		perspectiveMeasure 'Outturn (plan basis)'
+
+		perspectiveMeasure 'Comparison Amount'
+
+		perspectiveMeasure 'Statement Amount'
+
+		perspectiveMeasure 'Statement Amount (plan basis)'
+
+		perspectiveMeasure 'Statement Variance'
+
+		perspectiveMeasure 'Statement Variance %'
+
+		perspectiveMeasure 'Outturn (current structure)'
+
+		perspectiveMeasure 'Outturn (real terms)'
+
+		perspectiveMeasure 'Outturn (plan basis) (real terms)'
+
+		perspectiveMeasure 'Outturn (current structure) (real terms)'
+
+		perspectiveMeasure 'Statement Amount (real terms)'
+
+	perspectiveTable 'Fact Plan'
+
+		perspectiveMeasure Plan
+
+		perspectiveMeasure 'Plan Below Grain'
+
+		perspectiveMeasure 'Statement Plan'
+
+		perspectiveMeasure 'Plan (real terms)'
+
+		perspectiveMeasure 'Statement Plan (real terms)'
+

@@ -8,6 +8,7 @@ table Release
 		isHidden
 		isKey
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 672337b2-4eae-5ffe-89e1-3d572824f1e1
 		summarizeBy: none
 		sourceColumn: release_key
@@ -35,6 +36,8 @@ table Release
 		lineageTag: abd479ee-9e8f-5345-a4fe-7f5fd08a075c
 		summarizeBy: none
 		sourceColumn: release_seq
+
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["HIDE_FACT_TABLE_COLUMNS"]}
 
 	/// The financial year the release reports on.
 	column 'Release Financial Year'

@@ -1,0 +1,155 @@
+/// What a reader checks before trusting a number: the quarantine tables of the web-read deflators and CPI, the plan grain and plan source, the data-quality findings, the release, and the measures that are compared with file totals or show a plan that is not published at the grain in view. A perspective narrows the field list and secures nothing.
+perspective 'Data Controls'
+
+	perspectiveTable 'Fiscal Year'
+
+		perspectiveColumn 'Financial Year'
+
+	perspectiveTable 'Fiscal Period'
+
+		perspectiveColumn 'Period Number'
+
+		perspectiveColumn Period
+
+		perspectiveColumn Month
+
+		perspectiveColumn 'Month Start Date'
+
+		perspectiveColumn 'Fiscal Quarter'
+
+		perspectiveColumn 'Is Period 0'
+
+	perspectiveTable Release
+
+		perspectiveColumn Release
+
+		perspectiveColumn 'Release Label'
+
+		perspectiveColumn 'Release Sequence'
+
+		perspectiveColumn 'Release Financial Year'
+
+		perspectiveColumn 'First Published'
+
+		perspectiveColumn 'Highest Period Reported'
+
+		perspectiveColumn 'Release Number In Year'
+
+		perspectiveColumn 'Source Version Label'
+
+		perspectiveColumn 'Is Latest Release'
+
+		perspectiveColumn 'Is Year-End Release'
+
+	perspectiveTable 'Data Quality Issue'
+
+		perspectiveColumn 'Issue Type'
+
+		perspectiveColumn 'Issue Rule'
+
+		perspectiveColumn 'Flags Fact Rows'
+
+		perspectiveColumn 'Issue Description'
+
+		perspectiveColumn Treatment
+
+		perspectiveColumn 'Release From'
+
+		perspectiveColumn 'Release To'
+
+		perspectiveColumn 'Organisation Code'
+
+		perspectiveColumn 'Sub-Segment Code'
+
+		perspectiveColumn 'Economic Category Code'
+
+		perspectiveColumn 'Control Budget Detail Code'
+
+		perspectiveColumn 'Amount Before'
+
+		perspectiveColumn 'Amount After'
+
+		perspectiveColumn 'Rows Affected'
+
+	perspectiveTable 'Plan Grain'
+
+		perspectiveColumn 'Grain Code'
+
+		perspectiveColumn 'Plan Grain'
+
+		perspectiveColumn 'Grain Description'
+
+	perspectiveTable 'Plan Source'
+
+		perspectiveColumn 'Plan Source'
+
+		perspectiveColumn 'Plan Source Code'
+
+		perspectiveColumn Family
+
+		perspectiveColumn Edition
+
+		perspectiveColumn 'Plan Year'
+
+		perspectiveColumn 'First Published'
+
+		perspectiveColumn 'Grain Description'
+
+		perspectiveColumn 'Plan Basis'
+
+		perspectiveColumn 'Includes Block Grant Adjustment'
+
+		perspectiveColumn 'Scotland BGA Flag'
+
+		perspectiveColumn 'Scotland BGA Rule'
+
+		perspectiveColumn 'Resource Basis'
+
+		perspectiveColumn 'Resource Basis Evidence'
+
+		perspectiveColumn 'Is Final Plan For Year'
+
+	perspectiveTable 'Deflator Quarantine'
+
+		perspectiveColumn 'Vintage Id'
+
+		perspectiveColumn 'Source File'
+
+		perspectiveColumn 'Row Label'
+
+		perspectiveColumn Reason
+
+	perspectiveTable 'CPI Quarantine'
+
+		perspectiveColumn 'Source File'
+
+		perspectiveColumn 'Row Label'
+
+		perspectiveColumn Reason
+
+	perspectiveTable 'Display Unit'
+
+		perspectiveColumn Unit
+
+	perspectiveTable 'Fact Outturn'
+
+		perspectiveMeasure Outturn
+
+		perspectiveMeasure 'Outturn as at Release'
+
+		perspectiveMeasure 'Revision in Release'
+
+		perspectiveMeasure 'Restatement in Release'
+
+		perspectiveMeasure 'Gross Revision in Release'
+
+		perspectiveMeasure 'Gross Revision in Release (excl. flagged)'
+
+		perspectiveMeasure 'Estimated Mapping Share'
+
+	perspectiveTable 'Fact Plan'
+
+		perspectiveMeasure Plan
+
+		perspectiveMeasure 'Plan Below Grain'
+

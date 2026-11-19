@@ -8,6 +8,8 @@ table 'Fact Outturn'
 		displayFolder: Base
 		lineageTag: a9b46f48-e2ea-5ade-a3d6-848f0441008f
 
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["AVOID_DUPLICATE_MEASURES"]}
+
 	/// Outturn in GBP thousands on the basis of the plan rows in context, the figure that Plan is compared with. For each financial year and plan measure in context it takes the outturn of the control budget detail and economic budget the measure is made of (RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME, ADMIN, ADMIN_EX_DEPN, and my own rules for NON_DEPT_AME, NON_BUDGET and UNCLASSIFIED) and adds them up. Resource DEL excluding depreciation leaves out only the economic group DEPRECIATION, because the in-year files have no ringfence column; other non-cash items stay in (about 5.5bn a year from 2024-25). BLANK when there is no plan row in context. Defined at every grain, including months, where Plan is BLANK.
 	measure 'Outturn (plan basis)' =
 			VAR MeasureChosen = ISFILTERED ( 'Fact Plan'[Plan Measure] )
@@ -34,6 +36,8 @@ table 'Fact Outturn'
 		formatString: £#,##0"k";-£#,##0"k";£0"k"
 		displayFolder: Plan
 		lineageTag: 58ace511-bcb8-56ae-a51f-1b03c1102e4d
+
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["MEASURES_SHOULD_NOT_BE_DIRECT_REFERENCES_OF_OTHER_MEASURES"]}
 
 	/// The group income and expenditure statement: the outturn of the statement line in context, in GBP thousands, in the sign the line is presented in (income lines positive, the net and total lines as reported, spending positive). A detail line sums the accounts the authored rules give it; a subtotal or total sums the detail lines under the lines it lists; a spacer, and a context with more than one line, give BLANK. The total line equals Outturn. Put Statement Line[Line] on rows; Control Budget on columns splits it into DEL, AME and non-budget.
 	measure 'Statement Amount' = Pnl.LineAmount ( [Outturn] )
@@ -166,6 +170,8 @@ table 'Fact Outturn'
 		displayFolder: Restatement
 		lineageTag: f68ff81a-d6ce-5c8e-9b49-04d73b05d34e
 
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["AVOID_DUPLICATE_MEASURES"]}
+
 	/// The part of Revision in Release that changes a figure an earlier release had already reported, in GBP thousands: the deltas with a Revision Number above 0. It is the restatement proper; a delta with Revision Number 0 is a month or line reported for the first time.
 	measure 'Restatement in Release' = CALCULATE ( SUM ( 'Fact Outturn'[Amount Delta] ), 'Fact Outturn'[Revision Number] > 0 )
 		formatString: £#,##0"k";-£#,##0"k";£0"k"
@@ -201,6 +207,8 @@ table 'Fact Outturn'
 		formatString: £#,##0"k";-£#,##0"k";£0"k"
 		displayFolder: Current Structure
 		lineageTag: f03cb177-edf7-5935-bf2d-b27c410fa2a7
+
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["AVOID_DUPLICATE_MEASURES"]}
 
 	/// Outturn in GBP thousands of the lines that the releases in context reported under the department number of the row, whatever department those lines belong to today. The counterpart of a row of Department (current structure) is found by number, never by name: the numbers that a department answers for are in its hidden column Reported Department Numbers (its own number; for Unallocated U011, U035 and U077 the number after the U; and for the Foreign, Commonwealth and Development Office also 027, the Foreign and Commonwealth Office). A selection on the as-reported department is kept, so it can only narrow. With Department (current structure) on rows. Added over all departments it equals Outturn.
 	measure 'Outturn (as reported structure)' =
@@ -278,10 +286,35 @@ table 'Fact Outturn'
 		displayFolder: Plan\Ranking
 		lineageTag: 88d10e9b-1bad-57dc-8f49-98c96fd6f2cc
 
+	/// [Outturn] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.
+	measure 'Outturn (real terms)' = Real.Deflate ( [Outturn] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Real Terms
+		lineageTag: bd4c09eb-0549-436a-b04f-60ff629a62ad
+
+	/// [Outturn (plan basis)] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.
+	measure 'Outturn (plan basis) (real terms)' = Real.Deflate ( [Outturn (plan basis)] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Real Terms
+		lineageTag: 74787b84-b629-41f9-b930-8bc70db512f3
+
+	/// [Outturn (current structure)] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.
+	measure 'Outturn (current structure) (real terms)' = Real.Deflate ( [Outturn (current structure)] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Real Terms
+		lineageTag: e79add6e-f965-4821-b7f0-62280a2284ee
+
+	/// [Statement Amount] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.
+	measure 'Statement Amount (real terms)' = Real.Deflate ( [Statement Amount] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Real Terms
+		lineageTag: 05e51333-d3c2-4755-8795-3798a8232bc0
+
 	column 'Release Key'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 568ac449-f7a6-55fe-9155-55b9f6b4f8bc
 		summarizeBy: none
 		sourceColumn: release_key
@@ -290,6 +323,7 @@ table 'Fact Outturn'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: eb8eb204-c4d3-5b3e-8f51-4d56a273313d
 		summarizeBy: none
 		sourceColumn: organisation_key
@@ -298,6 +332,7 @@ table 'Fact Outturn'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: ed0010c4-2cb0-5a77-9b08-fa08325d0c0b
 		summarizeBy: none
 		sourceColumn: current_department_key
@@ -306,6 +341,7 @@ table 'Fact Outturn'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 15d6bced-5405-5eca-9c3b-8e932ebcba35
 		summarizeBy: none
 		sourceColumn: segment_key
@@ -314,6 +350,7 @@ table 'Fact Outturn'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 906dd163-ba6b-5e3f-bf93-b2e846fc9ead
 		summarizeBy: none
 		sourceColumn: account_key
@@ -322,6 +359,7 @@ table 'Fact Outturn'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 62d660ee-d368-5be4-9672-638add02df25
 		summarizeBy: none
 		sourceColumn: control_budget_key
@@ -330,6 +368,7 @@ table 'Fact Outturn'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: aaa5b0ad-5451-5cfd-b420-6a1bc67b8b39
 		summarizeBy: none
 		sourceColumn: period_key
@@ -338,6 +377,7 @@ table 'Fact Outturn'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 89c0c050-09d8-5374-a789-91aadbde7da1
 		summarizeBy: none
 		sourceColumn: scenario_key
@@ -346,6 +386,7 @@ table 'Fact Outturn'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 5c1e5bb4-d5db-57fd-8221-0779b14461ed
 		summarizeBy: none
 		sourceColumn: sr_group_key
@@ -354,6 +395,7 @@ table 'Fact Outturn'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 3f11aae0-c353-5f85-bcea-7058f93e4b15
 		summarizeBy: none
 		sourceColumn: dq_issue_key
@@ -362,6 +404,7 @@ table 'Fact Outturn'
 	column 'Mapping Is Estimated'
 		dataType: boolean
 		isHidden
+		isAvailableInMdx: false
 		lineageTag: 5f086b0c-ef6a-53d9-960d-682564c88892
 		summarizeBy: none
 		sourceColumn: mapping_is_estimated
@@ -371,6 +414,7 @@ table 'Fact Outturn'
 		dataType: decimal
 		isHidden
 		formatString: #,##0.0000
+		isAvailableInMdx: false
 		lineageTag: 7845babe-a63a-5811-b3dd-4e4d632ee053
 		summarizeBy: none
 		sourceColumn: amount_delta

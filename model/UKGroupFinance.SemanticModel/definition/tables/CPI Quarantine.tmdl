@@ -36,3 +36,5 @@ table 'CPI Quarantine'
 				in
 				    Typed
 
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["MINIMIZE_POWER_QUERY_TRANSFORMATIONS"]}
+

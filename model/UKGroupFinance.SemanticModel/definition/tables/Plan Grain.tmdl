@@ -1,4 +1,4 @@
-/// The four grains a plan is published at (A OSCAR organisation, B Estimates group, C Estimates 2022-23, D PESA group). A plan can be compared with outturn only at its own grain or coarser. Source view dw.v_model_plan_grain.
+/// AUTHORED list, no amount: the four grains a plan is published at (A OSCAR organisation, B Estimates group, C Estimates 2022-23, D PESA group). A plan can be compared with outturn only at its own grain or coarser. Source view dw.v_model_plan_grain.
 table 'Plan Grain'
 	lineageTag: 967df021-454e-5145-b277-a62717bdda74
 
@@ -6,13 +6,17 @@ table 'Plan Grain'
 	column 'Grain Code'
 		dataType: string
 		isKey
+		displayFolder: Authored
 		lineageTag: 5eea9981-d3aa-5070-aee2-15f1d5cc4812
 		summarizeBy: none
 		sourceColumn: grain_code
 
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["UKFR_RELATIONSHIP_COLUMNS_HIDDEN"]}
+
 	/// Name of the grain.
 	column 'Plan Grain'
 		dataType: string
+		displayFolder: Authored
 		lineageTag: 83aad322-5ad4-5c20-afb0-0000fd6a3897
 		summarizeBy: none
 		sourceColumn: grain_name
@@ -20,6 +24,7 @@ table 'Plan Grain'
 	/// What the grain is and what it can be compared with.
 	column 'Grain Description'
 		dataType: string
+		displayFolder: Authored
 		lineageTag: af460abb-fd65-554b-9789-3200c6233d00
 		summarizeBy: none
 		sourceColumn: description

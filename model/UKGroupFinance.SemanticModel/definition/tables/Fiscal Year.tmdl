@@ -11,6 +11,8 @@ table 'Fiscal Year'
 		sourceColumn: financial_year
 		sortByColumn: 'Year Start'
 
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["HIDE_FOREIGN_KEYS"]}
+
 	/// Calendar year in which the financial year starts. Sort key.
 	column 'Year Start'
 		dataType: int64

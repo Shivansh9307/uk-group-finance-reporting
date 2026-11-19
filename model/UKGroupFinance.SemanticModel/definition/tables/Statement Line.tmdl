@@ -7,6 +7,7 @@ table 'Statement Line'
 		isHidden
 		isKey
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 561403bd-5a61-4c81-8533-7f55f7934337
 		summarizeBy: none
 		sourceColumn: line_key
@@ -14,6 +15,7 @@ table 'Statement Line'
 	/// Label of the statement line. A spacer has a label made of zero-width characters, a different number for each, so that the rows stay distinct.
 	column Line
 		dataType: string
+		displayFolder: Authored
 		lineageTag: 91444eb4-a4dd-4b80-b17c-f4f4f41bb84d
 		summarizeBy: none
 		sourceColumn: label
@@ -22,6 +24,7 @@ table 'Statement Line'
 	/// The label with a non-breaking indent in front, one step of three spaces for each indent level.
 	column 'Line (indented)'
 		dataType: string
+		displayFolder: Authored
 		lineageTag: 544c0e18-9a2c-497d-b921-1393b2cd4265
 		summarizeBy: none
 		sourceColumn: label_indented
@@ -30,6 +33,7 @@ table 'Statement Line'
 	/// Short id of the line, for example R50 for net resource expenditure. Used by the authored files and the tests.
 	column 'Line Id'
 		dataType: string
+		displayFolder: Authored
 		lineageTag: b47dfa2b-766e-4e38-b46a-263d17500a4a
 		summarizeBy: none
 		sourceColumn: line_id
@@ -38,6 +42,7 @@ table 'Statement Line'
 	/// detail (adds its accounts), subtotal or total (adds other lines) or spacer (no amount).
 	column 'Line Type'
 		dataType: string
+		displayFolder: Authored
 		lineageTag: 7516731e-85f8-42b0-805b-c79840838159
 		summarizeBy: none
 		sourceColumn: line_type
@@ -45,6 +50,7 @@ table 'Statement Line'
 	/// as reported (spending positive, income negative, as the source has it) or income positive (the amount is shown with its sign reversed, so income reads as a positive number).
 	column 'Sign Presentation'
 		dataType: string
+		displayFolder: Authored
 		lineageTag: 44a94a7b-0f78-4ece-809c-d8f8c1d6ccb8
 		summarizeBy: none
 		sourceColumn: sign_presentation
@@ -53,6 +59,7 @@ table 'Statement Line'
 	column 'Indent Level'
 		dataType: int64
 		formatString: 0
+		displayFolder: Authored
 		lineageTag: c612e96a-4dc0-4166-88c9-9bbe09101db6
 		summarizeBy: none
 		sourceColumn: indent_level
@@ -68,6 +75,7 @@ table 'Statement Line'
 	/// The economic budget whose plan the line is compared with (RESOURCE or CAPITAL), ALL for the whole statement, or blank where the source publishes no plan at that level.
 	column 'Plan Scope'
 		dataType: string
+		displayFolder: Authored
 		lineageTag: af040c86-5808-41c3-b9ec-b312e81e16d8
 		summarizeBy: none
 		sourceColumn: plan_scope
@@ -75,6 +83,7 @@ table 'Statement Line'
 	/// The line ids that a subtotal or total adds up, separated by spaces; blank for a detail line and a spacer.
 	column Members
 		dataType: string
+		displayFolder: Authored
 		lineageTag: 912307b9-63d7-4732-a56d-689145635f9d
 		summarizeBy: none
 		sourceColumn: members
@@ -83,6 +92,7 @@ table 'Statement Line'
 	column 'Detail Line Keys'
 		dataType: string
 		isHidden
+		isAvailableInMdx: false
 		lineageTag: c7b9243f-0e93-4a37-afdb-6db5b179a80b
 		summarizeBy: none
 		sourceColumn: detail_line_keys

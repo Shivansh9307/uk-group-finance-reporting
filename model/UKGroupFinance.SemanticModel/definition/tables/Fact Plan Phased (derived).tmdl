@@ -24,10 +24,17 @@ table 'Fact Plan Phased (derived)'
 		displayFolder: Plan\Derived
 		lineageTag: 0260e1e9-08ca-5ae8-96c5-5321d21ed6c7
 
+	/// DERIVED, not published: the phased plan is my allocation of the published annual plan. [Plan (phased)] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.
+	measure 'Plan (phased) (real terms)' = Real.Deflate ( [Plan (phased)] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Real Terms
+		lineageTag: 65842436-f90d-4dde-a019-e006123abce5
+
 	column 'Plan Fact Key'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 4a9b183b-6bd7-537f-b70c-3150b9b53735
 		summarizeBy: none
 		sourceColumn: plan_fact_key
@@ -36,6 +43,7 @@ table 'Fact Plan Phased (derived)'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 115cd2f2-06d3-5095-a1c3-44ed1d18143e
 		summarizeBy: none
 		sourceColumn: period_key
@@ -44,6 +52,7 @@ table 'Fact Plan Phased (derived)'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: 23b39c69-8d5e-5aaa-b623-3a1f4cf69d3d
 		summarizeBy: none
 		sourceColumn: plan_source_key
@@ -52,6 +61,7 @@ table 'Fact Plan Phased (derived)'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: ad5fa579-df4f-5779-8822-c383421afe2e
 		summarizeBy: none
 		sourceColumn: sr_group_key
@@ -60,6 +70,7 @@ table 'Fact Plan Phased (derived)'
 		dataType: int64
 		isHidden
 		formatString: 0
+		isAvailableInMdx: false
 		lineageTag: ee665617-1ac3-5924-bf1e-8ab2a725d97e
 		summarizeBy: none
 		sourceColumn: scenario_key
@@ -99,6 +110,7 @@ table 'Fact Plan Phased (derived)'
 	column 'Plan Grain Key'
 		dataType: string
 		isHidden
+		isAvailableInMdx: false
 		lineageTag: 2055ba27-ed15-5717-bae5-079780aa26d3
 		summarizeBy: none
 		sourceColumn: grain_code
@@ -125,6 +137,7 @@ table 'Fact Plan Phased (derived)'
 		dataType: decimal
 		isHidden
 		formatString: #,##0.0000
+		isAvailableInMdx: false
 		displayFolder: Derived
 		lineageTag: fcca6529-63d7-566e-893b-62078a722768
 		summarizeBy: none
@@ -145,6 +158,8 @@ table 'Fact Plan Phased (derived)'
 		lineageTag: d16066b4-bf6c-5cd8-9f6d-ec83f4fce635
 		summarizeBy: none
 		sourceColumn: is_derived
+
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["REMOVE_REDUNDANT_COLUMNS_IN_RELATED_TABLES"]}
 
 	partition 'Fact Plan Phased (derived)' = m
 		mode: import
