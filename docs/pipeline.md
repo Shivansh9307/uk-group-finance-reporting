@@ -158,7 +158,8 @@ the pipeline. Its steps, in order, with what each asserts:
 
 Every step that matters prints its seconds (`<step>_s=<seconds>`, from `.github/scripts/step-timer.sh`), and the
 Summary step lists them with the test totals. The `model-bpa` job runs Tabular Editor 2's Best Practice Analyzer on the real model
-(`model/UKGroupFinance.SemanticModel/definition`, with the spike's three starter rules until a fuller rule file exists); the
+(`model/UKGroupFinance.SemanticModel/definition`, with the rule file `te/bpa/rules.json`, see [te/bpa/README.md](../te/bpa/README.md))
+and compares the counts of the run with `evidence/bpa`; the
 `report-checks` job still runs on the fixture under `tests/fixtures/ci_spike`, because the report has no pages yet. The DAX tests
 of the model run on my machine against Desktop and are described in [model-testing.md](model-testing.md).
 

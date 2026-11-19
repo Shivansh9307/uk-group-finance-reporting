@@ -10,8 +10,8 @@ and no report page yet; those are later work. Every claim is labelled
 ## Decisions
 
 - **Import mode, compatibility level 1702**, hand-written TMDL (**tested**: Desktop opens the project, and
-  `tools/run_dax_tests.ps1` queries it; Tabular Editor 2's Best Practice Analyzer loads the folder and finds nothing
-  to report with the starter rule file). Import because the largest table is 658,554 rows and refreshes in seconds
+  `tools/run_dax_tests.ps1` queries it; Tabular Editor 2's Best Practice Analyzer runs on the folder in CI with the project rule
+  file, see "Scripts, rules and perspectives" below). Import because the largest table is 658,554 rows and refreshes in seconds
   (**tested**: below); DirectQuery would add latency for no gain.
 - **The model reads views, not tables.** Each of the 16 SQL tables is one partition that navigates to one view,
   `dw.v_model_<table>` (`sql/dw/700` to `705`), with the `Server` and `Database` parameters. A view is a plain select
@@ -174,11 +174,11 @@ warehouse, in each case, and a later model task builds on the answer.
 
 ## Measures
 
-Six base measures (the statement measures have their own section below), three calculation groups and eighteen DAX
+Six base measures (the statement, restatement, structure and real-terms measures have their own sections), three calculation groups and twenty DAX
 functions. They are written in TMDL (`functions.tmdl` and the
 fact and calculation-group table files) and tested by DAX tests 720 to 737, each against a query over the `dw` base
 tables (`docs/model-testing.md`). Amounts are GBP thousands, spending positive and income negative. Display folders:
-`Base`, `Plan`, `Plan\Derived`, `Plan\Ranking`, `Restatement`, `Restatement\Excluding flagged rows` and `Current Structure`. Every measure has a description and a format string (**tested**:
+`Base`, `Plan`, `Plan\Derived`, `Plan\Ranking`, `Restatement`, `Restatement\Excluding flagged rows`, `Current Structure` and `Real Terms`. Every measure has a description and a format string (**tested**:
 `pipeline/tests/test_model_measures.py`).
 
 **Where the measures live.** I put each measure on the fact table it sums, not on a measure-only table. A measure table
@@ -375,6 +375,7 @@ unit): [evidence/model/format_strings.csv](../evidence/model/format_strings.csv)
 | `Format.ValueKind`, `Format.Scale`, `Format.ForUnit` | the Display Unit items |
 | `Pnl.SignFactor`, `Pnl.LineAmount`, `Pnl.AtPlanScope` | the statement measures (the namespace is `Pnl` because `Statement` is rejected by the DAX parser, below) |
 | `Restate.Unflagged` | the excluding-flagged-rows variants of the gross restatement measures, and the stated pattern for any other measure |
+| `Real.IndexTable`, `Real.Deflate` | the seven real-terms measures (above) |
 
 A function name with a dot must be quoted in `functions.tmdl` (`function 'Grain.BelowGrain' =`); unquoted, Desktop reads
 the dot as a namespace and the function loses its prefix, and every call fails to resolve (**tested**:
@@ -391,6 +392,65 @@ combination that needs a plan. That is the cost to watch on a matrix of comparis
 row counts per call) is where I would look first; I have not profiled a page or tried to reduce it. These are the test
 queries only.
 
+
+## Real terms
+
+Seven measures give an amount in 2025-26 prices. Each is the nominal measure with `(real terms)` after its name, in the same
+table and in the display folder `Real Terms`, and each is one line, `Real.Deflate ( [<name>] )`. The seven are `Outturn`,
+`Plan`, `Plan (phased)`, `Outturn (plan basis)`, `Outturn (current structure)`, `Statement Amount` and `Statement Plan`. They are
+written by `te/scripts/real_terms_measures.csx` from a list at the top of the script, so a new one is one name added to the
+list. The phased twin starts its description with DERIVED, because the phased plan is my allocation.
+
+**The rule.** `Real.Deflate ( m )` takes the financial years in context (`'Fiscal Year'[Financial Year]`), evaluates `m` for each
+year, multiplies each year's amount by the index of 2025-26 divided by the index of that year, and adds the years. The index is
+the `Chained Index` of the default vintage of the `Deflator` table (October 2026 Budget): the published index for an outturn
+year, and for a forecast year the level chained from that one vintage, so two vintages are never mixed. `Real.IndexTable` finds
+the indices; `Deflator` is related to nothing and stays that way, so the years are matched with `TREATAS`. A month takes the
+index of its financial year (there is no monthly deflator). A year that has an amount and no index makes the result BLANK,
+never the nominal figure, and so does a total over several years that includes such a year, because a partial sum in real terms
+would be wrong. Every financial year of the model (2017-18 to 2028-29) has an index in the default vintage and in the other two
+(they run to 2030-31), so BLANK happens only when I make a gap, which test 776 does.
+
+**What the calculation groups do with them.** Display Unit lists the seven measures in its items by name, so £k, £m and £bn scale
+them like their nominal twins (**tested**: test 775). Time Intelligence acts on them like any amount: `PY` is the same period of
+the previous financial year in 2025-26 prices (each year deflated with its own index), `YoY` is the real change, `YoY %` the real
+growth rate. For the Department of Health and Social Care, period 6 of 2023-24, test 775 gives a real amount of 15,625,102.8
+(thousands of pounds) against 17,640,143.6 for the same period of 2022-23, a real change of -2,015,040.8 and a real growth of
+-11.4%. Scenario Comparison does not act on the real-terms measures (it acts on `Comparison Amount` and `Statement Amount` only),
+so there is no real-terms variance item; two real-terms measures can be subtracted in a visual.
+
+**Tested** (`tests/results/770_*.csv` to `776_*.csv` against `tests/expected/`, written independently by `tests/expected/77x_*.py`:
+the amounts through SQL over `dw`, the index from the pinned October 2026 Budget workbook through `ukfr.readers.deflators`):
+
+| Test | What it proves | Rows | Largest difference |
+|---|---|---:|---:|
+| 770 `real_terms_outturn_by_year` | `Outturn (real terms)` by year, with the nominal figure and the index the model read over the web | 12 | 0.000049 |
+| 771 `real_terms_plan_by_year_source` | `Plan (real terms)` by year and plan source | 17 | 0.000050 |
+| 772 `real_terms_outturn_by_year_department` | `Outturn (real terms)` by year and department, every cell | 537 | 0.000050 |
+| 773 `real_terms_2025_26_is_nominal` | in 2025-26 all seven twins equal their nominal measure exactly (difference 0) and none is blank | 7 | 0 |
+| 774 `real_terms_statement_total_equals_outturn` | the total line of the statement in real terms equals `Outturn (real terms)` in all nine years | 9 | 0.000049 |
+| 775 `real_terms_under_time_and_unit` | Current, YTD, PY, YoY, YoY % under £k, £m and £bn, one department and period | 15 | 0.000052 |
+| 776 `real_terms_year_without_index_is_blank` | a year with an amount and no index gives BLANK, and so does a total that contains it | 4 | 0.000030 |
+
+The differences are the four-decimal rounding of the measure's result (a fixed decimal), against an exact Decimal calculation in
+Python. Three years of test 770 (thousands of pounds; the index is 2025-26 = 100):
+
+| Year | Nominal | Index | Real in the model | Expected | Difference |
+|---|---:|---:|---:|---:|---:|
+| 2018-19 | 749,955,441 | 76.2884 | 983,053,047.3834 | 983,053,047.3833505 | 0.0000495 |
+| 2023-24 | 1,160,485,035.6297 | 93.1026 | 1,246,458,246.7404 | 1,246,458,246.7403703 | 0.0000297 |
+| 2025-26 | 1,293,643,283.2744 | 100 | 1,293,643,283.2744 | 1,293,643,283.2744 | 0 |
+
+Test 776 makes its gap with a filter on `Deflator[Financial Year]` that removes 2024-25. `Real.IndexTable` honours a filter on that
+column and ignores every other filter on `Deflator`, so the vintage stays the default one; a slicer on the year of `Deflator` on a
+report would therefore blank the real-terms measures for the years it hides, which I would not put on a page. A query-scoped
+`DEFINE FUNCTION` that redefines `Real.IndexTable` was accepted by the engine and ignored by the model's measures, so I did not use it.
+
+**Cost.** `dscmd benchmark`, five cold and five warm runs on the open model (`evidence/perf/real_terms/summary.csv`, written by
+`tools/summarise_benchmarks.py`): `Outturn` by year and department (537 cells) 10 ms cold and 7 ms warm; the same cells of
+`Outturn (real terms)` 18 ms cold and 17 ms warm, with 7 storage-engine queries against 1, because each of the twelve years is
+evaluated on its own; `Outturn (plan basis)` by group and measure (844 cells) 77 and 47 ms; test 775 (the time items with three units)
+378 and 373 ms. These are the test queries, not a page.
 
 ## The group income and expenditure statement
 
@@ -680,6 +740,113 @@ measure, and an item from outside would apply to the rank itself. **Tested**: te
 difference 0.000001 parts per million) equals `RANK() OVER` over the year-end variance % computed in T-SQL from
 `dw.outturn_plan_basis_inyear` and `dw.fact_plan`. A year to date before period 12 has no plan, so the rank is BLANK there.
 
+## Scripts, rules and perspectives
+
+The model's metadata is kept by scripts, so that a display folder, a description, a perspective or a real-terms measure can be
+rebuilt and a drift shows up as a diff. The TMDL files stay the source of truth; the scripts edit them through Tabular Editor 2
+and I review the diff of every run.
+
+### Normalising the files to the Tabular Editor layout
+
+Tabular Editor 2.29 reformats TMDL when it saves, so I loaded the model and saved it back once with no script and committed that
+alone ("Normalise the model files to the Tabular Editor layout"), so that every later script diff shows only a real change. Of the 30
+files, 27 changed and 3 did not (below). The changes are layout: the order of objects in a table file, less quoting (`ref table
+Sub-Segment`), blank lines, a function body indented under `function 'Name' =` instead of fenced, the `ref expression` lines of
+`model.tmdl` gone, and two markers Tabular Editor writes (`compatibilityMode: powerBI` in `database.tmdl` and `annotation __TEdtr
+= 1` on the model). No expression, property, `$schema`, lineage tag or the compatibility level changed.
+
+**What I could not round-trip.** Tabular Editor 2.29 reads the `ordinal` of a calculation item and does not write it back, and it
+writes the item `Favourable/Adverse` unquoted. So `Display Unit`, `Time Intelligence` and `Scenario Comparison` stay as written by
+hand, and the wrapper never copies them back (its `-Keep` list). A script that has to change one of them edits the text itself; the
+real-terms measures are added to the lists of `Display Unit` by hand and `test_display_unit_scales_every_real_terms_measure_in_every_item`
+fails when one is missing.
+
+**Tested.** The normalised model opens in Desktop and refreshes (11.5 s), all 47 DAX tests then existing gave results byte for byte
+equal to the committed ones (`git status` clean on `tests/results`), `ukfr dax-compare` passed 47 of 47, and the 114 violation lines that Tabular
+Editor's analyzer printed for the standard Microsoft rule set before and after are identical.
+
+### The scripts
+
+`tools/run_te_script.ps1` (Windows PowerShell 5.1) loads `model/UKGroupFinance.SemanticModel/definition`, runs the scripts one after
+another, saves TMDL to a scratch folder and copies back only the files that changed, then lists them. If a script or Tabular Editor
+fails, nothing is copied back. The scripts read their input files through `UKFR_REPO_ROOT`, which the wrapper sets.
+
+| Script | What it does | Input |
+|---|---|---|
+| `te/scripts/real_terms_measures.csx` | writes the seven `(real terms)` twins (above) | the list at its top |
+| `te/scripts/display_folders.csx` | gives each visible measure its display folder, the `Derived` folder to the visible columns of the derived table and `Authored` to those of the authored tables; fails on a visible measure it cannot place | the table at its top |
+| `te/scripts/descriptions.csx` | fails, listing the offenders, if a visible table, column or measure, a calculation item, a function or a perspective has no description; writes nothing | none |
+| `te/scripts/perspectives.csx` | builds the three perspectives and deletes any other | `te/scripts/perspectives.csv` |
+| `te/scripts/mdx_availability.csx` | sets IsAvailableInMDX to false on a hidden column nothing sorts by or groups, and true on one that something does | none |
+| `te/scripts/bpa_ignores.csx` | writes the per-object ignore annotations of the analyzer | `te/bpa/ignores.csv` |
+
+```
+powershell.exe -NoProfile -File tools\run_te_script.ps1 -Script te\scripts\display_folders.csx
+powershell.exe -NoProfile -File tools\run_te_script.ps1 -Script te\scripts\descriptions.csx,te\scripts\perspectives.csx
+```
+
+**Tested.** I ran each script a second time against the committed files and the wrapper reported "No file changed" for every one.
+The failing paths: `descriptions.csx` named five planted offenders (a table, two columns, a measure and a perspective) and, in another
+run, a function without a description, and exited 1, and `display_folders.csx` named three planted measures it had no folder for. The descriptions of the
+table, column and measure files are written by hand in the TMDL (`///` lines); the script only checks them. The two CSV files
+(`perspectives.csv`, `ignores.csv`) are metadata about the model and hold no data, so they are not in the README register, which
+lists authored data files that reach the warehouse. `pipeline/tests/test_model_scripts.py` checks that the TMDL says what the
+scripts and their CSV files say.
+
+### The analyzer rules
+
+`te/bpa/rules.json` has 63 rules: 48 kept from the standard Microsoft set and 15 of mine whose ID starts with `UKFR_` (no inactive
+or bi-directional relationship, no measure named like a column of its own table, a description on every visible object, a folder and
+a format string on every measure, the labels of the authored and derived tables, no Double amount, `DIVIDE` and not `/`, no
+`IFERROR`, hidden relationship keys). What I dropped from the standard set and why, the severity convention (3 fails CI, 2 warns,
+1 informs) and every ignore with its reason are in [te/bpa/README.md](../te/bpa/README.md). Each of my rules was tested by planting one
+violation in a scratch copy of the model and reading what Tabular Editor reported: all 15 fired.
+
+The first run of the new file on the normalised model found 74 violations in 14 rules, one of them at severity 3. What I did:
+
+| Rule (severity) | Before | After | What I did |
+|---|---:|---:|---|
+| `ISAVAILABLEINMDX_FALSE_NONATTRIBUTE_COLUMNS` (2) | 44 | 0 | `mdx_availability.csx` set the property on the hidden keys and amounts; DAX does not read it, and the MDX format-string evidence ([evidence/model/format_strings.csv](../evidence/model/format_strings.csv)) came out byte for byte the same |
+| `AVOID_DUPLICATE_MEASURES` (2) | 3 | 0 | ignored on the three measures, with the reason |
+| `MINIMIZE_POWER_QUERY_TRANSFORMATIONS` (2) | 4 | 0 | ignored on the four web partitions: the parsing in Power Query is a decision |
+| `UNNECESSARY_COLUMNS` (2) | 3 | 0 | ignored on three hidden columns, with the reason |
+| `SNOWFLAKE_SCHEMA_ARCHITECTURE` (2) | 2 | 0 | ignored on `Fiscal Period` and `Account` |
+| `DAX_MEASURES_UNQUALIFIED` (3) | 1 | 0 | ignored on the field parameter, which needs the qualified form |
+| `HIDE_FACT_TABLE_COLUMNS`, `HIDE_FOREIGN_KEYS`, `MEASURES_SHOULD_NOT_BE_DIRECT_REFERENCES_OF_OTHER_MEASURES`, `REDUCE_USAGE_OF_CALCULATED_TABLES`, `REMOVE_REDUNDANT_COLUMNS_IN_RELATED_TABLES`, `UKFR_RELATIONSHIP_COLUMNS_HIDDEN` (2) | 1 each | 0 | ignored on one object each |
+| `ENSURE_TABLES_HAVE_RELATIONSHIPS` (1) | 5 | 5 | left as information: the web tables and the field parameter are unrelated on purpose |
+| `RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE` (1) | 6 | 6 | left as information: the year and the grain are text codes |
+
+After: 11 violations, both rules at severity 1 (`evidence/bpa/bpa_counts.csv`, `evidence/bpa/bpa_violations.csv`, written by
+`tools/summarise_bpa.py`). The `model-bpa` job fails on severity 3 and then fails if its counts differ from those two files. The
+ignores are 19 rows for 18 objects (`te/bpa/ignores.csv`). Before I replaced the authored tables' descriptions, the label rule
+would have found Scenario, Spending Review Group, Plan Source, Plan Grain and Statement Measure unlabelled; I prefixed their
+descriptions with AUTHORED and `display_folders.csx` puts their visible columns in `Authored`, as the derived table's are in `Derived`.
+
+### Perspectives
+
+Three, built from `te/scripts/perspectives.csv` (one row per object, hidden objects refused):
+
+| Perspective | For | Holds |
+|---|---|---|
+| `Executive` | the headline figures | outturn, outturn on the plan's basis, the comparison measure, plan, the statement amounts, variance, outturn on the current structure and the real-terms twins of the amounts; the year, period, department, Spending Review group and statement line; the three calculation groups. No keys, no quarantine, no restatement detail |
+| `Restatement` | how a figure moved between releases | the release, the as-at, first-reported, revision, restatement and gross measures, the structure and transfer measures, the data-quality findings, the organisation and department structures, the time items and the unit |
+| `Data Controls` | what to check before trusting a number | the two quarantine tables, plan grain and source, the findings, the release, the as-at and file-control measures, `Plan Below Grain` |
+
+A calculation group is in a perspective only with the dimensions it needs to run (`Time Intelligence` with `Fiscal Period` and
+`Fiscal Year`); `Scenario Comparison` is left out of `Restatement` and `Data Controls` because it does not act on their measures.
+
+**What a perspective does and does not do. Tested.** It narrows the field list and the metadata a client sees; it secures nothing.
+(a) `tests/dax/777_perspective_measures.dax` reads the engine's own list of the measures of each perspective
+(`$SYSTEM.MDSCHEMA_MEASURES`, one cube per perspective) and compares it with the measure rows of `perspectives.csv`: 42 rows, difference 0
+(Executive 17, Restatement 16, Data Controls 9; the model's own cube lists 38). (b) `pipeline/tests/test_model_scripts.py` compares the TMDL
+of each perspective, table by table and column by column, with the expansion of the CSV and checks that nothing hidden is in one.
+(c) `tools/run_perspective_checks.ps1` runs four queries under `Cube=Executive` and one under a name that does not exist and writes
+[evidence/model/perspective_queries.csv](../evidence/model/perspective_queries.csv): a query that names an object outside the perspective
+**is answered** (`Outturn as at Release`, a column of `Data Quality Issue` and a row count of `Release` all returned a value), so
+my expectation that such a query would fail was wrong; only a perspective that does not exist fails, with the text "The
+NoSuchPerspective cube does not exist." That is why 777 is a test of metadata and not of access, and why access control is for
+object-level security, not perspectives.
+
 ## Parameters and sources
 
 | Name | Default | Used by |
@@ -770,7 +937,6 @@ was answered or cancelled before I could record its second step, so the assets d
 
 ## Not in the model yet
 
-Real terms from the deflators, security, perspectives, translations and report pages. Tabular Editor 2's Best Practice Analyzer runs in CI on this folder
-with the four starter rules of the spike; a fuller rule file replaces them later. Not tested: the measures on a report
+Security (roles, row-level and object-level), translations and report pages. Not tested: the measures on a report
 canvas (there is none yet), a visual that selects different periods in different years, and the matrix subtotals of the
 calculation groups.

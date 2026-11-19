@@ -25,7 +25,8 @@ files, the PSS control and the OSCAR Plans. How it is built and tested is in [do
 and [docs/reconciliation.md](docs/reconciliation.md) shows how every load ties back to the published file,
 including the differences I could not explain. Phase 2 has started: the semantic model skeleton is in
 [model/](model/) (20 tables and 3 calculation groups, 21 relationships, the deflator and CPI queries in Power Query, the base
-measures, the time-intelligence, scenario-comparison and display-unit calculation groups and the plan grain guard), described in
+measures, the time-intelligence, scenario-comparison and display-unit calculation groups, the plan grain guard, real-terms measures and three
+perspectives, with its metadata kept by Tabular Editor scripts in [te/](te/) and checked by a rule file in CI), described in
 [docs/model.md](docs/model.md) and tested against the warehouse as described in [docs/model-testing.md](docs/model-testing.md).
 The report has one blank page.
 The source fetcher and file manifest are described in [docs/data-sources.md](docs/data-sources.md).
@@ -56,6 +57,10 @@ file is missing from it, if the row count shown differs from the file, or if a r
 synthetic does not say no to reaching a real total. The database labels every authored table in its description
 (`sql/tests/200_authored_tables_are_labelled.sql`). Row counts are from a committed-scope build
 (`evidence/build/table_counts.csv`); where a full-scope build differs it is shown in brackets.
+The two CSV files under `te/` (`te/scripts/perspectives.csv` and `te/bpa/ignores.csv`) are metadata about the semantic
+model, not data: they hold no amount, never reach the warehouse and are not in the table. The model's own authored tables are
+labelled AUTHORED in their descriptions and in a display folder, and a rule of the analyzer fails the build if one is not
+(`te/bpa/README.md`).
 
 | Object or file | Class | Schema and table | Rows | What it holds | Can it reach a real total | Test |
 |---|---|---|---|---|---|---|
@@ -91,6 +96,7 @@ synthetic does not say no to reaching a real total. The database labels every au
 | Model table `CPI` (read over the web) | real | none: read in Power Query from the manifest links | 918 to September 2026 (more as ONS publishes) | ONS CPI index (D7BT) and annual rate (D7G7), monthly | yes, where a measure uses it: published figures | `tests/dax/704_cpi.dax` |
 | `dw.department_reported_number` and the model column `Reported Department Numbers` | derived | `dw.department_reported_number` through `dw.v_model_department` | 63 | the department of the current structure that answers for each department number the outturn was reported under: its own number, an Unallocated member, or (for 027 only) the department that receives the lines | no: a mapping of numbers to departments; `reported_net_amount` is a note of what the number was reported with, no measure reads it, and the amounts of the as-reported structure added over the departments equal the total | `sql/tests/760_every_reported_department_number_has_exactly_one_current_department.sql`, `tests/dax/764_structure_totals_by_year.dax` |
 | Model measures of the restatement and the current structure (display folders `Restatement` and `Current Structure`) | derived | none: measures over `Fact Outturn` | 15 | the outturn as at a release, as first reported, the revisions between releases, the figure under each department structure and the transfer between them | no: each is a sum, a difference or a ratio of the real deltas; the transfer adds to zero over the departments in every year and release | `tests/dax/760_as_at_release_equals_file_total.dax`, `tests/dax/764_structure_totals_by_year.dax`, `tests/dax/765_structure_totals_by_release.dax` |
+| Model measures of real terms (display folder `Real Terms`) | derived | none: measures over `Fact Outturn`, `Fact Plan` and `Fact Plan Phased (derived)` | 7 | outturn, plan and statement amounts in 2025-26 prices: each financial year's amount times the index of 2025-26 over the index of that year, from the October 2026 Budget deflators; the phased twin is labelled DERIVED | no: each is a separate measure, the nominal measures and every real total are unchanged, and a year without an index gives BLANK, never the nominal figure | `tests/dax/770_real_terms_outturn_by_year.dax`, `tests/dax/773_real_terms_2025_26_is_nominal.dax`, `tests/dax/776_real_terms_year_without_index_is_blank.dax` |
 | synthetic data | synthetic | none | 0 | nothing: no synthetic data exists yet | no | `pipeline/tests/test_register.py::test_there_is_no_synthetic_data_yet` |
 
 ## Tools

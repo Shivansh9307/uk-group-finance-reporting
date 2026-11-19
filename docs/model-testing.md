@@ -19,15 +19,15 @@ then it rests on me running the suite and committing the files together.
 |---|---|---|
 | `tests/dax/<NNN>_<name>.dax` | one `EVALUATE` query against the model, with explicit column names | me |
 | `tests/expected/<NNN>_<name>.sql` | a query over `dw` base tables that returns the same columns | me |
-| `tests/expected/<NNN>_<name>.py` | instead of the `.sql`, where the truth is a published file and not a warehouse table (tests 703 to 705): `generate(root)` returns the columns and rows | me |
+| `tests/expected/<NNN>_<name>.py` | instead of the `.sql`, where the truth is a published file and not a warehouse table (tests 703 to 705): `generate(root)` returns the columns and rows. A module whose function is `generate(root, db)` is also given the database connection, for a truth that mixes a warehouse query with a file (tests 770 to 776, which deflate warehouse amounts with the pinned index) | me |
 | `tests/expected/<NNN>_<name>.csv` | the expected values | `ukfr expected` |
 | `tests/expected/_meta.csv` | the build scope (`committed` or `full`) the expected values came from | `ukfr expected` |
 | `tests/results/<NNN>_<name>.csv` | what the model returned | `tools/run_dax_tests.ps1` |
 | `evidence/model/dax_tests.csv` | test id, name, rows, columns, status, largest absolute difference, build scope | `ukfr dax-compare` |
 
 Test numbers 700 to 719 belong to the model skeleton, 720 to 739 to the measures, 740 to 759 to the income and
-expenditure statement and 760 to 779 to the restatement and current-structure measures; later model tasks take their own
-ranges.
+expenditure statement, 760 to 769 to the restatement and current-structure measures and 770 to 779 to real terms and
+perspectives; later model tasks take their own ranges.
 
 ## Run the suite
 
@@ -171,7 +171,31 @@ in [model.md](model.md#restatement-how-a-figure-changed-from-release-to-release)
 | 768 `rank_by_ytd_variance_percent` | the year-to-date variance % and its rank by group, three years | 69 | T-SQL `RANK()` over `dw.outturn_plan_basis_inyear` and `dw.fact_plan` |
 | 769 `restatement_under_time_and_unit` | five measures under Current, YTD, PY, YoY and three units, two releases | 24 | the fact, windows written in T-SQL |
 
+### The real-terms and perspective tests (770 to 777)
+
+Eight tests; the table and the three-year result are in [model.md](model.md#real-terms). Expected values come from
+`tests/expected/77x_*.py`, which read amounts from `dw` through SQL and the deflator index from the pinned October 2026 Budget
+workbook through `ukfr.readers.deflators`, and multiply them as Decimals. 770 to 776 are real terms (7, 12, 17, 537, 9, 15 and 4 rows,
+largest differences between 0 and 0.00005, the four-decimal rounding of a fixed decimal result). 777 compares the measures that
+the engine lists for each perspective with `te/scripts/perspectives.csv` (42 rows). They need a full-scope database for the plan
+cells of 771 and 773. All 55 tests, the 47 older ones among them, passed in one run
+(`dax-compare: 55 of 55 pass`), and the 47 older result files were byte for byte unchanged.
+
 The performance queries (`tests/perf/`) are not tests and have no expected values; `docs/performance.md` says how they are run.
+
+## The Best Practice Analyzer count check
+
+The DAX tests need Desktop, so CI cannot run them. What CI does run on the model is Tabular Editor 2's analyzer with
+`te/bpa/rules.json` (job `model-bpa`, severity 3 fails the job) and then `python tools/summarise_bpa.py --trx <result> --check
+evidence/bpa`: the run must give exactly the rules, severities and violations in `evidence/bpa/bpa_counts.csv` and
+`bpa_violations.csv`, and a rule that Tabular Editor cannot evaluate fails the job. So a new violation below severity 3, or a
+rule added or changed, is a failing check until I have read it and written the files again with `--write`. **Tested** locally: the
+run of the committed model matched the files (`the run matches evidence/bpa: 63 rules, 11 violations`), `pipeline/tests/test_model_scripts.py`
+runs the tool on a small result file (counts, sorting, a difference exits 1, an unevaluable rule exits 2) and checks that the committed counts list
+every rule of the file and none at severity 3 is violated. **Designed, not yet seen**: the new step on the hosted runner
+(the job's result is in the pull request).
+
+`tools/run_perspective_checks.ps1` is a recorded run, not a test: it writes `evidence/model/perspective_queries.csv`.
 
 ## Not covered
 
