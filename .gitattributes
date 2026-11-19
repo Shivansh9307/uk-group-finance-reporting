@@ -28,3 +28,9 @@ evidence/expected/*.csv text eol=lf
 tests/expected/*.csv text eol=lf
 tests/results/*.csv text eol=lf
 evidence/model/*.csv text eol=lf
+
+# Model scripts and Best Practice Analyzer evidence: LF so a rerun leaves git status clean.
+evidence/bpa/*.csv text eol=lf
+te/scripts/*.csv text eol=lf
+te/bpa/*.csv text eol=lf
+evidence/perf/real_terms/*.csv text eol=lf

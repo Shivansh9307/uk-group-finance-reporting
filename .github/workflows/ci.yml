@@ -13,11 +13,12 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Paths for the model and report jobs. The model job runs the Best Practice Analyzer on the real model; the
-  # report job still runs on the fixture until the real report has pages. The rules are the spike's three
-  # starter rules until the rule file of the model work replaces them.
+  # Paths for the model and report jobs. The model job runs the Best Practice Analyzer on the real model with the
+  # project rule file and compares the counts of the run with evidence/bpa; the report job still runs on the fixture
+  # until the real report has pages.
   BPA_MODEL_DIR: model/UKGroupFinance.SemanticModel/definition
-  BPA_RULES: tests/fixtures/ci_spike/bpa-rules.json
+  BPA_RULES: te/bpa/rules.json
+  BPA_EVIDENCE_DIR: evidence/bpa
   BPA_FAIL_AT_SEVERITY: "3"   # violations at or above this severity fail the job; below it they only warn
   REPORT_DIR: tests/fixtures/ci_spike/Minimal.Report
   REPORT_RULES: tests/fixtures/ci_spike/report-rules.json
@@ -100,6 +101,11 @@ jobs:
           $code = $LASTEXITCODE
           Write-Host "BPA step took $([math]::Round($sw.Elapsed.TotalSeconds,1)) s"
           exit $code
+
+      - name: Compare the BPA counts with the committed counts
+        # The run must give exactly the rules, severities and violations in evidence/bpa. A rule added or changed, or
+        # a new violation below the fail threshold, shows up here until the counts are reviewed and committed.
+        run: python tools/summarise_bpa.py --trx "$env:RUNNER_TEMP/bpa-results.trx" --check "$env:BPA_EVIDENCE_DIR"
 
       - name: Upload BPA results
         if: always()

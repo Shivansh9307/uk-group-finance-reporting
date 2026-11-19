@@ -27,9 +27,11 @@ $Rules = (Resolve-Path $Rules).Path
 
 # -A <rules>: analyse with this rule file only (plus rules embedded in model annotations).
 # -G: emit ::warning:: / ::error:: workflow commands. -T: write a TRX file with per-rule results.
-& $TabularEditor $Model -A $Rules -G -T $TrxPath | Out-Host
+& $TabularEditor $Model -A $Rules -G -T $TrxPath | Tee-Object -Variable teOutput | Out-Host
 $teExit = $LASTEXITCODE
 Write-Host "TabularEditor exit code: $teExit"
+# A rule whose expression does not parse is reported on the console as 'Error on rule' and is not a violation.
+if (($teOutput | Out-String) -match 'Error on rule') { throw 'TE2 could not evaluate at least one rule (see the lines starting Error on rule above).' }
 if (-not (Test-Path $TrxPath)) { throw "TE2 did not write $TrxPath; the model probably failed to load." }
 
 [xml] $trx = Get-Content -Raw -Encoding utf8 $TrxPath
