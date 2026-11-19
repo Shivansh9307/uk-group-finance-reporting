@@ -17,7 +17,8 @@
   reformats TMDL, so a script that is not idempotent shows up as a second diff.
 
 .PARAMETER Script
-  One or more .csx files (paths relative to the current directory or absolute).
+  One or more .csx files (paths relative to the current directory or absolute), run in order. With
+  powershell.exe -File, separate them with commas.
 
 .PARAMETER Definition
   The TMDL definition folder. Default: model\UKGroupFinance.SemanticModel\definition of this checkout.
@@ -47,25 +48,34 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+# `powershell.exe -File` passes "a,b" as one string: accept a comma-separated list as well as an array.
+$Script = @($Script | ForEach-Object { $_ -split ',' } | Where-Object { $_ })
 $repo = Split-Path $PSScriptRoot -Parent
 if (-not $Definition) { $Definition = Join-Path $repo 'model\UKGroupFinance.SemanticModel\definition' }
 $Definition = (Resolve-Path $Definition).Path.TrimEnd('\', '/')
 $env:UKFR_REPO_ROOT = $repo
 
-$scratch = Join-Path ([IO.Path]::GetTempPath()) ('te_run_' + [guid]::NewGuid().ToString('N'))
+$work = Join-Path ([IO.Path]::GetTempPath()) ('te_run_' + [guid]::NewGuid().ToString('N'))
+$scratch = $work
 try {
-    $teArgs = @($Definition)
-    if ($Script.Count -gt 0) {
-        $teArgs += '-S'
-        foreach ($s in $Script) { $teArgs += (Resolve-Path $s).Path }
+    # TE2 runs one script per load, so scripts are chained: each one loads the folder the previous one saved.
+    $steps = @($Script)
+    if ($steps.Count -eq 0) { $steps = @($null) }
+    $current = $Definition
+    $i = 0
+    foreach ($s in $steps) {
+        $i++
+        $scratch = Join-Path $work ("step$i")
+        $teArgs = @($current)
+        if ($s) { $teArgs += '-S'; $teArgs += (Resolve-Path $s).Path }
+        $teArgs += '-TMDL'
+        $teArgs += $scratch
+        & $TabularEditor @teArgs | Out-Host
+        $code = $LASTEXITCODE
+        if ($code -ne 0) { Write-Host "TabularEditor exit code $code; nothing written back."; exit $code }
+        if (-not (Test-Path (Join-Path $scratch 'model.tmdl'))) { Write-Host 'TE2 wrote no model.tmdl; nothing written back.'; exit 1 }
+        $current = $scratch
     }
-    $teArgs += '-TMDL'
-    $teArgs += $scratch
-
-    & $TabularEditor @teArgs | Out-Host
-    $code = $LASTEXITCODE
-    if ($code -ne 0) { Write-Host "TabularEditor exit code $code; nothing written back."; exit $code }
-    if (-not (Test-Path (Join-Path $scratch 'model.tmdl'))) { Write-Host 'TE2 wrote no model.tmdl; nothing written back.'; exit 1 }
 
     function Get-NormalisedText([string] $path) {
         return ([IO.File]::ReadAllText($path, [Text.Encoding]::UTF8)) -replace "`r`n", "`n"
@@ -98,6 +108,6 @@ try {
     else { Write-Host ("Changed files ({0}):" -f $changed.Count); $changed | Sort-Object | ForEach-Object { Write-Host "  $_" } }
 }
 finally {
-    if (Test-Path $scratch) { Remove-Item $scratch -Recurse -Force }
+    if (Test-Path $work) { Remove-Item $work -Recurse -Force }
 }
 exit 0
