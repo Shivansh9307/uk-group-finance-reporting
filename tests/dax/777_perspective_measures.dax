@@ -1,0 +1,6 @@
+// The measures each perspective holds, as the engine lists them (the DMV MDSCHEMA_MEASURES has one cube per perspective
+// and one for the whole model). Expected values: the measure rows of te/scripts/perspectives.csv, which is what built the
+// perspectives, so a perspective edited by hand in the TMDL or a script that did not run shows up as a difference.
+// This checks the metadata only. It does not show that anything is hidden: a DAX query can still name an object that is
+// outside a perspective (tests/perspectives and evidence/model/perspective_queries.csv).
+SELECT [CUBE_NAME], [MEASURE_NAME] FROM $SYSTEM.MDSCHEMA_MEASURES WHERE [MEASURE_IS_VISIBLE] AND [CUBE_NAME] <> 'Model'

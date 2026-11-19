@@ -140,7 +140,7 @@ def test_the_model_has_no_refresh_policy_no_range_parameters_and_no_date_table(m
     all_text = "\n".join(p.read_text(encoding="utf-8") for p in model_dir.rglob("*.tmdl"))
     for banned in ("refreshPolicy", "RangeStart", "RangeEnd", "dataCategory: Time"):
         assert banned not in all_text, banned
-    assert not (model_dir / "roles").exists() and not (model_dir / "perspectives").exists(), "security is a later task"
+    assert not (model_dir / "roles").exists(), "security is a later task"
 
 
 # ------------------------------------------------------------------------------------------------ tables

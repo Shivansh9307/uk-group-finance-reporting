@@ -1,0 +1,6 @@
+query,perspective,object_in_perspective,engine_answered,result
+in_measure.dax,Executive,yes,yes,1246458246.7404
+out_measure.dax,Executive,no,yes,1160485035.6297
+out_column.dax,Executive,no,yes,5
+out_table.dax,Executive,no,yes,31
+in_measure.dax,NoSuchPerspective,no such perspective,no,"The NoSuchPerspective cube does not exist."

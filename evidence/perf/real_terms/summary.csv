@@ -1,0 +1,11 @@
+query,cache,runs,total_ms_median,total_ms_min,total_ms_max,runs_with_events,formula_engine_ms_median,storage_engine_ms_median,storage_engine_queries_median,rows,errors
+720_outturn_by_year_department,cold,5,10,4,16,5,7,3,1,537,0
+720_outturn_by_year_department,warm,5,7,0,10,4,5.5,0,1,537,0
+726_outturn_plan_basis_by_group_measure,cold,5,77,68,79,5,43,33,25,844,0
+726_outturn_plan_basis_by_group_measure,warm,5,47,45,55,3,44,3,25,844,0
+770_real_terms_outturn_by_year,cold,5,17,4,17,5,10,5,7,12,0
+770_real_terms_outturn_by_year,warm,5,13,0,17,4,13.5,0,7,12,0
+772_real_terms_outturn_by_year_department,cold,5,18,7,20,5,11,6,7,537,0
+772_real_terms_outturn_by_year_department,warm,5,17,13,19,3,14,0,7,537,0
+775_real_terms_under_time_and_unit,cold,5,378,363,570,5,339,43,188,15,0
+775_real_terms_under_time_and_unit,warm,5,373,367,395,5,341,39,188,15,0

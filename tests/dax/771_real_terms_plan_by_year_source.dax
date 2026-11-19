@@ -1,0 +1,11 @@
+// Plan (real terms) by financial year and plan source: the plan the model sums and the same plan in 2025-26 prices. The
+// phased plan (derived) is not read here. Expected values: dw.fact_plan summed on the same keys, without the rows that are
+// part of another measure, times (index of 2025-26) / (index of the year).
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Plan Source'[Plan Source Code],
+    "plan", [Plan],
+    "plan_real", [Plan (real terms)]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Plan Source'[Plan Source Code]

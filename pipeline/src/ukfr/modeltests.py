@@ -5,7 +5,9 @@ Layout, from the repository root:
     tests/dax/<NNN>_<name>.dax          one EVALUATE query run against the model open in Desktop
     tests/expected/<NNN>_<name>.sql     an independent query over dw base tables (never over dw.v_model_*)
     tests/expected/<NNN>_<name>.py      or, where the truth is not in the warehouse (the web-read deflators), a
-                                        module with `generate(root) -> (columns, rows)`
+                                        module with `generate(root) -> (columns, rows)`; a module whose
+                                        `generate(root, db)` takes a second argument is given the database
+                                        connection too, for a truth that mixes a warehouse query with a file
     tests/expected/<NNN>_<name>.csv     written by `ukfr expected`
     tests/expected/_meta.csv            the build scope the expected files were written from
     tests/results/<NNN>_<name>.csv      written by tools/run_dax_tests.ps1 from the DAX query
@@ -22,6 +24,7 @@ from __future__ import annotations
 
 import csv
 import importlib.util
+import inspect
 import re
 from dataclasses import dataclass, field
 from datetime import date, datetime
@@ -147,18 +150,21 @@ def normalise_header(h: str) -> str:
 
 
 # ------------------------------------------------------------------------------------------------ expected
-def _generate_py(root: Path, path: Path) -> tuple[list[str], list[list[str]]]:
+def _generate_py(root: Path, path: Path, db=None) -> tuple[list[str], list[list[str]]]:
     spec = importlib.util.spec_from_file_location(f"ukfr_expected_{path.stem}", path)
     assert spec and spec.loader
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    columns, rows = mod.generate(root)
+    if len(inspect.signature(mod.generate).parameters) > 1:
+        columns, rows = mod.generate(root, db)
+    else:
+        columns, rows = mod.generate(root)
     return list(columns), [[format_cell(c) if not isinstance(c, str) else c for c in r] for r in rows]
 
 
 def generate_one(root: Path, db, path: Path) -> tuple[list[str], list[list[str]]]:
     if path.suffix == ".py":
-        return _generate_py(root, path)
+        return _generate_py(root, path, db)
     names, rows = db.columns(path.read_text(encoding="utf-8"))
     return names, [[format_cell(c) for c in r] for r in rows]
 

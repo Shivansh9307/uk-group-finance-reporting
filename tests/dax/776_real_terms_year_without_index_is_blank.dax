@@ -1,0 +1,28 @@
+// A year that has an amount and no index gives BLANK, never the nominal figure, and a total over several years that
+// includes such a year is BLANK too (a partial sum in real terms would be wrong). Every financial year of the model has an
+// index in the default vintage, so the gap is made with a filter on Deflator[Financial Year] that removes 2024-25, which
+// Real.IndexTable honours; the model's own Real.Deflate and Outturn (real terms) run unchanged.
+EVALUATE
+UNION (
+    ROW (
+        "scope", "2023-24",
+        "outturn", CALCULATE ( [Outturn], TREATAS ( { "2023-24" }, 'Fiscal Year'[Financial Year] ) ),
+        "outturn_real", CALCULATE ( [Outturn (real terms)], TREATAS ( { "2023-24" }, 'Fiscal Year'[Financial Year] ), Deflator[Financial Year] <> "2024-25" )
+    ),
+    ROW (
+        "scope", "2024-25",
+        "outturn", CALCULATE ( [Outturn], TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ),
+        "outturn_real", CALCULATE ( [Outturn (real terms)], TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ), Deflator[Financial Year] <> "2024-25" )
+    ),
+    ROW (
+        "scope", "2025-26",
+        "outturn", CALCULATE ( [Outturn], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ),
+        "outturn_real", CALCULATE ( [Outturn (real terms)], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ), Deflator[Financial Year] <> "2024-25" )
+    ),
+    ROW (
+        "scope", "2023-24 to 2025-26",
+        "outturn", CALCULATE ( [Outturn], TREATAS ( { "2023-24", "2024-25", "2025-26" }, 'Fiscal Year'[Financial Year] ) ),
+        "outturn_real", CALCULATE ( [Outturn (real terms)], TREATAS ( { "2023-24", "2024-25", "2025-26" }, 'Fiscal Year'[Financial Year] ), Deflator[Financial Year] <> "2024-25" )
+    )
+)
+ORDER BY [scope]

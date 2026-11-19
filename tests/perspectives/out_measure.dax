@@ -1,0 +1,2 @@
+// Outturn as at Release is in the Restatement perspective and not in Executive. A perspective narrows metadata only.
+EVALUATE ROW ( "outside_perspective", CALCULATE ( [Outturn as at Release], TREATAS ( { "2023-24" }, 'Fiscal Year'[Financial Year] ) ) )

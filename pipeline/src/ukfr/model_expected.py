@@ -13,6 +13,7 @@ months alone.
 
 from __future__ import annotations
 
+from decimal import Decimal
 from pathlib import Path
 
 from .config import FILES_CSV, data_dir
@@ -75,3 +76,25 @@ def cpi_values(root: Path) -> tuple[list[dict], str]:
             latest = max(latest, month)
             out.append({"series_id": series_id, "month": month, "value": value})
     return out, latest
+
+
+# Real terms: the default vintage of the model's Deflator table and the price base of the real-terms measures.
+DEFAULT_DEFLATOR_VINTAGE = "2026-10-budget"
+REAL_BASE_YEAR = "2025-26"
+
+
+def real_terms_index(root: Path) -> dict[str, Decimal]:
+    """Financial year -> chained index of the default vintage, read from the pinned workbook."""
+    return {
+        d["financial_year"]: d["chained_index"]
+        for d in deflator_values(root)
+        if d["vintage_id"] == DEFAULT_DEFLATOR_VINTAGE
+    }
+
+
+def real_terms_factors(root: Path) -> dict[str, Decimal]:
+    """Financial year -> index of the base year divided by the index of the year: what an amount of that year is
+    multiplied by to be in 2025-26 prices."""
+    index = real_terms_index(root)
+    base = index[REAL_BASE_YEAR]
+    return {year: base / value for year, value in index.items()}

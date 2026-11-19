@@ -1,0 +1,2 @@
+// Perspective Executive holds Outturn (real terms), so the query is answered.
+EVALUATE ROW ( "in_perspective", CALCULATE ( [Outturn (real terms)], TREATAS ( { "2023-24" }, 'Fiscal Year'[Financial Year] ) ) )

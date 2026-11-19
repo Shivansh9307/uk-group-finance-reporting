@@ -1,0 +1,2 @@
+// 'Data Quality Issue' is not in the Executive perspective, so is none of its columns.
+EVALUATE ROW ( "outside_perspective", COUNTROWS ( DISTINCT ( 'Data Quality Issue'[Issue Type] ) ) )

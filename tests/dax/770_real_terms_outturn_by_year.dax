@@ -1,0 +1,21 @@
+// Outturn (real terms) by financial year: the nominal outturn, the chained index of the default deflator vintage that the
+// model read over the web, and the outturn in 2025-26 prices. Expected values: the fact summed by year and each year
+// multiplied by (index of 2025-26) / (index of the year), the index read from the pinned October 2026 Budget workbook.
+// The years that have plans and no outturn (2017-18, 2027-28, 2028-29) show an index and a blank amount. Test Index is a
+// test measure, not a model measure.
+DEFINE
+    MEASURE 'Fiscal Year'[Test Index] =
+        CALCULATE (
+            MAX ( Deflator[Chained Index] ),
+            REMOVEFILTERS ( Deflator ),
+            TREATAS ( VALUES ( 'Fiscal Year'[Financial Year] ), Deflator[Financial Year] ),
+            Deflator[Is Default Vintage] = TRUE ()
+        )
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    "outturn", [Outturn],
+    "index", [Test Index],
+    "outturn_real", [Outturn (real terms)]
+)
+ORDER BY 'Fiscal Year'[Financial Year]

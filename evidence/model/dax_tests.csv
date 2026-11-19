@@ -46,3 +46,11 @@ test_id,test_name,expected_rows,result_rows,columns,status,max_abs_diff,build_sc
 767,estimated_mapping_share,530,530,4,pass,0.0000005816485,full
 768,rank_by_ytd_variance_percent,69,69,4,pass,0.0000009961,full
 769,restatement_under_time_and_unit,24,24,9,pass,0.000050,full
+770,real_terms_outturn_by_year,12,12,4,pass,0.0000494512927260241,full
+771,real_terms_plan_by_year_source,17,17,4,pass,0.000049648845094583,full
+772,real_terms_outturn_by_year_department,537,537,4,pass,0.000049954400542516622366,full
+773,real_terms_2025_26_is_nominal,7,7,3,pass,0,full
+774,real_terms_statement_total_equals_outturn,9,9,3,pass,0.0000494512927260241,full
+775,real_terms_under_time_and_unit,15,15,3,pass,0.00005245114463127839,full
+776,real_terms_year_without_index_is_blank,4,4,3,pass,0.000029698848367285,full
+777,perspective_measures,42,42,2,pass,,full

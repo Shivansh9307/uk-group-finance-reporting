@@ -1,0 +1,11 @@
+// Outturn (real terms) by financial year and department of the current structure, every cell: each year's amount is
+// deflated with the index of that year, so the departments of one year share one factor and a department's total over
+// years is the sum of its deflated years. Expected values: the fact on the same keys times the year's factor.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Department (current structure)'[Department Number],
+    "outturn", [Outturn],
+    "outturn_real", [Outturn (real terms)]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]

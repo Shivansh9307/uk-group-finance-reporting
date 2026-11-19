@@ -1,0 +1,45 @@
+// 2025-26 is the price base, so each real-terms measure equals its nominal twin there, exactly: the difference is 0 and
+// the real-terms value is not blank. All seven measures in the list of the script that writes them; the current-structure
+// measure is read for one department (033) and the two statement measures on the total line (TOT), the only line that has
+// both an amount and a plan.
+EVALUATE
+VAR Yr = TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] )
+RETURN
+UNION (
+    ROW (
+        "measure", "Outturn",
+        "real_minus_nominal", COALESCE ( CALCULATE ( [Outturn (real terms)] - [Outturn], Yr ), 0 ),
+        "real_is_blank", IF ( ISBLANK ( CALCULATE ( [Outturn (real terms)], Yr ) ), 1, 0 )
+    ),
+    ROW (
+        "measure", "Plan",
+        "real_minus_nominal", COALESCE ( CALCULATE ( [Plan (real terms)] - [Plan], Yr ), 0 ),
+        "real_is_blank", IF ( ISBLANK ( CALCULATE ( [Plan (real terms)], Yr ) ), 1, 0 )
+    ),
+    ROW (
+        "measure", "Plan (phased)",
+        "real_minus_nominal", COALESCE ( CALCULATE ( [Plan (phased) (real terms)] - [Plan (phased)], Yr ), 0 ),
+        "real_is_blank", IF ( ISBLANK ( CALCULATE ( [Plan (phased) (real terms)], Yr ) ), 1, 0 )
+    ),
+    ROW (
+        "measure", "Outturn (plan basis)",
+        "real_minus_nominal", COALESCE ( CALCULATE ( [Outturn (plan basis) (real terms)] - [Outturn (plan basis)], Yr ), 0 ),
+        "real_is_blank", IF ( ISBLANK ( CALCULATE ( [Outturn (plan basis) (real terms)], Yr ) ), 1, 0 )
+    ),
+    ROW (
+        "measure", "Outturn (current structure)",
+        "real_minus_nominal", COALESCE ( CALCULATE ( [Outturn (current structure) (real terms)] - [Outturn (current structure)], Yr, 'Department (current structure)'[Department Number] = "033" ), 0 ),
+        "real_is_blank", IF ( ISBLANK ( CALCULATE ( [Outturn (current structure) (real terms)], Yr, 'Department (current structure)'[Department Number] = "033" ) ), 1, 0 )
+    ),
+    ROW (
+        "measure", "Statement Amount",
+        "real_minus_nominal", COALESCE ( CALCULATE ( [Statement Amount (real terms)] - [Statement Amount], Yr, 'Statement Line'[Line Id] = "TOT" ), 0 ),
+        "real_is_blank", IF ( ISBLANK ( CALCULATE ( [Statement Amount (real terms)], Yr, 'Statement Line'[Line Id] = "TOT" ) ), 1, 0 )
+    ),
+    ROW (
+        "measure", "Statement Plan",
+        "real_minus_nominal", COALESCE ( CALCULATE ( [Statement Plan (real terms)] - [Statement Plan], Yr, 'Statement Line'[Line Id] = "TOT" ), 0 ),
+        "real_is_blank", IF ( ISBLANK ( CALCULATE ( [Statement Plan (real terms)], Yr, 'Statement Line'[Line Id] = "TOT" ) ), 1, 0 )
+    )
+)
+ORDER BY [measure]

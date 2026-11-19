@@ -62,6 +62,13 @@ BASE_MEASURES = {
     "Outturn (estimated mapping)": ("Fact Outturn", "Current Structure"),
     "Estimated Mapping Share": ("Fact Outturn", "Current Structure"),
     "Department Group Rank (YTD Variance %)": ("Fact Outturn", "Plan\\Ranking"),
+    "Outturn (real terms)": ("Fact Outturn", "Real Terms"),
+    "Outturn (plan basis) (real terms)": ("Fact Outturn", "Real Terms"),
+    "Outturn (current structure) (real terms)": ("Fact Outturn", "Real Terms"),
+    "Statement Amount (real terms)": ("Fact Outturn", "Real Terms"),
+    "Plan (real terms)": ("Fact Plan", "Real Terms"),
+    "Statement Plan (real terms)": ("Fact Plan", "Real Terms"),
+    "Plan (phased) (real terms)": ("Fact Plan Phased (derived)", "Real Terms"),
 }
 GROUPS = {"Scenario Comparison": 10, "Time Intelligence": 20, "Display Unit": 30}
 
@@ -185,7 +192,7 @@ def measures(table_text) -> list[Measure]:
                     if depth == 2 and re.match(r"^\w+:", s):
                         k, v = s.split(":", 1)
                         props[k] = v.strip()
-                    elif s:
+                    elif s and not s.startswith("annotation "):
                         expr_lines.append(s)
                 found.append(Measure(table, name, " ".join(pending), "\n".join(expr_lines), props))
                 pending = []
@@ -368,7 +375,7 @@ def test_every_function_is_used_by_a_measure_an_item_or_another_function_and_eve
         uses = len(re.findall(rf"(?<![\w.']){re.escape(name)}\s*\(", haystack))
         own = len(re.findall(rf"(?<![\w.']){re.escape(name)}\s*\(", functions[f"'{name}'"]))
         assert uses - own >= 1, f"{name} is never called"
-    called = set(re.findall(r"\b((?:Grain|Plan|Basis|Window|Format|Pnl|Restate)\.[A-Za-z0-9]+)\s*\(", haystack))
+    called = set(re.findall(r"\b((?:Grain|Plan|Basis|Window|Format|Pnl|Restate|Real)\.[A-Za-z0-9]+)\s*\(", haystack))
     assert called <= names, sorted(called - names)
 
 

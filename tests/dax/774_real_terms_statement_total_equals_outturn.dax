@@ -1,0 +1,10 @@
+// The total line of the statement in real terms against Outturn (real terms), by financial year: both are the year's
+// outturn in 2025-26 prices, so they are the same number. Expected values: the year totals of dw.fact_outturn times the
+// year's factor, in both columns.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    "statement_total_real", CALCULATE ( [Statement Amount (real terms)], 'Statement Line'[Line Id] = "TOT" ),
+    "outturn_real", [Outturn (real terms)]
+)
+ORDER BY 'Fiscal Year'[Financial Year]

@@ -1,0 +1,25 @@
+// Outturn (real terms) under the Time Intelligence items Current, YTD, PY, YoY and YoY % and the three Display Unit items,
+// for the Department of Health and Social Care (033) in period 6 of 2023-24. PY is the same period of 2022-23 in 2025-26
+// prices (each year deflated with its own index), YoY is the real change, YoY % the real growth rate (shown in parts per
+// million). Amounts are divided by the unit; the percentage is not. The unit label has its pound sign written as GBP.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Display Unit'[Unit],
+        'Time Intelligence'[Time Calculation],
+        TREATAS ( { "2023-24" }, 'Fiscal Year'[Financial Year] ),
+        TREATAS ( { 6 }, 'Fiscal Period'[Period Number] ),
+        TREATAS ( { "033" }, 'Department (current structure)'[Department Number] ),
+        TREATAS ( { "Current", "YTD", "PY", "YoY", "YoY %" }, 'Time Intelligence'[Time Calculation] ),
+        "amount",
+            IF (
+                SELECTEDVALUE ( 'Time Intelligence'[Time Calculation] ) = "YoY %",
+                [Outturn (real terms)] * 1000000,
+                [Outturn (real terms)]
+            )
+    ),
+    "unit_label", SUBSTITUTE ( 'Display Unit'[Unit], UNICHAR ( 163 ), "GBP " ),
+    "Time Calculation", 'Time Intelligence'[Time Calculation],
+    "value", [amount]
+)
+ORDER BY [unit_label], [Time Calculation]

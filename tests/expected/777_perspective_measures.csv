@@ -1,0 +1,43 @@
+CUBE_NAME,MEASURE_NAME
+Data Controls,Estimated Mapping Share
+Data Controls,Gross Revision in Release
+Data Controls,Gross Revision in Release (excl. flagged)
+Data Controls,Outturn
+Data Controls,Outturn as at Release
+Data Controls,Plan
+Data Controls,Plan Below Grain
+Data Controls,Restatement in Release
+Data Controls,Revision in Release
+Executive,Comparison Amount
+Executive,Outturn
+Executive,Outturn (current structure)
+Executive,Outturn (current structure) (real terms)
+Executive,Outturn (plan basis)
+Executive,Outturn (plan basis) (real terms)
+Executive,Outturn (real terms)
+Executive,Plan
+Executive,Plan (real terms)
+Executive,Plan Below Grain
+Executive,Statement Amount
+Executive,Statement Amount (plan basis)
+Executive,Statement Amount (real terms)
+Executive,Statement Plan
+Executive,Statement Plan (real terms)
+Executive,Statement Variance
+Executive,Statement Variance %
+Restatement,Estimated Mapping Share
+Restatement,Gross Restatement in Release
+Restatement,Gross Restatement in Release (excl. flagged)
+Restatement,Gross Revision in Release
+Restatement,Gross Revision in Release (excl. flagged)
+Restatement,Machinery of Government Transfer
+Restatement,Outturn
+Restatement,Outturn (as reported structure)
+Restatement,Outturn (current structure)
+Restatement,Outturn (estimated mapping)
+Restatement,Outturn as at Release
+Restatement,Outturn as First Reported
+Restatement,Restatement in Release
+Restatement,Revision %
+Restatement,Revision in Release
+Restatement,Revision since First Reported
