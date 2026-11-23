@@ -9,10 +9,16 @@ import pytest
 
 from ukfr.stages import all_stages
 from ukfr.stages.authored import list_authored_files
+from ukfr.stages.synthetic import list_synthetic_files
 
 HEADING = "## Register of real, authored, derived and synthetic data"
 # | `authored/<name>.csv` | class | `schema.table` | rows | what it holds | reach | test |
 REGISTER_ROW = re.compile(r"^\|\s*`authored/([a-z0-9_]+)\.csv`\s*\|(.*)\|\s*$")
+# | `synthetic/<name>.csv` | synthetic | `synthetic.<name>` | rows | what it holds | reach | test |
+SYNTHETIC_ROW = re.compile(r"^\|\s*`synthetic/([a-z0-9_]+)\.csv`\s*\|(.*)\|\s*$")
+# The synthetic tables that exist, and the only two objects that read them (both views of the model's security tables).
+SYNTHETIC_TABLES = {"synthetic.user_department"}
+SYNTHETIC_READERS = {"dw.v_model_user_department", "dw.v_model_user_plan_group"}
 
 
 def _block(repo_root) -> str:
@@ -90,11 +96,56 @@ def test_each_authored_file_is_one_table_with_the_rows_of_the_file(db, repo_root
     assert db.scalar(plan_name_maps) == 1
 
 
+def test_the_register_lists_every_synthetic_file_with_its_row_count_and_no_reach_to_a_real_total(repo_root):
+    register = {}
+    for line in _block(repo_root).splitlines():
+        m = SYNTHETIC_ROW.match(line)
+        if m:
+            register[m.group(1)] = [c.strip() for c in m.group(2).split("|")]
+    files = {p.stem: p for p in list_synthetic_files(repo_root)}
+    assert set(files) == {t.split(".")[1] for t in SYNTHETIC_TABLES}, sorted(files)
+    assert set(files) == set(register), (sorted(set(files) - set(register)), sorted(set(register) - set(files)))
+    for stem, path in files.items():
+        with path.open(encoding="utf-8-sig", newline="") as fh:
+            rows = list(csv.DictReader(fh))
+        cells = register[stem]
+        assert cells[0] == "synthetic", f"{stem}: class must be synthetic"
+        assert cells[1] == f"`synthetic.{stem}`", f"{stem}: schema and table must be synthetic.{stem}"
+        assert cells[2].replace(",", "") == str(len(rows)), f"{stem}: the register says {cells[2]} rows"
+        assert cells[4].lower().startswith("no"), f"{stem}: a synthetic file never reaches a real total"
+        assert cells[5].strip("`"), f"{stem}: name the test that proves it"
+        assert {r["data_class"] for r in rows} == {"synthetic"}, f"{stem}: every row must say synthetic"
+        assert all(r["user_principal_name"].endswith("@example.org") for r in rows), "reserved domain only"
+
+
+def test_the_register_names_the_model_tables_of_the_security_roles_as_synthetic(repo_root):
+    block = _block(repo_root)
+    for needed in ("Model table `User Department (synthetic)`", "Model table `User Plan Group (synthetic)`"):
+        line = next((ln for ln in block.splitlines() if ln.startswith(f"| {needed}")), None)
+        assert line, f"{needed} is missing from the register"
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        assert cells[1] == "synthetic" and cells[5].lower().startswith("no"), line[:100]
+
+
 @pytest.mark.db
-def test_there_is_no_synthetic_data_yet(db):
-    """The register says no synthetic data exists; the `synthetic` and `scale` schemas hold no table."""
+def test_the_synthetic_schemas_hold_exactly_the_registered_tables_and_no_fact_or_total_view_reads_them(db):
+    """The synthetic and scale schemas hold the tables the register names and nothing else, and the only objects
+    that read a synthetic table are the two views of the security tables, which nothing reads in turn."""
     tables = db.query(
         "SELECT SCHEMA_NAME(schema_id) + '.' + name FROM sys.tables "
-        "WHERE SCHEMA_NAME(schema_id) IN ('synthetic', 'scale')"
+        "WHERE SCHEMA_NAME(schema_id) IN ('synthetic', 'scale') ORDER BY 1"
     )
-    assert tables == [], tables
+    assert {t[0] for t in tables} == SYNTHETIC_TABLES, tables
+    readers = db.query(
+        "SELECT DISTINCT OBJECT_SCHEMA_NAME(d.referencing_id) + '.' + OBJECT_NAME(d.referencing_id) "
+        "FROM sys.sql_expression_dependencies AS d "
+        "WHERE OBJECT_SCHEMA_NAME(d.referenced_id) IN ('synthetic', 'scale') "
+        "AND d.referencing_id NOT IN (SELECT object_id FROM sys.check_constraints) ORDER BY 1"
+    )
+    assert {r[0] for r in readers} == SYNTHETIC_READERS, readers
+    onward = db.query(
+        "SELECT OBJECT_SCHEMA_NAME(d.referencing_id) + '.' + OBJECT_NAME(d.referencing_id) "
+        "FROM sys.sql_expression_dependencies AS d WHERE d.referenced_id IN "
+        "(OBJECT_ID('dw.v_model_user_department'), OBJECT_ID('dw.v_model_user_plan_group'))"
+    )
+    assert onward == [], onward

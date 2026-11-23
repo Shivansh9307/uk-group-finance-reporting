@@ -18,6 +18,8 @@ evidence/build/*.csv text eol=lf
 
 # Authored CSV files are text with LF line ends so the loaded text does not depend on git autocrlf.
 authored/*.csv text eol=lf
+# Synthetic CSV files are text with LF line ends for the same reason.
+synthetic/*.csv text eol=lf
 # Written by a `--scope full` build (the audit tables that need the large source files); pinned to LF.
 evidence/full/*.csv text eol=lf
 # Pinned expectations for the real facts (ukfr real-totals --write); LF so the file reads the same everywhere.
@@ -34,3 +36,7 @@ evidence/bpa/*.csv text eol=lf
 te/scripts/*.csv text eol=lf
 te/bpa/*.csv text eol=lf
 evidence/perf/real_terms/*.csv text eol=lf
+
+# The role cases of the security tests: expected values written by `ukfr rls-expected`, results written by tools/run_rls_tests.ps1.
+tests/rls/expected/*.csv text eol=lf
+tests/rls/results/*.csv text eol=lf

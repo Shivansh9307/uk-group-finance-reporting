@@ -1,0 +1,12 @@
+user_principal_name,department_number,persona,data_class,note
+alice.morgan@example.org,003,Analyst for one department that is the only member of its Spending Review group,synthetic,"Department for Environment, Food and Rural Affairs alone is the group Environment, Food and Rural Affairs, so this user sees the group's plan as well as the department's outturn."
+ben.okafor@example.org,004,Analyst for one department that is the only member of its Spending Review group,synthetic,Transport. A second single-department group to test against.
+chloe.patel@example.org,033,Analyst for two departments,synthetic,"Health and Social Care and the NHS Pension Scheme are the two members of the group Health (NHS), so the two together make the group complete and its plan is visible."
+chloe.patel@example.org,903,Analyst for two departments,synthetic,The second department of the user with two.
+dev.sharma@example.org,010,Analyst for part of a Spending Review group,synthetic,"Cabinet Office is one of three departments in its group (010, 901 and 915), so the group is incomplete for this user and no plan is visible."
+fatima.khan@example.org,079,Analyst for a department with no outturn in some years,synthetic,"Parliamentary Works Grant has outturn in six of the nine financial years, and its group Small and Independent Bodies has 27 members, so no plan is visible."
+george.evans@example.org,087,Analyst for one department that is the only member of its Spending Review group,synthetic,HM Treasury.
+hannah.price@example.org,085,Analyst for the one department that feeds two Spending Review groups,synthetic,"Ministry of Housing, Communities and Local Government feeds CLG Communities and CLG Local Government; each of the two groups has this one department as its only member."
+jasmine.reid@example.org,013,Analyst for the three departments of the combined pre-2023 group,synthetic,"Business and Trade, Culture Media and Sport and Science Innovation and Technology are the departments that the FY2022-23 plan is published for as one combined group, so the three together make that group visible."
+jasmine.reid@example.org,048,Analyst for the three departments of the combined pre-2023 group,synthetic,The second department of the user with three.
+jasmine.reid@example.org,084,Analyst for the three departments of the combined pre-2023 group,synthetic,The third department of the user with three.

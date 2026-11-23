@@ -112,7 +112,9 @@ def test_the_real_sql_folder_follows_the_convention():
     assert found, "no SQL files discovered"
     pre = {f.rel for f in sqlrunner.select(found, "pre", "full")}
     assert {"raw/001_oscar_inyear.sql", "quarantine/001_oscar_inyear.sql"} <= pre
-    assert all(f.layer in ("raw", "quarantine") for f in found if f.rel in pre)
+    # the landing tables of the raw and quarantine layers, and the typed table of the synthetic user map
+    assert all(f.layer in ("raw", "quarantine", "synthetic") for f in found if f.rel in pre)
+    assert {f.rel for f in found if f.layer == "synthetic"} == {"synthetic/820_user_department.sql"} <= pre
     # everything derived runs after the loads
     post = [f.rel for f in sqlrunner.select(found, "post", "full")]
     assert (
