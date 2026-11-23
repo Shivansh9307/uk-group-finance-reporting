@@ -1,5 +1,5 @@
 // The exclusion of the rows flagged in Data Quality Issue, release by release, on each release's own financial year.
-// gross and gross_restatement leave in the six flagged rows and the (excl. flagged) variants leave them out. The last
+// gross and gross_restatement leave in the flagged rows (the thirteen delta rows of the two NHS Pension Scheme lines) and the (excl. flagged) variants leave them out. The last
 // restatement column leaves out the whole NHS Pension Scheme pair of lines (X903A002 and its offsetting line X903A003)
 // by sub-segment, to show what a series without the unit error would be. removed_as_at is what the stated pattern
 // (Restate.Unflagged) takes off Outturn as at Release.

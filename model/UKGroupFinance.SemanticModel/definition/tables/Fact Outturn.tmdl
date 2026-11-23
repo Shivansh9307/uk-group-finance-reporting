@@ -155,7 +155,7 @@ table 'Fact Outturn'
 		displayFolder: Restatement
 		lineageTag: 42a137d3-3796-5e56-b699-b0dae6611106
 
-	/// Revision since First Reported as a share of the absolute outturn as first reported. BLANK where nothing was first reported or the first-reported amount is zero. Not an additive measure: a total is the ratio of the totals. Needs no data-quality exclusion: the NHS Pension Scheme unit error and its offsetting line net to a small amount, and leaving out only the flagged half would make the ratio worse, not better.
+	/// Revision since First Reported as a share of the absolute outturn as first reported. BLANK where nothing was first reported or the first-reported amount is zero. Not an additive measure: a total is the ratio of the totals. Needs no data-quality exclusion: the NHS Pension Scheme unit error and its offsetting line net to a small amount, and both are flagged, so a view that left out only one of them would make the ratio worse, not better.
 	measure 'Revision %' =
 			VAR FirstReported = [Outturn as First Reported]
 			RETURN
@@ -178,25 +178,25 @@ table 'Fact Outturn'
 		displayFolder: Restatement
 		lineageTag: f45f68a7-eab3-5a5e-8fa0-1b3b1482a4c9
 
-	/// The size of everything the release or releases in context changed, in GBP thousands: the sum of the absolute deltas, so increases and decreases do not net off. It includes lines reported for the first time, so in the first release of a year it is the size of the whole year to date. It counts the rows flagged in Data Quality Issue and the unflagged offsetting line of the same unit error, which run to trillions in two releases: the excluding-flagged-rows variant halves that, with a note.
+	/// The size of everything the release or releases in context changed, in GBP thousands: the sum of the absolute deltas, so increases and decreases do not net off. It includes lines reported for the first time, so in the first release of a year it is the size of the whole year to date. It counts the rows flagged in Data Quality Issue (the NHS Pension Scheme unit error and its offsetting line), which run to trillions in two releases: the excluding-flagged-rows variant leaves them out.
 	measure 'Gross Revision in Release' = SUMX ( 'Fact Outturn', ABS ( 'Fact Outturn'[Amount Delta] ) )
 		formatString: £#,##0"k";-£#,##0"k";£0"k"
 		displayFolder: Restatement
 		lineageTag: 6492b5a0-42f2-5079-92e2-f9c4425f0d71
 
-	/// The size of what the release or releases in context restated, in GBP thousands: the sum of the absolute deltas with a Revision Number above 0, so a restatement upward on one line and downward on another do not net off. The measure for how much was restated, as against how much moved. The rows flagged in Data Quality Issue and the offsetting line of the same unit error are counted here, trillions in two releases: see the excluding-flagged-rows variant.
+	/// The size of what the release or releases in context restated, in GBP thousands: the sum of the absolute deltas with a Revision Number above 0, so a restatement upward on one line and downward on another do not net off. The measure for how much was restated, as against how much moved. The rows flagged in Data Quality Issue (the NHS Pension Scheme unit error and its offsetting line) are counted here, trillions in two releases: see the excluding-flagged-rows variant.
 	measure 'Gross Restatement in Release' = CALCULATE ( SUMX ( 'Fact Outturn', ABS ( 'Fact Outturn'[Amount Delta] ) ), 'Fact Outturn'[Revision Number] > 0 )
 		formatString: £#,##0"k";-£#,##0"k";£0"k"
 		displayFolder: Restatement
 		lineageTag: 018b364b-f4e1-58f4-b9a5-44074a55147a
 
-	/// Gross Revision in Release with the rows flagged in Data Quality Issue left out (the six delta rows of the NHS Pension Scheme unit error, line X903A002). It halves the error and does not remove it: the offsetting line X903A003 carries the same error and is not flagged, so in the releases of December 2023 and March 2026 it still holds about 4,300bn and 6,300bn. Use it for the gross restatement page with that note, and see the documentation before using it for anything else.
+	/// Gross Revision in Release with the rows flagged in Data Quality Issue left out (the thirteen delta rows of the two NHS Pension Scheme lines that carry a unit error, X903A002 and its offsetting line X903A003). What is left out is each flagged line-month as a whole, from the release that set the wrong amount to the release that corrected it, so the genuine amounts netted into the offsetting line in those months go too. Use it for the gross restatement page; the net measures need no exclusion.
 	measure 'Gross Revision in Release (excl. flagged)' = Restate.Unflagged ( [Gross Revision in Release] )
 		formatString: £#,##0"k";-£#,##0"k";£0"k"
 		displayFolder: Restatement\Excluding flagged rows
 		lineageTag: f2de9b52-8606-5460-b63f-04fe82b33f1a
 
-	/// Gross Restatement in Release with the rows flagged in Data Quality Issue left out (the six delta rows of the NHS Pension Scheme unit error, line X903A002). It halves the error and does not remove it: the offsetting line X903A003 carries the same error and is not flagged, so in the releases of December 2023 and March 2026 it still holds about 4,300bn and 6,300bn. Use it for the gross restatement page with that note, and see the documentation before using it for anything else.
+	/// Gross Restatement in Release with the rows flagged in Data Quality Issue left out (the thirteen delta rows of the two NHS Pension Scheme lines that carry a unit error, X903A002 and its offsetting line X903A003). What is left out is each flagged line-month as a whole, from the release that set the wrong amount to the release that corrected it, so the genuine amounts netted into the offsetting line in those months go too. Use it for the gross restatement page; the net measures need no exclusion.
 	measure 'Gross Restatement in Release (excl. flagged)' = Restate.Unflagged ( [Gross Restatement in Release] )
 		formatString: £#,##0"k";-£#,##0"k";£0"k"
 		displayFolder: Restatement\Excluding flagged rows

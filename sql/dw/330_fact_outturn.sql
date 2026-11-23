@@ -17,7 +17,7 @@
 --   amount_delta             DECIMAL(19,4), GBP thousands, spending positive, income negative
 --   revision_no              0 on the first delta row of a line, then 1, 2 ... "as first reported" is revision 0
 --   dq_issue_id              the unit-error finding (rule a in dw.dq_issue) the row belongs to, else NULL: the
---                            row that corrected the error and the row that set the wrong amount
+--                            rows of the line-month from the one that set the wrong amount to the one that corrected it
 -- There are no foreign key constraints: the dimension tables are rebuilt by earlier files in the same run
 -- and a test proves that every key resolves.
 
@@ -79,23 +79,26 @@ FROM #delta AS d
 JOIN dw.dim_segment AS sg ON sg.segment_key = d.segment_key
 LEFT JOIN #csm AS csm ON csm.organisation_key = d.organisation_key AND csm.sub_segment_code = sg.sub_segment_code
 LEFT JOIN (
-    -- the rows of a unit error: the delta row of the line in the release that corrected it, and the latest
-    -- delta row of the line at or before the release that first showed the pair (the row that set the amount)
-    SELECT i.organisation_key, i.segment_key, i.account_key, i.control_budget_key, i.period_key, k.release_key,
-           MIN(i.dq_issue_id) AS dq_issue_id
+    -- the rows of a unit error: every delta row of the line-month from the release that set the wrong amount (the
+    -- delta row of largest absolute size at or before the release that first showed the pair) to the release that
+    -- corrected it. A line that kept its wrong amount through a small revision (the offsetting line of a unit error)
+    -- has that revision flagged too, so the flagged rows add up to the line-month's whole stay at the wrong size.
+    SELECT i.organisation_key, i.segment_key, i.account_key, i.control_budget_key, i.period_key,
+           MIN(s.release_seq) AS release_from_seq, MAX(rt.release_key) AS release_to_seq, MIN(i.dq_issue_id) AS dq_issue_id
     FROM dw.dq_issue AS i
     JOIN dw.dim_release AS rf ON rf.label = i.release_from
     JOIN dw.dim_release AS rt ON rt.label = i.release_to
-    CROSS APPLY (VALUES
-        (rt.release_key),
-        ((SELECT MAX(x.release_seq) FROM #delta AS x
-          WHERE x.organisation_key = i.organisation_key AND x.segment_key = i.segment_key AND x.account_key = i.account_key
-            AND x.control_budget_key = i.control_budget_key AND x.period_key = i.period_key AND x.release_seq <= rf.release_key))
-    ) AS k (release_key)
-    WHERE i.flags_fact_rows = 1 AND k.release_key IS NOT NULL
-    GROUP BY i.organisation_key, i.segment_key, i.account_key, i.control_budget_key, i.period_key, k.release_key
+    CROSS APPLY (
+        SELECT TOP (1) x.release_seq
+        FROM #delta AS x
+        WHERE x.organisation_key = i.organisation_key AND x.segment_key = i.segment_key AND x.account_key = i.account_key
+          AND x.control_budget_key = i.control_budget_key AND x.period_key = i.period_key AND x.release_seq <= rf.release_key
+        ORDER BY ABS(x.amount_delta) DESC, x.release_seq
+    ) AS s
+    WHERE i.flags_fact_rows = 1
+    GROUP BY i.organisation_key, i.segment_key, i.account_key, i.control_budget_key, i.period_key
 ) AS q
-  ON q.release_key = d.release_seq AND q.organisation_key = d.organisation_key AND q.segment_key = d.segment_key
+  ON d.release_seq BETWEEN q.release_from_seq AND q.release_to_seq AND q.organisation_key = d.organisation_key AND q.segment_key = d.segment_key
  AND q.account_key = d.account_key AND q.control_budget_key = d.control_budget_key AND q.period_key = d.period_key;
 GO
 

@@ -1,4 +1,4 @@
--- Independent of the model: what leaving out the six flagged fact rows leaves, read from dw.dq_issue and the fact.
+-- Independent of the model: what leaving out the thirteen flagged fact rows leaves, read from dw.dq_issue and the fact.
 -- As at: the flagged deltas of the release's financial year up to and including the release are what is taken off.
 -- Gross: the absolute deltas of the release, all of them and those with a revision number above 0, with and without the
 -- flagged rows; and, for the last column, without any row of the two NHS Pension Scheme lines X903A002 and X903A003.

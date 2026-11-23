@@ -163,7 +163,7 @@ in [model.md](model.md#restatement-how-a-figure-changed-from-release-to-release)
 | 760 `as_at_release_equals_file_total` | `Outturn as at Release` at each of the 31 releases, on its own year, equals the file total | 31 | `audit.file_control` |
 | 761 `as_at_release_by_department` | the same by department of the current structure at four releases | 237 | `dw.fact_outturn` |
 | 762 `revisions_by_release_department` | as at, first reported, revision, `Revision %`, in release, restatement and the two gross forms, six releases by department | 356 | T-SQL window functions |
-| 763 `data_quality_exclusion_by_release` | the exclusion removes exactly the six flagged rows' amounts, in all 31 releases; the gross measures without the whole pair | 31 | `dw.dq_issue`, `dw.fact_outturn` |
+| 763 `data_quality_exclusion_by_release` | the exclusion removes exactly the thirteen flagged rows' amounts, in all 31 releases; the gross measures without the whole pair | 31 | `dw.dq_issue`, `dw.fact_outturn` |
 | 764 `structure_totals_by_year` | the total, the sums over departments of the current and as-reported structures and of the transfer, per year | 9 | `dw.fact_outturn`, the three mapping rules |
 | 765 `structure_totals_by_release` | the same per release | 31 | the same |
 | 766 `structure_by_department_year` | current structure, as reported and transfer by department and year | 537 | `dw.current_structure_line`, the three mapping rules |

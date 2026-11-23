@@ -23,7 +23,7 @@ Counts are from `evidence/build/table_counts.csv`, written by the build.
 | `dw.dim_account` | 128 | one economic category code, plus Unknown |
 | `dw.dim_control_budget` | 6 | one control budget detail code, plus Unknown |
 | `dw.dim_segment` | 3,766 | one sub-segment code, plus Unknown |
-| `dw.dq_issue` | 6 | one data-quality finding |
+| `dw.dq_issue` | 9 | one data-quality finding |
 | `dw.fact_outturn` | 658,554 | release x line, only non-zero deltas |
 | `stg.outturn_line_snapshot` | 1,328,928 | release x line, what each release reports, on warehouse keys |
 | `stg.account_flow` | 12 | typed `authored.account_flow` |
@@ -55,7 +55,7 @@ equals what R reports.
 | `scenario_key` | always 1, Outturn |
 | `amount_delta` | `DECIMAL(19,4)`, never zero |
 | `revision_no` | 0 on the first delta row of a line, then 1, 2, 3 (the largest is 3). "As first reported" is `revision_no = 0` |
-| `dq_issue_id` | the unit-error finding the row belongs to, else NULL |
+| `dq_issue_id` | the unit-error finding the row belongs to (the unit error or its offsetting line), else NULL |
 
 Clustered columnstore index. There are no foreign key constraints: the dimension files are rebuilt by
 earlier files in the same run, and a test proves every key resolves instead.
@@ -155,20 +155,23 @@ compares codes case insensitively, so it is one segment and its line continues a
 
 ## Data quality: dw.dq_issue
 
-Six findings, each found by a SQL rule (never a hard-coded key). Only rule a flags fact rows.
+Nine findings, each found by a SQL rule (never a hard-coded key). Only rule a flags fact rows.
 
 | Rule | Finding | Rows |
 |---|---|---|
-| a | A line whose amount exceeds GBP 1bn in one of two consecutive releases of a year, with the same sign and a factor between 900 and 1,100 between them | 3 findings: NHS Pension Scheme `X903A002` (NHP903), April 2023 and May 2023 in 2023-09 to 2023-12, and April 2025 in 2025-12 to 2026-03 |
+| a | A line whose amount exceeds GBP 1bn in one of two consecutive releases of a year, with the same sign and a factor between 900 and 1,100 between them (issue type `unit error`); and a line of the same organisation, category, control budget and month whose change between the same two releases is the opposite of that line's change within 1% (`unit error (offsetting line)`) | 6 findings: NHS Pension Scheme `X903A002` (unit error) and `X903A003` (offsetting line), each for April 2023 and May 2023 in 2023-09 to 2023-12, and April 2025 in 2025-12 to 2026-03 |
 | b | Quarter column disagrees with Month, read from raw | 2022-09, all 23,787 rows |
 | c | Period 0 rows | 2019-06, 71 rows, GBP 269,890 thousand net |
 | d | Second spelling of a code in one release, from the authored `coding_error` override | EHR030 in 2019-06 |
 
-Rule a flags six fact rows: for each finding, the line's delta row that corrected the amount, and its
-latest delta row at or before the first release of the pair, which set the wrong amount. A sign test
-keeps out the one other line that changes by a factor near 1,000: HMRC `X041A094` for September 2021, from -1,811
-in 2021-12 to 1,890,000 in 2022-03, which is a real change with a different sign. The rule cannot see an error that is not corrected in the
-next release or that first appears already wrong. **Tested**: `309_*` and `310_*`.
+Rule a flags thirteen fact rows: for each finding, the delta rows of the line-month from the row that set
+the wrong amount (the delta row of largest absolute size at or before the first release of the pair) to the row that
+corrected it. That is six rows on `X903A002` and seven on `X903A003` (the offsetting line also has a small revision in
+December 2025 between the two). A sign test keeps out the one other line that changes by a factor near 1,000: HMRC
+`X041A094` for September 2021, from -1,811 in 2021-12 to 1,890,000 in 2022-03, which is a real change with a different
+sign. The offsetting line is found from the unit error, not from its own factor: it keeps a genuine amount after the
+correction, so its change is a factor of 125 to 833. The rule cannot see an error that is not corrected in the next
+release or that first appears already wrong. **Tested**: `309_*`, `310_*` and `762_*`.
 
 ## Audits
 

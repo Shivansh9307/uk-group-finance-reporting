@@ -10,6 +10,14 @@
 --             sign and a factor of 1,043).
 --             The rule cannot see an error that is not corrected in the next release, or one on a line that
 --             first appears already wrong.
+--             The same rule also flags the offsetting line of a unit error: a line of the same organisation,
+--             economic category, control budget and month whose change from the first release to the second is
+--             the opposite of the flagged line's change, within one per cent of its size. A scheme that records a
+--             transaction on two lines of opposite sign carries the error on both, but the second line also holds
+--             its own genuine amount, so its change is not a factor of 900 to 1,100 and the test above misses it
+--             (X903A003 goes from -4,101,533,695 to -5,679,167 where X903A002 goes from 4,100,000,000 to 4,100,000).
+--             The finding has issue_type 'unit error (offsetting line)' and flags the line's two fact rows in the
+--             same way, so a gross measure that leaves flagged rows out leaves out both halves.
 --   rule 'b'  a release whose Quarter column disagrees with its Month column (September 2022 labels all of
 --             its rows 'Qtr1 - 21-22' for April to June 2022). Read from raw. Informational: the warehouse
 --             derives the quarter from the month and never reads the column.
@@ -48,6 +56,22 @@ CREATE TABLE dw.dq_issue (
 );
 GO
 
+WITH unit_error AS (
+    -- the lines whose amount changes by a factor of about 1,000 with the same sign between two releases of a year
+    SELECT a.release_seq AS release_seq_from, b.release_seq AS release_seq_to, ra.label AS release_from, rb.label AS release_to,
+           a.organisation_key, a.segment_key, a.account_key, a.control_budget_key, a.period_key,
+           a.amount AS amount_before, b.amount AS amount_after
+    FROM stg.outturn_line_snapshot AS a
+    JOIN dw.dim_release AS ra ON ra.release_seq = a.release_seq
+    JOIN dw.dim_release AS rb ON rb.release_seq = a.release_seq + 1 AND rb.financial_year = ra.financial_year
+    JOIN stg.outturn_line_snapshot AS b
+      ON b.release_seq = rb.release_seq AND b.organisation_key = a.organisation_key AND b.segment_key = a.segment_key
+     AND b.account_key = a.account_key AND b.control_budget_key = a.control_budget_key AND b.period_key = a.period_key
+    WHERE (ABS(a.amount) > 1000000 OR ABS(b.amount) > 1000000)
+      AND SIGN(a.amount) = SIGN(b.amount)
+      AND (ABS(a.amount) BETWEEN 900 * ABS(b.amount) AND 1100 * ABS(b.amount)
+        OR ABS(b.amount) BETWEEN 900 * ABS(a.amount) AND 1100 * ABS(a.amount))
+)
 INSERT INTO dw.dq_issue
     (dq_issue_id, issue_rule, issue_type, flags_fact_rows, description, treatment, release_from, release_to,
      organisation_key, organisation_code, segment_key, sub_segment_code, account_key, economic_category_code,
@@ -60,28 +84,55 @@ SELECT ROW_NUMBER() OVER (ORDER BY f.issue_rule, f.release_from, f.release_to, f
 FROM (
     -- rule a: unit errors, on the line snapshot
     SELECT CAST('a' AS char(1)) AS issue_rule, CAST('unit error' AS varchar(40)) AS issue_type, CAST(1 AS bit) AS flags_fact_rows,
-           CAST(N'The amount changes by a factor of about 1,000 with the same sign from release ' + ra.label + N' to release '
-                + rb.label + N' (' + FORMAT(a.amount, 'N0') + N' then ' + FORMAT(b.amount, 'N0')
+           CAST(N'The amount changes by a factor of about 1,000 with the same sign from release ' + u.release_from + N' to release '
+                + u.release_to + N' (' + FORMAT(u.amount_before, 'N0') + N' then ' + FORMAT(u.amount_after, 'N0')
                 + N', GBP thousands). It looks like a unit error that the next release corrects, or the correction of one.' AS nvarchar(1000)) AS description,
            CAST(N'Exclude the line from gross restatement measures, or annotate it.' AS nvarchar(500)) AS treatment,
-           ra.label AS release_from, rb.label AS release_to,
-           a.organisation_key, o.organisation_code, a.segment_key, sg.sub_segment_code, a.account_key, ac.economic_category_code,
-           a.control_budget_key, cb.control_budget_detail_code, a.period_key,
-           a.amount AS amount_before, b.amount AS amount_after, CAST(2 AS int) AS rows_affected
-    FROM stg.outturn_line_snapshot AS a
-    JOIN dw.dim_release AS ra ON ra.release_seq = a.release_seq
-    JOIN dw.dim_release AS rb ON rb.release_seq = a.release_seq + 1 AND rb.financial_year = ra.financial_year
-    JOIN stg.outturn_line_snapshot AS b
-      ON b.release_seq = rb.release_seq AND b.organisation_key = a.organisation_key AND b.segment_key = a.segment_key
-     AND b.account_key = a.account_key AND b.control_budget_key = a.control_budget_key AND b.period_key = a.period_key
-    JOIN dw.dim_organisation AS o ON o.organisation_key = a.organisation_key
-    JOIN dw.dim_segment AS sg ON sg.segment_key = a.segment_key
-    JOIN dw.dim_account AS ac ON ac.account_key = a.account_key
-    JOIN dw.dim_control_budget AS cb ON cb.control_budget_key = a.control_budget_key
-    WHERE (ABS(a.amount) > 1000000 OR ABS(b.amount) > 1000000)
-      AND SIGN(a.amount) = SIGN(b.amount)
-      AND (ABS(a.amount) BETWEEN 900 * ABS(b.amount) AND 1100 * ABS(b.amount)
-        OR ABS(b.amount) BETWEEN 900 * ABS(a.amount) AND 1100 * ABS(a.amount))
+           u.release_from, u.release_to,
+           u.organisation_key, o.organisation_code, u.segment_key, sg.sub_segment_code, u.account_key, ac.economic_category_code,
+           u.control_budget_key, cb.control_budget_detail_code, u.period_key,
+           u.amount_before, u.amount_after, CAST(2 AS int) AS rows_affected
+    FROM unit_error AS u
+    JOIN dw.dim_organisation AS o ON o.organisation_key = u.organisation_key
+    JOIN dw.dim_segment AS sg ON sg.segment_key = u.segment_key
+    JOIN dw.dim_account AS ac ON ac.account_key = u.account_key
+    JOIN dw.dim_control_budget AS cb ON cb.control_budget_key = u.control_budget_key
+
+    UNION ALL
+    -- rule a, offsetting line: another line of the same organisation, category, budget and month whose change between
+    -- the same two releases is the opposite of a unit error's change, within one per cent of it
+    SELECT 'a', 'unit error (offsetting line)', 1,
+           CAST(N'The amount changes from ' + FORMAT(m.amount_before, 'N0') + N' in release ' + u.release_from + N' to '
+                + FORMAT(m.amount_after, 'N0') + N' in release ' + u.release_to + N' (GBP thousands), a change of '
+                + FORMAT(m.amount_after - m.amount_before, 'N0') + N' that offsets the change of '
+                + FORMAT(u.amount_after - u.amount_before, 'N0') + N' on line ' + usg.sub_segment_code
+                + N' of the same organisation and month, which looks like a unit error. The line carries the same error on the other side; its own genuine amount is netted in, so its change is not a factor of 1,000.' AS nvarchar(1000)),
+           N'Exclude the line from gross restatement measures, or annotate it.',
+           u.release_from, u.release_to,
+           m.organisation_key, o.organisation_code, m.segment_key, sg.sub_segment_code, m.account_key, ac.economic_category_code,
+           m.control_budget_key, cb.control_budget_detail_code, m.period_key,
+           m.amount_before, m.amount_after, CAST(2 AS int)
+    FROM unit_error AS u
+    JOIN dw.dim_segment AS usg ON usg.segment_key = u.segment_key
+    CROSS APPLY (
+        SELECT a.organisation_key, a.segment_key, a.account_key, a.control_budget_key, a.period_key,
+               a.amount AS amount_before, b.amount AS amount_after
+        FROM stg.outturn_line_snapshot AS a
+        JOIN stg.outturn_line_snapshot AS b
+          ON b.release_seq = u.release_seq_to AND b.organisation_key = a.organisation_key AND b.segment_key = a.segment_key
+         AND b.account_key = a.account_key AND b.control_budget_key = a.control_budget_key AND b.period_key = a.period_key
+        WHERE a.release_seq = u.release_seq_from AND a.organisation_key = u.organisation_key AND a.account_key = u.account_key
+          AND a.control_budget_key = u.control_budget_key AND a.period_key = u.period_key AND a.segment_key <> u.segment_key
+          AND ABS((b.amount - a.amount) + (u.amount_after - u.amount_before)) <= 0.01 * ABS(u.amount_after - u.amount_before)
+    ) AS m
+    JOIN dw.dim_organisation AS o ON o.organisation_key = m.organisation_key
+    JOIN dw.dim_segment AS sg ON sg.segment_key = m.segment_key
+    JOIN dw.dim_account AS ac ON ac.account_key = m.account_key
+    JOIN dw.dim_control_budget AS cb ON cb.control_budget_key = m.control_budget_key
+    WHERE NOT EXISTS (SELECT 1 FROM unit_error AS x
+                      WHERE x.release_seq_from = u.release_seq_from AND x.organisation_key = m.organisation_key
+                        AND x.segment_key = m.segment_key AND x.account_key = m.account_key
+                        AND x.control_budget_key = m.control_budget_key AND x.period_key = m.period_key)
 
     UNION ALL
     -- rule b: the Quarter column disagrees with the Month column, read from raw

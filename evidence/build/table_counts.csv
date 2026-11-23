@@ -25,7 +25,7 @@ dw,dim_release,31
 dw,dim_scenario,5
 dw,dim_segment,3766
 dw,dim_sr_group,32
-dw,dq_issue,6
+dw,dq_issue,9
 dw,fact_outturn,658554
 dw,fact_plan,749
 dw,fact_plan_phased,8988

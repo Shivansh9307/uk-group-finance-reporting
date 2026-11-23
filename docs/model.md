@@ -57,7 +57,7 @@ the warehouse (**tested**: `evidence/model/dax_tests.csv`, test 700). SQL counts
 | Spending Review Group | `dw.v_model_sr_group` | 32 | authored | the groups plans are published by |
 | Plan Source | `dw.v_model_plan_source` | 17 | authored | each plan source and edition |
 | Plan Grain | `dw.v_model_plan_grain` | 4 | authored | the four grains a plan is published at |
-| Data Quality Issue | `dw.v_model_data_quality` | 7 | real findings | six findings and the "No issue flagged" member |
+| Data Quality Issue | `dw.v_model_data_quality` | 10 | real findings | nine findings and the "No issue flagged" member |
 | Statement Line | `dw.v_model_statement_line` | 39 | authored | the 39 lines of the group income and expenditure statement; no amount |
 | Statement Measure | field parameter (calculated table) | 4 | authored | Outturn, Plan, Variance and Variance % of the statement amount; points at four measures |
 | Time Intelligence | calculation group | 8 items | | Current, MTD, QTD, YTD, PY, YoY, YoY %, Rolling 12 months |
@@ -639,32 +639,40 @@ June 2026 (2025-26): as at 229.2bn, first reported 229.1bn, a revision of +85m (
 
 ### Rows flagged in Data Quality Issue
 
-`dw.dq_issue` flags six fact rows: the first report and the correction of three line-months of the NHS Pension Scheme line
-`NHP903 X903A002` (April and May 2023, reported in September 2023 and corrected in December 2023, and April 2025, reported in
-September 2025 and corrected in March 2026), which a release reported about 1,000 times too large and a later release corrected. `Restate.Unflagged ( m )` is the stated pattern for leaving them out: it evaluates a measure with
-`KEEPFILTERS ( 'Fact Outturn'[Data Quality Issue Key] = 0 )`, where key 0 is the member "No issue flagged". Test 763 shows it
-removes exactly the six rows' amounts: the as-at figure falls by the flagged deltas up to the release and the gross
-measures by the flagged absolute deltas of the release, in every one of the 31 releases (largest difference 0).
+`dw.dq_issue` flags thirteen fact rows: the delta rows of three line-months of the NHS Pension Scheme line `NHP903 X903A002`
+(April and May 2023, reported in September 2023 and corrected in December 2023, and April 2025, reported in September 2025
+and corrected in March 2026), which a release reported about 1,000 times too large and a later release corrected (six rows), and
+of the same three line-months of its offsetting line `X903A003` (seven rows). `Restate.Unflagged ( m )` is the stated pattern for leaving
+them out: it evaluates a measure with `KEEPFILTERS ( 'Fact Outturn'[Data Quality Issue Key] = 0 )`, where key 0 is the member
+"No issue flagged". Test 763 shows it removes exactly the thirteen rows' amounts: the as-at figure falls by the flagged deltas up
+to the release and the gross measures by the flagged absolute deltas of the release, in every one of the 31 releases (largest
+difference 0).
 
-**What the data forced, and what I recommend.** The flagged rows are only one half of the error. The scheme's offsetting
-line `X903A003` carries the mirror image in the same release, organisation, period and economic category (for example
-`-4,101,533,695` against `+4,100,000,000` in September 2023) and is not flagged, because the amount it keeps after the correction is
-a factor of 125, 722 and 833 below the amount it was reported at in the three cases, and the rule looks for 900 to 1,100. **Tested**: `sql/tests/762_the_unit_error_has_an_unflagged_mirror_line.sql`
-shows that each of the six flagged rows has an unflagged mirror row of the opposite sign within 1% of its size. That has
-three consequences, all in `tests/results/763_data_quality_exclusion_by_release.csv`:
+**The offsetting line.** The scheme records a transaction on two lines of opposite sign, so the error is on both: in
+September 2023 `X903A002` held `4,100,000,000` and `X903A003` held `-4,101,533,695` for April 2023. The first rule flagged only
+`X903A002`, because the amount `X903A003` keeps after the correction is a factor of 125, 722 and 833 below the amount it was
+reported at, and the rule looks for 900 to 1,100. Rule a now also flags a line of the same organisation, economic category, control
+budget and month whose change between the same two releases is the opposite of a flagged line's change, within 1% of its size
+(issue type "unit error (offsetting line)"). **Tested**: `sql/tests/762_the_unit_error_and_its_offsetting_line_are_both_flagged.sql`
+(each unit error has an offsetting-line finding in the same pair and month, with the opposite change within 1%; thirteen flagged
+rows, six on `X903A002` and seven on `X903A003`) and `sql/tests/309` (three findings on each line, in two release pairs, and nothing
+else). Which rows are flagged also changed: a flagged line-month now has every delta row from the one that set the wrong amount (the
+delta row of largest absolute size at or before the first release of the pair) to the one that corrected it. That adds one row, the
+small revision of `X903A003` for April 2025 in December 2025, which sits between the row that set the amount and the row that corrected
+it. No amount in the warehouse moved: flags annotate and remove nothing (`evidence/expected/real_fact_totals.csv` is unchanged).
 
-- A **net** measure is better left alone. The flagged line and its mirror net to a small amount, so `Revision since First
-  Reported` and `Outturn as at Release` are not distorted by the error; leaving out only the flagged half would leave
-  the mirror, about -4,000bn in the as-at figure of September 2023 (`removed_as_at` of 4,320bn in `763`). That is why there
-  are no excluding variants of the net measures and why the pattern is a function and not a set of measures.
-- A **gross** measure is inflated by both lines. The gross restatement of December 2023 is 8,645bn, and 4,329bn when the
-  flagged rows are left out; with both lines left out by sub-segment (the column `gross_restatement_without_pair` of the same
-  file) it is 13.8bn, in line with the neighbouring releases. March 2026 is 12,623bn, 6,321bn and 18.1bn in the same three
-  forms.
-- So **the report should show the gross restatement measures with the `(excl. flagged)` variant and a note, and I recommend
-  that rule a of `dw.dq_issue` flags the mirror line too**. That is a change to `sql/dw/320_dq_issue.sql` and the tests that
-  pin six flagged rows (`sql/tests/309`, `sql/tests/762` here), and I have not made it: it belongs to the owner of that
-  table. When it is made the excluding variant removes both halves and the net measures need no change.
+What that gives, in `tests/results/763_data_quality_exclusion_by_release.csv` (GBP thousands):
+
+- **Net measures need no exclusion.** The flagged line and its offsetting line net to a small amount, so `Revision since First
+  Reported` and `Outturn as at Release` are not distorted by the error, and the as-at figure with both lines left out differs
+  from the unfiltered figure only by the genuine amounts the offsetting line carried (`removed_as_at` of -3,033,648 in September 2023,
+  -1,347,585 in December 2025). That is why there are no excluding variants of the net measures and why the pattern is a function and not
+  a set of measures.
+- **Gross measures are inflated by both lines, and the excluding variant now removes both.** The gross restatement of December 2023 is
+  8,645,154,822, and 13,885,737 when the flagged rows are left out; with both lines left out by sub-segment (the column
+  `gross_restatement_without_pair` of the same file) it is 13,849,824, in line with the neighbouring releases. The difference is the
+  genuine small amounts of the offsetting line in the flagged months. March 2026 is 12,622,996,178, 18,100,140 and 18,090,682
+  in the same three forms. Before the rule flagged the offsetting line the middle figures were 4,329,474,822 and 6,320,549,121.
 
 ### Calculation groups and the restatement measures
 
