@@ -1,0 +1,24 @@
+Role,Table,Column,Metadata Permission
+"Restricted Viewer","Data Quality Issue","Amount After",1
+"Restricted Viewer","Data Quality Issue","Amount Before",1
+"Restricted Viewer","Data Quality Issue","Control Budget Detail Code",1
+"Restricted Viewer","Data Quality Issue","Economic Category Code",1
+"Restricted Viewer","Data Quality Issue","Issue Description",1
+"Restricted Viewer","Data Quality Issue","Organisation Code",1
+"Restricted Viewer","Data Quality Issue","Period Key",1
+"Restricted Viewer","Data Quality Issue","Release From",1
+"Restricted Viewer","Data Quality Issue","Release To",1
+"Restricted Viewer","Data Quality Issue","Rows Affected",1
+"Restricted Viewer","Data Quality Issue","Sub-Segment Code",1
+"Restricted Viewer","Data Quality Issue","Treatment",1
+"Restricted Viewer","Organisation (as reported)","Department (as reported)",1
+"Restricted Viewer","Organisation (as reported)","Durable Key Rule",1
+"Restricted Viewer","Organisation (as reported)","Is Current Version",1
+"Restricted Viewer","Organisation (as reported)","Is Latest Version",1
+"Restricted Viewer","Organisation (as reported)","Organisation",1
+"Restricted Viewer","Organisation (as reported)","Releases Reported",1
+"Restricted Viewer","Organisation (as reported)","Successor Durable Key",1
+"Restricted Viewer","Organisation (as reported)","Valid From Release",1
+"Restricted Viewer","Organisation (as reported)","Valid To Release",1
+"Restricted Viewer","Organisation (as reported)","Version Number",1
+"Restricted Viewer","Organisation (as reported)","Version Reason",1

@@ -1,0 +1,25 @@
+// Model reference: the user hierarchies and their levels.
+DEFINE
+VAR Tables =
+    SELECTCOLUMNS ( INFO.TABLES (), "TableId", [ID], "Table", [Name] )
+VAR LevelRows =
+    SELECTCOLUMNS ( INFO.LEVELS (), "HierarchyId", [HierarchyID], "Level", [Name], "Ordinal", [Ordinal] )
+VAR Hierarchies =
+    SELECTCOLUMNS (
+        INFO.HIERARCHIES (),
+        "HierarchyId", [ID],
+        "TableId", [TableID],
+        "Hierarchy", [Name],
+        "Description", [Description],
+        "Is Hidden", [IsHidden],
+        "Display Folder", [DisplayFolder]
+    )
+VAR Joined =
+    ADDCOLUMNS (
+        Hierarchies,
+        "Table", MAXX ( FILTER ( Tables, [TableId] = EARLIER ( [TableId] ) ), [Table] ),
+        "Levels", CONCATENATEX ( FILTER ( LevelRows, [HierarchyId] = EARLIER ( [HierarchyId] ) ), [Level], " > ", [Ordinal], ASC )
+    )
+EVALUATE
+SELECTCOLUMNS ( Joined, "Table", [Table], "Hierarchy", [Hierarchy], "Levels", [Levels], "Description", [Description], "Is Hidden", [Is Hidden], "Display Folder", [Display Folder] )
+ORDER BY [Table], [Hierarchy]

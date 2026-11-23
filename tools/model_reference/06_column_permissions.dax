@@ -1,0 +1,28 @@
+// Model reference: the columns a role hides (object-level security).
+DEFINE
+VAR Roles =
+    SELECTCOLUMNS ( INFO.ROLES (), "RoleId", [ID], "Role", [Name] )
+VAR Tables =
+    SELECTCOLUMNS ( INFO.TABLES (), "TableId", [ID], "Table", [Name] )
+VAR TablePermissions =
+    SELECTCOLUMNS ( INFO.TABLEPERMISSIONS (), "TablePermissionId", [ID], "RoleId", [RoleID], "TableId", [TableID] )
+VAR ColumnRows =
+    SELECTCOLUMNS ( INFO.COLUMNS (), "ColumnId", [ID], "Column", [ExplicitName] )
+VAR ColumnPermissions =
+    SELECTCOLUMNS ( INFO.COLUMNPERMISSIONS (), "TablePermissionId", [TablePermissionID], "ColumnId", [ColumnID], "Metadata Permission", [MetadataPermission] )
+VAR Joined =
+    ADDCOLUMNS (
+        ColumnPermissions,
+        "RoleId", MAXX ( FILTER ( TablePermissions, [TablePermissionId] = EARLIER ( [TablePermissionId] ) ), [RoleId] ),
+        "TableId", MAXX ( FILTER ( TablePermissions, [TablePermissionId] = EARLIER ( [TablePermissionId] ) ), [TableId] ),
+        "Column", MAXX ( FILTER ( ColumnRows, [ColumnId] = EARLIER ( [ColumnId] ) ), [Column] )
+    )
+VAR Named =
+    ADDCOLUMNS (
+        Joined,
+        "Role", MAXX ( FILTER ( Roles, [RoleId] = EARLIER ( [RoleId] ) ), [Role] ),
+        "Table", MAXX ( FILTER ( Tables, [TableId] = EARLIER ( [TableId] ) ), [Table] )
+    )
+EVALUATE
+SELECTCOLUMNS ( Named, "Role", [Role], "Table", [Table], "Column", [Column], "Metadata Permission", [Metadata Permission] )
+ORDER BY [Role], [Table], [Column]

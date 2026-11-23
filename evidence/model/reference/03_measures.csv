@@ -1,0 +1,220 @@
+Table,Measure,Description,Expression,Format String,Format String Definition,Is Hidden,Display Folder
+"Fact Outturn","Comparison Amount","The measure to put in a visual together with the Scenario Comparison items. On its own it is Outturn (plan basis), the Actual of a comparison. The Scenario Comparison items act only on this measure and pass every other measure through unchanged.","[Outturn (plan basis)]","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Plan"
+"Fact Outturn","Department Group Rank (YTD Variance %)","Rank of the Spending Review group in context among the groups that have a value, by the year-to-date variance % (the Variance % item of Scenario Comparison under the YTD item of Time Intelligence, taken on Comparison Amount), the largest first (1 is the biggest overspend against plan); equal values share a rank and the next rank is skipped. BLANK where the group has no plan or no outturn on the plan's basis. The plan is published by group, not by current department, so the rank is over Spending Review groups. A year-to-date plan exists only at period 12 or for a whole year, so a month before the year end gives BLANK. Each group's value is worked out once, in ADDCOLUMNS, and RANKX ranks that column; it returns the same ranks as the plain form kept hidden as Department Group Rank (YTD Variance %) (naive). Use it with no Time Intelligence or Scenario Comparison item selected.","VAR YtdVariancePercent =
+    CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = ""YTD"", 'Scenario Comparison'[Comparison] = ""Variance %"" )
+VAR Groups =
+    FILTER (
+        ADDCOLUMNS (
+            ALLSELECTED ( 'Spending Review Group' ),
+            ""@ytd"", CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = ""YTD"", 'Scenario Comparison'[Comparison] = ""Variance %"" )
+        ),
+        NOT ISBLANK ( [@ytd] )
+    )
+RETURN
+    IF ( ISBLANK ( YtdVariancePercent ), BLANK (), RANKX ( Groups, [@ytd], YtdVariancePercent, DESC, SKIP ) )","","""0""",False,"Plan\Ranking"
+"Fact Outturn","Department Group Rank (YTD Variance %) (naive)","Kept as evidence, hidden, not for reports: the plain form of Department Group Rank (YTD Variance %), with the Variance % and YTD calculation written three times (the guard, the table filter and the value) inside RANKX, that docs/performance.md timed and traced before the rewrite. It returns the same ranks as the rewrite (tests/dax/813_naive_equals_rewrite_rank.dax).","VAR YtdVariancePercent =
+    CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = ""YTD"", 'Scenario Comparison'[Comparison] = ""Variance %"" )
+RETURN
+    IF (
+        ISBLANK ( YtdVariancePercent ),
+        BLANK (),
+        RANKX (
+            FILTER (
+                ALLSELECTED ( 'Spending Review Group' ),
+                NOT ISBLANK (
+                    CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = ""YTD"", 'Scenario Comparison'[Comparison] = ""Variance %"" )
+                )
+            ),
+            CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = ""YTD"", 'Scenario Comparison'[Comparison] = ""Variance %"" ),
+            ,
+            DESC,
+            SKIP
+        )
+    )","","""0""",True,"Performance\Naive"
+"Fact Outturn","Department Rank (Statement Amount)","Rank of the department in context among the departments that have a statement amount in the context (1 is the largest amount; equal amounts share a rank and the next rank is skipped), by RANK over the departments of the current structure. Put Department (current structure)[Department] on rows and one statement line and year in the filter context.","IF (
+    ISBLANK ( [Statement Amount] ),
+    BLANK (),
+    RANK (
+        SKIP,
+        FILTER ( ALLSELECTED ( 'Department (current structure)' ), NOT ISBLANK ( [Statement Amount] ) ),
+        ORDERBY ( [Statement Amount], DESC )
+    )
+)","","""0""",False,"Statement\Windows"
+"Fact Outturn","Estimated Mapping Share","The share of the outturn in context that comes from lines mapped to the current department by an estimated driver: Outturn (estimated mapping) over Outturn (current structure), on net amounts. 0 where the department has outturn and no estimated line; BLANK where it has no outturn or the net outturn is zero. On net amounts it can exceed 100% or be negative where the department's net outturn is small; read it with the amount.","VAR Total = [Outturn (current structure)]
+RETURN
+    IF ( ISBLANK ( Total ), BLANK (), DIVIDE ( COALESCE ( [Outturn (estimated mapping)], 0 ), Total ) )","","""0.0%;-0.0%;0.0%""",False,"Current Structure"
+"Fact Outturn","Gross Restatement in Release","The size of what the release or releases in context restated, in GBP thousands: the sum of the absolute deltas with a Revision Number above 0, so a restatement upward on one line and downward on another do not net off. The measure for how much was restated, as against how much moved. The rows flagged in Data Quality Issue (the NHS Pension Scheme unit error and its offsetting line) are counted here, trillions in two releases: see the excluding-flagged-rows variant.","CALCULATE ( SUMX ( 'Fact Outturn', ABS ( 'Fact Outturn'[Amount Delta] ) ), 'Fact Outturn'[Revision Number] > 0 )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Restatement"
+"Fact Outturn","Gross Restatement in Release (excl. flagged)","Gross Restatement in Release with the rows flagged in Data Quality Issue left out (the thirteen delta rows of the two NHS Pension Scheme lines that carry a unit error, X903A002 and its offsetting line X903A003). What is left out is each flagged line-month as a whole, from the release that set the wrong amount to the release that corrected it, so the genuine amounts netted into the offsetting line in those months go too. Use it for the gross restatement page; the net measures need no exclusion.","Restate.Unflagged ( [Gross Restatement in Release] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Restatement\Excluding flagged rows"
+"Fact Outturn","Gross Revision in Release","The size of everything the release or releases in context changed, in GBP thousands: the sum of the absolute deltas, so increases and decreases do not net off. It includes lines reported for the first time, so in the first release of a year it is the size of the whole year to date. It counts the rows flagged in Data Quality Issue (the NHS Pension Scheme unit error and its offsetting line), which run to trillions in two releases: the excluding-flagged-rows variant leaves them out.","SUMX ( 'Fact Outturn', ABS ( 'Fact Outturn'[Amount Delta] ) )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Restatement"
+"Fact Outturn","Gross Revision in Release (excl. flagged)","Gross Revision in Release with the rows flagged in Data Quality Issue left out (the thirteen delta rows of the two NHS Pension Scheme lines that carry a unit error, X903A002 and its offsetting line X903A003). What is left out is each flagged line-month as a whole, from the release that set the wrong amount to the release that corrected it, so the genuine amounts netted into the offsetting line in those months go too. Use it for the gross restatement page; the net measures need no exclusion.","Restate.Unflagged ( [Gross Revision in Release] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Restatement\Excluding flagged rows"
+"Fact Outturn","Latest Release in View","The month of the latest OSCAR in-year release in the model, for example Sep 2026, whatever is selected. A label for page headers; it holds no amount.","MAXX ( FILTER ( ALL ( Release ), Release[Is Latest Release] = TRUE () ), Release[Release] )","","",False,"Report Labels"
+"Fact Outturn","Machinery of Government Transfer","What the change of structure moved into the department, in GBP thousands: Outturn (current structure) less Outturn (as reported structure). Positive means the department holds more today than it was reported with; negative means lines it was reported with now sit in another department. Added over all departments of the current structure it is zero (tested for every year and release). BLANK where both are BLANK.","VAR CurrentStructure = [Outturn (current structure)]
+VAR AsReported = [Outturn (as reported structure)]
+RETURN
+    IF ( ISBLANK ( CurrentStructure ) && ISBLANK ( AsReported ), BLANK (), CurrentStructure - AsReported )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Current Structure"
+"Fact Outturn","Outturn","Real outturn in GBP thousands, spending positive and income negative: the sum of the revision deltas of every release in context. With no release selected it is the latest view of each financial year (what the newest release reports). It never filters releases itself, so a view as at a release is a selection on Release. Not on the plan basis: all control budgets and economic categories. Use Outturn (plan basis) to compare with a plan.","SUM ( 'Fact Outturn'[Amount Delta] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Base"
+"Fact Outturn","Outturn (as reported structure)","Outturn in GBP thousands of the lines that the releases in context reported under the department number of the row, whatever department those lines belong to today. The counterpart of a row of Department (current structure) is found by number, never by name: the numbers that a department answers for are in its hidden column Reported Department Numbers (its own number; for Unallocated U011, U035 and U077 the number after the U; and for the Foreign, Commonwealth and Development Office also 027, the Foreign and Commonwealth Office). A selection on the as-reported department is kept, so it can only narrow. With Department (current structure) on rows. Added over all departments it equals Outturn.","VAR NumberLists = VALUES ( 'Department (current structure)'[Reported Department Numbers] )
+VAR Numbers =
+    FILTER (
+        ALL ( 'Organisation (as reported)'[Department Number (as reported)] ),
+        COUNTROWS (
+            FILTER (
+                NumberLists,
+                CONTAINSSTRING (
+                    'Department (current structure)'[Reported Department Numbers],
+                    ""|"" & 'Organisation (as reported)'[Department Number (as reported)] & ""|""
+                )
+            )
+        ) > 0
+    )
+RETURN
+    CALCULATE (
+        [Outturn],
+        REMOVEFILTERS ( 'Department (current structure)' ),
+        KEEPFILTERS ( TREATAS ( Numbers, 'Organisation (as reported)'[Department Number (as reported)] ) )
+    )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Current Structure"
+"Fact Outturn","Outturn (current structure)","Outturn in GBP thousands by the department of today's structure: the sum of the deltas of the lines that belong to the department in context (Fact Outturn is related to Department (current structure) on the department key written in the warehouse, and each department has one number). With Department (current structure) on rows. Equal to Outturn there; it is named so that a matrix holding both structures says which figure is which.","SUM ( 'Fact Outturn'[Amount Delta] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Current Structure"
+"Fact Outturn","Outturn (current structure) (real terms)","[Outturn (current structure)] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.","Real.Deflate ( [Outturn (current structure)] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Real Terms"
+"Fact Outturn","Outturn (estimated mapping)","The part of the outturn, in GBP thousands, that sits in its current department because of an estimated mapping: the lines marked is_estimated in the current-structure map (three BEIS lines placed by judgement and not by a published source). BLANK where the department has none.","CALCULATE ( SUM ( 'Fact Outturn'[Amount Delta] ), 'Fact Outturn'[Mapping Is Estimated] = TRUE () )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Current Structure"
+"Fact Outturn","Outturn (plan basis)","Outturn in GBP thousands on the basis of the plan rows in context, the figure that Plan is compared with. For each financial year and plan measure in context it takes the outturn of the control budget detail and economic budget the measure is made of (RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME, ADMIN, ADMIN_EX_DEPN, and my own rules for NON_DEPT_AME, NON_BUDGET and UNCLASSIFIED) and adds them up. Resource DEL excluding depreciation leaves out only the economic group DEPRECIATION, because the in-year files have no ringfence column; other non-cash items stay in (about 5.5bn a year from 2024-25). BLANK when there is no plan row in context. Defined at every grain, including months, where Plan is BLANK.","VAR MeasureChosen = ISFILTERED ( 'Fact Plan'[Plan Measure] )
+VAR PlanScope =
+    SUMMARIZE (
+        FILTER ( 'Fact Plan', MeasureChosen || NOT 'Fact Plan'[Is Part Of Other Measure] ),
+        'Fiscal Year'[Financial Year],
+        'Fact Plan'[Plan Measure]
+    )
+VAR AnyWithoutRule =
+    COUNTROWS ( FILTER ( PlanScope, NOT Basis.HasRule ( 'Fact Plan'[Plan Measure] ) ) ) > 0
+RETURN
+    IF (
+        AnyWithoutRule,
+        BLANK (),
+        SUMX ( PlanScope, Basis.OutturnFor ( 'Fiscal Year'[Financial Year], 'Fact Plan'[Plan Measure] ) )
+    )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Plan"
+"Fact Outturn","Outturn (plan basis) (real terms)","[Outturn (plan basis)] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.","Real.Deflate ( [Outturn (plan basis)] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Real Terms"
+"Fact Outturn","Outturn (real terms)","[Outturn] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.","Real.Deflate ( [Outturn] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Real Terms"
+"Fact Outturn","Outturn as at Release","The outturn as the selected release stated it, in GBP thousands (spending positive, income negative): the sum of the revision deltas of every release up to and including the highest release in context, or up to the latest release when none is selected. For a year the release has not reached yet it is BLANK, and for a closed year it is the final figure known at that release. At a release's own financial year it equals what that release's file reports (tested against the control totals of the files). Written with a column filter on Release Sequence after REMOVEFILTERS on the Release table; it returns the same figures as the plain form kept hidden as Outturn as at Release (naive), and docs/performance.md says what the rewrite changed and what it did not.","VAR AsAt = MAX ( 'Release'[Release Sequence] )
+RETURN
+    CALCULATE ( [Outturn], REMOVEFILTERS ( 'Release' ), 'Release'[Release Sequence] <= AsAt )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Restatement"
+"Fact Outturn","Outturn as at Release (naive)","Kept as evidence, hidden, not for reports: the plain form of Outturn as at Release (a CALCULATE over a FILTER of ALL releases up to the highest in context) that docs/performance.md timed and traced before the rewrite. It returns the same figures as the rewrite (tests/dax/810_naive_equals_rewrite_as_at_by_year.dax, 811_naive_equals_rewrite_as_at_by_department.dax and 812_naive_equals_rewrite_as_at_year_department.dax) and is only here so that the comparison can be rerun.","VAR AsAt = MAX ( 'Release'[Release Sequence] )
+RETURN
+    CALCULATE ( [Outturn], FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",True,"Performance\Naive"
+"Fact Outturn","Outturn as First Reported","The outturn as first reported, in GBP thousands: the sum of the deltas with Revision Number 0, that is the amount each line and month had in the release that first reported it, over the releases up to the as-at release (the highest release in context, or the latest). A line first reported later is counted at its first amount, so this is not the total of the first release of the year.","VAR AsAt = MAX ( 'Release'[Release Sequence] )
+RETURN
+    CALCULATE ( [Outturn], 'Fact Outturn'[Revision Number] = 0, FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Restatement"
+"Fact Outturn","Restatement in Release","The part of Revision in Release that changes a figure an earlier release had already reported, in GBP thousands: the deltas with a Revision Number above 0. It is the restatement proper; a delta with Revision Number 0 is a month or line reported for the first time.","CALCULATE ( SUM ( 'Fact Outturn'[Amount Delta] ), 'Fact Outturn'[Revision Number] > 0 )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Restatement"
+"Fact Outturn","Revision %","Revision since First Reported as a share of the absolute outturn as first reported. BLANK where nothing was first reported or the first-reported amount is zero. Not an additive measure: a total is the ratio of the totals. Needs no data-quality exclusion: the NHS Pension Scheme unit error and its offsetting line net to a small amount, and both are flagged, so a view that left out only one of them would make the ratio worse, not better.","VAR FirstReported = [Outturn as First Reported]
+RETURN
+    DIVIDE ( [Revision since First Reported], ABS ( FirstReported ) )","","""0.0%;-0.0%;0.0%""",False,"Restatement"
+"Fact Outturn","Revision in Release","The change the release or releases in context made to the year-to-date outturn, in GBP thousands: the sum of their deltas, which is what Outturn shows when Release is on rows. It is a movement, not a total, and it mixes months reported for the first time with restatements of months already reported (Restatement in Release is the second part alone). With no release selected it is the sum over all releases, which equals Outturn.","SUM ( 'Fact Outturn'[Amount Delta] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Restatement"
+"Fact Outturn","Revision since First Reported","How much the outturn has moved since each line and month was first reported, in GBP thousands: Outturn as at Release less Outturn as First Reported, which is the sum of the deltas with a Revision Number above 0 up to the as-at release. Positive means spending grew or income fell since first reported. BLANK where neither side has a value, 0 where nothing was restated.","VAR AtRelease = [Outturn as at Release]
+VAR FirstReported = [Outturn as First Reported]
+RETURN
+    IF ( ISBLANK ( AtRelease ) && ISBLANK ( FirstReported ), BLANK (), AtRelease - FirstReported )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Restatement"
+"Fact Outturn","Statement Amount","The group income and expenditure statement: the outturn of the statement line in context, in GBP thousands, in the sign the line is presented in (income lines positive, the net and total lines as reported, spending positive). A detail line sums the accounts the authored rules give it; a subtotal or total sums the detail lines under the lines it lists; a spacer, and a context with more than one line, give BLANK. The total line equals Outturn. Put Statement Line[Line] on rows; Control Budget on columns splits it into DEL, AME and non-budget.","Pnl.LineAmount ( [Outturn] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Statement"
+"Fact Outturn","Statement Amount (plan basis)","The statement amount on the plan's basis, only where the line has a plan (the net resource line, the net capital line and the total line, in a year the source gives a plan at that level): for each voted budget the year has, the outturn of the control budget detail and economic budget it is made of, within the line's economic budget. This is the Actual that Variance is taken against; BLANK where Statement Plan is BLANK.","IF ( ISBLANK ( [Statement Plan] ), BLANK (), Pnl.AtPlanScope ( [Comparison Amount] ) )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Statement"
+"Fact Outturn","Statement Amount (real terms)","[Statement Amount] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.","Real.Deflate ( [Statement Amount] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Real Terms"
+"Fact Outturn","Statement Amount Moving 3 Months (WINDOW)","The statement amount of the period in context and the two before it, by WINDOW over the allocated months (period 1 to 12) of every year in order, so the window crosses the year end. Period 0 is not a month: it gets BLANK and is not in anyone's window. Use it with Fiscal Period[Financial Year] and Fiscal Period[Period Number] on the visual.","CALCULATE (
+    [Statement Amount],
+    WINDOW (
+        -2, REL, 0, REL,
+        FILTER ( ALLSELECTED ( 'Fiscal Period'[Period Key], 'Fiscal Period'[Period Number] ), 'Fiscal Period'[Period Number] >= 1 ),
+        ORDERBY ( 'Fiscal Period'[Period Key], ASC )
+    ),
+    REMOVEFILTERS ( 'Fiscal Year' ),
+    REMOVEFILTERS ( 'Fiscal Period'[Financial Year], 'Fiscal Period'[Period Number] )
+)","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Statement\Windows"
+"Fact Outturn","Statement Amount PY (OFFSET)","The statement amount of the previous financial year, by OFFSET over the Fiscal Year table in order of year start (the year before in the table, whatever a slicer selects). Use it at year grain; BLANK for the first year and for a year the previous year of which has no outturn.","CALCULATE (
+    [Statement Amount],
+    OFFSET ( -1, ALL ( 'Fiscal Year'[Financial Year], 'Fiscal Year'[Year Start] ), ORDERBY ( 'Fiscal Year'[Year Start], ASC ) )
+)","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Statement\Windows"
+"Fact Outturn","Statement Amount Running (WINDOW)","The statement amount added up from period 0 to the period in context within each financial year, by WINDOW over Fiscal Period (a running total that restarts every year). Use it with Fiscal Period[Financial Year] and Fiscal Period[Period Number] on the visual.","CALCULATE (
+    [Statement Amount],
+    WINDOW (
+        1, ABS, 0, REL,
+        ALLSELECTED ( 'Fiscal Period'[Financial Year], 'Fiscal Period'[Period Number] ),
+        ORDERBY ( 'Fiscal Period'[Period Number], ASC ),
+        PARTITIONBY ( 'Fiscal Period'[Financial Year] )
+    )
+)","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Statement\Windows"
+"Fact Outturn","Statement Variance","Statement amount on the plan's basis less the plan, GBP thousands, in the sign the line is presented in. With spending positive, below zero is favourable. BLANK where either side is BLANK.","VAR Actual = [Statement Amount (plan basis)]
+VAR PlanAmount = [Statement Plan]
+RETURN
+    IF ( ISBLANK ( Actual ) || ISBLANK ( PlanAmount ), BLANK (), Actual - PlanAmount )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Statement"
+"Fact Outturn","Statement Variance %","Statement variance divided by the absolute statement plan. BLANK where the plan is zero or either side is BLANK.","VAR Actual = [Statement Amount (plan basis)]
+VAR PlanAmount = [Statement Plan]
+RETURN
+    IF ( ISBLANK ( Actual ) || ISBLANK ( PlanAmount ), BLANK (), DIVIDE ( Actual - PlanAmount, ABS ( PlanAmount ) ) )","","""0.0%;-0.0%;0.0%""",False,"Statement"
+"Fact Plan","Plan","Published plan in GBP thousands, summed over the plan rows in context, BLANK wherever the filter context is finer than the grain the plan is published at (a month, a sub-segment, an economic category, a department, a data quality issue, and an organisation, control budget or economic budget where the source has none). Grain A (OSCAR Plans) is published by organisation, control budget detail and economic budget, so a selection of those on the outturn side narrows the plan to the same codes. Administration budgets are part of resource DEL and are left out unless a Plan measure is chosen. Plan measures overlap by design; choose one to read it on its own.","IF (
+    Grain.BelowGrain ( FALSE () ),
+    BLANK (),
+    CALCULATE (
+        SUM ( 'Fact Plan'[Plan Amount] ),
+        Plan.RowsInScope ( ISFILTERED ( 'Fact Plan'[Plan Measure] ) )
+    )
+)","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Plan"
+"Fact Plan","Plan (real terms)","[Plan] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.","Real.Deflate ( [Plan] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Real Terms"
+"Fact Plan","Plan and Outturn by Scenario","Plan on the Plan scenario and outturn on the plan's basis on the Outturn scenario (read with the Scenario filter removed, because the plan rows that define the basis sit on the Plan scenario), in one measure, so that a waterfall can take Scenario as its category and a department group as its breakdown. BLANK for every other scenario and when more than one scenario is in context. Plan keeps its grain guard, so it is BLANK where it is not published.","SWITCH (
+    SELECTEDVALUE ( Scenario[Scenario] ),
+    ""Plan"", [Plan],
+    ""Outturn"", CALCULATE ( [Outturn (plan basis)], REMOVEFILTERS ( Scenario ) ),
+    BLANK ()
+)","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Plan"
+"Fact Plan","Plan Below Grain","1 where Plan is BLANK because the filter context is finer than the grain the plan is published at, otherwise 0. Use it to say ""plan not published at this level"" next to a blank.","IF ( Grain.BelowGrain ( FALSE () ), 1, 0 )","","""0""",False,"Plan"
+"Fact Plan","Plan Source and Grain","The plan badge: the plan source and edition, and the grain it is published at, of the plan rows in the filter context (the year in view), for example a Supplementary Estimate at financial year x department group x measure. Several sources are joined with a semicolon. When the selection is finer than the plan's grain the text says the plan is blank, in the words the Plan measure follows. It is a label and holds no amount.","VAR Sources =
+    CALCULATETABLE (
+        SUMMARIZE ( 'Fact Plan', 'Plan Source'[Plan Source], 'Plan Grain'[Plan Grain] ),
+        Plan.RowsInScope ( ISFILTERED ( 'Fact Plan'[Plan Measure] ) )
+    )
+VAR Names =
+    CONCATENATEX ( Sources, 'Plan Source'[Plan Source] & "" at "" & 'Plan Grain'[Plan Grain], ""; "", 'Plan Source'[Plan Source], ASC )
+RETURN
+    IF (
+        COUNTROWS ( Sources ) = 0,
+        ""No plan is published for this selection"",
+        Names & IF ( Grain.BelowGrain ( FALSE () ), "". The selection is finer than the plan's grain, so the plan is blank."", """" )
+    )","","",False,"Plan"
+"Fact Plan","Statement Plan","The published plan of the statement line in context, in GBP thousands, only on a line that sits at a plan's grain: the net resource line (economic budget RESOURCE), the net capital line (CAPITAL) and the total line (every account), and only in a year where the source publishes a plan at that level (the OSCAR Plans years for RESOURCE and CAPITAL; every year with a plan for the total). The voted budgets only: RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME. BLANK on every other line.","Pnl.AtPlanScope ( [Plan] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Statement"
+"Fact Plan","Statement Plan (real terms)","[Statement Plan] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.","Real.Deflate ( [Statement Plan] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Real Terms"
+"Fact Plan Phased (derived)","Plan (phased)","DERIVED, not published: the plan rows that Plan adds up, spread over periods 1 to 12 by a share taken from the prior year's outturn (twelve flat twelfths where there is none), in GBP thousands. The only plan measure allowed at month grain. The twelve months of a plan row add up to the published annual figure exactly, but the monthly figures are my allocation and must never be shown as a published monthly budget. BLANK below the group grain (sub-segment, economic category and so on) like Plan, and for FY2017-18, which has no calendar.","IF (
+    Grain.BelowGrain ( TRUE () ),
+    BLANK (),
+    VAR PlanKeys =
+        SELECTCOLUMNS (
+            Plan.RowsInScope (
+                ISFILTERED ( 'Fact Plan'[Plan Measure] ) || ISFILTERED ( 'Fact Plan Phased (derived)'[Plan Measure] )
+            ),
+            ""k"", 'Fact Plan'[Plan Fact Key]
+        )
+    RETURN
+        CALCULATE (
+            SUM ( 'Fact Plan Phased (derived)'[Phased Amount] ),
+            TREATAS ( PlanKeys, 'Fact Plan Phased (derived)'[Plan Fact Key] )
+        )
+)","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Plan\Derived"
+"Fact Plan Phased (derived)","Plan (phased) (real terms)","DERIVED, not published: the phased plan is my allocation of the published annual plan. [Plan (phased)] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.","Real.Deflate ( [Plan (phased)] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Real Terms"
+"Fact Plan Phased (derived)","Variance to Phased Plan","DERIVED, not published: outturn on the plan's basis less the phased plan, GBP thousands, in the period context (a month, or the year to date under Time Intelligence). The plan side is my allocation of a published annual plan, so the figure is a variance to my profile and not to a published monthly budget. Below zero is favourable with spending positive. BLANK where either side is BLANK, including below the group grain.","VAR Actual = [Outturn (plan basis)]
+VAR PhasedPlan = [Plan (phased)]
+RETURN
+    IF ( ISBLANK ( Actual ) || ISBLANK ( PhasedPlan ), BLANK (), Actual - PhasedPlan )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Plan\Derived"
+"Fact Plan Phased (derived)","Variance to Phased Plan %","DERIVED, not published: the variance to the phased plan as a share of the absolute phased plan. BLANK where the phased plan is zero or either side is BLANK.","VAR Actual = [Outturn (plan basis)]
+VAR PhasedPlan = [Plan (phased)]
+RETURN
+    IF ( ISBLANK ( Actual ) || ISBLANK ( PhasedPlan ), BLANK (), DIVIDE ( Actual - PhasedPlan, ABS ( PhasedPlan ) ) )","","""0.0%;-0.0%;0.0%""",False,"Plan\Derived"
+"File Control","Difference to File Total","Outturn as at Release (own year) less the file's total, GBP thousands. 0 when the model reproduces the release file; the test that proves it for all 31 releases is tests/dax/780.","VAR AsAt = [Outturn as at Release (own year)]
+VAR FileTotal = [File Total (4 decimals)]
+RETURN IF ( ISBLANK ( AsAt ) || ISBLANK ( FileTotal ), BLANK (), AsAt - FileTotal )","","""\£#,##0.0000""""k"""";-\£#,##0.0000""""k"""";\£0.0000""""k""""""",False,"Audit and control"
+"File Control","File Total (4 decimals)","The total the release file reports, rounded to four decimals as the warehouse stores it, in GBP thousands. Rounding the exact source sum moves a file total by up to about 5.44 (GBP thousands), which is why the exact sum is shown beside it.","SUM ( 'File Control'[File Total Value] )","","""\£#,##0.0000""""k"""";-\£#,##0.0000""""k""""""",False,"Audit and control"
+"File Control","Outturn as at Release (own year)","Outturn as at Release for the financial year of the release of the file in context: what the model says that release reported, to set beside the file's own total. Needs one file (one release) in context; it reads the release from the file's own row, so it works in a table that shows File Control alone.","VAR ReleaseKey = MAX ( 'File Control'[Release Key] )
+VAR OwnYear = LOOKUPVALUE ( Release[Release Financial Year], Release[Release Key], ReleaseKey )
+RETURN
+    IF (
+        ISBLANK ( ReleaseKey ),
+        BLANK (),
+        CALCULATE ( [Outturn as at Release], Release[Release Key] = ReleaseKey, 'Fiscal Year'[Financial Year] = OwnYear )
+    )","","""\£#,##0.0000""""k"""";-\£#,##0.0000""""k""""""",False,"Audit and control"
+"Load Control","Rows Loaded","Rows loaded into the warehouse from the files in context; with the rows quarantined they add up to the rows read.","SUM ( 'Load Control'[Rows Loaded Value] )","","""#,##0""",False,"Audit and control"
+"Load Control","Rows Quarantined","Rows rejected into quarantine from the files in context, each kept with its reason; 0 for every file in the data.","SUM ( 'Load Control'[Rows Quarantined Value] ) + 0","","""#,##0""",False,"Audit and control"
+"Load Control","Rows Read","Data rows read from the files in context: the rows of the source file after its header, before any row is rejected.","SUM ( 'Load Control'[Rows Read Value] )","","""#,##0""",False,"Audit and control"
+"Load Control","Web Rows Quarantined","Rows of the deflator workbooks and the CPI series that did not parse: the rows of Deflator Quarantine and CPI Quarantine. 0 when every row parses.","COUNTROWS ( 'Deflator Quarantine' ) + COUNTROWS ( 'CPI Quarantine' ) + 0","","""#,##0""",False,"Audit and control"
+"Plan Coverage","Plan Coverage Total","Total of the plan rows in context, GBP thousands. Plan measures overlap by design (administration budgets are part of resource DEL), so a total across measures is not a plan figure; read it by measure.","SUM ( 'Plan Coverage'[Amount Total Value] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Audit and control"

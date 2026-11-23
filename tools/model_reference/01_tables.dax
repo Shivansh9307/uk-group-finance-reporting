@@ -1,0 +1,12 @@
+// Model reference: the tables. Names and text only: no ids, no times, no lineage tags, so the file is the same every run.
+EVALUATE
+SELECTCOLUMNS (
+    INFO.VIEW.TABLES (),
+    "Table", [Name],
+    "Description", [Description],
+    "Is Hidden", [IsHidden],
+    "Storage Mode", [StorageMode],
+    "Data Category", [DataCategory],
+    "Calculation Group Precedence", [CalculationGroupPrecedence]
+)
+ORDER BY [Table]

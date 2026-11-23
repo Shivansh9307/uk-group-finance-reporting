@@ -1,0 +1,32 @@
+// Model reference: the perspectives and how many measures and columns each one lists per table.
+DEFINE
+VAR Perspectives =
+    SELECTCOLUMNS ( INFO.PERSPECTIVES (), "PerspectiveId", [ID], "Perspective", [Name], "Perspective Description", [Description] )
+VAR Tables =
+    SELECTCOLUMNS ( INFO.TABLES (), "TableId", [ID], "Table", [Name] )
+VAR PerspectiveTables =
+    SELECTCOLUMNS ( INFO.PERSPECTIVETABLES (), "PerspectiveTableId", [ID], "PerspectiveId", [PerspectiveID], "TableId", [TableID], "Include All", [IncludeAll] )
+VAR Measures =
+    SELECTCOLUMNS ( INFO.PERSPECTIVEMEASURES (), "PerspectiveTableId", [PerspectiveTableID] )
+VAR ColumnRows =
+    SELECTCOLUMNS ( INFO.PERSPECTIVECOLUMNS (), "PerspectiveTableId", [PerspectiveTableID] )
+VAR Joined =
+    ADDCOLUMNS (
+        PerspectiveTables,
+        "Perspective", MAXX ( FILTER ( Perspectives, [PerspectiveId] = EARLIER ( [PerspectiveId] ) ), [Perspective] ),
+        "Perspective Description", MAXX ( FILTER ( Perspectives, [PerspectiveId] = EARLIER ( [PerspectiveId] ) ), [Perspective Description] ),
+        "Table", MAXX ( FILTER ( Tables, [TableId] = EARLIER ( [TableId] ) ), [Table] ),
+        "Listed Measures", COUNTROWS ( FILTER ( Measures, [PerspectiveTableId] = EARLIER ( [PerspectiveTableId] ) ) ) + 0,
+        "Listed Columns", COUNTROWS ( FILTER ( ColumnRows, [PerspectiveTableId] = EARLIER ( [PerspectiveTableId] ) ) ) + 0
+    )
+EVALUATE
+SELECTCOLUMNS (
+    Joined,
+    "Perspective", [Perspective],
+    "Perspective Description", [Perspective Description],
+    "Table", [Table],
+    "Include All", [Include All],
+    "Listed Measures", [Listed Measures],
+    "Listed Columns", [Listed Columns]
+)
+ORDER BY [Perspective], [Table]

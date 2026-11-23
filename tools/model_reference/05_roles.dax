@@ -1,0 +1,25 @@
+// Model reference: the security roles and the filter or hidden-column rule of each table permission.
+DEFINE
+VAR Roles =
+    SELECTCOLUMNS ( INFO.ROLES (), "RoleId", [ID], "Role", [Name], "Role Description", [Description], "Model Permission", [ModelPermission] )
+VAR Tables =
+    SELECTCOLUMNS ( INFO.TABLES (), "TableId", [ID], "Table", [Name] )
+VAR Permissions =
+    SELECTCOLUMNS (
+        INFO.TABLEPERMISSIONS (),
+        "RoleId", [RoleID],
+        "TableId", [TableID],
+        "Row Filter", [FilterExpression],
+        "Metadata Permission", [MetadataPermission]
+    )
+VAR Joined =
+    ADDCOLUMNS (
+        Permissions,
+        "Role", MAXX ( FILTER ( Roles, [RoleId] = EARLIER ( [RoleId] ) ), [Role] ),
+        "Role Description", MAXX ( FILTER ( Roles, [RoleId] = EARLIER ( [RoleId] ) ), [Role Description] ),
+        "Model Permission", MAXX ( FILTER ( Roles, [RoleId] = EARLIER ( [RoleId] ) ), [Model Permission] ),
+        "Table", MAXX ( FILTER ( Tables, [TableId] = EARLIER ( [TableId] ) ), [Table] )
+    )
+EVALUATE
+SELECTCOLUMNS ( Joined, "Role", [Role], "Role Description", [Role Description], "Model Permission", [Model Permission], "Table", [Table], "Row Filter", [Row Filter], "Metadata Permission", [Metadata Permission] )
+ORDER BY [Role], [Table]

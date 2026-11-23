@@ -1,0 +1,10 @@
+// Model reference: the user-defined functions of the model.
+EVALUATE
+SELECTCOLUMNS (
+    INFO.USERDEFINEDFUNCTIONS (),
+    "Function", [Name],
+    "Description", [Description],
+    "Expression", [Expression],
+    "Is Hidden", [IsHidden]
+)
+ORDER BY [Function]

@@ -1,0 +1,26 @@
+// Model reference: the calculation items of the calculation groups, in ordinal order.
+DEFINE
+VAR Tables =
+    SELECTCOLUMNS ( INFO.TABLES (), "TableId", [ID], "Table", [Name] )
+VAR Groups =
+    SELECTCOLUMNS ( INFO.CALCULATIONGROUPS (), "GroupId", [ID], "TableId", [TableID], "Precedence", [Precedence] )
+VAR Items =
+    SELECTCOLUMNS (
+        INFO.CALCULATIONITEMS (),
+        "GroupId", [CalculationGroupID],
+        "Item", [Name],
+        "Description", [Description],
+        "Expression", [Expression],
+        "Ordinal", [Ordinal]
+    )
+VAR Joined =
+    ADDCOLUMNS (
+        Items,
+        "TableId", MAXX ( FILTER ( Groups, [GroupId] = EARLIER ( [GroupId] ) ), [TableId] ),
+        "Precedence", MAXX ( FILTER ( Groups, [GroupId] = EARLIER ( [GroupId] ) ), [Precedence] )
+    )
+VAR Named =
+    ADDCOLUMNS ( Joined, "Table", MAXX ( FILTER ( Tables, [TableId] = EARLIER ( [TableId] ) ), [Table] ) )
+EVALUATE
+SELECTCOLUMNS ( Named, "Table", [Table], "Precedence", [Precedence], "Ordinal", [Ordinal], "Item", [Item], "Description", [Description], "Expression", [Expression] )
+ORDER BY [Table], [Ordinal], [Item]

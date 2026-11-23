@@ -27,6 +27,16 @@ Tables that may be unloaded (comma-separated, passed to run_dax.ps1).
 .PARAMETER WindowTitle
 Desktop window title pattern (passed to run_dax.ps1). Default UKGroupFinance*.
 
+.PARAMETER QueryDir
+Folder of query files, relative to the repository root. Default tests\dax. The model reference uses tools\model_reference.
+
+.PARAMETER OutDir
+Folder for the normalised result files, relative to the repository root. Default tests\results. The model reference
+uses evidence\model\reference.
+
+.EXAMPLE
+powershell.exe -NoProfile -File tools\run_dax_tests.ps1 -QueryDir tools\model_reference -OutDir evidence\model\reference
+
 .EXAMPLE
 powershell.exe -NoProfile -File tools\run_dax_tests.ps1
 
@@ -38,14 +48,16 @@ param(
     [switch]$Refresh,
     [string]$RefreshTable = "",
     [string]$AllowUnloaded = "",
-    [string]$WindowTitle = "UKGroupFinance*"
+    [string]$WindowTitle = "UKGroupFinance*",
+    [string]$QueryDir = "tests\dax",
+    [string]$OutDir = "tests\results"
 )
 $ErrorActionPreference = "Stop"
 if ($PSVersionTable.PSEdition -eq "Core") { throw "Run this script with Windows PowerShell 5.1 (powershell.exe), not pwsh." }
 
 $root = Split-Path -Parent $PSScriptRoot
-$queryDir = Join-Path $root "tests\dax"
-$outDir = Join-Path $root "tests\results"
+$queryDir = Join-Path $root $QueryDir
+$outDir = Join-Path $root $OutDir
 $runner = Join-Path $PSScriptRoot "run_dax.ps1"
 
 $extra = @{}

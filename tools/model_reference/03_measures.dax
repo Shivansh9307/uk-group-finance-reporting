@@ -1,0 +1,14 @@
+// Model reference: the measures, with their expressions as the engine holds them.
+EVALUATE
+SELECTCOLUMNS (
+    INFO.VIEW.MEASURES (),
+    "Table", [Table],
+    "Measure", [Name],
+    "Description", [Description],
+    "Expression", [Expression],
+    "Format String", [FormatString],
+    "Format String Definition", [FormatStringDefinition],
+    "Is Hidden", [IsHidden],
+    "Display Folder", [DisplayFolder]
+)
+ORDER BY [Table], [Measure]

@@ -1,0 +1,19 @@
+// Model reference: the columns the model holds (the engine's own row-number columns are left out).
+EVALUATE
+SELECTCOLUMNS (
+    FILTER ( INFO.VIEW.COLUMNS (), [Type] <> "RowNumber" ),
+    "Table", [Table],
+    "Column", [Name],
+    "Type", [Type],
+    "Data Type", [DataType],
+    "Description", [Description],
+    "Is Hidden", [IsHidden],
+    "Is Key", [IsKey],
+    "Summarize By", [SummarizeBy],
+    "Source Column", [SourceColumn],
+    "Expression", [Expression],
+    "Format String", [FormatString],
+    "Sort By Column", [SortByColumn],
+    "Display Folder", [DisplayFolder]
+)
+ORDER BY [Table], [Column]

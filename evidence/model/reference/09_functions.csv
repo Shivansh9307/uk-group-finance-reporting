@@ -1,0 +1,267 @@
+Function,Description,Expression,Is Hidden
+"Basis.HasRule","True when a plan measure has a rule in Basis.OutturnFor, so that outturn can be put on its basis.","( m : STRING ) =>
+    m IN { ""RDEL"", ""RDEL_EX_DEPN"", ""CDEL"", ""RAME"", ""CAME"", ""ADMIN"", ""ADMIN_EX_DEPN"", ""NON_DEPT_AME"", ""NON_BUDGET"", ""UNCLASSIFIED"" }",False
+"Basis.OutturnFor","Outturn on the basis of one plan measure in one financial year: the control budget detail and economic budget that the measure is made of (dw.plan_measure_selection), and for the excluding-depreciation measures the economic group DEPRECIATION left out. The in-year files have no ringfence column, so other non-cash items stay in; the exact basis exists only in the annual files. Non-departmental AME, non-budget and unclassified (the grain A measures that dw.plan_measure_selection does not define) are my additions: their control budget detail alone, and for unclassified the lines whose economic budget is neither resource nor capital. Any other measure returns BLANK. Existing selections on the same columns are kept (KEEPFILTERS), so a slicer can only narrow the basis.","( yr : STRING, m : STRING ) =>
+    SWITCH (
+        m,
+        ""RDEL"", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] IN { ""DEL PROG"", ""DEL ADMIN"" } ), KEEPFILTERS ( 'Account'[Economic Budget] = ""RESOURCE"" ) ),
+        ""RDEL_EX_DEPN"", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] IN { ""DEL PROG"", ""DEL ADMIN"" } ), KEEPFILTERS ( 'Account'[Economic Budget] = ""RESOURCE"" ), KEEPFILTERS ( 'Account'[PESA Economic Group Code] <> ""DEPRECIATION"" ) ),
+        ""CDEL"", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] IN { ""DEL PROG"", ""DEL ADMIN"" } ), KEEPFILTERS ( 'Account'[Economic Budget] = ""CAPITAL"" ) ),
+        ""RAME"", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = ""DEPT AME"" ), KEEPFILTERS ( 'Account'[Economic Budget] = ""RESOURCE"" ) ),
+        ""CAME"", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = ""DEPT AME"" ), KEEPFILTERS ( 'Account'[Economic Budget] = ""CAPITAL"" ) ),
+        ""ADMIN"", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = ""DEL ADMIN"" ), KEEPFILTERS ( 'Account'[Economic Budget] = ""RESOURCE"" ) ),
+        ""ADMIN_EX_DEPN"", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = ""DEL ADMIN"" ), KEEPFILTERS ( 'Account'[Economic Budget] = ""RESOURCE"" ), KEEPFILTERS ( 'Account'[PESA Economic Group Code] <> ""DEPRECIATION"" ) ),
+        ""NON_DEPT_AME"", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = ""NON-DEPT AME"" ) ),
+        ""NON_BUDGET"", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] = ""NON-BUDGET"" ) ),
+        ""UNCLASSIFIED"", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = yr, KEEPFILTERS ( 'Control Budget'[Control Budget Detail Code] IN { ""DEL PROG"", ""DEL ADMIN"", ""DEPT AME"" } ), KEEPFILTERS ( NOT 'Account'[Economic Budget] IN { ""RESOURCE"", ""CAPITAL"" } ) ),
+        BLANK ()
+    )",False
+"Format.ForUnit","The dynamic format string for a value in the unit ""k"", ""m"" or ""bn"": a pound amount with the unit suffix, a percentage for Variance % and YoY %, and for Favourable/Adverse the words that go with the indicator (1 shows Favourable, -1 Adverse, 0 On plan).","( unit : STRING ) =>
+    SWITCH (
+        Format.ValueKind (),
+        ""indicator"", ""[=1]""""Favourable"""";[=-1]""""Adverse"""";""""On plan"""""",
+        ""percent"", ""0.0%;-0.0%;0.0%"",
+        SWITCH (
+            unit,
+            ""k"", ""£#,##0""""k"""";-£#,##0""""k"""";£0""""k"""""",
+            ""m"", ""£#,##0.0""""m"""";-£#,##0.0""""m"""";£0.0""""m"""""",
+            ""bn"", ""£#,##0.00""""bn"""";-£#,##0.00""""bn"""";£0.00""""bn""""""
+        )
+    )",False
+"Format.Scale","An amount in GBP thousands shown in the unit ""k"", ""m"" or ""bn"": divided by 1, 1,000 or 1,000,000. A percentage or an indicator is returned unchanged. Scaling is done on the value; no number format scales with commas, because that prints a wrong number on the canvas of this Desktop build.","( x : ANYVAL, unit : STRING ) =>
+    IF (
+        Format.ValueKind () = ""amount"",
+        DIVIDE ( x, SWITCH ( unit, ""k"", 1, ""m"", 1000, ""bn"", 1000000, 1 ) ),
+        x
+    )",False
+"Format.ValueKind","What the calculation items selected in the context produce: ""indicator"" (Favourable/Adverse), ""percent"" (Variance %, or YoY % of anything) or ""amount"". The unit and the format string follow from it.","( ) =>
+    VAR Comparison = SELECTEDVALUE ( 'Scenario Comparison'[Comparison] )
+    VAR TimeCalculation = SELECTEDVALUE ( 'Time Intelligence'[Time Calculation] )
+    RETURN
+        SWITCH (
+            TRUE (),
+            Comparison = ""Favourable/Adverse"", ""indicator"",
+            Comparison = ""Variance %"" || TimeCalculation = ""YoY %"", ""percent"",
+            ""amount""
+        )",False
+"Grain.BelowGrain","The plan grain guard, written once. True when the filter context is finer than the grain at which the plan rows in context are published, so that a plan figure there would be a number the source never gave. Rules: fewer fiscal periods than the years in context have (skipped when allowMonth is true, for the phased plan); any sub-segment, data quality issue or current-structure department selected; any economic attribute finer than the economic budget; any organisation attribute finer than the organisation code; and, unless every plan row in context is grain A (OSCAR Plans: organisation x control budget detail x economic budget), any organisation, control budget or economic budget selection.","( allowMonth : BOOLEAN ) =>
+    VAR PeriodYears = VALUES ( 'Fiscal Period'[Financial Year] )
+    VAR PeriodsOfYears =
+        COUNTROWS ( FILTER ( ALL ( 'Fiscal Period' ), 'Fiscal Period'[Financial Year] IN PeriodYears ) )
+    VAR PartialYear = NOT allowMonth && COUNTROWS ( 'Fiscal Period' ) < PeriodsOfYears
+    VAR NotOnlyGrainA =
+        COUNTROWS ( FILTER ( DISTINCT ( 'Fact Plan'[Plan Grain Key] ), 'Fact Plan'[Plan Grain Key] <> ""A"" ) ) > 0
+    VAR AccountBelowBudget =
+        COUNTROWS ( 'Account' )
+            < CALCULATE ( COUNTROWS ( 'Account' ), ALLEXCEPT ( 'Account', 'Account'[Economic Budget] ) )
+    VAR OrganisationBelowCode =
+        COUNTROWS ( 'Organisation (as reported)' )
+            < CALCULATE (
+                COUNTROWS ( 'Organisation (as reported)' ),
+                ALLEXCEPT (
+                    'Organisation (as reported)',
+                    'Organisation (as reported)'[Organisation Code],
+                    'Organisation (as reported)'[Durable Key]
+                )
+            )
+    RETURN
+        PartialYear
+            || Grain.IsNarrowed ( 'Sub-Segment' )
+            || Grain.IsNarrowed ( 'Data Quality Issue' )
+            || Grain.IsNarrowed ( 'Department (current structure)' )
+            || AccountBelowBudget
+            || OrganisationBelowCode
+            || (
+                NotOnlyGrainA
+                    && (
+                        Grain.IsNarrowed ( 'Organisation (as reported)' )
+                            || Grain.IsNarrowed ( 'Control Budget' )
+                            || Grain.IsNarrowed ( 'Account' )
+                    )
+            )",False
+"Grain.IsNarrowed","True when something has been selected on a table, so that the filter context holds fewer of its rows than the table has. A selection of every row does not count. Used by the plan grain guard.","( t : TABLEREF ) =>
+    COUNTROWS ( t ) < CALCULATE ( COUNTROWS ( t ), REMOVEFILTERS ( t ) )",False
+"Plan.RowsInScope","The plan rows that the filter context selects, as a table of Fact Plan. Rows of an administration budget (part of resource DEL) are left out unless a plan measure has been chosen. When the plan rows are OSCAR Plans, a selection of organisation codes, control budget detail codes or economic budgets on the outturn side narrows the plan rows to the same codes, because those are the keys the source is published at. Both Plan and Plan (phased) read it, so they always add up the same rows.","( measureChosen : BOOLEAN ) =>
+    VAR OrganisationOn = Grain.IsNarrowed ( 'Organisation (as reported)' )
+    VAR OrganisationCodes = VALUES ( 'Organisation (as reported)'[Organisation Code] )
+    VAR ControlBudgetOn = Grain.IsNarrowed ( 'Control Budget' )
+    VAR ControlBudgetCodes = VALUES ( 'Control Budget'[Control Budget Detail Code] )
+    VAR EconomicBudgetOn = Grain.IsNarrowed ( 'Account' )
+    VAR EconomicBudgets = VALUES ( 'Account'[Economic Budget] )
+    RETURN
+        FILTER (
+            'Fact Plan',
+            ( measureChosen || NOT 'Fact Plan'[Is Part Of Other Measure] )
+                && ( NOT OrganisationOn || 'Fact Plan'[Plan Organisation Code] IN OrganisationCodes )
+                && ( NOT ControlBudgetOn || 'Fact Plan'[Plan Control Budget Detail] IN ControlBudgetCodes )
+                && (
+                    NOT EconomicBudgetOn
+                        || SWITCH ( 'Fact Plan'[Plan Economic Budget], ""n/a"", ""NA"", 'Fact Plan'[Plan Economic Budget] )
+                            IN EconomicBudgets
+                )
+        )",False
+"Pnl.AtPlanScope","A measure evaluated at the plan scope of the statement line in context, for the lines that sit at a published plan's grain: the economic budget RESOURCE or CAPITAL, or ALL accounts. Only the voted budgets are compared (RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME); administration rows and the OSCAR Plans measures NON_DEPT_AME, NON_BUDGET and UNCLASSIFIED are left out (the non-budget plan is gross and the outturn is net). The economic budget is a direct filter on Account, so the plan grain guard sees a selection at its grain and leaves the plan in place for OSCAR Plans years and blanks it for the later sources, which carry no economic budget. BLANK for a line without a plan scope. A selection already in the filter context on the same columns is kept (KEEPFILTERS).","( m : EXPR ) =>
+    VAR PlanScope = SELECTEDVALUE ( 'Statement Line'[Plan Scope] )
+    VAR LineType = SELECTEDVALUE ( 'Statement Line'[Line Type] )
+    VAR Amount =
+        SWITCH (
+            PlanScope,
+            ""ALL"", CALCULATE ( m, REMOVEFILTERS ( 'Statement Line' ), KEEPFILTERS ( 'Fact Plan'[Plan Measure] IN { ""RDEL"", ""RDEL_EX_DEPN"", ""CDEL"", ""RAME"", ""CAME"" } ) ),
+            ""RESOURCE"", CALCULATE ( m, REMOVEFILTERS ( 'Statement Line' ), KEEPFILTERS ( 'Fact Plan'[Plan Measure] IN { ""RDEL"", ""RDEL_EX_DEPN"", ""CDEL"", ""RAME"", ""CAME"" } ), KEEPFILTERS ( 'Account'[Economic Budget] = ""RESOURCE"" ) ),
+            ""CAPITAL"", CALCULATE ( m, REMOVEFILTERS ( 'Statement Line' ), KEEPFILTERS ( 'Fact Plan'[Plan Measure] IN { ""RDEL"", ""RDEL_EX_DEPN"", ""CDEL"", ""RAME"", ""CAME"" } ), KEEPFILTERS ( 'Account'[Economic Budget] = ""CAPITAL"" ) ),
+            BLANK ()
+        )
+    RETURN
+        IF ( ISBLANK ( LineType ) || ISBLANK ( Amount ), BLANK (), Amount * Pnl.SignFactor () )",False
+"Pnl.LineAmount","A measure evaluated for the statement line in context: over the accounts of every detail line the line adds up (the keys come from the hidden Detail Line Keys column, written |3|4|5|), in the sign the line is presented in. BLANK for a spacer, when no single line is in context, and when the measure has nothing there. A detail line sums its own accounts; a subtotal or total sums the detail lines under the lines it lists, so a total equals the sum of its members by construction and a spacer has no amount.","( m : EXPR ) =>
+    VAR LineType = SELECTEDVALUE ( 'Statement Line'[Line Type] )
+    VAR KeyList = SELECTEDVALUE ( 'Statement Line'[Detail Line Keys] )
+    VAR DetailKeys =
+        SELECTCOLUMNS (
+            FILTER (
+                ALL ( 'Statement Line'[Line Key], 'Statement Line'[Detail Line Keys] ),
+                NOT ISBLANK ( KeyList ) && CONTAINSSTRING ( KeyList, ""|"" & 'Statement Line'[Line Key] & ""|"" )
+            ),
+            ""k"", 'Statement Line'[Line Key]
+        )
+    VAR Amount =
+        CALCULATE ( m, REMOVEFILTERS ( 'Statement Line' ), TREATAS ( DetailKeys, 'Statement Line'[Line Key] ) )
+    RETURN
+        IF ( ISBLANK ( LineType ) || LineType = ""spacer"" || ISBLANK ( Amount ), BLANK (), Amount * Pnl.SignFactor () )",False
+"Pnl.SignFactor","The sign a statement line is presented in: -1 for a line shown with income positive, 1 for a line as reported (spending positive, income negative). 1 when no single line is in context.","( ) =>
+    IF ( SELECTEDVALUE ( 'Statement Line'[Sign Presentation] ) = ""income positive"", -1, 1 )",False
+"Real.Deflate","A measure in 2025-26 prices: for each financial year in context it takes the measure for that year and multiplies it by the index of 2025-26 divided by the index of the year (Real.IndexTable, default vintage), then adds the years. A month takes the index of its financial year. BLANK, never the nominal figure, when a year that has an amount has no index. The index is not related to the facts, so a measure that is deflated sums the same facts as its nominal twin.","( m : EXPR ) =>
+    VAR BaseYear = ""2025-26""
+    VAR YearsInContext = VALUES ( 'Fiscal Year'[Financial Year] )
+    VAR IndexByYear = Real.IndexTable ( UNION ( YearsInContext, ROW ( ""Financial Year"", BaseYear ) ) )
+    VAR BaseIndex = MAXX ( FILTER ( IndexByYear, [Yr] = BaseYear ), [Ix] )
+    VAR PerYear =
+        ADDCOLUMNS (
+            YearsInContext,
+            ""@Amount"", CALCULATE ( m ),
+            ""@Factor"", DIVIDE ( BaseIndex, MAXX ( FILTER ( IndexByYear, [Yr] = 'Fiscal Year'[Financial Year] ), [Ix] ) )
+        )
+    VAR WithAmount = FILTER ( PerYear, NOT ISBLANK ( [@Amount] ) )
+    VAR AnyYearWithoutIndex = COUNTROWS ( FILTER ( WithAmount, ISBLANK ( [@Factor] ) ) ) > 0
+    RETURN
+        IF ( AnyYearWithoutIndex, BLANK (), SUMX ( WithAmount, [@Amount] * [@Factor] ) )",False
+"Real.IndexTable","The deflator index for a set of financial years, from the default vintage (October 2026 Budget): a table of Yr (financial year) and Ix (the chained index, which is the published index for an outturn year and the level chained from one vintage for a forecast year). The Deflator table is related to nothing, so the years are matched with TREATAS. A year the vintage does not hold, or one that a filter on Deflator[Financial Year] has removed (test 776 uses this), is absent from the result.","( years : TABLE ) =>
+    VAR AllowedYears = VALUES ( Deflator[Financial Year] )
+    RETURN
+        CALCULATETABLE (
+            SELECTCOLUMNS ( Deflator, ""Yr"", Deflator[Financial Year], ""Ix"", Deflator[Chained Index] ),
+            REMOVEFILTERS ( Deflator ),
+            TREATAS ( years, Deflator[Financial Year] ),
+            TREATAS ( AllowedYears, Deflator[Financial Year] ),
+            Deflator[Is Default Vintage] = TRUE ()
+        )",False
+"Restate.Unflagged","A measure with the rows flagged in Data Quality Issue left out: the fact rows whose data-quality key is 0, the member that says no issue was flagged. A selection already made on the flagged rows is kept (KEEPFILTERS), so a selection of a finding gives nothing. The flagged rows are whole line-months that were reported in error and corrected in the next release (the NHS Pension Scheme lines X903A002 and X903A003), so what is left out is the line-month as a whole, not only the error.","( m : EXPR ) =>
+    CALCULATE ( m, KEEPFILTERS ( 'Fact Outturn'[Data Quality Issue Key] = 0 ) )",False
+"Window.Mtd","The month: the latest allocated month (period 1 to 12) in context, in each year in context. Period 0, which the source does not allocate to a month, is never a month; with only period 0 in context the result is BLANK.","( m : EXPR ) =>
+    VAR Years = VALUES ( 'Fiscal Period'[Financial Year] )
+    VAR LatestMonth =
+        CALCULATE ( MAX ( 'Fiscal Period'[Period Number] ), KEEPFILTERS ( 'Fiscal Period'[Period Number] >= 1 ) )
+    VAR Keys =
+        SELECTCOLUMNS (
+            FILTER (
+                ALL ( 'Fiscal Period' ),
+                NOT ISBLANK ( LatestMonth )
+                    && 'Fiscal Period'[Financial Year] IN Years
+                    && 'Fiscal Period'[Period Number] = LatestMonth
+            ),
+            ""k"", 'Fiscal Period'[Period Key]
+        )
+    RETURN
+        Window.OverPeriods ( m, Keys )",False
+"Window.OverPeriods","Evaluates a measure over a given set of fiscal periods (a table of Period Key values) in place of whatever periods the filter context selects. The years in context stay as they are. Every period-level column is cleared first, so a slicer on the month name or the quarter does not intersect with the window.","( m : EXPR, periodKeys : TABLE ) =>
+    CALCULATE (
+        m,
+        REMOVEFILTERS (
+            'Fiscal Period'[Period Key],
+            'Fiscal Period'[Period Number],
+            'Fiscal Period'[Period],
+            'Fiscal Period'[Month],
+            'Fiscal Period'[Month Start Date],
+            'Fiscal Period'[Fiscal Quarter],
+            'Fiscal Period'[Is Period 0]
+        ),
+        TREATAS ( periodKeys, 'Fiscal Period'[Period Key] )
+    )",False
+"Window.PriorYear","The same periods one financial year earlier (period 3 of 2024-25 becomes period 3 of 2023-24; a whole year becomes the whole previous year, period 0 included). The year selection moves back one year with the periods, so that Fact Plan, which is related to Fiscal Year, moves with them.","( m : EXPR ) =>
+    VAR PriorKeys =
+        SELECTCOLUMNS ( VALUES ( 'Fiscal Period'[Period Key] ), ""k"", 'Fiscal Period'[Period Key] - 100 )
+    VAR PriorStarts = SELECTCOLUMNS ( VALUES ( 'Fiscal Year' ), ""s"", 'Fiscal Year'[Year Start] - 1 )
+    VAR PriorYears =
+        SELECTCOLUMNS ( FILTER ( ALL ( 'Fiscal Year' ), 'Fiscal Year'[Year Start] IN PriorStarts ), ""y"", 'Fiscal Year'[Financial Year] )
+    RETURN
+        CALCULATE (
+            m,
+            REMOVEFILTERS ( 'Fiscal Year' ),
+            REMOVEFILTERS (
+                'Fiscal Period'[Period Key],
+                'Fiscal Period'[Period Number],
+                'Fiscal Period'[Period],
+                'Fiscal Period'[Month],
+                'Fiscal Period'[Month Start Date],
+                'Fiscal Period'[Fiscal Quarter],
+                'Fiscal Period'[Is Period 0]
+            ),
+            TREATAS ( PriorYears, 'Fiscal Year'[Financial Year] ),
+            TREATAS ( PriorKeys, 'Fiscal Period'[Period Key] )
+        )",False
+"Window.Qtd","Quarter to date: the months of the fiscal quarter of the latest allocated month in context, up to that month. The quarter comes from the month (April to June is quarter 1). Period 0 has no quarter and is never in it.","( m : EXPR ) =>
+    VAR Years = VALUES ( 'Fiscal Period'[Financial Year] )
+    VAR LatestMonth =
+        CALCULATE ( MAX ( 'Fiscal Period'[Period Number] ), KEEPFILTERS ( 'Fiscal Period'[Period Number] >= 1 ) )
+    VAR LatestQuarter =
+        MAXX ( FILTER ( ALL ( 'Fiscal Period' ), 'Fiscal Period'[Period Number] = LatestMonth ), 'Fiscal Period'[Fiscal Quarter] )
+    VAR Keys =
+        SELECTCOLUMNS (
+            FILTER (
+                ALL ( 'Fiscal Period' ),
+                NOT ISBLANK ( LatestMonth )
+                    && 'Fiscal Period'[Financial Year] IN Years
+                    && 'Fiscal Period'[Fiscal Quarter] = LatestQuarter
+                    && 'Fiscal Period'[Period Number] <= LatestMonth
+            ),
+            ""k"", 'Fiscal Period'[Period Key]
+        )
+    RETURN
+        Window.OverPeriods ( m, Keys )",False
+"Window.Rolling12","Rolling 12 months: the 12 allocated months that end at the latest allocated month in context, taking each year in context separately and crossing financial years (the window of period 3 of 2024-25 is period 4 of 2023-24 to period 3 of 2024-25). The year selection is dropped for the window, which is not a year. Period 0 is not a month and is never in the window, so at period 12 the window is the year total less period 0.","( m : EXPR ) =>
+    VAR Months =
+        ADDCOLUMNS (
+            CALCULATETABLE ( VALUES ( 'Fiscal Period'[Period Key] ), KEEPFILTERS ( 'Fiscal Period'[Period Number] >= 1 ) ),
+            ""Yr"", INT ( 'Fiscal Period'[Period Key] / 100 ),
+            ""Idx"", INT ( 'Fiscal Period'[Period Key] / 100 ) * 12 + MOD ( 'Fiscal Period'[Period Key], 100 ) - 1
+        )
+    VAR Ends = GROUPBY ( Months, [Yr], ""EndIdx"", MAXX ( CURRENTGROUP (), [Idx] ) )
+    VAR Keys =
+        SELECTCOLUMNS (
+            FILTER (
+                ALL ( 'Fiscal Period' ),
+                'Fiscal Period'[Period Number] >= 1
+                    && (
+                        VAR Idx = INT ( 'Fiscal Period'[Period Key] / 100 ) * 12 + MOD ( 'Fiscal Period'[Period Key], 100 ) - 1
+                        RETURN COUNTROWS ( FILTER ( Ends, Idx > [EndIdx] - 12 && Idx <= [EndIdx] ) ) > 0
+                    )
+            ),
+            ""k"", 'Fiscal Period'[Period Key]
+        )
+    RETURN
+        CALCULATE ( Window.OverPeriods ( m, Keys ), REMOVEFILTERS ( 'Fiscal Year' ) )",False
+"Window.Ytd","Year to date: every period of each year in context from period 0 up to the latest period in context. Period 0 (amounts not allocated to a month) is therefore counted in the year to date and in the year total.","( m : EXPR ) =>
+    VAR Years = VALUES ( 'Fiscal Period'[Financial Year] )
+    VAR LatestPeriod = MAX ( 'Fiscal Period'[Period Number] )
+    VAR Keys =
+        SELECTCOLUMNS (
+            FILTER (
+                ALL ( 'Fiscal Period' ),
+                NOT ISBLANK ( LatestPeriod )
+                    && 'Fiscal Period'[Financial Year] IN Years
+                    && 'Fiscal Period'[Period Number] <= LatestPeriod
+            ),
+            ""k"", 'Fiscal Period'[Period Key]
+        )
+    RETURN
+        Window.OverPeriods ( m, Keys )",False
