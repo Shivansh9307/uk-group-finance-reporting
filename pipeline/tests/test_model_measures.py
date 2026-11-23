@@ -30,6 +30,9 @@ CALENDAR_FUNCTIONS = (
     "DATESINPERIOD",
     "DATESBETWEEN",
 )
+# measures that return text (a label for a page) and so have no number format
+TEXT_MEASURES = {"Plan Source and Grain", "Latest Release in View"}
+
 BASE_MEASURES = {
     "Outturn": ("Fact Outturn", "Base"),
     "Outturn (plan basis)": ("Fact Outturn", "Plan"),
@@ -61,6 +64,19 @@ BASE_MEASURES = {
     "Machinery of Government Transfer": ("Fact Outturn", "Current Structure"),
     "Outturn (estimated mapping)": ("Fact Outturn", "Current Structure"),
     "Estimated Mapping Share": ("Fact Outturn", "Current Structure"),
+    "Plan Source and Grain": ("Fact Plan", "Plan"),
+    "Plan and Outturn by Scenario": ("Fact Plan", "Plan"),
+    "Variance to Phased Plan": ("Fact Plan Phased (derived)", r"Plan\Derived"),
+    "Variance to Phased Plan %": ("Fact Plan Phased (derived)", r"Plan\Derived"),
+    "Latest Release in View": ("Fact Outturn", "Report Labels"),
+    "File Total (4 decimals)": ("File Control", "Audit and control"),
+    "Outturn as at Release (own year)": ("File Control", "Audit and control"),
+    "Difference to File Total": ("File Control", "Audit and control"),
+    "Plan Coverage Total": ("Plan Coverage", "Audit and control"),
+    "Rows Read": ("Load Control", "Audit and control"),
+    "Rows Loaded": ("Load Control", "Audit and control"),
+    "Rows Quarantined": ("Load Control", "Audit and control"),
+    "Web Rows Quarantined": ("Load Control", "Audit and control"),
     "Department Group Rank (YTD Variance %)": ("Fact Outturn", "Plan\\Ranking"),
     "Outturn (real terms)": ("Fact Outturn", "Real Terms"),
     "Outturn (plan basis) (real terms)": ("Fact Outturn", "Real Terms"),
@@ -249,7 +265,7 @@ def test_the_base_measures_exist_in_their_homes_with_a_folder(measures):
 def test_every_measure_has_a_description_a_format_string_and_a_lineage_tag(measures):
     for m in measures:
         assert len(m.description) >= 60, f"{m.name}: a measure states what it is, its unit and its sign"
-        assert m.props.get("formatString"), f"{m.name}: no format string"
+        assert m.props.get("formatString") or m.name in TEXT_MEASURES, f"{m.name}: no format string"
         assert m.props.get("lineageTag"), f"{m.name}: no lineage tag"
 
 
@@ -288,7 +304,8 @@ def test_outturn_is_a_plain_sum_of_the_deltas_and_never_filters_releases(measure
 def test_no_format_string_scales_with_a_comma(measures, items, functions):
     # a comma after the last digit placeholder divides by 1,000 on the engine and prints a wrong number on the canvas
     scaling = re.compile(r"[0#],(?![0#])")
-    formats = [m.props["formatString"] for m in measures] + [i.format_expression for i in items]
+    formats = [m.props["formatString"] for m in measures if m.name not in TEXT_MEASURES]
+    formats += [i.format_expression for i in items]
     for body in functions.values():
         for literal in re.findall(r'"((?:[^"]|"")*)"', body):
             if "£" in literal or "%" in literal:
@@ -386,7 +403,7 @@ def test_the_grain_guard_is_written_once_and_both_plan_measures_call_it(measures
     assert "Grain.BelowGrain ( FALSE () )" in plan.expression
     assert "Grain.BelowGrain ( TRUE () )" in phased.expression
     for m in measures:
-        if m.name not in ("Plan", "Plan (phased)", "Plan Below Grain"):
+        if m.name not in ("Plan", "Plan (phased)", "Plan Below Grain", "Plan Source and Grain"):
             assert "Grain.BelowGrain" not in m.expression, m.name
     # the rows of the plan that are added up are chosen in one place, for both measures
     assert "Plan.RowsInScope" in plan.expression and "Plan.RowsInScope" in phased.expression

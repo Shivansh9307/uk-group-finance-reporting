@@ -15,6 +15,8 @@
 //   Restatement\Excluding flagged rows
 //   Current Structure             department structure as reported and as it is now
 //   Real Terms                    every measure whose name ends in " (real terms)"
+//   Report Labels                 text for page headers (the latest release in view)
+//   Audit and control             the data-controls tables (file, plan coverage, annual, PSS and load controls)
 //
 // A visible measure that is neither in the table nor a real-terms measure makes the script fail
 // with the list of such measures, and so does a name in the table that is not a measure of the
@@ -56,7 +58,20 @@ var folderOf = new Dictionary<string, string>
     { "Outturn (as reported structure)", "Current Structure" },
     { "Machinery of Government Transfer", "Current Structure" },
     { "Outturn (estimated mapping)", "Current Structure" },
-    { "Estimated Mapping Share", "Current Structure" }
+    { "Estimated Mapping Share", "Current Structure" },
+    { "Plan Source and Grain", "Plan" },
+    { "Plan and Outturn by Scenario", "Plan" },
+    { "Variance to Phased Plan", @"Plan\Derived" },
+    { "Variance to Phased Plan %", @"Plan\Derived" },
+    { "Latest Release in View", "Report Labels" },
+    { "File Total (4 decimals)", "Audit and control" },
+    { "Outturn as at Release (own year)", "Audit and control" },
+    { "Difference to File Total", "Audit and control" },
+    { "Plan Coverage Total", "Audit and control" },
+    { "Rows Read", "Audit and control" },
+    { "Rows Loaded", "Audit and control" },
+    { "Rows Quarantined", "Audit and control" },
+    { "Web Rows Quarantined", "Audit and control" }
 };
 const string RealTermsSuffix = " (real terms)";
 const string RealTermsFolder = "Real Terms";

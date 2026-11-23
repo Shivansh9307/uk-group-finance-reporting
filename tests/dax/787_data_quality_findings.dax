@@ -1,0 +1,16 @@
+// The Data Quality Issue table without the "No issue flagged" member: the nine findings with the release pair, the
+// line, the period and the amounts before and after.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER ( 'Data Quality Issue', 'Data Quality Issue'[Data Quality Issue Key] <> 0 ),
+    "issue_key", 'Data Quality Issue'[Data Quality Issue Key],
+    "issue_rule", 'Data Quality Issue'[Issue Rule],
+    "issue_type", 'Data Quality Issue'[Issue Type],
+    "release_from", 'Data Quality Issue'[Release From],
+    "release_to", 'Data Quality Issue'[Release To],
+    "sub_segment", 'Data Quality Issue'[Sub-Segment Code],
+    "amount_before", 'Data Quality Issue'[Amount Before],
+    "amount_after", 'Data Quality Issue'[Amount After],
+    "rows_affected", 'Data Quality Issue'[Rows Affected]
+)
+ORDER BY [issue_key]

@@ -1,14 +1,24 @@
 CUBE_NAME,MEASURE_NAME
+Data Controls,Difference to File Total
 Data Controls,Estimated Mapping Share
+Data Controls,File Total (4 decimals)
 Data Controls,Gross Revision in Release
 Data Controls,Gross Revision in Release (excl. flagged)
 Data Controls,Outturn
 Data Controls,Outturn as at Release
+Data Controls,Outturn as at Release (own year)
 Data Controls,Plan
 Data Controls,Plan Below Grain
+Data Controls,Plan Coverage Total
+Data Controls,Plan Source and Grain
 Data Controls,Restatement in Release
 Data Controls,Revision in Release
+Data Controls,Rows Loaded
+Data Controls,Rows Quarantined
+Data Controls,Rows Read
+Data Controls,Web Rows Quarantined
 Executive,Comparison Amount
+Executive,Latest Release in View
 Executive,Outturn
 Executive,Outturn (current structure)
 Executive,Outturn (current structure) (real terms)
@@ -18,6 +28,7 @@ Executive,Outturn (real terms)
 Executive,Plan
 Executive,Plan (real terms)
 Executive,Plan Below Grain
+Executive,Plan Source and Grain
 Executive,Statement Amount
 Executive,Statement Amount (plan basis)
 Executive,Statement Amount (real terms)

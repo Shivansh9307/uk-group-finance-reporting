@@ -1,0 +1,16 @@
+// The Data Controls table Annual Control: the in-year outturn of each financial year against the restated annual file, by
+// vintage and level (60 rows), with the gap and its share in parts per million.
+EVALUATE
+SELECTCOLUMNS (
+    'Annual Control',
+    "financial_year", 'Annual Control'[Financial Year],
+    "vintage", 'Annual Control'[Vintage],
+    "level", 'Annual Control'[Level],
+    "inyear_release", 'Annual Control'[In-Year Release],
+    "inyear_amount", 'Annual Control'[In-Year Amount],
+    "annual_amount", 'Annual Control'[Annual Amount],
+    "gap", 'Annual Control'[Gap],
+    "gap_share_ppm", 'Annual Control'[Gap Share] * 1000000,
+    "status", 'Annual Control'[Status]
+)
+ORDER BY [financial_year], [vintage], [level], [inyear_release]

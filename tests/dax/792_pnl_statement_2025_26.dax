@@ -1,0 +1,28 @@
+// The statement matrix of the P&L page, 2025-26, line by line: statement amount, plan, variance, variance % (parts per
+// million) and the statement amount of the previous year (OFFSET), for every line that has an amount or a plan. Spacer
+// lines have no amount and drop out. The expected values are dw.v_statement_pnl.
+DEFINE
+    MEASURE 'Fact Outturn'[Test Variance Pct] =
+        IF ( ISBLANK ( [Statement Variance %] ), BLANK (), [Statement Variance %] * 1000000 )
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Statement Line'[Line Id],
+            TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ),
+            "amount", [Statement Amount],
+            "plan", [Statement Plan],
+            "variance", [Statement Variance],
+            "variance_ppm", [Test Variance Pct],
+            "previous", [Statement Amount PY (OFFSET)]
+        ),
+        NOT ISBLANK ( [amount] ) || NOT ISBLANK ( [plan] )
+    ),
+    "line_id", 'Statement Line'[Line Id],
+    "amount", [amount],
+    "plan", [plan],
+    "variance", [variance],
+    "variance_ppm", [variance_ppm],
+    "previous", [previous]
+)
+ORDER BY [line_id]

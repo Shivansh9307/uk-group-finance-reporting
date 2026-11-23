@@ -1,0 +1,25 @@
+// The Data Controls table File Control, one row per release: the rows the load read, loaded and quarantined, the file's
+// own sum as text, the file total to four decimals, the model's as-at outturn of the release's own year and their
+// difference (the measures File Total (4 decimals), Outturn as at Release (own year) and Difference to File Total).
+EVALUATE
+SELECTCOLUMNS (
+    ADDCOLUMNS (
+        SELECTCOLUMNS ( 'Release', "release", 'Release'[Release Label] ),
+        "rows_read", CALCULATE ( SUM ( 'File Control'[Rows Read] ) ),
+        "rows_loaded", CALCULATE ( SUM ( 'File Control'[Rows Loaded] ) ),
+        "rows_quarantined", CALCULATE ( SUM ( 'File Control'[Rows Quarantined] ) ),
+        "file_sum_exact", CALCULATE ( MAXX ( 'File Control', 'File Control'[File Sum (exact)] ) ),
+        "file_total", CALCULATE ( [File Total (4 decimals)] ),
+        "as_at", CALCULATE ( [Outturn as at Release (own year)] ),
+        "difference", CALCULATE ( [Difference to File Total] )
+    ),
+    "release", [release],
+    "rows_read", [rows_read],
+    "rows_loaded", [rows_loaded],
+    "rows_quarantined", [rows_quarantined],
+    "file_sum_exact", [file_sum_exact],
+    "file_total", [file_total],
+    "as_at", [as_at],
+    "difference", [difference]
+)
+ORDER BY [release]

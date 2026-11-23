@@ -1,0 +1,13 @@
+// The restatements page's fixed-release card: the outturn of 2025-26 as the March 2026 release stated it, as first
+// reported up to that release, and the revision between them.
+EVALUATE
+SELECTCOLUMNS (
+    UNION (
+        ROW ( "item", "as_at", "value", CALCULATE ( [Outturn as at Release], 'Release'[Release Label] = "2026-03", 'Fiscal Year'[Financial Year] = "2025-26" ) ),
+        ROW ( "item", "first_reported", "value", CALCULATE ( [Outturn as First Reported], 'Release'[Release Label] = "2026-03", 'Fiscal Year'[Financial Year] = "2025-26" ) ),
+        ROW ( "item", "revision", "value", CALCULATE ( [Revision since First Reported], 'Release'[Release Label] = "2026-03", 'Fiscal Year'[Financial Year] = "2025-26" ) )
+    ),
+    "item", [item],
+    "value", [value]
+)
+ORDER BY [item]

@@ -1,0 +1,27 @@
+// The eleven figures of the executive page's two card rows. Row A: financial year 2025-26, the latest full year, as the
+// latest release states it: outturn of all budgets, outturn on the plan's basis, the plan, the variance and its
+// percentage (parts per million) and the outturn in 2025-26 prices. Row B: financial year 2026-27 to period 3 (June 2026,
+// the latest period the September 2026 release reports), year to date under Time Intelligence: outturn on the plan's
+// basis, the phased plan (derived), the variance to it and its percentage, and the outturn in 2025-26 prices.
+DEFINE
+    MEASURE 'Fact Outturn'[Test Variance Pct] =
+        IF ( ISBLANK ( [Variance to Phased Plan %] ), BLANK (), [Variance to Phased Plan %] * 1000000 )
+EVALUATE
+SELECTCOLUMNS (
+    UNION (
+        ROW ( "card", "a_outturn", "value", CALCULATE ( [Outturn], 'Fiscal Year'[Financial Year] = "2025-26" ) ),
+        ROW ( "card", "a_outturn_plan_basis", "value", CALCULATE ( [Comparison Amount], 'Fiscal Year'[Financial Year] = "2025-26", 'Scenario Comparison'[Comparison] = "Actual" ) ),
+        ROW ( "card", "a_plan", "value", CALCULATE ( [Plan], 'Fiscal Year'[Financial Year] = "2025-26" ) ),
+        ROW ( "card", "a_variance", "value", CALCULATE ( [Comparison Amount], 'Fiscal Year'[Financial Year] = "2025-26", 'Scenario Comparison'[Comparison] = "Variance" ) ),
+        ROW ( "card", "a_variance_ppm", "value", CALCULATE ( [Comparison Amount], 'Fiscal Year'[Financial Year] = "2025-26", 'Scenario Comparison'[Comparison] = "Variance %" ) * 1000000 ),
+        ROW ( "card", "a_real", "value", CALCULATE ( [Outturn (real terms)], 'Fiscal Year'[Financial Year] = "2025-26" ) ),
+        ROW ( "card", "b_outturn_plan_basis", "value", CALCULATE ( [Outturn (plan basis)], 'Fiscal Year'[Financial Year] = "2026-27", 'Fiscal Period'[Period Number] = 3, 'Time Intelligence'[Time Calculation] = "YTD" ) ),
+        ROW ( "card", "b_phased_plan", "value", CALCULATE ( [Plan (phased)], 'Fiscal Year'[Financial Year] = "2026-27", 'Fiscal Period'[Period Number] = 3, 'Time Intelligence'[Time Calculation] = "YTD" ) ),
+        ROW ( "card", "b_variance", "value", CALCULATE ( [Variance to Phased Plan], 'Fiscal Year'[Financial Year] = "2026-27", 'Fiscal Period'[Period Number] = 3, 'Time Intelligence'[Time Calculation] = "YTD" ) ),
+        ROW ( "card", "b_variance_ppm", "value", CALCULATE ( [Test Variance Pct], 'Fiscal Year'[Financial Year] = "2026-27", 'Fiscal Period'[Period Number] = 3, 'Time Intelligence'[Time Calculation] = "YTD" ) ),
+        ROW ( "card", "b_real", "value", CALCULATE ( [Outturn (real terms)], 'Fiscal Year'[Financial Year] = "2026-27", 'Fiscal Period'[Period Number] = 3, 'Time Intelligence'[Time Calculation] = "YTD" ) )
+    ),
+    "card", [card],
+    "value", [value]
+)
+ORDER BY [card]

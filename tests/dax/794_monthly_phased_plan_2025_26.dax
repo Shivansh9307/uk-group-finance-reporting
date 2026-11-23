@@ -1,0 +1,21 @@
+// The group drill-through page, all groups, 2025-26: for each period 1 to 12, the outturn on the plan's basis, the phased
+// plan (derived, never published) and the variance to it.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Fiscal Period'[Period Number],
+            TREATAS ( { "2025-26" }, 'Fiscal Period'[Financial Year] ),
+            TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ),
+            "o", [Outturn (plan basis)],
+            "p", [Plan (phased)],
+            "v", [Variance to Phased Plan]
+        ),
+        'Fiscal Period'[Period Number] >= 1
+    ),
+    "period", 'Fiscal Period'[Period Number],
+    "outturn_plan_basis", [o],
+    "phased_plan", [p],
+    "variance", [v]
+)
+ORDER BY [period]

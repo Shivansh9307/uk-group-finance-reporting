@@ -1,0 +1,14 @@
+// The Data Controls table Plan Coverage: what the plan fact holds by plan source, financial year, measure and grain
+// (69 rows): fact rows, source lines and the total through the measure Plan Coverage Total.
+EVALUATE
+SELECTCOLUMNS (
+    'Plan Coverage',
+    "plan_source_code", 'Plan Coverage'[Plan Source Code],
+    "financial_year", 'Plan Coverage'[Financial Year],
+    "measure", 'Plan Coverage'[Plan Measure],
+    "grain", 'Plan Coverage'[Grain Code],
+    "fact_rows", 'Plan Coverage'[Fact Rows],
+    "source_lines", 'Plan Coverage'[Source Lines],
+    "amount_total", [Plan Coverage Total]
+)
+ORDER BY [plan_source_code], [financial_year], [measure], [grain]

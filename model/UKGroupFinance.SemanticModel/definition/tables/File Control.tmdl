@@ -1,0 +1,107 @@
+/// AUDIT and CONTROL, no new number: one row per OSCAR in-year release file with the rows the load read, loaded and quarantined, the file's own total as the text the control produced and as four decimals, and a measure that sets the model's as-at outturn of the release's own year beside the file total. Source view dw.v_model_file_control (audit.file_control).
+table 'File Control'
+	lineageTag: 509dfb04-1c63-5c12-ba03-950625846e61
+
+	/// The total the release file reports, rounded to four decimals as the warehouse stores it, in GBP thousands. Rounding the exact source sum moves a file total by up to about 5.44 (GBP thousands), which is why the exact sum is shown beside it.
+	measure 'File Total (4 decimals)' = SUM ( 'File Control'[File Total Value] )
+		formatString: £#,##0.0000"k";-£#,##0.0000"k"
+		displayFolder: Audit and control
+		lineageTag: fd67ceb6-018e-59a9-9d65-17d13f845082
+
+	/// Outturn as at Release for the financial year of the release in context: what the model says that release reported, to set beside the file's own total. Needs one release in context.
+	measure 'Outturn as at Release (own year)' =
+			VAR OwnYear = MAX ( Release[Release Financial Year] )
+			RETURN CALCULATE ( [Outturn as at Release], 'Fiscal Year'[Financial Year] = OwnYear )
+		formatString: £#,##0.0000"k";-£#,##0.0000"k"
+		displayFolder: Audit and control
+		lineageTag: 143fccf2-e669-577d-96fd-4ffc3ab585be
+
+	/// Outturn as at Release (own year) less the file's total, GBP thousands. 0 when the model reproduces the release file; the test that proves it for all 31 releases is tests/dax/780.
+	measure 'Difference to File Total' =
+			VAR AsAt = [Outturn as at Release (own year)]
+			VAR FileTotal = [File Total (4 decimals)]
+			RETURN IF ( ISBLANK ( AsAt ) || ISBLANK ( FileTotal ), BLANK (), AsAt - FileTotal )
+		formatString: £#,##0.0000"k";-£#,##0.0000"k";£0.0000"k"
+		displayFolder: Audit and control
+		lineageTag: f9a37db2-69d5-57f8-9ff8-72a819abef01
+
+	/// Release this file belongs to.
+	column 'Release Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: 9f5a1f71-f1f6-5bcd-9f48-6d7ae3955acd
+		summarizeBy: none
+		sourceColumn: release_key
+
+	/// File the release was read from.
+	column 'File Name'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: dc6fd160-91e2-5c94-bcbb-e7fb51940285
+		summarizeBy: none
+		sourceColumn: filename
+
+	/// Data rows read from the file.
+	column 'Rows Read'
+		dataType: int64
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: 8fc543fe-797a-54cf-9889-67f1d8b79b57
+		summarizeBy: none
+		sourceColumn: rows_read
+
+	/// Rows loaded into the warehouse.
+	column 'Rows Loaded'
+		dataType: int64
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: efa8e4b1-1501-5129-aac9-555a70ca4ddc
+		summarizeBy: none
+		sourceColumn: rows_loaded
+
+	/// Rows rejected into quarantine with a reason; 0 for every release.
+	column 'Rows Quarantined'
+		dataType: int64
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: 5bc7691f-00a0-58e9-be16-abaed8ceb6d1
+		summarizeBy: none
+		sourceColumn: rows_quarantined
+
+	/// The sum of the file's amounts as the control produced it, with every decimal of the source (text, GBP thousands).
+	column 'File Sum (exact)'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: d389171a-ec9b-5fc9-8f1f-80a5134a3a6b
+		summarizeBy: none
+		sourceColumn: amount_sum_exact
+
+	/// The file's total rounded to four decimals, GBP thousands. Hidden: use the measure File Total (4 decimals).
+	column 'File Total Value'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: f14ee6c1-77b5-57c2-8b2e-2b61d9033a7b
+		summarizeBy: none
+		sourceColumn: file_total_4dp
+
+	/// pass when the hash, the rows, the zero rows and both sums agree with the control files.
+	column Status
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: bc088394-26c6-574a-880d-61666b6ded76
+		summarizeBy: none
+		sourceColumn: overall_status
+
+	partition 'File Control' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_file_control"]}[Data]
+				in
+				    Data
+

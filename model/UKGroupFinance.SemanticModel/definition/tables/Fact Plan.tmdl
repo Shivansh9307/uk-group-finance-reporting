@@ -34,6 +34,38 @@ table 'Fact Plan'
 		displayFolder: Real Terms
 		lineageTag: 511cc7f2-aada-4b90-ab0a-ddc4c38f90c6
 
+	/// The plan badge: the plan source and edition, and the grain it is published at, of the plan rows in the filter context (the year in view), for example a Supplementary Estimate at financial year x department group x measure. Several sources are joined with a semicolon. When the selection is finer than the plan's grain the text says the plan is blank, in the words the Plan measure follows. It is a label and holds no amount.
+	measure 'Plan Source and Grain' =
+			VAR Sources =
+			    CALCULATETABLE (
+			        SUMMARIZE ( 'Fact Plan', 'Plan Source'[Plan Source], 'Plan Grain'[Plan Grain] ),
+			        Plan.RowsInScope ( ISFILTERED ( 'Fact Plan'[Plan Measure] ) )
+			    )
+			VAR Names =
+			    CONCATENATEX ( Sources, 'Plan Source'[Plan Source] & " at " & 'Plan Grain'[Plan Grain], "; ", 'Plan Source'[Plan Source], ASC )
+			RETURN
+			    IF (
+			        COUNTROWS ( Sources ) = 0,
+			        "No plan is published for this selection",
+			        Names & IF ( Grain.BelowGrain ( FALSE () ), ". The selection is finer than the plan's grain, so the plan is blank.", "" )
+			    )
+		displayFolder: Plan
+		lineageTag: 1a3ab78d-79bd-5a08-9a33-e185c74c6310
+
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["UKFR_MEASURE_FOLDER_AND_FORMAT","UKFR_MEASURE_FORMAT_IN_SET"]}
+
+	/// Plan on the Plan scenario and outturn on the plan's basis on the Outturn scenario (read with the Scenario filter removed, because the plan rows that define the basis sit on the Plan scenario), in one measure, so that a waterfall can take Scenario as its category and a department group as its breakdown. BLANK for every other scenario and when more than one scenario is in context. Plan keeps its grain guard, so it is BLANK where it is not published.
+	measure 'Plan and Outturn by Scenario' =
+			SWITCH (
+			    SELECTEDVALUE ( Scenario[Scenario] ),
+			    "Plan", [Plan],
+			    "Outturn", CALCULATE ( [Outturn (plan basis)], REMOVEFILTERS ( Scenario ) ),
+			    BLANK ()
+			)
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Plan
+		lineageTag: 05570420-11de-50a0-970d-a9a6a7634367
+
 	/// [Statement Plan] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.
 	measure 'Statement Plan (real terms)' = Real.Deflate ( [Statement Plan] )
 		formatString: £#,##0"k";-£#,##0"k";£0"k"

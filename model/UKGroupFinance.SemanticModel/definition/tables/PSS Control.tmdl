@@ -1,0 +1,122 @@
+/// AUDIT and CONTROL, no new number: the Public Spending Statistics database against OSCAR outturn by financial year, Spending Review group and measure (resource DEL excluding depreciation, capital DEL), with the gap and the graded total rows. The known capital DEL gaps of 2023-24 and 2024-25 are in it, not hidden. Full-scope build only. Source view dw.v_model_pss_control (audit.pss_vs_outturn).
+table 'PSS Control'
+	lineageTag: 45e7e7e0-ed12-5122-ac52-6288bfb25d8c
+
+	/// BUD (against the annual file) or IN-YEAR (against the June in-year release of the following year).
+	column Comparison
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 3544dfb1-8652-5b0f-9d68-584c1ad55ce6
+		summarizeBy: none
+		sourceColumn: comparison
+
+	/// Financial year compared.
+	column 'Financial Year'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: c8abfa61-d5a2-5bcb-895c-27e2cdc2317c
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	/// The annual vintage or in-year release the OSCAR side is read from.
+	column 'Source Release'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 909d7e83-da72-52d1-973f-387113d0762b
+		summarizeBy: none
+		sourceColumn: source_release
+
+	/// SR GROUP, TOTAL or TOTAL EXCL SCOTLAND; only the last is graded.
+	column Level
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 5dc7cba2-1427-57bc-9745-7bc2427cdb0d
+		summarizeBy: none
+		sourceColumn: level
+
+	/// Spending Review group, or the total.
+	column 'Spending Review Group'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: a5b31d69-bd22-5c82-814f-4eb43e7c45d9
+		summarizeBy: none
+		sourceColumn: sr_group_name
+
+	/// RDEL_EX_DEPN or CDEL.
+	column Measure
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 8c8a8f2c-c943-55b8-af44-01f99b962542
+		summarizeBy: none
+		sourceColumn: measure
+
+	/// Public Spending Statistics, GBP thousands.
+	column 'PSS Amount'
+		dataType: decimal
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: 845481f3-9df8-55dc-80bc-892c30b14f7e
+		summarizeBy: none
+		sourceColumn: pss_amount
+
+	/// OSCAR outturn on the same basis, GBP thousands.
+	column 'OSCAR Amount'
+		dataType: decimal
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: 2dc5e8c1-988a-5ee9-9647-ea20e85f6532
+		summarizeBy: none
+		sourceColumn: oscar_amount
+
+	/// PSS less OSCAR, GBP thousands.
+	column Gap
+		dataType: decimal
+		formatString: #,##0;-#,##0
+		displayFolder: Audit and control
+		lineageTag: f733181e-8d8c-53d2-8ee5-5f8f8aa05e99
+		summarizeBy: none
+		sourceColumn: gap
+
+	/// Gap as a share of the OSCAR amount.
+	column 'Gap Share'
+		dataType: double
+		formatString: 0.00%
+		displayFolder: Audit and control
+		lineageTag: 79af5f87-585f-5e61-8f80-afcc47ba8de0
+		summarizeBy: none
+		sourceColumn: gap_share_of_oscar
+
+	/// 0.1% from 2023-24 and 1% before on the graded row; empty on recorded rows.
+	column Tolerance
+		dataType: double
+		formatString: 0.0%
+		displayFolder: Audit and control
+		lineageTag: 601b5bbd-a7b5-58e9-8b27-016c065d4fc2
+		summarizeBy: none
+		sourceColumn: tolerance_share
+
+	/// pass or fail on the graded row, recorded on the others.
+	column Status
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 592e6aa0-0b8e-5f63-97df-45966de8197c
+		summarizeBy: none
+		sourceColumn: status
+
+	/// Which OSCAR basis the row uses.
+	column 'Basis Note'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 1edf9a32-06c5-58dd-8303-dfc9123f512f
+		summarizeBy: none
+		sourceColumn: basis_note
+
+	partition 'PSS Control' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_pss_control"]}[Data]
+				in
+				    Data
+

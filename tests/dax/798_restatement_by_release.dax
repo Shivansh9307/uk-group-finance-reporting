@@ -1,0 +1,18 @@
+// The restatements page's series by release: the change the release made (net), the part of it that restated earlier
+// figures (net), and the gross restatement with and without the rows flagged in Data Quality Issue.
+EVALUATE
+SELECTCOLUMNS (
+    ADDCOLUMNS (
+        SELECTCOLUMNS ( 'Release', "release", 'Release'[Release Label] ),
+        "revision", CALCULATE ( [Revision in Release] ),
+        "restatement", CALCULATE ( [Restatement in Release] ),
+        "gross_restatement", CALCULATE ( [Gross Restatement in Release] ),
+        "gross_restatement_excl", CALCULATE ( [Gross Restatement in Release (excl. flagged)] )
+    ),
+    "release", [release],
+    "revision", [revision],
+    "restatement", [restatement],
+    "gross_restatement", [gross_restatement],
+    "gross_restatement_excl", [gross_restatement_excl]
+)
+ORDER BY [release]

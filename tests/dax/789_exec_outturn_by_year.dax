@@ -1,0 +1,13 @@
+// The executive page's line of outturn by financial year, nominal and in 2025-26 prices, 2018-19 to 2025-26 (the years
+// with a full outturn; 2026-27 is a year to date and is left out of the chart).
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        ADDCOLUMNS ( VALUES ( 'Fiscal Year'[Financial Year] ), "o", [Outturn], "r", [Outturn (real terms)] ),
+        'Fiscal Year'[Financial Year] >= "2018-19" && 'Fiscal Year'[Financial Year] <= "2025-26" && NOT ISBLANK ( [o] )
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "outturn", [o],
+    "outturn_real", [r]
+)
+ORDER BY [financial_year]

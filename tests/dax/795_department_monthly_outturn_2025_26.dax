@@ -1,0 +1,23 @@
+// The department drill-through page with no department selected, 2025-26: the outturn of the current structure by period
+// (0 is the amounts the source does not allocate to a month) and the year to date at period 12.
+EVALUATE
+SELECTCOLUMNS (
+    UNION (
+        SELECTCOLUMNS (
+            FILTER (
+                SUMMARIZECOLUMNS (
+                    'Fiscal Period'[Period Number],
+                    TREATAS ( { "2025-26" }, 'Fiscal Period'[Financial Year] ),
+                    "o", [Outturn (current structure)]
+                ),
+                NOT ISBLANK ( [o] )
+            ),
+            "item", "p" & FORMAT ( 'Fiscal Period'[Period Number], "00" ),
+            "value", [o]
+        ),
+        ROW ( "item", "ytd_p12", "value", CALCULATE ( [Outturn (current structure)], 'Fiscal Year'[Financial Year] = "2025-26", 'Fiscal Period'[Period Number] = 12, 'Time Intelligence'[Time Calculation] = "YTD" ) )
+    ),
+    "item", [item],
+    "value", [value]
+)
+ORDER BY [item]

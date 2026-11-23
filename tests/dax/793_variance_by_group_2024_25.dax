@@ -1,0 +1,27 @@
+// The variance page's figures for 2024-25 by Spending Review group (the waterfall's two scenarios, the variance bar and
+// the decomposition tree's first level): outturn on the plan's basis, plan, variance and variance % (parts per million),
+// for the groups that have a plan.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Spending Review Group'[Spending Review Group],
+            TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ),
+            "outturn_plan_basis", [Outturn (plan basis)],
+            "plan", [Plan],
+            "variance", CALCULATE ( [Comparison Amount], 'Scenario Comparison'[Comparison] = "Variance" ),
+            "variance_ppm", CALCULATE ( [Comparison Amount], 'Scenario Comparison'[Comparison] = "Variance %" ) * 1000000,
+            "waterfall_plan", CALCULATE ( [Plan and Outturn by Scenario], Scenario[Scenario] = "Plan" ),
+            "waterfall_outturn", CALCULATE ( [Plan and Outturn by Scenario], Scenario[Scenario] = "Outturn" )
+        ),
+        NOT ISBLANK ( [plan] )
+    ),
+    "group", 'Spending Review Group'[Spending Review Group],
+    "outturn_plan_basis", [outturn_plan_basis],
+    "plan", [plan],
+    "variance", [variance],
+    "variance_ppm", [variance_ppm],
+    "waterfall_plan", [waterfall_plan],
+    "waterfall_outturn", [waterfall_outturn]
+)
+ORDER BY [group]

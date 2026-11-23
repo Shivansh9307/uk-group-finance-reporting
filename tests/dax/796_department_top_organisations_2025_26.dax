@@ -1,0 +1,20 @@
+// The ten organisations (as reported) with the largest outturn in 2025-26, the department drill-through page's table with
+// no department selected. Organisations are grouped by name, across the versions of their code.
+EVALUATE
+SELECTCOLUMNS (
+    TOPN (
+        10,
+        FILTER (
+            SUMMARIZECOLUMNS (
+                'Organisation (as reported)'[Organisation],
+                TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ),
+                "o", [Outturn]
+            ),
+            NOT ISBLANK ( [o] )
+        ),
+        [o], DESC
+    ),
+    "organisation", 'Organisation (as reported)'[Organisation],
+    "outturn", [o]
+)
+ORDER BY [outturn] DESC

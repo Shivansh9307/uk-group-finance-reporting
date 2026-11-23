@@ -1,0 +1,19 @@
+// The Data Controls table PSS Control: the Public Spending Statistics database against OSCAR outturn by year, Spending
+// Review group and measure (443 rows), with the gap and its share in parts per million. The known capital DEL gaps of
+// 2023-24 and 2024-25 are rows of it.
+EVALUATE
+SELECTCOLUMNS (
+    'PSS Control',
+    "comparison", 'PSS Control'[Comparison],
+    "financial_year", 'PSS Control'[Financial Year],
+    "source_release", 'PSS Control'[Source Release],
+    "level", 'PSS Control'[Level],
+    "group", 'PSS Control'[Spending Review Group],
+    "measure", 'PSS Control'[Measure],
+    "pss_amount", 'PSS Control'[PSS Amount],
+    "oscar_amount", 'PSS Control'[OSCAR Amount],
+    "gap", 'PSS Control'[Gap],
+    "gap_share_ppm", 'PSS Control'[Gap Share] * 1000000,
+    "status", 'PSS Control'[Status]
+)
+ORDER BY [comparison], [financial_year], [level], [group], [measure]

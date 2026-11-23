@@ -18,3 +18,7 @@ table:Account,SNOWFLAKE_SCHEMA_ARCHITECTURE,"Account relates to Statement Line, 
 column:Plan Grain[Grain Code],UKFR_RELATIONSHIP_COLUMNS_HIDDEN,The grain code (A to D) is the key of Plan Grain and also the label that people read next to the grain name.
 column:Account[Source Codes],UNNECESSARY_COLUMNS,"A hidden column that carries the spellings of the code in the releases from the warehouse view, so that a person inspecting the model can see them; no measure uses it."
 column:Data Quality Issue[Period Key],UNNECESSARY_COLUMNS,"A hidden column that carries the period of a finding from the warehouse view, for the same reason; no measure or relationship uses it."
+measure:Fact Plan[Plan Source and Grain],UKFR_MEASURE_FOLDER_AND_FORMAT,"A text measure: it returns a label for a page and not a number, so it has no number format."
+measure:Fact Plan[Plan Source and Grain],UKFR_MEASURE_FORMAT_IN_SET,"A text measure: it returns a label for a page and not a number, so it has no number format."
+measure:Fact Outturn[Latest Release in View],UKFR_MEASURE_FOLDER_AND_FORMAT,"A text measure: it returns a label for a page and not a number, so it has no number format."
+measure:Fact Outturn[Latest Release in View],UKFR_MEASURE_FORMAT_IN_SET,"A text measure: it returns a label for a page and not a number, so it has no number format."

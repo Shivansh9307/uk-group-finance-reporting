@@ -1,0 +1,99 @@
+/// AUDIT and CONTROL, no new number: the rows read, loaded and quarantined of every in-year release file and every annual restated file, and two counts of the rows that the web-read deflator and CPI loads rejected. Nothing is dropped silently: a rejected row is counted here and kept in a quarantine table. Full-scope build only. Source view dw.v_model_load_control (audit.file_control and audit.bud_file_control).
+table 'Load Control'
+	lineageTag: b9c5cb1e-f36c-5ad7-9c6e-f07a61ef33d9
+
+	/// Data rows read from the files in context: the rows of the source file after its header, before any row is rejected.
+	measure 'Rows Read' = SUM ( 'Load Control'[Rows Read Value] )
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: 89aece54-6d7a-5a5a-8172-0cd4dbddc0e0
+
+	/// Rows loaded into the warehouse from the files in context; with the rows quarantined they add up to the rows read.
+	measure 'Rows Loaded' = SUM ( 'Load Control'[Rows Loaded Value] )
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: 39227c71-a5be-573f-9806-960832c43b69
+
+	/// Rows rejected into quarantine from the files in context, each kept with its reason; 0 for every file in the data.
+	measure 'Rows Quarantined' = SUM ( 'Load Control'[Rows Quarantined Value] ) + 0
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: 713bdfb9-8595-5770-9677-cf2c3ab3cec3
+
+	/// Rows of the deflator workbooks and the CPI series that did not parse: the rows of Deflator Quarantine and CPI Quarantine. 0 when every row parses.
+	measure 'Web Rows Quarantined' = COUNTROWS ( 'Deflator Quarantine' ) + COUNTROWS ( 'CPI Quarantine' ) + 0
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: 35c04d9f-14f7-5679-b230-ae2f0869c143
+
+	/// In-year release or annual restated file.
+	column 'Source Family'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: d8257c9f-9606-5fd1-a8ce-e15857792e2f
+		summarizeBy: none
+		sourceColumn: source_family
+
+	/// Release (yyyy-mm) of an in-year file; vintage and financial year of an annual file.
+	column 'Source Period'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 4917f37a-bccb-54f3-ae7a-7c66b17845ca
+		summarizeBy: none
+		sourceColumn: source_period
+
+	/// File the rows were read from.
+	column 'File Name'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 73bbfb4e-d4b9-575c-983a-3f0f52af415f
+		summarizeBy: none
+		sourceColumn: filename
+
+	/// Data rows read from the file. Hidden: use the measure Rows Read.
+	column 'Rows Read Value'
+		dataType: int64
+		isHidden
+		formatString: #,##0
+		isAvailableInMdx: false
+		lineageTag: 76935c6e-61a2-552b-a8e4-b9a0c8f75995
+		summarizeBy: none
+		sourceColumn: rows_read
+
+	/// Rows loaded. Hidden: use the measure Rows Loaded.
+	column 'Rows Loaded Value'
+		dataType: int64
+		isHidden
+		formatString: #,##0
+		isAvailableInMdx: false
+		lineageTag: d57c2a6b-b173-5f7c-8b0f-3c769b7d0fc3
+		summarizeBy: none
+		sourceColumn: rows_loaded
+
+	/// Rows rejected. Hidden: use the measure Rows Quarantined.
+	column 'Rows Quarantined Value'
+		dataType: int64
+		isHidden
+		formatString: #,##0
+		isAvailableInMdx: false
+		lineageTag: fee936db-b5c8-5162-b02b-df475579164e
+		summarizeBy: none
+		sourceColumn: rows_quarantined
+
+	/// pass when every control on the file agrees.
+	column Status
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: c7524dc6-2a94-5e1b-ab3a-8152aa3e7802
+		summarizeBy: none
+		sourceColumn: overall_status
+
+	partition 'Load Control' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_load_control"]}[Data]
+				in
+				    Data
+

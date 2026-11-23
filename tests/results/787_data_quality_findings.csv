@@ -1,0 +1,10 @@
+issue_key,issue_rule,issue_type,release_from,release_to,sub_segment,amount_before,amount_after,rows_affected
+1,"a","unit error","2023-09","2023-12","X903A002",4100000000,4100000,2
+2,"a","unit error","2023-09","2023-12","X903A002",220000000,220000,2
+3,"a","unit error (offsetting line)","2023-09","2023-12","X903A003",-4101533695,-5679167,2
+4,"a","unit error (offsetting line)","2023-09","2023-12","X903A003",-221499953,-1765396,2
+5,"a","unit error","2025-12","2026-03","X903A002",6308755813,6308756,2
+6,"a","unit error (offsetting line)","2025-12","2026-03","X903A003",-6310103398,-7654417,2
+7,"b","quarter label wrong","2022-09","2022-09","",,,23787
+8,"c","period 0 rows","2019-06","2019-06","",269890,,71
+9,"d","coding error","2019-06","2019-06","",,,1

@@ -1,0 +1,14 @@
+// The department drill-through page's revision figures, 2025-26, no department selected: as at the latest release, as
+// first reported, the revision since first reported and its percentage (parts per million).
+EVALUATE
+SELECTCOLUMNS (
+    UNION (
+        ROW ( "item", "as_at", "value", CALCULATE ( [Outturn as at Release], 'Fiscal Year'[Financial Year] = "2025-26" ) ),
+        ROW ( "item", "first_reported", "value", CALCULATE ( [Outturn as First Reported], 'Fiscal Year'[Financial Year] = "2025-26" ) ),
+        ROW ( "item", "revision", "value", CALCULATE ( [Revision since First Reported], 'Fiscal Year'[Financial Year] = "2025-26" ) ),
+        ROW ( "item", "revision_ppm", "value", CALCULATE ( [Revision %], 'Fiscal Year'[Financial Year] = "2025-26" ) * 1000000 )
+    ),
+    "item", [item],
+    "value", [value]
+)
+ORDER BY [item]

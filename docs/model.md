@@ -97,12 +97,12 @@ the sort-key columns (`Year Start`, `Scenario Sort Order`, `Vintage Order`) and 
 
 ## Relationships
 
-22 relationships, all active, all many-to-one, all single direction (the one side filters the many side). There are
+23 relationships, all active, all many-to-one, all single direction (the one side filters the many side). There are
 no inactive relationships and no bidirectional ones (**tested**:
 `test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one`), the one side is always
 a key column of a dimension (`test_the_one_side_of_every_relationship_is_a_key_column_of_a_dimension`), and no row of
 the many side meets a blank member (**tested**: DAX test 701, 21 relationships, 0 rows without a member in each; the 22nd, Account to Statement Line, is
-tested by `sql/tests/740`, which shows every account has one line, and by DAX test 741, whose statement total equals Outturn).
+tested by `sql/tests/740`, which shows every account has one line, and by DAX test 741, whose statement total equals Outturn; the 23rd, File Control to Release, by `sql/tests/780` and DAX test 780).
 
 | Many side | One side | Via |
 |---|---|---|
@@ -128,6 +128,7 @@ tested by `sql/tests/740`, which shows every account has one line, and by DAX te
 | Fact Plan Phased (derived) | Plan Grain | grain code |
 | Fiscal Period | Fiscal Year | financial year |
 | Account | Statement Line | statement line key: the detail line of the statement the category is added to |
+| File Control | Release | release key: one control row per release file |
 
 The two role-playing organisation dimensions are both active on `Fact Outturn`: `Organisation (as reported)` on the
 version the release used (so a department move or rename shows as it was reported), and `Department (current
@@ -747,6 +748,45 @@ count in the others' ranks. Use it with no Time Intelligence or Scenario Compari
 measure, and an item from outside would apply to the rank itself. **Tested**: test 768 (69 cells, three years, largest
 difference 0.000001 parts per million) equals `RANK() OVER` over the year-end variance % computed in T-SQL from
 `dw.outturn_plan_basis_inyear` and `dw.fact_plan`. A year to date before period 12 has no plan, so the rank is BLANK there.
+
+## Data controls and the measures the report needs
+
+The report's data-controls page shows the checks that the build already writes, so the model holds them as tables. They are
+audit and control tables: real counts and totals copied from `audit.*` and `dw.plan_coverage` by the views in
+`sql/dw/780_v_model_controls.sql` and `sql/dw/781_v_model_controls_full.sql`, with no number recalculated. Each carries
+"AUDIT and CONTROL" first in its description and the display folder `Audit and control` on every visible column.
+**Tested**: `sql/tests/780` (committed scope) and `sql/tests/781` (full scope) show that each view has the rows and totals of
+its audit table, and DAX tests 780 to 784 show that the model returns the same figures.
+
+| Model table | Source view | Rows | Scope | What it shows |
+|---|---|---:|---|---|
+| File Control | `dw.v_model_file_control` (`audit.file_control`) | 31 | committed and full | rows read, loaded and quarantined, the file's exact sum as text and its four-decimal total, per release; related to Release |
+| Plan Coverage | `dw.v_model_plan_coverage` (`dw.plan_coverage`) | 69 | committed and full | plan fact rows, source lines and total by plan source, year, measure and grain |
+| Annual Control | `dw.v_model_annual_control` (`audit.bud_vs_inyear_del`) | 60 | full | in-year outturn against the restated annual file; only DEL at total level is graded |
+| PSS Control | `dw.v_model_pss_control` (`audit.pss_vs_outturn`) | 443 | full | the Public Spending Statistics database against OSCAR; the capital DEL gaps of 2023-24 and 2024-25 are rows of it |
+| Load Control | `dw.v_model_load_control` | 46 | full | rows read, loaded and quarantined of every in-year and annual file |
+
+The three full-scope views need files that are not in git, so a model on a committed-scope database cannot refresh these three
+tables; the model is built and tested on the full-scope database (the README says so). Four of the five tables are related to
+nothing (a control table is a list of checks, and a relationship would let a slicer filter an audit row), which the analyzer
+counts as four information findings (`evidence/bpa`).
+
+Measures added for the report, each with a DAX test:
+
+| Measure | Table | What it is | Test |
+|---|---|---|---|
+| `File Total (4 decimals)`, `Outturn as at Release (own year)`, `Difference to File Total` | File Control | the file's total, the model's as-at outturn of the release's own year, and their difference (0 for all 31 releases) | 780 |
+| `Plan Coverage Total` | Plan Coverage | the plan total of the rows in context | 783 |
+| `Rows Read`, `Rows Loaded`, `Rows Quarantined`, `Web Rows Quarantined` | Load Control | counts; the last is the rows of the deflator and CPI quarantine tables | 784 |
+| `Plan Source and Grain` | Fact Plan | the badge: plan source and grain of the plan rows in context, in the words of the source's edition and of Plan Grain | 785 |
+| `Variance to Phased Plan`, `Variance to Phased Plan %` | Fact Plan Phased (derived) | DERIVED: outturn on the plan's basis less the phased plan, in a month or (under Time Intelligence) the year to date | 786, 788 |
+| `Plan and Outturn by Scenario` | Fact Plan | plan on the Plan scenario and outturn on the plan's basis on the Outturn scenario, for a waterfall with Scenario as its category | 793 |
+| `Latest Release in View` | Fact Outturn | the month of the latest release, a page header label | 788 (page text) |
+
+`Variance to Phased Plan` is added to the amount measures that `Display Unit` scales (the list is in each of its six
+expressions), which is the one change to that calculation group, made by hand and reviewed as a diff. The two label measures
+return text and so have no number format; their analyzer ignores say so (`te/bpa/ignores.csv`). The rule that lists the
+allowed format strings now allows `#,##0` for a count of rows. The model has 23 relationships (22 before File Control to Release).
 
 ## Scripts, rules and perspectives
 

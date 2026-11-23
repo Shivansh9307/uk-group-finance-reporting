@@ -86,3 +86,7 @@ relationship 72713e86-258a-43f1-9a34-0cccea73b872
 	fromColumn: Account.'Statement Line Key'
 	toColumn: 'Statement Line'.'Line Key'
 
+relationship 3b9a1c0e-7d52-4f3a-9a64-2e6f8d41c7b5
+	fromColumn: 'File Control'.'Release Key'
+	toColumn: Release.'Release Key'
+

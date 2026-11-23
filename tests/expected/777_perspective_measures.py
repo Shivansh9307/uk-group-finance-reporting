@@ -1,6 +1,6 @@
 """Expected rows for tests/dax/777_perspective_measures.dax: the measures that te/scripts/perspectives.csv puts in each
-perspective. A row `Table` of the file adds the visible measures of that table, and no table named that way has one
-(checked here), so the measures are the `Table[Measure]` rows."""
+perspective. A row `Table` of the file adds the visible measures of that table (read here from the table's file); a row
+`Table[Measure]` adds that one measure."""
 
 import csv
 import re
@@ -21,6 +21,7 @@ def generate(root):
             if m:
                 rows.append([r["perspective"], m.group(2)])
             else:
-                text = (root / MODEL / f"{obj}.tmdl").read_text(encoding="utf-8")
-                assert "\n\tmeasure " not in text, f"{obj} holds measures: list them as {obj}[Name] or extend this test"
+                text = (root / MODEL / f"{obj}.tmdl").read_text(encoding="utf-8").replace("\r\n", "\n")
+                for name in re.findall(r"^\tmeasure (.+?) =", text, flags=re.MULTILINE):
+                    rows.append([r["perspective"], name.strip("'")])
     return COLUMNS, rows

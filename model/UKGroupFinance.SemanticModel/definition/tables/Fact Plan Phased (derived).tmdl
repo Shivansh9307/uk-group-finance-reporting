@@ -24,6 +24,26 @@ table 'Fact Plan Phased (derived)'
 		displayFolder: Plan\Derived
 		lineageTag: 0260e1e9-08ca-5ae8-96c5-5321d21ed6c7
 
+	/// DERIVED, not published: outturn on the plan's basis less the phased plan, GBP thousands, in the period context (a month, or the year to date under Time Intelligence). The plan side is my allocation of a published annual plan, so the figure is a variance to my profile and not to a published monthly budget. Below zero is favourable with spending positive. BLANK where either side is BLANK, including below the group grain.
+	measure 'Variance to Phased Plan' =
+			VAR Actual = [Outturn (plan basis)]
+			VAR PhasedPlan = [Plan (phased)]
+			RETURN
+			    IF ( ISBLANK ( Actual ) || ISBLANK ( PhasedPlan ), BLANK (), Actual - PhasedPlan )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Plan\Derived
+		lineageTag: 15cb7749-8b1b-5e1f-a17d-c28800e63cc7
+
+	/// DERIVED, not published: the variance to the phased plan as a share of the absolute phased plan. BLANK where the phased plan is zero or either side is BLANK.
+	measure 'Variance to Phased Plan %' =
+			VAR Actual = [Outturn (plan basis)]
+			VAR PhasedPlan = [Plan (phased)]
+			RETURN
+			    IF ( ISBLANK ( Actual ) || ISBLANK ( PhasedPlan ), BLANK (), DIVIDE ( Actual - PhasedPlan, ABS ( PhasedPlan ) ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Plan\Derived
+		lineageTag: 0fc9b425-f69f-5aae-bbd4-c3c9b28bf612
+
 	/// DERIVED, not published: the phased plan is my allocation of the published annual plan. [Plan (phased)] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.
 	measure 'Plan (phased) (real terms)' = Real.Deflate ( [Plan (phased)] )
 		formatString: £#,##0"k";-£#,##0"k";£0"k"

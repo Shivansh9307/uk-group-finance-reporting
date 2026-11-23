@@ -1,0 +1,87 @@
+/// AUDIT and CONTROL, no new number: what the plan fact holds for each plan source, financial year, plan measure and grain, with the number of fact rows, the number of lines in the source sheet and the total. It is how a reader sees which year is published at which grain. Source view dw.v_model_plan_coverage (dw.plan_coverage).
+table 'Plan Coverage'
+	lineageTag: 12948e1f-1634-5fd9-8ad1-bd4d2bda4be8
+
+	/// Total of the plan rows in context, GBP thousands. Plan measures overlap by design (administration budgets are part of resource DEL), so a total across measures is not a plan figure; read it by measure.
+	measure 'Plan Coverage Total' = SUM ( 'Plan Coverage'[Amount Total Value] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Audit and control
+		lineageTag: e9d3fd7a-5aba-5841-b24d-8317fc94d8d0
+
+	/// Code of the plan source.
+	column 'Plan Source Code'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 27865a61-e7fc-5e1b-bfa2-763205bd1764
+		summarizeBy: none
+		sourceColumn: plan_source_code
+
+	/// Name of the plan source and edition.
+	column 'Plan Source'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 0a04a70f-bced-5603-ac0b-2109d0000794
+		summarizeBy: none
+		sourceColumn: plan_source
+
+	/// Financial year the plan is for, such as 2024-25.
+	column 'Financial Year'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: bdc5a515-021b-59b1-9c97-4753b5a0410a
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	/// The plan's own measure, such as RDEL_EX_DEPN (resource DEL excluding depreciation) or CDEL (capital DEL).
+	column 'Plan Measure'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 03f422ce-97c6-54bd-b9ba-c73e2cad6b55
+		summarizeBy: none
+		sourceColumn: measure
+
+	/// A, B, C or D: the grain the plan is published at (see Plan Grain).
+	column 'Grain Code'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: e29c04aa-0f5c-5b2a-a410-dd0bc1d2ab33
+		summarizeBy: none
+		sourceColumn: grain_code
+
+	/// Rows the plan fact holds for the combination.
+	column 'Fact Rows'
+		dataType: int64
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: 8d64eadc-c119-5764-9fff-08a50ef0fb67
+		summarizeBy: none
+		sourceColumn: row_count
+
+	/// Lines the source sheet holds for it, so that a row lost on loading would show.
+	column 'Source Lines'
+		dataType: int64
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: e6a89205-aec1-59c3-811a-7e29da393665
+		summarizeBy: none
+		sourceColumn: source_line_count
+
+	/// Total of the plan rows, GBP thousands. Hidden: use the measure Plan Coverage Total.
+	column 'Amount Total Value'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: fc03b26c-beb1-5f03-bf1e-8015b2b8406b
+		summarizeBy: none
+		sourceColumn: amount_total
+
+	partition 'Plan Coverage' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_plan_coverage"]}[Data]
+				in
+				    Data
+

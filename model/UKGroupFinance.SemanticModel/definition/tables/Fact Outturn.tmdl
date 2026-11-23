@@ -304,6 +304,13 @@ table 'Fact Outturn'
 		displayFolder: Real Terms
 		lineageTag: e79add6e-f965-4821-b7f0-62280a2284ee
 
+	/// The month of the latest OSCAR in-year release in the model, for example Sep 2026, whatever is selected. A label for page headers; it holds no amount.
+	measure 'Latest Release in View' = MAXX ( FILTER ( ALL ( Release ), Release[Is Latest Release] = TRUE () ), Release[Release] )
+		displayFolder: Report Labels
+		lineageTag: 1a0b1fea-7a20-5958-a81f-577d0c3611f4
+
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["UKFR_MEASURE_FOLDER_AND_FORMAT","UKFR_MEASURE_FORMAT_IN_SET"]}
+
 	/// [Statement Amount] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.
 	measure 'Statement Amount (real terms)' = Real.Deflate ( [Statement Amount] )
 		formatString: £#,##0"k";-£#,##0"k";£0"k"

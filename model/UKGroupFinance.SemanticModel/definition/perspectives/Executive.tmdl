@@ -101,6 +101,8 @@ perspective Executive
 
 		perspectiveMeasure 'Statement Amount (real terms)'
 
+		perspectiveMeasure 'Latest Release in View'
+
 	perspectiveTable 'Fact Plan'
 
 		perspectiveMeasure Plan
@@ -112,4 +114,6 @@ perspective Executive
 		perspectiveMeasure 'Plan (real terms)'
 
 		perspectiveMeasure 'Statement Plan (real terms)'
+
+		perspectiveMeasure 'Plan Source and Grain'
 

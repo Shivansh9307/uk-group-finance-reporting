@@ -1,0 +1,22 @@
+// The ten departments of the current structure with the largest outturn in 2025-26 (the executive page's bar chart), with
+// their department number.
+EVALUATE
+SELECTCOLUMNS (
+    TOPN (
+        10,
+        FILTER (
+            SUMMARIZECOLUMNS (
+                'Department (current structure)'[Department Number],
+                'Department (current structure)'[Department],
+                TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ),
+                "o", [Outturn (current structure)]
+            ),
+            NOT ISBLANK ( [o] )
+        ),
+        [o], DESC
+    ),
+    "department_number", 'Department (current structure)'[Department Number],
+    "department", 'Department (current structure)'[Department],
+    "outturn", [o]
+)
+ORDER BY [outturn] DESC

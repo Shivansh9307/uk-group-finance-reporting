@@ -26,7 +26,7 @@ The file has 63 rules: 48 kept from the standard Microsoft Analysis Services set
 | `UKFR_DESCRIBE_VISIBLE_OBJECT` | 3 | Every visible table, column and measure carries a description (the /// line in the TMDL file). Hidden keys and technical columns are left out. |
 | `UKFR_DESCRIBE_ITEM` | 3 | Calculation groups, their items and perspectives are always visible to a report author, so each has a description. Functions are checked by te/scripts/descriptions.csx, which a rule cannot reach. |
 | `UKFR_MEASURE_FOLDER_AND_FORMAT` | 3 | Every measure sits in a display folder (te/scripts/display_folders.csx) and has a format string or a format string expression. |
-| `UKFR_MEASURE_FORMAT_IN_SET` | 2 | The model shows an amount as a pound figure in thousands with the k suffix, a percentage as 0.0%, and a count or rank as 0. A different format string is either a new convention that needs a decision or a mistake. A measure with a format string expression is exempt. |
+| `UKFR_MEASURE_FORMAT_IN_SET` | 2 | The model shows an amount as a pound figure in thousands with the k suffix, a percentage as 0.0%, and a count of rows as #,##0, and a rank as 0. A different format string is either a new convention that needs a decision or a mistake. A measure with a format string expression is exempt. |
 | `UKFR_LABEL_AUTHORED_TABLE` | 3 | A table of names or layout that I wrote (the authored tables of the README register) has a description that starts with AUTHORED, so a reader of the field list cannot take it for source data. A new authored table is added to this rule and to the register. |
 | `UKFR_LABEL_AUTHORED_COLUMNS` | 3 | The visible columns of an authored dimension table sit in the display folder Authored (te/scripts/display_folders.csx). Statement Measure, a field parameter, is labelled in its description only. |
 | `UKFR_LABEL_DERIVED_TABLE` | 3 | A table that holds derived numbers has (derived) at the end of its name and a description that starts with DERIVED. A table whose name ends in (synthetic) or (scale) needs a description that starts with SYNTHETIC. |
@@ -70,7 +70,7 @@ The rest of the standard set is kept. These are dropped, each with its reason. A
 
 ## Ignores
 
-A rule that is right in general and wrong for one object is switched off for that object with the annotation `BestPracticeAnalyzer_IgnoreRules`, written by `te/scripts/bpa_ignores.csx` from `ignores.csv`. There is no model-level ignore and no ignore of a rule for every object. Only rules of severity 2 and 3 get one. The information rules stay counted in `evidence/bpa` and are explained here instead: `ENSURE_TABLES_HAVE_RELATIONSHIPS` flags the four web tables and the field parameter, which are related to nothing on purpose (the index is matched with TREATAS, see docs/model.md), and `RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE` flags the year (`2023-24`) and grain (A to D) keys, which are text codes in the sources.
+A rule that is right in general and wrong for one object is switched off for that object with the annotation `BestPracticeAnalyzer_IgnoreRules`, written by `te/scripts/bpa_ignores.csx` from `ignores.csv`. There is no model-level ignore and no ignore of a rule for every object. Only rules of severity 2 and 3 get one. The information rules stay counted in `evidence/bpa` and are explained here instead: `ENSURE_TABLES_HAVE_RELATIONSHIPS` flags the four web tables, the field parameter and the four data-control tables that are read as they are (plan coverage, annual control, PSS control, load control), which are related to nothing on purpose (the index is matched with TREATAS, see docs/model.md; a control table is a list of checks, and a relationship would let a slicer filter an audit row), and `RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE` flags the year (`2023-24`) and grain (A to D) keys, which are text codes in the sources.
 
 | Object | Rule | Reason |
 |---|---|---|
@@ -93,6 +93,10 @@ A rule that is right in general and wrong for one object is switched off for tha
 | `column:Plan Grain[Grain Code]` | `UKFR_RELATIONSHIP_COLUMNS_HIDDEN` | The grain code (A to D) is the key of Plan Grain and also the label that people read next to the grain name. |
 | `column:Account[Source Codes]` | `UNNECESSARY_COLUMNS` | A hidden column that carries the spellings of the code in the releases from the warehouse view, so that a person inspecting the model can see them; no measure uses it. |
 | `column:Data Quality Issue[Period Key]` | `UNNECESSARY_COLUMNS` | A hidden column that carries the period of a finding from the warehouse view, for the same reason; no measure or relationship uses it. |
+| `measure:Fact Plan[Plan Source and Grain]` | `UKFR_MEASURE_FOLDER_AND_FORMAT` | A text measure: it returns a label for a page and not a number, so it has no number format. |
+| `measure:Fact Plan[Plan Source and Grain]` | `UKFR_MEASURE_FORMAT_IN_SET` | A text measure: it returns a label for a page and not a number, so it has no number format. |
+| `measure:Fact Outturn[Latest Release in View]` | `UKFR_MEASURE_FOLDER_AND_FORMAT` | A text measure: it returns a label for a page and not a number, so it has no number format. |
+| `measure:Fact Outturn[Latest Release in View]` | `UKFR_MEASURE_FORMAT_IN_SET` | A text measure: it returns a label for a page and not a number, so it has no number format. |
 
 ## Running it
 

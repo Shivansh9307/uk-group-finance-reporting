@@ -1,0 +1,36 @@
+// Outturn on the plan's basis, the phased plan and the variance to it, summed from period 0 to the period (the year to
+// date under Time Intelligence), for the closing period of two years and periods 3 and 6 of 2026-27 (percentage in
+// parts per million).
+DEFINE
+    MEASURE 'Fact Outturn'[Test Variance Pct] =
+        IF ( ISBLANK ( [Variance to Phased Plan %] ), BLANK (), [Variance to Phased Plan %] * 1000000 )
+EVALUATE
+SELECTCOLUMNS (
+    ADDCOLUMNS (
+        UNION (
+            ROW ( "fy", "2024-25", "p", 12 ),
+            ROW ( "fy", "2025-26", "p", 12 ),
+            ROW ( "fy", "2026-27", "p", 3 ),
+            ROW ( "fy", "2026-27", "p", 6 )
+        ),
+        "outturn_plan_basis",
+            VAR y = [fy] VAR p = [p]
+            RETURN CALCULATE ( [Outturn (plan basis)], 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" ),
+        "phased_plan",
+            VAR y = [fy] VAR p = [p]
+            RETURN CALCULATE ( [Plan (phased)], 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" ),
+        "variance",
+            VAR y = [fy] VAR p = [p]
+            RETURN CALCULATE ( [Variance to Phased Plan], 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" ),
+        "variance_ppm",
+            VAR y = [fy] VAR p = [p]
+            RETURN CALCULATE ( [Test Variance Pct], 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" )
+    ),
+    "financial_year", [fy],
+    "period", [p],
+    "outturn_plan_basis", [outturn_plan_basis],
+    "phased_plan", [phased_plan],
+    "variance", [variance],
+    "variance_ppm", [variance_ppm]
+)
+ORDER BY [financial_year], [period]

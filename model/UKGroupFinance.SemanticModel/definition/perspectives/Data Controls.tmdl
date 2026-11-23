@@ -153,3 +153,115 @@ perspective 'Data Controls'
 
 		perspectiveMeasure 'Plan Below Grain'
 
+		perspectiveMeasure 'Plan Source and Grain'
+
+	perspectiveTable 'File Control'
+
+		perspectiveMeasure 'File Total (4 decimals)'
+
+		perspectiveMeasure 'Outturn as at Release (own year)'
+
+		perspectiveMeasure 'Difference to File Total'
+
+		perspectiveColumn 'File Name'
+
+		perspectiveColumn 'Rows Read'
+
+		perspectiveColumn 'Rows Loaded'
+
+		perspectiveColumn 'Rows Quarantined'
+
+		perspectiveColumn 'File Sum (exact)'
+
+		perspectiveColumn Status
+
+	perspectiveTable 'Plan Coverage'
+
+		perspectiveMeasure 'Plan Coverage Total'
+
+		perspectiveColumn 'Plan Source Code'
+
+		perspectiveColumn 'Plan Source'
+
+		perspectiveColumn 'Financial Year'
+
+		perspectiveColumn 'Plan Measure'
+
+		perspectiveColumn 'Grain Code'
+
+		perspectiveColumn 'Fact Rows'
+
+		perspectiveColumn 'Source Lines'
+
+	perspectiveTable 'Annual Control'
+
+		perspectiveColumn 'Financial Year'
+
+		perspectiveColumn Vintage
+
+		perspectiveColumn Level
+
+		perspectiveColumn 'In-Year Release'
+
+		perspectiveColumn 'In-Year Amount'
+
+		perspectiveColumn 'Annual Amount'
+
+		perspectiveColumn Gap
+
+		perspectiveColumn 'Gap Share'
+
+		perspectiveColumn Tolerance
+
+		perspectiveColumn Status
+
+		perspectiveColumn 'Is Latest Vintage For Year'
+
+		perspectiveColumn 'Basis Note'
+
+	perspectiveTable 'PSS Control'
+
+		perspectiveColumn Comparison
+
+		perspectiveColumn 'Financial Year'
+
+		perspectiveColumn 'Source Release'
+
+		perspectiveColumn Level
+
+		perspectiveColumn 'Spending Review Group'
+
+		perspectiveColumn Measure
+
+		perspectiveColumn 'PSS Amount'
+
+		perspectiveColumn 'OSCAR Amount'
+
+		perspectiveColumn Gap
+
+		perspectiveColumn 'Gap Share'
+
+		perspectiveColumn Tolerance
+
+		perspectiveColumn Status
+
+		perspectiveColumn 'Basis Note'
+
+	perspectiveTable 'Load Control'
+
+		perspectiveMeasure 'Rows Read'
+
+		perspectiveMeasure 'Rows Loaded'
+
+		perspectiveMeasure 'Rows Quarantined'
+
+		perspectiveMeasure 'Web Rows Quarantined'
+
+		perspectiveColumn 'Source Family'
+
+		perspectiveColumn 'Source Period'
+
+		perspectiveColumn 'File Name'
+
+		perspectiveColumn Status
+

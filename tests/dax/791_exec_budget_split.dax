@@ -1,0 +1,15 @@
+// The executive page's split of 2025-26 outturn into DEL, AME and non-budget.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Control Budget'[Control Budget],
+            TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ),
+            "o", [Outturn]
+        ),
+        NOT ISBLANK ( [o] )
+    ),
+    "control_budget", 'Control Budget'[Control Budget],
+    "outturn", [o]
+)
+ORDER BY [control_budget]

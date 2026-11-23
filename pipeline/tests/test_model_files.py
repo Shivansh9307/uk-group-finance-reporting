@@ -180,7 +180,7 @@ def test_sort_by_columns_exist_and_are_hidden_or_visible_on_purpose(tables):
 
 def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(tables, repo_root):
     views = set()
-    view_files = sorted((repo_root / "sql" / "dw").glob("7[046]?_*.sql"))
+    view_files = sorted((repo_root / "sql" / "dw").glob("7[04678]?_*.sql"))
     sql_text = "\n".join(p.read_text(encoding="utf-8") for p in view_files)
     created = set(re.findall(r"CREATE VIEW dw\.(v_model_\w+)", sql_text))
     used: list[str] = []
@@ -217,7 +217,7 @@ def test_derived_and_real_tables_are_labelled(tables):
 
 # ----------------------------------------------------------------------------------------- relationships
 def test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one(relationships, tables):
-    assert len(relationships) == 22
+    assert len(relationships) == 23
     seen = set()
     for r in relationships:
         for end in ("fromColumn", "toColumn"):

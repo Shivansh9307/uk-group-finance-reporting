@@ -1,0 +1,12 @@
+// The plan badge (Plan Source and Grain) for each financial year with a plan: the plan sources and the grain they are
+// published at, joined with a semicolon in the order of the source's name; and the year's plan row count behind it.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        ADDCOLUMNS ( VALUES ( 'Fiscal Year'[Financial Year] ), "badge", [Plan Source and Grain] ),
+        NOT ISBLANK ( CALCULATE ( [Plan] ) )
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "badge", [badge]
+)
+ORDER BY [financial_year]

@@ -1,0 +1,12 @@
+// The Data Controls table Load Control: rows read, loaded and quarantined by source family, and the rows of the
+// web-read deflator and CPI tables that did not parse (the same number on every row).
+EVALUATE
+ADDCOLUMNS (
+    SELECTCOLUMNS ( VALUES ( 'Load Control'[Source Family] ), "source_family", 'Load Control'[Source Family] ),
+    "files", CALCULATE ( COUNTROWS ( 'Load Control' ) ),
+    "rows_read", CALCULATE ( [Rows Read] ),
+    "rows_loaded", CALCULATE ( [Rows Loaded] ),
+    "rows_quarantined", CALCULATE ( [Rows Quarantined] ),
+    "web_rows_quarantined", CALCULATE ( [Web Rows Quarantined] )
+)
+ORDER BY [source_family]

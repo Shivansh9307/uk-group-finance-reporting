@@ -586,10 +586,10 @@
     "ID": "UKFR_MEASURE_FORMAT_IN_SET",
     "Name": "Measure format string is one of the model formats",
     "Category": "Project: metadata",
-    "Description": "The model shows an amount as a pound figure in thousands with the k suffix, a percentage as 0.0%, and a count or rank as 0. A different format string is either a new convention that needs a decision or a mistake. A measure with a format string expression is exempt.",
+    "Description": "The model shows an amount as a pound figure in thousands with the k suffix, a percentage as 0.0%, and a count of rows as #,##0, and a rank as 0. A different format string is either a new convention that needs a decision or a mistake. A measure with a format string expression is exempt.",
     "Severity": 2,
     "Scope": "Measure",
-    "Expression": "string.IsNullOrWhiteSpace(FormatStringExpression) and FormatString <> \"0\" and FormatString <> \"0.0%;-0.0%;0.0%\" and not FormatString.StartsWith(\"£#,##0\")",
+    "Expression": "string.IsNullOrWhiteSpace(FormatStringExpression) and FormatString <> \"0\" and FormatString <> \"#,##0\" and FormatString <> \"0.0%;-0.0%;0.0%\" and not FormatString.StartsWith(\"£#,##0\")",
     "CompatibilityLevel": 1200,
     "Source": "Project"
   },

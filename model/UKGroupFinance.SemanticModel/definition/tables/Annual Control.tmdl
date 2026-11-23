@@ -1,0 +1,114 @@
+/// AUDIT and CONTROL, no new number: the in-year outturn of each financial year against the restated annual (BUD) file, by vintage and level, with the gap, its share of the annual amount, the tolerance and the status. Only DEL at total level is graded; the other levels are recorded with their reason. Full-scope build only. Source view dw.v_model_annual_control (audit.bud_vs_inyear_del).
+table 'Annual Control'
+	lineageTag: 94f8bd89-124b-57e2-a9be-fec7d2700a4c
+
+	/// Financial year compared.
+	column 'Financial Year'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 631c9543-f22a-57b2-bc12-235af021860d
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	/// Annual file vintage the year is read from (the month of its release).
+	column Vintage
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 2c9beb3c-ed5a-536b-a556-bf523aad736b
+		summarizeBy: none
+		sourceColumn: vintage
+
+	/// DEL, AME or NON-BUDGET.
+	column Level
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: ed461835-6067-5250-beeb-10ce9996373a
+		summarizeBy: none
+		sourceColumn: level
+
+	/// The in-year release the in-year amount is taken from.
+	column 'In-Year Release'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: b0252367-0238-56ad-ba74-35e103ca68d8
+		summarizeBy: none
+		sourceColumn: inyear_release
+
+	/// In-year outturn, GBP thousands.
+	column 'In-Year Amount'
+		dataType: decimal
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: 1bcc80d0-1d7f-5d63-88c5-8de904ccbe88
+		summarizeBy: none
+		sourceColumn: inyear_amount
+
+	/// Restated annual file amount, GBP thousands.
+	column 'Annual Amount'
+		dataType: decimal
+		formatString: #,##0
+		displayFolder: Audit and control
+		lineageTag: 8f251fce-3133-5503-8d02-a9f329d96cc7
+		summarizeBy: none
+		sourceColumn: bud_amount
+
+	/// In-year less annual, GBP thousands.
+	column Gap
+		dataType: decimal
+		formatString: #,##0;-#,##0
+		displayFolder: Audit and control
+		lineageTag: 05c9b5e1-69d9-53f5-a9d0-db7535cb3d1c
+		summarizeBy: none
+		sourceColumn: gap
+
+	/// Gap as a share of the annual amount.
+	column 'Gap Share'
+		dataType: double
+		formatString: 0.00%
+		displayFolder: Audit and control
+		lineageTag: 46778a81-8569-5102-b55f-f531345ea028
+		summarizeBy: none
+		sourceColumn: gap_share_of_bud
+
+	/// Tolerance of a graded row as a share; empty where the row is recorded and not graded.
+	column Tolerance
+		dataType: double
+		formatString: 0.0%
+		displayFolder: Audit and control
+		lineageTag: 251af246-0b6e-5510-a243-b8b7d629bb7d
+		summarizeBy: none
+		sourceColumn: tolerance_share
+
+	/// pass or fail on a graded row; recorded or a stated reason otherwise.
+	column Status
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: a6c53b89-3a94-5afe-b7e8-735fd625e8be
+		summarizeBy: none
+		sourceColumn: status
+
+	/// True for the latest annual vintage that holds the year.
+	column 'Is Latest Vintage For Year'
+		dataType: boolean
+		displayFolder: Audit and control
+		lineageTag: 08b0515d-52c4-5a84-a68d-5805978e6f51
+		summarizeBy: none
+		sourceColumn: is_latest_vintage_for_year
+
+	/// What the row compares and why it is or is not graded.
+	column 'Basis Note'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 396b0f0e-9b3a-5bb7-9877-9d3c1b0b8c36
+		summarizeBy: none
+		sourceColumn: basis_note
+
+	partition 'Annual Control' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_annual_control"]}[Data]
+				in
+				    Data
+
