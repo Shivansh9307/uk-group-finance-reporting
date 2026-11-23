@@ -1,0 +1,141 @@
+{
+  "query_file": "as_at_release_year_department.dax",
+  "query_sha256": "3edf95686700042f3276b5697d433183a45236c04d7fee437852ccc6988dcf1c",
+  "cold_cache": true,
+  "rows_returned": 9065,
+  "error": null,
+  "total_ms": 266,
+  "total_cpu_ms": 156,
+  "storage_engine_ms": 13,
+  "formula_engine_ms_derived": 253,
+  "storage_engine_queries": 4,
+  "storage_engine_cache_hits": 0,
+  "storage_engine_queries_by_kind": {
+    "VertiPaqScan": 4,
+    "VertiPaqScanInternal": 4
+  },
+  "distinct_storage_engine_query_texts": 8,
+  "most_repeated_storage_engine_query": {
+    "times": 1,
+    "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Release (16)].[Release Sequence (170)] AS [Release (16)$Release Sequence (170)],\r\nCOUNT()\r\nFROM [Release (16)];\r\n"
+  },
+  "longest_storage_engine_queries": [
+    {
+      "kind": "VertiPaqScan",
+      "duration_ms": 12,
+      "cached": false,
+      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Release (16)].[Release Sequence (170)] AS [Release (16)$Release Sequence (170)], [Department  current structure  (34)].[Department Number (227)] AS [Department  current structure  (34)$Department Number (227)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Release (16)] ON [Fact Outturn (70)].[Release Key (350)]=[Release (16)].[Release Key (167)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Fact Outturn (70)].[Current Department Key (352)]=[Department  current structure  (34)].[Department Key (225)]\r\nWHERE\r\n\t[Release (16)].[Release Sequence (170)] IN (12, 26, 13, 27, 14, 1, 15, 28, 2, 29...[31 total values, not all displayed]);\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 1842, 22104]\r\n"
+    },
+    {
+      "kind": "VertiPaqScanInternal",
+      "duration_ms": 11,
+      "cached": false,
+      "text": "SET DC_KIND=\"C32\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Release (16)].[Release Sequence (170)] AS [Release (16)$Release Sequence (170)], [Department  current structure  (34)].[Department Number (227)] AS [Department  current structure  (34)$Department Number (227)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Release (16)] ON [Fact Outturn (70)].[Release Key (350)]=[Release (16)].[Release Key (167)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Fact Outturn (70)].[Current Department Key (352)]=[Department  current structure  (34)].[Department Key (225)]\r\nWHERE\r\n\t[Release (16)].[Release Sequence (170)] INB (1, 2, 3, 4, 5, 6, 7, 8, 9, 10...[31 total values, not all displayed]);\r\n"
+    },
+    {
+      "kind": "VertiPaqScan",
+      "duration_ms": 1,
+      "cached": false,
+      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Release (16)].[Release Sequence (170)] AS [Release (16)$Release Sequence (170)]\r\nFROM [Release (16)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 34, 272]\r\n"
+    },
+    {
+      "kind": "VertiPaqScan",
+      "duration_ms": 0,
+      "cached": false,
+      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Release (16)].[Release Label (169)] AS [Release (16)$Release Label (169)]\r\nFROM [Release (16)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 34, 272]\r\n"
+    },
+    {
+      "kind": "VertiPaqScan",
+      "duration_ms": 0,
+      "cached": false,
+      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Release (16)].[Release Label (169)] AS [Release (16)$Release Label (169)],\r\nMAX([Release (16)].[Release Sequence (170)]) AS [$Measure0]\r\nFROM [Release (16)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 34, 544]\r\n"
+    },
+    {
+      "kind": "VertiPaqScanInternal",
+      "duration_ms": 0,
+      "cached": false,
+      "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Release (16)].[Release Label (169)] AS [Release (16)$Release Label (169)],\r\nCOUNT()\r\nFROM [Release (16)];\r\n"
+    },
+    {
+      "kind": "VertiPaqScanInternal",
+      "duration_ms": 0,
+      "cached": false,
+      "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Release (16)].[Release Label (169)] AS [Release (16)$Release Label (169)],\r\nMAX([Release (16)].[Release Sequence (170)]) AS [$Measure0], COUNT()\r\nFROM [Release (16)];\r\n"
+    },
+    {
+      "kind": "VertiPaqScanInternal",
+      "duration_ms": 0,
+      "cached": false,
+      "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Release (16)].[Release Sequence (170)] AS [Release (16)$Release Sequence (170)],\r\nCOUNT()\r\nFROM [Release (16)];\r\n"
+    }
+  ],
+  "direct_query_events": 0,
+  "aggregation_rewrites": 0,
+  "logical_plan_lines": 21,
+  "physical_plan_lines": 42,
+  "logical_plan_head": [
+    "Order: RelLogOp DependOnCols()() 0-3 RequiredCols(0, 1, 2, 3)('Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number], ''[as_at])",
+    "\tGroupSemiJoin: RelLogOp DependOnCols()() 0-3 RequiredCols(0, 1, 2, 3)('Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number], ''[as_at])",
+    "\t\tScan_Vertipaq: RelLogOp DependOnCols()() 0-0 RequiredCols(0)('Release'[Release Label])",
+    "\t\tScan_Vertipaq: RelLogOp DependOnCols()() 1-1 RequiredCols(1)('Fiscal Year'[Financial Year])",
+    "\t\tScan_Vertipaq: RelLogOp DependOnCols()() 2-2 RequiredCols(2)('Department (current structure)'[Department Number])",
+    "\t\tVarScope: ScaLogOp MeasureRef=[Outturn as at Release] DependOnCols(0, 1, 2)('Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]) Variant DominantValue=BLANK",
+    "\t\t\tMax_Vertipaq: ScaLogOp VarName=AsAt DependOnCols(0)('Release'[Release Label]) Integer DominantValue=BLANK",
+    "\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0)('Release'[Release Label]) 3-14 RequiredCols(0, 7)('Release'[Release Label], 'Release'[Release Sequence])",
+    "\t\t\t\t'Release'[Release Sequence]: ScaLogOp DependOnCols(7)('Release'[Release Sequence]) Integer DominantValue=NONE",
+    "\t\t\tCalculate: ScaLogOp DependOnCols(0, 1, 2)('Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]) Variant DominantValue=BLANK",
+    "\t\t\t\tSum_Vertipaq: ScaLogOp MeasureRef=[Outturn] DependOnCols(0, 1, 2)('Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]) Currency DominantValue=BLANK",
+    "\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0, 1, 2)('Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]) 4-138 RequiredCols(0, 1, 2, 137)('Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number], 'Fact Outturn'[Amount Delta])",
+    "\t\t\t\t\t'Fact Outturn'[Amount Delta]: ScaLogOp DependOnCols(137)('Fact Outturn'[Amount Delta]) Currency DominantValue=NONE",
+    "\t\t\t\tFilter: RelLogOp DependOnCols(0)('Release'[Release Label]) 3-3 RequiredCols(0, 3)('Release'[Release Label], 'Release'[Release Sequence])",
+    "\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols()() 3-3 RequiredCols(3)('Release'[Release Sequence])",
+    "\t\t\t\t\tLessThanOrEqualTo: ScaLogOp DependOnCols(0, 3)('Release'[Release Label], 'Release'[Release Sequence]) Boolean DominantValue=NONE",
+    "\t\t\t\t\t\t'Release'[Release Sequence]: ScaLogOp DependOnCols(3)('Release'[Release Sequence]) Integer DominantValue=NONE",
+    "\t\t\t\t\t\tScalarVarProxy: ScaLogOp DependOnCols(0)('Release'[Release Label]) Integer DominantValue=BLANK RefVarName=AsAt",
+    "\t'Release'[Release Label]: ScaLogOp DependOnCols(0)('Release'[Release Label]) String DominantValue=NONE",
+    "\t'Fiscal Year'[Financial Year]: ScaLogOp DependOnCols(1)('Fiscal Year'[Financial Year]) String DominantValue=NONE",
+    "\tColPosition<'Department (current structure)'[Department Number]>: ScaLogOp DependOnCols(2)('Department (current structure)'[Department Number]) String DominantValue=NONE"
+  ],
+  "physical_plan_head": [
+    "PartitionIntoGroups: IterPhyOp LogOp=Order IterCols(0, 1, 2, 3)('Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number], ''[as_at]) #Groups=1 #Rows=9065",
+    "\tAggregationSpool<Order>: SpoolPhyOp #Records=1",
+    "\t\tGroupSemijoin: IterPhyOp LogOp=GroupSemiJoin IterCols(0, 1, 2, 3)('Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number], ''[as_at])",
+    "\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Sum_Vertipaq IterCols(0, 1, 2)('Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]) #Records=9065 #KeyCols=3 #ValueCols=1",
+    "\t\t\t\tAggregationSpool<AggFusion<Sum>>: SpoolPhyOp #Records=9065",
+    "\t\t\t\t\tCrossApply: IterPhyOp LogOp=Sum_Vertipaq IterCols(0, 1, 2)('Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number])",
+    "\t\t\t\t\t\tSpool_MultiValuedHashLookup: IterPhyOp LogOp=Filter LookupCols(3)('Release'[Release Sequence]) IterCols(0)('Release'[Release Label]) #Records=496 #KeyCols=2 #ValueCols=0",
+    "\t\t\t\t\t\t\tAggregationSpool<GroupBy>: SpoolPhyOp #Records=496",
+    "\t\t\t\t\t\t\t\tFilter: IterPhyOp LogOp=Filter IterCols(0, 3)('Release'[Release Label], 'Release'[Release Sequence])",
+    "\t\t\t\t\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp=LessThanOrEqualTo IterCols(0, 3)('Release'[Release Label], 'Release'[Release Sequence])",
+    "\t\t\t\t\t\t\t\t\t\tCrossApply: IterPhyOp LogOp=LessThanOrEqualTo IterCols(0, 3)('Release'[Release Label], 'Release'[Release Sequence])",
+    "\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Scan_Vertipaq IterCols(0)('Release'[Release Label]) #Records=31 #KeyCols=298 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=31",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Scan_Vertipaq IterCols(3)('Release'[Release Sequence]) #Records=31 #KeyCols=298 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=31",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\tLessThanOrEqualTo: LookupPhyOp LogOp=LessThanOrEqualTo LookupCols(0, 3)('Release'[Release Label], 'Release'[Release Sequence]) Boolean",
+    "\t\t\t\t\t\t\t\t\t\t\tColValue<'Release'[Release Sequence]>: LookupPhyOp LogOp='Release'[Release Sequence] LookupCols(3)('Release'[Release Sequence]) Integer",
+    "\t\t\t\t\t\t\t\t\t\t\tSpoolLookup: LookupPhyOp LogOp=Max_Vertipaq LookupCols(0)('Release'[Release Label]) Integer #Records=31 #KeyCols=298 #ValueCols=1 DominantValue=BLANK",
+    "\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<Copy>>: SpoolPhyOp #Records=31",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=1",
+    "\t\t\t\t\t\tCache: IterPhyOp #FieldCols=3 #ValueCols=1",
+    "\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Filter IterCols(0, 3)('Release'[Release Label], 'Release'[Release Sequence]) #Records=496 #KeyCols=2 #ValueCols=0",
+    "\t\t\t\t\t\t\t\tAggregationSpool<GroupBy>: SpoolPhyOp #Records=496",
+    "\t\t\t\t\t\t\t\t\tFilter: IterPhyOp LogOp=Filter IterCols(0, 3)('Release'[Release Label], 'Release'[Release Sequence])",
+    "\t\t\t\t\t\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp=LessThanOrEqualTo IterCols(0, 3)('Release'[Release Label], 'Release'[Release Sequence])",
+    "\t\t\t\t\t\t\t\t\t\t\tCrossApply: IterPhyOp LogOp=LessThanOrEqualTo IterCols(0, 3)('Release'[Release Label], 'Release'[Release Sequence])",
+    "\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Scan_Vertipaq IterCols(0)('Release'[Release Label]) #Records=31 #KeyCols=298 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=31",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Scan_Vertipaq IterCols(3)('Release'[Release Sequence]) #Records=31 #KeyCols=298 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=31",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\tLessThanOrEqualTo: LookupPhyOp LogOp=LessThanOrEqualTo LookupCols(0, 3)('Release'[Release Label], 'Release'[Release Sequence]) Boolean",
+    "\t\t\t\t\t\t\t\t\t\t\t\tColValue<'Release'[Release Sequence]>: LookupPhyOp LogOp='Release'[Release Sequence] LookupCols(3)('Release'[Release Sequence]) Integer",
+    "\t\t\t\t\t\t\t\t\t\t\t\tSpoolLookup: LookupPhyOp LogOp=Max_Vertipaq LookupCols(0)('Release'[Release Label]) Integer #Records=31 #KeyCols=298 #ValueCols=1 DominantValue=BLANK",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<Copy>>: SpoolPhyOp #Records=31",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=1",
+    "\t\tColValue<'Release'[Release Label]>: LookupPhyOp LogOp='Release'[Release Label] LookupCols(0)('Release'[Release Label]) String"
+  ]
+}

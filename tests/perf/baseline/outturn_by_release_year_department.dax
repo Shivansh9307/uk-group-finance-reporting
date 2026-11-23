@@ -1,0 +1,12 @@
+// Reference for slow measure 1 on its stress grid, not a like-for-like comparison: the plain Outturn (a sum of the deltas,
+// no as-at logic) over the same three columns as ../as_at_release_year_department.dax. A delta exists only in the release
+// that made it, so this grid has far fewer non-blank cells (1,842) than the as-at grid (9,065), which carries every
+// figure forward to each later release.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Release'[Release Label],
+    'Fiscal Year'[Financial Year],
+    'Department (current structure)'[Department Number],
+    "outturn", [Outturn]
+)
+ORDER BY 'Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]

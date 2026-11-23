@@ -1,0 +1,11 @@
+query,cache,runs,total_ms_median,total_ms_min,total_ms_max,runs_with_events,formula_engine_ms_median,storage_engine_ms_median,storage_engine_queries_median,rows,errors
+as_at_release_by_department,cold,5,30,30,37,5,25,6,4,1931,0
+as_at_release_by_department,warm,5,24,22,32,3,22,0,4,1931,0
+as_at_release_by_year,cold,5,13,11,17,5,5,8,4,151,0
+as_at_release_by_year,warm,5,5,5,7,4,5,0,4,151,0
+as_at_release_year_department,cold,5,143,140,147,5,133,10,4,9065,0
+as_at_release_year_department,warm,5,131,130,140,4,130,0.5,4,9065,0
+rank_ytd_variance_one_year_month,cold,5,270,260,281,5,177,90,85,23,0
+rank_ytd_variance_one_year_month,warm,5,267,253,274,2,177.5,82.5,85,23,0
+rank_ytd_variance_three_years,cold,5,240,230,390,5,166,79,43,69,0
+rank_ytd_variance_three_years,warm,5,171,163,257,2,157.5,12.5,43,69,0

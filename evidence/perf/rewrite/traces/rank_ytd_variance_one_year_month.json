@@ -1,0 +1,173 @@
+{
+  "query_file": "rank_ytd_variance_one_year_month.dax",
+  "query_sha256": "12563b8135902fe6430108d569ed5cac2417aef2d3d71e72a4300a8e1be6e63e",
+  "cold_cache": true,
+  "rows_returned": 23,
+  "error": null,
+  "total_ms": 301,
+  "total_cpu_ms": 281,
+  "storage_engine_ms": 81,
+  "formula_engine_ms_derived": 220,
+  "storage_engine_queries": 49,
+  "storage_engine_cache_hits": 9,
+  "storage_engine_queries_by_kind": {
+    "BatchVertiPaqScan": 8,
+    "VertiPaqScan": 41,
+    "VertiPaqScanInternal": 32
+  },
+  "distinct_storage_engine_query_texts": 44,
+  "most_repeated_storage_engine_query": {
+    "times": 8,
+    "text": "SET DC_KIND=\"SIBMP\";\r\nDEFINE TABLE [$TTable2] := SELECT\r\nSIMPLEINDEXN([Fiscal Period (13)].[Period Key (159)]) AS [$SemijoinProjection]\r\nFROM [Fiscal Period (13)]\r\nWHERE\r\n\tNOT COALESCE([CallbackDataID(ISBLANK ( LatestPeriod ))]()) VAND\r\n\tNOT COALESCE([CallbackDataID('Fiscal Period'[Financial Year]] IN Years)](PFDATAID( [Fiscal Period (13)].[Financial Year (160)] ))) VAND\r\n\t(PFCASTCOALESCE( [Fiscal Period (13)].[Period Number (161)] AS  INT ) <= COALESCE([CallbackDataID(LatestPeriod)]()));\r\n"
+  },
+  "longest_storage_engine_queries": [
+    {
+      "kind": "BatchVertiPaqScan",
+      "duration_ms": 7,
+      "cached": false,
+      "text": "DEFINE TABLE [$TTable2] := SELECT\r\nSIMPLEINDEXN([Fiscal Period (13)].[Period Key (159)]) AS [$SemijoinProjection]\r\nFROM [Fiscal Period (13)]\r\nWHERE\r\n\tNOT COALESCE([CallbackDataID(ISBLANK ( LatestPeriod ))]()) VAND\r\n\tNOT COALESCE([CallbackDataID('Fiscal Period'[Financial Year]] IN Years)](PFDATAID( [Fiscal Period (13)].[Financial Year (160)] ))) VAND\r\n\t(PFCASTCOALESCE( [Fiscal Period (13)].[Period Number (161)] AS  INT ) <= COALESCE([CallbackDataID(LatestPeriod)]())),\r\nDEFINE TABLE [$TTable1] := SELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Spending Review Group (37)].[Spending Review Group (233)] AS [Spending Review Group (37)$Spending Review Group (233)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Account (22)] ON [Fact Outturn (70)].[Account Key (354)]=[Account (22)].[Account Key (183)]\r\n\tLEFT OUTER JOIN [Control Budget (25)] ON [Fact Outturn (70)].[Control Budget Key (355)]=[Control Budget (25)].[Control Budget Key (196)]\r\n\tLEFT OUTER JOIN [Spending Review Group (37)] ON [Fact Outturn (70)].[Spending Review Group Key (358)]=[Spending Review Group (37)].[Spending Review Group Key (232)]\r\nWHERE\r\n\t[Fiscal Year (10)].[Financial Year (157)] = '2024-25' VAND\r\n\t[Account (22)].[PESA Economic Group Code (189)] NIN ('DEPRECIATION') VAND\r\n\t[Account (22)].[Economic Budget (190)] = 'RESOURCE' VAND\r\n\t[Control Budget (25)].[Control Budget Detail Code (199)] IN ('DEL ADMIN', 'DEL PROG') VAND\r\n\t[Spending Review Group (37)].[Spending Review Group (233)] IN ('HM Revenue & Customs', 'HM Treasury', 'Home Office', 'Business and Trade', 'Justice', 'Cabinet Office', 'CLG Communities', 'Law Officer''s Departments', 'Northern Ireland', 'Science, Innovation and Technology'...[24 total values, not all displayed]) VAND\r\n\t[Fiscal Period (13)].[Period Key (159)] ININDEX [$TTable2].[$SemijoinProjection];\r\n"
+    },
+    {
+      "kind": "VertiPaqScan",
+      "duration_ms": 7,
+      "cached": false,
+      "text": "SET DC_KIND=\"AUTO\";\r\nDEFINE TABLE [$TTable1] := SELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Spending Review Group (37)].[Spending Review Group (233)] AS [Spending Review Group (37)$Spending Review Group (233)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Account (22)] ON [Fact Outturn (70)].[Account Key (354)]=[Account (22)].[Account Key (183)]\r\n\tLEFT OUTER JOIN [Control Budget (25)] ON [Fact Outturn (70)].[Control Budget Key (355)]=[Control Budget (25)].[Control Budget Key (196)]\r\n\tLEFT OUTER JOIN [Spending Review Group (37)] ON [Fact Outturn (70)].[Spending Review Group Key (358)]=[Spending Review Group (37)].[Spending Review Group Key (232)]\r\nWHERE\r\n\t[Fiscal Year (10)].[Financial Year (157)] = '2024-25' VAND\r\n\t[Account (22)].[PESA Economic Group Code (189)] NIN ('DEPRECIATION') VAND\r\n\t[Account (22)].[Economic Budget (190)] = 'RESOURCE' VAND\r\n\t[Control Budget (25)].[Control Budget Detail Code (199)] IN ('DEL ADMIN', 'DEL PROG') VAND\r\n\t[Spending Review Group (37)].[Spending Review Group (233)] IN ('HM Revenue & Customs', 'HM Treasury', 'Home Office', 'Business and Trade', 'Justice', 'Cabinet Office', 'CLG Communities', 'Law Officer''s Departments', 'Northern Ireland', 'Science, Innovation and Technology'...[24 total values, not all displayed]) VAND\r\n\t[Fiscal Period (13)].[Period Key (159)] ININDEX [$TTable2].[$SemijoinProjection];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 23, 276]\r\n"
+    },
+    {
+      "kind": "BatchVertiPaqScan",
+      "duration_ms": 6,
+      "cached": false,
+      "text": "DEFINE TABLE [$TTable2] := SELECT\r\nSIMPLEINDEXN([Fiscal Period (13)].[Period Key (159)]) AS [$SemijoinProjection]\r\nFROM [Fiscal Period (13)]\r\nWHERE\r\n\tNOT COALESCE([CallbackDataID(ISBLANK ( LatestPeriod ))]()) VAND\r\n\tNOT COALESCE([CallbackDataID('Fiscal Period'[Financial Year]] IN Years)](PFDATAID( [Fiscal Period (13)].[Financial Year (160)] ))) VAND\r\n\t(PFCASTCOALESCE( [Fiscal Period (13)].[Period Number (161)] AS  INT ) <= COALESCE([CallbackDataID(LatestPeriod)]())),\r\nDEFINE TABLE [$TTable1] := SELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Spending Review Group (37)].[Spending Review Group (233)] AS [Spending Review Group (37)$Spending Review Group (233)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Account (22)] ON [Fact Outturn (70)].[Account Key (354)]=[Account (22)].[Account Key (183)]\r\n\tLEFT OUTER JOIN [Control Budget (25)] ON [Fact Outturn (70)].[Control Budget Key (355)]=[Control Budget (25)].[Control Budget Key (196)]\r\n\tLEFT OUTER JOIN [Spending Review Group (37)] ON [Fact Outturn (70)].[Spending Review Group Key (358)]=[Spending Review Group (37)].[Spending Review Group Key (232)]\r\nWHERE\r\n\t[Fiscal Year (10)].[Financial Year (157)] = '2024-25' VAND\r\n\t[Account (22)].[PESA Economic Group Code (189)] NIN ('DEPRECIATION') VAND\r\n\t[Account (22)].[Economic Budget (190)] = 'RESOURCE' VAND\r\n\t[Control Budget (25)].[Control Budget Detail Code (199)] IN ('DEL ADMIN', 'DEL PROG') VAND\r\n\t[Spending Review Group (37)].[Spending Review Group (233)] IN ('HM Revenue & Customs', 'HM Treasury', 'Home Office', 'Business and Trade', 'Justice', 'Cabinet Office', 'CLG Communities', 'Law Officer''s Departments', 'Northern Ireland', 'Science, Innovation and Technology'...[24 total values, not all displayed]) VAND\r\n\t[Fiscal Period (13)].[Period Key (159)] ININDEX [$TTable2].[$SemijoinProjection];\r\n"
+    },
+    {
+      "kind": "BatchVertiPaqScan",
+      "duration_ms": 6,
+      "cached": false,
+      "text": "DEFINE TABLE [$TTable2] := SELECT\r\nSIMPLEINDEXN([Fiscal Period (13)].[Period Key (159)]) AS [$SemijoinProjection]\r\nFROM [Fiscal Period (13)]\r\nWHERE\r\n\tNOT COALESCE([CallbackDataID(ISBLANK ( LatestPeriod ))]()) VAND\r\n\tNOT COALESCE([CallbackDataID('Fiscal Period'[Financial Year]] IN Years)](PFDATAID( [Fiscal Period (13)].[Financial Year (160)] ))) VAND\r\n\t(PFCASTCOALESCE( [Fiscal Period (13)].[Period Number (161)] AS  INT ) <= COALESCE([CallbackDataID(LatestPeriod)]())),\r\nDEFINE TABLE [$TTable1] := SELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Spending Review Group (37)].[Spending Review Group Key (232)] AS [Spending Review Group (37)$Spending Review Group Key (232)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Account (22)] ON [Fact Outturn (70)].[Account Key (354)]=[Account (22)].[Account Key (183)]\r\n\tLEFT OUTER JOIN [Control Budget (25)] ON [Fact Outturn (70)].[Control Budget Key (355)]=[Control Budget (25)].[Control Budget Key (196)]\r\n\tLEFT OUTER JOIN [Spending Review Group (37)] ON [Fact Outturn (70)].[Spending Review Group Key (358)]=[Spending Review Group (37)].[Spending Review Group Key (232)]\r\nWHERE\r\n\t[Fiscal Year (10)].[Financial Year (157)] = '2024-25' VAND\r\n\t[Account (22)].[PESA Economic Group Code (189)] NIN ('DEPRECIATION') VAND\r\n\t[Account (22)].[Economic Budget (190)] = 'RESOURCE' VAND\r\n\t[Control Budget (25)].[Control Budget Detail Code (199)] IN ('DEL ADMIN', 'DEL PROG') VAND\r\n\t[Spending Review Group (37)].[Spending Review Group Key (232)] IN (12, 13, 14, 1, 15, 2, 3, 16, 17, 18...[24 total values, not all displayed]) VAND\r\n\t[Fiscal Period (13)].[Period Key (159)] ININDEX [$TTable2].[$SemijoinProjection];\r\n"
+    },
+    {
+      "kind": "VertiPaqScan",
+      "duration_ms": 6,
+      "cached": false,
+      "text": "SET DC_KIND=\"AUTO\";\r\nDEFINE TABLE [$TTable1] := SELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Spending Review Group (37)].[Spending Review Group (233)] AS [Spending Review Group (37)$Spending Review Group (233)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Account (22)] ON [Fact Outturn (70)].[Account Key (354)]=[Account (22)].[Account Key (183)]\r\n\tLEFT OUTER JOIN [Control Budget (25)] ON [Fact Outturn (70)].[Control Budget Key (355)]=[Control Budget (25)].[Control Budget Key (196)]\r\n\tLEFT OUTER JOIN [Spending Review Group (37)] ON [Fact Outturn (70)].[Spending Review Group Key (358)]=[Spending Review Group (37)].[Spending Review Group Key (232)]\r\nWHERE\r\n\t[Fiscal Year (10)].[Financial Year (157)] = '2024-25' VAND\r\n\t[Account (22)].[PESA Economic Group Code (189)] NIN ('DEPRECIATION') VAND\r\n\t[Account (22)].[Economic Budget (190)] = 'RESOURCE' VAND\r\n\t[Control Budget (25)].[Control Budget Detail Code (199)] IN ('DEL ADMIN', 'DEL PROG') VAND\r\n\t[Spending Review Group (37)].[Spending Review Group (233)] IN ('HM Revenue & Customs', 'HM Treasury', 'Home Office', 'Business and Trade', 'Justice', 'Cabinet Office', 'CLG Communities', 'Law Officer''s Departments', 'Northern Ireland', 'Science, Innovation and Technology'...[24 total values, not all displayed]) VAND\r\n\t[Fiscal Period (13)].[Period Key (159)] ININDEX [$TTable2].[$SemijoinProjection];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 23, 276]\r\n"
+    },
+    {
+      "kind": "VertiPaqScanInternal",
+      "duration_ms": 6,
+      "cached": false,
+      "text": "SET DC_KIND=\"C32\";\r\nDEFINE TABLE [$TTable1] := SELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Spending Review Group (37)].[Spending Review Group (233)] AS [Spending Review Group (37)$Spending Review Group (233)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Account (22)] ON [Fact Outturn (70)].[Account Key (354)]=[Account (22)].[Account Key (183)]\r\n\tLEFT OUTER JOIN [Control Budget (25)] ON [Fact Outturn (70)].[Control Budget Key (355)]=[Control Budget (25)].[Control Budget Key (196)]\r\n\tLEFT OUTER JOIN [Spending Review Group (37)] ON [Fact Outturn (70)].[Spending Review Group Key (358)]=[Spending Review Group (37)].[Spending Review Group Key (232)]\r\nWHERE\r\n\t[Fiscal Year (10)].[Financial Year (157)] = '2024-25' VAND\r\n\t[Account (22)].[PESA Economic Group Code (189)] INB (null, 'Unknown', 'STAFF COSTS', 'PURCHASE OF GOODS AND SERVICES', 'INCOME FROM SALES OF GOODS AND SERVICES', 'SUBSIDIES TO PRIVATE SECTOR COMPANIES', 'SUBSIDIES TO PUBLIC CORPORATIONS', 'OTHER RESOURCE', 'CURRENT GRANTS TO PERSONS AND NON-PROFIT (NET)', 'CURRENT GRANTS ABROAD (NET)'...[31 total values, not all displayed]) VAND\r\n\t[Account (22)].[Economic Budget (190)] = 'RESOURCE' VAND\r\n\t[Control Budget (25)].[Control Budget Detail Code (199)] INB ('DEL ADMIN', 'DEL PROG') VAND\r\n\t[Spending Review Group (37)].[Spending Review Group (233)] INB ('Business and Trade', 'Cabinet Office', 'CLG Communities', 'CLG Local Government', 'Culture, Media and Sport', 'Defence', 'Education', 'Energy Security and Net Zero', 'Environment, Food and Rural Affairs', 'Foreign, Commonwealth and Development Office'...[24 total values, not all displayed]) VAND\r\n\t[Fiscal Period (13)].[Period Key (159)] ININDEX [$TTable2].[$SemijoinProjection];\r\n"
+    },
+    {
+      "kind": "BatchVertiPaqScan",
+      "duration_ms": 5,
+      "cached": false,
+      "text": "DEFINE TABLE [$TTable2] := SELECT\r\nSIMPLEINDEXN([Fiscal Period (13)].[Period Key (159)]) AS [$SemijoinProjection]\r\nFROM [Fiscal Period (13)]\r\nWHERE\r\n\tNOT COALESCE([CallbackDataID(ISBLANK ( LatestPeriod ))]()) VAND\r\n\tNOT COALESCE([CallbackDataID('Fiscal Period'[Financial Year]] IN Years)](PFDATAID( [Fiscal Period (13)].[Financial Year (160)] ))) VAND\r\n\t(PFCASTCOALESCE( [Fiscal Period (13)].[Period Number (161)] AS  INT ) <= COALESCE([CallbackDataID(LatestPeriod)]())),\r\nDEFINE TABLE [$TTable1] := SELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Spending Review Group (37)].[Spending Review Group (233)] AS [Spending Review Group (37)$Spending Review Group (233)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Account (22)] ON [Fact Outturn (70)].[Account Key (354)]=[Account (22)].[Account Key (183)]\r\n\tLEFT OUTER JOIN [Control Budget (25)] ON [Fact Outturn (70)].[Control Budget Key (355)]=[Control Budget (25)].[Control Budget Key (196)]\r\n\tLEFT OUTER JOIN [Spending Review Group (37)] ON [Fact Outturn (70)].[Spending Review Group Key (358)]=[Spending Review Group (37)].[Spending Review Group Key (232)]\r\nWHERE\r\n\t[Fiscal Year (10)].[Financial Year (157)] = '2024-25' VAND\r\n\t[Account (22)].[Economic Budget (190)] = 'CAPITAL' VAND\r\n\t[Control Budget (25)].[Control Budget Detail Code (199)] IN ('DEL ADMIN', 'DEL PROG') VAND\r\n\t[Spending Review Group (37)].[Spending Review Group (233)] IN ('HM Revenue & Customs', 'HM Treasury', 'Home Office', 'Business and Trade', 'Justice', 'Cabinet Office', 'CLG Communities', 'Law Officer''s Departments', 'Northern Ireland', 'Science, Innovation and Technology'...[24 total values, not all displayed]) VAND\r\n\t[Fiscal Period (13)].[Period Key (159)] ININDEX [$TTable2].[$SemijoinProjection];\r\n"
+    },
+    {
+      "kind": "BatchVertiPaqScan",
+      "duration_ms": 5,
+      "cached": false,
+      "text": "DEFINE TABLE [$TTable2] := SELECT\r\nSIMPLEINDEXN([Fiscal Period (13)].[Period Key (159)]) AS [$SemijoinProjection]\r\nFROM [Fiscal Period (13)]\r\nWHERE\r\n\tNOT COALESCE([CallbackDataID(ISBLANK ( LatestPeriod ))]()) VAND\r\n\tNOT COALESCE([CallbackDataID('Fiscal Period'[Financial Year]] IN Years)](PFDATAID( [Fiscal Period (13)].[Financial Year (160)] ))) VAND\r\n\t(PFCASTCOALESCE( [Fiscal Period (13)].[Period Number (161)] AS  INT ) <= COALESCE([CallbackDataID(LatestPeriod)]())),\r\nDEFINE TABLE [$TTable1] := SELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Spending Review Group (37)].[Spending Review Group (233)] AS [Spending Review Group (37)$Spending Review Group (233)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Account (22)] ON [Fact Outturn (70)].[Account Key (354)]=[Account (22)].[Account Key (183)]\r\n\tLEFT OUTER JOIN [Control Budget (25)] ON [Fact Outturn (70)].[Control Budget Key (355)]=[Control Budget (25)].[Control Budget Key (196)]\r\n\tLEFT OUTER JOIN [Spending Review Group (37)] ON [Fact Outturn (70)].[Spending Review Group Key (358)]=[Spending Review Group (37)].[Spending Review Group Key (232)]\r\nWHERE\r\n\t[Fiscal Year (10)].[Financial Year (157)] = '2024-25' VAND\r\n\t[Account (22)].[Economic Budget (190)] = 'CAPITAL' VAND\r\n\t[Control Budget (25)].[Control Budget Detail Code (199)] IN ('DEL ADMIN', 'DEL PROG') VAND\r\n\t[Spending Review Group (37)].[Spending Review Group (233)] IN ('HM Revenue & Customs', 'HM Treasury', 'Home Office', 'Business and Trade', 'Justice', 'Cabinet Office', 'CLG Communities', 'Law Officer''s Departments', 'Northern Ireland', 'Science, Innovation and Technology'...[24 total values, not all displayed]) VAND\r\n\t[Fiscal Period (13)].[Period Key (159)] ININDEX [$TTable2].[$SemijoinProjection];\r\n"
+    },
+    {
+      "kind": "BatchVertiPaqScan",
+      "duration_ms": 5,
+      "cached": false,
+      "text": "DEFINE TABLE [$TTable2] := SELECT\r\nSIMPLEINDEXN([Fiscal Period (13)].[Period Key (159)]) AS [$SemijoinProjection]\r\nFROM [Fiscal Period (13)]\r\nWHERE\r\n\tNOT COALESCE([CallbackDataID(ISBLANK ( LatestPeriod ))]()) VAND\r\n\tNOT COALESCE([CallbackDataID('Fiscal Period'[Financial Year]] IN Years)](PFDATAID( [Fiscal Period (13)].[Financial Year (160)] ))) VAND\r\n\t(PFCASTCOALESCE( [Fiscal Period (13)].[Period Number (161)] AS  INT ) <= COALESCE([CallbackDataID(LatestPeriod)]())),\r\nDEFINE TABLE [$TTable1] := SELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Spending Review Group (37)].[Spending Review Group Key (232)] AS [Spending Review Group (37)$Spending Review Group Key (232)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Account (22)] ON [Fact Outturn (70)].[Account Key (354)]=[Account (22)].[Account Key (183)]\r\n\tLEFT OUTER JOIN [Control Budget (25)] ON [Fact Outturn (70)].[Control Budget Key (355)]=[Control Budget (25)].[Control Budget Key (196)]\r\n\tLEFT OUTER JOIN [Spending Review Group (37)] ON [Fact Outturn (70)].[Spending Review Group Key (358)]=[Spending Review Group (37)].[Spending Review Group Key (232)]\r\nWHERE\r\n\t[Fiscal Year (10)].[Financial Year (157)] = '2024-25' VAND\r\n\t[Account (22)].[Economic Budget (190)] = 'CAPITAL' VAND\r\n\t[Control Budget (25)].[Control Budget Detail Code (199)] IN ('DEL ADMIN', 'DEL PROG') VAND\r\n\t[Spending Review Group (37)].[Spending Review Group Key (232)] IN (12, 13, 14, 1, 15, 2, 3, 16, 17, 18...[24 total values, not all displayed]) VAND\r\n\t[Fiscal Period (13)].[Period Key (159)] ININDEX [$TTable2].[$SemijoinProjection];\r\n"
+    },
+    {
+      "kind": "VertiPaqScan",
+      "duration_ms": 5,
+      "cached": false,
+      "text": "SET DC_KIND=\"AUTO\";\r\nDEFINE TABLE [$TTable1] := SELECT\r\n[Fiscal Year (10)].[Financial Year (157)] AS [Fiscal Year (10)$Financial Year (157)], [Spending Review Group (37)].[Spending Review Group Key (232)] AS [Spending Review Group (37)$Spending Review Group Key (232)],\r\nSUM([Fact Outturn (70)].[Amount Delta (361)]) AS [$Measure0]\r\nFROM [Fact Outturn (70)]\r\n\tLEFT OUTER JOIN [Fiscal Period (13)] ON [Fact Outturn (70)].[Period Key (356)]=[Fiscal Period (13)].[Period Key (159)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Fiscal Period (13)].[Financial Year (160)]=[Fiscal Year (10)].[Financial Year (157)]\r\n\tLEFT OUTER JOIN [Account (22)] ON [Fact Outturn (70)].[Account Key (354)]=[Account (22)].[Account Key (183)]\r\n\tLEFT OUTER JOIN [Control Budget (25)] ON [Fact Outturn (70)].[Control Budget Key (355)]=[Control Budget (25)].[Control Budget Key (196)]\r\n\tLEFT OUTER JOIN [Spending Review Group (37)] ON [Fact Outturn (70)].[Spending Review Group Key (358)]=[Spending Review Group (37)].[Spending Review Group Key (232)]\r\nWHERE\r\n\t[Fiscal Year (10)].[Financial Year (157)] = '2024-25' VAND\r\n\t[Account (22)].[PESA Economic Group Code (189)] NIN ('DEPRECIATION') VAND\r\n\t[Account (22)].[Economic Budget (190)] = 'RESOURCE' VAND\r\n\t[Control Budget (25)].[Control Budget Detail Code (199)] IN ('DEL ADMIN', 'DEL PROG') VAND\r\n\t[Spending Review Group (37)].[Spending Review Group Key (232)] IN (12, 13, 14, 1, 15, 2, 3, 16, 17, 18...[24 total values, not all displayed]) VAND\r\n\t[Fiscal Period (13)].[Period Key (159)] ININDEX [$TTable2].[$SemijoinProjection];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 23, 276]\r\n"
+    }
+  ],
+  "direct_query_events": 0,
+  "aggregation_rewrites": 0,
+  "logical_plan_lines": 1166,
+  "physical_plan_lines": 10001,
+  "logical_plan_head": [
+    "Order: RelLogOp DependOnCols()() 0-2 RequiredCols(0, 1, 2)('Spending Review Group'[Spending Review Group], ''[ytd_variance_ppm], ''[group_rank])",
+    "\tGroupSemiJoin: RelLogOp DependOnCols()() 0-2 RequiredCols(0, 1, 2)('Spending Review Group'[Spending Review Group], ''[ytd_variance_ppm], ''[group_rank])",
+    "\t\tTreatAs: RelLogOp DependOnCols()() 0-0 RequiredCols(0)('Fiscal Year'[Financial Year])",
+    "\t\t\tTableCtor: RelLogOp DependOnCols()() 0-0 RequiredCols(0)(''[Value])",
+    "\t\tTreatAs: RelLogOp DependOnCols()() 1-1 RequiredCols(1)('Fiscal Period'[Period Number])",
+    "\t\t\tTableCtor: RelLogOp DependOnCols()() 1-1 RequiredCols(1)(''[Value])",
+    "\t\tTreatAs: RelLogOp DependOnCols()() 2-3 RequiredCols(2)('Fact Plan'[Plan Measure])",
+    "\t\t\tTableCtor: RelLogOp DependOnCols()() 2-3 RequiredCols(2, 3)(''[Value], ''[])",
+    "\t\tScan_Vertipaq: RelLogOp DependOnCols()() 4-4 RequiredCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\tMultiply: ScaLogOp MeasureRef=[Perf YTD Variance PPM] DependOnCols(4)('Spending Review Group'[Spending Review Group]) Numeric DominantValue=BLANK",
+    "\t\t\tVariant->Numeric: ScaLogOp DependOnCols(4)('Spending Review Group'[Spending Review Group]) Numeric DominantValue=BLANK",
+    "\t\t\t\tCalculate: ScaLogOp DependOnCols(4)('Spending Review Group'[Spending Review Group]) Variant DominantValue=BLANK",
+    "\t\t\t\t\tCalculate: ScaLogOp MeasureRef=[Comparison Amount] DependOnCols(4)('Spending Review Group'[Spending Review Group]) Variant DominantValue=BLANK",
+    "\t\t\t\t\t\tVarScope: ScaLogOp DependOnCols(4)('Spending Review Group'[Spending Review Group]) Variant DominantValue=BLANK",
+    "\t\t\t\t\t\t\tVarScope: ScaLogOp DependOnCols(4)('Spending Review Group'[Spending Review Group]) Variant DominantValue=BLANK",
+    "\t\t\t\t\t\t\t\tScan_Vertipaq: RelLogOp VarName=Years DependOnCols()() 8-8 RequiredCols(8)('Fiscal Period'[Financial Year])",
+    "\t\t\t\t\t\t\t\tMax_Vertipaq: ScaLogOp VarName=LatestPeriod RefCount=2 DependOnCols()() Integer DominantValue=BLANK",
+    "\t\t\t\t\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols()() 8-19 RequiredCols(14)('Fiscal Period'[Period Number])",
+    "\t\t\t\t\t\t\t\t\t'Fiscal Period'[Period Number]: ScaLogOp DependOnCols(14)('Fiscal Period'[Period Number]) Integer DominantValue=NONE",
+    "\t\t\t\t\t\t\t\tGroupBy_Vertipaq: RelLogOp VarName=Keys DependOnCols()() 8-8 RequiredCols(8)(''[k])",
+    "\t\t\t\t\t\t\t\t\tFilter_Vertipaq: RelLogOp DependOnCols()() 8-19 RequiredCols(12)('Fiscal Period'[Period Key])",
+    "\t\t\t\t\t\t\t\t\t\tFilter_Vertipaq: RelLogOp DependOnCols()() 8-19 RequiredCols(12, 14)('Fiscal Period'[Period Key], 'Fiscal Period'[Period Number])",
+    "\t\t\t\t\t\t\t\t\t\t\tFilter_Vertipaq: RelLogOp DependOnCols()() 8-19 RequiredCols(12, 13, 14)('Fiscal Period'[Period Key], 'Fiscal Period'[Financial Year], 'Fiscal Period'[Period Number])",
+    "\t\t\t\t\t\t\t\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols()() 8-19 RequiredCols(12, 13, 14)('Fiscal Period'[Period Key], 'Fiscal Period'[Financial Year], 'Fiscal Period'[Period Number])",
+    "\t\t\t\t\t\t\t\t\t\t\t\tNot: ScaLogOp DependOnCols()() Boolean DominantValue=false",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\tISBLANK: ScaLogOp DependOnCols()() Boolean DominantValue=true",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\tScalarVarProxy: ScaLogOp DependOnCols()() Integer DominantValue=BLANK RefVarName=LatestPeriod",
+    "\t\t\t\t\t\t\t\t\t\t\tNot: ScaLogOp DependOnCols(13)('Fiscal Period'[Financial Year]) Boolean DominantValue=false",
+    "\t\t\t\t\t\t\t\t\t\t\t\tIsEmpty: ScaLogOp DependOnCols(13)('Fiscal Period'[Financial Year]) Boolean DominantValue=true",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\tFilter: RelLogOp DependOnCols(13)('Fiscal Period'[Financial Year]) 20-20 RequiredCols(13, 20)('Fiscal Period'[Financial Year], 'Fiscal Period'[Financial Year])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\tTableVarProxy_VertiPaq: RelLogOp DependOnCols()() 20-20 RequiredCols(20)('Fiscal Period'[Financial Year]) RefVarName=Years",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\tIs: ScaLogOp DependOnCols(13, 20)('Fiscal Period'[Financial Year], 'Fiscal Period'[Financial Year]) Boolean DominantValue=false",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Fiscal Period'[Financial Year]: ScaLogOp DependOnCols(20)('Fiscal Period'[Financial Year]) String DominantValue=NONE",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Fiscal Period'[Financial Year]: ScaLogOp DependOnCols(13)('Fiscal Period'[Financial Year]) String DominantValue=NONE",
+    "\t\t\t\t\t\t\t\t\t\tLessThanOrEqualTo: ScaLogOp DependOnCols(14)('Fiscal Period'[Period Number]) Boolean DominantValue=NONE",
+    "\t\t\t\t\t\t\t\t\t\t\t'Fiscal Period'[Period Number]: ScaLogOp DependOnCols(14)('Fiscal Period'[Period Number]) Integer DominantValue=NONE",
+    "\t\t\t\t\t\t\t\t\t\t\tScalarVarProxy: ScaLogOp DependOnCols()() Integer DominantValue=BLANK RefVarName=LatestPeriod",
+    "\t\t\t\t\t\t\t\tVarScope: ScaLogOp DependOnCols(4)('Spending Review Group'[Spending Review Group]) Variant DominantValue=BLANK",
+    "\t\t\t\t\t\t\t\t\tTableVarProxy_VertiPaq: RelLogOp VarName=periodKeys DependOnCols()() 8-8 RequiredCols(8)(''[k]) RefVarName=Keys",
+    "\t\t\t\t\t\t\t\t\tCalculate: ScaLogOp DependOnCols(4)('Spending Review Group'[Spending Review Group]) Variant DominantValue=BLANK"
+  ],
+  "physical_plan_head": [
+    "PartitionIntoGroups: IterPhyOp LogOp=Order IterCols(0, 1, 2)('Spending Review Group'[Spending Review Group], ''[ytd_variance_ppm], ''[group_rank]) #Groups=1 #Rows=23",
+    "\tAggregationSpool<Order>: SpoolPhyOp #Records=1",
+    "\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=GroupSemiJoin IterCols(0, 1, 2)('Spending Review Group'[Spending Review Group], ''[ytd_variance_ppm], ''[group_rank]) #Records=23 #KeyCols=1 #ValueCols=2",
+    "\t\t\tAggregationSpool<GroupSemiJoin>: SpoolPhyOp #Records=23",
+    "\t\t\t\tCrossApply: IterPhyOp LogOp=Multiply IterCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\t\t\t\tSpool_UniqueHashLookup: IterPhyOp LogOp=Scan_Vertipaq LookupCols(4)('Spending Review Group'[Spending Review Group]) #Records=32 #KeyCols=298 #ValueCols=0",
+    "\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=32",
+    "\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=0",
+    "\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp=Multiply IterCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\t\t\t\t\tVariant->Numeric: IterPhyOp LogOp=Variant->Numeric IterCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\t\t\t\t\t\tCrossApply: IterPhyOp LogOp=Divide IterCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\t\t\t\t\t\t\tSpool_UniqueHashLookup: IterPhyOp LogOp=Scan_Vertipaq LookupCols(4)('Spending Review Group'[Spending Review Group]) #Records=32 #KeyCols=298 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=32",
+    "\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\tSpool_UniqueHashLookup: IterPhyOp LogOp=PredicateCheck LookupCols(4)('Spending Review Group'[Spending Review Group]) #Records=23 #KeyCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\tAggregationSpool<GroupBy>: SpoolPhyOp #Records=23",
+    "\t\t\t\t\t\t\t\t\t\tPredicateCheck: IterPhyOp LogOp=PredicateCheck IterCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\t\t\t\t\t\t\t\t\t\tOuterHashJoin: IterPhyOp LogOp=Or IterCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\t\t\t\t\t\t\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp=Or IterCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\tISBLANK: IterPhyOp LogOp=ISBLANK IterCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=ScalarVarProxy IterCols(4)('Spending Review Group'[Spending Review Group]) #Records=23 #KeyCols=1 #ValueCols=1",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAggregationSpool<Copy>: SpoolPhyOp #Records=23",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCrossApply: IterPhyOp LogOp=SumX IterCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_UniqueHashLookup: IterPhyOp LogOp=Scan_Vertipaq LookupCols(4)('Spending Review Group'[Spending Review Group]) #Records=32 #KeyCols=298 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=32",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_UniqueHashLookup: IterPhyOp LogOp=PredicateCheck LookupCols(4)('Spending Review Group'[Spending Review Group]) #Records=32 #KeyCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAggregationSpool<GroupBy>: SpoolPhyOp #Records=32",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPredicateCheck: IterPhyOp LogOp=PredicateCheck IterCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp=ScalarVarProxy IterCols(4)('Spending Review Group'[Spending Review Group])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Scan_Vertipaq IterCols(4)('Spending Review Group'[Spending Review Group]) #Records=32 #KeyCols=298 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=32",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tGreaterThan: LookupPhyOp LogOp=GreaterThan LookupCols(4)('Spending Review Group'[Spending Review Group]) Boolean",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpoolLookup: LookupPhyOp LogOp=CountRows LookupCols(4)('Spending Review Group'[Spending Review Group]) Integer #Records=0 #KeyCols=1 #ValueCols=1 DominantValue=BLANK",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAggregationSpool<Count>: SpoolPhyOp #Records=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Filter_Vertipaq IterCols(4, 10, 11)('Spending Review Group'[Spending Review Group], 'Fiscal Year'[Financial Year], 'Fact Plan'[Plan Measure]) #Records=0 #KeyCols=298 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tConstant: LookupPhyOp LogOp=Constant Integer 0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=SumX IterCols(4)('Spending Review Group'[Spending Review Group]) #Records=23 #KeyCols=1 #ValueCols=1"
+  ]
+}

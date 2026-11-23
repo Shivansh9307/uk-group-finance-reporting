@@ -1,9 +1,11 @@
-// Slow measure 2, naive form, shaped like a matrix of ranks: three financial years by Spending Review group.
+// Slow measure 2, shaped like a matrix of ranks: three financial years by Spending Review group, with the plan measure
+// filter the report page carries (the DEL headline: resource DEL excluding depreciation, and capital DEL).
 EVALUATE
 SUMMARIZECOLUMNS (
     'Fiscal Year'[Financial Year],
     'Spending Review Group'[Spending Review Group],
     TREATAS ( { "2023-24", "2024-25", "2025-26" }, 'Fiscal Year'[Financial Year] ),
+    TREATAS ( { "RDEL_EX_DEPN", "CDEL" }, 'Fact Plan'[Plan Measure] ),
     "group_rank", [Department Group Rank (YTD Variance %)]
 )
 ORDER BY 'Fiscal Year'[Financial Year], 'Spending Review Group'[Spending Review Group]

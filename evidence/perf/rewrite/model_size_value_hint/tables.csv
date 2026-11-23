@@ -1,0 +1,32 @@
+table,rows,table_size_bytes,columns_size_bytes
+Plan Source,17,12792392,12792392
+Account,128,10690814,10687998
+Organisation (as reported),409,10684356,10684356
+Data Quality Issue,10,10662016,10662016
+PSS Control,443,8575304,8575304
+Plan Variance Check,364,7524516,7524516
+Fact Plan Phased (derived),53688,7333436,7333244
+Fact Outturn,658554,6441068,6434196
+Annual Control,60,6406248,6406248
+Control Budget,6,6395712,6395712
+Sub-Segment,3766,5683888,5683888
+Department (current structure),63,5350378,5350378
+CPI,920,5336880,5336880
+Plan Coverage,69,5331776,5331776
+Fact Plan,5372,4359040,4358976
+Statement Line,39,4341204,4341204
+Deflator,229,4295566,4295566
+File Control,31,4270748,4270724
+Load Control,46,4267284,4267284
+Spending Review Group,32,4265672,4265672
+Plan Grain,4,3197864,3197864
+Release,31,2171342,2171342
+Scenario,5,1084444,1084444
+Deflator Quarantine,,68432,68432
+Fiscal Period,143,58178,58170
+CPI Quarantine,,51392,51392
+Statement Measure,4,35484,35484
+Fiscal Year,12,18216,18216
+Time Intelligence,8,18046,18046
+Scenario Comparison,5,17974,17974
+Display Unit,3,17852,17852

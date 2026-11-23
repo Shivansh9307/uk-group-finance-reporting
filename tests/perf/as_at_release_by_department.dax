@@ -1,4 +1,4 @@
-// Slow measure 1, naive form, shaped like a table: Outturn as at Release by release and department of the current
+// Slow measure 1, shaped like a table: Outturn as at Release by release and department of the current
 // structure for all 31 releases (every year each release had reached added together).
 EVALUATE
 SUMMARIZECOLUMNS (

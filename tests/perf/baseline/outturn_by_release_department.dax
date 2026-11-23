@@ -1,0 +1,10 @@
+// Reference for slow measure 1 on its table shape, not a like-for-like comparison: the plain Outturn over the same two
+// columns as ../as_at_release_by_department.dax. It has 1,842 non-blank cells where the as-at grid has 1,931, because a
+// delta exists only in the release that made it.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Release'[Release Label],
+    'Department (current structure)'[Department Number],
+    "outturn", [Outturn]
+)
+ORDER BY 'Release'[Release Label], 'Department (current structure)'[Department Number]

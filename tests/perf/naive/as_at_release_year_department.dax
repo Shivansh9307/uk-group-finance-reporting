@@ -1,0 +1,11 @@
+// The same query as ../as_at_release_year_department.dax on the hidden plain (naive) form of the measure, so that before and after run the same query.
+// Slow measure 1, plain form, stress shape (more cells than a page would show): Outturn as at Release by release, financial
+// year and department of the current structure.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Release'[Release Label],
+    'Fiscal Year'[Financial Year],
+    'Department (current structure)'[Department Number],
+    "as_at", [Outturn as at Release (naive)]
+)
+ORDER BY 'Release'[Release Label], 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]

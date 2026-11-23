@@ -1,4 +1,4 @@
-// Slow measure 1, naive form, stress shape (more cells than a page would show): Outturn as at Release by release, financial
+// Slow measure 1, stress shape (more cells than a page would show): Outturn as at Release by release, financial
 // year and department of the current structure.
 EVALUATE
 SUMMARIZECOLUMNS (

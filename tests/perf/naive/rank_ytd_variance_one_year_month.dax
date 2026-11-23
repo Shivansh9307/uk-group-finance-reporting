@@ -1,0 +1,21 @@
+// The same query as ../rank_ytd_variance_one_year_month.dax on the hidden plain (naive) form of the measure, so that before and after run the same query.
+// Slow measure 2, shaped like a ranked bar chart: the year-to-date variance % rank of every Spending Review group for
+// one year at period 12 (the only period at which a year-to-date plan exists), with the value it ranks. The plan measure
+// filter is the one the report page carries (the DEL headline: resource DEL excluding depreciation, and capital DEL).
+DEFINE
+    MEASURE 'Fact Outturn'[Perf YTD Variance PPM] =
+        CALCULATE (
+            [Comparison Amount],
+            'Time Intelligence'[Time Calculation] = "YTD",
+            'Scenario Comparison'[Comparison] = "Variance %"
+        ) * 1000000
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Spending Review Group'[Spending Review Group],
+    TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ),
+    TREATAS ( { 12 }, 'Fiscal Period'[Period Number] ),
+    TREATAS ( { "RDEL_EX_DEPN", "CDEL" }, 'Fact Plan'[Plan Measure] ),
+    "ytd_variance_ppm", [Perf YTD Variance PPM],
+    "group_rank", [Department Group Rank (YTD Variance %) (naive)]
+)
+ORDER BY [group_rank], 'Spending Review Group'[Spending Review Group]

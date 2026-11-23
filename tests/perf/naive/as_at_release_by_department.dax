@@ -1,0 +1,10 @@
+// The same query as ../as_at_release_by_department.dax on the hidden plain (naive) form of the measure, so that before and after run the same query.
+// Slow measure 1, plain form, shaped like a table: Outturn as at Release by release and department of the current
+// structure for all 31 releases (every year each release had reached added together).
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Release'[Release Label],
+    'Department (current structure)'[Department Number],
+    "as_at", [Outturn as at Release (naive)]
+)
+ORDER BY 'Release'[Release Label], 'Department (current structure)'[Department Number]

@@ -1,0 +1,268 @@
+table,column,data_type,column_type,encoding,cardinality,dictionary_bytes,data_bytes,hierarchies_bytes,total_bytes,is_hidden
+Account,Economic Category,String,Data,HASH,128,1066672,248,1040,1067960,False
+Account,Economic Category Code,String,Data,HASH,128,1066672,248,1040,1067960,False
+Account,Economic Category Name,String,Data,HASH,128,1066672,248,1040,1067960,False
+Account,PESA Economic Group,String,Data,HASH,31,1065896,216,256,1066368,False
+Account,PESA Economic Group Code,String,Data,HASH,31,1065896,216,256,1066368,False
+Account,First Release,String,Data,HASH,8,1065712,136,80,1065928,False
+Account,Economic Budget,String,Data,HASH,5,1065688,184,48,1065920,False
+Account,Last Release,String,Data,HASH,6,1065696,136,64,1065896,False
+Account,Income Or Expenditure,String,Data,HASH,3,1065672,168,32,1065872,False
+Account,Flow Basis,String,Data,HASH,2,1065664,136,32,1065832,False
+Account,Source Codes,String,Data,HASH,128,19382,248,,19630,True
+Account,Statement Line Key,Int64,Data,HASH,28,1408,216,,1624,True
+Account,Account Key,Int64,Data,VALUE,128,144,264,,408,True
+Annual Control,Financial Year,String,Data,HASH,7,1065704,152,64,1065920,False
+Annual Control,In-Year Release,String,Data,HASH,7,1065704,152,64,1065920,False
+Annual Control,Basis Note,String,Data,HASH,4,1065680,144,48,1065872,False
+Annual Control,Level,String,Data,HASH,4,1065680,144,48,1065872,False
+Annual Control,Vintage,String,Data,HASH,3,1065672,144,32,1065848,False
+Annual Control,Status,String,Data,HASH,2,1065664,136,32,1065832,False
+Annual Control,Gap,Decimal,Data,HASH,57,2776,184,464,3424,False
+Annual Control,Tolerance,Double,Data,HASH,2,2288,136,32,2456,False
+Annual Control,In-Year Amount,Decimal,Data,HASH,28,1520,176,240,1936,False
+Annual Control,Is Latest Vintage For Year,Boolean,Data,HASH,2,1304,136,32,1472,False
+Annual Control,Annual Amount,Decimal,Data,VALUE,57,144,376,232,752,False
+Annual Control,Gap Share,Double,Data,VALUE,57,144,296,232,672,False
+CPI,Series Id,String,Data,HASH,2,1065664,136,32,1065832,False
+CPI,Series Title,String,Data,HASH,2,1065664,136,32,1065832,False
+CPI,Source File,String,Data,HASH,2,1065664,136,32,1065832,False
+CPI,Unit,String,Data,HASH,2,1065664,136,32,1065832,False
+CPI,Release Date,String,Data,HASH,1,1065656,136,16,1065808,False
+CPI,Month Start Date,DateTime,Data,VALUE,466,144,1976,1872,3992,False
+CPI,CPI Value,Double,Data,VALUE,431,144,1608,1728,3480,False
+CPI Quarantine,Reason,String,Data,HASH,,16904,136,,17040,False
+CPI Quarantine,Row Label,String,Data,HASH,,16904,136,,17040,False
+CPI Quarantine,Source File,String,Data,HASH,,16904,136,,17040,False
+Control Budget,Control Budget Detail,String,Data,HASH,6,1065696,136,64,1065896,False
+Control Budget,Control Budget Detail Code,String,Data,HASH,6,1065696,136,64,1065896,False
+Control Budget,Control Budget,String,Data,HASH,4,1065680,136,48,1065864,False
+Control Budget,Published Labels,String,Data,HASH,4,1065680,136,48,1065864,False
+Control Budget,Last Release,String,Data,HASH,2,1065664,136,32,1065832,False
+Control Budget,First Release,String,Data,HASH,1,1065656,136,16,1065808,False
+Control Budget,Control Budget Key,Int64,Data,VALUE,6,144,136,,280,True
+Data Quality Issue,Issue Description,String,Data,HASH,10,1065728,136,96,1065960,False
+Data Quality Issue,Issue Type,String,Data,HASH,6,1065696,136,64,1065896,False
+Data Quality Issue,Issue Rule,String,Data,HASH,5,1065688,136,48,1065872,False
+Data Quality Issue,Treatment,String,Data,HASH,5,1065688,136,48,1065872,False
+Data Quality Issue,Release From,String,Data,HASH,5,1065680,136,48,1065864,False
+Data Quality Issue,Release To,String,Data,HASH,5,1065680,136,48,1065864,False
+Data Quality Issue,Organisation Code,String,Data,HASH,3,1065664,136,32,1065832,False
+Data Quality Issue,Sub-Segment Code,String,Data,HASH,3,1065664,136,32,1065832,False
+Data Quality Issue,Control Budget Detail Code,String,Data,HASH,2,1065656,136,32,1065824,False
+Data Quality Issue,Economic Category Code,String,Data,HASH,2,1065656,136,32,1065824,False
+Data Quality Issue,Amount Before,Decimal,Data,HASH,8,1352,136,80,1568,False
+Data Quality Issue,Amount After,Decimal,Data,VALUE,7,144,176,32,352,False
+Data Quality Issue,Rows Affected,Int64,Data,VALUE,5,144,152,24,320,False
+Data Quality Issue,Flags Fact Rows,Boolean,Data,VALUE,2,144,136,16,296,False
+Data Quality Issue,Period Key,Int64,Data,VALUE,4,144,144,,288,True
+Data Quality Issue,Data Quality Issue Key,Int64,Data,VALUE,10,144,136,,280,True
+Deflator,Financial Year,String,Data,HASH,77,1066264,336,624,1067224,False
+Deflator,Source File,String,Data,HASH,3,1065672,136,32,1065840,False
+Deflator,Vintage Id,String,Data,HASH,3,1065672,136,32,1065840,False
+Deflator,Year Status,String,Data,HASH,2,1065664,136,32,1065832,False
+Deflator,Vintage,String,Data,HASH,3,17202,136,32,17370,False
+Deflator,Per Cent Change,Double,Data,HASH,152,5680,360,1232,7272,False
+Deflator,Chained Index,Double,Data,VALUE,152,144,744,616,1504,False
+Deflator,Vintage Order,Int64,Data,HASH,3,1308,136,32,1476,True
+Deflator,Is Default Vintage,Boolean,Data,HASH,2,1304,136,32,1472,False
+Deflator,Index Published,Double,Data,VALUE,142,144,744,576,1464,False
+Deflator Quarantine,Reason,String,Data,HASH,,16904,136,,17040,False
+Deflator Quarantine,Row Label,String,Data,HASH,,16904,136,,17040,False
+Deflator Quarantine,Source File,String,Data,HASH,,16904,136,,17040,False
+Deflator Quarantine,Vintage Id,String,Data,HASH,,16904,136,,17040,False
+Department (current structure),Department,String,Data,HASH,63,1066152,184,512,1066848,False
+Department (current structure),Department Number,String,Data,HASH,63,1066152,184,512,1066848,False
+Department (current structure),Valid From Release,String,Data,HASH,6,1065696,160,64,1065920,False
+Department (current structure),Department Type,String,Data,HASH,2,1065664,136,32,1065832,False
+Department (current structure),Valid To Release,String,Data,HASH,1,1065656,136,16,1065808,False
+Department (current structure),Reported Department Numbers,String,Data,HASH,63,18330,184,,18514,True
+Department (current structure),Department Key,Int64,Data,VALUE,63,144,192,,336,True
+Display Unit,Unit,String,Data,HASH,3,17116,136,32,17284,False
+Display Unit,Ordinal,Int64,Data,VALUE,3,144,136,16,296,True
+Fact Outturn,Amount Delta,Decimal,Data,HASH,84291,2811244,1722376,,4533620,True
+Fact Outturn,Segment Key,Int64,Data,HASH,3765,80868,495624,,576492,True
+Fact Outturn,Period Key,Int64,Data,HASH,100,2720,555920,,558640,True
+Fact Outturn,Release Key,Int64,Data,HASH,31,1420,394880,,396300,True
+Fact Outturn,Account Key,Int64,Data,HASH,127,2828,149600,,152428,True
+Fact Outturn,Organisation Key,Int64,Data,HASH,408,10096,136664,,146760,True
+Fact Outturn,Current Department Key,Int64,Data,HASH,63,1548,32448,,33996,True
+Fact Outturn,Spending Review Group Key,Int64,Data,HASH,25,1396,26504,,27900,True
+Fact Outturn,Revision Number,Int64,Data,HASH,4,1312,432,48,1792,False
+Fact Outturn,Control Budget Key,Int64,Data,HASH,5,1316,344,,1660,True
+Fact Outturn,Data Quality Issue Key,Int64,Data,HASH,7,1324,136,,1460,True
+Fact Outturn,Mapping Is Estimated,Boolean,Data,HASH,2,1304,136,,1440,True
+Fact Outturn,Scenario Key,Int64,Data,HASH,1,1300,136,,1436,True
+Fact Plan,Plan Organisation Code,String,Data,HASH,299,1068032,5416,2400,1075848,False
+Fact Plan,Plan Measure,String,Data,HASH,10,1065728,1176,96,1067000,False
+Fact Plan,Plan Control Budget Detail,String,Data,HASH,6,1065696,912,64,1066672,False
+Fact Plan,Plan Economic Budget,String,Data,HASH,4,1065680,800,48,1066528,False
+Fact Plan,Plan Amount,Decimal,Data,VALUE,3972,144,19616,,19760,True
+Fact Plan,Fiscal Year Key,String,Data,HASH,12,17360,2312,,19672,True
+Fact Plan,Plan Grain Key,String,Data,HASH,4,17120,144,,17264,True
+Fact Plan,Plan Fact Key,Int64,Data,VALUE,5372,144,10880,,11024,True
+Fact Plan,Source Line Count,Int64,Data,VALUE,283,144,4456,1136,5736,False
+Fact Plan,Spending Review Group Key,Int64,Data,HASH,26,1400,3112,,4512,True
+Fact Plan,Plan Source Key,Int64,Data,HASH,11,1340,440,,1780,True
+Fact Plan,Is Part Of Other Measure,Boolean,Data,HASH,2,1304,136,32,1472,False
+Fact Plan,Scenario Key,Int64,Data,HASH,1,1300,136,,1436,True
+Fact Plan Phased (derived),Plan Organisation Code,String,Data,HASH,297,1068016,50432,2384,1120832,False
+Fact Plan Phased (derived),Plan Measure,String,Data,HASH,10,1065728,2136,96,1067960,False
+Fact Plan Phased (derived),Plan Economic Budget,String,Data,HASH,4,1065680,2056,48,1067784,False
+Fact Plan Phased (derived),Plan Control Budget Detail,String,Data,HASH,6,1065696,1800,64,1067560,False
+Fact Plan Phased (derived),Phasing Method,String,Data,HASH,3,1065672,536,32,1066240,False
+Fact Plan Phased (derived),Phasing Share,Double,Data,HASH,20332,703832,49272,162672,915776,False
+Fact Plan Phased (derived),Phased Amount,Decimal,Data,HASH,22912,732744,91832,,824576,True
+Fact Plan Phased (derived),Plan Fact Key,Int64,Data,VALUE,4474,144,107512,,107656,True
+Fact Plan Phased (derived),Period Key,Int64,Data,HASH,132,2864,51776,,54640,True
+Fact Plan Phased (derived),Plan Grain Key,String,Data,HASH,4,17120,168,,17288,True
+Fact Plan Phased (derived),Spending Review Group Key,Int64,Data,HASH,26,1400,14664,,16064,True
+Fact Plan Phased (derived),Plan Source Key,Int64,Data,HASH,11,1340,872,,2212,True
+Fact Plan Phased (derived),Is Part Of Other Measure,Boolean,Data,HASH,2,1304,160,32,1496,False
+Fact Plan Phased (derived),Is Derived,Boolean,Data,HASH,1,1300,136,16,1452,False
+Fact Plan Phased (derived),Scenario Key,Int64,Data,HASH,1,1300,136,,1436,True
+File Control,File Name,String,Data,HASH,31,1065896,152,256,1066304,False
+File Control,File Sum (exact),String,Data,HASH,31,1065896,152,256,1066304,False
+File Control,Release Label,String,Data,HASH,31,1065896,152,256,1066304,False
+File Control,Status,String,Data,HASH,1,1065656,136,16,1065808,False
+File Control,File Total Value,Decimal,Data,HASH,31,1580,152,,1732,True
+File Control,Release Key,Int64,Data,HASH,31,1420,152,,1572,True
+File Control,Rows Quarantined,Int64,Data,HASH,1,1300,136,16,1452,False
+File Control,Rows Loaded,Int64,Data,VALUE,31,144,216,128,488,False
+File Control,Rows Read,Int64,Data,VALUE,31,144,216,128,488,False
+Fiscal Period,Period,String,Data,HASH,13,17404,200,112,17716,False
+Fiscal Period,Month,String,Data,HASH,13,17398,200,112,17710,False
+Fiscal Period,Financial Year,String,Data,HASH,11,17336,200,,17536,True
+Fiscal Period,Fiscal Quarter,Int64,Data,HASH,5,1312,184,48,1544,False
+Fiscal Period,Is Period 0,Boolean,Data,HASH,2,1304,152,32,1488,False
+Fiscal Period,Month Start Date,DateTime,Data,VALUE,133,144,360,536,1040,False
+Fiscal Period,Period Key,Int64,Data,VALUE,143,144,320,,464,True
+Fiscal Period,Period Number,Int64,Data,VALUE,13,144,200,56,400,False
+Fiscal Year,Financial Year,String,Data,HASH,12,17360,136,112,17608,False
+Fiscal Year,Year Start,Int64,Data,VALUE,12,144,136,56,336,True
+Load Control,File Name,String,Data,HASH,46,1066016,168,384,1066568,False
+Load Control,Source Period,String,Data,HASH,46,1066016,168,384,1066568,False
+Load Control,Source Family,String,Data,HASH,2,1065664,136,32,1065832,False
+Load Control,Status,String,Data,HASH,1,1065656,136,16,1065808,False
+Load Control,Rows Quarantined Value,Int64,Data,HASH,1,1300,136,,1436,True
+Load Control,Rows Loaded Value,Int64,Data,VALUE,46,144,256,,400,True
+Load Control,Rows Read Value,Int64,Data,VALUE,46,144,256,,400,True
+Organisation (as reported),Organisation,String,Data,HASH,333,1068312,600,2672,1071584,False
+Organisation (as reported),Organisation Code,String,Data,HASH,300,1068048,600,2416,1071064,False
+Organisation (as reported),Durable Key,String,Data,HASH,278,1067872,600,2240,1070712,False
+Organisation (as reported),Department (as reported),String,Data,HASH,71,1066216,496,576,1067288,False
+Organisation (as reported),Department Number (as reported),String,Data,HASH,64,1066160,456,528,1067144,False
+Organisation (as reported),Valid From Release,String,Data,HASH,29,1065880,264,240,1066384,False
+Organisation (as reported),Valid To Release,String,Data,HASH,24,1065840,264,208,1066312,False
+Organisation (as reported),Version Reason,String,Data,HASH,7,1065704,208,64,1065976,False
+Organisation (as reported),Durable Key Rule,String,Data,HASH,6,1065696,136,64,1065896,False
+Organisation (as reported),Successor Durable Key,String,Data,HASH,2,1065656,136,32,1065824,False
+Organisation (as reported),Version Number,Int64,Data,HASH,5,1316,208,48,1572,False
+Organisation (as reported),Is Latest Version,Boolean,Data,HASH,2,1304,160,32,1496,False
+Organisation (as reported),Is Current Version,Boolean,Data,HASH,2,1304,136,32,1472,False
+Organisation (as reported),Organisation Key,Int64,Data,VALUE,409,144,600,,744,True
+Organisation (as reported),Releases Reported,Int64,Data,VALUE,30,144,344,128,616,False
+PSS Control,Spending Review Group,String,Data,HASH,26,1065856,424,224,1066504,False
+PSS Control,Financial Year,String,Data,HASH,5,1065688,304,48,1066040,False
+PSS Control,Source Release,String,Data,HASH,6,1065696,232,64,1065992,False
+PSS Control,Measure,String,Data,HASH,2,1065664,184,32,1065880,False
+PSS Control,Status,String,Data,HASH,4,1065680,136,48,1065864,False
+PSS Control,Level,String,Data,HASH,3,1065672,144,32,1065848,False
+PSS Control,Basis Note,String,Data,HASH,2,1065664,136,32,1065832,False
+PSS Control,Comparison,String,Data,HASH,2,1065664,136,32,1065832,False
+PSS Control,OSCAR Amount,Decimal,Data,HASH,430,20288,640,3456,24384,False
+PSS Control,Gap,Decimal,Data,HASH,321,11368,512,2576,14456,False
+PSS Control,PSS Amount,Decimal,Data,VALUE,246,144,1904,992,3040,False
+PSS Control,Gap Share,Double,Data,VALUE,322,144,1456,1296,2896,False
+PSS Control,Tolerance,Double,Data,HASH,3,2296,136,32,2464,False
+Plan Coverage,Financial Year,String,Data,HASH,12,1065744,168,112,1066024,False
+Plan Coverage,Plan Source,String,Data,HASH,11,1065736,168,96,1066000,False
+Plan Coverage,Plan Source Code,String,Data,HASH,11,1065736,168,96,1066000,False
+Plan Coverage,Plan Measure,String,Data,HASH,10,1065728,168,96,1065992,False
+Plan Coverage,Grain Code,String,Data,HASH,4,1065680,152,48,1065880,False
+Plan Coverage,Source Lines,Int64,Data,VALUE,39,144,272,160,576,False
+Plan Coverage,Amount Total Value,Decimal,Data,VALUE,69,144,408,,552,True
+Plan Coverage,Fact Rows,Int64,Data,VALUE,30,144,208,128,480,False
+Plan Grain,Grain Code,String,Data,HASH,4,1065680,136,48,1065864,False
+Plan Grain,Grain Description,String,Data,HASH,4,1065680,136,48,1065864,False
+Plan Grain,Plan Grain,String,Data,HASH,4,1065680,136,48,1065864,False
+Plan Source,Edition,String,Data,HASH,17,1065784,144,144,1066072,False
+Plan Source,Plan Source,String,Data,HASH,17,1065784,144,144,1066072,False
+Plan Source,Plan Source Code,String,Data,HASH,17,1065784,144,144,1066072,False
+Plan Source,Scotland BGA Rule,String,Data,HASH,13,1065752,144,112,1066008,False
+Plan Source,Resource Basis Evidence,String,Data,HASH,6,1065696,136,64,1065896,False
+Plan Source,Plan Year,String,Data,HASH,6,1065688,136,64,1065888,False
+Plan Source,Family,String,Data,HASH,4,1065680,136,48,1065864,False
+Plan Source,Grain Description,String,Data,HASH,4,1065680,136,48,1065864,False
+Plan Source,Includes Block Grant Adjustment,String,Data,HASH,4,1065680,136,48,1065864,False
+Plan Source,Plan Basis,String,Data,HASH,4,1065680,136,48,1065864,False
+Plan Source,Scotland BGA Flag,String,Data,HASH,4,1065680,136,48,1065864,False
+Plan Source,Resource Basis,String,Data,HASH,2,1065664,136,32,1065832,False
+Plan Source,First Published,DateTime,Data,VALUE,16,144,160,72,376,False
+Plan Source,Is Final Plan For Year,Boolean,Data,VALUE,2,144,136,16,296,False
+Plan Source,Plan Source Key,Int64,Data,VALUE,17,144,144,,288,True
+Plan Variance Check,Spending Review Group,String,Data,HASH,26,1065856,376,224,1066456,False
+Plan Variance Check,Verdict,String,Data,HASH,28,1065872,256,240,1066368,False
+Plan Variance Check,First Look Cause,String,Data,HASH,28,1065864,176,240,1066280,False
+Plan Variance Check,Financial Year,String,Data,HASH,4,1065680,224,48,1065952,False
+Plan Variance Check,Plan Measure,String,Data,HASH,4,1065680,224,48,1065952,False
+Plan Variance Check,Verdict Class,String,Data,HASH,4,1065680,176,48,1065904,False
+Plan Variance Check,Reference Source,String,Data,HASH,3,1065664,152,32,1065848,False
+Plan Variance Check,Variance Amount,Decimal,Data,HASH,356,11768,552,2864,15184,False
+Plan Variance Check,Outturn Amount,Decimal,Data,HASH,342,11560,552,2752,14864,False
+Plan Variance Check,Gap First Look,Decimal,Data,HASH,262,10644,464,2112,13220,False
+Plan Variance Check,Residual,Decimal,Data,HASH,55,2760,200,448,3408,False
+Plan Variance Check,Planned Amount,Decimal,Data,VALUE,330,144,1592,1328,3064,False
+Plan Variance Check,Variance Share,Double,Data,VALUE,323,144,1592,1296,3032,False
+Plan Variance Check,Reference Outturn,Decimal,Data,VALUE,296,144,1320,1192,2656,False
+Plan Variance Check,Gap On Reference,Decimal,Data,VALUE,289,144,1288,1160,2592,False
+Plan Variance Check,Gap Outturn Only,Decimal,Data,HASH,18,1440,184,160,1784,False
+Plan Variance Check,Gap Plan Only,Decimal,Data,HASH,14,1408,144,128,1680,False
+Release,Source Version Label,String,Data,HASH,26,1065856,152,224,1066232,False
+Release,Release Financial Year,String,Data,HASH,9,1065720,144,80,1065944,False
+Release,Release,String,Data,HASH,31,17878,152,256,18286,False
+Release,Release Label,String,Data,HASH,31,17816,152,256,18224,False
+Release,First Published,DateTime,Data,VALUE,31,144,184,128,456,False
+Release,Release Sequence,Int64,Data,VALUE,31,144,152,128,424,False
+Release,Highest Period Reported,Int64,Data,VALUE,4,144,144,24,312,False
+Release,Release Number In Year,Int64,Data,VALUE,4,144,136,24,304,False
+Release,Is Latest Release,Boolean,Data,VALUE,2,144,136,16,296,False
+Release,Is Year-End Release,Boolean,Data,VALUE,2,144,136,16,296,False
+Release,Release Key,Int64,Data,VALUE,31,144,152,,296,True
+Scenario,Scenario Description,String,Data,HASH,5,1065688,136,48,1065872,False
+Scenario,Scenario,String,Data,HASH,5,17236,136,48,17420,False
+Scenario,Scenario Sort Order,Int64,Data,VALUE,5,144,136,24,304,True
+Scenario,Is Derived,Boolean,Data,VALUE,2,144,136,16,296,False
+Scenario,Scenario Key,Int64,Data,VALUE,5,144,136,,280,True
+Scenario Comparison,Comparison,String,Data,HASH,5,17214,136,48,17398,False
+Scenario Comparison,Ordinal,Int64,Data,VALUE,5,144,136,24,304,True
+Spending Review Group,Group Code,String,Data,HASH,32,1065904,152,272,1066328,False
+Spending Review Group,Spending Review Group,String,Data,HASH,32,1065904,152,272,1066328,False
+Spending Review Group,Group Description,String,Data,HASH,10,1065728,152,96,1065976,False
+Spending Review Group,Member Type,String,Data,HASH,5,1065688,144,48,1065880,False
+Spending Review Group,Has Outturn,Boolean,Data,VALUE,2,144,136,16,296,False
+Spending Review Group,Is Department Group,Boolean,Data,VALUE,2,144,136,16,296,False
+Spending Review Group,Spending Review Group Key,Int64,Data,VALUE,32,144,152,,296,True
+Statement Line,Members,String,Data,HASH,9,1065720,152,80,1065952,False
+Statement Line,Line Type,String,Data,HASH,4,1065680,144,48,1065872,False
+Statement Line,Plan Scope,String,Data,HASH,4,1065680,144,48,1065872,False
+Statement Line,Sign Presentation,String,Data,HASH,2,1065664,136,32,1065832,False
+Statement Line,Line (indented),String,Data,HASH,39,19646,160,320,20126,False
+Statement Line,Line,String,Data,HASH,39,19280,160,320,19760,False
+Statement Line,Detail Line Keys,String,Data,HASH,37,18110,160,,18270,True
+Statement Line,Line Id,String,Data,HASH,39,17696,160,320,18176,False
+Statement Line,Sort Order,Int64,Data,VALUE,39,144,160,160,464,True
+Statement Line,Indent Level,Int64,Data,VALUE,3,144,144,16,304,False
+Statement Line,Line Key,Int64,Data,VALUE,39,144,160,,304,True
+Statement Measure,Statement Measure Fields,String,CalculatedTableColumn,HASH,4,17370,136,48,17554,True
+Statement Measure,Statement Measure,String,CalculatedTableColumn,HASH,4,17170,136,48,17354,False
+Statement Measure,Statement Measure Order,Int64,CalculatedTableColumn,VALUE,4,144,136,24,304,True
+Sub-Segment,Sub-Segment Name,String,Data,HASH,3766,1145912,6160,30144,1182216,False
+Sub-Segment,Sub-Segment Code,String,Data,HASH,3766,1145656,6160,30144,1181960,False
+Sub-Segment,Sub-Segment,String,Data,HASH,3389,1142600,6160,27120,1175880,False
+Sub-Segment,First Release,String,Data,HASH,31,1065896,1192,256,1067344,False
+Sub-Segment,Last Release,String,Data,HASH,30,1065888,448,256,1066592,False
+Sub-Segment,Segment Key,Int64,Data,VALUE,3766,144,6160,,6304,True
+Sub-Segment,Releases Reported,Int64,Data,HASH,32,1424,1624,272,3320,False
+Time Intelligence,Time Calculation,String,Data,HASH,8,17238,136,80,17454,False
+Time Intelligence,Ordinal,Int64,Data,VALUE,8,144,136,40,320,True

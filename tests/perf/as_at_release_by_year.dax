@@ -1,4 +1,4 @@
-// Slow measure 1, naive form, shaped like a matrix: Outturn as at Release by release (rows) and financial year (columns),
+// Slow measure 1, shaped like a matrix: Outturn as at Release by release (rows) and financial year (columns),
 // the figure each of the 31 releases gave for each year it had reached.
 EVALUATE
 SUMMARIZECOLUMNS (
