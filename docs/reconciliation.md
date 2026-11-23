@@ -47,9 +47,10 @@ with `evidence/build`, and then runs the negative control below. It has no fixtu
 
 The job `model-bpa` runs on the real model with the project rule file `te/bpa/rules.json` and compares the result with
 `evidence/bpa` (see [te/bpa/README.md](../te/bpa/README.md)); it proves the rules and the count check, and says nothing about the
-numbers in the model, which the DAX tests check on my machine. The job `report-checks` still points at the fixture under
-`tests/fixtures/ci_spike`, on purpose: there is no report in the repository yet. It proves that the tooling works on a toy
-report and says nothing about this project's report. Later work repoints its paths at the real one.
+numbers in the model, which the DAX tests check on my machine. The job `report-checks` runs the rules of `tests/report` on the real report
+(`model/UKGroupFinance.Report`): at most thirty data visuals on a page, no image or map visuals, and alt text on every visual. It keeps a
+negative control (a limit of one data visual per page) that must fail. It proves nothing about the numbers on the pages, which
+`evidence/report/screenshot_figures.csv` and the DAX tests cover.
 
 **Not run in CI (designed, not run there):** the full-scope build and the assertions that need it, because the
 annual extracts and workbooks are about 620 MB and are not in git. They run locally; the results are the ones

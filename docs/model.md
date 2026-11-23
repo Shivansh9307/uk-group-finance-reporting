@@ -783,7 +783,7 @@ Measures added for the report, each with a DAX test:
 | `Plan and Outturn by Scenario` | Fact Plan | plan on the Plan scenario and outturn on the plan's basis on the Outturn scenario, for a waterfall with Scenario as its category | 793 |
 | `Latest Release in View` | Fact Outturn | the month of the latest release, a page header label | 788 (page text) |
 
-`Variance to Phased Plan` is added to the amount measures that `Display Unit` scales (the list is in each of its six
+`Variance to Phased Plan` and `Plan and Outturn by Scenario` are added to the amount measures that `Display Unit` scales (the list is in each of its six
 expressions), which is the one change to that calculation group, made by hand and reviewed as a diff. The two label measures
 return text and so have no number format; their analyzer ignores say so (`te/bpa/ignores.csv`). The rule that lists the
 allowed format strings now allows `#,##0` for a count of rows. The model has 23 relationships (22 before File Control to Release).

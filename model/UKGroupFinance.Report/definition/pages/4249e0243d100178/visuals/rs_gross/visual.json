@@ -1,0 +1,151 @@
+{
+  "name": "rs_gross",
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "queryRef": "Release.Release",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Release"
+                    }
+                  },
+                  "Property": "Release"
+                }
+              },
+              "nativeQueryRef": "Release"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "queryRef": "Fact Outturn.Gross Restatement in Release",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Outturn"
+                    }
+                  },
+                  "Property": "Gross Restatement in Release"
+                }
+              },
+              "nativeQueryRef": "Gross Restatement in Release"
+            },
+            {
+              "queryRef": "Fact Outturn.Gross Restatement in Release (excl. flagged)",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Outturn"
+                    }
+                  },
+                  "Property": "Gross Restatement in Release (excl. flagged)"
+                }
+              },
+              "nativeQueryRef": "Gross Restatement in Release (excl. flagged)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Release"
+                  }
+                },
+                "Property": "Release"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "valueAxis": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Gross restatement, with and without flagged rows'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Column chart of the gross restatement of each release, with and without the rows flagged as a unit error, in billions of pounds'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 24,
+    "y": 380,
+    "width": 612,
+    "height": 224,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json"
+}

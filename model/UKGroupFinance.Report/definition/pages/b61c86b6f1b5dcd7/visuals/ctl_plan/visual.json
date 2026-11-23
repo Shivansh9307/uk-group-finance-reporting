@@ -1,0 +1,249 @@
+{
+  "name": "ctl_plan",
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "Plan Coverage.Plan Source Code",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Plan Coverage"
+                    }
+                  },
+                  "Property": "Plan Source Code"
+                }
+              },
+              "nativeQueryRef": "Plan Source Code"
+            },
+            {
+              "queryRef": "Plan Coverage.Financial Year",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Plan Coverage"
+                    }
+                  },
+                  "Property": "Financial Year"
+                }
+              },
+              "nativeQueryRef": "Financial Year"
+            },
+            {
+              "queryRef": "Plan Coverage.Plan Measure",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Plan Coverage"
+                    }
+                  },
+                  "Property": "Plan Measure"
+                }
+              },
+              "nativeQueryRef": "Plan Measure"
+            },
+            {
+              "queryRef": "Plan Coverage.Grain Code",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Plan Coverage"
+                    }
+                  },
+                  "Property": "Grain Code"
+                }
+              },
+              "nativeQueryRef": "Grain Code"
+            },
+            {
+              "queryRef": "Plan Coverage.Fact Rows",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Plan Coverage"
+                    }
+                  },
+                  "Property": "Fact Rows"
+                }
+              },
+              "nativeQueryRef": "Fact Rows"
+            },
+            {
+              "queryRef": "Plan Coverage.Source Lines",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Plan Coverage"
+                    }
+                  },
+                  "Property": "Source Lines"
+                }
+              },
+              "nativeQueryRef": "Source Lines"
+            },
+            {
+              "queryRef": "Plan Coverage.Plan Coverage Total",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Plan Coverage"
+                    }
+                  },
+                  "Property": "Plan Coverage Total"
+                }
+              },
+              "nativeQueryRef": "Plan Coverage Total"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Plan Coverage"
+                  }
+                },
+                "Property": "Plan Coverage Total"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "imageHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "28D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Plan coverage: what the plan fact holds (GBP thousands)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table of plan coverage by plan source, financial year, measure and grain, with the fact rows, source lines and total'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 24,
+    "y": 562,
+    "width": 560,
+    "height": 134,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json"
+}

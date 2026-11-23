@@ -1,0 +1,289 @@
+{
+  "name": "ctl_annual",
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "Annual Control.Financial Year",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Annual Control"
+                    }
+                  },
+                  "Property": "Financial Year"
+                }
+              },
+              "nativeQueryRef": "Financial Year"
+            },
+            {
+              "queryRef": "Annual Control.Vintage",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Annual Control"
+                    }
+                  },
+                  "Property": "Vintage"
+                }
+              },
+              "nativeQueryRef": "Vintage"
+            },
+            {
+              "queryRef": "Annual Control.In-Year Amount",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Annual Control"
+                    }
+                  },
+                  "Property": "In-Year Amount"
+                }
+              },
+              "nativeQueryRef": "In-Year Amount"
+            },
+            {
+              "queryRef": "Annual Control.Annual Amount",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Annual Control"
+                    }
+                  },
+                  "Property": "Annual Amount"
+                }
+              },
+              "nativeQueryRef": "Annual Amount"
+            },
+            {
+              "queryRef": "Annual Control.Gap",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Annual Control"
+                    }
+                  },
+                  "Property": "Gap"
+                }
+              },
+              "nativeQueryRef": "Gap"
+            },
+            {
+              "queryRef": "Annual Control.Gap Share",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Annual Control"
+                    }
+                  },
+                  "Property": "Gap Share"
+                }
+              },
+              "nativeQueryRef": "Gap Share"
+            },
+            {
+              "queryRef": "Annual Control.Status",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Annual Control"
+                    }
+                  },
+                  "Property": "Status"
+                }
+              },
+              "nativeQueryRef": "Status"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "imageHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "28D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'In-year outturn against the restated annual files, DEL (GBP thousands)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table of the in-year outturn against the restated annual file for DEL by financial year and vintage, with the gap, its share and the status'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 24,
+    "y": 400,
+    "width": 604,
+    "height": 150,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d64d20964716e8adf345",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Annual Control"
+              }
+            },
+            "Property": "Level"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "Annual Control",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Level"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'DEL'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

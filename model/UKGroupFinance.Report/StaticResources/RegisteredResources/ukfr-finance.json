@@ -1,0 +1,231 @@
+{
+  "name": "ukfr-finance",
+  "dataColors": [
+    "#0072B2",
+    "#E69F00",
+    "#56B4E9",
+    "#009E73",
+    "#D55E00",
+    "#CC79A7",
+    "#F0E442",
+    "#555555"
+  ],
+  "good": "#0072B2",
+  "neutral": "#6B7280",
+  "bad": "#D55E00",
+  "maximum": "#0072B2",
+  "center": "#F3F4F6",
+  "minimum": "#D55E00",
+  "null": "#9CA3AF",
+  "firstLevelElements": "#1F2937",
+  "secondLevelElements": "#4B5563",
+  "thirdLevelElements": "#E5E7EB",
+  "fourthLevelElements": "#D1D5DB",
+  "foreground": "#1F2937",
+  "background": "#FFFFFF",
+  "backgroundLight": "#F3F4F6",
+  "backgroundNeutral": "#E5E7EB",
+  "tableAccent": "#1F3A5F",
+  "accent": "#0072B2",
+  "hyperlink": "#0072B2",
+  "textClasses": {
+    "callout": {
+      "fontSize": 28,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1F2937"
+    },
+    "title": {
+      "fontSize": 12,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1F2937"
+    },
+    "header": {
+      "fontSize": 11,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1F2937"
+    },
+    "label": {
+      "fontSize": 10,
+      "fontFace": "Segoe UI",
+      "color": "#374151"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "title": [
+          {
+            "show": true,
+            "fontFamily": "Segoe UI Semibold",
+            "fontSize": 12,
+            "fontColor": {
+              "solid": {
+                "color": "#1F2937"
+              }
+            },
+            "alignment": "left"
+          }
+        ],
+        "subTitle": [
+          {
+            "show": false
+          }
+        ],
+        "background": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#D1D5DB"
+              }
+            },
+            "width": 1,
+            "radius": 0
+          }
+        ],
+        "dropShadow": [
+          {
+            "show": false
+          }
+        ],
+        "padding": [
+          {
+            "top": 6,
+            "bottom": 6,
+            "left": 8,
+            "right": 8
+          }
+        ],
+        "categoryAxis": [
+          {
+            "showAxisTitle": false,
+            "gridlineShow": false,
+            "fontFamily": "Segoe UI",
+            "fontSize": 10
+          }
+        ],
+        "valueAxis": [
+          {
+            "showAxisTitle": false,
+            "gridlineShow": true,
+            "gridlineColor": {
+              "solid": {
+                "color": "#E5E7EB"
+              }
+            },
+            "fontFamily": "Segoe UI",
+            "fontSize": 10
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#F3F4F6"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "outspace": [
+          {
+            "color": {
+              "solid": {
+                "color": "#F3F4F6"
+              }
+            },
+            "transparency": 0
+          }
+        ]
+      }
+    },
+    "textbox": {
+      "*": {
+        "border": [
+          {
+            "show": false
+          }
+        ],
+        "background": [
+          {
+            "show": false
+          }
+        ]
+      }
+    },
+    "actionButton": {
+      "*": {
+        "border": [
+          {
+            "show": false
+          }
+        ]
+      }
+    },
+    "pageNavigator": {
+      "*": {
+        "border": [
+          {
+            "show": false
+          }
+        ],
+        "background": [
+          {
+            "show": false
+          }
+        ]
+      }
+    },
+    "shape": {
+      "*": {
+        "border": [
+          {
+            "show": false
+          }
+        ],
+        "background": [
+          {
+            "show": false
+          }
+        ]
+      }
+    },
+    "cardVisual": {
+      "*": {
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#D1D5DB"
+              }
+            },
+            "width": 1,
+            "radius": 0
+          }
+        ],
+        "value": [
+          {
+            "labelDisplayUnits": 1,
+            "fontSize": 24
+          }
+        ]
+      }
+    }
+  }
+}

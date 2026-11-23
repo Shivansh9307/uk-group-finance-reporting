@@ -1,0 +1,236 @@
+{
+  "name": "rs_dq",
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "Data Quality Issue.Issue Type",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Issue"
+                    }
+                  },
+                  "Property": "Issue Type"
+                }
+              },
+              "nativeQueryRef": "Issue Type"
+            },
+            {
+              "queryRef": "Data Quality Issue.Release From",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Issue"
+                    }
+                  },
+                  "Property": "Release From"
+                }
+              },
+              "nativeQueryRef": "Release From"
+            },
+            {
+              "queryRef": "Data Quality Issue.Release To",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Issue"
+                    }
+                  },
+                  "Property": "Release To"
+                }
+              },
+              "nativeQueryRef": "Release To"
+            },
+            {
+              "queryRef": "Data Quality Issue.Sub-Segment Code",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Issue"
+                    }
+                  },
+                  "Property": "Sub-Segment Code"
+                }
+              },
+              "nativeQueryRef": "Sub-Segment Code"
+            },
+            {
+              "queryRef": "Data Quality Issue.Amount Before",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Issue"
+                    }
+                  },
+                  "Property": "Amount Before"
+                }
+              },
+              "nativeQueryRef": "Amount Before"
+            },
+            {
+              "queryRef": "Data Quality Issue.Amount After",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Issue"
+                    }
+                  },
+                  "Property": "Amount After"
+                }
+              },
+              "nativeQueryRef": "Amount After"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {},
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Data-quality findings'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table of the data-quality findings: type, releases, line, amounts before and after, and rows affected'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 644,
+    "y": 380,
+    "width": 612,
+    "height": 224,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4141268e6a7cf055202f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Data Quality Issue"
+              }
+            },
+            "Property": "Issue Rule"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "Data Quality Issue",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Issue Rule"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'a'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'b'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'c'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'d'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

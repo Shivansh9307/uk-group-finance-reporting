@@ -160,7 +160,7 @@ Every step that matters prints its seconds (`<step>_s=<seconds>`, from `.github/
 Summary step lists them with the test totals. The `model-bpa` job runs Tabular Editor 2's Best Practice Analyzer on the real model
 (`model/UKGroupFinance.SemanticModel/definition`, with the rule file `te/bpa/rules.json`, see [te/bpa/README.md](../te/bpa/README.md))
 and compares the counts of the run with `evidence/bpa`; the
-`report-checks` job still runs on the fixture under `tests/fixtures/ci_spike`, because the report has no pages yet. The DAX tests
+`report-checks` job runs the rules of `tests/report` on the real report (`model/UKGroupFinance.Report`). The DAX tests
 of the model run on my machine against Desktop and are described in [model-testing.md](model-testing.md).
 
 **Tested** (GitHub Actions, job `pipeline-sql`, seconds per step as the job printed them):

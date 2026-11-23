@@ -14,15 +14,15 @@ concurrency:
 
 env:
   # Paths for the model and report jobs. The model job runs the Best Practice Analyzer on the real model with the
-  # project rule file and compares the counts of the run with evidence/bpa; the report job still runs on the fixture
-  # until the real report has pages.
+  # project rule file and compares the counts of the run with evidence/bpa; the report job runs the rules of
+  # tests/report on the real report.
   BPA_MODEL_DIR: model/UKGroupFinance.SemanticModel/definition
   BPA_RULES: te/bpa/rules.json
   BPA_EVIDENCE_DIR: evidence/bpa
   BPA_FAIL_AT_SEVERITY: "3"   # violations at or above this severity fail the job; below it they only warn
-  REPORT_DIR: tests/fixtures/ci_spike/Minimal.Report
-  REPORT_RULES: tests/fixtures/ci_spike/report-rules.json
-  REPORT_RULES_NEGATIVE: tests/fixtures/ci_spike/report-rules-negative.json
+  REPORT_DIR: model/UKGroupFinance.Report
+  REPORT_RULES: tests/report/report-rules.json
+  REPORT_RULES_NEGATIVE: tests/report/report-rules-negative.json
 
   # Tool pins. The sha256 values are the release-asset digests published on GitHub,
   # checked again after download.

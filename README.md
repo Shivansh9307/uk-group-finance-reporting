@@ -28,8 +28,23 @@ including the differences I could not explain. Phase 2 has started: the semantic
 measures, the time-intelligence, scenario-comparison and display-unit calculation groups, the plan grain guard, real-terms measures and three
 perspectives, with its metadata kept by Tabular Editor scripts in [te/](te/) and checked by a rule file in CI), described in
 [docs/model.md](docs/model.md) and tested against the warehouse as described in [docs/model-testing.md](docs/model-testing.md).
-The report has one blank page.
+The report is built: seven pages (executive summary, P&L statement, variance, restatements, data controls and two
+drill-through pages), described page by page in [docs/pages.md](docs/pages.md), with every figure on a page equal to
+a DAX test result ([evidence/report/screenshot_figures.csv](evidence/report/screenshot_figures.csv)).
 The source fetcher and file manifest are described in [docs/data-sources.md](docs/data-sources.md).
+
+## The report
+
+![Executive summary](screenshots/01_executive_summary.png)
+
+![P&L statement](screenshots/02_pnl_statement.png)
+
+![Variance](screenshots/03_variance.png)
+
+The other pages are in [screenshots/](screenshots/): restatements, data controls, the department detail and the group detail
+(both reached by drill-through). Page by page, what each shows, the filters that are fixed and the test behind each figure are in
+[docs/pages.md](docs/pages.md). The report is read by Power BI Desktop from the model in [model/](model/); there is no service
+behind it.
 
 ## Data sources and licence
 

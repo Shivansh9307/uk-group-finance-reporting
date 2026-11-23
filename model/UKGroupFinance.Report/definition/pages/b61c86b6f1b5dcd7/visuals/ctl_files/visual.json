@@ -1,0 +1,277 @@
+{
+  "name": "ctl_files",
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "File Control.Release Label",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "File Control"
+                    }
+                  },
+                  "Property": "Release Label"
+                }
+              },
+              "nativeQueryRef": "Release Label"
+            },
+            {
+              "queryRef": "File Control.Rows Read",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "File Control"
+                    }
+                  },
+                  "Property": "Rows Read"
+                }
+              },
+              "nativeQueryRef": "Rows Read"
+            },
+            {
+              "queryRef": "File Control.Rows Loaded",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "File Control"
+                    }
+                  },
+                  "Property": "Rows Loaded"
+                }
+              },
+              "nativeQueryRef": "Rows Loaded"
+            },
+            {
+              "queryRef": "File Control.Rows Quarantined",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "File Control"
+                    }
+                  },
+                  "Property": "Rows Quarantined"
+                }
+              },
+              "nativeQueryRef": "Rows Quarantined"
+            },
+            {
+              "queryRef": "File Control.File Sum (exact)",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "File Control"
+                    }
+                  },
+                  "Property": "File Sum (exact)"
+                }
+              },
+              "nativeQueryRef": "File Sum (exact)"
+            },
+            {
+              "queryRef": "File Control.File Total (4 decimals)",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "File Control"
+                    }
+                  },
+                  "Property": "File Total (4 decimals)"
+                }
+              },
+              "nativeQueryRef": "File Total (4 decimals)"
+            },
+            {
+              "queryRef": "File Control.Outturn as at Release (own year)",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "File Control"
+                    }
+                  },
+                  "Property": "Outturn as at Release (own year)"
+                }
+              },
+              "nativeQueryRef": "Outturn as at Release (own year)"
+            },
+            {
+              "queryRef": "File Control.Difference to File Total",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "File Control"
+                    }
+                  },
+                  "Property": "Difference to File Total"
+                }
+              },
+              "nativeQueryRef": "Difference to File Total"
+            },
+            {
+              "queryRef": "File Control.Status",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "File Control"
+                    }
+                  },
+                  "Property": "Status"
+                }
+              },
+              "nativeQueryRef": "Status"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "File Control"
+                  }
+                },
+                "Property": "Release Label"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "imageHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "28D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'File controls: each release file against the model (GBP thousands)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table with one row for each of the 31 release files: rows read, loaded and quarantined, the exact file sum, the four-decimal file total, the model's as-at outturn and their difference'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 24,
+    "y": 136,
+    "width": 1232,
+    "height": 252,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json"
+}

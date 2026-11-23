@@ -1,0 +1,62 @@
+{
+  "rules": [
+    {
+      "id": "MAX_DATA_VISUALS_PER_PAGE",
+      "name": "No more than thirty data visuals on a page",
+      "description": "Fails a page that shows more than paramMaxVisualsPerPage visible visuals, not counting shapes, slicers, buttons, page navigators and text boxes. The report pages carry up to twenty.",
+      "disabled": false,
+      "logType": "error",
+      "part": "Pages",
+      "test": [
+        {
+          "<=": [
+            {
+              "count": [
+                {
+                  "filter": [
+                    { "part": "Visuals" },
+                    {
+                      "and": [
+                        { "!": [ { "var": "isHidden" } ] },
+                        { "!": [ { "in": [ { "var": "visual.visualType" }, [ "shape", "slicer", "actionButton", "textbox", "pageNavigator" ] ] } ] }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "var": "paramMaxVisualsPerPage" }
+          ]
+        },
+        { "paramMaxVisualsPerPage": 30 },
+        true
+      ]
+    },
+    {
+      "id": "NO_IMAGE_OR_MAP_VISUALS",
+      "name": "No image, map or filled map visuals",
+      "description": "The report uses no image visuals (they do not render when authored with pbir) and no map visuals (Q and A and map visuals are out of scope).",
+      "disabled": false,
+      "logType": "error",
+      "part": "Visuals",
+      "test": [
+        { "!": [ { "in": [ { "var": "visual.visualType" }, [ "image", "map", "filledMap", "azureMap", "shapeMap" ] ] } ] },
+        {},
+        true
+      ]
+    },
+    {
+      "id": "VISUAL_HAS_ALT_TEXT",
+      "name": "Every visual has alt text",
+      "description": "Every visual on every page carries alt text in visualContainerObjects.general.altText.",
+      "disabled": false,
+      "logType": "error",
+      "part": "Visuals",
+      "test": [
+        { "!!": [ { "var": "visual.visualContainerObjects.general.0.properties.altText.expr.Literal.Value" } ] },
+        {},
+        true
+      ]
+    }
+  ]
+}

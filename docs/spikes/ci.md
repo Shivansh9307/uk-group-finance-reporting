@@ -6,7 +6,7 @@ I ran this spike on 16 November 2026 to answer three questions before the projec
 2. Can a SQL Server 2022 container on an Ubuntu runner be loaded from a UTF-8 CSV with quoted fields and checked against control totals, and which loader works the same on Windows and Linux?
 3. Can report-definition rules run from the command line against a PBIR report, and does a failed rule fail the job?
 
-All three are proven on fixtures under `tests/fixtures/ci_spike/`. The workflow is `.github/workflows/ci.yml`; it runs on pull requests and on pushes to `main`.
+All three were proven on fixtures under `tests/fixtures/ci_spike/` (removed once the real report existed; the job now runs `tests/report` on `model/UKGroupFinance.Report`). The workflow is `.github/workflows/ci.yml`; it runs on pull requests and on pushes to `main`.
 
 Later note: the `pipeline-sql` job now runs the real build and tests ([docs/pipeline.md](../pipeline.md)), so the SQL fixtures and load experiments A to E described below were removed from the repository. The runs and findings below stay as I recorded them.
 

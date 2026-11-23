@@ -2,13 +2,22 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
   "themeCollection": {
     "customTheme": {
-      "name": "sqlbi.json",
+      "name": "ukfr-finance.json",
       "reportVersionAtImport": {
         "visual": "1.8.95",
         "report": "2.0.95",
         "page": "1.3.95"
       },
       "type": "RegisteredResources"
+    },
+    "baseTheme": {
+      "name": "CY24SU10",
+      "reportVersionAtImport": {
+        "visual": "1.8.95",
+        "report": "2.0.95",
+        "page": "1.3.95"
+      },
+      "type": "SharedResources"
     }
   },
   "settings": {
@@ -21,8 +30,8 @@
       "type": "RegisteredResources",
       "items": [
         {
-          "name": "sqlbi.json",
-          "path": "sqlbi.json",
+          "name": "ukfr-finance.json",
+          "path": "ukfr-finance.json",
           "type": "CustomTheme"
         }
       ]
