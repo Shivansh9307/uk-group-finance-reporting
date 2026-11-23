@@ -3,7 +3,7 @@ table 'File Control'
 	lineageTag: 509dfb04-1c63-5c12-ba03-950625846e61
 
 	/// The total the release file reports, rounded to four decimals as the warehouse stores it, in GBP thousands. Rounding the exact source sum moves a file total by up to about 5.44 (GBP thousands), which is why the exact sum is shown beside it.
-	measure 'File Total (4 decimals)' = SUM ( 'File Control'[File Total Value] ) + 0
+	measure 'File Total (4 decimals)' = SUM ( 'File Control'[File Total Value] )
 		formatString: £#,##0.0000"k";-£#,##0.0000"k"
 		displayFolder: Audit and control
 		lineageTag: fd67ceb6-018e-59a9-9d65-17d13f845082
