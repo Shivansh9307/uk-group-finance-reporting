@@ -15,24 +15,26 @@ its values written in the file.
 
 - Each data visual has a DAX test in `tests/dax/78x_*` or `79x_*` that returns the figures it shows, in the same filter context, and an
   independent SQL (or Python) expectation over `dw` and `audit` in `tests/expected/`. **Tested**: `tools\run_dax_tests.ps1 -Refresh`,
-  `ukfr dax-compare`: 75 of 75 tests pass, 20 of them new (`evidence/model/dax_tests.csv`).
+  `ukfr dax-compare`: 77 of 77 tests pass, 22 of them new (`evidence/model/dax_tests.csv`).
 - I read the displayed figures off the cropped screenshots myself and wrote them to
-  [evidence/report/screenshot_figures.csv](../evidence/report/screenshot_figures.csv): 121 figures, each with its page, visual,
+  [evidence/report/screenshot_figures.csv](../evidence/report/screenshot_figures.csv): 120 figures, each with its page, visual,
   label, the figure as displayed, the test, the row of the test result and how it is displayed (divisor and decimals).
-  **Tested**: `pipeline/tests/test_report_evidence.py` rounds the test result as displayed, half up, and compares: all 121 are equal
-  (`uv run --project pipeline pytest pipeline/tests/test_report_evidence.py`: 123 passed). A text figure (a plan badge, a status) must
+  **Tested**: `pipeline/tests/test_report_evidence.py` rounds the test result as displayed, half up, and compares: all 120 are equal
+  (`uv run --project pipeline pytest pipeline/tests/test_report_evidence.py`: 122 passed). A text figure (a plan badge, a status) must
   equal the test result or start with it where the visual cuts the text off.
 - Screenshots are in [screenshots/](../screenshots/), one for each page, made with `tools/crop_screenshots.ps1`: `pbir desktop
   screenshot` at scale 2 after a refresh and a wait, cropped to the page canvas (2034 x 1144), so no title bar, account name or path is
   in an image. **Tested**: the same pytest file checks that the seven files exist and have the same size. The two drill-through pages
   are captured without a selection, so they show all departments and all groups; reached from a department or a group they open
   filtered to it. I did not click through a drill-through, and that click is **designed**, not run.
-- `pbir validate --all`: valid, 86 visuals, 92 advisory warnings (below). `pbir bpa run`: passed, 0 errors, 87 warnings, 30 rules, 167
+- `pbir validate --all`: valid, 84 visuals, 89 advisory warnings (below). `pbir bpa run`: passed, 0 errors, 84 warnings, 30 rules, 167
   objects, listed in [evidence/report/pbir_bpa.csv](../evidence/report/pbir_bpa.csv).
 - CI (`report-checks`) runs Fab Inspector with the rules in `tests/report/report-rules.json` on the real report and keeps a negative
   control that must fail (`tests/report/report-rules-negative.json`), gating on the JSON output.
 
 ## The pages
+
+**The plan filter.** One report-level filter keeps the plan measures resource DEL excluding depreciation and capital DEL (`Fact Plan[Plan Measure]`; `tools/build_report.sh report_filters`), so every plan figure on a page is DEL, the voted limits. Departmental AME is a forecast and the in-year outturn of AME is a first look, so an AME variance is a different quantity; it is reconciled on the Variance page and left out of the headline. With every measure the first version of the report led with -8.5% in 2025-26; the DEL figure is -1.3% (`docs/reconciliation.md`, section 9).
 
 Each page has the same header: the title, a subtitle that states the basis (unit, nominal or real terms, structure, year), the latest
 release in the model (measure `Latest Release in View`) and the page navigator. Each plan figure sits beside the plan badge, a table of the
@@ -44,11 +46,11 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
 ![Executive summary](../screenshots/01_executive_summary.png)
 
 - **Fixed**: page filter `Display Unit` = GBP billions; each visual carries its own financial-year filter.
-- **Row 1**, financial year 2025-26 as the latest release states it: outturn of all budgets (`Outturn`), outturn on the plan's basis,
-  the plan, the variance and the variance % (`Comparison Amount` with the `Scenario Comparison` item Actual, Variance, Variance % fixed on
-  the visual) and outturn in 2025-26 prices (`Outturn (real terms)`). Test 788.
+- **Row 1**, financial year 2025-26 as the latest release states it: outturn of all budgets (`Outturn`), DEL outturn on the plan's basis,
+  the DEL plan, the variance and the variance % (`Comparison Amount` with the `Scenario Comparison` item Actual, Variance, Variance % fixed on
+  the visual) and outturn in 2025-26 prices (`Outturn (real terms)`): 637.49bn, 645.98bn, -8.50bn and -1.3%. Test 788.
 - **Row 2**, 2026-27 year to date to June 2026 (period 3), against the phased plan: `Outturn (plan basis)`, `Plan (phased)`, `Variance to
-  Phased Plan`, its percentage and `Outturn (real terms)`, with `Time Intelligence` = YTD, period 3. The September 2026 release
+  Phased Plan`, its percentage and `Outturn (real terms)`, with `Time Intelligence` = YTD, period 3. The plan and the phased plan are DEL (159.80bn against 156.63bn, +3.17bn, +2.0%; with AME it was -2.6%). The September 2026 release
   reports to June 2026, not September, so the year to date stops at period 3 (test 786: periods 3 and 6 give the same outturn). The phased plan
   is my allocation of the annual plan and is labelled derived on the page and in the measure.
 - **Charts**: outturn by year, nominal and in 2025-26 prices, 2018-19 to 2025-26 (test 789); the ten largest departments of the current
@@ -62,12 +64,12 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
 
 - **Fixed**: financial year 2025-26, GBP millions.
 - The 39 lines of the statement (subtotals, totals and three spacer rows with their own zero-width labels, `show-all` on rows) are two matrices that
-  split after net resource expenditure, because 39 rows do not fit one matrix at a readable size. The left has the amount and the prior year
-  (`Statement Amount`, `Statement Amount PY (OFFSET)`); no line of it has a plan in 2025-26, so it has no plan columns. The right has the
-  amount, `Statement Plan`, `Statement Variance`, `Statement Variance %` and the prior year. The plan exists only for the net lines and the total
-  (the source gives the plan at that level), so only the last row of the right matrix has one: plan 1,302,730.2m, variance -110,236.5m, -8.5%.
+  split after net resource expenditure, because 39 rows do not fit one matrix at a readable size. Both show the amount and the prior year
+  (`Statement Amount`, `Statement Amount PY (OFFSET)`). **The plan columns are gone**: the plan exists only for the net lines and the total, and the total
+  adds DEL limits to an AME forecast (a variance of -110.24bn, -8.5% in 2025-26), which is a mismatch of bases and not an underspend. The measures
+  `Statement Plan` and `Statement Variance` remain in the model and are tested (792), but no visual shows them.
   Column headings are shortened with `pbir fields rename` (display names of the visual's fields only).
-- **Tested**: test 792 returns every line (36 rows) and ties to `dw.v_statement_pnl`; nine lines, both columns, and the total row are in the figures file
+- **Tested**: test 792 returns every line (36 rows, plan and variance included) and ties to `dw.v_statement_pnl`; the amount and prior-year figures of the lines shown are in the figures file
   and equal the test. The field `Statement Measure` (a field parameter) is not on a visual: `pbir` cannot author one, so each column is a fixed measure.
 
 ### 3. Variance
@@ -75,12 +77,14 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
 ![Variance](../screenshots/03_variance.png)
 
 - **Fixed**: financial year 2024-25 (the year at the Spending Review group grain with a full outturn), GBP billions.
-- The native waterfall has Scenario as its category and the Spending Review group as its breakdown (measure `Plan and Outturn by Scenario`,
-  test 793). It reads as a bridge from outturn to plan by group; the groups with the largest gap are HM Treasury and Energy Security and Net Zero.
+- DEL only (the report filter). The native waterfall has Scenario as its category and the Spending Review group as its breakdown (measure `Plan and Outturn by Scenario`,
+  test 793). It reads as a bridge from outturn to plan by group; the largest steps are the Single Intelligence Account (a plan with no outturn in OSCAR), Defence and Business and Trade, and Home Office goes the other way (its in-year outturn lacks fee income).
 - The bar chart shows the variance % by group with the model's favourable/adverse colouring (a conditional-format rule on the value: above zero
   is the theme's `bad`, otherwise `good`; blue and orange, not red and green).
-- The decomposition tree explains the variance by Spending Review group and then by plan measure. It opens collapsed (`pbir` cannot write an expanded
-  state), so the capture shows the root, -123.75bn, which is test 786's 2024-25 variance (**tested**); the page says to click +.
+- **The decomposition tree is gone.** It opened collapsed and showed one number, and the plan measures it split by were mostly AME. In its place is the reconciliation table
+  (model table `Plan Variance Check`, from `audit.plan_variance_reconciliation`): the 2024-25 variances that are explained, fixed or unexplained, DEL and AME, in GBP thousands, with the verdict and its reason.
+  The verdict text is cut off at the cell edge in the capture; the full text is in `evidence/full/plan_variance_reconciliation.csv`. Test 800 returns every row of the table (364) and the three
+  figures and one verdict I read off the capture are in the figures file (**tested**). The cell counts by verdict are in `docs/reconciliation.md`, section 9.
 - **A change from my first design**: I had planned department as the breakdown and control budget below it. Plan is published by Spending
   Review group, so any department or control budget selection is below the plan's grain and `Plan` is BLANK (test 723). The page uses the group and says so.
 - Buttons for the two drill-through pages (greyed in a capture, because nothing is selected).
@@ -101,7 +105,7 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
 
 - **Drill-through** on `Spending Review Group[Spending Review Group]`, Back button. **Fixed**: 2025-26, GBP millions.
 - Monthly outturn on the plan's basis against the phased plan (`Plan (phased)`, labelled derived in the title, the subtitle and the measure), the year to date at period 12 and the
-  variance to it (`Variance to Phased Plan`), a table by month, and the plan badge. Tests 794 and 788.
+  variance to it (`Variance to Phased Plan`), a table by month, and the plan badge. DEL only (the report filter): with every group in view the year is 637,487.3m against a phased plan of 645,984.2m, -8,496.9m or -1.3%, where the same page with AME had a derived plan of 1,302,730.2m and a month-one variance of -39,498.0m. Tests 794 and 788.
 - This page is the one place the model compares a monthly outturn with a plan, and the plan it uses is mine.
 
 ### 6. Restatements

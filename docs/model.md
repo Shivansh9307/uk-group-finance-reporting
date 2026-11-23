@@ -271,12 +271,19 @@ latest annual figure, at total level (GBP thousands, `audit.plan_basis_inyear_vs
 | 2024-25 | RDEL excluding depreciation | 485,030,362 | 479,535,153 | 5,495,209 (1.15%) | 487,520,000 |
 | 2024-25 | CDEL | 109,421,673 | 108,965,819 | 455,854 (0.42%) | 114,587,000 |
 
-By group the gaps are larger, and I have not explained all of them: Scotland (11.0bn, which I think is the block grant
-adjustment), CLG Local Government (5.0bn) and the Home Office (3.8bn) in 2023-24 (`docs/data-dictionary/plan-phasing.md`).
-So a variance read from the model on resource DEL excluding depreciation can carry about 1% of non-cash items that the plan
-does not, and more in a few groups. The model does not test equality with the annual table because the two are different
+By group the gaps are larger. They are now traced (`audit.plan_variance_reconciliation`, section 9 of `docs/reconciliation.md`): the
+"about 1% of non-cash items" I first wrote is not non-cash. The ringfenced categories all sit in the DEPRECIATION group, which the model drops, so the ringfence
+basis is reproduced; the 5.5bn gap from 2024-25 is Home Office fee income (category T302) that the in-year files lack, and Scotland's 11.0bn in
+2022-23 and 2023-24 is the block grant adjustment (the in-year files are net of it). The model does not test equality with the annual table because the two are different
 vintages of different files: the test I can make is that the model equals the in-year table exactly, and the gap above is
 reported, not hidden.
+
+**The plan variance and what it is compared with.** A plan variance in the headline is for resource DEL excluding depreciation and capital DEL, the voted limits; the report
+filters `Fact Plan[Plan Measure]` to those two. Departmental AME is a forecast (PESA), the in-year outturn of AME is a first look without the year-end provisions,
+impairments and pension entries, and PESA 2026 puts the ringfenced depreciation in AME, so an AME variance is not an underspend: it is reconciled in `Plan Variance Check`, not
+added to the headline. The headline variance moved from -8.5% to -1.3% in 2025-26 (**tested**: DAX tests 788 and 801). For FY2022-23 the plan is published for BEIS, DCMS
+and DIT as one group, so `Fact Outturn[Spending Review Group]` for the outturn of the departments 013, 048 and 084 as reported in that year is the combined group
+(`dw.plan_group_rule`, `sql/tests/800`); in every other year it is the current-structure group of the bridge.
 
 At grain A the plan is published by OSCAR group names, and the outturn reaches a group through the current department. A
 comparison by group in FY2017-18 to FY2021-22 therefore mixes two structures; the comparison that is on one structure is by
@@ -764,12 +771,13 @@ its audit table, and DAX tests 780 to 784 show that the model returns the same f
 | Plan Coverage | `dw.v_model_plan_coverage` (`dw.plan_coverage`) | 69 | committed and full | plan fact rows, source lines and total by plan source, year, measure and grain |
 | Annual Control | `dw.v_model_annual_control` (`audit.bud_vs_inyear_del`) | 60 | full | in-year outturn against the restated annual file; only DEL at total level is graded |
 | PSS Control | `dw.v_model_pss_control` (`audit.pss_vs_outturn`) | 443 | full | the Public Spending Statistics database against OSCAR; the capital DEL gaps of 2023-24 and 2024-25 are rows of it |
+| Plan Variance Check | `dw.v_model_plan_variance` (`audit.plan_variance_reconciliation`) | 364 | full | every plan variance from FY2022-23 by group and measure, with the independent outturn, the gaps, the residual and the verdict (ok, fixed, explained, unexplained); related to nothing |
 | Load Control | `dw.v_model_load_control` | 46 | full | rows read, loaded and quarantined of every in-year and annual file |
 
-The three full-scope views need files that are not in git, so a model on a committed-scope database cannot refresh these three
-tables; the model is built and tested on the full-scope database (the README says so). Four of the five tables are related to
+The four full-scope views need files that are not in git, so a model on a committed-scope database cannot refresh these four
+tables; the model is built and tested on the full-scope database (the README says so). Five of the six tables are related to
 nothing (a control table is a list of checks, and a relationship would let a slicer filter an audit row), which the analyzer
-counts as four information findings (`evidence/bpa`).
+counts as five information findings among the ten of that rule (`evidence/bpa`).
 
 Measures added for the report, each with a DAX test:
 

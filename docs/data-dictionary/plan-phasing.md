@@ -130,7 +130,12 @@ The measures overlap by design (ADMIN is part of RDEL; RDEL_EX_DEPN is RDEL less
 `dw.outturn_plan_line` is the working table: the revision deltas of `dw.fact_outturn` summed to release x
 period x organisation x control budget detail x economic budget x depreciation flag, with the group from
 the bridge and the department number as the release reported it. Its sum equals `dw.fact_outturn`
-(**tested**, 550).
+(**tested**, 550). It has two group columns: `sr_group_key` (the current structure, read by the phasing profile) and
+`plan_sr_group_key` (the group the plan of the year is published under: the same, except that FY2022-23 outturn of the
+departments 013, 048 and 084 as reported goes to the combined BEIS, DCMS and DIT group, because the FY2022-23 plan exists only for
+that group). The exception is the table `dw.plan_group_rule` (one row per financial year and reported department number; no
+amount), built in `sql/dw/552` from `authored/department_sr_group.csv` (basis `pre2023_as_reported`). The in-year plan-basis table and
+the model's outturn view use `plan_sr_group_key` (**tested**, `sql/tests/800` and 556).
 
 ## 3. The phasing profile: `dw.plan_phasing_profile` (DERIVED)
 
@@ -205,6 +210,7 @@ table, and compares the year-end release totals of RDEL, CDEL, RAME and CAME wit
 Vintage x financial year x group x measure from `dw.fact_outturn_annual`, for every vintage:
 
 - RDEL: DEL, resource;
+- RAME and CAME: control budget detail DEPT AME, resource and capital (added so that an AME variance can be set against a final outturn; **tested**, `sql/tests` 801);
 - RDEL_EX_DEPN: `basis_rdel_excl_depreciation = 1` (DEL, resource, ringfence code not RINGFENCED), the basis
   the Estimates and the Spending Review use;
 - CDEL: DEL, capital.
@@ -294,7 +300,9 @@ audit's gap. The Single Intelligence Account has no outturn, because OSCAR publi
 | Wales | 3,119,224 | 3,047,012 | 3,045,566 | -72,212 | -1,446 |
 | Work and Pensions | 691,008 | 632,442 | 632,443 | -58,566 | 1 |
 
-What I can and cannot say about the gaps (none of this is tested beyond the figures above):
+What I could say about the gaps when I first wrote this is superseded by `docs/reconciliation.md`, section 9: Scotland is the block grant adjustment (the in-year files are
+net of it in 2022-23 and 2023-24), Home Office is fee income (category T302) that the in-year files lack, and the "ringfence" gap I expected for CLG Local Government is
+not a ringfence effect (the ringfenced categories are all in the DEPRECIATION group, which the in-year basis drops). The original notes follow, kept as written:
 
 - Scotland: for RDEL excluding depreciation the annual figure is 11.0bn above the plan and the in-year
   figure equals the plan to the pound. The Foreign, Commonwealth and Development Office's in-year figure

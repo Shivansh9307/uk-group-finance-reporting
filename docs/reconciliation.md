@@ -176,6 +176,72 @@ the exact basis is used wherever the annual file exists.
 | in-year outturn on the plan's basis | recomputed from `dw.fact_outturn` for every release, group and measure | `sql/tests/556` | **tested** |
 | in-year against annual outturn on the plan's basis | none passes or fails: the in-year files lack the ringfence column | `audit.plan_basis_inyear_vs_annual` | **recorded, not tested**: see the FY2023-24 gaps below |
 | nothing derived reaches a real total | the real facts keep their pinned row counts and sums; the phased plan is flagged derived and nothing reads it | `pipeline/tests/test_real_totals.py`, `sql/tests/558` | **tested** |
+| FY2022-23 outturn of BEIS, DCMS and DIT in the group the plan is published under | the outturn of the departments 013, 048 and 084 as reported is in the combined group, nowhere else is regrouped, the group has an outturn wherever it has a plan | `sql/tests/800` | **tested** (full build): the old logic left the group with a plan and no outturn (four cells) |
+| annual outturn on the plan's basis holds departmental AME | every vintage and year adds up to the control budget detail DEPT AME of the annual file | `sql/tests/801` (full scope) | **tested** |
+| every plan variance from FY2022-23 has a verdict | the audit ties to `dw.fact_plan` and to the in-year plan-basis table, the gaps add up, the unexplained cells are the seven pinned | `sql/tests/802`, `803`, `804` (full scope) | **tested**; see section 9 |
+
+### 9. Plan variance reconciliation (full scope)
+
+The first version of the report led with a plan variance of -8.5% in 2025-26 (-110.24bn). That was a mismatch of bases, not an
+underspend. `audit.plan_variance_reconciliation` (`sql/audit/800`, evidence `evidence/full/plan_variance_reconciliation.csv`) takes
+every year x Spending Review group x plan measure from FY2022-23 (364 cells: resource DEL excluding depreciation, capital DEL,
+departmental resource AME and capital AME), sets the model's outturn on the plan's basis beside the plan, and measures both against an
+independent outturn: the annual restated file to 2024-25, the PSS for DEL in 2025-26. The two files that make the comparison possible:
+the annual basis table now holds AME (`sql/dw/575`, **tested** by `sql/tests/801`), and `audit.pesa_2026_basis_change` records that PESA
+2026 is on another framework.
+
+**Headline variance, before and after** (GBP bn, all groups; the model, **tested** by DAX test 801 and `sql/tests/802`):
+
+| Year | Before: all four measures | After: DEL only (resource excluding depreciation + capital) | AME (left out of the headline) |
+|---|---|---|---|
+| 2022-23 | -148.76 (-13.4%) | -23.54 (-4.2%) | -125.22 |
+| 2023-24 | -114.76 (-9.9%) | -7.34 (-1.3%) | -107.42 |
+| 2024-25 | -123.75 (-9.9%) | -7.65 (-1.3%) | -116.09 |
+| 2025-26 | -110.24 (-8.5%) | -8.50 (-1.3%) | -101.74 |
+
+**Verdicts**: 364 cells: 233 `ok`, 4 `fixed`, 120 `explained`, 7 `unexplained` (**tested**: `sql/tests/802` pins the seven). `ok` is a variance within
+tolerance (the larger of 5% of plan and 100m), or a DEL variance above it that the independent outturn confirms (the model and the
+independent outturn differ by less than the larger of 2% of plan, 10% of the variance and 100m): a real over- or underspend, such as
+Defence capital DEL, 8% under plan in 2025-26 and the PSS agrees to 0.3%. By year: 2022-23 50 ok, 4 fixed, 26 explained, 3 unexplained; 2023-24
+55, 0, 34, 2; 2024-25 67, 0, 27, 2; 2025-26 61, 0, 33, 0.
+
+**What was wrong (fixed), with its test**
+
+1. FY2022-23: the plan exists only for BEIS, DCMS and DIT as one group, and the outturn was on the current structure (Energy Security,
+   Science, Business and Trade, Culture), so the combined group had a plan of 19.69bn resource and 20.55bn capital and no outturn (-100%), and four
+   other groups had outturn and no plan. `dw.plan_group_rule` (`sql/dw/552`) puts the outturn of the departments 013, 048 and 084 as the release reported
+   them in the combined group, in `dw.outturn_plan_basis_inyear` and in the model's outturn view. The phasing profile still reads the current-structure
+   group (`dw.outturn_plan_line.sr_group_key`), so no phased plan moves. Test `sql/tests/800` (its last clause returns four rows on the old logic, which I ran) and the
+   updated `sql/tests/556`. The variance that remains for the group is a real one: resource -2.25bn (-11.4%), capital -3.01bn, and AME,
+   explained below. No real total moves (`evidence/expected/real_fact_totals.csv` is unchanged; this regroups).
+2. Departmental AME was not on the annual basis table, so an AME variance could not be set against a final outturn: `sql/tests/801` returns the missing
+   rows on the old logic.
+3. The headline mixed DEL, a limit Parliament votes, with departmental AME, a forecast. This is a presentation fix, not a number change: a report filter keeps
+   resource DEL excluding depreciation and capital DEL on the Executive, Variance and Group detail pages (`tools/build_report.sh report_filters`), and the P&L page lost its plan columns.
+
+**What is genuine and why (explained)**
+
+| Cause | Size | Source and test |
+|---|---|---|
+| Departmental AME is a forecast, and the in-year files are a first look. The AME plan is a PESA forecast; the in-year outturn lacks the year-end provisions, impairments and pension entries that the annual file carries. In 2024-25 resource AME is 471.2bn in-year, 495.8bn in the annual file and 494.6bn in PESA December 2025; the largest category gaps are take-up of provisions (-17.6bn) and impairment/revaluation (-14.0bn) | AME variance 101.7bn to 125.2bn a year, of which first look to final -22.8bn in 2024-25 and +38.3bn in 2022-23 | `audit.plan_variance_reconciliation` (`gap_first_look`, `first_look_cause`); `docs/profiling/oscar-annual-bud.md` ("AME moves after June") |
+| PESA 2026 puts about 20bn (2022-23), 40bn (2023-24) and 45bn (2024-25) of outturn in resource AME that PESA December 2025 has in resource DEL (the ringfenced depreciation), so its AME outturn is not on the framework of the plans. 2025-26 AME has no outturn on the plan's framework | RDEL -19.9, -40.1, -46.9bn; RAME +20.0, +40.3, +44.6bn | `audit.pesa_2026_basis_change`, `sql/tests/803` |
+| Single Intelligence Account: a plan, no outturn in OSCAR | DEL plan 3.83, 4.20, 4.51, 5.03bn a year (all of the plan-only gap) | `authored/sr_group.csv` (member type plan only), `sql/tests/802` |
+| Home Office: fee income that the in-year files lack. Category T302 (receipt of fees and charges) is -1.11bn in-year and -6.18bn in the annual file in 2024-25, with nothing else in the group more than 0.15bn apart; in 2022-23 the same income sits under B102 sales. The PSS agrees with the annual file. I do not know why the in-year files lack it. 2025-26 has no annual file: the gap (5.30bn) is carried from 2024-25 and labelled so | +3.53, +4.04, +4.62, +5.30bn a year | `evidence/full/plan_variance_reconciliation.csv` |
+| Scotland 2022-23: the in-year outturn is net of the block grant adjustment; the plan and the annual file are gross | -10.90bn against PESA 2026's memo line of -11.15bn (2023-24: -11.00bn against -11.26bn, where the plan is net as well, so that cell is ok) | PESA 2026 Table 1.3 memo line, `sql/tests/511` for the plan flag |
+| DEL first look against the annual file overall | DEL first-look gap -1.73, +0.38, +5.90 and +6.69bn a year, almost all Home Office | the table above |
+
+This also settles an earlier note: the "about 5.5bn of other non-cash items" that the in-year resource DEL basis was said to carry from 2024-25 is not non-cash. The
+ringfenced categories (P101, P201, P301, Z201) all sit in the PESA group DEPRECIATION, so dropping that group is the ringfence basis; the 5.5bn is the Home Office fee income.
+The bridge, the plan grain, the 2023 split, Supplementary against Main Estimates and the units and signs (suspects 3 to 7) produced no cell that the audit could not
+account for: sums tie to the published totals (`sql/tests/509`) and to the independent outturn within the tolerances above.
+
+**Residual: seven unexplained cells**, all small (variance under 1bn, 0.1bn to 0.66bn against the annual file), none a headline item. For each I tried the largest
+economic category (under 60% of the gap), the PSS group-boundary carry-forward (which needs a prior year that agreed with the annual file) and the sibling groups: CLG Communities resource DEL 2022-23
+(-0.35bn, -8.1%; the MHCLG group splits into two Spending Review groups and the annual file and the bridge disagree on the split), Environment, Food and Rural Affairs
+resource AME 2022-23 (-0.86bn) and 2024-25 (-0.37bn), Justice resource AME 2022-23 (-0.33bn), Business and Trade capital DEL 2023-24 (-0.20bn, -14.2%) and resource
+AME 2024-25 (-0.70bn), Foreign, Commonwealth and Development Office resource AME 2023-24 (+0.43bn).
+
+**Not done**: the 2025-26 AME cells and the Home Office 2025-26 cell are explained by a carry-forward, not measured: no annual file for 2025-26 exists in `data/`.
 
 ## Known residuals (published, not hidden)
 
@@ -184,7 +250,7 @@ the exact basis is used wherever the annual file exists.
 | PSS capital DEL against the annual outturn, excluding Scotland | -0.46% in 2023-24 and -0.36% in 2024-25, against a tolerance of 0.1% | the cause is unknown. Resource DEL excluding depreciation passes in the same years. Test 412 pins these two as the only failures, so a third one fails the build | `evidence/full/pss_vs_outturn.csv`, `sql/tests/412` |
 | BUD against the in-year releases, DEL | within 3.5% for all 15 pairs (-3.18% to +3.40%) | the in-year June snapshot is not final outturn, and the annual files are restated. The 2023-24 pairs sit close to the tolerance | `evidence/full/bud_vs_inyear_del.csv`, `sql/tests/408` |
 | Current-structure hold-out, DSIT, all budgets | -8.66bn (-45.2%) in 2021-22 and -10.53bn (-44.5%) in 2023-24 | I have no tested explanation. At DEL level DSIT is within 2.1% in those years, so the gap is in the layers the annual file carries and the in-year file does not, but I did not trace it | `evidence/full/current_structure_holdout.csv`, `docs/data-dictionary/current-structure.md` |
-| FY2023-24 plan-basis gaps | Scotland resource DEL excluding depreciation: annual outturn is 11.0bn above the plan, and the in-year figure equals the plan to the pound. CLG Local Government: in-year +5.0bn against annual. Home Office: in-year +3.8bn against annual (+20%) | Scotland: the plan is published with a block grant adjustment flag (`dw.dim_plan_source.scotland_bga_flag`) that I have not reconciled. CLG Local Government: I expect the missing ringfence column in the in-year files, not split by category. Home Office: not traced | `evidence/full/plan_basis_inyear_vs_annual.csv`, `docs/data-dictionary/plan-phasing.md` |
+| FY2023-24 plan-basis gaps | Scotland resource DEL excluding depreciation: annual outturn is 11.0bn above the plan, and the in-year figure equals the plan to the pound. CLG Local Government: in-year +5.0bn against annual. Home Office: in-year +3.8bn against annual (+20%) | Scotland and Home Office are now explained, see section 9: Scotland is the block grant adjustment (the in-year files and the 2023-24 plan are net of it, the annual file is gross), Home Office is fee income that the in-year files lack. CLG Local Government is still not traced (it is in the 2022-23 cell list of section 9 as category D501 current grants to local government) | `evidence/full/plan_basis_inyear_vs_annual.csv`, `evidence/full/plan_variance_reconciliation.csv` |
 | NHS Pension Scheme unit errors | two lines (the error and its offsetting line), three findings each, thirteen flagged fact rows | amounts 1,000 times too large in one release and corrected in the next; the restatement view can exclude or annotate them | `dw.dq_issue`, `sql/tests/309` |
 | Annual files as a control | DEL at total level only | not usable for AME, non-budget or the grand total, and not as a hard department-level check before 2024-25 | `docs/data-dictionary/annual-restated.md` |
 
@@ -261,7 +327,7 @@ queries the warehouse directly.
 
 <!-- inventory:begin (generated by `ukfr inventory --write`; do not edit by hand) -->
 
-115 SQL assertions (95 committed scope, 20 full scope) and 46 Python assertions that read the built database (35 committed scope, 11 full scope).
+120 SQL assertions (96 committed scope, 24 full scope) and 46 Python assertions that read the built database (35 committed scope, 11 full scope).
 
 ### SQL assertions (`sql/tests/`)
 
@@ -360,7 +426,7 @@ queries the warehouse directly.
 | `553` | the profile method is recomputed from dw.fact_outturn without the profile code: prior_year_outturn wherever the year-end release of the prior year has a positive total for the profile's lines, flat_prior_not_positive where it has lines with a total of zero or less, flat_no_prior_year otherwise | committed | - | CI (pipeline-sql) and local builds | none (query on the warehouse) |
 | `554` | the method of the organisation profiles (plan grain A) and of the combined pre-2023 group profiles is recomputed from dw.fact_outturn at the year-end release of the prior year, without the profile code | committed | - | CI (pipeline-sql) and local builds | none (query on the warehouse) |
 | `555` | every dw.fact_plan row that has a calendar is spread over periods 1 to 12 exactly once, the twelve amounts add up to the plan amount with no difference at all, every phased row is derived and the Plan (phased) scenario, and the plan fact itself carries no phased amount | committed | - | CI (pipeline-sql) and local builds | none (query on the warehouse) |
-| `556` | for every release and every plan measure the in-year plan-basis outturn equals the matching selection of dw.fact_outturn (sum of the deltas of the release's financial year up to and including the release), in total and for each Spending Review group; the year-end rows are flagged, and the excluding-depreciation measures carry the basis note | committed | - | CI (pipeline-sql) and local builds | none (query on the warehouse) |
+| `556` | for every release and every plan measure the in-year plan-basis outturn equals the matching selection of dw.fact_outturn (sum of the deltas of the release's financial year up to and including the release), in total and for each Spending Review group (the group the plan is published under: the bridge, except FY2022-23 outturn of BEIS, DCMS and DIT as reported, which is the combined group); the year-end rows are flagged, and the excluding-depreciation measures carry the basis note | committed | - | CI (pipeline-sql) and local builds | none (query on the warehouse) |
 | `558` | the phased plan and the phasing profile are flagged derived, labelled DERIVED, and nothing outside this feature reads or points at the phased plan, except the model's derived-labelled view of it, which sql/tests/706 pins (the row counts and sums of the real facts are pinned in evidence/expected/real_fact_totals.csv and checked by pipeline/tests/test_real_totals.py) | committed | - | CI (pipeline-sql) and local builds | evidence/expected/real_fact_totals.csv |
 | `559` | none of the tables of this feature has a float or real column, and every amount is decimal(19,4) and every share decimal(19,10) | committed | - | CI (pipeline-sql) and local builds | evidence/full/plan_basis_inyear_vs_annual.csv, evidence/build/plan_phasing_summary.csv, evidence/build/sr_group_bridge_summary.csv, evidence/full/sr_group_bridge_vs_bud.csv |
 | `561` | the organisations on which the bridge and the newest annual release (BUD) disagree about the Spending Review group are exactly the 31 (organisation, bridge group) pairs listed here and read in docs/data-dictionary/plan-phasing.md; every other organisation present in both agrees; only BIS084 (the BEIS core department, whose lines the current structure splits between four groups) has more than one row | full | localdata | local full build only | evidence/full/sr_group_bridge_vs_bud.csv |
@@ -382,6 +448,11 @@ queries the warehouse directly.
 | `762` | the offsetting line of the NHS Pension Scheme unit error is flagged with it. For every unit error on line X903A002 there is an 'offsetting line' finding on line X903A003 in the same release pair, organisation, period, economic category and control budget whose change is the opposite of the first line's change within one per cent; the fact rows flagged for the two lines carry the same release, period and opposite signs within one per cent of each other; and there are thirteen flagged fact rows, six on the unit-error line and seven on its offsetting line (the offsetting line also has a small revision in December 2025 between the row that set the amount and the row that corrected it). Before the rule flagged the offsetting line, this test pinned the opposite (six flagged rows and an unflagged mirror for each). | committed | - | CI (pipeline-sql) and local builds | none (query on the warehouse) |
 | `780` | the file-control view has one row for each of the 31 primary release files and the file totals of the audit table, and the plan-coverage view has the rows and totals of dw.plan_coverage; neither adds, drops or changes a number | committed | - | CI (pipeline-sql) and local builds | evidence/build/file_control.csv |
 | `781` | the annual-control, PSS-control and load-control views have the rows and the amounts of the audit tables they read (60, 443 and 46 rows in the real data); no row is added, dropped or recalculated | full | localdata | local full build only | evidence/full/bud_file_control.csv, evidence/full/bud_vs_inyear_del.csv, evidence/build/file_control.csv, evidence/full/pss_vs_outturn.csv |
+| `800` | the FY2022-23 plan is published for BEIS, DCMS and DIT as one group, so the outturn of the departments 013, 048 and 084 as reported is in that group (in the plan-basis table and in the model's outturn view), nothing else is regrouped, and the group has an outturn wherever it has a plan (with the outturn on the current structure it had a plan and no outturn) | committed | - | CI (pipeline-sql) and local builds | none (query on the warehouse) |
+| `801` | dw.outturn_plan_basis_annual holds departmental resource AME and capital AME as well as DEL, and each vintage and year adds up to the control budget detail DEPT AME of the annual file (it had no AME before, so a variance on AME could not be set against the final outturn) | full | localdata | local full build only | none (query on the warehouse) |
+| `802` | audit.plan_variance_reconciliation has one row for every year x group x measure the plan or the in-year outturn has from FY2022-23, ties to dw.fact_plan and dw.outturn_plan_basis_inyear in total, each variance equals outturn less plan, the gaps add up to the variance, every row has a verdict, groups without outturn have none, and the unexplained cells are exactly the seven listed here (a change in the list is a change in the finding) | full | localdata | local full build only | evidence/full/plan_variance_reconciliation.csv |
+| `803` | PESA 2026 restates the outturn of the same years against PESA December 2025 with resource DEL lower and departmental resource AME higher by nearly the same amount (within 10%), so its AME is not on the framework of the plans of earlier editions | full | localdata | local full build only | evidence/full/pesa_2026_basis_change.csv |
+| `804` | the plan variance view the model reads has the rows and the amounts of audit.plan_variance_reconciliation: no row added, dropped or recalculated | full | localdata | local full build only | evidence/full/plan_variance_reconciliation.csv |
 
 ### Python assertions that read the built database (`pipeline/tests/`)
 
