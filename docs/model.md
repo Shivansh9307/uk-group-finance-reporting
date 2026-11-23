@@ -753,7 +753,7 @@ difference 0.000001 parts per million) equals `RANK() OVER` over the year-end va
 
 The report's data-controls page shows the checks that the build already writes, so the model holds them as tables. They are
 audit and control tables: real counts and totals copied from `audit.*` and `dw.plan_coverage` by the views in
-`sql/dw/780_v_model_controls.sql` and `sql/dw/781_v_model_controls_full.sql`, with no number recalculated. Each carries
+`sql/audit/780_v_model_controls.sql` and `sql/audit/781_v_model_controls_full.sql` (in the audit layer because they read audit tables), with no number recalculated. Each carries
 "AUDIT and CONTROL" first in its description and the display folder `Audit and control` on every visible column.
 **Tested**: `sql/tests/780` (committed scope) and `sql/tests/781` (full scope) show that each view has the rows and totals of
 its audit table, and DAX tests 780 to 784 show that the model returns the same figures.

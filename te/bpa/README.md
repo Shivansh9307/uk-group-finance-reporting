@@ -97,6 +97,7 @@ A rule that is right in general and wrong for one object is switched off for tha
 | `measure:Fact Plan[Plan Source and Grain]` | `UKFR_MEASURE_FORMAT_IN_SET` | A text measure: it returns a label for a page and not a number, so it has no number format. |
 | `measure:Fact Outturn[Latest Release in View]` | `UKFR_MEASURE_FOLDER_AND_FORMAT` | A text measure: it returns a label for a page and not a number, so it has no number format. |
 | `measure:Fact Outturn[Latest Release in View]` | `UKFR_MEASURE_FORMAT_IN_SET` | A text measure: it returns a label for a page and not a number, so it has no number format. |
+| `column:File Control[Release Label]` | `REMOVE_REDUNDANT_COLUMNS_IN_RELATED_TABLES` | The label is repeated from Release on purpose, so that the file-control table shows each release without a Release column and its as-at measure reads the release from the file row. |
 
 ## Running it
 

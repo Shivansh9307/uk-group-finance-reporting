@@ -32,6 +32,7 @@ Prefix ranges are reserved per task so that parallel branches never collide:
 | 700-719 | the views the semantic model reads (`dw.v_model_*`, one per model table) and their tests; see [docs/model.md](../docs/model.md) |
 | 740-759 | the group income and expenditure statement: the typed layout (`stg`), the resolved lines and the account mapping (`dw`), the view the model reads for it, and the statement computed in SQL that the model's measures are tested against; see [docs/data-dictionary/statement.md](../docs/data-dictionary/statement.md) |
 | 760-779 | the restatement and current-structure measures of the model: the table that maps each reported department number to the department of the current structure that answers for it, the view `dw.v_model_department` that carries the list of numbers, and the tests of both; see [docs/model.md](../docs/model.md) |
+| 780-799 | the data-control views the report reads (`dw.v_model_file_control`, `v_model_plan_coverage`, and in scope full the annual, PSS and load controls) and their tests. The files sit in `sql/audit/` because the views read audit tables, which are built after `dw`; see [docs/model.md](../docs/model.md) |
 
 ## Phases
 

@@ -49,6 +49,8 @@ table 'File Control'
 		summarizeBy: none
 		sourceColumn: release_label
 
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["REMOVE_REDUNDANT_COLUMNS_IN_RELATED_TABLES"]}
+
 	/// File the release was read from.
 	column 'File Name'
 		dataType: string
