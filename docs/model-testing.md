@@ -10,8 +10,10 @@ DAX cannot run on a hosted runner without a service I do not use, so the DAX tes
 Desktop. What CI can enforce is the part that does not need Desktop: the pairing of tests and expected values, the
 comparison logic, the structure of the model files, and that the committed results agree with the committed expected
 values (**tested**: `pipeline/tests/test_model_tests.py`, `pipeline/tests/test_model_files.py`). It cannot prove that
-the committed results were produced by the current model; that is the evidence ledger, which I have designed and not built, and until
-then it rests on me running the suite and committing the files together.
+the committed results were produced by the current model. What it can do is make them tamper-evident: `evidence/ledger.json` holds
+a hash of the model's TMDL and the sha256 of every test, expected value and result, and `ukfr ledger check` fails in CI when any of
+them no longer matches. That is a ledger, not a rerun of DAX, and what it proves and does not prove is in [evidence.md](evidence.md)
+(**tested**: `pipeline/tests/test_ledger.py`).
 
 ## The layout
 
@@ -22,6 +24,8 @@ then it rests on me running the suite and committing the files together.
 | `tests/expected/<NNN>_<name>.py` | instead of the `.sql`, where the truth is a published file and not a warehouse table (tests 703 to 705): `generate(root)` returns the columns and rows. A module whose function is `generate(root, db)` is also given the database connection, for a truth that mixes a warehouse query with a file (tests 770 to 776, which deflate warehouse amounts with the pinned index) | me |
 | `tests/expected/<NNN>_<name>.csv` | the expected values | `ukfr expected` |
 | `tests/expected/_meta.csv` | the build scope (`committed` or `full`) the expected values came from | `ukfr expected` |
+| `tests/expected_committed/` | a second set of expected values, written at committed scope from a database built from the files in git, with `_meta.csv` and `_skipped.csv` (the tests left out and why). CI regenerates it in the container and requires it to be identical | `ukfr expected --out-dir tests/expected_committed --skip-unavailable` |
+| `evidence/ledger.json` | the model hash and the sha256 of every file above, of the role cases and of the model reference | `ukfr ledger write` |
 | `tests/results/<NNN>_<name>.csv` | what the model returned | `tools/run_dax_tests.ps1` |
 | `evidence/model/dax_tests.csv` | test id, name, rows, columns, status, largest absolute difference, build scope | `ukfr dax-compare` |
 
@@ -44,6 +48,9 @@ powershell.exe -NoProfile -File tools\run_dax_tests.ps1 -Refresh
 # 4. compare; exits 1 on any mismatch or missing file
 uv run --project pipeline ukfr dax-compare
 ```
+
+After the role cases have passed too (below), `ukfr model-docs` and `ukfr ledger write` close the run: the order of every step is in
+[evidence.md](evidence.md#how-to-refresh-it).
 
 `-Filter "700_*.dax"` runs one test. `-RefreshTable "Release,Fact Outturn"` refreshes only those tables, and
 `-AllowUnloaded "Deflator,CPI"` lets queries run while the tables read over the web have not been loaded yet (both
@@ -228,6 +235,6 @@ every rule of the file and none at severity 3 is violated. **Designed, not yet s
 
 ## Not covered
 
-- A test that the model changes when a measure changes (the evidence ledger, designed, not built).
+- A rerun of the DAX tests in CI. There is no engine on a hosted runner, so CI hash-checks the results and recomputes only the expected values of the committed scope ([evidence.md](evidence.md)).
 - Security in the service: security groups, app audiences and the report under a role (designed, not run: [security.md](security.md)).
 - Performance (designed, not built).

@@ -152,12 +152,14 @@ the pipeline. Its steps, in order, with what each asserts:
 | Committed files, unit tests, assertion inventory | `ukfr fetch --verify`, `pytest -m "not db"`, `ukfr inventory` | a committed file does not match its sha256; a test fails; a file in `sql/tests` has no `-- test:` header; `docs/reconciliation.md` is out of date |
 | Build | `ukfr build --scope committed` | any SQL batch or load fails |
 | Database tests | `pytest -m db` with `UKFR_REQUIRE_DB=1` | any assertion fails, or a database test cannot run |
+| Recompute the committed-scope expected values | `ukfr expected --out-dir <temp> --skip-unavailable` against the database just built, then `diff -r` with `tests/expected_committed` | an expected-value query no longer runs or gives other numbers on the committed data, or the committed set was edited by hand ([evidence.md](evidence.md)) |
 | Rebuild and compare | a second build into a second database, then `diff -r` of the audit output against the first build and `git diff --exit-code` against `evidence/build` | the audit output is not identical, or differs from the committed copy |
 | Negative control | `ukfr negative-control` in the second database: plants a wrong control total, a wrong raw amount and a wrong fact amount, requires the controls to fail, restores, requires them to pass, then checks that no file changed | a planted error is not caught, a restore is not clean, or a file changed |
 | Summary | prints the seconds of every step and the test results to the job summary | never |
 
 Every step that matters prints its seconds (`<step>_s=<seconds>`, from `.github/scripts/step-timer.sh`), and the
-Summary step lists them with the test totals. The `model-bpa` job runs Tabular Editor 2's Best Practice Analyzer on the real model
+Summary step lists them with the test totals. The `evidence-ledger` job runs `ukfr ledger check` on a bare Python (standard library only) and fails when the model, a DAX test,
+an expected value, a result or the model reference no longer matches `evidence/ledger.json` ([evidence.md](evidence.md)). The `model-bpa` job runs Tabular Editor 2's Best Practice Analyzer on the real model
 (`model/UKGroupFinance.SemanticModel/definition`, with the rule file `te/bpa/rules.json`, see [te/bpa/README.md](../te/bpa/README.md))
 and compares the counts of the run with `evidence/bpa`; the
 `report-checks` job runs the rules of `tests/report` on the real report (`model/UKGroupFinance.Report`). The DAX tests

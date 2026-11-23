@@ -7,6 +7,11 @@ expenditure statement has its own section below. The restatement measures, the d
 [security.md](security.md). Every claim is labelled
 **tested** (with the command and the result file) or **designed**.
 
+The complete list of tables, columns, measures with their expressions, relationships, roles, perspectives, calculation items
+and functions is generated from the running model and not written by hand: [model-reference.md](model-reference.md). It is
+produced from the INFO functions by `ukfr model-docs`, and `ukfr ledger check` fails when the model has changed since it was
+generated ([evidence.md](evidence.md)).
+
 ## Decisions
 
 - **Import mode, compatibility level 1702**, hand-written TMDL (**tested**: Desktop opens the project, and

@@ -33,6 +33,9 @@ drill-through pages), described page by page in [docs/pages.md](docs/pages.md), 
 a DAX test result ([evidence/report/screenshot_figures.csv](evidence/report/screenshot_figures.csv)).
 Row-level and object-level security (two roles, an invented user map, 87 role cases compared with SQL) is in
 [docs/security.md](docs/security.md).
+The DAX test results are tied to the model by a hash ledger that CI checks, and the model's tables, measures and roles
+are listed in a reference generated from the model itself: [docs/evidence.md](docs/evidence.md),
+[docs/model-reference.md](docs/model-reference.md).
 The source fetcher and file manifest are described in [docs/data-sources.md](docs/data-sources.md).
 
 ## The report
