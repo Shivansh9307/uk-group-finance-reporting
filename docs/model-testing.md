@@ -27,7 +27,7 @@ then it rests on me running the suite and committing the files together.
 
 Test numbers 700 to 719 belong to the model skeleton, 720 to 739 to the measures, 740 to 759 to the income and
 expenditure statement, 760 to 769 to the restatement and current-structure measures and 770 to 779 to real terms and
-perspectives, 810 to 819 to the equality of the rewritten slow measures with their plain forms; later model tasks take their own ranges.
+perspectives, 810 to 819 to the equality of the rewritten slow measures with their plain forms and 820 to 829 to the two hidden security tables; later model tasks take their own ranges.
 
 ## Run the suite
 
@@ -198,6 +198,20 @@ has to equal SQL and so does the plain form.
 
 The performance queries (`tests/perf/`, and `tests/perf/naive/` for the plain forms) are not tests and have no expected values; `docs/performance.md` says how they are run.
 
+### The security table tests (820 to 822)
+
+Three tests for the two hidden synthetic tables of the security roles, described in [security.md](security.md). The expected values come from `synthetic.user_department` with the department dimension (820), from the authored group map with the plan-group rule written as "a group with a member and no member outside the user's departments" (821 and the plan-group row count in 822), and from the facts summed on their own (822).
+
+| Test | What it proves | Rows | Expected values from |
+|---|---|---:|---|
+| 820 `user_department_rows` | the hidden table holds the user and department key of every row of the map | 11 | `synthetic.user_department`, `dw.dim_department` |
+| 821 `user_plan_group_rows` | the hidden table holds the user and group key of every group whose departments the user holds in full | 10 | `authored.department_sr_group`, `dw.dim_sr_group` |
+| 822 `unrestricted_totals_with_the_user_map_loaded` | with no role the model's totals equal the facts, and the two tables have their row counts | 8 | `dw.fact_outturn`, `dw.fact_plan`, `dw.fact_plan_phased` |
+
+## Role cases
+
+The cases that run under a role are not DAX tests: each needs a role and a user, which `tools/run_dax.ps1` passes with `-Roles` and `-User`. They live in `tests/rls/` (a manifest of case, query, role, user, mode and expected, the queries, the expected SQL, the results) and are run and compared by `tools/run_rls_tests.ps1`, `ukfr rls-expected` and `ukfr rls-compare`, which write `evidence/model/rls_tests.csv`. The three modes are `values` (equal to SQL), `differs` (not equal to the unfiltered total) and `error` (the engine refuses the query with a stated text). The cases, the roles and the results are in [security.md](security.md). **Tested**: `pipeline/tests/test_rls_tests.py` (the comparison and the manifest checks, without Desktop).
+
 ## The Best Practice Analyzer count check
 
 The DAX tests need Desktop, so CI cannot run them. What CI does run on the model is Tabular Editor 2's analyzer with
@@ -215,5 +229,5 @@ every rule of the file and none at severity 3 is violated. **Designed, not yet s
 ## Not covered
 
 - A test that the model changes when a measure changes (the evidence ledger, designed, not built).
-- Row-level or object-level security (designed, not built).
+- Security in the service: security groups, app audiences and the report under a role (designed, not run: [security.md](security.md)).
 - Performance (designed, not built).

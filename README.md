@@ -31,6 +31,8 @@ perspectives, with its metadata kept by Tabular Editor scripts in [te/](te/) and
 The report is built: seven pages (executive summary, P&L statement, variance, restatements, data controls and two
 drill-through pages), described page by page in [docs/pages.md](docs/pages.md), with every figure on a page equal to
 a DAX test result ([evidence/report/screenshot_figures.csv](evidence/report/screenshot_figures.csv)).
+Row-level and object-level security (two roles, an invented user map, 87 role cases compared with SQL) is in
+[docs/security.md](docs/security.md).
 The source fetcher and file manifest are described in [docs/data-sources.md](docs/data-sources.md).
 
 ## The report
@@ -63,9 +65,13 @@ Real data only in real totals. An object is one of four classes:
   amount;
 - **derived**: computed from real data by a stated rule or allocation (a regrouping, a monthly phasing); it is
   flagged as derived in the database wherever it could be mistaken for data, and never added to a real total;
-- **synthetic**: invented data. There is none yet, and nothing of this class may be added without its own schema,
-  a row here and a test. **Tested**: `pipeline/tests/test_register.py::test_there_is_no_synthetic_data_yet`
-  (the `synthetic` and `scale` schemas hold no table).
+- **synthetic**: invented data. There is one table, the map of invented users to departments that drives the security
+  roles (`synthetic.user_department`, 11 rows, below). It holds no amount, only two views read it, and no real fact or
+  total reads those. Nothing of this class may be added without its own file, a row here and a test. **Tested**:
+  `pipeline/tests/test_register.py::test_the_synthetic_schemas_hold_exactly_the_registered_tables_and_no_fact_or_total_view_reads_them`
+  (the `synthetic` and `scale` schemas hold exactly the registered tables, and the only objects that read them are the two
+  role views, which nothing reads), `sql/tests/821_only_the_two_role_views_read_the_synthetic_table_and_nothing_reads_them.sql`
+  and `pipeline/tests/test_synthetic.py` (the pinned totals of the real facts hold with the map loaded).
 
 Every authored file is in the table. **Tested**: `pipeline/tests/test_register.py` fails if an `authored/*.csv`
 file is missing from it, if the row count shown differs from the file, or if a row of class authored, derived or
@@ -112,7 +118,10 @@ labelled AUTHORED in their descriptions and in a display folder, and a rule of t
 | `dw.department_reported_number` and the model column `Reported Department Numbers` | derived | `dw.department_reported_number` through `dw.v_model_department` | 63 | the department of the current structure that answers for each department number the outturn was reported under: its own number, an Unallocated member, or (for 027 only) the department that receives the lines | no: a mapping of numbers to departments; `reported_net_amount` is a note of what the number was reported with, no measure reads it, and the amounts of the as-reported structure added over the departments equal the total | `sql/tests/760_every_reported_department_number_has_exactly_one_current_department.sql`, `tests/dax/764_structure_totals_by_year.dax` |
 | Model measures of the restatement and the current structure (display folders `Restatement` and `Current Structure`) | derived | none: measures over `Fact Outturn` | 15 | the outturn as at a release, as first reported, the revisions between releases, the figure under each department structure and the transfer between them | no: each is a sum, a difference or a ratio of the real deltas; the transfer adds to zero over the departments in every year and release | `tests/dax/760_as_at_release_equals_file_total.dax`, `tests/dax/764_structure_totals_by_year.dax`, `tests/dax/765_structure_totals_by_release.dax` |
 | Model measures of real terms (display folder `Real Terms`) | derived | none: measures over `Fact Outturn`, `Fact Plan` and `Fact Plan Phased (derived)` | 7 | outturn, plan and statement amounts in 2025-26 prices: each financial year's amount times the index of 2025-26 over the index of that year, from the October 2026 Budget deflators; the phased twin is labelled DERIVED | no: each is a separate measure, the nominal measures and every real total are unchanged, and a year without an index gives BLANK, never the nominal figure | `tests/dax/770_real_terms_outturn_by_year.dax`, `tests/dax/773_real_terms_2025_26_is_nominal.dax`, `tests/dax/776_real_terms_year_without_index_is_blank.dax` |
-| synthetic data | synthetic | none | 0 | nothing: no synthetic data exists yet | no | `pipeline/tests/test_register.py::test_there_is_no_synthetic_data_yet` |
+| `synthetic/user_department.csv` | synthetic | `synthetic.user_department` | 11 | invented users (addresses at `example.org`) and the departments of the current structure each may see: eight users, one with two departments, one with three, one whose department has outturn in six of nine years; a ninth user, `nobody@example.org`, is in no row on purpose | no: it filters rows for the security roles and holds no amount; only `dw.v_model_user_department` and `dw.v_model_user_plan_group` read it and nothing reads those | `sql/tests/821_only_the_two_role_views_read_the_synthetic_table_and_nothing_reads_them.sql`, `pipeline/tests/test_synthetic.py`, `sql/tests/820_the_user_map_is_synthetic_labelled_and_has_the_cases_the_roles_are_tested_with.sql` |
+| `dw.v_model_user_department` and `dw.v_model_user_plan_group` | synthetic | two views over `synthetic.user_department` | 11; 10 | one row per user and department, and one row per user and Spending Review group whose departments the user holds in full (the rule that decides which plan a user sees) | no: no amount column; no fact, view of a fact or measure reads them, the roles read them by key | `sql/tests/822_a_user_sees_the_plan_of_a_group_only_when_every_department_of_the_group_is_the_users.sql`, `sql/tests/823_the_named_users_see_the_groups_the_security_document_says.sql` |
+| Model table `User Department (synthetic)` | synthetic | `dw.v_model_user_department` | 11 | the user map as a hidden model table; the two roles filter the department dimension by it | no: hidden, related to nothing, no amount; the unrestricted totals equal SQL with it loaded | `tests/dax/820_user_department_rows.dax`, `tests/dax/822_unrestricted_totals_with_the_user_map_loaded.dax` |
+| Model table `User Plan Group (synthetic)` | synthetic | `dw.v_model_user_plan_group` | 10 | the groups whose plan each user may see, as a hidden model table; the two roles filter the plan facts by it | no: hidden, related to nothing, no amount; the unrestricted totals equal SQL with it loaded | `tests/dax/821_user_plan_group_rows.dax`, `tests/dax/822_unrestricted_totals_with_the_user_map_loaded.dax` |
 
 ## Tools
 

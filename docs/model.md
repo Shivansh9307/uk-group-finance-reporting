@@ -3,8 +3,8 @@
 One Power BI semantic model, `model/UKGroupFinance.pbip` (PBIP: TMDL for the model, PBIR for the report), on the star
 schema that `ukfr build` writes to SQL Server. This page says what is in it, where each table comes from, how the
 tables relate, what the measures and the three calculation groups do, and what I left out and why. The group income and
-expenditure statement has its own section below. The restatement measures, the department-structure measures and a rank have their own sections below. There is no security
-and no report page yet; those are later work. Every claim is labelled
+expenditure statement has its own section below. The restatement measures, the department-structure measures and a rank have their own sections below. Row-level and object-level security, with its synthetic user map, is described in
+[security.md](security.md). Every claim is labelled
 **tested** (with the command and the result file) or **designed**.
 
 ## Decisions
@@ -67,6 +67,8 @@ the warehouse (**tested**: `evidence/model/dax_tests.csv`, test 700). SQL counts
 | Deflator Quarantine | web | 0 | | deflator rows that failed to parse |
 | CPI | web | 918 to September 2026; the web copy also held October 2026 on 18 November 2026 | real | ONS D7BT and D7G7, monthly |
 | CPI Quarantine | web | 0 | | CPI rows that failed to parse |
+| User Department (synthetic) | `dw.v_model_user_department` | 11 | **synthetic** | hidden: invented users and the departments each may see; the security roles read it, see [security.md](security.md) |
+| User Plan Group (synthetic) | `dw.v_model_user_plan_group` | 10 | **synthetic** | hidden: the Spending Review groups whose plan each invented user may see, see [security.md](security.md) |
 
 Subsets, each tested by `sql/tests/700` and DAX test 700: Fiscal Year is one row per financial year of
 `dw.dim_period` and of the plan (FY2017-18 has OSCAR Plans and no calendar: the in-year releases start at FY2018-19); Department (current structure) is the 63 live members of `dw.dim_department` (a closed naming period,
@@ -995,6 +997,6 @@ was answered or cancelled before I could record its second step, so the assets d
 
 ## Not in the model yet
 
-Security (roles, row-level and object-level), translations and report pages. Not tested: the measures on a report
-canvas (there is none yet), a visual that selects different periods in different years, and the matrix subtotals of the
+Translations, paybill object-level security (a later phase adds it to the Restricted Viewer role, see [security.md](security.md)) and any security in the service. Not tested: the measures on a report
+canvas under a role, a visual that selects different periods in different years, and the matrix subtotals of the
 calculation groups.
