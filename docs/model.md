@@ -604,10 +604,11 @@ what an earlier release had already reported. They live on `Fact Outturn` in the
 measures `Outturn as at Release`, `Outturn as First Reported`, `Revision since First Reported` and `Revision %` all use it.
 `Outturn as at Release` is the sum of the deltas of every release up to and including that one, for every financial year
 in context. So for the release of December 2023 the year 2023-24 is what that release reported (and equals its file total),
-the earlier years are the last figure known at that release, and the years after it are BLANK. It is written in the plain form,
-`CALCULATE ( [Outturn], FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )`, and that is deliberate: it is
-the form a report author would write, and `docs/performance.md` times it so that a later rewrite has something to be
-compared with.
+the earlier years are the last figure known at that release, and the years after it are BLANK. It is written as
+`CALCULATE ( [Outturn], REMOVEFILTERS ( 'Release' ), 'Release'[Release Sequence] <= AsAt )`. The form a report author would
+write first, `CALCULATE ( [Outturn], FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )`, is kept as the hidden
+measure `Outturn as at Release (naive)` in the display folder `Performance\Naive`, so that the comparison in
+`docs/performance.md` can be rerun; the two return the same figures (tests 810 to 812).
 
 **Tested** (`tests/dax/760_as_at_release_equals_file_total.dax`, result
 [tests/results/760_as_at_release_equals_file_total.csv](../tests/results/760_as_at_release_equals_file_total.csv)): for each
@@ -748,8 +749,9 @@ for DSIT, that is -0.18% (`tests/results/767_estimated_mapping_share.csv`), and 
 
 `Department Group Rank (YTD Variance %)` ranks the Spending Review groups by the Variance % item of Scenario Comparison under
 the YTD item of Time Intelligence, largest first (1 is the biggest overspend against plan), and returns BLANK where the group has no
-variance %. It is slow measure 2: the plain form, with both calculation items written out three times inside `RANKX`
-(`docs/performance.md`). It ranks groups, not departments, because the plan has no department. Ties share a rank and the next
+variance %. It is slow measure 2. It works out each group's value once, in `ADDCOLUMNS` over the groups, and ranks that column
+with `RANKX`; the plain form, with both calculation items written out three times inside `RANKX`, is kept as the hidden measure
+`Department Group Rank (YTD Variance %) (naive)`, and both are timed in `docs/performance.md`. It ranks groups, not departments, because the plan has no department. Ties share a rank and the next
 rank is skipped, as T-SQL `RANK()` does; a group with no plan or a plan of zero has no variance % and so no rank, and does not
 count in the others' ranks. Use it with no Time Intelligence or Scenario Comparison item selected: both are set inside the
 measure, and an item from outside would apply to the rank itself. **Tested**: test 768 (69 cells, three years, largest
@@ -874,7 +876,7 @@ The first run of the new file on the normalised model found 74 violations in 14 
 
 After: 11 violations, both rules at severity 1 (`evidence/bpa/bpa_counts.csv`, `evidence/bpa/bpa_violations.csv`, written by
 `tools/summarise_bpa.py`). The `model-bpa` job fails on severity 3 and then fails if its counts differ from those two files. The
-ignores are 19 rows for 18 objects (`te/bpa/ignores.csv`). Before I replaced the authored tables' descriptions, the label rule
+ignores are 26 rows for 23 objects (`te/bpa/ignores.csv`), two of them for the hidden plain forms of the slow measures. Before I replaced the authored tables' descriptions, the label rule
 would have found Scenario, Spending Review Group, Plan Source, Plan Grain and Statement Measure unlabelled; I prefixed their
 descriptions with AUTHORED and `display_folders.csx` puts their visible columns in `Authored`, as the derived table's are in `Derived`.
 

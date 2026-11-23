@@ -27,7 +27,7 @@ then it rests on me running the suite and committing the files together.
 
 Test numbers 700 to 719 belong to the model skeleton, 720 to 739 to the measures, 740 to 759 to the income and
 expenditure statement, 760 to 769 to the restatement and current-structure measures and 770 to 779 to real terms and
-perspectives; later model tasks take their own ranges.
+perspectives, 810 to 819 to the equality of the rewritten slow measures with their plain forms; later model tasks take their own ranges.
 
 ## Run the suite
 
@@ -181,7 +181,22 @@ the engine lists for each perspective with `te/scripts/perspectives.csv` (42 row
 cells of 771 and 773. All 55 tests, the 47 older ones among them, passed in one run
 (`dax-compare: 55 of 55 pass`), and the 47 older result files were byte for byte unchanged.
 
-The performance queries (`tests/perf/`) are not tests and have no expected values; `docs/performance.md` says how they are run.
+### The rewrite equality tests (810 to 813)
+
+Four tests for the two rewritten slow measures. Each returns the plain form (the hidden measure with `(naive)` in its name) and the
+rewrite side by side, with their difference, over the grids of the performance queries, and each expected file comes from T-SQL
+over `dw` (a running sum over the releases for 810 to 812, `RANK()` over the year-end variance % of the DEL headline for 813). The
+expected file therefore holds the same value in the plain and the rewritten column and 0 in the difference column, so the rewrite
+has to equal SQL and so does the plain form.
+
+| Test | What it proves | Rows | Expected values from |
+|---|---|---:|---|
+| 810 `naive_equals_rewrite_as_at_by_year` | `Outturn as at Release` (plain and rewrite) for every release and financial year | 151 | `dw.fact_outturn`, running sum |
+| 811 `naive_equals_rewrite_as_at_by_department` | the same for every release and department of the current structure | 1,931 | `dw.fact_outturn`, running sum |
+| 812 `naive_equals_rewrite_as_at_year_department` | the same on the 9,065-cell stress grid, summarised by release: cells, the two totals, the largest cell difference and the number of cells that differ | 31 | `dw.fact_outturn`, running sum |
+| 813 `naive_equals_rewrite_rank` | `Department Group Rank (YTD Variance %)` (plain and rewrite) for the groups of 2024-25 at period 12 and for three years, on the DEL headline plan measures | 92 | T-SQL `RANK()` over `dw.outturn_plan_basis_inyear` and `dw.fact_plan` |
+
+The performance queries (`tests/perf/`, and `tests/perf/naive/` for the plain forms) are not tests and have no expected values; `docs/performance.md` says how they are run.
 
 ## The Best Practice Analyzer count check
 
