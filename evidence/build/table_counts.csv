@@ -31,10 +31,11 @@ dw,fact_plan,749
 dw,fact_plan_phased,8988
 dw,organisation_name_alias,587
 dw,organisation_release_map,6853
-dw,outturn_plan_basis_inyear,34048
+dw,outturn_plan_basis_inyear,33450
 dw,outturn_plan_line,101675
 dw,outturn_sr_group_bridge,5480
 dw,plan_coverage,35
+dw,plan_group_rule,3
 dw,plan_measure_selection,10
 dw,plan_phasing_profile,8988
 dw,statement_line,39

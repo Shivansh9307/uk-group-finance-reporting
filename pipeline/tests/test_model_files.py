@@ -182,6 +182,7 @@ def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(t
     views = set()
     view_files = sorted((repo_root / "sql" / "dw").glob("7[0467]?_*.sql"))
     view_files += sorted((repo_root / "sql" / "audit").glob("78?_*.sql"))
+    view_files += sorted((repo_root / "sql" / "audit").glob("80?_*.sql"))
     sql_text = "\n".join(p.read_text(encoding="utf-8") for p in view_files)
     created = set(re.findall(r"CREATE VIEW dw\.(v_model_\w+)", sql_text))
     used: list[str] = []
