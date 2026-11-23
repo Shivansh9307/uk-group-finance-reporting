@@ -40,3 +40,10 @@ evidence/perf/real_terms/*.csv text eol=lf
 # The role cases of the security tests: expected values written by `ukfr rls-expected`, results written by tools/run_rls_tests.ps1.
 tests/rls/expected/*.csv text eol=lf
 tests/rls/results/*.csv text eol=lf
+
+# The evidence ledger and what it covers (see docs/evidence.md): LF so the hashes do not depend on autocrlf.
+evidence/ledger.json text eol=lf
+tests/expected_committed/*.csv text eol=lf
+evidence/model/reference/*.csv text eol=lf
+tools/model_reference/*.dax text eol=lf
+docs/model-reference.md text eol=lf

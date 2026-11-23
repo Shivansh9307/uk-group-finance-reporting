@@ -1,5 +1,5 @@
 """Command line: fetch, build, build-summary, control, inventory, real-totals, negative-control, expected, dax-compare,
-rls-expected, rls-compare, profile, zip-head."""
+rls-expected, rls-compare, model-docs, ledger, profile, zip-head."""
 
 from __future__ import annotations
 
@@ -206,16 +206,27 @@ def _expected(args) -> int:
     from .db import Db, DbSettings
 
     root = find_repo_root()
+    skipped: list[tuple[str, str]] = []
     try:
         with Db(DbSettings.from_env()) as db:
             scope = real_totals.build_scope(db)
-            done = modeltests.write_expected(root, db, scope, args.filter or "", args.out_dir)
+            done = modeltests.write_expected(
+                root,
+                db,
+                scope,
+                args.filter or "",
+                args.out_dir,
+                skip_unavailable=args.skip_unavailable,
+                skipped=skipped,
+            )
     except modeltests.ModelTestError as exc:
         print(f"expected: {exc}", file=sys.stderr)
         return 1
     for stem, n in done:
         print(f"{stem}: {n} rows")
-    print(f"expected: {len(done)} file(s) written, build scope {scope}")
+    for stem, reason in sorted(skipped):
+        print(f"{stem}: skipped ({reason})")
+    print(f"expected: {len(done)} file(s) written, {len(skipped)} skipped, build scope {scope}")
     return 0 if done else 1
 
 
@@ -245,6 +256,19 @@ def _dax_compare(args) -> int:
         f"dax-compare: {len(outcomes) - len(failed)} of {len(outcomes)} pass, expected build scope {scope or 'unknown'}"
     )
     return 1 if failed or problems or not outcomes else 0
+
+
+def _model_docs(args) -> int:
+    from . import model_docs
+
+    root = find_repo_root()
+    try:
+        path = model_docs.write(root, args.input_dir, args.output)
+    except model_docs.ModelDocsError as exc:
+        print(f"model-docs: {exc}", file=sys.stderr)
+        return 1
+    print(f"model-docs: wrote {path.relative_to(root).as_posix() if path.is_relative_to(root) else path.name}")
+    return 0
 
 
 def _rls_expected(args) -> int:
@@ -342,6 +366,12 @@ def main(argv: list[str] | None = None) -> int:
     )
     e.add_argument("--filter", help="only the tests whose name contains this text")
     e.add_argument("--out-dir", type=Path, help="write the CSVs here instead of tests/expected")
+    e.add_argument(
+        "--skip-unavailable",
+        action="store_true",
+        help="leave out (and list in _skipped.csv) a test whose expected source reads a file that is not in git; "
+        "used for the committed-scope set, which has to be reproducible on a runner with no data/raw",
+    )
     e.set_defaults(func=_expected)
     d = sub.add_parser(
         "dax-compare", help="compare tests/results with tests/expected; write evidence/model/dax_tests.csv"
@@ -358,6 +388,16 @@ def main(argv: list[str] | None = None) -> int:
     )
     rc.add_argument("--evidence", type=Path, help="default evidence/model/rls_tests.csv")
     rc.set_defaults(func=_rls_compare)
+    md = sub.add_parser(
+        "model-docs",
+        help="write docs/model-reference.md from the CSVs the INFO queries of tools/model_reference produced",
+    )
+    md.add_argument("--input-dir", type=Path, help="default evidence/model/reference")
+    md.add_argument("--output", type=Path, help="default docs/model-reference.md")
+    md.set_defaults(func=_model_docs)
+    from . import ledger
+
+    ledger.add_parser(sub)
     args = ap.parse_args(argv)
     return args.func(args)
 
