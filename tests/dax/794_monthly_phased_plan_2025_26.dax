@@ -1,4 +1,4 @@
-// The group drill-through page, all groups, 2025-26: for each period 1 to 12, the outturn on the plan's basis, the phased
+// With the report filter on the plan measure (resource DEL excluding depreciation and capital DEL): the group drill-through page, all groups, 2025-26: for each period 1 to 12, the outturn on the plan's basis, the phased
 // plan (derived, never published) and the variance to it.
 EVALUATE
 SELECTCOLUMNS (
@@ -7,6 +7,7 @@ SELECTCOLUMNS (
             'Fiscal Period'[Period Number],
             TREATAS ( { "2025-26" }, 'Fiscal Period'[Financial Year] ),
             TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ),
+            TREATAS ( { "RDEL_EX_DEPN", "CDEL" }, 'Fact Plan'[Plan Measure] ),
             "o", [Outturn (plan basis)],
             "p", [Plan (phased)],
             "v", [Variance to Phased Plan]

@@ -1,0 +1,21 @@
+// The Data Controls table Plan Variance Check: every plan variance from FY2022-23, one row for each financial year,
+// Spending Review group and plan measure (364 rows in the real data), with the outturn, the independent outturn, the gaps,
+// the residual and the verdict. The table is related to nothing, so it returns the same rows in any filter context.
+EVALUATE
+SELECTCOLUMNS (
+    'Plan Variance Check',
+    "financial_year", 'Plan Variance Check'[Financial Year],
+    "group", 'Plan Variance Check'[Spending Review Group],
+    "measure", 'Plan Variance Check'[Plan Measure],
+    "plan_amount", 'Plan Variance Check'[Planned Amount],
+    "outturn", 'Plan Variance Check'[Outturn Amount],
+    "variance", 'Plan Variance Check'[Variance Amount],
+    "variance_share_ppm", 'Plan Variance Check'[Variance Share] * 1000000,
+    "reference_source", 'Plan Variance Check'[Reference Source],
+    "gap_first_look", 'Plan Variance Check'[Gap First Look],
+    "gap_on_reference", 'Plan Variance Check'[Gap On Reference],
+    "residual", 'Plan Variance Check'[Residual],
+    "verdict_class", 'Plan Variance Check'[Verdict Class],
+    "verdict", 'Plan Variance Check'[Verdict]
+)
+ORDER BY [financial_year], [group], [measure]

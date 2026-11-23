@@ -1,0 +1,158 @@
+/// AUDIT and CONTROL, no new number: every plan variance from FY2022-23, one row for each financial year, Spending Review group and plan measure (resource DEL excluding depreciation, capital DEL, departmental resource AME and capital AME), with the independent outturn, the part of the variance each named cause accounts for, the residual and a verdict (ok, fixed, explained with its reason, or unexplained). Amounts in GBP thousands, spending positive; variance is outturn on the plan's basis less plan. Not related to any other table, so no selection reaches it. Full-scope build only. Source view dw.v_model_plan_variance (audit.plan_variance_reconciliation).
+table 'Plan Variance Check'
+	lineageTag: a63a8142-ff23-4345-870a-cb533c3711e6
+
+	/// Financial year of the plan.
+	column 'Financial Year'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 0c2d3c99-7fed-468b-bc5c-197dce2cd172
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	/// The group the plan is published under; for FY2022-23 the combined BEIS, DCMS and DIT group holds the outturn of those departments as reported.
+	column 'Spending Review Group'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: ef660034-f239-4894-a733-abac23ce82a4
+		summarizeBy: none
+		sourceColumn: sr_group_name
+
+	/// RDEL_EX_DEPN, CDEL, RAME or CAME.
+	column 'Plan Measure'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: fe28f416-5576-476e-b929-40902ab46e26
+		summarizeBy: none
+		sourceColumn: measure
+
+	/// The published plan, GBP thousands (the rows the model's Plan adds up).
+	column 'Planned Amount'
+		dataType: decimal
+		formatString: #,##0;-#,##0
+		displayFolder: Audit and control
+		lineageTag: a7fb16dd-4e3c-45c2-9e42-0141a2f058ca
+		summarizeBy: none
+		sourceColumn: plan_amount
+
+	/// Outturn on the plan's basis from the in-year files, GBP thousands: what Outturn (plan basis) returns.
+	column 'Outturn Amount'
+		dataType: decimal
+		formatString: #,##0;-#,##0
+		displayFolder: Audit and control
+		lineageTag: 67bd0243-5659-4b15-a530-df5d75c84c82
+		summarizeBy: none
+		sourceColumn: outturn
+
+	/// Outturn less plan, GBP thousands; below zero is favourable.
+	column 'Variance Amount'
+		dataType: decimal
+		formatString: #,##0;-#,##0
+		displayFolder: Audit and control
+		lineageTag: aa23ebdb-57b0-4164-825c-4165f2fdb0e7
+		summarizeBy: none
+		sourceColumn: variance
+
+	/// Variance over the absolute plan; empty where the plan is zero.
+	column 'Variance Share'
+		dataType: double
+		formatString: 0.0%
+		displayFolder: Audit and control
+		lineageTag: 90c139cd-6f39-4b69-a048-1c07dd31743e
+		summarizeBy: none
+		sourceColumn: variance_share
+
+	/// Where the independent outturn comes from: the annual restated file (to 2024-25) or the Public Spending Statistics (DEL, 2025-26). Empty for AME in 2025-26, which has none on the plan's framework.
+	column 'Reference Source'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 67a213c5-0d90-49a4-8a8f-90577fab4b80
+		summarizeBy: none
+		sourceColumn: reference_source
+
+	/// The independent outturn, GBP thousands.
+	column 'Reference Outturn'
+		dataType: decimal
+		formatString: #,##0;-#,##0
+		displayFolder: Audit and control
+		lineageTag: 231fe487-652a-4ca7-a9f0-09eba16d2cda
+		summarizeBy: none
+		sourceColumn: outturn_reference
+
+	/// The variance of a plan line that has no outturn in OSCAR (the Single Intelligence Account), GBP thousands.
+	column 'Gap Plan Only'
+		dataType: decimal
+		formatString: #,##0;-#,##0
+		displayFolder: Audit and control
+		lineageTag: 65d733cc-1b48-4ff2-a6d9-287601cfa17f
+		summarizeBy: none
+		sourceColumn: gap_plan_only
+
+	/// The variance of outturn that has no plan line, GBP thousands.
+	column 'Gap Outturn Only'
+		dataType: decimal
+		formatString: #,##0;-#,##0
+		displayFolder: Audit and control
+		lineageTag: 7e799c5d-6947-4cf5-8e8f-34037cf7ba3c
+		summarizeBy: none
+		sourceColumn: gap_outturn_only
+
+	/// Outturn from the in-year files less the independent outturn, GBP thousands: the in-year files are the first look, the annual file is final.
+	column 'Gap First Look'
+		dataType: decimal
+		formatString: #,##0;-#,##0
+		displayFolder: Audit and control
+		lineageTag: 65d7cce7-e3a5-4247-aeae-804c437481b3
+		summarizeBy: none
+		sourceColumn: gap_first_look
+
+	/// The independent outturn less the plan, GBP thousands: the variance on final figures.
+	column 'Gap On Reference'
+		dataType: decimal
+		formatString: #,##0;-#,##0
+		displayFolder: Audit and control
+		lineageTag: 2d6a30e2-f3ec-4200-bac6-c9e9890c5335
+		summarizeBy: none
+		sourceColumn: gap_on_reference
+
+	/// What no named cause accounts for, GBP thousands.
+	column Residual
+		dataType: decimal
+		formatString: #,##0;-#,##0
+		displayFolder: Audit and control
+		lineageTag: 75834ecf-858c-4498-8caf-c3183c38dc92
+		summarizeBy: none
+		sourceColumn: residual
+
+	/// The named cause of a first-look gap above tolerance, when there is one.
+	column 'First Look Cause'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: dd88f279-75e3-47c1-a755-925f69989ca7
+		summarizeBy: none
+		sourceColumn: first_look_cause
+
+	/// ok, fixed, explained or unexplained.
+	column 'Verdict Class'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 14b177eb-735f-401a-98fd-6c338a7bcb47
+		summarizeBy: none
+		sourceColumn: verdict_class
+
+	/// The verdict with its reason.
+	column Verdict
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 68db3745-7de9-4c58-a75c-70e1579646aa
+		summarizeBy: none
+		sourceColumn: verdict
+
+	partition 'Plan Variance Check' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_plan_variance"]}[Data]
+				in
+				    Data

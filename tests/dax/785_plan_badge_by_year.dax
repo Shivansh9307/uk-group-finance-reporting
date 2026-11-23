@@ -1,10 +1,11 @@
-// The plan badge (Plan Source and Grain) for each financial year with a plan: the plan sources and the grain they are
+// The plan badge (Plan Source and Grain) for each financial year with a plan, with the report filter on the plan measure
+// (resource DEL excluding depreciation and capital DEL, the voted limits; AME is a forecast and is left out of the headline): the plan sources and the grain they are
 // published at, joined with a semicolon in the order of the source's name; and the year's plan row count behind it.
 EVALUATE
 SELECTCOLUMNS (
     FILTER (
-        ADDCOLUMNS ( VALUES ( 'Fiscal Year'[Financial Year] ), "badge", [Plan Source and Grain] ),
-        NOT ISBLANK ( CALCULATE ( [Plan] ) )
+        ADDCOLUMNS ( VALUES ( 'Fiscal Year'[Financial Year] ), "badge", CALCULATE ( [Plan Source and Grain], TREATAS ( { "RDEL_EX_DEPN", "CDEL" }, 'Fact Plan'[Plan Measure] ) ) ),
+        NOT ISBLANK ( CALCULATE ( [Plan], TREATAS ( { "RDEL_EX_DEPN", "CDEL" }, 'Fact Plan'[Plan Measure] ) ) )
     ),
     "financial_year", 'Fiscal Year'[Financial Year],
     "badge", [badge]

@@ -1,0 +1,21 @@
+// The headline plan variance of each year from 2022-23 split by plan measure: the plan, the outturn on the plan's basis and
+// the variance, for resource DEL excluding depreciation and capital DEL (the voted limits that the report's headline keeps)
+// and for departmental resource AME and capital AME (a forecast, left out of the headline). With every measure in context
+// the variance of 2025-26 is the single number the first version of the report led with.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Fiscal Year'[Financial Year],
+        'Fact Plan'[Plan Measure],
+        TREATAS ( { "2022-23", "2023-24", "2024-25", "2025-26" }, 'Fiscal Year'[Financial Year] ),
+        TREATAS ( { "RDEL_EX_DEPN", "CDEL", "RAME", "CAME" }, 'Fact Plan'[Plan Measure] ),
+        "plan_amount", [Plan],
+        "outturn", [Outturn (plan basis)]
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "measure", 'Fact Plan'[Plan Measure],
+    "plan_amount", [plan_amount],
+    "outturn", [outturn],
+    "variance", [outturn] - [plan_amount]
+)
+ORDER BY [financial_year], [measure]

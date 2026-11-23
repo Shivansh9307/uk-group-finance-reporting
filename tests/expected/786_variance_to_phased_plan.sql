@@ -1,4 +1,4 @@
--- Independent of the model: the plan-basis table at the last release of the year, summed over the groups and periods 0
+-- Independent of the model, for the two measures the report filter keeps (resource DEL excluding depreciation, capital DEL): the plan-basis table at the last release of the year, summed over the groups and periods 0
 -- to p for the measures that have a plan row (not part of another measure) in the year, against the phased plan summed
 -- over the same periods; the difference and the difference over the absolute phased plan, in parts per million.
 WITH cells AS (
@@ -11,12 +11,13 @@ WITH cells AS (
       ON b.financial_year = c.financial_year AND b.period_no <= c.period
      AND b.release_key = (SELECT MAX(r.release_key) FROM dw.dim_release AS r WHERE r.financial_year = c.financial_year)
     WHERE b.measure IN (SELECT DISTINCT p.measure FROM dw.fact_plan AS p WHERE p.financial_year = c.financial_year AND p.is_part_of_other_measure = 0)
+      AND b.measure IN ('RDEL_EX_DEPN', 'CDEL')
     GROUP BY c.financial_year, c.period
 ), phased AS (
     SELECT c.financial_year, c.period, SUM(f.amount) AS amount
     FROM cells AS c
     JOIN dw.fact_plan_phased AS f ON f.financial_year = c.financial_year AND f.period_no <= c.period
-    WHERE f.is_part_of_other_measure = 0
+    WHERE f.is_part_of_other_measure = 0 AND f.measure IN ('RDEL_EX_DEPN', 'CDEL')
     GROUP BY c.financial_year, c.period
 )
 SELECT c.financial_year, c.period, CAST(b.amount AS decimal(38, 4)) AS outturn_plan_basis, CAST(p.amount AS decimal(38, 4)) AS phased_plan,

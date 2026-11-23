@@ -1,4 +1,4 @@
-// Outturn on the plan's basis, the phased plan and the variance to it, summed from period 0 to the period (the year to
+// With the report filter on the plan measure (resource DEL excluding depreciation and capital DEL): outturn on the plan's basis, the phased plan and the variance to it, summed from period 0 to the period (the year to
 // date under Time Intelligence), for the closing period of two years and periods 3 and 6 of 2026-27 (percentage in
 // parts per million).
 DEFINE
@@ -15,16 +15,16 @@ SELECTCOLUMNS (
         ),
         "outturn_plan_basis",
             VAR y = [fy] VAR p = [p]
-            RETURN CALCULATE ( [Outturn (plan basis)], 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" ),
+            RETURN CALCULATE ( [Outturn (plan basis)], TREATAS ( { "RDEL_EX_DEPN", "CDEL" }, 'Fact Plan'[Plan Measure] ), 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" ),
         "phased_plan",
             VAR y = [fy] VAR p = [p]
-            RETURN CALCULATE ( [Plan (phased)], 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" ),
+            RETURN CALCULATE ( [Plan (phased)], TREATAS ( { "RDEL_EX_DEPN", "CDEL" }, 'Fact Plan'[Plan Measure] ), 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" ),
         "variance",
             VAR y = [fy] VAR p = [p]
-            RETURN CALCULATE ( [Variance to Phased Plan], 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" ),
+            RETURN CALCULATE ( [Variance to Phased Plan], TREATAS ( { "RDEL_EX_DEPN", "CDEL" }, 'Fact Plan'[Plan Measure] ), 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" ),
         "variance_ppm",
             VAR y = [fy] VAR p = [p]
-            RETURN CALCULATE ( [Test Variance Pct], 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" )
+            RETURN CALCULATE ( [Test Variance Pct], TREATAS ( { "RDEL_EX_DEPN", "CDEL" }, 'Fact Plan'[Plan Measure] ), 'Fiscal Year'[Financial Year] = y, 'Fiscal Period'[Period Number] = p, 'Time Intelligence'[Time Calculation] = "YTD" )
     ),
     "financial_year", [fy],
     "period", [p],

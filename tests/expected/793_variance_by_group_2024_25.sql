@@ -1,10 +1,10 @@
--- Independent of the model: per Spending Review group, the plan (rows that are not part of another measure) and the
+-- Independent of the model, for the two measures the report filter keeps (resource DEL excluding depreciation, capital DEL): per Spending Review group, the plan (rows that are not part of another measure) and the
 -- in-year plan-basis outturn at the last release of 2024-25 for the measures the group has a plan row for. Groups with
 -- no plan do not appear; a group with a plan and no outturn (the Single Intelligence Account) has no outturn and so no variance. The waterfall columns repeat the plan and the outturn.
 WITH pl AS (
     SELECT sr_group_key, measure, SUM(amount) AS plan_amount
     FROM dw.fact_plan
-    WHERE financial_year = '2024-25' AND is_part_of_other_measure = 0
+    WHERE financial_year = '2024-25' AND is_part_of_other_measure = 0 AND measure IN ('RDEL_EX_DEPN', 'CDEL')
     GROUP BY sr_group_key, measure
 ), ob AS (
     SELECT b.sr_group_key, b.measure, SUM(b.amount) AS basis_amount

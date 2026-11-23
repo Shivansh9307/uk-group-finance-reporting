@@ -249,6 +249,42 @@ perspective 'Data Controls'
 
 		perspectiveColumn 'Basis Note'
 
+	perspectiveTable 'Plan Variance Check'
+
+		perspectiveColumn 'Financial Year'
+
+		perspectiveColumn 'Spending Review Group'
+
+		perspectiveColumn 'Plan Measure'
+
+		perspectiveColumn 'Planned Amount'
+
+		perspectiveColumn 'Outturn Amount'
+
+		perspectiveColumn 'Variance Amount'
+
+		perspectiveColumn 'Variance Share'
+
+		perspectiveColumn 'Reference Source'
+
+		perspectiveColumn 'Reference Outturn'
+
+		perspectiveColumn 'Gap Plan Only'
+
+		perspectiveColumn 'Gap Outturn Only'
+
+		perspectiveColumn 'Gap First Look'
+
+		perspectiveColumn 'Gap On Reference'
+
+		perspectiveColumn Residual
+
+		perspectiveColumn 'First Look Cause'
+
+		perspectiveColumn 'Verdict Class'
+
+		perspectiveColumn Verdict
+
 	perspectiveTable 'Load Control'
 
 		perspectiveMeasure 'Rows Read'
