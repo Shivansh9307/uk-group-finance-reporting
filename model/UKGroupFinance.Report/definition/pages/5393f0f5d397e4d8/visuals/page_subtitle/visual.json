@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "4e8485dd38037bbb",
+  "name": "48bb79d9607818ac",
   "position": {
     "x": 24,
     "y": 52,
@@ -18,7 +18,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "GBP billions, nominal unless marked 2025-26 prices; departments on the current structure",
+                    "value": "GBP billions, nominal unless marked 2025-26 prices; departments on the current structure; plan is DEL",
                     "textStyle": {
                       "fontSize": "14pt",
                       "color": "#666666"
@@ -77,7 +77,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Page basis: GBP billions, nominal unless marked 2025-26 prices; departments on the current structure'"
+                  "Value": "'Page basis: GBP billions, nominal unless marked 2025-26 prices; departments on the current structure; plan is DEL'"
                 }
               }
             }

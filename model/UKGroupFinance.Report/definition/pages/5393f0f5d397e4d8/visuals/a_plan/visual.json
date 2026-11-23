@@ -98,7 +98,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Plan'"
+                  "Value": "'Plan (DEL)'"
                 }
               }
             }
@@ -145,7 +145,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "1d8c4bbb2ecc3da2df52",
+        "name": "fa5359cff6e111322560",
         "field": {
           "Column": {
             "Expression": {

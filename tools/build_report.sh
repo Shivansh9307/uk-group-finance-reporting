@@ -5,6 +5,7 @@
 #
 #   bash tools/build_report.sh exec          # build one page (the page must not exist yet)
 #   bash tools/build_report.sh all           # every page, in order
+#   bash tools/build_report.sh filters       # the report-level filter on the plan measure (see report_filters)
 #
 # Moving a visual next to another trips pbir's overlap check part-way, so the script runs with PBIR_ALLOW_OVERLAP=1;
 # `pbir validate --qa` is run afterwards and decides.
@@ -124,6 +125,16 @@ BN='£bn'
 MN='£m'
 CMP="Fact Outturn.Comparison Amount"
 
+# report_filters: one report-level filter that every page obeys. The plan measure is resource DEL excluding depreciation or
+# capital DEL, the voted limits. Departmental AME is a forecast (PESA), and the in-year outturn of AME is a first look that
+# lacks the year-end provisions, impairments and pension entries, so an AME variance is not an underspend and is
+# reconciled on the Variance page instead of being added to the headline (docs/reconciliation.md).
+report_filters() {
+  pbir -q rm "$R/Fact Plan.Plan Measure.Filter" -f >/dev/null 2>&1
+  q add filter "Fact Plan" "Plan Measure" -r "$R" --values RDEL_EX_DEPN
+  q filters set "$R/Fact Plan.Plan Measure.Filter" --values RDEL_EX_DEPN --values CDEL
+}
+
 exec_page() {
   # the first page is the page the project started with ("Home"); it keeps its folder and takes the new name
   P="$R/Executive summary.Page"
@@ -131,15 +142,15 @@ exec_page() {
   q rm "$P/*.Visual" -f
   q rm "$P/*.Filter" -f
   header "UK Group Finance: executive summary" \
-    "GBP billions, nominal unless marked 2025-26 prices; departments on the current structure"
+    "GBP billions, nominal unless marked 2025-26 prices; departments on the current structure; plan is DEL"
   pf "Display Unit" Unit "$BN"
 
-  text note_a 24 130 900 38 "Latest full year, 2025-26, as the latest release states it"
+  text note_a 24 130 1232 38 "Latest full year, 2025-26. Plan and variance are DEL only; AME is reconciled on the Variance page"
   card a_outturn "Outturn, all budgets" 24 168 192 92 "Fact Outturn.Outturn" "Outturn of 2025-26 for all budgets, in billions of pounds"
-  card a_basis "On the plan's basis" 232 168 192 92 "$CMP" "Outturn of 2025-26 on the basis the plan is published on, in billions of pounds"
-  card a_plan "Plan" 440 168 192 92 "Fact Plan.Plan" "Published plan for 2025-26, in billions of pounds"
-  card a_variance "Variance" 648 168 192 92 "$CMP" "Outturn on the plan's basis less the plan for 2025-26, in billions of pounds; below zero is favourable"
-  card a_variance_pct "Variance %" 856 168 192 92 "$CMP" "Variance as a percentage of the plan for 2025-26"
+  card a_basis "DEL on the plan's basis" 232 168 192 92 "$CMP" "Outturn of 2025-26 on the basis the plan is published on, in billions of pounds"
+  card a_plan "Plan (DEL)" 440 168 192 92 "Fact Plan.Plan" "Published plan for 2025-26, in billions of pounds"
+  card a_variance "Variance (DEL)" 648 168 192 92 "$CMP" "Outturn on the plan's basis less the plan for 2025-26, in billions of pounds; below zero is favourable"
+  card a_variance_pct "Variance % (DEL)" 856 168 192 92 "$CMP" "Variance as a percentage of the plan for 2025-26"
   card a_real "In 2025-26 prices" 1064 168 192 92 "Fact Outturn.Outturn (real terms)" "Outturn of 2025-26 in 2025-26 prices, in billions of pounds"
   for v in a_outturn a_basis a_plan a_variance a_variance_pct a_real; do vf "$v" "Fiscal Year" "Financial Year" 2025-26; done
   vf a_basis "Scenario Comparison" Comparison Actual
@@ -177,13 +188,13 @@ exec_page() {
 pnl_page() {
   page_new "P&L statement"
   header "UK Group Finance: P&L statement" \
-    "GBP millions, nominal; 2025-26 against 2024-25; plan only where the source gives one"
+    "GBP millions, nominal; 2025-26 against 2024-25; the plan comparison is on the Variance page"
   pf "Fiscal Year" "Financial Year" 2025-26
   pf "Display Unit" Unit "$MN"
   # the 39 lines do not fit one matrix at a readable size, so the statement is two matrices that split at line 200
-  # (net resource expenditure). No line of the first has a plan in 2025-26 (the source publishes the plan for the net
-  # lines and the total only, and at that level the Estimates give the total), so it shows the amount and the prior
-  # year; the second carries the plan, the variance and the variance percentage as well.
+  # (net resource expenditure). Both show the amount and the prior year. The plan columns were dropped: the plan is
+  # published for the net lines and the total only, and the total adds DEL limits to an AME forecast, so a variance on
+  # it is a mismatch of bases, not an underspend. The comparison by group, reconciled, is on the Variance page.
   local m x w title op
   for m in pnl_left pnl_right; do
     if [ "$m" = "pnl_left" ]; then
@@ -193,9 +204,8 @@ pnl_page() {
       op=LessThanOrEqual
     else
       visual pivotTable "$m" "Capital, other items and net expenditure" 520 136 736 444 \
-        "Matrix of the capital, other and total lines of the group statement for 2025-26, with the amount, the plan, the variance, the variance percentage and the amount a year earlier" \
-        "Rows:Statement Line.Line" "Values:Fact Outturn.Statement Amount" "Values:Fact Plan.Statement Plan" \
-        "Values:Fact Outturn.Statement Variance" "Values:Fact Outturn.Statement Variance %" "Values:Fact Outturn.Statement Amount PY (OFFSET)"
+        "Matrix of the capital, other and total lines of the group statement for 2025-26, with the amount and the amount a year earlier" \
+        "Rows:Statement Line.Line" "Values:Fact Outturn.Statement Amount" "Values:Fact Outturn.Statement Amount PY (OFFSET)"
       op=GreaterThan
     fi
     q add filter "Statement Line" "Sort Order" -v "$P/$m.Visual" --type Advanced --operator "$op" --values 200
@@ -208,40 +218,44 @@ pnl_page() {
   done
   # short column headings (the measures keep their model names; only this report's headings change)
   q fields rename "$R" "Fact Outturn.Statement Amount" "Outturn"
-  q fields rename "$R" "Fact Plan.Statement Plan" "Plan"
-  q fields rename "$R" "Fact Outturn.Statement Variance" "Variance"
-  q fields rename "$R" "Fact Outturn.Statement Variance %" "Var %"
   q fields rename "$R" "Fact Outturn.Statement Amount PY (OFFSET)" "Prior year"
-  badge pnl_badge 24 588 760 108 "The plan source and the grain it is published at for 2025-26" 2025-26
-  text pnl_note 800 588 456 108 "Plan is published on the net resource, net capital and total lines only, and only for a year at that level."
+  text pnl_note 24 588 1232 108 "No plan columns here. The plan is published for the net lines and the total only, and the total adds DEL limits to an AME forecast, so a variance on it is a mismatch of bases. The comparison by Spending Review group, with its reconciliation, is on the Variance page."
 }
 
 variance_page() {
   page_new "Variance"
   header "UK Group Finance: outturn against plan" \
-    "GBP billions, 2024-25; variance is outturn on the plan basis less plan, below zero is favourable"
+    "GBP billions, 2024-25; DEL; variance is outturn on the plan basis less plan"
   pf "Fiscal Year" "Financial Year" 2024-25
   pf "Display Unit" Unit "$BN"
-  visual waterfallChart wf_plan_outturn "From outturn to plan: the gap by Spending Review group" 24 140 612 296 \
-    "Waterfall chart with Plan and Outturn as the two categories and the Spending Review groups as the breakdown, in billions of pounds, for 2024-25" \
+  visual waterfallChart wf_plan_outturn "From outturn to plan: the gap by Spending Review group (DEL)" 24 140 612 264 \
+    "Waterfall chart with Plan and Outturn as the two categories and the Spending Review groups as the breakdown, in billions of pounds, for the DEL plan of 2024-25" \
     "Category:Scenario.Scenario" "Breakdown:Spending Review Group.Spending Review Group" "Y:Fact Plan.Plan and Outturn by Scenario"
   vf wf_plan_outturn "Scenario" Scenario Plan Outturn
   q set "$P/wf_plan_outturn.Visual.valueAxis.labelDisplayUnits" --value 1
   q visuals sort "$P/wf_plan_outturn.Visual" -f "Scenario.Scenario" -d Ascending
-  visual clusteredBarChart bar_variance_pct "Variance % by Spending Review group (blue favourable, orange adverse)" 652 140 604 296 \
-    "Bar chart of the variance as a percentage of plan for each Spending Review group in 2024-25, blue where below plan and orange where above" \
+  visual clusteredBarChart bar_variance_pct "DEL variance % by Spending Review group (blue favourable, orange adverse)" 652 140 604 264 \
+    "Bar chart of the DEL variance as a percentage of plan for each Spending Review group in 2024-25, blue where below plan and orange where above" \
     "Category:Spending Review Group.Spending Review Group" "Y:Fact Outturn.Comparison Amount"
   vf bar_variance_pct "Scenario Comparison" Comparison "Variance %"
   q visuals sort "$P/bar_variance_pct.Visual" -f "Fact Outturn.Comparison Amount" -d Ascending
   q visuals cf "$P/bar_variance_pct.Visual" --rules --field "Fact Outturn.Comparison Amount" --rule "gt 0 bad" --rule "lte 0 good" --on dataPoint.fill
-  visual decompositionTreeVisual tree_variance "Decomposition of the variance by group and plan measure (opens collapsed: click +)" 24 452 760 244 \
-    "Decomposition tree of the 2024-25 variance to plan, explained by Spending Review group and then by plan measure; it opens collapsed" \
-    "Analyze:Fact Outturn.Comparison Amount" "ExplainBy:Spending Review Group.Spending Review Group" "ExplainBy:Fact Plan.Plan Measure"
-  vf tree_variance "Scenario Comparison" Comparison Variance
-  badge var_badge 800 452 456 76 "The plan source and the grain it is published at for 2024-25" 2024-25
-  text var_note 800 536 456 100 "No department breakdown: plan is published by Spending Review group. The tree opens collapsed; click +."
-  button btn_dept "Department detail" 800 648 224 40 Drillthrough "Department detail"
-  button btn_group "Group detail" 1032 648 224 40 Drillthrough "Group detail"
+  # the reconciliation: every variance of 2024-25 that is not simply ok, with the cause the audit names (GBP thousands)
+  visual tableEx plan_check "Plan variances of 2024-25 that need a reason, and the reason (GBP thousands; DEL and AME)" 24 412 832 284 \
+    "Table of the 2024-25 plan variances that are explained, fixed or unexplained, by Spending Review group and plan measure, with the variance, its percentage and the verdict with its reason" \
+    "Values:Plan Variance Check.Spending Review Group" "Values:Plan Variance Check.Plan Measure" "Values:Plan Variance Check.Variance Amount" \
+    "Values:Plan Variance Check.Variance Share" "Values:Plan Variance Check.Verdict"
+  vf plan_check "Plan Variance Check" "Financial Year" 2024-25
+  vf plan_check "Plan Variance Check" "Verdict Class" explained fixed unexplained
+  q set "$P/plan_check.Visual.total.totals" --value false
+  q set "$P/plan_check.Visual.values.fontSize" --value 8
+  q set "$P/plan_check.Visual.values.wordWrap" --value true
+  q set "$P/plan_check.Visual.columnHeaders.fontSize" --value 8
+  q visuals sort "$P/plan_check.Visual" -f "Plan Variance Check.Variance Amount" -d Ascending
+  badge var_badge 872 412 384 76 "The plan source and the grain it is published at for 2024-25, DEL" 2024-25
+  text var_note 872 496 384 140 "DEL only. AME is a forecast, so it is reconciled in the table, not added to the headline. SIA: plan, no outturn. Home Office: fee income missing in-year."
+  button btn_dept "Department detail" 872 648 184 40 Drillthrough "Department detail"
+  button btn_group "Group detail" 1072 648 184 40 Drillthrough "Group detail"
 }
 
 dept_page() {
@@ -273,7 +287,7 @@ dept_page() {
 
 group_page() {
   page_new "Group detail"
-  header "Group detail: outturn and phased plan" "GBP millions, 2025-26; the monthly plan is derived, not published; opens by drill-through" no
+  header "Group detail: outturn and phased plan" "GBP millions, 2025-26; DEL; the monthly plan is derived, not published; opens by drill-through" no
   q pages drillthrough "$P" --table "Spending Review Group" --field "Spending Review Group"
   q pages hide "$P"
   pf "Fiscal Year" "Financial Year" 2025-26
@@ -384,12 +398,13 @@ case "${1:-}" in
   exec) exec_page ;;
   pnl) pnl_page ;;
   variance) variance_page ;;
+  filters) report_filters ;;
   dept) dept_page ;;
   group) group_page ;;
   restate) restate_page ;;
   controls) controls_page ;;
   order) order ;;
-  all) exec_page; pnl_page; variance_page; restate_page; controls_page; dept_page; group_page; order ;;
-  *) echo "usage: build_report.sh exec|pnl|variance|dept|group|restate|controls|order|all" >&2; exit 2 ;;
+  all) report_filters; exec_page; pnl_page; variance_page; restate_page; controls_page; dept_page; group_page; order ;;
+  *) echo "usage: build_report.sh exec|pnl|variance|dept|group|restate|controls|filters|order|all" >&2; exit 2 ;;
 esac
 cat "$ERR" 2>/dev/null | head -20

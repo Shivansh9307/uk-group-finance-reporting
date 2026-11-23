@@ -98,7 +98,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Variance %'"
+                  "Value": "'Variance % (DEL)'"
                 }
               }
             }
@@ -145,7 +145,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "11a32eaf4bfbffd6b480",
+        "name": "ed5fc34918d21c4d3dce",
         "field": {
           "Column": {
             "Expression": {
@@ -199,7 +199,7 @@
         }
       },
       {
-        "name": "4f23e1caa00b6f1b3a23",
+        "name": "9cfb33c7a0eb13b8045a",
         "field": {
           "Column": {
             "Expression": {

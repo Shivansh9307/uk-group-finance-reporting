@@ -1,10 +1,10 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "c4fc50a737429d2f",
+  "name": "6c7b5bee1b962251",
   "position": {
     "x": 24,
     "y": 130,
-    "width": 900,
+    "width": 1232,
     "height": 38,
     "z": 0
   },
@@ -18,7 +18,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Latest full year, 2025-26, as the latest release states it",
+                    "value": "Latest full year, 2025-26. Plan and variance are DEL only; AME is reconciled on the Variance page",
                     "textStyle": {
                       "fontSize": "14pt",
                       "color": "#666666"
@@ -77,7 +77,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Latest full year, 2025-26, as the latest release states it'"
+                  "Value": "'Latest full year, 2025-26. Plan and variance are DEL only; AME is reconciled on the Variance page'"
                 }
               }
             }
