@@ -1,0 +1,10 @@
+// Plan and the derived monthly Plan (phased) by financial year and Spending Review group, as the signed-in user sees
+// them: only the groups all of whose departments are the user's.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Spending Review Group'[Spending Review Group],
+    "plan", [Plan],
+    "plan_phased", [Plan (phased)]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Spending Review Group'[Spending Review Group]

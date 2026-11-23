@@ -1,0 +1,3 @@
+// A query that names a column hidden by object-level security: the organisation's name.
+EVALUATE
+ROW ( "names", COUNTROWS ( FILTER ( 'Organisation (as reported)', LEN ( 'Organisation (as reported)'[Organisation] ) > 0 ) ) )

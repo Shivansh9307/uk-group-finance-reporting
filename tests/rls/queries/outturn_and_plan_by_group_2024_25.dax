@@ -1,0 +1,10 @@
+// Outturn and Plan by Spending Review group in 2024-25, as the signed-in user sees them. A user who holds only part of a
+// group has the outturn of their department and a blank plan for the group.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Spending Review Group'[Spending Review Group],
+    TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ),
+    "outturn", [Outturn],
+    "plan", [Plan]
+)
+ORDER BY 'Spending Review Group'[Spending Review Group]

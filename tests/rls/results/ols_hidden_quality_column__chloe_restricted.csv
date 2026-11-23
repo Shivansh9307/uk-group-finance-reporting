@@ -1,0 +1,2 @@
+outcome,message
+error,"Error: Query (3, 30) Column 'Amount Before' in table 'Data Quality Issue' cannot be found or may not be used in this expression."

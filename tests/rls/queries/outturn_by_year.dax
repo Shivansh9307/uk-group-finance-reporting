@@ -1,0 +1,8 @@
+// Outturn for every financial year the model has, as the signed-in user sees it: a year with no outturn for the user's
+// departments (and the years that only have a plan) shows a blank, not a zero.
+EVALUATE
+ADDCOLUMNS (
+    VALUES ( 'Fiscal Year'[Financial Year] ),
+    "outturn", [Outturn]
+)
+ORDER BY 'Fiscal Year'[Financial Year]

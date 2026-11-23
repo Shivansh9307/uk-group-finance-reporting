@@ -1,0 +1,6 @@
+// The rows of two audit and control tables, which hold file-level control totals and not department detail.
+EVALUATE
+ROW (
+    "file_control_rows", COUNTROWS ( 'File Control' ),
+    "plan_coverage_rows", COUNTROWS ( 'Plan Coverage' )
+)

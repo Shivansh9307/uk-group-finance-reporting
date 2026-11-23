@@ -1,0 +1,5 @@
+// The organisation codes the signed-in user can list. The organisation table is not filtered by department (a dimension
+// member is visible, its values are blank outside the user's departments); the code is not hidden by object-level
+// security because the plan grain guard reads it.
+EVALUATE
+ROW ( "organisation_codes", DISTINCTCOUNT ( 'Organisation (as reported)'[Organisation Code] ) )

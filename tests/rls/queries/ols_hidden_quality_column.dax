@@ -1,0 +1,3 @@
+// A query that names a column hidden by object-level security: the amount a data-quality finding changed.
+EVALUATE
+ROW ( "amount_before", SUM ( 'Data Quality Issue'[Amount Before] ) )

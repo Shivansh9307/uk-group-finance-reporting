@@ -1,0 +1,8 @@
+// The departments of the current structure that the signed-in user can see: the user's own and no other.
+EVALUATE
+SELECTCOLUMNS (
+    'Department (current structure)',
+    "department_number", 'Department (current structure)'[Department Number],
+    "department", 'Department (current structure)'[Department]
+)
+ORDER BY [department_number]

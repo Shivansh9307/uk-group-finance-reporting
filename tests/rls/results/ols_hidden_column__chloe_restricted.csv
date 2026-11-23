@@ -1,0 +1,2 @@
+outcome,message
+error,"Error: Query (3, 73) Column 'Organisation' in table 'Organisation (as reported)' cannot be found or may not be used in this expression."

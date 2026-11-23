@@ -1,5 +1,5 @@
 """Command line: fetch, build, build-summary, control, inventory, real-totals, negative-control, expected, dax-compare,
-profile, zip-head."""
+rls-expected, rls-compare, profile, zip-head."""
 
 from __future__ import annotations
 
@@ -247,6 +247,45 @@ def _dax_compare(args) -> int:
     return 1 if failed or problems or not outcomes else 0
 
 
+def _rls_expected(args) -> int:
+    from . import rlstests
+    from .db import Db, DbSettings
+
+    root = find_repo_root()
+    try:
+        with Db(DbSettings.from_env()) as db:
+            done = rlstests.write_expected(root, db, args.filter or "")
+    except rlstests.RlsTestError as exc:
+        print(f"rls-expected: {exc}", file=sys.stderr)
+        return 1
+    for stem, n in done:
+        print(f"{stem}: {n} rows")
+    print(f"rls-expected: {len(done)} file(s) written")
+    return 0 if done else 1
+
+
+def _rls_compare(args) -> int:
+    from . import rlstests
+
+    root = find_repo_root()
+    try:
+        problems = rlstests.check_manifest(root)
+        results = rlstests.compare_all(root)
+    except rlstests.RlsTestError as exc:
+        print(f"rls-compare: {exc}", file=sys.stderr)
+        return 1
+    rlstests.write_evidence(args.evidence or root / rlstests.EVIDENCE_CSV, results)
+    for p in problems:
+        print("PROBLEM:", p, file=sys.stderr)
+    for r in results:
+        print(f"{r.status.upper():16} {r.case.stem} [{r.case.mode}] as {r.case.role} / {r.case.user}")
+        for d in r.details:
+            print(f"                 {d}")
+    failed = [r for r in results if not r.ok]
+    print(f"rls-compare: {len(results) - len(failed)} of {len(results)} cases pass")
+    return 1 if failed or problems or not results else 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="ukfr")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -311,6 +350,14 @@ def main(argv: list[str] | None = None) -> int:
     d.add_argument("--results-dir", type=Path, help="default tests/results")
     d.add_argument("--evidence", type=Path, help="default evidence/model/dax_tests.csv")
     d.set_defaults(func=_dax_compare)
+    r = sub.add_parser("rls-expected", help="run tests/rls/expected/*.sql for every role case; write the expected CSVs")
+    r.add_argument("--filter", help="only the cases whose name contains this text")
+    r.set_defaults(func=_rls_expected)
+    rc = sub.add_parser(
+        "rls-compare", help="compare tests/rls/results with the expected values; write evidence/model/rls_tests.csv"
+    )
+    rc.add_argument("--evidence", type=Path, help="default evidence/model/rls_tests.csv")
+    rc.set_defaults(func=_rls_compare)
     args = ap.parse_args(argv)
     return args.func(args)
 

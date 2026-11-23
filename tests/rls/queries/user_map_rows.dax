@@ -1,0 +1,9 @@
+// The rows of the hidden user map that the signed-in user can read: their own and no other (the map is filtered by the
+// same name the roles match against).
+EVALUATE
+SELECTCOLUMNS (
+    'User Department (synthetic)',
+    "user_principal_name", 'User Department (synthetic)'[User Principal Name],
+    "department_key", 'User Department (synthetic)'[Department Key]
+)
+ORDER BY [user_principal_name], [department_key]

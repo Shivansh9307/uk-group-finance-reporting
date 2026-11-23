@@ -1,0 +1,8 @@
+// The three headline totals over the whole model, as the signed-in user sees them. For a user in no row of the map each is
+// blank (one row, three empty cells).
+EVALUATE
+ROW (
+    "outturn", [Outturn],
+    "plan", [Plan],
+    "plan_phased", [Plan (phased)]
+)
