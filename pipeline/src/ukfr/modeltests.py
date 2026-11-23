@@ -37,6 +37,9 @@ EXPECTED_DIR = Path("tests") / "expected"
 RESULTS_DIR = Path("tests") / "results"
 EVIDENCE_CSV = Path("evidence") / "model" / "dax_tests.csv"
 META_FILE = "_meta.csv"
+SKIPPED_FILE = "_skipped.csv"
+SKIPPED_HEADER = ["test", "reason"]
+NOT_COMMITTED = "reads a source file that is not in git"
 TOLERANCE = Decimal("0.0001")
 ID_RE = re.compile(r"^(\d{3})_([a-z0-9]+(?:_[a-z0-9]+)*)$")
 _NUMBER = re.compile(r"^[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?$")
@@ -186,25 +189,56 @@ def generate_one(root: Path, db, path: Path) -> tuple[list[str], list[list[str]]
     return names, [[format_cell(c) for c in r] for r in rows]
 
 
-def write_expected(root: Path, db, scope: str, pattern: str = "", out_dir: Path | None = None) -> list[tuple[str, int]]:
-    """Run every expected source whose stem contains `pattern` and write its CSV. Returns (stem, rows)."""
+def write_expected(
+    root: Path,
+    db,
+    scope: str,
+    pattern: str = "",
+    out_dir: Path | None = None,
+    *,
+    skip_unavailable: bool = False,
+    skipped: list[tuple[str, str]] | None = None,
+) -> list[tuple[str, int]]:
+    """Run every expected source whose stem contains `pattern` and write its CSV. Returns (stem, rows).
+
+    A test whose `-- requires:` tables the database lacks is left out. With `skip_unavailable`, so is a test whose
+    source reads a file that is not in git (the web-read deflators, which live under data/raw). Each skipped test is
+    appended to `skipped` as (stem, reason) and, for a whole run, written to `_skipped.csv` next to the CSVs, so a
+    reader of a partial set can see what is missing and why. A reason never holds a path.
+    """
     problems = check_pairs(root)
     if problems:
         raise ModelTestError("; ".join(problems))
     out_dir = out_dir or root / EXPECTED_DIR
+    skipped = skipped if skipped is not None else []
     done = []
     for stem, src in expected_sources(root).items():
         if pattern and pattern not in stem:
             continue
-        if unmet_requirements(db, src):
+        missing = unmet_requirements(db, src)
+        if missing:
+            skipped.append((stem, "needs " + ", ".join(missing)))
             continue
-        header, rows = generate_one(root, db, src)
+        try:
+            header, rows = generate_one(root, db, src)
+        except FileNotFoundError:
+            if not skip_unavailable:
+                raise
+            skipped.append((stem, NOT_COMMITTED))
+            continue
         if not header or len(set(header)) != len(header):
             raise ModelTestError(f"{src.name}: column names must be unique and named")
         write_csv(out_dir / f"{stem}.csv", header, rows)
         done.append((stem, len(rows)))
     if not pattern:  # the scope belongs to the whole set; a filtered run leaves it as it was
         write_csv_plain(out_dir / META_FILE, ["key", "value"], [["build_scope", scope]])
+        listed = out_dir / SKIPPED_FILE
+        if skipped:
+            write_csv_plain(listed, SKIPPED_HEADER, [[s, why] for s, why in sorted(skipped)])
+            for stem, _why in skipped:  # a CSV from an earlier run would pass as a current expected value
+                (out_dir / f"{stem}.csv").unlink(missing_ok=True)
+        else:
+            listed.unlink(missing_ok=True)
     return done
 
 

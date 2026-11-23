@@ -1,0 +1,18 @@
+test,reason
+703_deflators,reads a source file that is not in git
+704_cpi,reads a source file that is not in git
+705_web_table_rows_and_quarantines,reads a source file that is not in git
+770_real_terms_outturn_by_year,reads a source file that is not in git
+771_real_terms_plan_by_year_source,reads a source file that is not in git
+772_real_terms_outturn_by_year_department,reads a source file that is not in git
+773_real_terms_2025_26_is_nominal,reads a source file that is not in git
+774_real_terms_statement_total_equals_outturn,reads a source file that is not in git
+775_real_terms_under_time_and_unit,reads a source file that is not in git
+776_real_terms_year_without_index_is_blank,reads a source file that is not in git
+781_annual_control_rows,needs audit.bud_vs_inyear_del
+782_pss_control_rows,needs audit.pss_vs_outturn
+784_load_control_totals,needs audit.bud_file_control
+788_exec_headline_figures,reads a source file that is not in git
+789_exec_outturn_by_year,reads a source file that is not in git
+800_plan_variance_check_rows,needs audit.plan_variance_reconciliation
+801_plan_variance_by_year_and_measure,needs audit.plan_variance_reconciliation

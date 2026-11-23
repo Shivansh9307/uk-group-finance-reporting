@@ -1,0 +1,9 @@
+name,value
+Fact Outturn rows,658554.0000
+Fact Plan rows,749.0000
+"Outturn, all",9098653566.4360
+"Plan (phased), all",7635783653.0000
+"Plan, all",7635783653.0000
+User Department (synthetic) rows,11.0000
+User Plan Group (synthetic) rows,10.0000
+Users in the map,8.0000

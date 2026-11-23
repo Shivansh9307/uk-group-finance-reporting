@@ -1,0 +1,17 @@
+table_name,row_count
+Account,128
+Control Budget,6
+Data Quality Issue,10
+Department (current structure),63
+Fact Outturn,658554
+Fact Plan,749
+Fact Plan Phased (derived),8988
+Fiscal Period,143
+Fiscal Year,11
+Organisation (as reported),409
+Plan Grain,4
+Plan Source,16
+Release,31
+Scenario,5
+Spending Review Group,32
+Sub-Segment,3766

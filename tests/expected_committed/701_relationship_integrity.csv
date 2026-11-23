@@ -1,0 +1,22 @@
+relationship,many_side_rows,rows_without_member
+Fact Outturn to Account,658554,0
+Fact Outturn to Control Budget,658554,0
+Fact Outturn to Data Quality Issue,658554,0
+Fact Outturn to Department (current structure),658554,0
+Fact Outturn to Fiscal Period,658554,0
+Fact Outturn to Organisation (as reported),658554,0
+Fact Outturn to Release,658554,0
+Fact Outturn to Scenario,658554,0
+Fact Outturn to Spending Review Group,658554,0
+Fact Outturn to Sub-Segment,658554,0
+Fact Plan Phased to Fiscal Period,8988,0
+Fact Plan Phased to Plan Grain,8988,0
+Fact Plan Phased to Plan Source,8988,0
+Fact Plan Phased to Scenario,8988,0
+Fact Plan Phased to Spending Review Group,8988,0
+Fact Plan to Fiscal Year,749,0
+Fact Plan to Plan Grain,749,0
+Fact Plan to Plan Source,749,0
+Fact Plan to Scenario,749,0
+Fact Plan to Spending Review Group,749,0
+Fiscal Period to Fiscal Year,143,0
