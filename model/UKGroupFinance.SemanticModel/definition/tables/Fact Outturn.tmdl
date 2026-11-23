@@ -136,7 +136,7 @@ table 'Fact Outturn'
 		displayFolder: Restatement
 		lineageTag: 10385ac7-fa5d-59c8-962f-c33bd7b749c8
 
-	/// Kept as evidence, hidden, not for reports: the plain form of Outturn as at Release (a CALCULATE over a FILTER of ALL releases up to the highest in context) that docs/performance.md timed and traced before the rewrite. It returns the same figures as the rewrite (tests/dax/810_naive_equals_rewrite_as_at.dax) and is only here so that the comparison can be rerun.
+	/// Kept as evidence, hidden, not for reports: the plain form of Outturn as at Release (a CALCULATE over a FILTER of ALL releases up to the highest in context) that docs/performance.md timed and traced before the rewrite. It returns the same figures as the rewrite (tests/dax/810_naive_equals_rewrite_as_at_by_year.dax, 811_naive_equals_rewrite_as_at_by_department.dax and 812_naive_equals_rewrite_as_at_year_department.dax) and is only here so that the comparison can be rerun.
 	measure 'Outturn as at Release (naive)' =
 			VAR AsAt = MAX ( 'Release'[Release Sequence] )
 			RETURN
@@ -291,7 +291,7 @@ table 'Fact Outturn'
 		displayFolder: Plan\Ranking
 		lineageTag: 88d10e9b-1bad-57dc-8f49-98c96fd6f2cc
 
-	/// Kept as evidence, hidden, not for reports: the plain form of Department Group Rank (YTD Variance %), with the Variance % and YTD calculation written three times (the guard, the table filter and the value) inside RANKX, that docs/performance.md timed and traced before the rewrite. It returns the same ranks as the rewrite (tests/dax/810_naive_equals_rewrite_rank.dax).
+	/// Kept as evidence, hidden, not for reports: the plain form of Department Group Rank (YTD Variance %), with the Variance % and YTD calculation written three times (the guard, the table filter and the value) inside RANKX, that docs/performance.md timed and traced before the rewrite. It returns the same ranks as the rewrite (tests/dax/813_naive_equals_rewrite_rank.dax).
 	measure 'Department Group Rank (YTD Variance %) (naive)' =
 			VAR YtdVariancePercent =
 			    CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = "YTD", 'Scenario Comparison'[Comparison] = "Variance %" )
