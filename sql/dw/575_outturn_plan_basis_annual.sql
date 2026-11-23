@@ -7,6 +7,8 @@
 --     RDEL_EX_DEPN   basis_rdel_excl_depreciation = 1: DEL, RESOURCE and ECONOMIC_RINGFENCE_CODE <> 'RINGFENCED',
 --                    the basis the Estimates and the Spending Review use
 --     CDEL           control budget DEL, economic budget CAPITAL
+--     RAME, CAME     control budget detail DEPT AME, economic budget RESOURCE or CAPITAL (the ringfence column plays
+--                    no part: departmental AME has no excluding-depreciation basis in the Estimates or PESA)
 --   The group is the BUD's own Spending Review group of the organisation (stg.bud_sr_group_by_organisation), not
 --   the bridge of the in-year outturn, so that the comparison reproduces the published groups. Its code is matched
 --   to dw.dim_sr_group; a group the current list does not have (Foreign and Commonwealth Office, Exiting the
@@ -61,7 +63,9 @@ WITH grp AS (
     CROSS APPLY (VALUES
         ('RDEL',         CASE WHEN f.control_budget_code = 'DEL' AND f.economic_budget_code = 'RESOURCE' THEN 1 ELSE 0 END),
         ('RDEL_EX_DEPN', CAST(f.basis_rdel_excl_depreciation AS int)),
-        ('CDEL',         CASE WHEN f.control_budget_code = 'DEL' AND f.economic_budget_code = 'CAPITAL' THEN 1 ELSE 0 END)
+        ('CDEL',         CASE WHEN f.control_budget_code = 'DEL' AND f.economic_budget_code = 'CAPITAL' THEN 1 ELSE 0 END),
+        ('RAME',         CASE WHEN f.control_budget_detail_code = 'DEPT AME' AND f.economic_budget_code = 'RESOURCE' THEN 1 ELSE 0 END),
+        ('CAME',         CASE WHEN f.control_budget_detail_code = 'DEPT AME' AND f.economic_budget_code = 'CAPITAL' THEN 1 ELSE 0 END)
     ) AS ms (measure, selected)
     WHERE ms.selected = 1
 ), agg AS (
@@ -79,6 +83,6 @@ FROM agg AS a;
 GO
 
 EXEC sys.sp_addextendedproperty @name = N'MS_Description',
-    @value = N'Annual restated outturn (BUD) on the plan''s exact basis (RDEL, RDEL excluding depreciation by the ringfence column, CDEL) by the BUD''s own Spending Review group, for every vintage. Real outturn, regrouped. Measures overlap; never add them.',
+    @value = N'Annual restated outturn (BUD) on the plan''s exact basis (RDEL, RDEL excluding depreciation by the ringfence column, CDEL, departmental AME) by the BUD''s own Spending Review group, for every vintage. Real outturn, regrouped. Measures overlap; never add them.',
     @level0type = N'SCHEMA', @level0name = N'dw', @level1type = N'TABLE', @level1name = N'outturn_plan_basis_annual';
 GO

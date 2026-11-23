@@ -33,6 +33,7 @@ Prefix ranges are reserved per task so that parallel branches never collide:
 | 740-759 | the group income and expenditure statement: the typed layout (`stg`), the resolved lines and the account mapping (`dw`), the view the model reads for it, and the statement computed in SQL that the model's measures are tested against; see [docs/data-dictionary/statement.md](../docs/data-dictionary/statement.md) |
 | 760-779 | the restatement and current-structure measures of the model: the table that maps each reported department number to the department of the current structure that answers for it, the view `dw.v_model_department` that carries the list of numbers, and the tests of both; see [docs/model.md](../docs/model.md) |
 | 780-799 | the data-control views the report reads (`dw.v_model_file_control`, `v_model_plan_coverage`, and in scope full the annual, PSS and load controls) and their tests. The files sit in `sql/audit/` because the views read audit tables, which are built after `dw`; see [docs/model.md](../docs/model.md) |
+| 800-819 | the plan variance reconciliation: `audit.plan_variance_reconciliation` and `audit.pesa_2026_basis_change` (scope full), the view the model reads (`dw.v_model_plan_variance`) and their tests, plus the tests of the FY2022-23 combined-group rule (`dw.plan_group_rule`, built in `sql/dw/552`) and of the annual AME basis; see [docs/reconciliation.md](../docs/reconciliation.md) |
 
 ## Phases
 

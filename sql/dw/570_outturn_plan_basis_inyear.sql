@@ -2,8 +2,9 @@
 --   Grain: release x financial year x period x Spending Review group x measure. amount is the outturn of that
 --   period AS AT that release: the running sum of the revision deltas of the release's financial year up to and
 --   including the release (so it equals what the release reports). Rows whose amount is exactly zero are not kept.
---   The group comes from dw.outturn_sr_group_bridge (the current structure); the measure from
---   dw.plan_measure_selection. Period 0 (June 2019, not allocated to a month) is kept: it is in the year total.
+--   The group is the one the plan is published under (dw.outturn_plan_line.plan_sr_group_key): the current structure from
+--   dw.outturn_sr_group_bridge, except FY2022-23 outturn of the departments 013, 048 and 084 as reported, which goes to the
+--   combined pre-2023 group (dw.plan_group_rule). The measure comes from dw.plan_measure_selection. Period 0 (June 2019, not allocated to a month) is kept: it is in the year total.
 --   RDEL, RDEL_EX_DEPN, CDEL, RAME, CAME, ADMIN and ADMIN_EX_DEPN overlap by design (ADMIN is part of RDEL, and
 --   RDEL_EX_DEPN is RDEL less one economic group); never add measures together.
 --   basis_note: the in-year files have no ringfence column, so the measures that exclude depreciation drop only the
@@ -30,12 +31,12 @@ GO
 
 WITH d AS (
     -- the deltas of each release, by the plan's measures (a line can belong to more than one measure)
-    SELECT l.release_key, l.financial_year, l.period_key, l.period_no, l.sr_group_key, ms.measure, SUM(l.amount_delta) AS amount
+    SELECT l.release_key, l.financial_year, l.period_key, l.period_no, l.plan_sr_group_key AS sr_group_key, ms.measure, SUM(l.amount_delta) AS amount
     FROM dw.outturn_plan_line AS l
     JOIN dw.plan_measure_selection AS ms
       ON ms.control_budget_detail = l.control_budget_detail AND ms.economic_budget = l.economic_budget
      AND (ms.excludes_depreciation = 0 OR l.is_depreciation = 0)
-    GROUP BY l.release_key, l.financial_year, l.period_key, l.period_no, l.sr_group_key, ms.measure
+    GROUP BY l.release_key, l.financial_year, l.period_key, l.period_no, l.plan_sr_group_key, ms.measure
 ), combos AS (
     SELECT DISTINCT financial_year, period_key, period_no, sr_group_key, measure FROM d
 ), grid AS (

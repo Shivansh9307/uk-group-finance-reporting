@@ -1,6 +1,6 @@
--- test: for every release and every plan measure the in-year plan-basis outturn equals the matching selection of dw.fact_outturn (sum of the deltas of the release's financial year up to and including the release), in total and for each Spending Review group; the year-end rows are flagged, and the excluding-depreciation measures carry the basis note
+-- test: for every release and every plan measure the in-year plan-basis outturn equals the matching selection of dw.fact_outturn (sum of the deltas of the release's financial year up to and including the release), in total and for each Spending Review group (the group the plan is published under: the bridge, except FY2022-23 outturn of BEIS, DCMS and DIT as reported, which is the combined group); the year-end rows are flagged, and the excluding-depreciation measures carry the basis note
 WITH sel AS (
-    SELECT r.release_key, r.financial_year, b.sr_group_key, m.measure, SUM(f.amount_delta) AS amount
+    SELECT r.release_key, r.financial_year, COALESCE(gr.plan_sr_group_key, b.sr_group_key) AS sr_group_key, m.measure, SUM(f.amount_delta) AS amount
     FROM dw.dim_release AS r
     JOIN dw.fact_outturn AS f ON f.release_key <= r.release_key
     JOIN dw.dim_period AS d ON d.period_key = f.period_key AND d.financial_year = r.financial_year
@@ -8,6 +8,8 @@ WITH sel AS (
     JOIN dw.outturn_sr_group_bridge AS b ON b.organisation_key = f.organisation_key AND b.sub_segment_code = sg.sub_segment_code
     JOIN dw.dim_account AS a ON a.account_key = f.account_key
     JOIN dw.dim_control_budget AS cb ON cb.control_budget_key = f.control_budget_key
+    JOIN dw.dim_department AS rd ON rd.department_key = f.department_key
+    LEFT JOIN dw.plan_group_rule AS gr ON gr.financial_year = r.financial_year AND gr.department_number = rd.department_number
     CROSS APPLY (VALUES
         ('RDEL',          CASE WHEN cb.control_budget_detail_code IN ('DEL PROG', 'DEL ADMIN') AND a.economic_budget = 'RESOURCE' THEN 1 ELSE 0 END),
         ('RDEL_EX_DEPN',  CASE WHEN cb.control_budget_detail_code IN ('DEL PROG', 'DEL ADMIN') AND a.economic_budget = 'RESOURCE' AND a.pesa_economic_group_code <> 'DEPRECIATION' THEN 1 ELSE 0 END),
@@ -18,7 +20,7 @@ WITH sel AS (
         ('ADMIN_EX_DEPN', CASE WHEN cb.control_budget_detail_code = 'DEL ADMIN' AND a.economic_budget = 'RESOURCE' AND a.pesa_economic_group_code <> 'DEPRECIATION' THEN 1 ELSE 0 END)
     ) AS m (measure, selected)
     WHERE m.selected = 1
-    GROUP BY r.release_key, r.financial_year, b.sr_group_key, m.measure
+    GROUP BY r.release_key, r.financial_year, COALESCE(gr.plan_sr_group_key, b.sr_group_key), m.measure
 ), got AS (
     SELECT release_key, financial_year, sr_group_key, measure, SUM(amount) AS amount
     FROM dw.outturn_plan_basis_inyear
