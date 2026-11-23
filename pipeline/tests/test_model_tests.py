@@ -186,7 +186,7 @@ def test_every_expected_sql_runs_and_agrees_with_the_committed_file_when_the_sco
     same_scope = modeltests.read_scope(repo_root / modeltests.EXPECTED_DIR) == scope
     ran = 0
     for stem, src in modeltests.expected_sources(repo_root).items():
-        if src.suffix != ".sql":
+        if src.suffix != ".sql" or modeltests.unmet_requirements(db, src):
             continue
         header, rows = modeltests.generate_one(repo_root, db, src)
         assert header and len(set(header)) == len(header), stem

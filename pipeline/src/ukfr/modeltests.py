@@ -162,6 +162,23 @@ def _generate_py(root: Path, path: Path, db=None) -> tuple[list[str], list[list[
     return list(columns), [[format_cell(c) if not isinstance(c, str) else c for c in r] for r in rows]
 
 
+def unmet_requirements(db, path: Path) -> list[str]:
+    """Tables an expected .sql names in a `-- requires: schema.table, ...` line that the database does not have.
+
+    The control tables that only a full build writes (the annual and PSS controls) are not there after a committed
+    build; a test that reads one says so, and a committed run leaves it out instead of failing.
+    """
+    if path.suffix != ".sql":
+        return []
+    missing = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.startswith("-- requires:"):
+            for table in (t.strip() for t in line.split(":", 1)[1].split(",")):
+                if table and db.scalar("SELECT OBJECT_ID(?)", (table,)) is None:
+                    missing.append(table)
+    return missing
+
+
 def generate_one(root: Path, db, path: Path) -> tuple[list[str], list[list[str]]]:
     if path.suffix == ".py":
         return _generate_py(root, path, db)
@@ -178,6 +195,8 @@ def write_expected(root: Path, db, scope: str, pattern: str = "", out_dir: Path 
     done = []
     for stem, src in expected_sources(root).items():
         if pattern and pattern not in stem:
+            continue
+        if unmet_requirements(db, src):
             continue
         header, rows = generate_one(root, db, src)
         if not header or len(set(header)) != len(header):
