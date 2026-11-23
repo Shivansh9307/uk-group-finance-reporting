@@ -1,0 +1,119 @@
+/// Row-level security and object-level security in one role (the engine refuses a row-level role combined with a separate object-level one). The same department and plan filters as Department Analyst. The audit and control tables are hidden, the organisation names and version history are hidden, and the line-level detail of the data-quality findings is hidden. A measure that reads a hidden object returns an error, not a blank. Paybill detail does not exist yet; a later phase adds its object-level security to this role.
+role 'Restricted Viewer'
+	modelPermission: read
+
+	tablePermission 'Department (current structure)' =
+			CONTAINS (
+			    'User Department (synthetic)',
+			    'User Department (synthetic)'[User Principal Name], USERPRINCIPALNAME (),
+			    'User Department (synthetic)'[Department Key], 'Department (current structure)'[Department Key]
+			)
+
+	tablePermission 'Fact Plan' =
+			CONTAINS (
+			    'User Plan Group (synthetic)',
+			    'User Plan Group (synthetic)'[User Principal Name], USERPRINCIPALNAME (),
+			    'User Plan Group (synthetic)'[Spending Review Group Key], 'Fact Plan'[Spending Review Group Key]
+			)
+
+	tablePermission 'Fact Plan Phased (derived)' =
+			CONTAINS (
+			    'User Plan Group (synthetic)',
+			    'User Plan Group (synthetic)'[User Principal Name], USERPRINCIPALNAME (),
+			    'User Plan Group (synthetic)'[Spending Review Group Key], 'Fact Plan Phased (derived)'[Spending Review Group Key]
+			)
+
+	tablePermission 'User Department (synthetic)' = 'User Department (synthetic)'[User Principal Name] = USERPRINCIPALNAME ()
+
+	tablePermission 'User Plan Group (synthetic)' = 'User Plan Group (synthetic)'[User Principal Name] = USERPRINCIPALNAME ()
+
+	tablePermission 'File Control'
+		metadataPermission: none
+
+	tablePermission 'Plan Coverage'
+		metadataPermission: none
+
+	tablePermission 'Annual Control'
+		metadataPermission: none
+
+	tablePermission 'PSS Control'
+		metadataPermission: none
+
+	tablePermission 'Load Control'
+		metadataPermission: none
+
+	tablePermission 'Plan Variance Check'
+		metadataPermission: none
+
+	tablePermission 'Organisation (as reported)'
+		columnPermission Organisation
+			metadataPermission: none
+
+		columnPermission 'Version Number'
+			metadataPermission: none
+
+		columnPermission 'Department (as reported)'
+			metadataPermission: none
+
+		columnPermission 'Valid From Release'
+			metadataPermission: none
+
+		columnPermission 'Valid To Release'
+			metadataPermission: none
+
+		columnPermission 'Releases Reported'
+			metadataPermission: none
+
+		columnPermission 'Version Reason'
+			metadataPermission: none
+
+		columnPermission 'Durable Key Rule'
+			metadataPermission: none
+
+		columnPermission 'Successor Durable Key'
+			metadataPermission: none
+
+		columnPermission 'Is Current Version'
+			metadataPermission: none
+
+		columnPermission 'Is Latest Version'
+			metadataPermission: none
+
+	tablePermission 'Data Quality Issue'
+		columnPermission 'Issue Description'
+			metadataPermission: none
+
+		columnPermission Treatment
+			metadataPermission: none
+
+		columnPermission 'Release From'
+			metadataPermission: none
+
+		columnPermission 'Release To'
+			metadataPermission: none
+
+		columnPermission 'Organisation Code'
+			metadataPermission: none
+
+		columnPermission 'Sub-Segment Code'
+			metadataPermission: none
+
+		columnPermission 'Economic Category Code'
+			metadataPermission: none
+
+		columnPermission 'Control Budget Detail Code'
+			metadataPermission: none
+
+		columnPermission 'Period Key'
+			metadataPermission: none
+
+		columnPermission 'Amount Before'
+			metadataPermission: none
+
+		columnPermission 'Amount After'
+			metadataPermission: none
+
+		columnPermission 'Rows Affected'
+			metadataPermission: none
+
+	annotation PBI_Id = 5fbe4fc732af48ffbbec4b8dd9be696d

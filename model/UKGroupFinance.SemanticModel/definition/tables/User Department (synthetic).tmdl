@@ -1,0 +1,34 @@
+/// SYNTHETIC, hidden, no amount: invented users (example.org addresses) and the departments of the current structure each may see. Read only by the row-level security roles, which filter the department dimension to the rows of USERPRINCIPALNAME(). It filters data and holds none, so no real total reads it. Source view dw.v_model_user_department, from synthetic/user_department.csv.
+table 'User Department (synthetic)'
+	isHidden
+	lineageTag: 2cc1204e-6163-46a4-a79b-b6ae7478e632
+
+	/// The invented sign-in name the role matches against USERPRINCIPALNAME().
+	column 'User Principal Name'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		displayFolder: Synthetic
+		lineageTag: 4b7c5dbe-1420-4ef8-ad6a-cb5b7eb52f12
+		summarizeBy: none
+		sourceColumn: user_principal_name
+
+	/// Key of the department of the current structure the user may see.
+	column 'Department Key'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		formatString: 0
+		displayFolder: Synthetic
+		lineageTag: 0c3a1a37-9516-4751-b7c8-9fd338402e22
+		summarizeBy: none
+		sourceColumn: department_key
+
+	partition 'User Department (synthetic)' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_user_department"]}[Data]
+				in
+				    Data

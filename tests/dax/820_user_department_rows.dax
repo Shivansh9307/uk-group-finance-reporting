@@ -1,0 +1,9 @@
+// The hidden table User Department (synthetic) holds the rows of the synthetic user map, each joined to the live
+// department of the current structure it names: user and department key.
+EVALUATE
+SELECTCOLUMNS (
+    'User Department (synthetic)',
+    "user_principal_name", 'User Department (synthetic)'[User Principal Name],
+    "department_key", 'User Department (synthetic)'[Department Key]
+)
+ORDER BY [user_principal_name], [department_key]

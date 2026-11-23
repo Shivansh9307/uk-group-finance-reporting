@@ -1,0 +1,15 @@
+// With the synthetic user map loaded and no role applied, the totals of the model are the totals of the facts: the user
+// map filters data and holds none. Outturn, Plan and Plan (phased) over the whole model, and the rows of the two
+// hidden tables, so the totals are read with the map present.
+EVALUATE
+UNION (
+    ROW ( "name", "Outturn, all", "value", [Outturn] ),
+    ROW ( "name", "Plan, all", "value", [Plan] ),
+    ROW ( "name", "Plan (phased), all", "value", [Plan (phased)] ),
+    ROW ( "name", "Fact Outturn rows", "value", COUNTROWS ( 'Fact Outturn' ) ),
+    ROW ( "name", "Fact Plan rows", "value", COUNTROWS ( 'Fact Plan' ) ),
+    ROW ( "name", "User Department (synthetic) rows", "value", COUNTROWS ( 'User Department (synthetic)' ) ),
+    ROW ( "name", "User Plan Group (synthetic) rows", "value", COUNTROWS ( 'User Plan Group (synthetic)' ) ),
+    ROW ( "name", "Users in the map", "value", COUNTROWS ( DISTINCT ( 'User Department (synthetic)'[User Principal Name] ) ) )
+)
+ORDER BY [name]

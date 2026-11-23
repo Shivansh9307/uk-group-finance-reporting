@@ -1,0 +1,34 @@
+/// SYNTHETIC, hidden, no amount: the Spending Review groups whose plan an invented user may see, which are the groups all of whose departments are among the user's departments. Read only by the row-level security roles, which filter the plan facts to these groups. It filters data and holds none, so no real total reads it. Source view dw.v_model_user_plan_group, from synthetic/user_department.csv.
+table 'User Plan Group (synthetic)'
+	isHidden
+	lineageTag: 112d068b-7ca2-4093-8738-d592a57076a1
+
+	/// The invented sign-in name the role matches against USERPRINCIPALNAME().
+	column 'User Principal Name'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		displayFolder: Synthetic
+		lineageTag: 10e05f51-009f-4732-a8e9-5e73ec2cbfce
+		summarizeBy: none
+		sourceColumn: user_principal_name
+
+	/// Key of a Spending Review group whose plan the user may see.
+	column 'Spending Review Group Key'
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		formatString: 0
+		displayFolder: Synthetic
+		lineageTag: 0f0e188d-7fc9-4419-a295-498912926fb7
+		summarizeBy: none
+		sourceColumn: sr_group_key
+
+	partition 'User Plan Group (synthetic)' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_user_plan_group"]}[Data]
+				in
+				    Data

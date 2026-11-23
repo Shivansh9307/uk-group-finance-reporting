@@ -80,3 +80,6 @@ test_id,test_name,expected_rows,result_rows,columns,status,max_abs_diff,build_sc
 811,naive_equals_rewrite_as_at_by_department,1931,1931,5,pass,0,full
 812,naive_equals_rewrite_as_at_year_department,31,31,6,pass,0,full
 813,naive_equals_rewrite_rank,92,92,7,pass,0.000000998976,full
+820,user_department_rows,11,11,2,pass,0,full
+821,user_plan_group_rows,10,10,2,pass,0,full
+822,unrestricted_totals_with_the_user_map_loaded,8,8,2,pass,0,full

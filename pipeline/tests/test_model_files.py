@@ -140,7 +140,6 @@ def test_the_model_has_no_refresh_policy_no_range_parameters_and_no_date_table(m
     all_text = "\n".join(p.read_text(encoding="utf-8") for p in model_dir.rglob("*.tmdl"))
     for banned in ("refreshPolicy", "RangeStart", "RangeEnd", "dataCategory: Time"):
         assert banned not in all_text, banned
-    assert not (model_dir / "roles").exists(), "security is a later task"
 
 
 # ------------------------------------------------------------------------------------------------ tables
@@ -183,6 +182,7 @@ def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(t
     view_files = sorted((repo_root / "sql" / "dw").glob("7[0467]?_*.sql"))
     view_files += sorted((repo_root / "sql" / "audit").glob("78?_*.sql"))
     view_files += sorted((repo_root / "sql" / "audit").glob("80?_*.sql"))
+    view_files += sorted((repo_root / "sql" / "dw").glob("82?_*.sql"))
     sql_text = "\n".join(p.read_text(encoding="utf-8") for p in view_files)
     created = set(re.findall(r"CREATE VIEW dw\.(v_model_\w+)", sql_text))
     used: list[str] = []
@@ -206,6 +206,21 @@ def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(t
     # the one calculated table is the field parameter: a table constructor of NAMEOF references and no source data
     parameter = tables["Statement Measure"]
     assert "= calculated" in parameter.text and "NAMEOF" in parameter.partition_source
+
+
+def test_synthetic_tables_are_labelled_hidden_unrelated_and_hold_no_amount(tables, relationships):
+    synthetic = {n: t for n, t in tables.items() if n.endswith("(synthetic)")}
+    assert set(synthetic) == {"User Department (synthetic)", "User Plan Group (synthetic)"}
+    touched = {_split_column(r[e])[0] for r in relationships for e in ("fromColumn", "toColumn")}
+    for n, t in synthetic.items():
+        assert t.description.startswith("SYNTHETIC"), f"{n}: the description must say SYNTHETIC first"
+        assert "\n\tisHidden\n" in t.text, f"{n}: a synthetic table is hidden"
+        assert n not in touched, f"{n}: a synthetic table is related to nothing; the roles read it by key"
+        assert all("isHidden" in c.flags for c in t.columns.values()), f"{n}: every column is hidden"
+        assert not any(c.props.get("dataType") in ("double", "decimal") for c in t.columns.values()), n
+    for n, t in tables.items():
+        if n not in synthetic:
+            assert not t.description.startswith("SYNTHETIC"), f"{n} says SYNTHETIC but is not named (synthetic)"
 
 
 def test_derived_and_real_tables_are_labelled(tables):
@@ -322,3 +337,135 @@ def test_dax_tests_only_name_tables_and_columns_that_exist(repo_root, tables):
                 continue
             assert table in tables, f"{p.name}: no table {table}"
             assert col in tables[table].columns, f"{p.name}: no column {table}[{col}]"
+
+
+# ----------------------------------------------------------------------------------------------- security
+def _parse_role(path: Path) -> dict:
+    """Role name, row filters (table -> expression text) and object-level permissions (tables and columns hidden)."""
+    lines = path.read_text(encoding="utf-8").splitlines()
+    role: dict = {"name": "", "rls": {}, "hidden_tables": set(), "hidden_columns": {}, "permission": ""}
+    table = column = None
+    expr: list[str] | None = None
+    for line in lines:
+        m = re.match(r"^role (.+)$", line)
+        if m:
+            role["name"] = _unquote(m.group(1))
+            continue
+        m = re.match(r"^\tmodelPermission: (\w+)$", line)
+        if m:
+            role["permission"] = m.group(1)
+            continue
+        m = re.match(r"^\ttablePermission (.+?)( =(.*))?$", line)
+        if m:
+            table, column, expr = _unquote(m.group(1)), None, None
+            if m.group(2):
+                expr = [m.group(3).strip()] if m.group(3).strip() else []
+                role["rls"][table] = expr
+            continue
+        m = re.match(r"^\t\tcolumnPermission (.+)$", line)
+        if m:
+            column = _unquote(m.group(1))
+            continue
+        if line.strip() == "metadataPermission: none":
+            if column is not None:
+                role["hidden_columns"].setdefault(table, set()).add(column)
+            else:
+                role["hidden_tables"].add(table)
+            continue
+        if expr is not None and line.startswith("\t\t\t"):
+            expr.append(line.strip())
+    role["rls"] = {t: " ".join(e) for t, e in role["rls"].items()}
+    return role
+
+
+@pytest.fixture(scope="module")
+def roles(model_dir) -> dict[str, dict]:
+    out = {}
+    for p in sorted((model_dir / "roles").glob("*.tmdl")):
+        r = _parse_role(p)
+        assert p.stem == r["name"], f"{p.name}: the file is named differently from its role {r['name']}"
+        out[r["name"]] = r
+    return out
+
+
+AUDIT_TABLES = {"File Control", "Plan Coverage", "Annual Control", "PSS Control", "Load Control", "Plan Variance Check"}
+
+
+def test_the_model_has_exactly_the_two_security_roles_and_the_model_file_refers_to_them(model_dir, roles):
+    assert set(roles) == {"Department Analyst", "Restricted Viewer"}
+    refs = set()
+    for line in (model_dir / "model.tmdl").read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^ref role (.+)$", line)
+        if m:
+            refs.add(_unquote(m.group(1)))
+    assert refs == set(roles)
+    assert all(r["permission"] == "read" for r in roles.values())
+
+
+def test_both_roles_filter_the_department_dimension_and_both_plan_facts_by_the_signed_in_name_and_fail_closed(roles):
+    for name, r in roles.items():
+        assert set(r["rls"]) == {
+            "Department (current structure)",
+            "Fact Plan",
+            "Fact Plan Phased (derived)",
+            "User Department (synthetic)",
+            "User Plan Group (synthetic)",
+        }, name
+        for table, expr in r["rls"].items():
+            assert "USERPRINCIPALNAME ()" in expr, f"{name}/{table}: the filter must use USERPRINCIPALNAME"
+            for open_word in ("TRUE", "||", "OR ("):
+                assert open_word not in expr.replace("USERPRINCIPALNAME", ""), f"{name}/{table}: filter fails open"
+            assert "USERNAME" not in expr.replace("USERPRINCIPALNAME", "")
+    assert roles["Department Analyst"]["rls"] == roles["Restricted Viewer"]["rls"], "the two roles share one row filter"
+
+
+def test_object_level_security_is_in_the_restricted_role_only_and_hides_what_the_documents_say(roles, tables):
+    analyst, restricted = roles["Department Analyst"], roles["Restricted Viewer"]
+    assert not analyst["hidden_tables"] and not analyst["hidden_columns"], "the analyst role has no object security"
+    assert restricted["hidden_tables"] == AUDIT_TABLES
+    assert set(restricted["hidden_columns"]) == {"Organisation (as reported)", "Data Quality Issue"}
+    for table, cols in restricted["hidden_columns"].items():
+        for c in cols:
+            assert c in tables[table].columns, f"{table}[{c}] does not exist"
+    # the columns a measure or function reads stay visible: hiding one would make the measure error for this role
+    kept = {
+        "Organisation (as reported)": {"Organisation Code", "Durable Key", "Department Number (as reported)"},
+        "Data Quality Issue": {"Issue Type", "Issue Rule", "Flags Fact Rows"},
+    }
+    for table, names in kept.items():
+        assert not (restricted["hidden_columns"][table] & names), table
+
+
+def test_no_measure_or_function_reads_a_column_or_table_the_restricted_role_hides_except_those_the_document_lists(
+    roles, tables, model_dir
+):
+    restricted = roles["Restricted Viewer"]
+    text = {n: t.text for n, t in tables.items()}
+    text["functions"] = (model_dir / "functions.tmdl").read_text(encoding="utf-8")
+    for n, body in text.items():
+        for hidden in restricted["hidden_tables"]:
+            if n == hidden:
+                continue  # the table's own measures go with it
+            assert f"'{hidden}'" not in body, f"{n} reads the hidden table {hidden}"
+        for table, cols in restricted["hidden_columns"].items():
+            if n == table:
+                continue
+            for c in cols:
+                ref = f"'{table}'[{c}]" if " " in table or "(" in table else f"{table}[{c}]"
+                assert ref not in body, f"{n} reads the hidden column {ref}"
+
+
+def test_the_ols_measure_probe_errors_for_exactly_the_measures_that_live_in_the_hidden_tables(repo_root, tables):
+    """evidence/model/ols_measure_probe.csv is one run of tools/run_rls_tests.ps1 -ProbeMeasures: every measure of the
+    model evaluated alone as the Restricted Viewer. A measure errors when its own table is hidden, and no other does."""
+    declared: dict[str, str] = {}
+    for table_name, t in tables.items():
+        for m in re.finditer(r"^\tmeasure (?:'((?:[^']|'')+)'|([^\s=]+))\s*=", t.text, re.MULTILINE):
+            declared[(m.group(1) or m.group(2)).replace("''", "'")] = table_name
+    with (repo_root / "evidence" / "model" / "ols_measure_probe.csv").open(encoding="utf-8", newline="") as fh:
+        rows = list(csv.DictReader(fh))
+    assert {r["measure"] for r in rows} == set(declared), "the probe must cover every measure of the model"
+    assert {r["role"] for r in rows} == {"Restricted Viewer"}
+    errors = {r["measure"] for r in rows if r["outcome"] == "error"}
+    assert errors == {m for m, tbl in declared.items() if tbl in AUDIT_TABLES}
+    assert all(r["outcome"] in ("ok", "error") for r in rows)

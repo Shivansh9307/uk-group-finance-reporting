@@ -50,8 +50,12 @@ ref table Deflator
 ref table 'Deflator Quarantine'
 ref table CPI
 ref table 'CPI Quarantine'
+ref table 'User Department (synthetic)'
+ref table 'User Plan Group (synthetic)'
 
 ref perspective Executive
 ref perspective Restatement
 ref perspective 'Data Controls'
 
+ref role 'Department Analyst'
+ref role 'Restricted Viewer'

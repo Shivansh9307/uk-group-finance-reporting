@@ -1,0 +1,9 @@
+// The hidden table User Plan Group (synthetic) holds one row for each user and Spending Review group whose departments
+// the user holds in full: user and Spending Review group key.
+EVALUATE
+SELECTCOLUMNS (
+    'User Plan Group (synthetic)',
+    "user_principal_name", 'User Plan Group (synthetic)'[User Principal Name],
+    "sr_group_key", 'User Plan Group (synthetic)'[Spending Review Group Key]
+)
+ORDER BY [user_principal_name], [sr_group_key]
