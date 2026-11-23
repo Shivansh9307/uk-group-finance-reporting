@@ -8,10 +8,16 @@ table 'File Control'
 		displayFolder: Audit and control
 		lineageTag: fd67ceb6-018e-59a9-9d65-17d13f845082
 
-	/// Outturn as at Release for the financial year of the release in context: what the model says that release reported, to set beside the file's own total. Needs one release in context.
+	/// Outturn as at Release for the financial year of the release of the file in context: what the model says that release reported, to set beside the file's own total. Needs one file (one release) in context; it reads the release from the file's own row, so it works in a table that shows File Control alone.
 	measure 'Outturn as at Release (own year)' =
-			VAR OwnYear = MAX ( Release[Release Financial Year] )
-			RETURN CALCULATE ( [Outturn as at Release], 'Fiscal Year'[Financial Year] = OwnYear )
+			VAR ReleaseKey = MAX ( 'File Control'[Release Key] )
+			VAR OwnYear = LOOKUPVALUE ( Release[Release Financial Year], Release[Release Key], ReleaseKey )
+			RETURN
+			    IF (
+			        ISBLANK ( ReleaseKey ),
+			        BLANK (),
+			        CALCULATE ( [Outturn as at Release], Release[Release Key] = ReleaseKey, 'Fiscal Year'[Financial Year] = OwnYear )
+			    )
 		formatString: £#,##0.0000"k";-£#,##0.0000"k"
 		displayFolder: Audit and control
 		lineageTag: 143fccf2-e669-577d-96fd-4ffc3ab585be
@@ -34,6 +40,14 @@ table 'File Control'
 		lineageTag: 9f5a1f71-f1f6-5bcd-9f48-6d7ae3955acd
 		summarizeBy: none
 		sourceColumn: release_key
+
+	/// Release of the file as yyyy-mm.
+	column 'Release Label'
+		dataType: string
+		displayFolder: Audit and control
+		lineageTag: 7d1fd7c8-5a39-4d5b-8f5a-0e4b6a9d3c21
+		summarizeBy: none
+		sourceColumn: release_label
 
 	/// File the release was read from.
 	column 'File Name'

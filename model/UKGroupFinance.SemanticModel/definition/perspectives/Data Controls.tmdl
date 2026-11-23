@@ -163,6 +163,8 @@ perspective 'Data Controls'
 
 		perspectiveMeasure 'Difference to File Total'
 
+		perspectiveColumn 'Release Label'
+
 		perspectiveColumn 'File Name'
 
 		perspectiveColumn 'Rows Read'

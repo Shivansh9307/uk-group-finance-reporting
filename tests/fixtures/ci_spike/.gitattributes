@@ -1,3 +1,0 @@
-# Keep the SQL fixtures byte-identical on Windows and Linux checkouts.
-*.csv text eol=lf
-*.control text eol=lf

@@ -11,7 +11,7 @@ DROP VIEW IF EXISTS dw.v_model_file_control;
 GO
 CREATE VIEW dw.v_model_file_control
 AS
-SELECT r.release_key, f.filename, f.rows_read, f.rows_loaded, f.rows_quarantined, f.amount_sum_exact,
+SELECT r.release_key, r.label AS release_label, f.filename, f.rows_read, f.rows_loaded, f.rows_quarantined, f.amount_sum_exact,
        CAST(f.amount_sum_4dp_expected AS decimal(19, 4)) AS file_total_4dp, f.overall_status
 FROM audit.file_control AS f
 JOIN dw.dim_release AS r ON r.label = f.release
