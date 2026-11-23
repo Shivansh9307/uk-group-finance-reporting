@@ -1,0 +1,60 @@
+// Department Group Rank (YTD Variance %): the plain form (naive, hidden) and the rewrite side by side for the two grids of
+// the rank perf queries, each under the plan measure filter the report page carries (the DEL headline: resource DEL
+// excluding depreciation, and capital DEL). One grid is the groups of 2024-25 at period 12 and the other is three whole
+// years by group. The value ranked (the year-to-date Variance %, in parts per million) is shown beside both ranks, and the
+// difference of the ranks must be 0. Both ranks equal the SQL RANK(): largest first, equal values share a rank.
+DEFINE
+    MEASURE 'Fact Outturn'[Test YTD Variance PPM] =
+        CALCULATE (
+            [Comparison Amount],
+            'Time Intelligence'[Time Calculation] = "YTD",
+            'Scenario Comparison'[Comparison] = "Variance %"
+        ) * 1000000
+    VAR OneYear =
+        SELECTCOLUMNS (
+            SUMMARIZECOLUMNS (
+                'Spending Review Group'[Spending Review Group],
+                TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ),
+                TREATAS ( { 12 }, 'Fiscal Period'[Period Number] ),
+                TREATAS ( { "RDEL_EX_DEPN", "CDEL" }, 'Fact Plan'[Plan Measure] ),
+                "ytd_variance_ppm", [Test YTD Variance PPM],
+                "rank_naive", [Department Group Rank (YTD Variance %) (naive)],
+                "rank_rewrite", [Department Group Rank (YTD Variance %)]
+            ),
+            "grid", "one_year_period_12",
+            "financial_year", "2024-25",
+            "spending_review_group", 'Spending Review Group'[Spending Review Group],
+            "ytd_variance_ppm", [ytd_variance_ppm],
+            "rank_naive", [rank_naive],
+            "rank_rewrite", [rank_rewrite]
+        )
+    VAR ThreeYears =
+        SELECTCOLUMNS (
+            SUMMARIZECOLUMNS (
+                'Fiscal Year'[Financial Year],
+                'Spending Review Group'[Spending Review Group],
+                TREATAS ( { "2023-24", "2024-25", "2025-26" }, 'Fiscal Year'[Financial Year] ),
+                TREATAS ( { "RDEL_EX_DEPN", "CDEL" }, 'Fact Plan'[Plan Measure] ),
+                "ytd_variance_ppm", [Test YTD Variance PPM],
+                "rank_naive", [Department Group Rank (YTD Variance %) (naive)],
+                "rank_rewrite", [Department Group Rank (YTD Variance %)]
+            ),
+            "grid", "three_years",
+            "financial_year", 'Fiscal Year'[Financial Year],
+            "spending_review_group", 'Spending Review Group'[Spending Review Group],
+            "ytd_variance_ppm", [ytd_variance_ppm],
+            "rank_naive", [rank_naive],
+            "rank_rewrite", [rank_rewrite]
+        )
+EVALUATE
+SELECTCOLUMNS (
+    FILTER ( UNION ( OneYear, ThreeYears ), NOT ISBLANK ( [ytd_variance_ppm] ) || NOT ISBLANK ( [rank_rewrite] ) || NOT ISBLANK ( [rank_naive] ) ),
+    "grid", [grid],
+    "financial_year", [financial_year],
+    "spending_review_group", [spending_review_group],
+    "ytd_variance_ppm", [ytd_variance_ppm],
+    "rank_naive", [rank_naive],
+    "rank_rewrite", [rank_rewrite],
+    "rank_difference", COALESCE ( [rank_rewrite], 0 ) - COALESCE ( [rank_naive], 0 )
+)
+ORDER BY [grid], [financial_year], [spending_review_group]

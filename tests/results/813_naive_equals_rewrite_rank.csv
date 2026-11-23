@@ -1,0 +1,93 @@
+grid,financial_year,spending_review_group,ytd_variance_ppm,rank_naive,rank_rewrite,rank_difference
+"one_year_period_12","2024-25","Business and Trade",-238130.12642614864,23,23,0
+"one_year_period_12","2024-25","Cabinet Office",-150028.57142857142,22,22,0
+"one_year_period_12","2024-25","CLG Communities",-36680.837663360107,16,16,0
+"one_year_period_12","2024-25","CLG Local Government",-2300.8101444170479,6,6,0
+"one_year_period_12","2024-25","Culture, Media and Sport",-130631.53456998314,21,21,0
+"one_year_period_12","2024-25","Defence",-57326.4192863775,17,17,0
+"one_year_period_12","2024-25","Education",274.19218940893961,2,2,0
+"one_year_period_12","2024-25","Energy Security and Net Zero",-62690.215184734072,19,19,0
+"one_year_period_12","2024-25","Environment, Food and Rural Affairs",-9552.0591052127511,8,8,0
+"one_year_period_12","2024-25","Foreign, Commonwealth and Development Office",-51.356238698010849,4,4,0
+"one_year_period_12","2024-25","Health (NHS)",-590.88535948669164,5,5,0
+"one_year_period_12","2024-25","HM Revenue & Customs",-10409.816775928728,10,10,0
+"one_year_period_12","2024-25","HM Treasury",-20057.777777777777,14,14,0
+"one_year_period_12","2024-25","Home Office",221710.07237037772,1,1,0
+"one_year_period_12","2024-25","Justice",-15424.039807183952,12,12,0
+"one_year_period_12","2024-25","Law Officer's Departments",-58411.411411411405,18,18,0
+"one_year_period_12","2024-25","Northern Ireland",-4337.5127075567607,7,7,0
+"one_year_period_12","2024-25","Science, Innovation and Technology",-14056.024835751932,11,11,0
+"one_year_period_12","2024-25","Scotland",15.508779583378775,3,3,0
+"one_year_period_12","2024-25","Small and Independent Bodies",-81408.157007053043,20,20,0
+"one_year_period_12","2024-25","Transport",-18176.167772249861,13,13,0
+"one_year_period_12","2024-25","Wales",-9973.3248494934178,9,9,0
+"one_year_period_12","2024-25","Work and Pensions",-24563.031233998976,15,15,0
+"three_years","2023-24","Business and Trade",-125066.13939105974,22,22,0
+"three_years","2023-24","Cabinet Office",-133511.31425760433,23,23,0
+"three_years","2023-24","CLG Communities",-42372.69016399316,16,16,0
+"three_years","2023-24","CLG Local Government",-1736.1930329424667,5,5,0
+"three_years","2023-24","Culture, Media and Sport",-25161.151160810579,15,15,0
+"three_years","2023-24","Defence",-51895.996486065575,17,17,0
+"three_years","2023-24","Education",3446.6557279627273,2,2,0
+"three_years","2023-24","Energy Security and Net Zero",-96473.176631802489,21,21,0
+"three_years","2023-24","Environment, Food and Rural Affairs",-20124.1927607521,12,12,0
+"three_years","2023-24","Foreign, Commonwealth and Development Office",0.08799359899363482,4,4,0
+"three_years","2023-24","Health (NHS)",-4854.0843730755123,9,9,0
+"three_years","2023-24","HM Revenue & Customs",-4061.9441666178564,8,8,0
+"three_years","2023-24","HM Treasury",-76508.232338313581,20,20,0
+"three_years","2023-24","Home Office",172085.84758726909,1,1,0
+"three_years","2023-24","Justice",-8991.1245491229929,10,10,0
+"three_years","2023-24","Law Officer's Departments",-60022.066067137137,19,19,0
+"three_years","2023-24","Northern Ireland",-3649.2860860370533,7,7,0
+"three_years","2023-24","Science, Innovation and Technology",-23607.867574126532,14,14,0
+"three_years","2023-24","Scotland",1163.3639818234155,3,3,0
+"three_years","2023-24","Small and Independent Bodies",-52984.911127577281,18,18,0
+"three_years","2023-24","Transport",-10494.100239590667,11,11,0
+"three_years","2023-24","Wales",-1771.6186136086776,6,6,0
+"three_years","2023-24","Work and Pensions",-22842.894160348194,13,13,0
+"three_years","2024-25","Business and Trade",-238130.12642614864,23,23,0
+"three_years","2024-25","Cabinet Office",-150028.57142857142,22,22,0
+"three_years","2024-25","CLG Communities",-36680.837663360107,16,16,0
+"three_years","2024-25","CLG Local Government",-2300.8101444170479,6,6,0
+"three_years","2024-25","Culture, Media and Sport",-130631.53456998314,21,21,0
+"three_years","2024-25","Defence",-57326.4192863775,17,17,0
+"three_years","2024-25","Education",274.19218940893961,2,2,0
+"three_years","2024-25","Energy Security and Net Zero",-62690.215184734072,19,19,0
+"three_years","2024-25","Environment, Food and Rural Affairs",-9552.0591052127511,8,8,0
+"three_years","2024-25","Foreign, Commonwealth and Development Office",-51.356238698010849,4,4,0
+"three_years","2024-25","Health (NHS)",-590.88535948669164,5,5,0
+"three_years","2024-25","HM Revenue & Customs",-10409.816775928728,10,10,0
+"three_years","2024-25","HM Treasury",-20057.777777777777,14,14,0
+"three_years","2024-25","Home Office",221710.07237037772,1,1,0
+"three_years","2024-25","Justice",-15424.039807183952,12,12,0
+"three_years","2024-25","Law Officer's Departments",-58411.411411411405,18,18,0
+"three_years","2024-25","Northern Ireland",-4337.5127075567607,7,7,0
+"three_years","2024-25","Science, Innovation and Technology",-14056.024835751932,11,11,0
+"three_years","2024-25","Scotland",15.508779583378775,3,3,0
+"three_years","2024-25","Small and Independent Bodies",-81408.157007053043,20,20,0
+"three_years","2024-25","Transport",-18176.167772249861,13,13,0
+"three_years","2024-25","Wales",-9973.3248494934178,9,9,0
+"three_years","2024-25","Work and Pensions",-24563.031233998976,15,15,0
+"three_years","2025-26","Business and Trade",-135208.81593163518,22,22,0
+"three_years","2025-26","Cabinet Office",-138801.75789781555,23,23,0
+"three_years","2025-26","CLG Communities",-24628.387738547866,14,14,0
+"three_years","2025-26","CLG Local Government",-2665.5233230402564,7,7,0
+"three_years","2025-26","Culture, Media and Sport",-45425.102300700237,18,18,0
+"three_years","2025-26","Defence",-66075.339783665782,19,19,0
+"three_years","2025-26","Education",-2530.2770841521824,6,6,0
+"three_years","2025-26","Energy Security and Net Zero",-23728.809355217269,13,13,0
+"three_years","2025-26","Environment, Food and Rural Affairs",-31311.549895016098,16,16,0
+"three_years","2025-26","Foreign, Commonwealth and Development Office",-15483.2788796382,12,12,0
+"three_years","2025-26","Health (NHS)",-2100.6263932238321,4,4,0
+"three_years","2025-26","HM Revenue & Customs",-9048.1814186900065,8,8,0
+"three_years","2025-26","HM Treasury",-27806.364453427679,15,15,0
+"three_years","2025-26","Home Office",242321.73452891424,1,1,0
+"three_years","2025-26","Justice",-11817.883728513107,9,9,0
+"three_years","2025-26","Law Officer's Departments",-89479.187932192828,21,21,0
+"three_years","2025-26","Northern Ireland",-2166.0372418088723,5,5,0
+"three_years","2025-26","Science, Innovation and Technology",-13239.531743943164,10,10,0
+"three_years","2025-26","Scotland",-3.2011818459812544,3,3,0
+"three_years","2025-26","Small and Independent Bodies",-81861.906183146712,20,20,0
+"three_years","2025-26","Transport",-14364.990416893559,11,11,0
+"three_years","2025-26","Wales",6783.2108942582217,2,2,0
+"three_years","2025-26","Work and Pensions",-32062.848701174691,17,17,0

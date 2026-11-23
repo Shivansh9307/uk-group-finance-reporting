@@ -1,0 +1,93 @@
+grid,financial_year,spending_review_group,ytd_variance_ppm,rank_naive,rank_rewrite,rank_difference
+one_year_period_12,2024-25,Business and Trade,-238130.126426,23,23,0
+one_year_period_12,2024-25,Cabinet Office,-150028.571428,22,22,0
+one_year_period_12,2024-25,CLG Communities,-36680.837663,16,16,0
+one_year_period_12,2024-25,CLG Local Government,-2300.810144,6,6,0
+one_year_period_12,2024-25,"Culture, Media and Sport",-130631.534569,21,21,0
+one_year_period_12,2024-25,Defence,-57326.419286,17,17,0
+one_year_period_12,2024-25,Education,274.192189,2,2,0
+one_year_period_12,2024-25,Energy Security and Net Zero,-62690.215184,19,19,0
+one_year_period_12,2024-25,"Environment, Food and Rural Affairs",-9552.059105,8,8,0
+one_year_period_12,2024-25,"Foreign, Commonwealth and Development Office",-51.356238,4,4,0
+one_year_period_12,2024-25,Health (NHS),-590.885359,5,5,0
+one_year_period_12,2024-25,HM Revenue & Customs,-10409.816775,10,10,0
+one_year_period_12,2024-25,HM Treasury,-20057.777777,14,14,0
+one_year_period_12,2024-25,Home Office,221710.072370,1,1,0
+one_year_period_12,2024-25,Justice,-15424.039807,12,12,0
+one_year_period_12,2024-25,Law Officer's Departments,-58411.411411,18,18,0
+one_year_period_12,2024-25,Northern Ireland,-4337.512707,7,7,0
+one_year_period_12,2024-25,"Science, Innovation and Technology",-14056.024835,11,11,0
+one_year_period_12,2024-25,Scotland,15.508779,3,3,0
+one_year_period_12,2024-25,Small and Independent Bodies,-81408.157007,20,20,0
+one_year_period_12,2024-25,Transport,-18176.167772,13,13,0
+one_year_period_12,2024-25,Wales,-9973.324849,9,9,0
+one_year_period_12,2024-25,Work and Pensions,-24563.031233,15,15,0
+three_years,2023-24,Business and Trade,-125066.139391,22,22,0
+three_years,2023-24,Cabinet Office,-133511.314257,23,23,0
+three_years,2023-24,CLG Communities,-42372.690163,16,16,0
+three_years,2023-24,CLG Local Government,-1736.193032,5,5,0
+three_years,2023-24,"Culture, Media and Sport",-25161.151160,15,15,0
+three_years,2023-24,Defence,-51895.996486,17,17,0
+three_years,2023-24,Education,3446.655727,2,2,0
+three_years,2023-24,Energy Security and Net Zero,-96473.176631,21,21,0
+three_years,2023-24,"Environment, Food and Rural Affairs",-20124.192760,12,12,0
+three_years,2023-24,"Foreign, Commonwealth and Development Office",0.087993,4,4,0
+three_years,2023-24,Health (NHS),-4854.084373,9,9,0
+three_years,2023-24,HM Revenue & Customs,-4061.944166,8,8,0
+three_years,2023-24,HM Treasury,-76508.232338,20,20,0
+three_years,2023-24,Home Office,172085.847587,1,1,0
+three_years,2023-24,Justice,-8991.124549,10,10,0
+three_years,2023-24,Law Officer's Departments,-60022.066067,19,19,0
+three_years,2023-24,Northern Ireland,-3649.286086,7,7,0
+three_years,2023-24,"Science, Innovation and Technology",-23607.867574,14,14,0
+three_years,2023-24,Scotland,1163.363981,3,3,0
+three_years,2023-24,Small and Independent Bodies,-52984.911127,18,18,0
+three_years,2023-24,Transport,-10494.100239,11,11,0
+three_years,2023-24,Wales,-1771.618613,6,6,0
+three_years,2023-24,Work and Pensions,-22842.894160,13,13,0
+three_years,2024-25,Business and Trade,-238130.126426,23,23,0
+three_years,2024-25,Cabinet Office,-150028.571428,22,22,0
+three_years,2024-25,CLG Communities,-36680.837663,16,16,0
+three_years,2024-25,CLG Local Government,-2300.810144,6,6,0
+three_years,2024-25,"Culture, Media and Sport",-130631.534569,21,21,0
+three_years,2024-25,Defence,-57326.419286,17,17,0
+three_years,2024-25,Education,274.192189,2,2,0
+three_years,2024-25,Energy Security and Net Zero,-62690.215184,19,19,0
+three_years,2024-25,"Environment, Food and Rural Affairs",-9552.059105,8,8,0
+three_years,2024-25,"Foreign, Commonwealth and Development Office",-51.356238,4,4,0
+three_years,2024-25,Health (NHS),-590.885359,5,5,0
+three_years,2024-25,HM Revenue & Customs,-10409.816775,10,10,0
+three_years,2024-25,HM Treasury,-20057.777777,14,14,0
+three_years,2024-25,Home Office,221710.072370,1,1,0
+three_years,2024-25,Justice,-15424.039807,12,12,0
+three_years,2024-25,Law Officer's Departments,-58411.411411,18,18,0
+three_years,2024-25,Northern Ireland,-4337.512707,7,7,0
+three_years,2024-25,"Science, Innovation and Technology",-14056.024835,11,11,0
+three_years,2024-25,Scotland,15.508779,3,3,0
+three_years,2024-25,Small and Independent Bodies,-81408.157007,20,20,0
+three_years,2024-25,Transport,-18176.167772,13,13,0
+three_years,2024-25,Wales,-9973.324849,9,9,0
+three_years,2024-25,Work and Pensions,-24563.031233,15,15,0
+three_years,2025-26,Business and Trade,-135208.815931,22,22,0
+three_years,2025-26,Cabinet Office,-138801.757897,23,23,0
+three_years,2025-26,CLG Communities,-24628.387738,14,14,0
+three_years,2025-26,CLG Local Government,-2665.523323,7,7,0
+three_years,2025-26,"Culture, Media and Sport",-45425.102300,18,18,0
+three_years,2025-26,Defence,-66075.339783,19,19,0
+three_years,2025-26,Education,-2530.277084,6,6,0
+three_years,2025-26,Energy Security and Net Zero,-23728.809355,13,13,0
+three_years,2025-26,"Environment, Food and Rural Affairs",-31311.549895,16,16,0
+three_years,2025-26,"Foreign, Commonwealth and Development Office",-15483.278879,12,12,0
+three_years,2025-26,Health (NHS),-2100.626393,4,4,0
+three_years,2025-26,HM Revenue & Customs,-9048.181418,8,8,0
+three_years,2025-26,HM Treasury,-27806.364453,15,15,0
+three_years,2025-26,Home Office,242321.734528,1,1,0
+three_years,2025-26,Justice,-11817.883728,9,9,0
+three_years,2025-26,Law Officer's Departments,-89479.187932,21,21,0
+three_years,2025-26,Northern Ireland,-2166.037241,5,5,0
+three_years,2025-26,"Science, Innovation and Technology",-13239.531743,10,10,0
+three_years,2025-26,Scotland,-3.201181,3,3,0
+three_years,2025-26,Small and Independent Bodies,-81861.906183,20,20,0
+three_years,2025-26,Transport,-14364.990416,11,11,0
+three_years,2025-26,Wales,6783.210894,2,2,0
+three_years,2025-26,Work and Pensions,-32062.848701,17,17,0

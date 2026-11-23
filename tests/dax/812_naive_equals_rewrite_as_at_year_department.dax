@@ -1,0 +1,32 @@
+// Outturn as at Release on the stress grid of the third perf query (release by financial year by department of the
+// current structure, 9,065 cells), summarised by release so that the expected file stays small: the number of cells, the
+// total of the plain form (naive, hidden), the total of the rewrite, the largest absolute difference of any cell and the
+// number of cells that differ. The totals equal the SQL totals; the last two are 0.
+EVALUATE
+VAR Grid =
+    SUMMARIZECOLUMNS (
+        'Release'[Release Label],
+        'Fiscal Year'[Financial Year],
+        'Department (current structure)'[Department Number],
+        "as_at_naive", [Outturn as at Release (naive)],
+        "as_at_rewrite", [Outturn as at Release]
+    )
+RETURN
+    SELECTCOLUMNS (
+        GROUPBY (
+            Grid,
+            'Release'[Release Label],
+            "cells", COUNTX ( CURRENTGROUP (), 1 ),
+            "naive_total", SUMX ( CURRENTGROUP (), [as_at_naive] ),
+            "rewrite_total", SUMX ( CURRENTGROUP (), [as_at_rewrite] ),
+            "max_abs_difference", MAXX ( CURRENTGROUP (), ABS ( COALESCE ( [as_at_rewrite], 0 ) - COALESCE ( [as_at_naive], 0 ) ) ),
+            "cells_that_differ", SUMX ( CURRENTGROUP (), IF ( COALESCE ( [as_at_rewrite], 0 ) = COALESCE ( [as_at_naive], 0 ), 0, 1 ) )
+        ),
+        "release", 'Release'[Release Label],
+        "cells", [cells],
+        "naive_total", [naive_total],
+        "rewrite_total", [rewrite_total],
+        "max_abs_difference", [max_abs_difference],
+        "cells_that_differ", [cells_that_differ]
+    )
+ORDER BY [release]

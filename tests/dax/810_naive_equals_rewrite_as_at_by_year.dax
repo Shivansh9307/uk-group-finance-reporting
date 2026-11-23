@@ -1,0 +1,18 @@
+// Outturn as at Release: the plain form (naive, hidden) and the rewrite side by side for every cell of the matrix the
+// first perf query draws (release by financial year, 31 releases), with their difference. Both must equal the SQL
+// running sum, and the difference must be 0 in every cell.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Release'[Release Label],
+        'Fiscal Year'[Financial Year],
+        "as_at_naive", [Outturn as at Release (naive)],
+        "as_at_rewrite", [Outturn as at Release]
+    ),
+    "release", 'Release'[Release Label],
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "as_at_naive", [as_at_naive],
+    "as_at_rewrite", [as_at_rewrite],
+    "difference", COALESCE ( [as_at_rewrite], 0 ) - COALESCE ( [as_at_naive], 0 )
+)
+ORDER BY [release], [financial_year]

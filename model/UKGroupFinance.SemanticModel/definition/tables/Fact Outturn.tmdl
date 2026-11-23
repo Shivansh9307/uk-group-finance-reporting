@@ -127,14 +127,26 @@ table 'Fact Outturn'
 		displayFolder: Statement\Windows
 		lineageTag: c346715c-2368-4376-bdd6-db48539f9174
 
-	/// The outturn as the selected release stated it, in GBP thousands (spending positive, income negative): the sum of the revision deltas of every release up to and including the highest release in context, or up to the latest release when none is selected. For a year the release has not reached yet it is BLANK, and for a closed year it is the final figure known at that release. At a release's own financial year it equals what that release's file reports (tested against the control totals of the files). Written in the plain form, a CALCULATE over a FILTER of all releases; a later rewrite is compared with it.
+	/// The outturn as the selected release stated it, in GBP thousands (spending positive, income negative): the sum of the revision deltas of every release up to and including the highest release in context, or up to the latest release when none is selected. For a year the release has not reached yet it is BLANK, and for a closed year it is the final figure known at that release. At a release's own financial year it equals what that release's file reports (tested against the control totals of the files). Written with a column filter on Release Sequence after REMOVEFILTERS on the Release table; it returns the same figures as the plain form kept hidden as Outturn as at Release (naive), and docs/performance.md says what the rewrite changed and what it did not.
 	measure 'Outturn as at Release' =
 			VAR AsAt = MAX ( 'Release'[Release Sequence] )
 			RETURN
-			    CALCULATE ( [Outturn], FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )
+			    CALCULATE ( [Outturn], REMOVEFILTERS ( 'Release' ), 'Release'[Release Sequence] <= AsAt )
 		formatString: £#,##0"k";-£#,##0"k";£0"k"
 		displayFolder: Restatement
 		lineageTag: 10385ac7-fa5d-59c8-962f-c33bd7b749c8
+
+	/// Kept as evidence, hidden, not for reports: the plain form of Outturn as at Release (a CALCULATE over a FILTER of ALL releases up to the highest in context) that docs/performance.md timed and traced before the rewrite. It returns the same figures as the rewrite (tests/dax/810_naive_equals_rewrite_as_at.dax) and is only here so that the comparison can be rerun.
+	measure 'Outturn as at Release (naive)' =
+			VAR AsAt = MAX ( 'Release'[Release Sequence] )
+			RETURN
+			    CALCULATE ( [Outturn], FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )
+		isHidden
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Performance\Naive
+		lineageTag: 370cc4d0-6947-4a31-ab56-46ad6937ba0d
+
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["UNNECESSARY_MEASURES"]}
 
 	/// The outturn as first reported, in GBP thousands: the sum of the deltas with Revision Number 0, that is the amount each line and month had in the release that first reported it, over the releases up to the as-at release (the highest release in context, or the latest). A line first reported later is counted at its first amount, so this is not the total of the first release of the year.
 	measure 'Outturn as First Reported' =
@@ -261,8 +273,26 @@ table 'Fact Outturn'
 		displayFolder: Current Structure
 		lineageTag: aa1c87b0-44b4-51fe-a94b-ea05ff838103
 
-	/// Rank of the Spending Review group in context among the groups that have a value, by the year-to-date variance % (the Variance % item of Scenario Comparison under the YTD item of Time Intelligence, taken on Comparison Amount), the largest first (1 is the biggest overspend against plan); equal values share a rank and the next rank is skipped. BLANK where the group has no plan or no outturn on the plan's basis. The plan is published by group, not by current department, so the rank is over Spending Review groups. A year-to-date plan exists only at period 12 or for a whole year, so a month before the year end gives BLANK. Written in the plain form: the full CALCULATE with both items inside RANKX. Use it with no Time Intelligence or Scenario Comparison item selected.
+	/// Rank of the Spending Review group in context among the groups that have a value, by the year-to-date variance % (the Variance % item of Scenario Comparison under the YTD item of Time Intelligence, taken on Comparison Amount), the largest first (1 is the biggest overspend against plan); equal values share a rank and the next rank is skipped. BLANK where the group has no plan or no outturn on the plan's basis. The plan is published by group, not by current department, so the rank is over Spending Review groups. A year-to-date plan exists only at period 12 or for a whole year, so a month before the year end gives BLANK. Each group's value is worked out once, in ADDCOLUMNS, and RANKX ranks that column; it returns the same ranks as the plain form kept hidden as Department Group Rank (YTD Variance %) (naive). Use it with no Time Intelligence or Scenario Comparison item selected.
 	measure 'Department Group Rank (YTD Variance %)' =
+			VAR YtdVariancePercent =
+			    CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = "YTD", 'Scenario Comparison'[Comparison] = "Variance %" )
+			VAR Groups =
+			    FILTER (
+			        ADDCOLUMNS (
+			            ALLSELECTED ( 'Spending Review Group' ),
+			            "@ytd", CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = "YTD", 'Scenario Comparison'[Comparison] = "Variance %" )
+			        ),
+			        NOT ISBLANK ( [@ytd] )
+			    )
+			RETURN
+			    IF ( ISBLANK ( YtdVariancePercent ), BLANK (), RANKX ( Groups, [@ytd], YtdVariancePercent, DESC, SKIP ) )
+		formatString: 0
+		displayFolder: Plan\Ranking
+		lineageTag: 88d10e9b-1bad-57dc-8f49-98c96fd6f2cc
+
+	/// Kept as evidence, hidden, not for reports: the plain form of Department Group Rank (YTD Variance %), with the Variance % and YTD calculation written three times (the guard, the table filter and the value) inside RANKX, that docs/performance.md timed and traced before the rewrite. It returns the same ranks as the rewrite (tests/dax/810_naive_equals_rewrite_rank.dax).
+	measure 'Department Group Rank (YTD Variance %) (naive)' =
 			VAR YtdVariancePercent =
 			    CALCULATE ( [Comparison Amount], 'Time Intelligence'[Time Calculation] = "YTD", 'Scenario Comparison'[Comparison] = "Variance %" )
 			RETURN
@@ -282,9 +312,12 @@ table 'Fact Outturn'
 			            SKIP
 			        )
 			    )
+		isHidden
 		formatString: 0
-		displayFolder: Plan\Ranking
-		lineageTag: 88d10e9b-1bad-57dc-8f49-98c96fd6f2cc
+		displayFolder: Performance\Naive
+		lineageTag: 474e343d-40de-40aa-a0af-e3bf22edc400
+
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["UNNECESSARY_MEASURES"]}
 
 	/// [Outturn] in 2025-26 prices, in GBP thousands, spending positive and income negative as in the nominal measure. Each financial year in context is multiplied by the GDP deflator index of 2025-26 divided by the index of that year (HM Treasury, default vintage October 2026 Budget, chained index: forecast years are chained from that one vintage), and the years are added. A month takes the index of its financial year. BLANK when a year that has an amount has no index, never the nominal figure. Under Time Intelligence, PY is the previous year in 2025-26 prices, YoY is the real change and YoY % the real growth rate. The Deflator table is related to nothing; the index is matched to the year with TREATAS inside Real.Deflate.
 	measure 'Outturn (real terms)' = Real.Deflate ( [Outturn] )

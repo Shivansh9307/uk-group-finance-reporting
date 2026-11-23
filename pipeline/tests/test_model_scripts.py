@@ -182,6 +182,12 @@ def test_every_visible_measure_folder_is_the_one_the_script_gives(tables, repo_r
     seen = set()
     for t in tables.values():
         for name, m in t["measures"].items():
+            if "isHidden" in m["flags"]:
+                # the script leaves hidden measures alone; the two kept as evidence sit in one folder by hand
+                folder = m.get("displayFolder")
+                assert folder == r"Performance\Naive", f"{name}: a hidden measure sits in {folder}"
+                assert name not in convention, f"{name} is hidden and so must not be in the convention table"
+                continue
             want = "Real Terms" if name.endswith(" (real terms)") else convention.get(name)
             assert want is not None, f"display_folders.csx has no folder for {name}"
             assert m.get("displayFolder") == want, f"{name}: {m.get('displayFolder')} != {want}"

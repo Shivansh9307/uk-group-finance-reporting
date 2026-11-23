@@ -50,6 +50,7 @@ BASE_MEASURES = {
     "Statement Amount Moving 3 Months (WINDOW)": ("Fact Outturn", "Statement\\Windows"),
     "Department Rank (Statement Amount)": ("Fact Outturn", "Statement\\Windows"),
     "Outturn as at Release": ("Fact Outturn", "Restatement"),
+    "Outturn as at Release (naive)": ("Fact Outturn", r"Performance\Naive"),
     "Outturn as First Reported": ("Fact Outturn", "Restatement"),
     "Revision since First Reported": ("Fact Outturn", "Restatement"),
     "Revision %": ("Fact Outturn", "Restatement"),
@@ -78,6 +79,7 @@ BASE_MEASURES = {
     "Rows Quarantined": ("Load Control", "Audit and control"),
     "Web Rows Quarantined": ("Load Control", "Audit and control"),
     "Department Group Rank (YTD Variance %)": ("Fact Outturn", "Plan\\Ranking"),
+    "Department Group Rank (YTD Variance %) (naive)": ("Fact Outturn", r"Performance\Naive"),
     "Outturn (real terms)": ("Fact Outturn", "Real Terms"),
     "Outturn (plan basis) (real terms)": ("Fact Outturn", "Real Terms"),
     "Outturn (current structure) (real terms)": ("Fact Outturn", "Real Terms"),
@@ -87,6 +89,10 @@ BASE_MEASURES = {
     "Plan (phased) (real terms)": ("Fact Plan Phased (derived)", "Real Terms"),
 }
 GROUPS = {"Scenario Comparison": 10, "Time Intelligence": 20, "Display Unit": 30}
+
+
+def _is_hidden(m) -> bool:
+    return m.props.get("isHidden") == "true"
 
 
 def _unquote(name: str) -> str:
@@ -208,6 +214,8 @@ def measures(table_text) -> list[Measure]:
                     if depth == 2 and re.match(r"^\w+:", s):
                         k, v = s.split(":", 1)
                         props[k] = v.strip()
+                    elif depth == 2 and s == "isHidden":
+                        props["isHidden"] = "true"
                     elif s and not s.startswith("annotation "):
                         expr_lines.append(s)
                 found.append(Measure(table, name, " ".join(pending), "\n".join(expr_lines), props))
@@ -456,14 +464,20 @@ def test_the_statement_measures_act_through_the_calculation_groups(items):
 
 
 # ------------------------------------------------------------------------------------------ restatement
-def test_outturn_as_at_release_is_written_in_the_plain_form_over_all_releases(measures):
-    # slow measure 1 is the form a report author would write: CALCULATE over a FILTER of ALL releases up to the
-    # highest in context
+def test_outturn_as_at_release_is_a_column_filter_and_its_plain_form_is_kept_hidden_as_evidence(measures):
+    # slow measure 1: the rewrite filters the Release Sequence column after clearing the Release table; the plain form
+    # (a CALCULATE over a FILTER of ALL releases) stays as a hidden measure that the equality tests compare it with
     by_name = {m.name: m for m in measures}
     e = re.sub(r"\s+", " ", by_name["Outturn as at Release"].expression)
     assert "MAX ( 'Release'[Release Sequence] )" in e
-    assert "CALCULATE ( [Outturn], FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )" in e
-    assert "RANKX" not in e and "WINDOW" not in e and "OFFSET" not in e, "no rewritten form yet"
+    assert "CALCULATE ( [Outturn], REMOVEFILTERS ( 'Release' ), 'Release'[Release Sequence] <= AsAt )" in e
+    assert "FILTER (" not in e.replace("REMOVEFILTERS (", "")
+    assert "RANKX" not in e and "WINDOW" not in e and "OFFSET" not in e
+    assert not _is_hidden(by_name["Outturn as at Release"])
+    naive = by_name["Outturn as at Release (naive)"]
+    n = re.sub(r"\s+", " ", naive.expression)
+    assert "CALCULATE ( [Outturn], FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )" in n
+    assert _is_hidden(naive) and "kept as evidence" in naive.description.lower()
 
 
 def test_first_reported_sums_the_deltas_of_revision_zero_up_to_the_as_at_release(measures):
@@ -495,13 +509,34 @@ def test_the_current_structure_counterpart_is_found_by_department_number_and_nev
     assert "Department Number (as reported)" in by_name["Outturn (as reported structure)"].expression
 
 
-def test_the_rank_by_ytd_variance_percent_is_the_plain_form_with_both_items_inside(measures):
+def test_the_rank_by_ytd_variance_percent_works_out_each_groups_value_once_and_ranks_that_column(measures):
     by_name = {m.name: m for m in measures}
     e = re.sub(r"\s+", " ", by_name["Department Group Rank (YTD Variance %)"].expression)
-    assert "RANKX (" in e and "ALLSELECTED ( 'Spending Review Group' )" in e
-    assert e.count("'Time Intelligence'[Time Calculation] = \"YTD\"") >= 3
-    assert e.count("'Scenario Comparison'[Comparison] = \"Variance %\"") >= 3
+    assert "ADDCOLUMNS (" in e and "RANKX ( Groups, [@ytd], YtdVariancePercent, DESC, SKIP )" in e
+    assert "ALLSELECTED ( 'Spending Review Group' )" in e
+    # the calculation is written twice (the cell's own value and the value of every group), not three times
+    assert e.count("'Time Intelligence'[Time Calculation] = \"YTD\"") == 2
+    assert e.count("'Scenario Comparison'[Comparison] = \"Variance %\"") == 2
     assert "Department Rank (Statement Amount)" not in e
+    assert not _is_hidden(by_name["Department Group Rank (YTD Variance %)"])
+
+
+def test_the_plain_form_of_the_rank_is_kept_hidden_with_the_calculation_written_three_times(measures):
+    by_name = {m.name: m for m in measures}
+    naive = by_name["Department Group Rank (YTD Variance %) (naive)"]
+    e = re.sub(r"\s+", " ", naive.expression)
+    assert "RANKX (" in e and "ADDCOLUMNS" not in e and "ALLSELECTED ( 'Spending Review Group' )" in e
+    assert e.count("'Time Intelligence'[Time Calculation] = \"YTD\"") == 3
+    assert e.count("'Scenario Comparison'[Comparison] = \"Variance %\"") == 3
+    assert _is_hidden(naive) and "kept as evidence" in naive.description.lower()
+
+
+def test_the_hidden_plain_forms_are_in_no_perspective_and_no_other_measure_reads_them(measures, table_text):
+    hidden = [m.name for m in measures if _is_hidden(m)]
+    assert hidden == ["Outturn as at Release (naive)", "Department Group Rank (YTD Variance %) (naive)"]
+    for m in measures:
+        for h in hidden:
+            assert f"[{h}]" not in m.expression, f"{m.name} reads the hidden measure {h}"
 
 
 def test_every_restatement_and_current_structure_amount_is_scaled_by_the_display_unit_and_no_percentage_is(

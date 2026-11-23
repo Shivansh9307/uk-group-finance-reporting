@@ -76,3 +76,7 @@ test_id,test_name,expected_rows,result_rows,columns,status,max_abs_diff,build_sc
 799,as_at_march_2026_release,3,3,2,pass,0,full
 800,plan_variance_check_rows,364,364,13,pass,0.0000000001,full
 801,plan_variance_by_year_and_measure,16,16,5,pass,0,full
+810,naive_equals_rewrite_as_at_by_year,151,151,5,pass,0,full
+811,naive_equals_rewrite_as_at_by_department,1931,1931,5,pass,0,full
+812,naive_equals_rewrite_as_at_year_department,31,31,6,pass,0,full
+813,naive_equals_rewrite_rank,92,92,7,pass,0.000000998976,full
