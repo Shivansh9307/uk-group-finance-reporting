@@ -116,6 +116,27 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
+  evidence-ledger:
+    # Checks evidence/ledger.json against the files: the hash of the model's TMDL projection, the sha256 of every DAX
+    # test, expected value and result, of the role cases and of the model reference, and that the two comparisons
+    # (results against expected values) still pass on those files. It reruns no DAX: the results come from Desktop.
+    # Standard library only, so no install step and no Windows runner (see docs/evidence.md).
+    name: evidence-ledger
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Ledger check
+        env:
+          PYTHONPATH: pipeline/src
+        run: |
+          python3 --version
+          python3 -m ukfr.ledger check
+
   pipeline-sql:
     name: pipeline-sql
     runs-on: ubuntu-latest
@@ -200,6 +221,18 @@ jobs:
         run: |
           source .github/scripts/step-timer.sh
           timed db_tests bash -o pipefail -c 'uv run --project pipeline --frozen pytest -q -m db | tee "$RUNNER_TEMP/pytest-db.txt"'
+
+      - name: Recompute the committed-scope expected values
+        # The expected values of the DAX tests are written at full scope, which a runner cannot build. A second set is
+        # written at committed scope (tests/expected_committed). This step runs the same expected-value queries against
+        # the database just built from the committed files and requires the files to be identical to the committed set,
+        # skipped tests included (_skipped.csv). It proves the queries still run and still give those numbers; it does
+        # not compare them with DAX results, which only Desktop can produce.
+        run: |
+          source .github/scripts/step-timer.sh
+          timed expected_committed uv run --project pipeline --frozen ukfr expected --out-dir "$RUNNER_TEMP/expected-committed" --skip-unavailable
+          diff -r tests/expected_committed "$RUNNER_TEMP/expected-committed"
+          echo "committed-scope expected values identical to tests/expected_committed"
 
       - name: Rebuild from scratch and compare the audit output
         # A second build into a new database must write byte-identical audit files, and the files
