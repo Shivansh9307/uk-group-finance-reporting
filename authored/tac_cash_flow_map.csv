@@ -1,0 +1,149 @@
+sub_code,statement,treatment,basis,factor,derived_line,note
+SCI0100A,SoCI,derive,flow,1,D_OP_SURPLUS,Operating income from patient care. Counted once in its section as the flow of the year.
+SCI0100A,SoCI,derive,flow,-1,D_NC_RES,"Taken out of the income and expenditure reserve movement again, so that the surplus is not counted twice."
+SCI0110A,SoCI,derive,flow,1,D_OP_SURPLUS,Other operating income. Counted once in its section as the flow of the year.
+SCI0110A,SoCI,derive,flow,-1,D_NC_RES,"Taken out of the income and expenditure reserve movement again, so that the surplus is not counted twice."
+SCI0125A,SoCI,derive,flow,1,D_OP_SURPLUS,"Operating expenses, which include depreciation and impairment. Counted once in its section as the flow of the year."
+SCI0125A,SoCI,derive,flow,-1,D_NC_RES,"Taken out of the income and expenditure reserve movement again, so that the surplus is not counted twice."
+SCI0150,SoCI,derive,flow,1,D_IN_INT,"Finance income, shown as interest received. Counted once in its section as the flow of the year."
+SCI0150,SoCI,derive,flow,-1,D_NC_RES,"Taken out of the income and expenditure reserve movement again, so that the surplus is not counted twice."
+SCI0160,SoCI,derive,flow,1,D_FI_INT,"Finance expense, shown as interest paid. Counted once in its section as the flow of the year."
+SCI0160,SoCI,derive,flow,-1,D_NC_RES,"Taken out of the income and expenditure reserve movement again, so that the surplus is not counted twice."
+SCI0170,SoCI,derive,flow,1,D_FI_DIV,"PDC dividend expense, shown as the dividend paid. Counted once in its section as the flow of the year."
+SCI0170,SoCI,derive,flow,-1,D_NC_RES,"Taken out of the income and expenditure reserve movement again, so that the surplus is not counted twice."
+SCI0190A,SoCI,derive,flow,1,D_OP_GAINS,"Other gains and losses, mostly on disposal. Counted once in its section as the flow of the year."
+SCI0190A,SoCI,derive,flow,-1,D_NC_RES,"Taken out of the income and expenditure reserve movement again, so that the surplus is not counted twice."
+SCI0200,SoCI,derive,flow,1,D_OP_GAINS,"Share of profit or loss of joint ventures and associates, not cash. Counted once in its section as the flow of the year."
+SCI0200,SoCI,derive,flow,-1,D_NC_RES,"Taken out of the income and expenditure reserve movement again, so that the surplus is not counted twice."
+SCI0210,SoCI,derive,flow,1,D_OP_GAINS,"Gains and losses from transfers by absorption, not cash. Counted once in its section as the flow of the year."
+SCI0210,SoCI,derive,flow,-1,D_NC_RES,"Taken out of the income and expenditure reserve movement again, so that the surplus is not counted twice."
+SCI0230,SoCI,derive,flow,1,D_OP_TAX,Corporation tax expense. Counted once in its section as the flow of the year.
+SCI0230,SoCI,derive,flow,-1,D_NC_RES,"Taken out of the income and expenditure reserve movement again, so that the surplus is not counted twice."
+SCI0240B,SoCI,derive,flow,1,D_OP_DISC,Surplus or deficit from discontinued operations. Counted once in its section as the flow of the year.
+SCI0240B,SoCI,derive,flow,-1,D_NC_RES,"Taken out of the income and expenditure reserve movement again, so that the surplus is not counted twice."
+SCI0140A,SoCI,not_used,,,,"Operating surplus subtotal: the lines it adds up are mapped, so using it would count it twice."
+SCI0180,SoCI,not_used,,,,Net finance costs subtotal: its lines are mapped.
+SCI0240A,SoCI,not_used,,,,Surplus from continuing operations subtotal: its lines are mapped.
+SCI0240,SoCI,not_used,,,,Surplus for the year total: its lines are mapped; a test shows the lines add up to it.
+SOC0100,SoCI,not_used,,,,"Other comprehensive income. It is non-cash and reaches the balance sheet through the reserves, which are mapped."
+SOC0110,SoCI,not_used,,,,Other comprehensive income (revaluations): reaches the balance sheet through the revaluation reserve.
+SOC0120,SoCI,not_used,,,,Other comprehensive income: reaches the balance sheet through the reserves.
+SOC0125,SoCI,not_used,,,,Other comprehensive income: reaches the balance sheet through the reserves.
+SOC0130,SoCI,not_used,,,,Other comprehensive income: reaches the balance sheet through the reserves.
+SOC0140,SoCI,not_used,,,,"Pension remeasurement, non-cash: reaches the balance sheet through the reserves and the pension liability."
+SOC0145,SoCI,not_used,,,,"Retired line (transfers by absorption, modified), non-cash."
+SOC0150,SoCI,not_used,,,,Other reserve movements: they reach the balance sheet through the reserves.
+SOC0160,SoCI,not_used,,,,Other comprehensive income: reaches the balance sheet through the fair value reserve.
+SOC0170,SoCI,not_used,,,,Other comprehensive income: reaches the balance sheet through the reserves.
+SOC0180,SoCI,not_used,,,,Other comprehensive income: reaches the balance sheet through the reserves.
+SOC0190,SoCI,not_used,,,,"Total comprehensive income: a total, and it includes non-cash items."
+SOC0200,SoCI,not_used,,,,Allocation of the surplus (a memo block that repeats it).
+SOC0210,SoCI,not_used,,,,Allocation of the surplus (a memo block that repeats it).
+SOC0220,SoCI,not_used,,,,Allocation of the surplus: a subtotal.
+SOC0230,SoCI,not_used,,,,Allocation of total comprehensive income (a memo block).
+SOC0240,SoCI,not_used,,,,Allocation of total comprehensive income (a memo block).
+SOC0250,SoCI,not_used,,,,Allocation of total comprehensive income: a subtotal.
+BAL1100,SoFP,derive,movement,-1,D_IN_INTANG,Intangible assets. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1110,SoFP,derive,movement,-1,D_IN_PPE,"Property, plant and equipment. Cash effect is the movement (current year less prior year of the same file) times -1."
+BAL1115,SoFP,derive,movement,-1,D_IN_PPE,Right of use assets. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1120,SoFP,derive,movement,-1,D_IN_PPE,Investment property. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1130,SoFP,derive,movement,-1,D_IN_FIN,Investments in joint ventures and associates. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1140,SoFP,derive,movement,-1,D_IN_FIN,"Other investments and financial assets, non-current. Cash effect is the movement (current year less prior year of the same file) times -1."
+BAL1150,SoFP,derive,movement,-1,D_OP_REC,Non-current receivables. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1170,SoFP,derive,movement,-1,D_OP_OA,Other non-current assets. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1190,SoFP,derive,movement,-1,D_OP_INV,Inventories. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1200,SoFP,derive,movement,-1,D_OP_REC,Current receivables. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1210,SoFP,derive,movement,-1,D_IN_FIN,"Other investments and financial assets, current. Cash effect is the movement (current year less prior year of the same file) times -1."
+BAL1220,SoFP,derive,movement,-1,D_OP_OA,Other current assets. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1230,SoFP,derive,movement,-1,D_IN_DISP,Non-current assets held for sale and assets in disposal groups. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1260,SoFP,derive,movement,-1,D_OP_PAY,Current trade and other payables (a liability: its movement is on the TAC sign). Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1270,SoFP,derive,movement,-1,D_FI_BORR,Current borrowings. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1280,SoFP,derive,movement,-1,D_FI_BORR,Other current financial liabilities. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1290,SoFP,derive,movement,-1,D_OP_PROV,Current provisions. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1300,SoFP,derive,movement,-1,D_OP_OL,Other current liabilities. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1310,SoFP,derive,movement,-1,D_IN_DISP,Liabilities in disposal groups. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1340,SoFP,derive,movement,-1,D_OP_PAY,Non-current trade and other payables. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1350,SoFP,derive,movement,-1,D_FI_BORR,Non-current borrowings. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1360,SoFP,derive,movement,-1,D_FI_BORR,Other non-current financial liabilities. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1370,SoFP,derive,movement,-1,D_OP_PROV,Non-current provisions. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1380,SoFP,derive,movement,-1,D_OP_OL,Other non-current liabilities. Cash effect is the movement (current year less prior year of the same file) times -1.
+BAL1410,SoFP,derive,movement,1,D_FI_PDC,Public dividend capital: an increase is cash from the Department. Cash effect is the movement (current year less prior year of the same file) times 1.
+BAL1420,SoFP,derive,movement,1,D_IN_REVAL,"Revaluation reserve: it moves by revaluation, which is not cash. Cash effect is the movement (current year less prior year of the same file) times 1."
+BAL1430,SoFP,derive,movement,1,D_IN_REVAL,"Fair value reserve: it moves by revaluation, which is not cash. Cash effect is the movement (current year less prior year of the same file) times 1."
+BAL1440,SoFP,derive,movement,1,D_NC_RES,Other reserves. Cash effect is the movement (current year less prior year of the same file) times 1.
+BAL1450,SoFP,derive,movement,1,D_NC_RES,Merger reserve. Cash effect is the movement (current year less prior year of the same file) times 1.
+BAL1460,SoFP,derive,movement,1,D_NC_RES,"Income and expenditure reserve: its movement includes the surplus, which is taken out through the income statement lines. Cash effect is the movement (current year less prior year of the same file) times 1."
+BAL1470,SoFP,derive,movement,1,D_NC_RES,Non-controlling interest. Cash effect is the movement (current year less prior year of the same file) times 1.
+BAL1490,SoFP,derive,movement,1,D_NC_RES,Charitable fund reserves. Cash effect is the movement (current year less prior year of the same file) times 1.
+BAL1180,SoFP,not_used,,,,Total non-current assets: a subtotal; its lines are mapped.
+BAL1240,SoFP,result,,,,Cash and cash equivalents: the movement that the derived sections must add up to (a test compares them).
+BAL1250,SoFP,not_used,,,,Total current assets: a subtotal.
+BAL1320,SoFP,not_used,,,,Total current liabilities: a subtotal.
+BAL1330,SoFP,not_used,,,,Total assets less current liabilities: a running total.
+BAL1390,SoFP,not_used,,,,Total non-current liabilities: a subtotal.
+BAL1400,SoFP,not_used,,,,Total assets employed: a total.
+BAL1500,SoFP,not_used,,,,Total taxpayers' and others' equity: a total.
+SCF0100A,SoCF,compare,published,1,D_OP_SURPLUS,Operating surplus from continuing operations. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0100B,SoCF,compare,published,1,D_OP_DISC,Operating surplus of discontinued operations. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0105,SoCF,compare,published,1,D_OP_NONCASH,"Depreciation and amortisation, a non-cash charge in the surplus. Set against the derived line of the same section that is closest to it; not forced to equal it."
+SCF0110,SoCF,compare,published,1,D_OP_NONCASH,"Impairments and reversals, non-cash. Set against the derived line of the same section that is closest to it; not forced to equal it."
+SCF0120,SoCF,compare,published,1,D_OP_NONCASH,"Donated income recognised, non-cash. Set against the derived line of the same section that is closest to it; not forced to equal it."
+SCF0125,SoCF,compare,published,1,D_OP_NONCASH,"Amortisation of PFI deferred income, non-cash. Set against the derived line of the same section that is closest to it; not forced to equal it."
+SCF0130,SoCF,compare,published,1,D_OP_NONCASH,"Pension liability adjustment, non-cash. Set against the derived line of the same section that is closest to it; not forced to equal it."
+SCF0135,SoCF,compare,published,1,D_OP_REC,Change in receivables. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0140A,SoCF,compare,published,1,D_OP_OA,Change in other assets. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0150,SoCF,compare,published,1,D_OP_INV,Change in inventories. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0155,SoCF,compare,published,1,D_OP_PAY,Change in trade and other payables. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0160,SoCF,compare,published,1,D_OP_OL,Change in other liabilities. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0165,SoCF,compare,published,1,D_OP_PROV,Change in provisions. Set against the derived line of the same section that is closest to it; not forced to equal it.
+CFS0010,SoCF,compare,published,1,D_OP_NONCASH,Charitable fund working capital. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0170,SoCF,compare,published,1,D_OP_TAX,Corporation tax paid or received. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0175A,SoCF,compare,published,1,D_OP_NONCASH,Operating cash flows of discontinued operations. Set against the derived line of the same section that is closest to it; not forced to equal it.
+CFS0020,SoCF,compare,published,1,D_OP_NONCASH,Charitable fund operating movements. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0175B,SoCF,compare,published,1,D_OP_NONCASH,Other movements in operating cash flows. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0185,SoCF,compare,published,1,D_IN_INT,Interest received. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0190,SoCF,compare,published,1,D_IN_FIN,Purchase of financial assets and investments. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0195,SoCF,compare,published,1,D_IN_FIN,Proceeds from financial assets and investments. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0200,SoCF,compare,published,1,D_IN_INTANG,Purchase of intangible assets. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0205,SoCF,compare,published,1,D_IN_INTANG,Proceeds from sale of intangible assets. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0210,SoCF,compare,published,1,D_IN_PPE,"Purchase of property, plant and equipment and investment property. Set against the derived line of the same section that is closest to it; not forced to equal it."
+SCF0215,SoCF,compare,published,1,D_IN_PPE,"Proceeds from sale of property, plant and equipment and investment property. Set against the derived line of the same section that is closest to it; not forced to equal it."
+SCF0216A,SoCF,compare,published,1,D_IN_PPE,Initial direct costs of new right of use assets. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0216B,SoCF,compare,published,1,D_IN_PPE,Lease incentives received. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0216C,SoCF,compare,published,1,D_IN_PPE,Lease termination fees paid. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0220,SoCF,compare,published,1,D_IN_PPE,Cash donations received for capital assets. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0226,SoCF,compare,published,1,D_IN_PPE,Prepayment of PFI capital contributions. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0227,SoCF,compare,published,1,D_IN_FIN,Finance lease receipts. Set against the derived line of the same section that is closest to it; not forced to equal it.
+CFS0030,SoCF,compare,published,1,D_IN_DISP,Charitable fund investing flows. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0235A,SoCF,compare,published,1,D_IN_DISP,Investing flows of discontinued operations. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0230,SoCF,compare,published,1,D_IN_DISP,Cash from acquisitions of business units. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0235,SoCF,compare,published,1,D_IN_DISP,Cash from disposals of business units. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0245,SoCF,compare,published,1,D_FI_PDC,Public dividend capital received. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0250,SoCF,compare,published,1,D_FI_PDC,Public dividend capital repaid. Set against the derived line of the same section that is closest to it; not forced to equal it.
+CFS1000,SoCF,compare,published,1,D_FI_BORR,Movement in loans from the Department of Health and Social Care. Set against the derived line of the same section that is closest to it; not forced to equal it.
+CFS1010,SoCF,compare,published,1,D_FI_BORR,Movement in other loans. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0275,SoCF,compare,published,1,D_FI_BORR,Other capital receipts. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0280,SoCF,compare,published,1,D_FI_BORR,Capital element of lease repayments. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0285,SoCF,compare,published,1,D_FI_BORR,Capital element of PFI and service concession payments. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0290A,SoCF,compare,published,1,D_FI_INT,Interest on DHSC loans. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0290C,SoCF,compare,published,1,D_FI_INT,Interest on other loans. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0290B,SoCF,compare,published,1,D_FI_INT,Other interest. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0295,SoCF,compare,published,1,D_FI_INT,Interest element of lease repayments. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0300,SoCF,compare,published,1,D_FI_INT,Interest element of PFI and service concession payments. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0305,SoCF,compare,published,1,D_FI_DIV,PDC dividend paid or refunded. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0310A,SoCF,compare,published,1,D_FI_BORR,Financing flows of discontinued operations. Set against the derived line of the same section that is closest to it; not forced to equal it.
+CFS0040,SoCF,compare,published,1,D_FI_BORR,Charitable fund financing flows. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0310,SoCF,compare,published,1,D_FI_BORR,Other financing flows. Set against the derived line of the same section that is closest to it; not forced to equal it.
+SCF0100,SoCF,not_used,,,,Operating surplus subtotal of the cash flow: its two lines are compared.
+SCF0180,SoCF,not_used,,,,Net cash from operations: the section subtotal; a test shows it equals the sum of the published operating lines.
+SCF0240,SoCF,not_used,,,,"Net cash from investing: the section subtotal, tested the same way."
+SCF0315,SoCF,not_used,,,,"Net cash from financing: the section subtotal, tested the same way."
+SCF0320,SoCF,not_used,,,,Increase or decrease in cash: the three section subtotals added; compared with the balance sheet cash movement in the tie table.
+SCF0325A,SoCF,not_used,,,,"Opening cash brought forward: part of the cash reconciliation, used in the tie table."
+SCF0325B,SoCF,not_used,,,,Prior period adjustments to opening cash: part of the cash reconciliation.
+SCF0325,SoCF,not_used,,,,Opening cash restated: a subtotal of the cash reconciliation.
+SCF0345,SoCF,not_used,,,,Cash at the start of the period for new foundation trusts: part of the cash reconciliation.
+SCF0350,SoCF,not_used,,,,Cash transferred by absorption: part of the cash reconciliation.
+SCF0115,SoCF,not_used,,,,Unrealised foreign exchange on cash: part of the cash reconciliation.
+SCF0340,SoCF,not_used,,,,Cash transferred on authorisation as a foundation trust: part of the cash reconciliation.
+SCF0355,SoCF,not_used,,,,"Cash at 31 March: the end of the cash reconciliation, compared with the balance sheet cash in the tie table."

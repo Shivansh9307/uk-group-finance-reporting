@@ -1,0 +1,67 @@
+release,tie_code,description,provider_years,provider_years_breaking_1k,max_abs_difference,left_total,right_total
+2019-20,CASH_RECONCILIATION,"Published closing cash against opening cash, the prior period adjustment, the increase and the four other reconciling lines",225,0,0.0001,6798789.0171,6798789.0172
+2019-20,CLOSING_CASH_VS_BALANCE_SHEET,Closing cash of the cash flow against the balance sheet cash and cash equivalents,225,4,23,6798789.0171,6798841.0546
+2019-20,DERIVED_TOTAL_VS_BALANCE_SHEET_MOVEMENT,Derived cash flow added over all its lines against the balance sheet cash movement of the year,225,3,1.3549,1003863.5335,1003867.3281
+2019-20,FINANCING_SECTION,Published net cash from financing against the sum of its published lines,225,0,0.0001,1167722.0435,1167722.0434
+2019-20,INVESTING_SECTION,Published net cash from investing against the sum of its published lines,225,0,0.0001,-4020065.5196,-4020065.5196
+2019-20,NET_CHANGE_AND_RECONCILING_ITEMS_VS_BALANCE_SHEET_MOVEMENT,"Published increase in cash plus the prior period adjustment and the four other reconciling lines, against the balance sheet cash movement",225,5,5115.4169,1008935.5992,1003867.3281
+2019-20,NET_CHANGE_FROM_SECTIONS,Published increase in cash against the three published section subtotals added,225,0,0.0001,979507.9992,979507.9987
+2019-20,NET_CHANGE_VS_BALANCE_SHEET_MOVEMENT,Published increase in cash against the balance sheet cash movement of the year,225,15,30354.2466,979507.9992,1003867.3281
+2019-20,OPERATING_SECTION,Published net cash from operations against the sum of its published lines,225,0,0.0002,3831851.4748,3831851.4753
+2019-20,SOCF_OPERATING_SURPLUS_VS_SOCI,Operating surplus the cash flow starts from against the income statement operating surplus,225,0,0,-56909.1906,-56909.1906
+2019-20,SOCI_SURPLUS_FROM_LINES,Surplus for the year against the income statement lines the derived cash flow uses as flows,225,0,0.0001,-1544027.1152,-1544027.1154
+2020-21,CASH_RECONCILIATION,"Published closing cash against opening cash, the prior period adjustment, the increase and the four other reconciling lines",219,0,0.0001,13772487.1984,13772487.1992
+2020-21,CLOSING_CASH_VS_BALANCE_SHEET,Closing cash of the cash flow against the balance sheet cash and cash equivalents,219,2,12166,13772487.1984,13787317.0938
+2020-21,DERIVED_TOTAL_VS_BALANCE_SHEET_MOVEMENT,Derived cash flow added over all its lines against the balance sheet cash movement of the year,219,1,1.2914,6979525.8265,6979531.5866
+2020-21,FINANCING_SECTION,Published net cash from financing against the sum of its published lines,219,0,0.0001,2003186.7347,2003186.7346
+2020-21,INVESTING_SECTION,Published net cash from investing against the sum of its published lines,219,0,0.0001,-6150481.0883,-6150481.0884
+2020-21,NET_CHANGE_AND_RECONCILING_ITEMS_VS_BALANCE_SHEET_MOVEMENT,"Published increase in cash plus the prior period adjustment and the four other reconciling lines, against the balance sheet cash movement",219,6,2665.7646,6977654.5084,6979531.5866
+2020-21,NET_CHANGE_FROM_SECTIONS,Published increase in cash against the three published section subtotals added,219,0,0.0001,6951988.0244,6951988.0242
+2020-21,NET_CHANGE_VS_BALANCE_SHEET_MOVEMENT,Published increase in cash against the balance sheet cash movement of the year,219,19,128055.8909,6951988.0244,6979531.5866
+2020-21,OPERATING_SECTION,Published net cash from operations against the sum of its published lines,219,0,0.0002,11099282.3778,11099282.3768
+2020-21,SOCF_OPERATING_SURPLUS_VS_SOCI,Operating surplus the cash flow starts from against the income statement operating surplus,219,0,0,845590.2012,845590.2012
+2020-21,SOCI_SURPLUS_FROM_LINES,Surplus for the year against the income statement lines the derived cash flow uses as flows,219,0,0.0001,-546639.3153,-546639.3155
+2021-22,CASH_RECONCILIATION,"Published closing cash against opening cash, the prior period adjustment, the increase and the four other reconciling lines",215,0,0.0001,15578702.3715,15578702.3721
+2021-22,CLOSING_CASH_VS_BALANCE_SHEET,Closing cash of the cash flow against the balance sheet cash and cash equivalents,215,2,134.6524,15578702.3715,15578837.5704
+2021-22,DERIVED_TOTAL_VS_BALANCE_SHEET_MOVEMENT,Derived cash flow added over all its lines against the balance sheet cash movement of the year,215,3,1.6231,1837604.705,1837602.4766
+2021-22,FINANCING_SECTION,Published net cash from financing against the sum of its published lines,215,0,0.0001,833485.9764,833485.9764
+2021-22,INVESTING_SECTION,Published net cash from investing against the sum of its published lines,215,0,0.0001,-6665196.5583,-6665196.5585
+2021-22,NET_CHANGE_AND_RECONCILING_ITEMS_VS_BALANCE_SHEET_MOVEMENT,"Published increase in cash plus the prior period adjustment and the four other reconciling lines, against the balance sheet cash movement",215,4,12167,1852298.4564,1837602.4766
+2021-22,NET_CHANGE_FROM_SECTIONS,Published increase in cash against the three published section subtotals added,215,0,0.0001,1803767.4564,1803767.4565
+2021-22,NET_CHANGE_VS_BALANCE_SHEET_MOVEMENT,Published increase in cash against the balance sheet cash movement of the year,215,12,64378.2734,1803767.4564,1837602.4766
+2021-22,OPERATING_SECTION,Published net cash from operations against the sum of its published lines,215,0,0.0001,7635478.0384,7635478.0383
+2021-22,SOCF_OPERATING_SURPLUS_VS_SOCI,Operating surplus the cash flow starts from against the income statement operating surplus,215,0,0,1690111.7933,1690111.7933
+2021-22,SOCI_SURPLUS_FROM_LINES,Surplus for the year against the income statement lines the derived cash flow uses as flows,215,0,0.0001,476615.5476,476615.5478
+2022-23,CASH_RECONCILIATION,"Published closing cash against opening cash, the prior period adjustment, the increase and the four other reconciling lines",212,0,0.0001,12845510.4471,12845510.4463
+2022-23,CLOSING_CASH_VS_BALANCE_SHEET,Closing cash of the cash flow against the balance sheet cash and cash equivalents,212,1,3,12845510.4471,12845517.8537
+2022-23,DERIVED_TOTAL_VS_BALANCE_SHEET_MOVEMENT,Derived cash flow added over all its lines against the balance sheet cash movement of the year,212,5,1.7263,-2714264.9349,-2714269.6703
+2022-23,FINANCING_SECTION,Published net cash from financing against the sum of its published lines,212,0,0.0001,74634.003,74634.0029
+2022-23,INVESTING_SECTION,Published net cash from investing against the sum of its published lines,212,0,0.0001,-6776096.4734,-6776096.4734
+2022-23,NET_CHANGE_AND_RECONCILING_ITEMS_VS_BALANCE_SHEET_MOVEMENT,"Published increase in cash plus the prior period adjustment and the four other reconciling lines, against the balance sheet cash movement",212,2,134.57,-2714141.0406,-2714269.6703
+2022-23,NET_CHANGE_FROM_SECTIONS,Published increase in cash against the three published section subtotals added,212,0,0.0001,-2734867.0406,-2734867.0407
+2022-23,NET_CHANGE_VS_BALANCE_SHEET_MOVEMENT,Published increase in cash against the balance sheet cash movement of the year,212,4,20345,-2734867.0406,-2714269.6703
+2022-23,OPERATING_SECTION,Published net cash from operations against the sum of its published lines,212,0,0.0001,3966595.4297,3966595.4291
+2022-23,SOCF_OPERATING_SURPLUS_VS_SOCI,Operating surplus the cash flow starts from against the income statement operating surplus,212,0,0,210692.8285,210692.8285
+2022-23,SOCI_SURPLUS_FROM_LINES,Surplus for the year against the income statement lines the derived cash flow uses as flows,212,0,0.0001,-1398861.9811,-1398861.9809
+2023-24,CASH_RECONCILIATION,"Published closing cash against opening cash, the prior period adjustment, the increase and the four other reconciling lines",206,0,0.0001,10412724.73,10412724.7297
+2023-24,CLOSING_CASH_VS_BALANCE_SHEET,Closing cash of the cash flow against the balance sheet cash and cash equivalents,206,2,269.9941,10412724.73,10413000.7129
+2023-24,DERIVED_TOTAL_VS_BALANCE_SHEET_MOVEMENT,Derived cash flow added over all its lines against the balance sheet cash movement of the year,206,6,1.5404,-1895960.1075,-1895957.47
+2023-24,FINANCING_SECTION,Published net cash from financing against the sum of its published lines,206,0,0.0001,1059336.4863,1059336.4863
+2023-24,INVESTING_SECTION,Published net cash from investing against the sum of its published lines,206,0,0.0001,-6252954.3045,-6252954.3046
+2023-24,NET_CHANGE_AND_RECONCILING_ITEMS_VS_BALANCE_SHEET_MOVEMENT,"Published increase in cash plus the prior period adjustment and the four other reconciling lines, against the balance sheet cash movement",206,4,270,-1896226.5392,-1895957.47
+2023-24,NET_CHANGE_FROM_SECTIONS,Published increase in cash against the three published section subtotals added,206,0,0.0001,-1918005.5392,-1918005.5392
+2023-24,NET_CHANGE_VS_BALANCE_SHEET_MOVEMENT,Published increase in cash against the balance sheet cash movement of the year,206,8,21878,-1918005.5392,-1895957.47
+2023-24,OPERATING_SECTION,Published net cash from operations against the sum of its published lines,206,0,0.0001,3275612.279,3275612.2791
+2023-24,SOCF_OPERATING_SURPLUS_VS_SOCI,Operating surplus the cash flow starts from against the income statement operating surplus,206,0,0,-1634349.5251,-1634349.5251
+2023-24,SOCI_SURPLUS_FROM_LINES,Surplus for the year against the income statement lines the derived cash flow uses as flows,206,0,0.0001,-4295212.6756,-4295212.6757
+2024-25,CASH_RECONCILIATION,"Published closing cash against opening cash, the prior period adjustment, the increase and the four other reconciling lines",207,0,0.0001,9633774.7868,9633774.7872
+2024-25,CLOSING_CASH_VS_BALANCE_SHEET,Closing cash of the cash flow against the balance sheet cash and cash equivalents,207,1,7,9633774.7868,9633778.7198
+2024-25,DERIVED_TOTAL_VS_BALANCE_SHEET_MOVEMENT,Derived cash flow added over all its lines against the balance sheet cash movement of the year,207,2,1.2323,-729904.3078,-729907.9931
+2024-25,FINANCING_SECTION,Published net cash from financing against the sum of its published lines,207,0,0.0001,745429.6517,745429.652
+2024-25,INVESTING_SECTION,Published net cash from investing against the sum of its published lines,207,0,0.0001,-6643867.4865,-6643867.4862
+2024-25,NET_CHANGE_AND_RECONCILING_ITEMS_VS_BALANCE_SHEET_MOVEMENT,"Published increase in cash plus the prior period adjustment and the four other reconciling lines, against the balance sheet cash movement",207,2,270,-729636.0496,-729907.9931
+2024-25,NET_CHANGE_FROM_SECTIONS,Published increase in cash against the three published section subtotals added,207,0,0.0001,-728649.0496,-728649.0503
+2024-25,NET_CHANGE_VS_BALANCE_SHEET_MOVEMENT,Published increase in cash against the balance sheet cash movement of the year,207,14,51484.88,-728649.0496,-729907.9931
+2024-25,OPERATING_SECTION,Published net cash from operations against the sum of its published lines,207,0,0.0002,5169788.7845,5169788.7852
+2024-25,SOCF_OPERATING_SURPLUS_VS_SOCI,Operating surplus the cash flow starts from against the income statement operating surplus,207,0,0,-1301043.5554,-1301043.5554
+2024-25,SOCI_SURPLUS_FROM_LINES,Surplus for the year against the income statement lines the derived cash flow uses as flows,207,0,0.0002,-3189548.0646,-3189548.0649

@@ -1,0 +1,49 @@
+release,statement,printed_line,label,amount_gbp_million,next_report_comparative_gbp_million,source_report,pdf_page,printed_page,note
+2019-20,SoCI,TOTAL_OPERATING_INCOME,Total operating income,92001,92001,Consolidated NHS provider accounts 2019/20,48,45,As printed; the before and after columns of the statement agree on income.
+2019-20,SoCI,OPERATING_EXPENSES,Operating expenses,-92184,-92184,Consolidated NHS provider accounts 2019/20,48,45,"The column after revaluations, impairments and transfers, which is what the provider income statements report; the column before them is smaller in size."
+2019-20,SoFP,TOTAL_NON_CURRENT_ASSETS,Total non-current assets,49105,49105,Consolidated NHS provider accounts 2019/20,49,46,As printed.
+2019-20,SoFP,TOTAL_CURRENT_ASSETS,Total current assets,14653,14653,Consolidated NHS provider accounts 2019/20,49,46,As printed.
+2019-20,SoFP,TOTAL_CURRENT_LIABILITIES,Total current liabilities,-25121,-25121,Consolidated NHS provider accounts 2019/20,49,46,As printed.
+2019-20,SoFP,TOTAL_NON_CURRENT_LIABILITIES,Total non-current liabilities,-12377,-12377,Consolidated NHS provider accounts 2019/20,49,46,As printed.
+2019-20,SoFP,TOTAL_ASSETS_EMPLOYED,Total assets employed,26260,26260,Consolidated NHS provider accounts 2019/20,49,46,"As printed. Used only to check that the four printed totals above add up (assets plus liabilities), not as a control line."
+2019-20,SoFP,CASH_AND_CASH_EQUIVALENTS,Cash and cash equivalents,6832,6832,Consolidated NHS provider accounts 2019/20,49,46,As printed on the statement of financial position (the cash flow statement nets overdrafts).
+2020-21,SoCI,TOTAL_OPERATING_INCOME,Total operating income,105268,105268,Consolidated NHS provider accounts 2020/21,47,43,As printed; the before and after columns of the statement agree on income.
+2020-21,SoCI,OPERATING_EXPENSES,Operating expenses,-104433,-104433,Consolidated NHS provider accounts 2020/21,47,43,"The column after revaluations, impairments and transfers, which is what the provider income statements report; the column before them is smaller in size."
+2020-21,SoFP,TOTAL_NON_CURRENT_ASSETS,Total non-current assets,52391,52391,Consolidated NHS provider accounts 2020/21,48,44,As printed.
+2020-21,SoFP,TOTAL_CURRENT_ASSETS,Total current assets,19223,19223,Consolidated NHS provider accounts 2020/21,48,44,As printed.
+2020-21,SoFP,TOTAL_CURRENT_LIABILITIES,Total current liabilities,-16305,-16305,Consolidated NHS provider accounts 2020/21,48,44,As printed.
+2020-21,SoFP,TOTAL_NON_CURRENT_LIABILITIES,Total non-current liabilities,-12130,-12130,Consolidated NHS provider accounts 2020/21,48,44,As printed.
+2020-21,SoFP,TOTAL_ASSETS_EMPLOYED,Total assets employed,43179,43179,Consolidated NHS provider accounts 2020/21,48,44,"As printed. Used only to check that the four printed totals above add up (assets plus liabilities), not as a control line."
+2020-21,SoFP,CASH_AND_CASH_EQUIVALENTS,Cash and cash equivalents,13787,13787,Consolidated NHS provider accounts 2020/21,48,44,As printed on the statement of financial position (the cash flow statement nets overdrafts).
+2021-22,SoCI,TOTAL_OPERATING_INCOME,Total operating income,112596,112596,Consolidated NHS provider accounts 2021/22,43,39,As printed; the before and after columns of the statement agree on income.
+2021-22,SoCI,OPERATING_EXPENSES,Operating expenses,-110912,-110912,Consolidated NHS provider accounts 2021/22,43,39,"The column after revaluations, impairments and transfers, which is what the provider income statements report; the column before them is smaller in size."
+2021-22,SoFP,TOTAL_NON_CURRENT_ASSETS,Total non-current assets,57320,57320,Consolidated NHS provider accounts 2021/22,44,40,As printed.
+2021-22,SoFP,TOTAL_CURRENT_ASSETS,Total current assets,20975,20975,Consolidated NHS provider accounts 2021/22,44,40,As printed.
+2021-22,SoFP,TOTAL_CURRENT_LIABILITIES,Total current liabilities,-18955,-18955,Consolidated NHS provider accounts 2021/22,44,40,As printed.
+2021-22,SoFP,TOTAL_NON_CURRENT_LIABILITIES,Total non-current liabilities,-11836,-11836,Consolidated NHS provider accounts 2021/22,44,40,As printed.
+2021-22,SoFP,TOTAL_ASSETS_EMPLOYED,Total assets employed,47504,47504,Consolidated NHS provider accounts 2021/22,44,40,"As printed. Used only to check that the four printed totals above add up (assets plus liabilities), not as a control line."
+2021-22,SoFP,CASH_AND_CASH_EQUIVALENTS,Cash and cash equivalents,15579,15579,Consolidated NHS provider accounts 2021/22,44,40,As printed on the statement of financial position (the cash flow statement nets overdrafts).
+2022-23,SoCI,TOTAL_OPERATING_INCOME,Total operating income,121202,121202,Consolidated NHS provider accounts 2022/23,49,45,As printed; the before and after columns of the statement agree on income.
+2022-23,SoCI,OPERATING_EXPENSES,Operating expenses,-120996,-120996,Consolidated NHS provider accounts 2022/23,49,45,"The column after revaluations, impairments and transfers, which is what the provider income statements report; the column before them is smaller in size."
+2022-23,SoFP,TOTAL_NON_CURRENT_ASSETS,Total non-current assets,68048,68048,Consolidated NHS provider accounts 2022/23,50,46,As printed.
+2022-23,SoFP,TOTAL_CURRENT_ASSETS,Total current assets,21163,21163,Consolidated NHS provider accounts 2022/23,50,46,As printed.
+2022-23,SoFP,TOTAL_CURRENT_LIABILITIES,Total current liabilities,-21671,-21671,Consolidated NHS provider accounts 2022/23,50,46,As printed.
+2022-23,SoFP,TOTAL_NON_CURRENT_LIABILITIES,Total non-current liabilities,-15800,-15800,Consolidated NHS provider accounts 2022/23,50,46,As printed.
+2022-23,SoFP,TOTAL_ASSETS_EMPLOYED,Total assets employed,51740,51740,Consolidated NHS provider accounts 2022/23,50,46,"As printed. Used only to check that the four printed totals above add up (assets plus liabilities), not as a control line."
+2022-23,SoFP,CASH_AND_CASH_EQUIVALENTS,Cash and cash equivalents,12846,12846,Consolidated NHS provider accounts 2022/23,50,46,As printed on the statement of financial position (the cash flow statement nets overdrafts).
+2023-24,SoCI,TOTAL_OPERATING_INCOME,Total operating income,128911,128911,Consolidated NHS provider accounts 2023/24,53,49,As printed; the before and after columns of the statement agree on income.
+2023-24,SoCI,OPERATING_EXPENSES,Operating expenses,-130563,-130563,Consolidated NHS provider accounts 2023/24,53,49,"The column after revaluations, impairments and transfers, which is what the provider income statements report; the column before them is smaller in size."
+2023-24,SoFP,TOTAL_NON_CURRENT_ASSETS,Total non-current assets,69605,69605,Consolidated NHS provider accounts 2023/24,54,50,As printed.
+2023-24,SoFP,TOTAL_CURRENT_ASSETS,Total current assets,18017,18017,Consolidated NHS provider accounts 2023/24,54,50,As printed.
+2023-24,SoFP,TOTAL_CURRENT_LIABILITIES,Total current liabilities,-19761,-19761,Consolidated NHS provider accounts 2023/24,54,50,As printed.
+2023-24,SoFP,TOTAL_NON_CURRENT_LIABILITIES,Total non-current liabilities,-21441,-21441,Consolidated NHS provider accounts 2023/24,54,50,As printed.
+2023-24,SoFP,TOTAL_ASSETS_EMPLOYED,Total assets employed,46420,46420,Consolidated NHS provider accounts 2023/24,54,50,"As printed. Used only to check that the four printed totals above add up (assets plus liabilities), not as a control line."
+2023-24,SoFP,CASH_AND_CASH_EQUIVALENTS,Cash and cash equivalents,10802,10802,Consolidated NHS provider accounts 2023/24,54,50,As printed on the statement of financial position (the cash flow statement nets overdrafts).
+2024-25,SoCI,TOTAL_OPERATING_INCOME,Total operating income,140881,,Consolidated NHS provider accounts 2024/25,47,43,As printed; the before and after columns of the statement agree on income.
+2024-25,SoCI,OPERATING_EXPENSES,Operating expenses,-142179,,Consolidated NHS provider accounts 2024/25,47,43,"The column after revaluations, impairments and transfers, which is what the provider income statements report; the column before them is smaller in size."
+2024-25,SoFP,TOTAL_NON_CURRENT_ASSETS,Total non-current assets,70578,,Consolidated NHS provider accounts 2024/25,48,44,As printed.
+2024-25,SoFP,TOTAL_CURRENT_ASSETS,Total current assets,17280,,Consolidated NHS provider accounts 2024/25,48,44,As printed.
+2024-25,SoFP,TOTAL_CURRENT_LIABILITIES,Total current liabilities,-19209,,Consolidated NHS provider accounts 2024/25,48,44,As printed.
+2024-25,SoFP,TOTAL_NON_CURRENT_LIABILITIES,Total non-current liabilities,-20940,,Consolidated NHS provider accounts 2024/25,48,44,As printed.
+2024-25,SoFP,TOTAL_ASSETS_EMPLOYED,Total assets employed,47709,,Consolidated NHS provider accounts 2024/25,48,44,"As printed. Used only to check that the four printed totals above add up (assets plus liabilities), not as a control line."
+2024-25,SoFP,CASH_AND_CASH_EQUIVALENTS,Cash and cash equivalents,9977,,Consolidated NHS provider accounts 2024/25,48,44,As printed on the statement of financial position (the cash flow statement nets overdrafts).

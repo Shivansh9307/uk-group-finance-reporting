@@ -26,6 +26,7 @@ FACTS = [
     ("dw.fact_outturn", "amount_delta", ("committed", "full")),
     ("dw.fact_plan", "amount", ("committed", "full")),
     ("dw.fact_outturn_annual", "amount", ("full",)),
+    ("dw.tac_fact", "value", ("full",)),
 ]
 
 

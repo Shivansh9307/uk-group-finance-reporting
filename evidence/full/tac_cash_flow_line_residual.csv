@@ -1,0 +1,133 @@
+release,cash_flow_line_key,line_code,label,section,sort_order,line_kind,derived_total,published_total,residual,providers
+2019-20,1,D_OP_SURPLUS,Operating surplus,Operating activities,1,compared,-56909.1909,-56909.1906,-0.0003,225
+2019-20,2,D_OP_DISC,Discontinued operations,Operating activities,2,compared,0,0,0,225
+2019-20,3,D_OP_GAINS,"Other gains, joint ventures and absorption gains in the surplus",Operating activities,3,derived_only,219765.2021,0,219765.2021,225
+2019-20,4,D_OP_TAX,Corporation tax,Operating activities,4,compared,540.7301,-5507.8188,6048.5489,225
+2019-20,5,D_OP_INV,Inventories,Operating activities,5,compared,-90856.4315,-82544.5863,-8311.8452,225
+2019-20,6,D_OP_REC,Receivables,Operating activities,6,compared,-299814.4266,-213436.8864,-86377.5402,225
+2019-20,7,D_OP_OA,Other assets,Operating activities,7,compared,1121.935,3376.935,-2255,225
+2019-20,8,D_OP_PAY,Trade and other payables,Operating activities,8,compared,1123428.5144,769714.2463,353714.2681,225
+2019-20,9,D_OP_OL,Other liabilities,Operating activities,9,compared,101611.329,111383.329,-9772,225
+2019-20,10,D_OP_PROV,Provisions,Operating activities,10,compared,143231.7425,138845.7712,4385.9713,225
+2019-20,11,D_OP_NONCASH,Non-cash adjustments and other operating items,Operating activities,11,published_only,0,3166929.6759,-3166929.6759,225
+2019-20,12,D_IN_INT,Interest received,Investing activities,12,compared,64306.3262,57946.3643,6359.9619,225
+2019-20,13,D_IN_INTANG,Intangible assets,Investing activities,13,compared,-146226.7209,-372102.8593,225876.1384,225
+2019-20,14,D_IN_PPE,"Property, plant and equipment, right of use assets and investment property",Investing activities,14,compared,-1761186.194,-3718303.3983,1957117.2043,225
+2019-20,15,D_IN_FIN,Investments and other financial assets,Investing activities,15,compared,34352.0377,7469,26883.0377,225
+2019-20,16,D_IN_DISP,"Assets held for sale, disposal groups and business units",Investing activities,16,compared,-19289.6155,4925.3737,-24214.9892,225
+2019-20,17,D_IN_REVAL,Revaluation and fair value reserves,Investing activities,17,derived_only,308520.9441,0,308520.9441,225
+2019-20,18,D_FI_PDC,Public dividend capital,Financing activities,18,compared,1023990.2037,880428.2037,143562,225
+2019-20,19,D_FI_BORR,Borrowings and other financial liabilities,Financing activities,19,compared,2213005.7482,2030975.5969,182030.1513,225
+2019-20,20,D_FI_INT,Finance expense,Financing activities,20,compared,-1165260.9327,-1148781.8572,-16479.0755,225
+2019-20,21,D_FI_DIV,PDC dividend,Financing activities,21,compared,-606469.2502,-594899.9,-11569.3502,225
+2019-20,22,D_NC_RES,Other reserve movements and rounding,Reserve movements (not cash),22,derived_only,-83998.4172,0,-83998.4172,225
+2020-21,1,D_OP_SURPLUS,Operating surplus,Operating activities,1,compared,845590.2012,845590.2012,0,219
+2020-21,2,D_OP_DISC,Discontinued operations,Operating activities,2,compared,0,0,0,219
+2020-21,3,D_OP_GAINS,"Other gains, joint ventures and absorption gains in the surplus",Operating activities,3,derived_only,267681.7241,0,267681.7241,219
+2020-21,4,D_OP_TAX,Corporation tax,Operating activities,4,compared,-11003.608,-8230.9903,-2772.6177,219
+2020-21,5,D_OP_INV,Inventories,Operating activities,5,compared,-79821.7666,-57694.3264,-22127.4402,219
+2020-21,6,D_OP_REC,Receivables,Operating activities,6,compared,2669353.2404,2864175.6569,-194822.4165,219
+2020-21,7,D_OP_OA,Other assets,Operating activities,7,compared,-2590.0132,3252,-5842.0132,219
+2020-21,8,D_OP_PAY,Trade and other payables,Operating activities,8,compared,3686606.8409,2689443.8098,997163.0311,219
+2020-21,9,D_OP_OL,Other liabilities,Operating activities,9,compared,627343.5313,579471.5316,47871.9997,219
+2020-21,10,D_OP_PROV,Provisions,Operating activities,10,compared,434040.9002,398452.7625,35588.1377,219
+2020-21,11,D_OP_NONCASH,Non-cash adjustments and other operating items,Operating activities,11,published_only,0,3784821.7315,-3784821.7315,219
+2020-21,12,D_IN_INT,Interest received,Investing activities,12,compared,8556.979,3487.9775,5069.0015,219
+2020-21,13,D_IN_INTANG,Intangible assets,Investing activities,13,compared,-303608.4368,-545589.7967,241981.3599,219
+2020-21,14,D_IN_PPE,"Property, plant and equipment, right of use assets and investment property",Investing activities,14,compared,-3883014.6894,-5615517.6672,1732502.9778,219
+2020-21,15,D_IN_FIN,Investments and other financial assets,Investing activities,15,compared,-46098.0553,7718,-53816.0553,219
+2020-21,16,D_IN_DISP,"Assets held for sale, disposal groups and business units",Investing activities,16,compared,4816.191,-579.602,5395.793,219
+2020-21,17,D_IN_REVAL,Revaluation and fair value reserves,Investing activities,17,derived_only,90264.2383,0,90264.2383,219
+2020-21,18,D_FI_PDC,Public dividend capital,Financing activities,18,compared,17978442.3725,17816070.892,162371.4805,219
+2020-21,19,D_FI_BORR,Borrowings and other financial liabilities,Financing activities,19,compared,-13304790.3252,-14031759.237,726968.9118,219
+2020-21,20,D_FI_INT,Finance expense,Financing activities,20,compared,-921291.6981,-956901.9304,35610.2323,219
+2020-21,21,D_FI_DIV,PDC dividend,Financing activities,21,compared,-736172.9137,-824222.99,88050.0763,219
+2020-21,22,D_NC_RES,Other reserve movements and rounding,Reserve movements (not cash),22,derived_only,-344778.8861,0,-344778.8861,219
+2021-22,1,D_OP_SURPLUS,Operating surplus,Operating activities,1,compared,1690111.7934,1690111.7933,0.0001,215
+2021-22,2,D_OP_DISC,Discontinued operations,Operating activities,2,compared,0,0,0,215
+2021-22,3,D_OP_GAINS,"Other gains, joint ventures and absorption gains in the surplus",Operating activities,3,derived_only,588137.4626,0,588137.4626,215
+2021-22,4,D_OP_TAX,Corporation tax,Operating activities,4,compared,-7803.0719,-10288.4512,2485.3793,215
+2021-22,5,D_OP_INV,Inventories,Operating activities,5,compared,-24710.0317,-14832.2959,-9877.7358,215
+2021-22,6,D_OP_REC,Receivables,Operating activities,6,compared,-118851.19,-191934.4099,73083.2199,215
+2021-22,7,D_OP_OA,Other assets,Operating activities,7,compared,-1077.9188,1732.001,-2809.9198,215
+2021-22,8,D_OP_PAY,Trade and other payables,Operating activities,8,compared,2105446.1595,1879250.4108,226195.7487,215
+2021-22,9,D_OP_OL,Other liabilities,Operating activities,9,compared,551590.1156,554555.1156,-2965,215
+2021-22,10,D_OP_PROV,Provisions,Operating activities,10,compared,346630.9506,343147.694,3483.2566,215
+2021-22,11,D_OP_NONCASH,Non-cash adjustments and other operating items,Operating activities,11,published_only,0,3383736.1806,-3383736.1806,215
+2021-22,12,D_IN_INT,Interest received,Investing activities,12,compared,16911.1836,10662.2166,6248.967,215
+2021-22,13,D_IN_INTANG,Intangible assets,Investing activities,13,compared,-356842.214,-605171.7065,248329.4925,215
+2021-22,14,D_IN_PPE,"Property, plant and equipment, right of use assets and investment property",Investing activities,14,compared,-5122821.5784,-6050352.4356,927530.8572,215
+2021-22,15,D_IN_FIN,Investments and other financial assets,Investing activities,15,compared,-46325.3657,-17786,-28539.3657,215
+2021-22,16,D_IN_DISP,"Assets held for sale, disposal groups and business units",Investing activities,16,compared,-5353.235,-2548.633,-2804.602,215
+2021-22,17,D_IN_REVAL,Revaluation and fair value reserves,Investing activities,17,derived_only,1296842.6988,0,1296842.6988,215
+2021-22,18,D_FI_PDC,Public dividend capital,Financing activities,18,compared,3632470.3966,3038935.47,593534.9266,215
+2021-22,19,D_FI_BORR,Borrowings and other financial liabilities,Financing activities,19,compared,-396783.103,-495973.1097,99190.0067,215
+2021-22,20,D_FI_INT,Finance expense,Financing activities,20,compared,-906428.6709,-894981.6339,-11447.037,215
+2021-22,21,D_FI_DIV,PDC dividend,Financing activities,21,compared,-904313.149,-814494.75,-89818.399,215
+2021-22,22,D_NC_RES,Other reserve movements and rounding,Reserve movements (not cash),22,derived_only,-499226.5273,0,-499226.5273,215
+2022-23,1,D_OP_SURPLUS,Operating surplus,Operating activities,1,compared,210692.8289,210692.8285,0.0004,212
+2022-23,2,D_OP_DISC,Discontinued operations,Operating activities,2,compared,0,0,0,212
+2022-23,3,D_OP_GAINS,"Other gains, joint ventures and absorption gains in the surplus",Operating activities,3,derived_only,137882.6315,0,137882.6315,212
+2022-23,4,D_OP_TAX,Corporation tax,Operating activities,4,compared,-10682.737,-8946.5873,-1736.1497,212
+2022-23,5,D_OP_INV,Inventories,Operating activities,5,compared,-141052.1142,-138000.1143,-3051.9999,212
+2022-23,6,D_OP_REC,Receivables,Operating activities,6,compared,-3015776.3645,-2992979.4435,-22796.921,212
+2022-23,7,D_OP_OA,Other assets,Operating activities,7,compared,-24536.9464,2258.1706,-26795.117,212
+2022-23,8,D_OP_PAY,Trade and other payables,Operating activities,8,compared,2518949.5614,2503637.5174,15312.044,212
+2022-23,9,D_OP_OL,Other liabilities,Operating activities,9,compared,-157429.9451,-89673.9453,-67755.9998,212
+2022-23,10,D_OP_PROV,Provisions,Operating activities,10,compared,-251992.2957,-272238.2014,20245.9057,212
+2022-23,11,D_OP_NONCASH,Non-cash adjustments and other operating items,Operating activities,11,published_only,0,4751845.2044,-4751845.2044,212
+2022-23,12,D_IN_INT,Interest received,Investing activities,12,compared,311726.141,290981.3014,20744.8396,212
+2022-23,13,D_IN_INTANG,Intangible assets,Investing activities,13,compared,-183303.2624,-537476.8332,354173.5708,212
+2022-23,14,D_IN_PPE,"Property, plant and equipment, right of use assets and investment property",Investing activities,14,compared,-11043859.9882,-6515433.7286,-4528426.2596,212
+2022-23,15,D_IN_FIN,Investments and other financial assets,Investing activities,15,compared,-37654.622,-22110.201,-15544.421,212
+2022-23,16,D_IN_DISP,"Assets held for sale, disposal groups and business units",Investing activities,16,compared,8596.7244,7942.988,653.7364,212
+2022-23,17,D_IN_REVAL,Revaluation and fair value reserves,Investing activities,17,derived_only,1742464.8579,0,1742464.8579,212
+2022-23,18,D_FI_PDC,Public dividend capital,Financing activities,18,compared,3584235.3291,3472403.1568,111832.1723,212
+2022-23,19,D_FI_BORR,Borrowings and other financial liabilities,Financing activities,19,compared,5304633.9988,-1357523.9194,6662157.9182,212
+2022-23,20,D_FI_INT,Finance expense,Financing activities,20,compared,-1007549.0543,-1022955.6663,15406.612,212
+2022-23,21,D_FI_DIV,PDC dividend,Financing activities,21,compared,-1040931.791,-1017289.5682,-23642.2228,212
+2022-23,22,D_NC_RES,Other reserve movements and rounding,Reserve movements (not cash),22,derived_only,381322.1129,0,381322.1129,212
+2023-24,1,D_OP_SURPLUS,Operating surplus,Operating activities,1,compared,-1634349.5251,-1634349.5251,0,206
+2023-24,2,D_OP_DISC,Discontinued operations,Operating activities,2,compared,0,0,0,206
+2023-24,3,D_OP_GAINS,"Other gains, joint ventures and absorption gains in the surplus",Operating activities,3,derived_only,98326.3718,0,98326.3718,206
+2023-24,4,D_OP_TAX,Corporation tax,Operating activities,4,compared,-16075.112,-9419.5839,-6655.5281,206
+2023-24,5,D_OP_INV,Inventories,Operating activities,5,compared,-87758.5239,-84307.9237,-3450.6002,206
+2023-24,6,D_OP_REC,Receivables,Operating activities,6,compared,1341845.0981,1407350.1198,-65505.0217,206
+2023-24,7,D_OP_OA,Other assets,Operating activities,7,compared,6282.2784,2416.8784,3865.4,206
+2023-24,8,D_OP_PAY,Trade and other payables,Operating activities,8,compared,-2054178.1481,-2248696.8833,194518.7352,206
+2023-24,9,D_OP_OL,Other liabilities,Operating activities,9,compared,-176623.8284,-162341.3284,-14282.5,206
+2023-24,10,D_OP_PROV,Provisions,Operating activities,10,compared,-23822.5696,-65216.2711,41393.7015,206
+2023-24,11,D_OP_NONCASH,Non-cash adjustments and other operating items,Operating activities,11,published_only,0,6070176.7964,-6070176.7964,206
+2023-24,12,D_IN_INT,Interest received,Investing activities,12,compared,653773.9737,640889.5674,12884.4063,206
+2023-24,13,D_IN_INTANG,Intangible assets,Investing activities,13,compared,-62957.8759,-497738.1398,434780.2639,206
+2023-24,14,D_IN_PPE,"Property, plant and equipment, right of use assets and investment property",Investing activities,14,compared,-1638484.4182,-6371428.7622,4732944.344,206
+2023-24,15,D_IN_FIN,Investments and other financial assets,Investing activities,15,compared,7471.6762,19077,-11605.3238,206
+2023-24,16,D_IN_DISP,"Assets held for sale, disposal groups and business units",Investing activities,16,compared,-12771.0314,-43753.97,30982.9386,206
+2023-24,17,D_IN_REVAL,Revaluation and fair value reserves,Investing activities,17,derived_only,-372031.9656,0,-372031.9656,206
+2023-24,18,D_FI_PDC,Public dividend capital,Financing activities,18,compared,4819352.0071,4729310.0071,90042,206
+2023-24,19,D_FI_BORR,Borrowings and other financial liabilities,Financing activities,19,compared,5727583.845,-1663487.4631,7391071.3081,206
+2023-24,20,D_FI_INT,Finance expense,Financing activities,20,compared,-2386401.9452,-895649.1577,-1490752.7875,206
+2023-24,21,D_FI_DIV,PDC dividend,Financing activities,21,compared,-1010486.4389,-1110836.9,100350.4611,206
+2023-24,22,D_NC_RES,Other reserve movements and rounding,Reserve movements (not cash),22,derived_only,-5074653.9755,0,-5074653.9755,206
+2024-25,1,D_OP_SURPLUS,Operating surplus,Operating activities,1,compared,-1301043.5553,-1301043.5554,0.0001,207
+2024-25,2,D_OP_DISC,Discontinued operations,Operating activities,2,compared,7677,7684,-7,207
+2024-25,3,D_OP_GAINS,"Other gains, joint ventures and absorption gains in the surplus",Operating activities,3,derived_only,13006.4587,0,13006.4587,207
+2024-25,4,D_OP_TAX,Corporation tax,Operating activities,4,compared,-12996.2774,-14499.6182,1503.3408,207
+2024-25,5,D_OP_INV,Inventories,Operating activities,5,compared,-77063.1551,-77098.5952,35.4401,207
+2024-25,6,D_OP_REC,Receivables,Operating activities,6,compared,-372409.0128,-386628.2588,14219.246,207
+2024-25,7,D_OP_OA,Other assets,Operating activities,7,compared,13922.015,-4034.0619,17956.0769,207
+2024-25,8,D_OP_PAY,Trade and other payables,Operating activities,8,compared,14969.8936,224149.6073,-209179.7137,207
+2024-25,9,D_OP_OL,Other liabilities,Operating activities,9,compared,14617.6373,26751.8134,-12134.1761,207
+2024-25,10,D_OP_PROV,Provisions,Operating activities,10,compared,-128045.2828,-153160.1826,25114.8998,207
+2024-25,11,D_OP_NONCASH,Non-cash adjustments and other operating items,Operating activities,11,published_only,0,6847667.6366,-6847667.6366,207
+2024-25,12,D_IN_INT,Interest received,Investing activities,12,compared,610752.7906,603122.5423,7630.2483,207
+2024-25,13,D_IN_INTANG,Intangible assets,Investing activities,13,compared,-70846.5251,-593640.9386,522794.4135,207
+2024-25,14,D_IN_PPE,"Property, plant and equipment, right of use assets and investment property",Investing activities,14,compared,-819944.2426,-6667372.1534,5847427.9108,207
+2024-25,15,D_IN_FIN,Investments and other financial assets,Investing activities,15,compared,-13041.4088,3653.4377,-16694.8465,207
+2024-25,16,D_IN_DISP,"Assets held for sale, disposal groups and business units",Investing activities,16,compared,-44184.9078,10369.6258,-54554.5336,207
+2024-25,17,D_IN_REVAL,Revaluation and fair value reserves,Investing activities,17,derived_only,-191127.722,0,-191127.722,207
+2024-25,18,D_FI_PDC,Public dividend capital,Financing activities,18,compared,4385470.3791,4385470.41,-0.0309,207
+2024-25,19,D_FI_BORR,Borrowings and other financial liabilities,Financing activities,19,compared,-363311.4555,-1737224.4015,1373912.946,207
+2024-25,20,D_FI_INT,Finance expense,Financing activities,20,compared,-1432227.4302,-890886.0409,-541341.3893,207
+2024-25,21,D_FI_DIV,PDC dividend,Financing activities,21,compared,-1074717.0513,-1011930.3156,-62786.7357,207
+2024-25,22,D_NC_RES,Other reserve movements and rounding,Reserve movements (not cash),22,derived_only,110637.5446,0,110637.5446,207

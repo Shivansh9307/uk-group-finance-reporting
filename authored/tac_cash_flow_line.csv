@@ -1,0 +1,23 @@
+line_code,label,section,sort_order,kind,note
+D_OP_SURPLUS,Operating surplus,Operating activities,1,compared,"The operating surplus of the income statement (operating income less operating expenses). The published cash flow starts from the same figure, so this line should tie."
+D_OP_DISC,Discontinued operations,Operating activities,2,compared,"The surplus of discontinued operations, taken from the income statement; the published line is their operating surplus."
+D_OP_GAINS,"Other gains, joint ventures and absorption gains in the surplus",Operating activities,3,derived_only,"Gains and losses inside the surplus that are not cash. The published cash flow reverses them inside its other operating lines, which I cannot split."
+D_OP_TAX,Corporation tax,Operating activities,4,compared,"The tax charge of the income statement, set against the tax paid in the cash flow; the difference is tax payable."
+D_OP_INV,Inventories,Operating activities,5,compared,Movement in inventories from the balance sheet.
+D_OP_REC,Receivables,Operating activities,6,compared,Movement in current and non-current receivables from the balance sheet.
+D_OP_OA,Other assets,Operating activities,7,compared,Movement in other current and non-current assets from the balance sheet.
+D_OP_PAY,Trade and other payables,Operating activities,8,compared,Movement in current and non-current trade and other payables from the balance sheet.
+D_OP_OL,Other liabilities,Operating activities,9,compared,Movement in other current and non-current liabilities from the balance sheet.
+D_OP_PROV,Provisions,Operating activities,10,compared,Movement in current and non-current provisions from the balance sheet.
+D_OP_NONCASH,Non-cash adjustments and other operating items,Operating activities,11,published_only,"Depreciation, impairments, donated income, PFI credit, pension adjustment and the other operating lines of the published cash flow. Neither primary statement shows them on its face, so the derived side is zero by construction."
+D_IN_INT,Interest received,Investing activities,12,compared,"Finance income of the income statement, set against interest received in the cash flow."
+D_IN_INTANG,Intangible assets,Investing activities,13,compared,"Movement in intangible assets from the balance sheet, which includes amortisation and revaluation that are not cash."
+D_IN_PPE,"Property, plant and equipment, right of use assets and investment property",Investing activities,14,compared,"Movement in these assets from the balance sheet, which includes depreciation, impairment, revaluation, leases and donations that are not cash. This is where most of the residual sits."
+D_IN_FIN,Investments and other financial assets,Investing activities,15,compared,"Movement in joint ventures, associates and other financial assets, current and non-current."
+D_IN_DISP,"Assets held for sale, disposal groups and business units",Investing activities,16,compared,"Movement in assets held for sale and liabilities in disposal groups, set against the cash from acquisitions and disposals."
+D_IN_REVAL,Revaluation and fair value reserves,Investing activities,17,derived_only,The movement of two reserves that change only by revaluation. I place them with investing so that a revaluation nets off against the asset it revalues; the published cash flow has no such line.
+D_FI_PDC,Public dividend capital,Financing activities,18,compared,"Movement in public dividend capital, set against the capital received and repaid."
+D_FI_BORR,Borrowings and other financial liabilities,Financing activities,19,compared,"Movement in borrowings and other financial liabilities, which includes new leases and accrued interest that are not cash."
+D_FI_INT,Finance expense,Financing activities,20,compared,"Finance expense of the income statement, set against interest paid in the cash flow."
+D_FI_DIV,PDC dividend,Financing activities,21,compared,"PDC dividend expense of the income statement, set against the dividend paid."
+D_NC_RES,Other reserve movements and rounding,Reserve movements (not cash),22,derived_only,"Whatever the income and expenditure, merger, other, non-controlling and charitable reserves moved by beyond the surplus: transfers between reserves, absorption accounting and the rounding of the balance sheet. It has no cash counterpart."

@@ -9,7 +9,11 @@ authored,plan_source,17
 authored,sr_group,32
 authored,statement_account_rule,31
 authored,statement_line,39
+authored,tac_cash_flow_line,22
+authored,tac_cash_flow_map,148
 authored,tac_code_map,4
+authored,tac_consolidated_control,48
+authored,tac_control_line,6
 authored,tac_line_role,137
 authored,tac_name_alias,3
 authored,tac_provider_successor,23

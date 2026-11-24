@@ -137,3 +137,99 @@ because of `authored/tac_name_alias.csv`: without the three aliases, 812 rows wo
   Net and absolute sums are in the summary; for example the balance sheet's 2023-24 prior year differs from the
   2022-23 current year by 138 values, net -£184.6m and £1,488.4m in absolute terms (thousands in the file). These
   are restatements, reclassifications and mergers: I report them and have not explained them one by one.
+
+
+## Statutory statements: the derived cash flow and the elimination-gap control
+
+What `sql/stg/150`, `sql/dw/150` and `155`, `sql/audit/150` to `165` and `sql/tests/150` to `159` add on top of the tables above. Every
+claim is labelled **tested** (command and result file) or **designed**. The numbers are from the full build of 2026-11-24
+(`ukfr build --scope full --recreate --yes`, green in 22 min 4 s) and the tables under `evidence/full/`.
+
+### Sign
+
+The model shows the TAC sign as published: income, assets and inflows positive, expenses, liabilities and outflows negative. I did
+not convert it to the OSCAR sign (spending positive, income negative), for three reasons: every figure then ties to the printed
+statement and to the consolidated accounts it is compared with, which print the same sign; the balance sheet and the cash flow have
+no OSCAR counterpart to flip to; and a reader of a mixed page would otherwise meet two conventions on one screen. Every TAC page
+says "TAC sign" in its subtitle. `dw.tac_statutory_line.expected_sign` stays in the dictionary, and a subtotal or total is never
+added to its components (the line kind is authored, `authored/tac_line_role.csv`).
+
+### Objects
+
+| Object | Grain | What it is |
+|---|---|---|
+| `dw.tac_cash_flow_line` | derived line | **authored** (`authored/tac_cash_flow_line.csv`, 22 rows): the lines of the derived cash flow, their section and whether they are compared with published lines |
+| `dw.tac_cash_flow_derived` | provider x year x derived line, 28,248 rows | **derived**: the indirect cash flow (below). Every row flagged `is_derived`; never in a real total |
+| `dw.tac_cash_flow_comparison` | published line | **authored** (`authored/tac_cash_flow_map.csv`, 148 rows, a note on each): which derived line each of the 51 published cash-flow lines is compared with |
+| `dw.tac_control_line`, `dw.tac_control_member` | 6 lines; 54 line memberships | **authored** (`authored/tac_control_line.csv`): the control lines and the provider statement lines (never a subtotal) they are made of |
+| `dw.tac_consolidated_control` | printed line x year, 48 rows | **authored, hand-keyed** (`authored/tac_consolidated_control.csv`): values printed in the consolidated NHS provider accounts, GBP million, with printed and PDF page |
+| `audit.tac_cash_flow_tie` | year x tie, 66 rows | what the published cash flow says about itself and how the derived cash flow ties to the balance sheet |
+| `audit.tac_cash_flow_line_residual`, `audit.tac_cash_flow_section_residual` | year x derived line (132); year x section (30) | derived against published, residual not forced |
+| `audit.tac_elimination_gap`, `audit.tac_elimination_gap_excluded` | year x control line (36); excluded year x control line (12) | provider sum against consolidated; the figures of the providers the TAC file leaves out |
+| `dw.v_model_tac_*` (8 views, `sql/audit/150`, `151`) | | what the model reads; the restatement of `audit.tac_prior_year_difference` is a column of the fact view |
+
+### The derived (indirect) cash flow
+
+A balance-sheet line contributes its **movement of the year**, the current-year column less the prior-year column of the *same file*, so
+a restated opening balance never leaks in; an income-statement line contributes its current-year flow. Each input has a factor in the
+authored map: -1 for an asset or a liability (an increase uses cash), +1 for equity, and for the income-statement lines +1 into
+their section and -1 out of the movement of the income and expenditure reserve, so the surplus is counted once. Every balance-sheet
+line other than cash feeds exactly one derived line (**tested**: `sql/tests/150`). Adding the derived lines equals the balance sheet
+cash movement in every provider-year to within GBP 1,730 (the balance sheets balance to less than GBP 1,000 each side; 20 of
+1,284 provider-years differ by GBP 1,000 or more, none by 2,000 or more; `sql/tests/152`, `audit.tac_cash_flow_tie`).
+
+Residual = derived less published, added over providers (GBP million, `evidence/full/tac_cash_flow_section_residual.csv`):
+
+| Year | Operating | Investing | Financing | Reserve movements (derived only) | Net change: derived | Net change: published |
+|---|---:|---:|---:|---:|---:|---:|
+| 2019-20 | -2,690 | 2,501 | 298 | -84 | 1,004 | 980 |
+| 2020-21 | -2,662 | 2,021 | 1,013 | -345 | 6,980 | 6,952 |
+| 2021-22 | -2,506 | 2,448 | 591 | -499 | 1,838 | 1,804 |
+| 2022-23 | -4,701 | -2,426 | 6,766 | 381 | -2,714 | -2,735 |
+| 2023-24 | -5,822 | 4,828 | 6,091 | -5,075 | -1,896 | -1,918 |
+| 2024-25 | -6,997 | 6,115 | 770 | 111 | -730 | -729 |
+
+Why the residual is not zero (**tested** as a number, explained by line in `evidence/full/tac_cash_flow_line_residual.csv`; the explanation is mine). In 2024-25
+the operating residual (-6,997) is almost entirely the published adjustments that neither primary statement shows on its face
+(depreciation, impairments, donated income, the PFI credit and the pension adjustment, line `D_OP_NONCASH`: +6,848 published, 0 derived); the same
+non-cash charges sit in the balance-sheet movement of property, plant and equipment, so investing is overstated (the
+property line residual is +5,847, intangibles +523). Lines with no non-cash item tie exactly: the operating surplus, inventories and public
+dividend capital (residual 0). Financing residuals are non-cash borrowing movements (new leases, accrued interest). The large
+2022-23 to 2023-24 financing residuals are borrowings movements that the published cash flow shows as cash only in part (the year IFRS 16 right of use assets and
+their liabilities entered the balance sheets, 1 April 2022); I did not test that reading line by line. Transfers by absorption and mergers are in the
+reserve movements and in the investing residual.
+
+The published cash flow ties to itself (**tested**: `sql/tests/151`, 0 provider-years breaking GBP 1,000 in all six years): each section subtotal equals the sum of
+its published lines, the increase in cash equals the three subtotals, closing cash equals opening cash plus the adjustments, the increase
+and the four reconciling lines, and the operating surplus the cash flow starts from equals the income statement's. It does **not**
+equal the balance sheet cash movement in every provider-year: the published increase in cash differs from the
+balance sheet movement by GBP 1,000 or more in 15, 19, 12, 4, 8 and 14 provider-years (2019-20 to 2024-25); with the reconciling lines added, in 5, 6, 4, 2, 4 and 2; and
+closing cash of the cash flow differs from the balance sheet cash in 4, 2, 2, 1, 2 and 1 (`sql/tests/152` pins these counts). The remainder are cash defined
+differently in the cash flow and on the balance sheet (the cash flow nets overdrafts); I have not examined each provider.
+
+### The elimination gap
+
+The sum of the provider accounts is not the consolidated group: the consolidated NHS provider accounts (published by DHSC on gov.uk with NHS
+England, one report each year, registered as source `nhs_consolidated_accounts` with the sha256 of each of the six PDFs in
+`data/manifest/files.csv`; **tested**: `ukfr fetch --source nhs_consolidated_accounts` downloaded 6 files, no error) eliminate balances and
+transactions between providers. Eight printed lines are keyed for each year, 48 values, each with the printed page and the PDF page, from the PDF text of the
+statement of comprehensive income and of financial position, and each value equals the comparative column of the next year's report where there is one (**tested**: `sql/tests/156`; none was restated). The four printed totals add up to the printed total assets employed in all six years.
+Operating expenses are the column after revaluations, impairments and transfers, which is what the provider income statements report.
+
+Gap = provider sum less consolidated, GBP million (`evidence/full/tac_elimination_gap.csv`):
+
+| Year | Operating income | Operating expenses | Total assets | Total liabilities | Cash | Total assets employed |
+|---|---:|---:|---:|---:|---:|---:|
+| 2019-20 | 1,355 (1.5%) | -1,229 (1.3%) | 412 | -579 | -33 | -168 |
+| 2020-21 | 2,268 (2.2%) | -2,257 (2.2%) | 735 | -706 | 0 | 29 |
+| 2021-22 | 2,966 (2.6%) | -2,960 (2.7%) | 822 | -813 | 0 | 9 |
+| 2022-23 | 3,224 (2.7%) | -3,219 (2.7%) | 1,521 | -1,497 | 0 | 24 |
+| 2023-24 | 295 (0.2%) | -278 (0.2%) | -610 | -215 | -389 | -825 |
+| 2024-25 | 267 (0.2%) | -270 (0.2%) | -570 | -325 | -343 | -895 |
+
+What I can say, and what I cannot. Income and expenses are larger in the provider sum by nearly the same amount (within GBP 130 million in a year), and so are assets and liabilities, and the gap in total assets
+employed is below GBP 30 million in 2020-21 to 2022-23 (below 0.1%): an elimination removes both sides of a balance, which is what the pattern shows. From 2023-24 the sign changes and net assets differ by -825 and -895: a provider whose accounts the TAC file leaves out
+("excluded from this dataset": 1 provider in 2019-20, 5 in 2023-24, 3 in 2024-25) is in the consolidated accounts and not in the sum. Where the next year's prior-year column
+exists, I read their figures from it (`audit.tac_elimination_gap_excluded`): in 2019-20 the one provider's cash is GBP 33.191 million, and the cash gap is -33.159 million; in 2023-24 three of the five have a prior-year column, with income of
+1,858 million and assets of 1,186 million, which brings the income gap of 295 back to about 2,150, the size of the years before. That is a partial explanation, not a decomposition: the other two providers of 2023-24, the three of 2024-25
+and the intra-NHS eliminations themselves are not separated, and I did not try to.
