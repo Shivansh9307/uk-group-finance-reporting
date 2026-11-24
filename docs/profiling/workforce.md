@@ -15,7 +15,7 @@ uv run --project pipeline ukfr fetch --source workforce_mi        # 1,453 files 
 uv run --project pipeline ukfr build --scope full --recreate      # reads them (stage `workforce`, 60 s of the 18 minute build)
 ```
 
-## What I checked against the brief
+## What I checked before building
 
 | Statement | Result |
 |---|---|
