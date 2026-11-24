@@ -1,5 +1,5 @@
 // The pay line (A101 of resource DEL), the four methods including FTE x cost, by financial year, on the cells that all four scored, with and
-// without the known bad returns. FTE x cost scores far worse than the others because the workforce files cover only part of a department
+// without the flagged returns. FTE x cost scores far worse than the others because the workforce files cover only part of a department
 // group's pay line; see the coverage test 926.
 EVALUATE
 SELECTCOLUMNS (
@@ -10,9 +10,9 @@ SELECTCOLUMNS (
             "cells", [Forecast Cells],
             "abs_error", [Forecast Abs Error],
             "wape", [Forecast WAPE],
-            "wape_excl", [Forecast WAPE (excl. bad returns)],
+            "wape_excl", [Forecast WAPE (excl. flagged returns)],
             "bias", [Forecast Bias],
-            "bias_excl", [Forecast Bias (excl. bad returns)]
+            "bias_excl", [Forecast Bias (excl. flagged returns)]
         ),
         'Fact Forecast Accuracy (derived)'[Forecast Line] = "Pay line (A101, resource DEL)",
         'Fact Forecast Accuracy (derived)'[Scored By Every Method] = TRUE ()

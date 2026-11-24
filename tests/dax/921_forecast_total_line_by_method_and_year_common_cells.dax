@@ -1,5 +1,5 @@
 // The three methods on the budget measure totals (RDEL, CDEL and AME of every department group), by financial year, on the cells that
-// every method scored (so R1 to R11 and only where the seasonal guard holds), with every known bad return and without them.
+// every method scored (so R1 to R11 and only where the seasonal guard holds), with every flagged return and without them.
 // WAPE and bias are ratios of sums.
 EVALUATE
 SELECTCOLUMNS (
@@ -8,13 +8,13 @@ SELECTCOLUMNS (
             'Forecast Method'[Method],
             'Fiscal Year'[Financial Year],
             "cells", [Forecast Cells],
-            "cells_excl", [Forecast Cells (excl. bad returns)],
+            "cells_excl", [Forecast Cells (excl. flagged returns)],
             "abs_error", [Forecast Abs Error],
-            "abs_error_excl", [Forecast Abs Error (excl. bad returns)],
+            "abs_error_excl", [Forecast Abs Error (excl. flagged returns)],
             "wape", [Forecast WAPE],
-            "wape_excl", [Forecast WAPE (excl. bad returns)],
+            "wape_excl", [Forecast WAPE (excl. flagged returns)],
             "bias", [Forecast Bias],
-            "bias_excl", [Forecast Bias (excl. bad returns)]
+            "bias_excl", [Forecast Bias (excl. flagged returns)]
         ),
         'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total",
         'Fact Forecast Accuracy (derived)'[Scored By Every Method] = TRUE ()

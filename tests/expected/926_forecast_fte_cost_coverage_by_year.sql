@@ -1,6 +1,7 @@
 -- requires: dw.forecast_accuracy, dw.forecast_pay_accuracy, dw.forecast_fte_cost_input
 -- Independent of the model views: the FTE x cost rows and the department rows of the pay-line accuracy table, and the workforce paybill and
 -- pay-line month of the FTE x cost input (pounds divided by 1,000 at the boundary).
+-- The model's ratios agree with this query to within 0.000001 (the largest difference on these tests in evidence/model/dax_tests.csv is 0.00000099; the comparison tolerance is 0.0001): the SQL carries 10 decimal places, the agreement is to 6.
 WITH elig AS (
     SELECT financial_year, COUNT_BIG(*) AS n FROM dw.forecast_pay_accuracy
     WHERE method = 'department' AND return_no BETWEEN 1 AND 11 GROUP BY financial_year

@@ -609,9 +609,9 @@ forecast_page() {
   header "Forecast accuracy by method" \
     "Returns scored against the final outturn (R13); WAPE and bias are ratios of sums"
   local f="Fact Forecast Accuracy (derived)" line="Budget measure total" payl="Pay line (A101, resource DEL)" v
-  card fc_wape "Dept WAPE, all returns" 24 136 240 76 "$f.Forecast WAPE" "Weighted absolute percentage error of the department's own full-year forecast on the budget measure totals, over every return and year, with the known bad returns kept in" 20
-  card fc_wape_x "Dept WAPE, no bad returns" 272 136 240 76 "$f.Forecast WAPE (excl. bad returns)" "The same error without the known bad returns, the department group returns that are flagged for a units error, a scale outlier or a missing body" 20
-  card fc_bad "Known bad return cells" 520 136 240 76 "$f.Known Bad Return Cells" "Number of scored department group, budget measure, year and return cells that belong to a known bad return" 20
+  card fc_wape "Dept WAPE, all returns" 24 136 240 76 "$f.Forecast WAPE" "Weighted absolute percentage error of the department's own full-year forecast on the budget measure totals, over every return and year, with the flagged returns kept in" 20
+  card fc_wape_x "Dept WAPE, excl. flagged" 272 136 240 76 "$f.Forecast WAPE (excl. flagged returns)" "The same error without the flagged returns, all the department group returns flagged for a units error, a scale outlier or a missing body, of which FCDO R0 of FY2020-21 and Health R1 of FY2018-19 have the largest effect" 20
+  card fc_bad "Flagged return cells" 520 136 240 76 "$f.Flagged Return Cells" "Number of scored department group, budget measure, year and return cells that belong to a flagged return" 20
   card fc_cov "FTE x cost cells covered" 768 136 240 76 "$f.FTE x Cost Cell Coverage" "Share of the pay line cells of returns R1 to R11 in FY2018-19 to FY2022-23 that have an FTE x cost forecast; the rest have no published workforce for the month" 20
   card fc_cover "FTE x cost pay seen" 1016 136 240 76 "$f.FTE x Cost Pay Cover" "Workforce paybill of the last actual month as a share of the pay line of the return for that month, over the cells that have the method" 20
   for v in fc_wape fc_wape_x fc_bad; do
@@ -623,30 +623,30 @@ forecast_page() {
   done
 
   visual clusteredColumnChart fc_chart_all "WAPE by year, all returns (budget measure totals, cells every method scored)" 24 220 410 228 \
-    "Clustered column chart of the full-year weighted absolute percentage error for each financial year from 2017-18 to 2022-23, one column for each of the three methods: the department's own forecast, my run rate and my seasonal method, on the cells that all three scored, with the known bad returns kept in" \
+    "Clustered column chart of the full-year weighted absolute percentage error for each financial year from 2017-18 to 2022-23, one column for each of the three methods: the department's own forecast, my run rate and my seasonal method, on the cells that all three scored, with the flagged returns kept in" \
     "Category:Fiscal Year.Financial Year" "Series:Forecast Method.Method" "Y:$f.Forecast WAPE"
-  visual clusteredColumnChart fc_chart_excl "WAPE by year, without the known bad returns" 442 220 410 228 \
-    "Clustered column chart of the same full-year weighted absolute percentage error for each financial year and method, on the same cells, with the known bad returns left out; the two known cases are in 2018-19 and 2020-21" \
-    "Category:Fiscal Year.Financial Year" "Series:Forecast Method.Method" "Y:$f.Forecast WAPE (excl. bad returns)"
-  visual clusteredColumnChart fc_chart_bias "Bias by year, without the known bad returns" 860 220 396 228 \
-    "Clustered column chart of the signed full-year bias for each financial year and method, on the cells all three methods scored, without the known bad returns; above zero is a forecast that was too high" \
-    "Category:Fiscal Year.Financial Year" "Series:Forecast Method.Method" "Y:$f.Forecast Bias (excl. bad returns)"
+  visual clusteredColumnChart fc_chart_excl "WAPE by year, without the flagged returns" 442 220 410 228 \
+    "Clustered column chart of the same full-year weighted absolute percentage error for each financial year and method, on the same cells, with the flagged returns left out; the two largest flagged returns, FCDO R0 and Health R1, are in 2020-21 and 2018-19" \
+    "Category:Fiscal Year.Financial Year" "Series:Forecast Method.Method" "Y:$f.Forecast WAPE (excl. flagged returns)"
+  visual clusteredColumnChart fc_chart_bias "Bias by year, without the flagged returns" 860 220 396 228 \
+    "Clustered column chart of the signed full-year bias for each financial year and method, on the cells all three methods scored, without the flagged returns; above zero is a forecast that was too high" \
+    "Category:Fiscal Year.Financial Year" "Series:Forecast Method.Method" "Y:$f.Forecast Bias (excl. flagged returns)"
   for v in fc_chart_all fc_chart_excl fc_chart_bias; do
     vf "$v" "$f" "Forecast Line" "$line"
     q add filter "$f" "Scored By Every Method" -v "$P/$v.Visual" --values true
     q visuals sort "$P/$v.Visual" -f "Fiscal Year.Financial Year" -d Ascending
   done
 
-  visual clusteredColumnChart fc_chart_pay "Pay line: WAPE by year without the known bad returns, four methods" 24 456 330 240 \
-    "Clustered column chart of the full-year weighted absolute percentage error of the pay line for each financial year from 2018-19, one column for each of four methods: the department, run rate, seasonal and FTE x cost, on the cells that all four scored and without the known bad returns; FTE x cost is far higher because the workforce files cover part of each department group's pay" \
-    "Category:Fiscal Year.Financial Year" "Series:Forecast Method.Method" "Y:$f.Forecast WAPE (excl. bad returns)"
+  visual clusteredColumnChart fc_chart_pay "Pay line: WAPE by year without the flagged returns, four methods" 24 456 330 240 \
+    "Clustered column chart of the full-year weighted absolute percentage error of the pay line for each financial year from 2018-19, one column for each of four methods: the department, run rate, seasonal and FTE x cost, on the cells that all four scored and without the flagged returns; FTE x cost is far higher because the workforce files cover part of each department group's pay" \
+    "Category:Fiscal Year.Financial Year" "Series:Forecast Method.Method" "Y:$f.Forecast WAPE (excl. flagged returns)"
   vf fc_chart_pay "$f" "Forecast Line" "$payl"
   q add filter "$f" "Scored By Every Method" -v "$P/fc_chart_pay.Visual" --values true
   q visuals sort "$P/fc_chart_pay.Visual" -f "Fiscal Year.Financial Year" -d Ascending
 
   visual tableEx fc_dept "The department's own forecast, by department" 362 456 520 240 \
-    "Table with one row for each department of the current structure that has a department group in the returns: WAPE with and without the known bad returns, the share of pay-line cells with an FTE x cost forecast and the share of the pay line the workforce paybill is, with a total row" \
-    "Values:Department (current structure).Department" "Values:$f.Forecast WAPE" "Values:$f.Forecast WAPE (excl. bad returns)" \
+    "Table with one row for each department of the current structure that has a department group in the returns: WAPE with and without the flagged returns, the share of pay-line cells with an FTE x cost forecast and the share of the pay line the workforce paybill is, with a total row" \
+    "Values:Department (current structure).Department" "Values:$f.Forecast WAPE" "Values:$f.Forecast WAPE (excl. flagged returns)" \
     "Values:$f.FTE x Cost Cell Coverage" "Values:$f.FTE x Cost Pay Cover"
   vf fc_dept "$f" "Forecast Line" "$line"
   q add filter "Forecast Method" "Method" -v "$P/fc_dept.Visual" --values Department
@@ -654,12 +654,12 @@ forecast_page() {
   q set "$P/fc_dept.Visual.columnHeaders.fontSize" --value 8
   q visuals table-density "$P/fc_dept.Visual" --preset dense
   q fields rename "$R" "$f.Forecast WAPE" "WAPE"
-  q fields rename "$R" "$f.Forecast WAPE (excl. bad returns)" "WAPE without bad"
+  q fields rename "$R" "$f.Forecast WAPE (excl. flagged returns)" "WAPE no flagged"
   q fields rename "$R" "$f.FTE x Cost Cell Coverage" "FTE cells"
   q fields rename "$R" "$f.FTE x Cost Pay Cover" "Pay seen"
 
-  text fc_note_bad 890 456 366 118 "Bad returns (FCDO R0 2020-21, Health R1 2018-19) are flagged, and left out of the middle and right charts."
-  text fc_note_fte 890 580 366 116 "FTE x cost needs workforce files: none for Home Office, MoJ, Cabinet Office, ONS. Gaps are never filled."
+  text fc_note_bad 890 456 366 118 "All 268 flagged returns are left out of the middle and right charts; largest: FCDO R0 2020-21, Health R1 2018-19."
+  text fc_note_fte 890 580 366 116 "FTE x cost misses mostly because workforce paybill is only about 13% of the pay line; no Home Office, MoJ, Cabinet Office, ONS."
 }
 
 # ----------------------------------------------------------------------------------------------------- driver

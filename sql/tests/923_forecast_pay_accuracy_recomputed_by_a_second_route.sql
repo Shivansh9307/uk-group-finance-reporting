@@ -1,4 +1,4 @@
--- test: the pay-line accuracy (dw.forecast_pay_accuracy) is recomputed by a second route, straight from dw.forecast_return with a different query shape (no month table): for the department, the full-year forecast is the pay line of return n over months 1 to 12 and the outturn is the pay line of R13; for the run rate it is the year to date times 12 / n; for FTE x cost it is the year to date plus (12 - n) times the paybill of the last actual month divided by 1,000, the paybill taken from dw.workforce_month; each full-year error and absolute error is rebuilt from those (to within 0.001: the build rounds each forecast month to four places) and the ratio WAPE is the ratio of the table's own sums, and every cell and method of each side is on the other side. Pay amounts are GBP thousands, workforce paybill is pounds
+-- test: the pay-line accuracy (dw.forecast_pay_accuracy) is recomputed by a second route, straight from dw.forecast_return with a different query shape (no month table): for the department, the full-year forecast is the pay line of return n over months 1 to 12 and the outturn is the pay line of R13; for the run rate it is the year to date times 12 / n; for FTE x cost it is the year to date plus (12 - n) times the paybill of the last actual month divided by 1,000, the paybill taken from the lineage column workforce_paybill_gbp of dw.forecast_own_pay (that this paybill is the one in dw.workforce_month is test 921, the independent recompute from the workforce rows, and not this test); each full-year error and absolute error is rebuilt from those (to within 0.001: the build rounds each forecast month to four places) and the ratio WAPE is the ratio of the table's own sums, and every cell and method of each side is on the other side. Pay amounts are GBP thousands, workforce paybill is pounds
 -- marker: localdata
 -- requires: dw.forecast_pay_accuracy, dw.forecast_return, dw.forecast_own_pay
 WITH pay AS (
@@ -31,7 +31,7 @@ rr AS (
                                                    WHERE o.method = 'run_rate' AND o.financial_year = p.financial_year
                                                      AND o.return_no = p.return_no AND o.department_group_code = p.department_group_code)
 ),
-ftc AS (
+ftc AS (   -- the paybill is read from dw.forecast_own_pay; test 921 checks it against dw.workforce_month
     SELECT p.financial_year, p.return_no, p.department_group_code, 'fte_cost' AS method,
            p.ytd + (12 - p.return_no) * CAST(o.workforce_paybill_gbp AS decimal(24, 6)) / 1000 AS fcst, COALESCE(f.outturn, 0) AS outturn
     FROM pay AS p

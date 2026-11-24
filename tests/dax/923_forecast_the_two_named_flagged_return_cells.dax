@@ -1,0 +1,40 @@
+// The two flagged returns, cell by cell, on the department's own forecast: FCDO R0 of FY2020-21 (the return was keyed in pounds, so its
+// forecast is about 830 times the outturn) and the Department of Health in R1 of FY2018-19 (the department group is missing from the
+// return, so its forecast is zero). Each is flagged, has a large error, and the cell count without the flagged returns is blank for it.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+    CALCULATETABLE (
+        SUMMARIZECOLUMNS (
+            'Fact Forecast Accuracy (derived)'[Department Group Code],
+            'Fiscal Year'[Financial Year],
+            'Forecast Return'[Return],
+            'Fact Forecast Accuracy (derived)'[Budget Measure],
+            "flagged_cells", [Flagged Return Cells],
+            "cells_excl", [Forecast Cells (excl. flagged returns)] + 0,
+            "abs_error", [Forecast Abs Error],
+            "abs_outturn", [Forecast Abs Outturn],
+            "wape", [Forecast WAPE]
+        ),
+        TREATAS (
+            { ( "DID030.GROUP", "2020-21", 0 ), ( "DOH033.GROUP", "2018-19", 1 ) },
+            'Fact Forecast Accuracy (derived)'[Department Group Code],
+            'Fact Forecast Accuracy (derived)'[Fiscal Year Key],
+            'Fact Forecast Accuracy (derived)'[Return Key]
+        ),
+        'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total",
+        'Forecast Method'[Method] = "Department"
+    ),
+    NOT ISBLANK ( [flagged_cells] )
+    ),
+    "department_group_code", 'Fact Forecast Accuracy (derived)'[Department Group Code],
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "return_label", 'Forecast Return'[Return],
+    "budget_measure", 'Fact Forecast Accuracy (derived)'[Budget Measure],
+    "flagged_cells", [flagged_cells],
+    "cells_excl", [cells_excl],
+    "abs_error", [abs_error],
+    "abs_outturn", [abs_outturn],
+    "wape", [wape]
+)
+ORDER BY [department_group_code], [financial_year], [return_label], [budget_measure]

@@ -9,7 +9,7 @@
 -- computed from them (sql/dw/660, 670 and sql/audit/920 to 922). Nothing is authored or synthetic. Amounts are GBP thousands.
 --
 --   forecast_line      Total (a budget measure's whole total: RDEL, CDEL or AME) or Pay (the pay line A101 of RDEL), and its name
---   known_bad_return   1 where the department group's whole return is flagged in dw.forecast_return_quality (a units error, a
+--   flagged_return   1 where the department group's whole return is flagged in dw.forecast_return_quality (a units error, a
 --                      scale outlier, an organisation missing from the final, a department group missing or nearly missing)
 --   common_cells       1 where the cell has a score from every method of its line in that return (three methods on a total,
 --                      four on the pay line): the cells on which the methods can be compared like for like
@@ -53,7 +53,7 @@ SELECT CAST(u.forecast_line AS varchar(5)) AS forecast_line,
        CAST(l.department_group_name AS nvarchar(400)) AS department_group_name,
        u.budget_measure, u.method,
        g.department_key,
-       CAST(u.is_flagged_return AS bit) AS known_bad_return,
+       CAST(u.is_flagged_return AS bit) AS flagged_return,
        CAST(CASE WHEN n.methods_scored = CASE u.forecast_line WHEN 'Pay' THEN 4 ELSE 3 END THEN 1 ELSE 0 END AS bit) AS common_cells,
        u.full_year_forecast, u.full_year_outturn, u.full_year_error, u.full_year_abs_error, u.full_year_abs_outturn,
        u.fm_error, u.fm_abs_error, u.fm_abs_outturn,

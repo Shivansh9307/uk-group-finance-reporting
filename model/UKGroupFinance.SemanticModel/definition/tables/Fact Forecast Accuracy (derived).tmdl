@@ -1,136 +1,136 @@
-/// DERIVED from real data, in GBP thousands (not pounds): how well each forecast of the monthly returns scored against the final outturn (R13). One row per forecast line, department group, budget measure, financial year, return and method. The department's own forecasts are the real returns; the run rate, seasonal and FTE x cost methods are my own forecasts, made from only what was known at the return, and every score is computed from them in SQL. The forecast line is a budget measure total (RDEL, CDEL or AME, three methods) or the pay line (A101 of RDEL, four methods: FTE x cost exists only here and only where the department's workforce is published for the month). Known Bad Return marks a department group's whole return that is flagged (a units error, a scale outlier, a body or department missing); every measure has a version without those returns. Scored By Every Method marks the cells that every method of the line scored, the cells on which the methods compare like for like. Nothing synthetic or authored is in it. Ratios are ratios of sums, never averages of percentages. The department is the department of the current structure that the group's department number maps to, so the security roles filter it through Department (current structure). Source view dw.v_model_forecast_accuracy.
+/// DERIVED from real data, in GBP thousands (not pounds): how well each forecast of the monthly returns scored against the final outturn (R13). One row per forecast line, department group, budget measure, financial year, return and method. The department's own forecasts are the real returns; the run rate, seasonal and FTE x cost methods are my own forecasts, made from only what was known at the return, and every score is computed from them in SQL. The forecast line is a budget measure total (RDEL, CDEL or AME, three methods) or the pay line (A101 of RDEL, four methods: FTE x cost exists only here and only where the department's workforce is published for the month). Flagged Return is true for every department group return that dw.forecast_return_quality flags (a units error, a scale outlier, an organisation missing from the final, a department group missing or nearly missing): all of them, 268 cells of the department's own forecast, not only two. The two with the largest effect are FCDO R0 of FY2020-21 (keyed in pounds) and the Department of Health R1 of FY2018-19 (missing). Every measure has an '(excl. flagged returns)' version that leaves all flagged returns out. The pay line is part of the RDEL budget measure total, so the two forecast lines overlap: the accuracy measures are blank unless exactly one Forecast Line is in the filter context. Scored By Every Method marks the cells that every method of the line scored, the cells on which the methods compare like for like. Nothing synthetic or authored is in it. Ratios are ratios of sums, never averages of percentages. The department is the department of the current structure that the group's department number maps to, so the security roles filter it through Department (current structure). Source view dw.v_model_forecast_accuracy.
 table 'Fact Forecast Accuracy (derived)'
 	lineageTag: bc504e58-6875-4ae2-aad9-6b8ce553a32b
 
-	/// Absolute full-year error of the forecasts in context, GBP thousands: the sum over cells of |full-year forecast less outturn|. All returns, flagged ones included.
+	/// Absolute full-year error of the forecasts in context, GBP thousands: the sum over cells of |full-year forecast less outturn|. All returns, flagged ones included. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 	measure 'Forecast Abs Error' =
-			SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Error] )
+			IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Error] ) )
 		formatString: £#,##0;-£#,##0;£0
 		displayFolder: Forecast accuracy
 		lineageTag: a5cace5b-4eb8-42a6-8ec9-b3afa403651e
 
-	/// Absolute full-year error, GBP thousands, without the known bad returns.
-	measure 'Forecast Abs Error (excl. bad returns)' =
-			CALCULATE ( [Forecast Abs Error], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+	/// Absolute full-year error, GBP thousands, without the flagged returns.
+	measure 'Forecast Abs Error (excl. flagged returns)' =
+			CALCULATE ( [Forecast Abs Error], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 		formatString: £#,##0;-£#,##0;£0
 		displayFolder: Forecast accuracy
 		lineageTag: 379668ed-95ef-447d-aed3-78dffe28a3ce
 
-	/// Absolute full-year outturn (R13) of the cells in context, GBP thousands: the denominator of WAPE. All returns.
+	/// Absolute full-year outturn (R13) of the cells in context, GBP thousands: the denominator of WAPE. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 	measure 'Forecast Abs Outturn' =
-			SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] )
+			IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) )
 		formatString: £#,##0;-£#,##0;£0
 		displayFolder: Forecast accuracy
 		lineageTag: eeefcebf-1590-4178-8a3b-006e568c9221
 
-	/// Absolute full-year outturn, GBP thousands, without the known bad returns.
-	measure 'Forecast Abs Outturn (excl. bad returns)' =
-			CALCULATE ( [Forecast Abs Outturn], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+	/// Absolute full-year outturn, GBP thousands, without the flagged returns.
+	measure 'Forecast Abs Outturn (excl. flagged returns)' =
+			CALCULATE ( [Forecast Abs Outturn], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 		formatString: £#,##0;-£#,##0;£0
 		displayFolder: Forecast accuracy
 		lineageTag: 7941f199-bee5-4fb5-b53f-e69b26a8213f
 
-	/// Signed full-year error of the forecasts in context, GBP thousands (forecast less outturn: positive is too high). All returns.
+	/// Signed full-year error of the forecasts in context, GBP thousands (forecast less outturn: positive is too high). All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 	measure 'Forecast Error' =
-			SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Error] )
+			IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Error] ) )
 		formatString: £#,##0;-£#,##0;£0
 		displayFolder: Forecast accuracy
 		lineageTag: fc06525a-30c3-4901-a95a-aa5396d28fde
 
-	/// Signed full-year error, GBP thousands, without the known bad returns.
-	measure 'Forecast Error (excl. bad returns)' =
-			CALCULATE ( [Forecast Error], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+	/// Signed full-year error, GBP thousands, without the flagged returns.
+	measure 'Forecast Error (excl. flagged returns)' =
+			CALCULATE ( [Forecast Error], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 		formatString: £#,##0;-£#,##0;£0
 		displayFolder: Forecast accuracy
 		lineageTag: 1c76090a-097a-4158-a605-acdb6aa02265
 
-	/// Weighted absolute percentage error of the full-year forecast: the sum of absolute errors over the sum of absolute outturn (a ratio of sums, never an average of percentages). All returns, flagged ones included.
+	/// Weighted absolute percentage error of the full-year forecast: the sum of absolute errors over the sum of absolute outturn (a ratio of sums, never an average of percentages). All returns, flagged ones included. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 	measure 'Forecast WAPE' =
-			DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) )
+			IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) ) )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Forecast accuracy
 		lineageTag: a2179676-8f97-418f-b745-2f48e8323a34
 
-	/// Weighted absolute percentage error of the full-year forecast without the known bad returns.
-	measure 'Forecast WAPE (excl. bad returns)' =
-			CALCULATE ( [Forecast WAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+	/// Weighted absolute percentage error of the full-year forecast without the flagged returns.
+	measure 'Forecast WAPE (excl. flagged returns)' =
+			CALCULATE ( [Forecast WAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Forecast accuracy
 		lineageTag: 73c64925-671a-4efe-a779-6148b188a0ed
 
-	/// Signed error over absolute outturn: positive means the forecasts were too high, negative too low. A ratio of sums. All returns.
+	/// Signed error over absolute outturn: positive means the forecasts were too high, negative too low. A ratio of sums. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 	measure 'Forecast Bias' =
-			DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) )
+			IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) ) )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Forecast accuracy
 		lineageTag: 2c5a3ee1-f0ac-427b-97f0-25c128846ee4
 
-	/// Bias of the full-year forecast without the known bad returns.
-	measure 'Forecast Bias (excl. bad returns)' =
-			CALCULATE ( [Forecast Bias], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+	/// Bias of the full-year forecast (signed, a ratio of sums) without the flagged returns.
+	measure 'Forecast Bias (excl. flagged returns)' =
+			CALCULATE ( [Forecast Bias], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Forecast accuracy
 		lineageTag: d8e7e257-0666-4e32-bdf3-5e3fd572e912
 
-	/// The same score on the forecast months only (the months after the return's last actual month, scored month by month against R13). A ratio of sums. All returns.
+	/// The same score on the forecast months only (the months after the return's last actual month, scored month by month against R13). A ratio of sums. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 	measure 'Forecast Month WAPE' =
-			DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Outturn] ) )
+			IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Outturn] ) ) )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Forecast accuracy
 		lineageTag: 73884847-dafe-4794-a554-4c4f499787a7
 
-	/// Forecast-month WAPE (the forecast months only, a ratio of sums) without the known bad returns.
-	measure 'Forecast Month WAPE (excl. bad returns)' =
-			CALCULATE ( [Forecast Month WAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+	/// Forecast-month WAPE (the forecast months only, a ratio of sums) without the flagged returns.
+	measure 'Forecast Month WAPE (excl. flagged returns)' =
+			CALCULATE ( [Forecast Month WAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Forecast accuracy
 		lineageTag: b8e5d82f-09be-42a4-9c2b-47b24240b70c
 
-	/// Signed error over absolute outturn on the forecast months only. A ratio of sums. All returns.
+	/// Signed error over absolute outturn on the forecast months only. A ratio of sums. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 	measure 'Forecast Month Bias' =
-			DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Outturn] ) )
+			IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Outturn] ) ) )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Forecast accuracy
 		lineageTag: ea51582c-16f6-4673-8ad1-914c7e967224
 
-	/// Forecast-month bias (signed, a ratio of sums) without the known bad returns.
-	measure 'Forecast Month Bias (excl. bad returns)' =
-			CALCULATE ( [Forecast Month Bias], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+	/// Forecast-month bias (signed, a ratio of sums) without the flagged returns.
+	measure 'Forecast Month Bias (excl. flagged returns)' =
+			CALCULATE ( [Forecast Month Bias], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Forecast accuracy
 		lineageTag: eb13940d-a0e7-4a73-a7aa-3b9e38e368f8
 
-	/// Percentage error on the cells whose full-year outturn is positive and at least GBP 100m only (a percentage error on a line near zero or on income says nothing), as a ratio of sums. Blank where no cell in context qualifies. All returns.
+	/// Percentage error on the cells whose full-year outturn is positive and at least GBP 100m only (a percentage error on a line near zero or on income says nothing), as a ratio of sums. Blank where no cell in context qualifies. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 	measure 'Forecast MAPE' =
-			DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[MAPE Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[MAPE Outturn] ) )
+			IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[MAPE Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[MAPE Outturn] ) ) )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Forecast accuracy
 		lineageTag: 0498abd6-f6dd-4cb7-8da7-65b98f1e8d49
 
-	/// MAPE on the cells of GBP 100m or more, without the known bad returns.
-	measure 'Forecast MAPE (excl. bad returns)' =
-			CALCULATE ( [Forecast MAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+	/// MAPE on the cells of GBP 100m or more, without the flagged returns.
+	measure 'Forecast MAPE (excl. flagged returns)' =
+			CALCULATE ( [Forecast MAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Forecast accuracy
 		lineageTag: 03c658f7-c4d7-4bd7-98de-eb8faf31f8e5
 
-	/// Number of scored cells in context: one per department group, budget measure, year, return and method. All returns.
+	/// Number of scored cells in context: one per department group, budget measure, year, return and method. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 	measure 'Forecast Cells' =
-			COUNTROWS ( 'Fact Forecast Accuracy (derived)' )
+			IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), COUNTROWS ( 'Fact Forecast Accuracy (derived)' ) )
 		formatString: #,##0
 		displayFolder: Forecast accuracy
 		lineageTag: edfc334d-cd4e-457e-8903-972c61a1ede7
 
-	/// Number of scored cells in context without the known bad returns (one per group, year, return and method).
-	measure 'Forecast Cells (excl. bad returns)' =
-			CALCULATE ( [Forecast Cells], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+	/// Number of scored cells in context without the flagged returns (one per group, year, return and method).
+	measure 'Forecast Cells (excl. flagged returns)' =
+			CALCULATE ( [Forecast Cells], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 		formatString: #,##0
 		displayFolder: Forecast accuracy
 		lineageTag: d74bc364-c744-4cea-a3cd-ff399c20de69
 
-	/// Scored cells that belong to a known bad return. Forecast Cells less this is Forecast Cells (excl. bad returns).
-	measure 'Known Bad Return Cells' =
-			CALCULATE ( [Forecast Cells], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = TRUE () ) )
+	/// Scored cells that belong to a flagged return. Forecast Cells less this is Forecast Cells (excl. flagged returns).
+	measure 'Flagged Return Cells' =
+			CALCULATE ( [Forecast Cells], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = TRUE () ) )
 		formatString: #,##0
 		displayFolder: Forecast accuracy
 		lineageTag: c9392b08-d049-47ac-b060-80067250b9c1
@@ -241,13 +241,13 @@ table 'Fact Forecast Accuracy (derived)'
 		summarizeBy: none
 		sourceColumn: budget_measure
 
-	/// True where the department group's whole return is flagged in the quality table: a units error, a scale outlier, an organisation missing from the final, or the department group missing or nearly missing. Flagged, never dropped: the measures with 'excl. bad returns' leave these rows out, the others keep them.
-	column 'Known Bad Return'
+	/// True for every department group return that dw.forecast_return_quality flags (rules u, s, x, m and p: a units error, a scale outlier, an organisation missing from the final, the department group missing or nearly missing), not only the two named examples; FCDO R0 of FY2020-21 and the Department of Health R1 of FY2018-19 are the two with the largest effect. Flagged, never dropped: the measures with 'excl. flagged returns' leave all of these rows out, the others keep them.
+	column 'Flagged Return'
 		dataType: boolean
 		displayFolder: Derived
 		lineageTag: b9df4ecc-2366-49cd-a43e-cedfc3211ed5
 		summarizeBy: none
-		sourceColumn: known_bad_return
+		sourceColumn: flagged_return
 
 	/// True where every method of the line has a score for the cell in that return (three on a budget measure total, four on the pay line). Filter to True to compare methods on exactly the same cells.
 	column 'Scored By Every Method'

@@ -10,7 +10,8 @@ SELECTCOLUMNS (
                 "cells", [Forecast Cells],
                 "pay_cover", [FTE x Cost Pay Cover]
             ),
-            'Forecast Method'[Method] = "FTE x cost"
+            'Forecast Method'[Method] = "FTE x cost",
+            'Fact Forecast Accuracy (derived)'[Forecast Line] = "Pay line (A101, resource DEL)"
         ),
         NOT ISBLANK ( [cells] )
     ),

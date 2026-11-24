@@ -1,6 +1,7 @@
 -- requires: dw.forecast_accuracy, dw.forecast_pay_accuracy
 -- Independent of the model views: read from the accuracy tables of dw, with the line, the method name and the number of methods a
 -- cell was scored by worked out here (a cell is a department group, budget measure, financial year and return of one line).
+-- The model's ratios agree with this query to within 0.000001 (the largest difference on these tests in evidence/model/dax_tests.csv is 0.00000099; the comparison tolerance is 0.0001): the SQL carries 10 decimal places, the agreement is to 6.
 WITH acc AS (
     SELECT 'Total' AS line, a.* FROM dw.forecast_accuracy AS a
     UNION ALL

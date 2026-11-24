@@ -1,6 +1,7 @@
 -- requires: dw.forecast_accuracy, dw.forecast_pay_accuracy, dw.forecast_fte_cost_input
 -- Independent of the model views: the department rows of dw.forecast_accuracy, and the FTE x cost rows and department rows of the pay-line table
 -- with the workforce paybill (pounds, divided by 1,000) and the pay line of the month from dw.forecast_fte_cost_input. One row for each card.
+-- The model's ratios agree with this query to within 0.000001 (the largest difference on these tests in evidence/model/dax_tests.csv is 0.00000099; the comparison tolerance is 0.0001): the SQL carries 10 decimal places, the agreement is to 6.
 SELECT 'wape' AS card,
        CAST(SUM(CAST(full_year_abs_error AS decimal(38, 10))) / SUM(CAST(full_year_abs_outturn AS decimal(38, 10))) AS decimal(38, 10)) AS value
 FROM dw.forecast_accuracy WHERE method = 'department'
@@ -9,7 +10,7 @@ SELECT 'wape_excl',
        CAST(SUM(CAST(full_year_abs_error AS decimal(38, 10))) / SUM(CAST(full_year_abs_outturn AS decimal(38, 10))) AS decimal(38, 10))
 FROM dw.forecast_accuracy WHERE method = 'department' AND is_flagged_return = 0
 UNION ALL
-SELECT 'bad_cells', CAST(COUNT_BIG(*) AS decimal(38, 10)) FROM dw.forecast_accuracy WHERE method = 'department' AND is_flagged_return = 1
+SELECT 'flagged_cells', CAST(COUNT_BIG(*) AS decimal(38, 10)) FROM dw.forecast_accuracy WHERE method = 'department' AND is_flagged_return = 1
 UNION ALL
 SELECT 'cell_coverage',
        CAST(CAST((SELECT COUNT_BIG(*) FROM dw.forecast_pay_accuracy WHERE method = 'fte_cost' AND financial_year >= '2018-19') AS decimal(38, 10))

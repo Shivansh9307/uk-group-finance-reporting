@@ -1,0 +1,5 @@
+case,cells,abs_error,wape,wape_excl
+"1 no line filter",,,,
+"2 both lines in the filter",,,,
+"3 budget measure total",1709,3208806052.9954,0.22400371791996762,0.16686142623579456
+"4 pay line",588,507468273.271,0.27592368047692034,0.068992675329226621

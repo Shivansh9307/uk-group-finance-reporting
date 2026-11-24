@@ -5,7 +5,7 @@ built and why is in [model.md](model.md); how its evidence is kept honest is in 
 
 The hash below is the hash of the model's TMDL files that this page was generated from (`ukfr ledger`, see evidence.md). If the model has changed since, `ukfr ledger check` fails with "model-reference.md is stale" until the page is generated again.
 
-Model projection hash: `f30197a5c4cbf9fb5aaa20d067b564a30e3ac046ba0125e2ed2285af9d1968bb`
+Model projection hash: `8b33cb0eda486b6bbc42abc84783ed62a81028a5412d914cd3f3128736590c49`
 
 The model has 48 tables, 390 columns, 108 measures, 42 relationships, 23 user-defined functions, 2 roles and 3 perspectives.
 
@@ -23,7 +23,7 @@ The model has 48 tables, 390 columns, 108 measures, 42 relationships, 23 user-de
 | Deflator Quarantine | table | 4 | 0 | Rows of the three GDP deflator workbooks that did not parse, with the file and the reason. Empty when every row parses (tested by tests/dax/705). Nothing is dropped silently: a row that is neither a financial-year row nor a blank or note line lands here. |
 | Department (current structure) | table | 7 | 0 | The departments of today's structure (63 members: 59 departments and 4 Unallocated members for lines of closed or split departments that no current department took over). Fact Outturn joins on the current-department key written in the warehouse, so every line sits in exactly one department, restated onto the current structure with no weights. Source view dw.v_model_department. |
 | Display Unit | calculation group, precedence 30 | 2 | 0 | Calculation group that shows an amount in GBP thousands, millions or billions. It divides the value (the data is in GBP thousands) and sets a dynamic format string with the unit suffix; no number format scales with commas. It acts on the amount measures only (the base, plan, comparison and statement amounts), leaves percentages and indicators unscaled, and gives Variance %, YoY % and Favourable/Adverse their own formats. Precedence 30: the outermost, so its format string is the one that applies when a unit is selected. |
-| Fact Forecast Accuracy (derived) | table | 20 | 21 | DERIVED from real data, in GBP thousands (not pounds): how well each forecast of the monthly returns scored against the final outturn (R13). One row per forecast line, department group, budget measure, financial year, return and method. The department's own forecasts are the real returns; the run rate, seasonal and FTE x cost methods are my own forecasts, made from only what was known at the return, and every score is computed from them in SQL. The forecast line is a budget measure total (RDEL, CDEL or AME, three methods) or the pay line (A101 of RDEL, four methods: FTE x cost exists only here and only where the department's workforce is published for the month). Known Bad Return marks a department group's whole return that is flagged (a units error, a scale outlier, a body or department missing); every measure has a version without those returns. Scored By Every Method marks the cells that every method of the line scored, the cells on which the methods compare like for like. Nothing synthetic or authored is in it. Ratios are ratios of sums, never averages of percentages. The department is the department of the current structure that the group's department number maps to, so the security roles filter it through Department (current structure). Source view dw.v_model_forecast_accuracy. |
+| Fact Forecast Accuracy (derived) | table | 20 | 21 | DERIVED from real data, in GBP thousands (not pounds): how well each forecast of the monthly returns scored against the final outturn (R13). One row per forecast line, department group, budget measure, financial year, return and method. The department's own forecasts are the real returns; the run rate, seasonal and FTE x cost methods are my own forecasts, made from only what was known at the return, and every score is computed from them in SQL. The forecast line is a budget measure total (RDEL, CDEL or AME, three methods) or the pay line (A101 of RDEL, four methods: FTE x cost exists only here and only where the department's workforce is published for the month). Flagged Return is true for every department group return that dw.forecast_return_quality flags (a units error, a scale outlier, an organisation missing from the final, a department group missing or nearly missing): all of them, 268 cells of the department's own forecast, not only two. The two with the largest effect are FCDO R0 of FY2020-21 (keyed in pounds) and the Department of Health R1 of FY2018-19 (missing). Every measure has an '(excl. flagged returns)' version that leaves all flagged returns out. The pay line is part of the RDEL budget measure total, so the two forecast lines overlap: the accuracy measures are blank unless exactly one Forecast Line is in the filter context. Scored By Every Method marks the cells that every method of the line scored, the cells on which the methods compare like for like. Nothing synthetic or authored is in it. Ratios are ratios of sums, never averages of percentages. The department is the department of the current structure that the group's department number maps to, so the security roles filter it through Department (current structure). Source view dw.v_model_forecast_accuracy. |
 | Fact Outturn | table | 13 | 34 | Real outturn from the 31 OSCAR in-year releases as revision deltas: one row for each change a release makes to a line (organisation version, sub-segment, economic category, control budget detail, period), only non-zero deltas. The sum of the deltas up to a release equals what that release reports. GBP thousands, spending positive, income negative. Source view dw.v_model_fact_outturn. |
 | Fact Pay Bridge (derived) | table | 11 | 13 | DERIVED from real data, in pounds (not GBP thousands): the paybill and full-time equivalent of the payroll published in the departments' monthly workforce files, compared month against the same month a year earlier. One row per department of the current structure, organisation and month (the later month of the two). A row is continuing (valid in both months in the same department), entry, exit, or not_bridged (left out, with a reason); only the first three enter the bridge. Valid means the cell has a full-time equivalent above zero and a paybill above zero, and no published row behind it is listed in audit.workforce_row_arithmetic. Nothing synthetic or authored is in it; the only authored input is the map from a published name to an organisation. The department is the department of the current structure the body sat in that month, so the security roles filter it through Department (current structure). Source view dw.v_model_pay_bridge. |
 | Fact Plan | table | 13 | 7 | Real plans as published, at the grain of their source (see Plan Grain): OSCAR Plans by organisation to 2021-22, Estimates by Spending Review group from 2022-23, PESA departmental AME and administration budgets by group to 2028-29. Held for the year, not by month; compare with outturn only at the plan's grain or coarser. GBP thousands. Source view dw.v_model_fact_plan. |
@@ -113,14 +113,30 @@ The model has 48 tables, 390 columns, 108 measures, 42 relationships, 23 user-de
 
 ### Fact Forecast Accuracy (derived)
 
+#### Flagged Return Cells
+
+Display folder `Forecast accuracy`.
+
+Scored cells that belong to a flagged return. Forecast Cells less this is Forecast Cells (excl. flagged returns).
+
+```dax
+CALCULATE ( [Forecast Cells], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = TRUE () ) )
+```
+
+Format string expression:
+
+```dax
+"#,##0"
+```
+
 #### Forecast Abs Error
 
 Display folder `Forecast accuracy`.
 
-Absolute full-year error of the forecasts in context, GBP thousands: the sum over cells of |full-year forecast less outturn|. All returns, flagged ones included.
+Absolute full-year error of the forecasts in context, GBP thousands: the sum over cells of |full-year forecast less outturn|. All returns, flagged ones included. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 
 ```dax
-SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Error] )
+IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Error] ) )
 ```
 
 Format string expression:
@@ -129,14 +145,14 @@ Format string expression:
 "\£#,##0;-\£#,##0;\£0"
 ```
 
-#### Forecast Abs Error (excl. bad returns)
+#### Forecast Abs Error (excl. flagged returns)
 
 Display folder `Forecast accuracy`.
 
-Absolute full-year error, GBP thousands, without the known bad returns.
+Absolute full-year error, GBP thousands, without the flagged returns.
 
 ```dax
-CALCULATE ( [Forecast Abs Error], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+CALCULATE ( [Forecast Abs Error], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 ```
 
 Format string expression:
@@ -149,10 +165,10 @@ Format string expression:
 
 Display folder `Forecast accuracy`.
 
-Absolute full-year outturn (R13) of the cells in context, GBP thousands: the denominator of WAPE. All returns.
+Absolute full-year outturn (R13) of the cells in context, GBP thousands: the denominator of WAPE. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 
 ```dax
-SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] )
+IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) )
 ```
 
 Format string expression:
@@ -161,14 +177,14 @@ Format string expression:
 "\£#,##0;-\£#,##0;\£0"
 ```
 
-#### Forecast Abs Outturn (excl. bad returns)
+#### Forecast Abs Outturn (excl. flagged returns)
 
 Display folder `Forecast accuracy`.
 
-Absolute full-year outturn, GBP thousands, without the known bad returns.
+Absolute full-year outturn, GBP thousands, without the flagged returns.
 
 ```dax
-CALCULATE ( [Forecast Abs Outturn], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+CALCULATE ( [Forecast Abs Outturn], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 ```
 
 Format string expression:
@@ -181,10 +197,10 @@ Format string expression:
 
 Display folder `Forecast accuracy`.
 
-Signed error over absolute outturn: positive means the forecasts were too high, negative too low. A ratio of sums. All returns.
+Signed error over absolute outturn: positive means the forecasts were too high, negative too low. A ratio of sums. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 
 ```dax
-DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) )
+IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) ) )
 ```
 
 Format string expression:
@@ -193,14 +209,14 @@ Format string expression:
 "0.0%;-0.0%;0.0%"
 ```
 
-#### Forecast Bias (excl. bad returns)
+#### Forecast Bias (excl. flagged returns)
 
 Display folder `Forecast accuracy`.
 
-Bias of the full-year forecast without the known bad returns.
+Bias of the full-year forecast (signed, a ratio of sums) without the flagged returns.
 
 ```dax
-CALCULATE ( [Forecast Bias], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+CALCULATE ( [Forecast Bias], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 ```
 
 Format string expression:
@@ -213,10 +229,10 @@ Format string expression:
 
 Display folder `Forecast accuracy`.
 
-Number of scored cells in context: one per department group, budget measure, year, return and method. All returns.
+Number of scored cells in context: one per department group, budget measure, year, return and method. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 
 ```dax
-COUNTROWS ( 'Fact Forecast Accuracy (derived)' )
+IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), COUNTROWS ( 'Fact Forecast Accuracy (derived)' ) )
 ```
 
 Format string expression:
@@ -225,14 +241,14 @@ Format string expression:
 "#,##0"
 ```
 
-#### Forecast Cells (excl. bad returns)
+#### Forecast Cells (excl. flagged returns)
 
 Display folder `Forecast accuracy`.
 
-Number of scored cells in context without the known bad returns (one per group, year, return and method).
+Number of scored cells in context without the flagged returns (one per group, year, return and method).
 
 ```dax
-CALCULATE ( [Forecast Cells], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+CALCULATE ( [Forecast Cells], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 ```
 
 Format string expression:
@@ -245,10 +261,10 @@ Format string expression:
 
 Display folder `Forecast accuracy`.
 
-Signed full-year error of the forecasts in context, GBP thousands (forecast less outturn: positive is too high). All returns.
+Signed full-year error of the forecasts in context, GBP thousands (forecast less outturn: positive is too high). All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 
 ```dax
-SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Error] )
+IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Error] ) )
 ```
 
 Format string expression:
@@ -257,14 +273,14 @@ Format string expression:
 "\£#,##0;-\£#,##0;\£0"
 ```
 
-#### Forecast Error (excl. bad returns)
+#### Forecast Error (excl. flagged returns)
 
 Display folder `Forecast accuracy`.
 
-Signed full-year error, GBP thousands, without the known bad returns.
+Signed full-year error, GBP thousands, without the flagged returns.
 
 ```dax
-CALCULATE ( [Forecast Error], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+CALCULATE ( [Forecast Error], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 ```
 
 Format string expression:
@@ -277,10 +293,10 @@ Format string expression:
 
 Display folder `Forecast accuracy`.
 
-Percentage error on the cells whose full-year outturn is positive and at least GBP 100m only (a percentage error on a line near zero or on income says nothing), as a ratio of sums. Blank where no cell in context qualifies. All returns.
+Percentage error on the cells whose full-year outturn is positive and at least GBP 100m only (a percentage error on a line near zero or on income says nothing), as a ratio of sums. Blank where no cell in context qualifies. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 
 ```dax
-DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[MAPE Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[MAPE Outturn] ) )
+IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[MAPE Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[MAPE Outturn] ) ) )
 ```
 
 Format string expression:
@@ -289,14 +305,14 @@ Format string expression:
 "0.0%;-0.0%;0.0%"
 ```
 
-#### Forecast MAPE (excl. bad returns)
+#### Forecast MAPE (excl. flagged returns)
 
 Display folder `Forecast accuracy`.
 
-MAPE on the cells of GBP 100m or more, without the known bad returns.
+MAPE on the cells of GBP 100m or more, without the flagged returns.
 
 ```dax
-CALCULATE ( [Forecast MAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+CALCULATE ( [Forecast MAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 ```
 
 Format string expression:
@@ -309,10 +325,10 @@ Format string expression:
 
 Display folder `Forecast accuracy`.
 
-Signed error over absolute outturn on the forecast months only. A ratio of sums. All returns.
+Signed error over absolute outturn on the forecast months only. A ratio of sums. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 
 ```dax
-DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Outturn] ) )
+IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Outturn] ) ) )
 ```
 
 Format string expression:
@@ -321,14 +337,14 @@ Format string expression:
 "0.0%;-0.0%;0.0%"
 ```
 
-#### Forecast Month Bias (excl. bad returns)
+#### Forecast Month Bias (excl. flagged returns)
 
 Display folder `Forecast accuracy`.
 
-Forecast-month bias (signed, a ratio of sums) without the known bad returns.
+Forecast-month bias (signed, a ratio of sums) without the flagged returns.
 
 ```dax
-CALCULATE ( [Forecast Month Bias], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+CALCULATE ( [Forecast Month Bias], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 ```
 
 Format string expression:
@@ -341,10 +357,10 @@ Format string expression:
 
 Display folder `Forecast accuracy`.
 
-The same score on the forecast months only (the months after the return's last actual month, scored month by month against R13). A ratio of sums. All returns.
+The same score on the forecast months only (the months after the return's last actual month, scored month by month against R13). A ratio of sums. All returns. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 
 ```dax
-DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Outturn] ) )
+IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Outturn] ) ) )
 ```
 
 Format string expression:
@@ -353,14 +369,14 @@ Format string expression:
 "0.0%;-0.0%;0.0%"
 ```
 
-#### Forecast Month WAPE (excl. bad returns)
+#### Forecast Month WAPE (excl. flagged returns)
 
 Display folder `Forecast accuracy`.
 
-Forecast-month WAPE (the forecast months only, a ratio of sums) without the known bad returns.
+Forecast-month WAPE (the forecast months only, a ratio of sums) without the flagged returns.
 
 ```dax
-CALCULATE ( [Forecast Month WAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+CALCULATE ( [Forecast Month WAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 ```
 
 Format string expression:
@@ -373,10 +389,10 @@ Format string expression:
 
 Display folder `Forecast accuracy`.
 
-Weighted absolute percentage error of the full-year forecast: the sum of absolute errors over the sum of absolute outturn (a ratio of sums, never an average of percentages). All returns, flagged ones included.
+Weighted absolute percentage error of the full-year forecast: the sum of absolute errors over the sum of absolute outturn (a ratio of sums, never an average of percentages). All returns, flagged ones included. Blank unless exactly one Forecast Line is in the filter context: the pay line is part of the RDEL total, so a figure over both lines would count it twice.
 
 ```dax
-DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) )
+IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) ) )
 ```
 
 Format string expression:
@@ -385,14 +401,14 @@ Format string expression:
 "0.0%;-0.0%;0.0%"
 ```
 
-#### Forecast WAPE (excl. bad returns)
+#### Forecast WAPE (excl. flagged returns)
 
 Display folder `Forecast accuracy`.
 
-Weighted absolute percentage error of the full-year forecast without the known bad returns.
+Weighted absolute percentage error of the full-year forecast without the flagged returns.
 
 ```dax
-CALCULATE ( [Forecast WAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+CALCULATE ( [Forecast WAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Flagged Return] = FALSE () ) )
 ```
 
 Format string expression:
@@ -453,22 +469,6 @@ Format string expression:
 
 ```dax
 "0.0%;-0.0%;0.0%"
-```
-
-#### Known Bad Return Cells
-
-Display folder `Forecast accuracy`.
-
-Scored cells that belong to a known bad return. Forecast Cells less this is Forecast Cells (excl. bad returns).
-
-```dax
-CALCULATE ( [Forecast Cells], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = TRUE () ) )
-```
-
-Format string expression:
-
-```dax
-"#,##0"
 ```
 
 ### Fact Outturn
@@ -2376,6 +2376,7 @@ Format string expression:
 | Department Group Name | Data | text |  |  | department_group_name |  |  | Derived | The name of the department group in the latest year it reports. The name differs by year (BEIS became part of DSIT, DID became FCDO); the code does not. |
 | Department Key | Data | integer | yes |  | department_key | 0 |  |  | Department of the current structure that the department group's number maps to. |
 | Fiscal Year Key | Data | text | yes |  | financial_year |  |  |  | Financial year of the return, written 2019-20. |
+| Flagged Return | Data | true/false |  |  | flagged_return |  |  | Derived | True for every department group return that dw.forecast_return_quality flags (rules u, s, x, m and p: a units error, a scale outlier, an organisation missing from the final, the department group missing or nearly missing), not only the two named examples; FCDO R0 of FY2020-21 and the Department of Health R1 of FY2018-19 are the two with the largest effect. Flagged, never dropped: the measures with 'excl. flagged returns' leave all of these rows out, the others keep them. |
 | Forecast Line | Data | text |  |  | forecast_line_name |  |  | Derived | Budget measure total (the whole total of RDEL, CDEL or AME) or Pay line (A101 of RDEL). The two lines are different populations: do not add them. |
 | Forecast Month Abs Error | Data | currency | yes |  | fm_abs_error | #,##0.0000 |  |  | Absolute error summed month by month over the forecast months, GBP thousands. Hidden: use the measures. |
 | Forecast Month Abs Outturn | Data | currency | yes |  | fm_abs_outturn | #,##0.0000 |  |  | Absolute outturn summed month by month over the forecast months, GBP thousands. Hidden: use the measures. |
@@ -2383,7 +2384,6 @@ Format string expression:
 | Full Year Abs Error | Data | currency | yes |  | full_year_abs_error | #,##0.0000 |  |  | Absolute full-year error, GBP thousands. Hidden: use the measures. |
 | Full Year Abs Outturn | Data | currency | yes |  | full_year_abs_outturn | #,##0.0000 |  |  | Absolute full-year outturn, GBP thousands: the denominator of the full-year WAPE. Hidden: use the measures. |
 | Full Year Error | Data | currency | yes |  | full_year_error | #,##0.0000 |  |  | Full-year forecast less outturn, GBP thousands (positive: forecast too high). Hidden: use the measures. |
-| Known Bad Return | Data | true/false |  |  | known_bad_return |  |  | Derived | True where the department group's whole return is flagged in the quality table: a units error, a scale outlier, an organisation missing from the final, or the department group missing or nearly missing. Flagged, never dropped: the measures with 'excl. bad returns' leave these rows out, the others keep them. |
 | MAPE Abs Error | Data | currency | yes |  | mape_abs_error | #,##0.0000 |  |  | Absolute full-year error, set only where the full-year outturn is positive and at least GBP 100m (100,000 in GBP thousands). Hidden: use the measures. |
 | MAPE Outturn | Data | currency | yes |  | mape_outturn | #,##0.0000 |  |  | Full-year outturn of the same cells. Hidden: use the measures. |
 | Method Key | Data | text | yes |  | method |  |  |  | Forecast method: department, run_rate, seasonal or fte_cost. |

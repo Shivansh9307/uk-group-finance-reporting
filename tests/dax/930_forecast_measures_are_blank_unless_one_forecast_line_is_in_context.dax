@@ -1,0 +1,36 @@
+// The pay line is part of the RDEL budget measure total and both lines are rows of one fact, so a figure over both would count the pay
+// line twice. The accuracy measures therefore return blank unless exactly one Forecast Line is in the filter context. The department's
+// own forecast in FY2021-22: with no line filter and with both lines named the measures are blank; with one line they give that line's
+// figures (a filter on the column, as a visual filter does).
+EVALUATE
+UNION (
+    ROW (
+        "case", "1 no line filter",
+        "cells", CALCULATE ( [Forecast Cells], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22" ),
+        "abs_error", CALCULATE ( [Forecast Abs Error], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22" ),
+        "wape", CALCULATE ( [Forecast WAPE], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22" ),
+        "wape_excl", CALCULATE ( [Forecast WAPE (excl. flagged returns)], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22" )
+    ),
+    ROW (
+        "case", "2 both lines in the filter",
+        "cells", CALCULATE ( [Forecast Cells], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] IN { "Budget measure total", "Pay line (A101, resource DEL)" } ),
+        "abs_error", CALCULATE ( [Forecast Abs Error], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] IN { "Budget measure total", "Pay line (A101, resource DEL)" } ),
+        "wape", CALCULATE ( [Forecast WAPE], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] IN { "Budget measure total", "Pay line (A101, resource DEL)" } ),
+        "wape_excl", CALCULATE ( [Forecast WAPE (excl. flagged returns)], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] IN { "Budget measure total", "Pay line (A101, resource DEL)" } )
+    ),
+    ROW (
+        "case", "3 budget measure total",
+        "cells", CALCULATE ( [Forecast Cells], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total" ),
+        "abs_error", CALCULATE ( [Forecast Abs Error], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total" ),
+        "wape", CALCULATE ( [Forecast WAPE], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total" ),
+        "wape_excl", CALCULATE ( [Forecast WAPE (excl. flagged returns)], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total" )
+    ),
+    ROW (
+        "case", "4 pay line",
+        "cells", CALCULATE ( [Forecast Cells], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] = "Pay line (A101, resource DEL)" ),
+        "abs_error", CALCULATE ( [Forecast Abs Error], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] = "Pay line (A101, resource DEL)" ),
+        "wape", CALCULATE ( [Forecast WAPE], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] = "Pay line (A101, resource DEL)" ),
+        "wape_excl", CALCULATE ( [Forecast WAPE (excl. flagged returns)], 'Forecast Method'[Method] = "Department", 'Fiscal Year'[Financial Year] = "2021-22", 'Fact Forecast Accuracy (derived)'[Forecast Line] = "Pay line (A101, resource DEL)" )
+    )
+)
+ORDER BY [case]

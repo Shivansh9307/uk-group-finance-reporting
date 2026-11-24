@@ -1,16 +1,16 @@
 // The forecast-month scores (only the months after the return's last actual month, month by month) and MAPE (only cells whose outturn is
-// positive and at least GBP 100m) by method for FY2019-20, on the cells every method scored, with and without the known bad returns.
+// positive and at least GBP 100m) by method for FY2019-20, on the cells every method scored, with and without the flagged returns.
 EVALUATE
 SELECTCOLUMNS (
     CALCULATETABLE (
         SUMMARIZECOLUMNS (
             'Forecast Method'[Method],
             "fm_wape", [Forecast Month WAPE],
-            "fm_wape_excl", [Forecast Month WAPE (excl. bad returns)],
+            "fm_wape_excl", [Forecast Month WAPE (excl. flagged returns)],
             "fm_bias", [Forecast Month Bias],
-            "fm_bias_excl", [Forecast Month Bias (excl. bad returns)],
+            "fm_bias_excl", [Forecast Month Bias (excl. flagged returns)],
             "mape", [Forecast MAPE],
-            "mape_excl", [Forecast MAPE (excl. bad returns)]
+            "mape_excl", [Forecast MAPE (excl. flagged returns)]
         ),
         'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total",
         'Fact Forecast Accuracy (derived)'[Scored By Every Method] = TRUE (),

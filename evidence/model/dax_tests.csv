@@ -110,11 +110,12 @@ test_id,test_name,expected_rows,result_rows,columns,status,max_abs_diff,build_sc
 910,pay_bridge_cards_2025_26,5,5,2,pass,0,full
 920,forecast_model_table_row_counts,3,3,2,pass,0,full
 921,forecast_total_line_by_method_and_year_common_cells,15,15,10,pass,0.000000983814346174,full
-922,forecast_department_by_year_with_and_without_the_known_bad_returns,6,6,9,pass,0.00000098721710378,full
-923,forecast_the_two_known_bad_return_cells,6,6,9,pass,0.0000006125631,full
+922,forecast_department_by_year_with_and_without_flagged_returns,6,6,9,pass,0.00000098721710378,full
+923,forecast_the_two_named_flagged_return_cells,6,6,9,pass,0.0000006125631,full
 924,forecast_departmental_ame_by_method_2021_22,3,3,7,pass,0.0000007987457777051,full
 925,forecast_pay_line_four_methods_by_year_common_cells,20,20,8,pass,0.0000009776381188913,full
 926,forecast_fte_cost_coverage_by_year,5,5,3,pass,0.00000094964984887,full
 927,forecast_month_scores_and_mape_by_method_2019_20,3,3,7,pass,0.00000092913647989,full
 928,forecast_page_cards,5,5,2,pass,0.00000096678656293,full
 929,forecast_page_department_table,60,60,5,pass,0.00000099670099822,full
+930,forecast_measures_are_blank_unless_one_forecast_line_is_in_context,4,4,5,pass,0.00000071791996762,full

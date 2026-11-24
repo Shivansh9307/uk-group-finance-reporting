@@ -1,5 +1,6 @@
 -- requires: dw.forecast_accuracy, dw.forecast_pay_accuracy, dw.forecast_fte_cost_input
 -- Independent of the model views: the department of the current structure from the number in the group code through dw.department_reported_number.
+-- The model's ratios agree with this query to within 0.000001 (the largest difference on these tests in evidence/model/dax_tests.csv is 0.00000099; the comparison tolerance is 0.0001): the SQL carries 10 decimal places, the agreement is to 6.
 WITH m AS (
     SELECT r.reported_department_number AS num, r.current_department_key AS dept FROM dw.department_reported_number AS r
 ),

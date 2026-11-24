@@ -1,7 +1,7 @@
 """The forecast accuracy tests of the model cannot pass vacuously.
 
-The with and without versions of a score differ only where a known bad return is in the cells, so a test that compares
-them proves the flag works only if the two expected figures differ in the years that hold the two known cases (FCDO R0
+The with and without versions of a score differ only where a flagged return is in the cells, so a test that compares
+them proves the flag works only if the two expected figures differ in the years that hold the two named flagged returns (FCDO R0
 of FY2020-21 and the Department of Health R1 of FY2018-19). These checks read the committed expected values and the
 committed test results, and need no database and no Desktop.
 """
@@ -23,25 +23,25 @@ def _rows(path: Path) -> list[dict]:
         return list(csv.DictReader(fh))
 
 
-def test_the_with_and_without_figures_differ_in_the_two_years_that_hold_a_known_bad_return():
-    name = "922_forecast_department_by_year_with_and_without_the_known_bad_returns.csv"
+def test_the_with_and_without_figures_differ_in_the_two_years_that_hold_a_flagged_return():
+    name = "922_forecast_department_by_year_with_and_without_flagged_returns.csv"
     rows = {r["financial_year"]: r for r in _rows(EXPECTED / name)}
     assert YEARS_WITH_A_KNOWN_CASE <= set(rows)
     for year in YEARS_WITH_A_KNOWN_CASE:
         r = rows[year]
         assert Decimal(r["abs_error"]) != Decimal(r["abs_error_excl"]), year
         assert Decimal(r["wape"]) != Decimal(r["wape_excl"]), year
-        assert int(r["bad_cells"]) > 0, year
+        assert int(r["flagged_cells"]) > 0, year
 
 
-def test_the_two_known_cells_are_flagged_have_an_error_and_no_cell_without_the_bad_returns():
-    rows = _rows(EXPECTED / "923_forecast_the_two_known_bad_return_cells.csv")
+def test_the_two_named_cells_are_flagged_have_an_error_and_no_cell_without_the_flagged_returns():
+    rows = _rows(EXPECTED / "923_forecast_the_two_named_flagged_return_cells.csv")
     assert {(r["department_group_code"], r["financial_year"], r["return_label"]) for r in rows} == {
         ("DID030.GROUP", "2020-21", "R0"),
         ("DOH033.GROUP", "2018-19", "R1"),
     }
     for r in rows:
-        assert int(r["bad_cells"]) >= 1 and int(r["cells_excl"]) == 0
+        assert int(r["flagged_cells"]) >= 1 and int(r["cells_excl"]) == 0
         assert Decimal(r["abs_error"]) > 0
 
 

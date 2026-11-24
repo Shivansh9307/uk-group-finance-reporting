@@ -1111,10 +1111,18 @@ else; the group of the BEIS years sits under the department that now carries num
 
 **Decisions.**
 
-1. *Two lines in one fact.* The budget measure totals (RDEL, CDEL, AME; three methods) and the pay line (A101 of RDEL; four methods) are
-   different populations. A column, `Forecast Line`, tells them apart and the page fixes it with a visual filter; a measure that adds
-   across the two lines is not meaningful and I did not build one.
-2. *The with and without versions are measure pairs on one flag.* `Known Bad Return` is a column; each `(excl. bad returns)` measure is
+1. *Two lines in one fact, and a guard.* The pay line (A101 of RDEL; four methods) is part of the RDEL budget measure total (RDEL, CDEL,
+   AME; three methods) and both are rows of one fact, so a figure over both lines would count the pay line twice. A column,
+   `Forecast Line`, tells them apart. The nine plain measures (`Forecast Abs Error`, `Forecast Abs Outturn`, `Forecast Error`, `Forecast WAPE`,
+   `Forecast Bias`, `Forecast Month WAPE`, `Forecast Month Bias`, `Forecast MAPE` and `Forecast Cells`) are wrapped in
+   `IF ( HASONEVALUE ( 'Fact Forecast Accuracy (derived)'[Forecast Line] ), ... )` and return blank unless exactly one forecast line is in the
+   filter context; `HASONEVALUE` sees a visual filter or a `CALCULATE` filter on the column as it sees a row of the visual, so the page's visual
+   filters work unchanged. The `(excl. flagged returns)` twins and `Flagged Return Cells` call them and inherit the guard; the two FTE x cost
+   measures set the line themselves. **Tested**: `tests/dax/930` (blank with no line filter and with both lines named, the line's figures
+   with one; expected from SQL) and `pipeline/tests/test_model_measures.py` (every plain measure carries the guard).
+2. *The with and without versions are measure pairs on one flag.* `Flagged Return` is a column that is true for every return of
+   `dw.forecast_return_quality` (268 cells of the department's own forecast; FCDO R0 of FY2020-21 and the Department of Health R1 of FY2018-19
+   are the two with the largest effect, and tests 922 and 923 pin both as flagged); each `(excl. flagged returns)` measure is
    `CALCULATE` of the plain one with `KEEPFILTERS` on the flag, so a slicer on the flag is intersected, not replaced. Nine pairs.
 3. *Ratios of sums.* WAPE, bias, forecast-month WAPE and bias and MAPE are each a `DIVIDE` of two sums of additive columns; no measure
    averages a percentage (**tested**: `pipeline/tests/test_model_measures.py`). MAPE sums only the cells whose outturn is at least GBP 100m.
@@ -1127,18 +1135,20 @@ else; the group of the BEIS years sits under the department that now carries num
 6. *Forecast amounts are not scaled.* The group `Display Unit` names the measures it scales; I left these out because the amounts are
    absolute errors that a reader compares with ratios.
 
-**Measures** (display folder `Forecast accuracy`): nine pairs, each a plain measure and its `(excl. bad returns)` twin (`Forecast Abs Error`,
+**Measures** (display folder `Forecast accuracy`): nine pairs, each a plain measure and its `(excl. flagged returns)` twin (`Forecast Abs Error`,
 `Forecast Abs Outturn`, `Forecast Error`, `Forecast WAPE`, `Forecast Bias`, `Forecast Month WAPE`, `Forecast Month Bias`, `Forecast MAPE`,
-`Forecast Cells`), and three single measures, `Known Bad Return Cells`, `FTE x Cost Cell Coverage` and `FTE x Cost Pay Cover`: 21 in all.
+`Forecast Cells`), and three single measures, `Flagged Return Cells`, `FTE x Cost Cell Coverage` and `FTE x Cost Pay Cover`: 21 in all.
 
 **Tests.** The eight DAX tests 920 to 927 and the two page tests 928 and 929 each return a table that an independent SQL query over `dw`
-(never over a `dw.v_model_*` view) reproduces: 119 of 119 DAX tests pass (109 before this change). The known bad returns change the
+(never over a `dw.v_model_*` view) reproduces: 120 of 120 DAX tests pass (109 before this change). The expected ratios carry 10 decimal places
+and the model agrees with them to within 0.000001 (the largest difference on these tests in `evidence/model/dax_tests.csv` is 0.00000099); the
+comparison tolerance is 0.0001. The flagged returns change the
 numbers in the tests (922 and 923), and `pipeline/tests/test_forecast_model.py` fails if they do not. The cases under the two roles are
 in [security.md](security.md#the-forecast-accuracy-under-the-two-roles).
 
 **Findings of the Best Practice Analyzer** (`evidence/bpa`): three new, all information severity, each with its reason. `RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE` on `Fiscal Year Key` of `Fact Forecast Accuracy (derived)`: the financial year is its text (2019-20), the key of `Fiscal Year`, as for the other facts. The same rule on `Method Key` of the fact and of `Forecast Method`: the key is the method's own code (`fte_cost`), which the coverage measures filter by name; I did not add a number to stand for it. The first run also raised nine warnings that I fixed and did not ignore: six amount measures whose format was not one of the model's formats (they now use `£#,##0;-£#,##0;£0`, with the unit in GBP thousands said in each description), two hidden columns that no measure read (`Full Year Forecast` and `Full Year Outturn`, dropped from the model; the view still holds them) and the two label tables' keys, which are now marked as keys. Counts: 63 rules, 27 violations, none above severity 1 (`evidence/bpa/bpa_counts.csv`).
 
-**Pitfalls I met**: a column that another sorts by cannot be `isAvailableInMdx: false` (Desktop refuses to load the project: "does not have an attribute hierarchy enabled"), the column that is sorted by has to be defined before the column that names it, and the name in `sortByColumn` needs quotes when it has a space. A TREATAS over columns of three different tables is a cross product of their values, not a set of tuples: for two cells of the known bad returns the test names the three columns of the fact. A measure that must ignore the visual's method filter has to ignore the line filter too if the rows it needs are on one line only.
+**Pitfalls I met**: a column that another sorts by cannot be `isAvailableInMdx: false` (Desktop refuses to load the project: "does not have an attribute hierarchy enabled"), the column that is sorted by has to be defined before the column that names it, and the name in `sortByColumn` needs quotes when it has a space. A TREATAS over columns of three different tables is a cross product of their values, not a set of tuples: for two cells of the flagged returns the test names the three columns of the fact. A measure that must ignore the visual's method filter has to ignore the line filter too if the rows it needs are on one line only.
 
 ## Not in the model yet
 

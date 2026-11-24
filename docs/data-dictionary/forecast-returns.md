@@ -278,6 +278,11 @@ profiling found (R13 was revised until October 2022; the June snapshot was taken
 
 ## The fourth method: FTE x cost, and the accuracy as modelled
 
+**Read the FTE x cost scores with this first.** Its WAPE on the pay line (39.7% to 45.3% a year) mostly reflects that the workforce
+paybill is only about 13% of the pay line it is scored against (11.7% to 14.3% a year, **tested**: `tests/dax/926`), so the method
+forecasts about a seventh of what the return's pay line carries. It says little about the method on a department whose workforce is
+the whole pay line; the post hoc comparison by cover band below is the only look at that.
+
 The model reads the accuracy through `dw.v_model_forecast_accuracy` (`sql/audit/925`). Everything below is real data, scope
 full, derived by the SQL named; nothing is authored or synthetic. Amounts are GBP thousands; the workforce files are in
 pounds and are divided by 1,000 at the boundary, in `sql/audit/921`.
@@ -289,7 +294,7 @@ the pay of the department group's core department and of the arm's length bodies
 little A101 too; it is not in the line. `dw.forecast_pay_input` (21,361 rows) holds the line of return n for months 1 to n as
 return n states them, and `dw.forecast_pay_prior_profile` the prior year's R13 line, the same shape as the two tables of the
 other methods (`sql/audit/920`). **Tested**: `sql/tests/923` rebuilds the full-year forecast and outturn of every cell and
-method from `dw.forecast_return` by another route.
+method from `dw.forecast_return` by another route (the paybill it uses for FTE x cost is the lineage value of `dw.forecast_own_pay`; `sql/tests/921` is the test that checks that value against `dw.workforce_month`).
 
 ### The method
 
@@ -312,8 +317,7 @@ in for a missing one. **Tested**: `sql/tests/920` (the month read is exactly the
 forecasts exactly the months n + 1 to 12 with one amount, and exists in no R0, R12 or FY2017-18, whose months precede the files).
 `sql/tests/921` recomputes every covered cell from the raw rows of `dw.workforce_month` with a different order of operations (the
 paybill added first and divided by 1,000 last, the valid cells found again from the list of excluded cells, the department by a
-window function) and requires the same set of cells and the same forecasts to within 0.0001. I changed a forecast and a
-workforce month in the database on purpose and tests 920 and 921 reported them.
+window function) and requires the same set of cells and the same forecasts to within 0.0001.
 
 My run-rate and seasonal methods are built again on the pay line (`dw.forecast_own_pay`) and the department's own pay-line
 forecast is read from the return, so that the four methods are compared on one line. The accuracy of the pay line is
@@ -366,8 +370,8 @@ threshold to drop either: the coverage is shown, not corrected.
 `Fact Forecast Accuracy (derived)` has one row for each forecast line (a budget measure total, or the pay line), department
 group, budget measure, year, return and method: 33,619 rows (the 24,076 of `dw.forecast_accuracy` and the 9,543 of
 `dw.forecast_pay_accuracy`). A cell has three methods on a budget measure total (department, run rate, seasonal) and four on the
-pay line. `known_bad_return` is the flag of `dw.forecast_return_quality` for the department group's return (rules `u`, `s`, `x`,
-`m` and `p`), so "without the bad returns" leaves out the whole group's return, not only its pay line. `common_cells` is 1 where
+pay line. `flagged_return` is the flag of `dw.forecast_return_quality` for the department group's return (rules `u`, `s`, `x`,
+`m` and `p`), so "without the flagged returns" leaves out the whole group's return, not only its pay line. `common_cells` is 1 where
 the cell has a score from every method of its line, and comparisons between methods use it, because the seasonal method exists on
 about two thirds of the cells and FTE x cost on about a fifth of the pay-line cells. MAPE exists only on cells with an outturn of
 at least GBP 100m, and its pooled form is a ratio of sums over those cells.
@@ -379,10 +383,12 @@ accuracy tables maps to a department (**tested**: `sql/tests/922`).
 
 **Tested** (`tests/dax/920` to `927`, 8 of 8 against SQL written over `dw`; `sql/tests/922` and `924`):
 
-- the known bad returns are present and flagged, and change the numbers. The department's own forecast on the budget measure
-  totals, every cell (R0 to R12), with the known bad returns kept in and without them (test 922):
+- every flagged return is flagged, and they change the numbers. `Flagged Return` is true for all 268 department-group returns that
+  `dw.forecast_return_quality` flags in the department's own forecast, not for two; FCDO R0 of FY2020-21 and the Department of Health R1
+  of FY2018-19 are the two with the largest effect, and `sql/tests/922` and `tests/dax/923` pin both as flagged. The department's own
+  forecast on the budget measure totals, every cell (R0 to R12), with the flagged returns kept in and without them (test 922):
 
-| Year | WAPE, all returns | WAPE, without bad returns | Bias, all | Bias, without |
+| Year | WAPE, all returns | WAPE, no flagged returns | Bias, all | Bias, without |
 |---|---:|---:|---:|---:|
 | FY2017-18 | 12.9% | 12.2% | -8.1% | -7.3% |
 | FY2018-19 | 18.4% | 16.5% | +8.7% | +10.7% |
@@ -397,22 +403,30 @@ accuracy tables maps to a department (**tested**: `sql/tests/922`).
   of 1,045, the return keyed in pounds); the Department of Health cells have a forecast of zero (a cell WAPE of 1).
   `pipeline/tests/test_forecast_model.py` fails if the with and without figures of those two years are equal, so the tests cannot
   pass whether or not the flag works;
-- the three methods on the budget measure totals, on the cells all three scored, without the bad returns (test 921), WAPE of the
+- the three methods on the budget measure totals, on the cells all three scored, without the flagged returns (test 921), WAPE of the
   department / run rate / seasonal: FY2018-19 6.4% / 9.2% / 14.2%, FY2019-20 6.2% / 7.1% / 6.5%, FY2020-21 9.3% / 13.4% / 14.2%,
   FY2021-22 7.2% / 14.4% / 10.6%, FY2022-23 7.3% / 13.6% / 14.2%;
 - departmental AME alone, FY2021-22 (test 924): WAPE 8.0% for the department, 17.0% for the run rate, 9.5% for the seasonal method;
-- the pay line, four methods, on the cells all four scored, without the bad returns (test 925): the department's WAPE is 1.6% to
+- the pay line, four methods, on the cells all four scored, without the flagged returns (test 925): the department's WAPE is 1.6% to
   10.4% a year, my seasonal method's 2.6% to 7.9%, my run rate's 1.7% to 9.1% and FTE x cost's 39.7% to 45.3%, with a bias of -39%
   to -45%: FTE x cost under-forecasts because the workforce paybill is a fraction of the pay line in the departments that carry most
   of it;
 - the forecast-month scores and MAPE by method (test 927).
 
-**What the pay line says, and the limit of it.** FTE x cost does not beat the department. On the pay-line cells that all four methods
-scored outside the bad returns, split by the share of the pay line that the workforce paybill is in month n (known when the
-forecast is made): where the share is between 0.8 and 1.25 (186 cells) the WAPE is 2.4% for the department, 2.9% for my run rate,
-3.5% for my seasonal method and 3.5% for FTE x cost; elsewhere (311 cells) 6.6%, 6.5%, 4.6% and 45.4%. I ran that split as a query
-on the database and did not commit it as a test, and I chose the band after seeing the coverage table, so it describes those cells
-and is not a result. Where the method sees the pay it is close to my run rate and a little behind the department; where it sees a
+**What the pay line says, and the limit of it.** FTE x cost does not beat the department. The comparison by how much of the pay line
+the workforce paybill is is **post hoc**: I chose the band 0.8 to 1.25 (inclusive) after I had seen the coverage table, and tried no
+other band, so it describes those cells and is not a result I set out to test. The share is known when a forecast is made (the
+workforce paybill of the last actual month over the pay line of that month). `audit.forecast_fte_cost_cover_band`
+(`sql/audit/923`, copy in `evidence/full/forecast_fte_cost_cover_band.csv`) holds it for the pay-line cells of R1 to R11 that all four
+methods scored outside the flagged returns, and `sql/tests/925` recomputes it from `dw.forecast_pay_accuracy` and
+`dw.forecast_fte_cost_input` (**tested**). WAPE by method:
+
+| Cover band | Cells | Department | Run rate | Seasonal | FTE x cost |
+|---|---:|---:|---:|---:|---:|
+| 0.8 to 1.25 | 186 | 2.4% | 2.8% | 3.5% | 3.5% |
+| outside it | 311 | 6.6% | 6.5% | 4.5% | 45.4% |
+
+Where the method sees about the whole pay line it is close to my other methods and a little behind the department; where it sees a
 small part of the pay it is of no use.
 
 ## What I could not settle in the fourth method
