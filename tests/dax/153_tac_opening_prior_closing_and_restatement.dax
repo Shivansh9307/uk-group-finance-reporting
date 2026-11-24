@@ -1,0 +1,15 @@
+// The opening balance (the prior-year column of the year's file), the closing balance of the year before (the
+// current-year column of the previous file), their difference and the restatement (the values both files hold that
+// differ by GBP 1,000 or more), by financial year and section of the balance sheet. 2019-20 has no earlier file, so
+// its prior-year closing balance is blank and its difference is the opening balance itself.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'TAC Statement Line'[Section],
+    TREATAS ( { "SoFP" }, 'TAC Statement Line'[Statement Code] ),
+    "opening_balance", [TAC Opening Balance],
+    "prior_year_closing_balance", [TAC Prior Year Closing Balance],
+    "opening_less_prior_closing", [TAC Opening less Prior Year Closing],
+    "restatement", [TAC Restatement]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'TAC Statement Line'[Section]

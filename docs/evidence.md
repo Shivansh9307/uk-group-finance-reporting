@@ -40,12 +40,12 @@ below: results come from a Desktop that has just loaded the model on disk and re
 straight after. If I edited a result file by hand and ran `ukfr ledger write`, the ledger would accept it as long as it
 equals the expected value. A hosted runner cannot tell the difference.
 
-The ledger as written for this change holds 620 files: 84 DAX tests, 84 results, 84 expected sources and 85 expected CSVs (84 and
-`_meta.csv`), 69 files of the committed-scope set (67 CSVs, `_meta.csv`, `_skipped.csv`), 12 role-case queries, 10 expected sources
-and 82 expected CSVs for them, 87 role-case results, the role-case manifest, 2 comparison files and 20 files of the model
-reference (10 queries, 10 CSVs). The expected values were written at `full` scope and the committed set at `committed`.
-**Tested**: `ukfr dax-compare` gave 84 of 84, `ukfr rls-compare` 87 of 87, and `ukfr ledger check` passed, on the Desktop run that
-preceded the ledger; none of the result files changed from the ones already committed.
+The ledger as written for the NHS trust accounts change holds 735 files: 98 DAX tests, 98 results, 98 expected sources and 99 expected CSVs (98 and
+`_meta.csv`), 69 files of the committed-scope set (67 CSVs, `_meta.csv`, `_skipped.csv`), 17 role-case queries, 14 expected sources
+and 106 expected CSVs for them, 113 role-case results, the role-case manifest, 2 comparison files and 20 files of the model
+reference (10 queries, 10 CSVs). (It held 620 files for the 84 tests and 87 role cases before.) The expected values were written at `full` scope and the committed set at `committed`.
+**Tested**: `ukfr dax-compare` gave 98 of 98, `ukfr rls-compare` 113 of 113, and `ukfr ledger check` passed (model projection `dc8287c52ea7`), on the Desktop run that
+preceded the ledger; the 84 older result files are unchanged from the ones already committed.
 
 ## What CI checks
 

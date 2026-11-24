@@ -1,0 +1,36 @@
+/// AUTHORED, hidden, no amount: which statement lines (never a subtotal or a total) make up each control line. Read by the measure TAC Provider Sum (control). Source view dw.v_model_tac_control_member.
+table 'TAC Control Member'
+	isHidden
+	lineageTag: 80c170ec-8647-5531-bdf8-9a77fbf60755
+
+	/// Key of the control line.
+	column 'Control Line Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		displayFolder: Authored
+		lineageTag: a609a45b-7f2a-562c-8a88-f4533017bbfb
+		summarizeBy: none
+		sourceColumn: control_line_key
+
+	/// Key of a statement line that is part of the control line.
+	column 'Line Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		displayFolder: Authored
+		lineageTag: 6b245502-a796-5c15-aee1-34a0c1f24495
+		summarizeBy: none
+		sourceColumn: line_key
+
+	partition 'TAC Control Member' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_tac_control_member"]}[Data]
+				in
+				    Data
+

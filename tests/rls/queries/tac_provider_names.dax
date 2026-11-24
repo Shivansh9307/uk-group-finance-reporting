@@ -1,0 +1,5 @@
+// The providers the signed-in user can list, by code and name. Both columns are hidden by object-level security in the
+// Restricted Viewer role, so there the same names are refused (case tac_provider_names_hidden).
+EVALUATE
+SELECTCOLUMNS ( 'TAC Provider', "provider_code", 'TAC Provider'[Provider Code], "provider", 'TAC Provider'[Provider] )
+ORDER BY [provider_code]

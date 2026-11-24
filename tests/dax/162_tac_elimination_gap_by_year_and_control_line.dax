@@ -1,0 +1,14 @@
+// The elimination-gap control by financial year and control line: the sum of the provider accounts (current-year
+// column, lines of the control line added), the consolidated figure keyed from the published consolidated accounts
+// (GBP million printed, times 1,000), their difference and the difference as a share of the consolidated figure (shown
+// in parts per million so that the comparison is tight). Six control lines, six years. TAC sign, GBP thousands.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'TAC Control Line'[Control Code],
+    "provider_sum", [TAC Provider Sum (control)],
+    "consolidated", [TAC Consolidated Total],
+    "gap", [TAC Elimination Gap],
+    "gap_ppm", [TAC Elimination Gap %] * 1000000
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'TAC Control Line'[Control Code]

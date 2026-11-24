@@ -31,7 +31,7 @@ them no longer matches. That is a ledger, not a rerun of DAX, and what it proves
 
 Test numbers 700 to 719 belong to the model skeleton, 720 to 739 to the measures, 740 to 759 to the income and
 expenditure statement, 760 to 769 to the restatement and current-structure measures and 770 to 779 to real terms and
-perspectives, 810 to 819 to the equality of the rewritten slow measures with their plain forms and 820 to 829 to the two hidden security tables; later model tasks take their own ranges.
+perspectives, 810 to 819 to the equality of the rewritten slow measures with their plain forms and 820 to 829 to the two hidden security tables, and 150 to 199 to the NHS trust accounts; later model tasks take their own ranges.
 
 ## Run the suite
 
@@ -214,6 +214,31 @@ Three tests for the two hidden synthetic tables of the security roles, described
 | 820 `user_department_rows` | the hidden table holds the user and department key of every row of the map | 11 | `synthetic.user_department`, `dw.dim_department` |
 | 821 `user_plan_group_rows` | the hidden table holds the user and group key of every group whose departments the user holds in full | 10 | `authored.department_sr_group`, `dw.dim_sr_group` |
 | 822 `unrestricted_totals_with_the_user_map_loaded` | with no role the model's totals equal the facts, and the two tables have their row counts | 8 | `dw.fact_outturn`, `dw.fact_plan`, `dw.fact_plan_phased` |
+
+### The NHS trust accounts tests (150 to 163)
+
+Fourteen tests for the eight TAC tables, their 16 measures and the three pages ([model.md](model.md#the-nhs-trust-accounts-balance-sheet-cash-flow-and-elimination-control)). Their expected values come from `dw` base tables (`dw.tac_fact`, `dw.tac_provider`, `dw.tac_cash_flow_derived`, `dw.tac_consolidated_control` and the dimensions) and, where the build already
+audits the same thing, from `audit.tac_prior_year_summary`, `audit.tac_cash_flow_section_residual`; never from a `dw.v_model_tac_*` view. All need a full-scope database. The measures that the tests define with `DEFINE MEASURE` (the carry-forward pattern, the sum of every row, the sum of the years) are the patterns the model does **not** use, written
+to show the difference.
+
+| Test | What it proves | Rows | Expected values from |
+|---|---|---:|---|
+| 150 `tac_row_counts` | every TAC table has the rows of its base table (the cash-flow line view adds the member Not compared) | 8 | `dw` base tables |
+| 151 `tac_relationship_integrity` | no row of the many side of the 11 relationships lacks a member | 11 | anti-joins on `dw` |
+| 152 `tac_closing_balance_by_year_and_section` | `TAC Closing Balance` and the providers reporting by year and block of the balance sheet | 42 | `dw.tac_fact` |
+| 153 `tac_opening_prior_closing_and_restatement` | opening, prior-year closing, their difference and the restatement by year and block | 42 | `dw.tac_fact` (prior-year column against the year before) |
+| 154 `tac_restatement_equals_the_prior_year_audit` | the restatement by year and statement, all rows against `audit.tac_prior_year_summary` and lines only | 15 | `audit.tac_prior_year_summary`, `audit.tac_prior_year_difference` |
+| 155 `tac_balance_over_a_span_is_the_last_year_not_the_sum` | closing, opening, sum of the years and providers for four spans | 4 | `dw.tac_fact` |
+| 156 `tac_dissolved_providers_have_no_balance_after_their_last_year` | nine real predecessors x six years: the closing cash is 0 after the last year, and a carry-forward would not be | 54 | `dw.tac_fact`, `dw.tac_provider` |
+| 157 `tac_group_balance_by_year_and_the_carried_forward_overstatement` | group cash per year equals SQL; the carried-forward total is larger by the balances of providers that have gone | 6 | `dw.tac_fact` |
+| 158 `tac_subtotals_never_enter_a_sum` | the four balance-sheet blocks added from lines equal the published subtotals; the income statement from lines against every row | 30 | `dw.tac_fact`, `dw.tac_statutory_line` |
+| 159 `tac_cash_flow_derived_published_and_residual_by_line` | derived, published and residual by year and derived line | 132 | `dw.tac_cash_flow_derived`, `dw.tac_cash_flow_comparison`, `dw.tac_fact` |
+| 160 `tac_cash_flow_residual_by_section` | the same by section | 24 | `audit.tac_cash_flow_section_residual` |
+| 161 `tac_net_change_in_cash_derived_published_and_balance_sheet` | the net change in cash three ways and the residual | 6 | `dw.tac_cash_flow_derived`, `dw.tac_fact` |
+| 162 `tac_elimination_gap_by_year_and_control_line` | provider sum, consolidated, gap and gap % for six lines x six years | 36 | `dw.tac_fact`, `dw.tac_control_member`, `dw.tac_consolidated_control` |
+| 163 `tac_derived_and_authored_amounts_stay_out_of_real_totals` | the real fact, `TAC Amount`, `Outturn`, the derived cash flow and the consolidated amounts each equal their own table | 1 | `dw` base tables |
+
+`dax-compare`: 98 of 98 pass (84 older and 14 new), largest absolute difference of the new tests 0.00005 (test 162's ppm column), expected build scope full. The 26 role cases of the NHS trust accounts are in [security.md](security.md).
 
 ## Role cases
 

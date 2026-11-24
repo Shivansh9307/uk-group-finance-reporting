@@ -534,7 +534,7 @@
     "Description": "The visible columns of an authored dimension table sit in the display folder Authored (te/scripts/display_folders.csx). Statement Measure, a field parameter, is labelled in its description only.",
     "Severity": 3,
     "Scope": "DataColumn, CalculatedColumn, CalculatedTableColumn",
-    "Expression": "IsHidden = false and (Table.Name = \"Scenario\" or Table.Name = \"Spending Review Group\" or Table.Name = \"Plan Source\" or Table.Name = \"Plan Grain\" or Table.Name = \"Statement Line\") and DisplayFolder <> \"Authored\"",
+    "Expression": "IsHidden = false and (Table.Name = \"Scenario\" or Table.Name = \"Spending Review Group\" or Table.Name = \"Plan Source\" or Table.Name = \"Plan Grain\" or Table.Name = \"Statement Line\" or Table.Name = \"TAC Cash Flow Line\" or Table.Name = \"TAC Control Line\" or Table.Name = \"TAC Consolidated Accounts\") and DisplayFolder <> \"Authored\"",
     "CompatibilityLevel": 1200,
     "Source": "Project"
   },
@@ -545,7 +545,7 @@
     "Description": "A table of names or layout that I wrote (the authored tables of the README register) has a description that starts with AUTHORED, so a reader of the field list cannot take it for source data. A new authored table is added to this rule and to the register.",
     "Severity": 3,
     "Scope": "Table, CalculatedTable",
-    "Expression": "(Name = \"Scenario\" or Name = \"Spending Review Group\" or Name = \"Plan Source\" or Name = \"Plan Grain\" or Name = \"Statement Line\" or Name = \"Statement Measure\") and not Description.StartsWith(\"AUTHORED\")",
+    "Expression": "(Name = \"Scenario\" or Name = \"Spending Review Group\" or Name = \"Plan Source\" or Name = \"Plan Grain\" or Name = \"Statement Line\" or Name = \"Statement Measure\" or Name = \"TAC Cash Flow Line\" or Name = \"TAC Control Line\" or Name = \"TAC Control Member\" or Name = \"TAC Consolidated Accounts\") and not Description.StartsWith(\"AUTHORED\")",
     "CompatibilityLevel": 1200,
     "Source": "Project"
   },

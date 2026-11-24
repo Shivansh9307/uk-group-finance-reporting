@@ -1,0 +1,12 @@
+// The residual of the derived cash flow against the published cash flow by financial year and section: operating,
+// investing and financing activities, and the reserve movements that have no cash counterpart. Expected values are the
+// section rows of audit.tac_cash_flow_section_residual, which the build writes and the SQL tests check.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'TAC Cash Flow Line'[Cash Flow Section],
+    "derived", [TAC Cash Flow (derived)],
+    "published", [TAC Cash Flow (published)],
+    "residual", [TAC Cash Flow Residual]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'TAC Cash Flow Line'[Cash Flow Section]

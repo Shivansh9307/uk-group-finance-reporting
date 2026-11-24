@@ -1,0 +1,12 @@
+// The closing balance of the balance sheet by financial year and section: TAC Closing Balance (the current-year column,
+// lines of kind line added, a section that holds one line shown as that line is published, so the two sections that
+// are a running total show their total) and the number of providers with statements in the year. TAC sign, GBP thousands.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'TAC Statement Line'[Section],
+    TREATAS ( { "SoFP" }, 'TAC Statement Line'[Statement Code] ),
+    "closing_balance", [TAC Closing Balance],
+    "providers_reporting", [TAC Providers Reporting]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'TAC Statement Line'[Section]

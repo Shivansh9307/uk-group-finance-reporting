@@ -22,3 +22,15 @@ Role,Table,Column,Metadata Permission
 "Restricted Viewer","Organisation (as reported)","Valid To Release",1
 "Restricted Viewer","Organisation (as reported)","Version Number",1
 "Restricted Viewer","Organisation (as reported)","Version Reason",1
+"Restricted Viewer","TAC Provider","First Year With Statements",1
+"Restricted Viewer","TAC Provider","Last Year With Statements",1
+"Restricted Viewer","TAC Provider","Provider",1
+"Restricted Viewer","TAC Provider","Provider Code",1
+"Restricted Viewer","TAC Provider","Region",1
+"Restricted Viewer","TAC Provider","Reporting Status",1
+"Restricted Viewer","TAC Provider","Sector",1
+"Restricted Viewer","TAC Provider","Successor",1
+"Restricted Viewer","TAC Provider","Successor Code",1
+"Restricted Viewer","TAC Provider","Successor Effective Date",1
+"Restricted Viewer","TAC Provider","Successor Kind",1
+"Restricted Viewer","TAC Provider","Years With Statements",1

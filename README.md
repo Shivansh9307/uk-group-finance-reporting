@@ -5,7 +5,9 @@ releases (31 of them, March 2019 to September 2026) as the ledger of one group: 
 arm's-length bodies are the entities. On that ledger I built the reporting a group finance team would ask for: an income and
 expenditure statement, outturn against plan and against a phased plan, how each figure was restated from release to release,
 everything in real terms, and a page of data controls. The plans come from the Estimates and PESA tables, the deflators from
-HM Treasury and the CPI from the ONS. It is one SQL Server warehouse, one Power BI semantic model and one report, built and
+HM Treasury and the CPI from the ONS. The one part of the group with statutory accounts, the NHS trusts and foundation trusts,
+adds a balance sheet with its restatements, an indirect cash flow set against the published one, and a control of the sum of
+their accounts against the consolidated NHS provider accounts. It is one SQL Server warehouse, one Power BI semantic model and one report, built and
 proved in Power BI Desktop alone: no service, no cloud.
 
 I wrote it so that a reader can check it. The totals tie to the published files, every claim in the docs points at the command
@@ -26,15 +28,15 @@ view.
    [docs/reconciliation.md](docs/reconciliation.md#9-plan-variance-reconciliation-full-scope),
    [evidence/full/plan_variance_reconciliation.csv](evidence/full/plan_variance_reconciliation.csv),
    [ADR 0007](docs/adr/0007-del-headline-ame-reconciled-separately.md).
-3. **Row-level and object-level security is tested against SQL.** Two roles, an invented user map, 87 role cases, 87 equal to
+3. **Row-level and object-level security is tested against SQL.** Two roles, an invented user map, 113 role cases, 113 equal to
    SQL. **Tested**: [docs/security.md](docs/security.md), [evidence/model/rls_tests.csv](evidence/model/rls_tests.csv).
 4. **CI can tell when the evidence is stale.** A hosted runner cannot run DAX, so a ledger records the hash of the model and of
-   every test, expected value and result (620 files), and CI fails if any of them changes alone. I pushed a commit that changed
+   every test, expected value and result (735 files), and CI fails if any of them changes alone. I pushed a commit that changed
    one measure and nothing else: only the ledger job went red; the commit that restored it was green. **Tested**:
    [docs/evidence.md](docs/evidence.md#the-red-and-the-green-run), [ADR 0008](docs/adr/0008-evidence-ledger-not-dax-in-ci.md).
 
-The model has 84 DAX tests, each compared with a SQL (or Python) expectation that shares nothing with the model, and 84 of
-84 pass ([evidence/model/dax_tests.csv](evidence/model/dax_tests.csv)). The 120 figures that the pages display, which I read off
+The model has 98 DAX tests, each compared with a SQL (or Python) expectation that shares nothing with the model, and 98 of
+98 pass ([evidence/model/dax_tests.csv](evidence/model/dax_tests.csv)). The 148 figures that the pages display, which I read off
 the screenshots, equal the test results ([evidence/report/screenshot_figures.csv](evidence/report/screenshot_figures.csv)).
 
 ![Executive summary page: 2025-26 outturn, DEL plan, variance and variance per cent, with outturn by year and by department](screenshots/01_executive_summary.png)
@@ -59,7 +61,7 @@ flowchart LR
     D2 --> D3
   end
   M["Import semantic model, TMDL<br/>model/UKGroupFinance.SemanticModel"]
-  R["PBIR report, 7 pages<br/>model/UKGroupFinance.Report"]
+  R["PBIR report, 10 pages<br/>model/UKGroupFinance.Report"]
   S1 --> P1 --> D1
   D4 --> D2
   D2 --> M
@@ -86,9 +88,9 @@ Python fetches, parses and loads, and decides nothing about a number; every busi
 command line only. How each stage works: [docs/pipeline.md](docs/pipeline.md), [docs/model.md](docs/model.md),
 [docs/pages.md](docs/pages.md). Where each source comes from: [docs/data-sources.md](docs/data-sources.md).
 
-## The seven pages
+## The ten pages
 
-Five pages are navigated to and two are reached by drill-through. Page by page, what each shows, which filters are fixed and
+Eight pages are navigated to and two are reached by drill-through. Page by page, what each shows, which filters are fixed and
 which test is behind each figure: [docs/pages.md](docs/pages.md#the-pages).
 
 | | |
@@ -97,6 +99,8 @@ which test is behind each figure: [docs/pages.md](docs/pages.md#the-pages).
 | <img src="screenshots/03_variance.png" width="440" alt="Variance"><br>**[Variance](docs/pages.md#3-variance)**: plan against outturn by Spending Review group as a bridge, the variance per cent, and the reconciliation table. | <img src="screenshots/04_restatements.png" width="440" alt="Restatements"><br>**[Restatements](docs/pages.md#6-restatements)**: what each release changed, what it restated, and the rows flagged as source errors. |
 | <img src="screenshots/05_data_controls.png" width="440" alt="Data controls"><br>**[Data controls](docs/pages.md#7-data-controls)**: the file controls of the 31 releases, the restated annual files, the Public Spending Statistics, plan coverage. | <img src="screenshots/06_department_detail.png" width="440" alt="Department detail"><br>**[Department detail](docs/pages.md#4-department-detail-drill-through)** (drill-through): a department's outturn by month, its restatement and its ten largest organisations. |
 | <img src="screenshots/07_group_detail.png" width="440" alt="Group detail"><br>**[Group detail](docs/pages.md#5-group-detail-drill-through)** (drill-through): a Spending Review group's monthly outturn against my phased plan. | |
+| <img src="screenshots/08_nhs_balance_sheet.png" width="440" alt="NHS balance sheet"><br>**[NHS balance sheet](docs/pages.md#8-nhs-balance-sheet)**: the closing balance of the NHS providers, the opening as restated, last year's closing and the restatement; a provider that has gone adds nothing after its last year. | <img src="screenshots/09_nhs_cash_flow.png" width="440" alt="NHS cash flow"><br>**[NHS cash flow](docs/pages.md#9-nhs-cash-flow)**: an indirect cash flow derived from the balance sheets against the published one, line by line, with the residual left in. |
+| <img src="screenshots/10_nhs_elimination_control.png" width="440" alt="NHS elimination control"><br>**[NHS elimination control](docs/pages.md#10-nhs-elimination-control)**: the sum of the provider accounts against the consolidated accounts I keyed by hand, with the page of each value. | |
 
 I did not click through the drill-through pages or the page navigator; the pages render and the files validate, and the
 clicks are **designed**, not run ([docs/pages.md](docs/pages.md#things-i-could-not-do-or-check)).
@@ -118,7 +122,7 @@ clicks are **designed**, not run ([docs/pages.md](docs/pages.md#things-i-could-n
   [evidence/full/bud_vs_inyear_del.csv](evidence/full/bud_vs_inyear_del.csv),
   [evidence/full/pss_vs_outturn.csv](evidence/full/pss_vs_outturn.csv).
 - **The model is tested against the warehouse.** Each DAX test returns a grid from the model open in Desktop; a SQL or Python
-  query over the base tables returns the same grid; `ukfr dax-compare` compares them. **Tested**: 84 of 84
+  query over the base tables returns the same grid; `ukfr dax-compare` compares them. **Tested**: 98 of 98
   ([docs/model-testing.md](docs/model-testing.md)).
 - **The real facts are pinned.** The row count and sum of each real fact are in
   [evidence/expected/real_fact_totals.csv](evidence/expected/real_fact_totals.csv) and a test compares every build with
@@ -176,6 +180,17 @@ labelled AUTHORED in their descriptions and in a display folder, and a rule of t
 | `authored/tac_name_alias.csv` | authored | `authored.tac_name_alias` | 3 | three provider-years where the TAC data sheet names a provider differently from the same file's list of providers (the data uses the later name), so the join by name needs the code | no: a name for a name, no amount | `sql/tests/115_tac_a_name_alias_is_needed_and_resolves_to_one_provider.sql`, `sql/tests/114_tac_authored_data_never_reaches_a_total.sql` |
 | `authored/tac_line_role.csv` | authored | `authored.tac_line_role` | 137 | for each line of the NHS TAC income statement, balance sheet and cash flow: its section and whether the form computes it (line, subtotal or total) | no: a section and a kind on a line, no amount | `sql/tests/110_tac_every_line_has_text_sign_section_and_kind.sql`, `sql/tests/114_tac_authored_data_never_reaches_a_total.sql` |
 | `authored/tac_provider_successor.csv` | authored | `authored.tac_provider_successor` | 23 | where an NHS trust or foundation trust went when it was acquired, merged or dissolved, with a quotation from the source's own comment | no: a link between two providers, no amount | `sql/tests/112_tac_successor_evidence_is_in_the_source_comment.sql`, `sql/tests/114_tac_authored_data_never_reaches_a_total.sql` |
+| `authored/tac_cash_flow_line.csv` | authored | `authored.tac_cash_flow_line` | 22 | the lines of the derived (indirect) cash flow of the NHS providers: label, section and whether the line is compared with a published cash-flow line, exists only on the derived side or only on the published side | no: labels and sections, no amount | `sql/tests/150_tac_cash_flow_map_covers_every_line_and_follows_its_rules.sql`, `sql/tests/155_tac_derived_and_authored_amounts_never_reach_a_real_total.sql` |
+| `authored/tac_cash_flow_map.csv` | authored | `authored.tac_cash_flow_map` | 148 | for each line of the NHS TAC statements: whether it feeds the derived cash flow (a balance-sheet movement or an income-statement flow, with its factor) or is compared with it, and a note | no: it decides which derived line a real amount is added to; the result is `dw.tac_cash_flow_derived`, which no real total reads | `sql/tests/150_tac_cash_flow_map_covers_every_line_and_follows_its_rules.sql`, `sql/tests/153_tac_derived_cash_flow_equals_its_inputs_recomputed.sql` |
+| `authored/tac_control_line.csv` | authored | `authored.tac_control_line` | 6 | the six headline lines of the elimination-gap control (operating income, operating expenses, total assets, total liabilities, cash, total assets employed): the provider statement lines and the printed consolidated lines each is made of | no: names and lists of lines, no amount | `sql/tests/157_tac_control_lines_are_made_of_lines_and_equal_their_subtotals.sql`, `sql/tests/155_tac_derived_and_authored_amounts_never_reach_a_real_total.sql` |
+| `authored/tac_consolidated_control.csv` | authored | `authored.tac_consolidated_control` | 48 | hand-keyed: eight lines of the consolidated NHS provider accounts (GBP million, as printed) in each of six years, with the printed and PDF page of each and the figure the next year's report gives for the same year | no: the only authored amounts of the TAC objects; the gap is a difference of the provider sum and these values, and no total adds them to a provider amount | `sql/tests/156_tac_consolidated_control_is_complete_cross_checked_and_paged.sql`, `sql/tests/155_tac_derived_and_authored_amounts_never_reach_a_real_total.sql` |
+| `dw.tac_fact` | real | `dw.tac_fact` | 344,812 (full scope only) | the published statements of the NHS trusts and foundation trusts, GBP thousands, on the TAC sign | yes: published figures; its row count and sum are pinned in `evidence/expected/real_fact_totals.csv` | `pipeline/tests/test_real_totals.py`, `sql/tests/155_tac_derived_and_authored_amounts_never_reach_a_real_total.sql` |
+| `dw.tac_cash_flow_derived` | derived | `dw.tac_cash_flow_derived` | 28,248 (full scope only) | the indirect cash flow of each NHS provider and year, from balance-sheet movements and income-statement flows through `authored/tac_cash_flow_map.csv`; compared with the published cash flow, never forced to equal it | no: flagged `is_derived`, described as DERIVED, read only by its model view and the audit tables that compare it | `sql/tests/153_tac_derived_cash_flow_equals_its_inputs_recomputed.sql`, `sql/tests/155_tac_derived_and_authored_amounts_never_reach_a_real_total.sql` |
+| `dw.tac_cash_flow_line`, `dw.tac_cash_flow_comparison`, `dw.tac_control_line`, `dw.tac_control_member` | authored | the same four tables, resolved from the authored files | 22; 51; 6; 54 | the derived cash-flow lines, which derived line each published line is compared with, the control lines and their provider lines | no: labels and keys, no amount | `sql/tests/150_tac_cash_flow_map_covers_every_line_and_follows_its_rules.sql`, `sql/tests/157_tac_control_lines_are_made_of_lines_and_equal_their_subtotals.sql` |
+| `dw.tac_consolidated_control` | authored | `dw.tac_consolidated_control` | 48 | the hand-keyed consolidated values in GBP thousand (the printed GBP million times 1,000) | no: read only by its model view and the elimination-gap tables; the gap is a difference, never a sum | `sql/tests/155_tac_derived_and_authored_amounts_never_reach_a_real_total.sql`, `tests/dax/163_tac_derived_and_authored_amounts_stay_out_of_real_totals.dax` |
+| Model table `Fact TAC Cash Flow (derived)` | derived | `dw.tac_cash_flow_derived` through `dw.v_model_tac_cash_flow_derived` | 28,248 | the model's copy of the derived cash flow, named, described and foldered as derived | no: related to the provider and the derived line only; no measure of a real family reads it, and test 163 shows the real totals equal their own tables | `tests/dax/163_tac_derived_and_authored_amounts_stay_out_of_real_totals.dax` |
+| Model tables `TAC Cash Flow Line`, `TAC Control Line`, `TAC Control Member`, `TAC Consolidated Accounts` | authored | `dw.v_model_tac_cash_flow_line`, `v_model_tac_control_line`, `v_model_tac_control_member`, `v_model_tac_consolidated` | 23; 6; 54; 48 | the authored dimensions and the hand-keyed values as model tables, described AUTHORED and in the Authored folder | no: the consolidated amount column is hidden and read by one measure family that compares it with the provider sum | `tests/dax/150_tac_row_counts.dax`, `tests/dax/162_tac_elimination_gap_by_year_and_control_line.dax` |
+| Model measures of the NHS trust accounts (display folders `TAC\...`) | derived | none: measures over `Fact TAC`, `Fact TAC Cash Flow (derived)` and `TAC Consolidated Accounts` | 16 | closing, opening and prior-year balances, restatement, flows, the published and derived cash flow, the residual, and the elimination gap | no: each is a sum, a difference or a ratio of its own tables; a subtotal is never added to its lines | `tests/dax/152_tac_closing_balance_by_year_and_section.dax` to `tests/dax/163_tac_derived_and_authored_amounts_stay_out_of_real_totals.dax` |
 | `authored/workforce_org_map.csv` | authored | `authored.workforce_org_map` | 213 | for each organisation name a department publishes in its workforce files: the durable organisation key it is (the same body, an earlier or later name, a body that is part of it, or an executive agency counted in its parent department, which is an assumption), or that I reviewed it and left it out, with the reason | no: it says which organisation a published number belongs to and holds no number | `sql/tests/607_workforce_org_map_rows_are_well_formed.sql`, `sql/tests/613_workforce_the_fact_is_the_raw_values_of_mapped_rows_and_nothing_else.sql` |
 | `dw.statement_line`, `dw.statement_line_member`, `dw.account_statement_line` | authored | the same three tables, resolved from the two statement files | 39; 110; 128 | the statement lines, every detail line each line adds up, and the detail line of each account | no: no amount column of any type | `sql/tests/745_the_statement_layout_is_authored_and_adds_no_amount.sql` |
 | `dw.v_statement_pnl` | derived | a view over `dw.fact_outturn` and `dw.fact_plan` through the statement tables | one row per line and year with an amount or a plan | the statement computed in SQL, which the model's statement measures are tested against; the model never reads it | no: it reads the facts and writes nothing; its total line equals the sum of the fact in every year | `sql/tests/741_the_statement_total_equals_outturn_in_every_year.sql` |

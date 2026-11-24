@@ -1,0 +1,3 @@
+// A query that names a column hidden by object-level security: the provider name.
+EVALUATE
+ROW ( "names", COUNTROWS ( FILTER ( 'TAC Provider', LEN ( 'TAC Provider'[Provider] ) > 0 ) ) )

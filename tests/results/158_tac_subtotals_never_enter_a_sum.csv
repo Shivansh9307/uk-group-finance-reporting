@@ -1,0 +1,31 @@
+case,Financial Year,Section,lines_or_amount,published_or_every_row
+"balance sheet block: lines added against the published subtotal","2019-20","Current assets",15587819.1383,15587819.1382
+"balance sheet block: lines added against the published subtotal","2019-20","Current liabilities",-25696445.7428,-25696445.7426
+"balance sheet block: lines added against the published subtotal","2019-20","Non-current assets",48581856.9663,48581856.9663
+"balance sheet block: lines added against the published subtotal","2019-20","Non-current liabilities",-12381005.4172,-12381005.4175
+"balance sheet block: lines added against the published subtotal","2020-21","Current assets",19906237.0567,19906237.0565
+"balance sheet block: lines added against the published subtotal","2020-21","Current liabilities",-17000939.0213,-17000939.0212
+"balance sheet block: lines added against the published subtotal","2020-21","Non-current assets",52442432.9071,52442432.9071
+"balance sheet block: lines added against the published subtotal","2020-21","Non-current liabilities",-12139875.0426,-12139875.0425
+"balance sheet block: lines added against the published subtotal","2021-22","Current assets",21783901.2921,21783901.2922
+"balance sheet block: lines added against the published subtotal","2021-22","Current liabilities",-19756332.905,-19756332.9048
+"balance sheet block: lines added against the published subtotal","2021-22","Non-current assets",57332953.7329,57332953.7329
+"balance sheet block: lines added against the published subtotal","2021-22","Non-current liabilities",-11847549.5584,-11847549.5585
+"balance sheet block: lines added against the published subtotal","2022-23","Current assets",22160962.0816,22160962.0812
+"balance sheet block: lines added against the published subtotal","2022-23","Current liabilities",-22702903.8569,-22702903.8568
+"balance sheet block: lines added against the published subtotal","2022-23","Non-current assets",68571379.1125,68571379.1123
+"balance sheet block: lines added against the published subtotal","2022-23","Non-current liabilities",-16265066.7648,-16265066.7648
+"balance sheet block: lines added against the published subtotal","2023-24","Current assets",18358527.6303,18358527.6301
+"balance sheet block: lines added against the published subtotal","2023-24","Current liabilities",-20193764.1319,-20193764.1317
+"balance sheet block: lines added against the published subtotal","2023-24","Non-current assets",68653589.6934,68653589.6932
+"balance sheet block: lines added against the published subtotal","2023-24","Non-current liabilities",-21223104.7814,-21223104.7814
+"balance sheet block: lines added against the published subtotal","2024-25","Current assets",18001109.1522,18001109.1525
+"balance sheet block: lines added against the published subtotal","2024-25","Current liabilities",-19851936.362,-19851936.3615
+"balance sheet block: lines added against the published subtotal","2024-25","Non-current assets",69287081.8613,69287081.8613
+"balance sheet block: lines added against the published subtotal","2024-25","Non-current liabilities",-20622314.8149,-20622314.8145
+"income statement: lines only against every row","2019-20","All sections",-3895912.2913,-12644211.86
+"income statement: lines only against every row","2020-21","All sections",-1677156.2821,-5250908.626
+"income statement: lines only against every row","2021-22","All sections",4212148.8389,9273809.9293
+"income statement: lines only against every row","2022-23","All sections",-247325.5176,-4818436.8728
+"income statement: lines only against every row","2023-24","All sections",-13415672.6296,-39799234.5457
+"income statement: lines only against every row","2024-25","All sections",-9729624.6108,-29043257.597

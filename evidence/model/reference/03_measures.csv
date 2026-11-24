@@ -201,6 +201,91 @@ RETURN
 VAR PhasedPlan = [Plan (phased)]
 RETURN
     IF ( ISBLANK ( Actual ) || ISBLANK ( PhasedPlan ), BLANK (), DIVIDE ( Actual - PhasedPlan, ABS ( PhasedPlan ) ) )","","""0.0%;-0.0%;0.0%""",False,"Plan\Derived"
+"Fact TAC","TAC Amount","Income statement and cash flow amount of the year in GBP thousands, TAC sign (income and inflows positive, expenses and outflows negative): the current-year column, added over providers, lines of kind line and, being a flow, over years. A subtotal or total is never added to its own components; on a single line the measure shows that line as published. BLANK for the balance sheet, which has TAC Closing Balance.","CALCULATE (
+    SUM ( 'Fact TAC'[Value] ),
+    'Fact TAC'[Period Column] = ""CY"",
+    KEEPFILTERS ( 'TAC Statement Line'[Statement Code] <> ""SoFP"" ),
+    Tac.LineKinds ()
+)","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Income statement and cash flow"
+"Fact TAC","TAC Cash Flow (published)","The published cash flow, GBP thousands, TAC sign (an inflow is positive): the current-year column of the lines of the cash flow statement that are compared with a line of the derived cash flow (all published lines of the three activity sections; never a subtotal). Select a line of TAC Cash Flow Line to see the published lines it is compared with.","CALCULATE (
+    SUM ( 'Fact TAC'[Value] ),
+    'Fact TAC'[Period Column] = ""CY"",
+    KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = ""SoCF"" ),
+    'TAC Statement Line'[Line Kind] = ""line"",
+    'TAC Statement Line'[Cash Flow Line Key] <> 0
+)","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Cash flow"
+"Fact TAC","TAC Cash Movement (balance sheet)","The movement of cash and cash equivalents on the balance sheet, GBP thousands, TAC sign: the closing balance of the last year in context less the opening balance of the first (BAL1240). Over one year it is the cash movement of the year; over several years it is the movement across them, with the restated opening of the first year.","CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = ""BAL1240"" )
+    - CALCULATE ( [TAC Opening Balance], 'TAC Statement Line'[Sub Code] = ""BAL1240"" )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Cash flow"
+"Fact TAC","TAC Closing Balance","Balance sheet closing balance in GBP thousands, TAC sign (assets positive, liabilities negative): the current-year column of the balance sheet in the last financial year that is in the filter context and has statements. It is semi-additive over time: over several years it shows the last year and never the sum, and a provider with no statements in that year (dissolved, merged or acquired earlier) contributes nothing. Added over providers and over lines of kind line; on a single line it shows that line as published, a subtotal included. BLANK for the income statement and cash flow.","VAR LastYear = Tac.LastYear ()
+RETURN
+    IF (
+        NOT ISBLANK ( LastYear ),
+        CALCULATE (
+            SUM ( 'Fact TAC'[Value] ),
+            'Fact TAC'[Period Column] = ""CY"",
+            'Fact TAC'[Release Start] = LastYear,
+            KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = ""SoFP"" ),
+            Tac.LineKinds ()
+        )
+    )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Balance sheet"
+"Fact TAC","TAC Net Change in Cash (published)","The increase or decrease in cash and cash equivalents the providers publish in their cash flow statements, GBP thousands, TAC sign (SCF0320, read as published on its own line and added over providers and years). It adds the three published section subtotals.","CALCULATE ( [TAC Amount], 'TAC Statement Line'[Sub Code] = ""SCF0320"" )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Cash flow"
+"Fact TAC","TAC Opening Balance","Balance sheet opening balance in GBP thousands, TAC sign: the prior-year column of the same file, as the provider restated it, in the first financial year that is in the filter context. Semi-additive like the closing balance: over several years it shows the opening of the first year. Added over providers and lines of kind line; on a single line it shows that line as published.","VAR FirstYear = Tac.FirstYear ()
+RETURN
+    IF (
+        NOT ISBLANK ( FirstYear ),
+        CALCULATE (
+            SUM ( 'Fact TAC'[Value] ),
+            'Fact TAC'[Period Column] = ""PY"",
+            'Fact TAC'[Release Start] = FirstYear,
+            KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = ""SoFP"" ),
+            Tac.LineKinds ()
+        )
+    )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Balance sheet"
+"Fact TAC","TAC Opening less Prior Year Closing","TAC Opening Balance less TAC Prior Year Closing Balance, GBP thousands: how far the opening balance a provider publishes differs from the closing balance it published a year earlier. It includes the providers that appear or disappear between the two files (a merger, an acquisition, a provider excluded from one file), so it is wider than TAC Restatement, which compares only the values both files hold.","VAR Opening = [TAC Opening Balance]
+VAR Prior = [TAC Prior Year Closing Balance]
+RETURN
+    IF ( NOT ISBLANK ( Opening ) || NOT ISBLANK ( Prior ), Opening - Prior )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Balance sheet"
+"Fact TAC","TAC Prior Year Closing Balance","The closing balance of the year before the first financial year in context, in GBP thousands, TAC sign: the current-year column of the previous year's file, as that file published it. Compare with TAC Opening Balance, which is the same date as restated in the next file. BLANK where there is no earlier file (2019-20).","VAR FirstYear = Tac.FirstYear ()
+RETURN
+    IF (
+        NOT ISBLANK ( FirstYear ),
+        CALCULATE (
+            SUM ( 'Fact TAC'[Value] ),
+            REMOVEFILTERS ( 'Fiscal Year' ),
+            'Fact TAC'[Period Column] = ""CY"",
+            'Fact TAC'[Release Start] = FirstYear - 1,
+            KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = ""SoFP"" ),
+            Tac.LineKinds ()
+        )
+    )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Balance sheet"
+"Fact TAC","TAC Provider Sum (control)","The sum of the provider accounts for one line of the elimination-gap control in one financial year, GBP thousands, TAC sign: the current-year column of the control line's statement lines, added over providers. BLANK unless one control line and one year are in context.","IF (
+    HASONEVALUE ( 'TAC Control Line'[Control Line Key] ) && HASONEVALUE ( 'Fiscal Year'[Financial Year] ),
+    CALCULATE (
+        SUM ( 'Fact TAC'[Value] ),
+        'Fact TAC'[Period Column] = ""CY"",
+        TREATAS ( VALUES ( 'TAC Control Member'[Line Key] ), 'TAC Statement Line'[Line Key] )
+    )
+)","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Elimination control"
+"Fact TAC","TAC Providers Reporting","Number of providers with statements in the last financial year in context. A provider that no longer exists is not counted in a year after its last statements.","VAR LastYear = Tac.LastYear ()
+RETURN
+    IF (
+        NOT ISBLANK ( LastYear ),
+        CALCULATE (
+            DISTINCTCOUNT ( 'Fact TAC'[Provider Key] ),
+            'Fact TAC'[Period Column] = ""CY"",
+            'Fact TAC'[Release Start] = LastYear
+        )
+    )","","""#,##0""",False,"TAC\Balance sheet"
+"Fact TAC","TAC Restatement","The restatement of the year's opening figures, GBP thousands, TAC sign: for every provider and line that has a prior-year value in this year's file and a current-year value in last year's file, the prior-year value less the current-year value, where the two differ by GBP 1,000 or more (the rule of audit.tac_prior_year_difference). Reasons are restatements, reclassifications and mergers; I have not explained them one by one. Added over lines of kind line and over years; a single line shows its own difference.","CALCULATE (
+    SUM ( 'Fact TAC'[Restatement Amount] ),
+    'Fact TAC'[Period Column] = ""PY"",
+    Tac.LineKinds ()
+)","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Balance sheet"
+"Fact TAC Cash Flow (derived)","TAC Cash Flow (derived)","DERIVED: the indirect cash flow in GBP thousands, TAC sign (an inflow is positive), added over providers and years. Each balance-sheet input is the movement of the year (current-year column less prior-year column of the same file), so a restated opening balance does not leak in. Over all its lines it equals the balance sheet cash movement of the year to within GBP 2,000 per provider (the balance sheets balance to less than GBP 1,000). It is a calculation of mine, not a published figure.","SUM ( 'Fact TAC Cash Flow (derived)'[Cash Flow Amount] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Cash flow"
+"Fact TAC Cash Flow (derived)","TAC Cash Flow Residual","DERIVED: the derived cash flow less the published cash flow, GBP thousands, for the line, section or total in context. It is what the income statement and balance sheet cannot be made to say about the published cash flow: depreciation and other non-cash items, transfers by absorption, mergers and restated openings. Not forced to zero. On a derived-only line it is the derived amount; on a published-only line it is minus the published amount.","VAR Derived = [TAC Cash Flow (derived)]
+VAR Published = [TAC Cash Flow (published)]
+RETURN
+    IF ( NOT ISBLANK ( Derived ) || NOT ISBLANK ( Published ), Derived - Published )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Cash flow"
 "File Control","Difference to File Total","Outturn as at Release (own year) less the file's total, GBP thousands. 0 when the model reproduces the release file; the test that proves it for all 31 releases is tests/dax/780.","VAR AsAt = [Outturn as at Release (own year)]
 VAR FileTotal = [File Total (4 decimals)]
 RETURN IF ( ISBLANK ( AsAt ) || ISBLANK ( FileTotal ), BLANK (), AsAt - FileTotal )","","""\£#,##0.0000""""k"""";-\£#,##0.0000""""k"""";\£0.0000""""k""""""",False,"Audit and control"
@@ -218,3 +303,9 @@ RETURN
 "Load Control","Rows Read","Data rows read from the files in context: the rows of the source file after its header, before any row is rejected.","SUM ( 'Load Control'[Rows Read Value] )","","""#,##0""",False,"Audit and control"
 "Load Control","Web Rows Quarantined","Rows of the deflator workbooks and the CPI series that did not parse: the rows of Deflator Quarantine and CPI Quarantine. 0 when every row parses.","COUNTROWS ( 'Deflator Quarantine' ) + COUNTROWS ( 'CPI Quarantine' ) + 0","","""#,##0""",False,"Audit and control"
 "Plan Coverage","Plan Coverage Total","Total of the plan rows in context, GBP thousands. Plan measures overlap by design (administration budgets are part of resource DEL), so a total across measures is not a plan figure; read it by measure.","SUM ( 'Plan Coverage'[Amount Total Value] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Audit and control"
+"TAC Consolidated Accounts","TAC Consolidated Total","AUTHORED: the consolidated figure for the control line and year in context, GBP thousands, TAC sign, as printed in the consolidated NHS provider accounts (GBP million times 1,000). BLANK unless one control line and one year are in context, and BLANK where the user cannot see the provider accounts, so the control is hidden with them.","IF ( NOT ISBLANK ( [TAC Provider Sum (control)] ), SUM ( 'TAC Consolidated Accounts'[Amount] ) )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Elimination control"
+"TAC Consolidated Accounts","TAC Elimination Gap","The sum of the provider accounts less the consolidated figure, GBP thousands, TAC sign: what the consolidation takes out (intra-NHS income, expense and balances between providers) plus whatever else differs between the two populations, which this measure does not separate. A provider whose accounts the TAC file leaves out is in the consolidated accounts and not in the sum. BLANK where either side is.","VAR Provider = [TAC Provider Sum (control)]
+VAR Consolidated = [TAC Consolidated Total]
+RETURN
+    IF ( NOT ISBLANK ( Provider ) && NOT ISBLANK ( Consolidated ), Provider - Consolidated )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Elimination control"
+"TAC Consolidated Accounts","TAC Elimination Gap %","The elimination gap as a share of the consolidated figure. Positive means the provider sum is larger in size than the consolidated figure, whatever the sign of the line.","DIVIDE ( [TAC Elimination Gap], [TAC Consolidated Total] )","","""0.0%;-0.0%;0.0%""",False,"TAC\Elimination control"

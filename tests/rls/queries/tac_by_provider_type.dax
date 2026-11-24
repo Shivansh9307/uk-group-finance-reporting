@@ -1,0 +1,10 @@
+// Cash at the end of 2024-25 and the providers reporting, by provider type: the part of the provider table the Restricted
+// Viewer can still use (the type is not hidden; the name, code, region, sector and successor are).
+EVALUATE
+SUMMARIZECOLUMNS (
+    'TAC Provider'[Provider Type],
+    TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ),
+    "cash", CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = "BAL1240" ),
+    "providers_reporting", [TAC Providers Reporting]
+)
+ORDER BY 'TAC Provider'[Provider Type]

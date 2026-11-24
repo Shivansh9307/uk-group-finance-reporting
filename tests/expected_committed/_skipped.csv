@@ -1,4 +1,18 @@
 test,reason
+150_tac_row_counts,needs dw.tac_fact
+151_tac_relationship_integrity,needs dw.tac_fact
+152_tac_closing_balance_by_year_and_section,needs dw.tac_fact
+153_tac_opening_prior_closing_and_restatement,needs dw.tac_fact
+154_tac_restatement_equals_the_prior_year_audit,needs dw.tac_fact
+155_tac_balance_over_a_span_is_the_last_year_not_the_sum,needs dw.tac_fact
+156_tac_dissolved_providers_have_no_balance_after_their_last_year,needs dw.tac_fact
+157_tac_group_balance_by_year_and_the_carried_forward_overstatement,needs dw.tac_fact
+158_tac_subtotals_never_enter_a_sum,needs dw.tac_fact
+159_tac_cash_flow_derived_published_and_residual_by_line,needs dw.tac_fact
+160_tac_cash_flow_residual_by_section,needs dw.tac_fact
+161_tac_net_change_in_cash_derived_published_and_balance_sheet,needs dw.tac_fact
+162_tac_elimination_gap_by_year_and_control_line,needs dw.tac_fact
+163_tac_derived_and_authored_amounts_stay_out_of_real_totals,needs dw.tac_fact
 703_deflators,reads a source file that is not in git
 704_cpi,reads a source file that is not in git
 705_web_table_rows_and_quarantines,reads a source file that is not in git

@@ -1,0 +1,145 @@
+/// AUTHORED, hand-keyed: the values printed in the consolidated NHS provider accounts (the statements in which intra-NHS balances are eliminated), eight printed lines for each of the six years, in GBP million as printed, with the printed and PDF page of each and the figure the next year's report gives for the same year. The only authored amounts of the TAC objects; the elimination gap compares them with the provider sum and no total adds them to a provider amount. Source view dw.v_model_tac_consolidated, from authored/tac_consolidated_control.csv.
+table 'TAC Consolidated Accounts'
+	lineageTag: 399d8309-d60e-5b7c-85eb-40b232fc9ec1
+
+	/// AUTHORED: the consolidated figure for the control line and year in context, GBP thousands, TAC sign, as printed in the consolidated NHS provider accounts (GBP million times 1,000). BLANK unless one control line and one year are in context, and BLANK where the user cannot see the provider accounts, so the control is hidden with them.
+	measure 'TAC Consolidated Total' =
+			IF ( NOT ISBLANK ( [TAC Provider Sum (control)] ), SUM ( 'TAC Consolidated Accounts'[Amount] ) )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Elimination control
+		lineageTag: 0d93ca90-3c16-58af-b812-b55d2a544ee9
+
+	/// The sum of the provider accounts less the consolidated figure, GBP thousands, TAC sign: what the consolidation takes out (intra-NHS income, expense and balances between providers) plus whatever else differs between the two populations, which this measure does not separate. A provider whose accounts the TAC file leaves out is in the consolidated accounts and not in the sum. BLANK where either side is.
+	measure 'TAC Elimination Gap' =
+			VAR Provider = [TAC Provider Sum (control)]
+			VAR Consolidated = [TAC Consolidated Total]
+			RETURN
+			    IF ( NOT ISBLANK ( Provider ) && NOT ISBLANK ( Consolidated ), Provider - Consolidated )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Elimination control
+		lineageTag: 7c3f4818-719b-5dd6-aa7a-7cdbc1993567
+
+	/// The elimination gap as a share of the consolidated figure. Positive means the provider sum is larger in size than the consolidated figure, whatever the sign of the line.
+	measure 'TAC Elimination Gap %' =
+			DIVIDE ( [TAC Elimination Gap], [TAC Consolidated Total] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: TAC\Elimination control
+		lineageTag: 1a267a6f-ed60-5a9e-b580-b8012d8f9cd3
+
+	/// Financial year of the report, written 2024-25.
+	column 'Fiscal Year Key'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		displayFolder: Authored
+		lineageTag: 02312ac0-f269-5461-ae7b-0e66f6371120
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	/// Key of the control line the printed line belongs to.
+	column 'Control Line Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		displayFolder: Authored
+		lineageTag: 6c78f382-0e4c-5296-a55e-02f4e734d0e5
+		summarizeBy: none
+		sourceColumn: control_line_key
+
+	/// Printed value in GBP thousands (the printed GBP million times 1,000), TAC sign. Hidden: use the measures.
+	column Amount
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		displayFolder: Authored
+		lineageTag: 3cb0a3c4-813a-5dbe-9ad6-c2f55b01041f
+		summarizeBy: none
+		sourceColumn: amount
+
+	/// The line as the consolidated statement prints it.
+	column 'Printed Line'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: b1934a81-78b7-5aac-b11d-360d5141c94c
+		summarizeBy: none
+		sourceColumn: label
+
+	/// Short code of the printed line.
+	column 'Printed Code'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 6faf0c6d-fdb5-5b17-9f03-00d2ce1a188c
+		summarizeBy: none
+		sourceColumn: printed_line
+
+	/// SoCI for the income statement, SoFP for the balance sheet.
+	column 'Printed Statement'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: da8a0198-106e-582b-a41d-8edf3ecacfdf
+		summarizeBy: none
+		sourceColumn: statement
+
+	/// The value as printed, GBP million, TAC sign.
+	column 'Printed Amount (GBP million)'
+		dataType: decimal
+		formatString: #,##0
+		displayFolder: Authored
+		lineageTag: a111bdd6-7b23-5598-af64-7f29d950212f
+		summarizeBy: none
+		sourceColumn: amount_gbp_million
+
+	/// The figure the next year's report prints for the same year; equal to the value in every year where there is a next report.
+	column 'Next Report Comparative (GBP million)'
+		dataType: decimal
+		formatString: #,##0
+		displayFolder: Authored
+		lineageTag: ce054611-04d3-51a4-8182-b34c196c6d9b
+		summarizeBy: none
+		sourceColumn: next_report_comparative_gbp_million
+
+	/// The report the value is keyed from.
+	column 'Source Report'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: bb7b98b6-c518-540a-830c-4451779c7526
+		summarizeBy: none
+		sourceColumn: source_report
+
+	/// Page of the PDF file the value is on.
+	column 'PDF Page'
+		dataType: int64
+		formatString: 0
+		displayFolder: Authored
+		lineageTag: ca108df5-3014-5481-9d45-5ccbf07faa4e
+		summarizeBy: none
+		sourceColumn: pdf_page
+
+	/// Page number printed on the page the value is on.
+	column 'Printed Page'
+		dataType: int64
+		formatString: 0
+		displayFolder: Authored
+		lineageTag: b5c75678-32a9-55ec-b035-b9a7abf0dd25
+		summarizeBy: none
+		sourceColumn: printed_page
+
+	/// Which column of the statement the value is read from.
+	column 'Keying Note'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 690a32cf-86c9-5c95-a0e7-67a432c227c6
+		summarizeBy: none
+		sourceColumn: note
+
+	partition 'TAC Consolidated Accounts' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_tac_consolidated"]}[Data]
+				in
+				    Data
+

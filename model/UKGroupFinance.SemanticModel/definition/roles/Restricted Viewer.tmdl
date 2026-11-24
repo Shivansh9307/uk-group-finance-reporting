@@ -1,4 +1,4 @@
-/// Row-level security and object-level security in one role (the engine refuses a row-level role combined with a separate object-level one). The same department and plan filters as Department Analyst. The audit and control tables are hidden, the organisation names and version history are hidden, and the line-level detail of the data-quality findings is hidden. A measure that reads a hidden object returns an error, not a blank. Paybill detail does not exist yet; a later phase adds its object-level security to this role.
+/// Row-level security and object-level security in one role (the engine refuses a row-level role combined with a separate object-level one). The same department and plan filters as Department Analyst. The NHS trust accounts and the consolidated figures follow the same filter and the identity of each provider (name, code, region, sector, years and successor) is hidden. The audit and control tables are hidden, the organisation names and version history are hidden, and the line-level detail of the data-quality findings is hidden. A measure that reads a hidden object returns an error, not a blank. Paybill detail does not exist yet; a later phase adds its object-level security to this role.
 role 'Restricted Viewer'
 	modelPermission: read
 
@@ -21,6 +21,13 @@ role 'Restricted Viewer'
 			    'User Plan Group (synthetic)',
 			    'User Plan Group (synthetic)'[User Principal Name], USERPRINCIPALNAME (),
 			    'User Plan Group (synthetic)'[Spending Review Group Key], 'Fact Plan Phased (derived)'[Spending Review Group Key]
+			)
+
+	tablePermission 'TAC Consolidated Accounts' =
+			CONTAINS (
+			    'User Department (synthetic)',
+			    'User Department (synthetic)'[User Principal Name], USERPRINCIPALNAME (),
+			    'User Department (synthetic)'[Department Key], MAX ( 'TAC Provider'[Department Key] )
 			)
 
 	tablePermission 'User Department (synthetic)' = 'User Department (synthetic)'[User Principal Name] = USERPRINCIPALNAME ()
@@ -114,6 +121,43 @@ role 'Restricted Viewer'
 			metadataPermission: none
 
 		columnPermission 'Rows Affected'
+			metadataPermission: none
+
+	tablePermission 'TAC Provider'
+		columnPermission 'Provider Code'
+			metadataPermission: none
+
+		columnPermission Provider
+			metadataPermission: none
+
+		columnPermission Region
+			metadataPermission: none
+
+		columnPermission Sector
+			metadataPermission: none
+
+		columnPermission 'First Year With Statements'
+			metadataPermission: none
+
+		columnPermission 'Last Year With Statements'
+			metadataPermission: none
+
+		columnPermission 'Years With Statements'
+			metadataPermission: none
+
+		columnPermission 'Reporting Status'
+			metadataPermission: none
+
+		columnPermission 'Successor Code'
+			metadataPermission: none
+
+		columnPermission Successor
+			metadataPermission: none
+
+		columnPermission 'Successor Kind'
+			metadataPermission: none
+
+		columnPermission 'Successor Effective Date'
 			metadataPermission: none
 
 	annotation PBI_Id = 5fbe4fc732af48ffbbec4b8dd9be696d

@@ -1,0 +1,15 @@
+// The NHS trust accounts as the signed-in user sees them, in one row: cash at the end of 2024-25, the providers reporting,
+// the derived net change in cash, the hand-keyed consolidated cash and the elimination gap for it, and the number of rows
+// the user can reach in the provider table, the fact and the consolidated table. A user who is not mapped to the Department
+// of Health and Social Care sees no provider, no fact row and no consolidated row, and every amount is blank.
+EVALUATE
+ROW (
+    "cash_2024_25", CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = "BAL1240", TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ),
+    "providers_reporting_2024_25", CALCULATE ( [TAC Providers Reporting], TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ),
+    "derived_net_change_2024_25", CALCULATE ( [TAC Cash Flow (derived)], TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ) ),
+    "consolidated_cash_2024_25", CALCULATE ( [TAC Consolidated Total], TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ), TREATAS ( { "CASH" }, 'TAC Control Line'[Control Code] ) ),
+    "gap_cash_2024_25", CALCULATE ( [TAC Elimination Gap], TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ), TREATAS ( { "CASH" }, 'TAC Control Line'[Control Code] ) ),
+    "provider_rows", COUNTROWS ( 'TAC Provider' ) + 0,
+    "fact_rows", COUNTROWS ( 'Fact TAC' ) + 0,
+    "consolidated_rows", COUNTROWS ( 'TAC Consolidated Accounts' ) + 0
+)

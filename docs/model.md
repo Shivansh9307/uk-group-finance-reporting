@@ -104,7 +104,7 @@ the sort-key columns (`Year Start`, `Scenario Sort Order`, `Vintage Order`) and 
 
 ## Relationships
 
-23 relationships, all active, all many-to-one, all single direction (the one side filters the many side). There are
+34 relationships (23 of the outturn and plan model, listed below, and 11 of the NHS trust accounts, in their own section), all active, all many-to-one, all single direction (the one side filters the many side). There are
 no inactive relationships and no bidirectional ones (**tested**:
 `test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one`), the one side is always
 a key column of a dimension (`test_the_one_side_of_every_relationship_is_a_key_column_of_a_dimension`), and no row of
@@ -999,6 +999,60 @@ was answered or cancelled before I could record its second step, so the assets d
 | June 2026 QNA | 96.6694 | 100 | 102.0057 | 103.9866 |
 | September 2026 QNA | 96.757 | 100 | 102.0057 | 103.9866 |
 | October 2026 Budget (default) | 96.757 | 100 | 102.6328 | 104.8078 |
+
+## The NHS trust accounts: balance sheet, cash flow and elimination control
+
+The model reads the statutory statements of the 228 NHS trusts and foundation trusts (the TAC files, [data-dictionary/tac.md](data-dictionary/tac.md)) in eight
+tables, 11 relationships and 16 measures, three functions and three report pages ([pages.md](pages.md)). Every claim is labelled **tested** (with the
+command and the result file) or **designed**.
+
+| Model table | Source view | Rows | Class | What it is |
+|---|---|---:|---|---|
+| Fact TAC | `dw.v_model_tac_fact` | 344,812 | real | every published value, provider x year x line x column (current or prior year); a restatement column on the prior-year rows |
+| TAC Provider | `dw.v_model_tac_provider` | 228 | real, with authored successor columns | the providers; related to the Department of Health and Social Care, which is how the security roles reach TAC |
+| TAC Statement Line | `dw.v_model_tac_line` | 137 | real text and sign, authored section and line kind | the lines of the three statements; no amount |
+| Fact TAC Cash Flow (derived) | `dw.v_model_tac_cash_flow_derived` | 28,248 | **derived** | the indirect cash flow, provider x year x derived line |
+| TAC Cash Flow Line | `dw.v_model_tac_cash_flow_line` | 23 | **authored** | the 22 derived lines in four sections, and the member Not compared |
+| TAC Control Line | `dw.v_model_tac_control_line` | 6 | **authored** | the six headline lines of the elimination control |
+| TAC Control Member | `dw.v_model_tac_control_member` | 54 | **authored**, hidden | which statement lines make up a control line |
+| TAC Consolidated Accounts | `dw.v_model_tac_consolidated` | 48 | **authored, hand-keyed** | the values printed in the consolidated NHS provider accounts, GBP million, with their pages |
+
+Row counts: **tested**, `tests/dax/150_tac_row_counts.dax` (result `tests/results/150_tac_row_counts.csv`); no relationship has a blank member (`151`).
+
+**Sign.** The TAC sign as published, no conversion (reasons in the data dictionary). Amounts are GBP thousands; the pages show millions through the `Display Unit`
+calculation group, to which the 14 amount measures were added (**tested**: the pages' figures below; the group's own tests 730 to 737 still pass).
+
+**Subtotals never enter a sum.** A subtotal or a total is a value in the data. `Tac.LineKinds` gives the kinds of line a measure adds: with one statement line in context it is that line's own
+kind, so a subtotal can be read on its own row as published; with several it is lines only. **Tested**: `158` (the four balance-sheet blocks added from
+lines equal the published subtotal in all six years; the income statement added from lines differs from a sum of every row), `157` and `sql/tests/157`.
+
+**The semi-additive balance sheet.** `TAC Closing Balance` reads the current-year column of the **last** financial year that is in the filter context and has statements, `TAC Opening Balance` the
+prior-year column of the **first**. Over several years it shows the last year, never the sum. **Tested**: `155` (cash at the end of three spans of years and of all years: the closing balance is
+the last year's, the opening the first year's, the sum of the years' closing balances is a different number: 69,057,293 against 9,633,779 for all years, GBP thousands).
+
+**Dissolved providers.** A provider with no statements in a year has no row in it, so it adds nothing to that year; the measure does not look back for a provider's last balance. **Tested**: `156` takes nine real
+predecessors from `authored/tac_provider_successor.csv` (acquired or merged between 2019-20 and 2023-24) in all six years: the closing cash is 0 after the last year with statements, and a "last non-blank balance up to the year" pattern, defined in the test and not in
+the model, carries it for ever; `157` shows the group total equal to the warehouse in every year and the carried-forward total larger by exactly the last balances of the providers that have gone
+(GBP thousands: 21,809 in 2020-21 growing to 565,297 in 2024-25).
+
+**Opening against prior-year closing, and the restatement.** For year Y the opening balance is the prior-year column of the file of Y; the prior-year closing is the current-year column of the file of Y-1; their
+difference includes providers that appear or disappear between the files. `TAC Restatement` is narrower: the values both files hold that differ by GBP 1,000 or more, the rule of `audit.tac_prior_year_difference`, stored once as a column
+of the fact view. **Tested**: `153` (by year and block of the balance sheet) and `154` (by year and statement: the sum over every restated row equals the net difference of `audit.tac_prior_year_summary` in all 15 year-statement
+cells; the measure adds lines only, so it is smaller by the subtotal rows, for example the balance sheet of 2023-24: -72,342 against -184,630 thousand).
+
+**Derived cash flow and its residual.** `TAC Cash Flow (derived)`, `TAC Cash Flow (published)` and `TAC Cash Flow Residual` by derived line, by section and for the net change, against the build's own audit tables (`159`, `160`, `161`): all pass. The residual is derived
+less published and is not forced to zero (figures in the data dictionary). `TAC Cash Movement (balance sheet)` is closing less opening of cash and cash equivalents; the derived net change equals it to within GBP 2,000 per provider (`161`, `sql/tests/152`).
+
+**Elimination control.** `TAC Provider Sum (control)` adds the control line's statement lines for one year; `TAC Consolidated Total` is the hand-keyed figure; `TAC Elimination Gap` and `TAC Elimination Gap %` compare them (**tested**: `162`, 36 cells, largest difference
+0.00005 of the ppm column). The consolidated values never reach a real total (`163`, `sql/tests/155`: `Outturn`, `TAC Amount`, the sum of every TAC value, the derived cash flow and the consolidated amounts each equal their own warehouse table).
+
+**Security.** See [security.md](security.md): TAC follows the Department Analyst filter through the provider's department, and the Restricted Viewer cannot read the identity of a provider.
+
+**Findings of the Best Practice Analyzer** (`evidence/bpa`): three new, all information severity, `RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE` on the year key of `Fact TAC`, `Fact TAC Cash Flow (derived)` and `TAC Consolidated Accounts`,
+because the year dimension is keyed on the text the plan already uses; two severity-2 ignores with a reason each (`te/bpa/ignores.csv`): `TAC Provider` and `TAC Statement Line` relate to a dimension and are related to by the facts.
+
+**Pitfalls I met** (added to the notes here and not in code): a measure that sets a filter on a column the visual also filters (`Statement Code`) replaces the visual's filter, so those filters are written with `KEEPFILTERS`
+(test 158 caught it); `IF` cannot return the table a `CALCULATE` filter argument needs; a column cannot be sorted by a key it does not determine, so the line label carries its code (receivables is a current and a non-current line).
 
 ## Not in the model yet
 

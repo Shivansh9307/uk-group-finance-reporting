@@ -1,0 +1,40 @@
+// A balance over several years is the balance of the last year, never the sum of the years. Cash and cash equivalents
+// (BAL1240) for four spans of financial years: the closing balance (the last year of the span), the opening balance
+// (the first year of the span, as the file of that year restated it), the sum of the years' closing balances (what an
+// additive measure would give, shown to be a different number), and the number of providers reporting in the last
+// year. Defined here: the sum over the years in the span.
+DEFINE
+    MEASURE 'Fact TAC'[Sum of Years Closing] =
+        SUMX ( VALUES ( 'Fiscal Year'[Financial Year] ), [TAC Closing Balance] )
+EVALUATE
+UNION (
+    ROW (
+        "span", "2019-20 to 2021-22",
+        "closing_balance", CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = "BAL1240", TREATAS ( { "2019-20", "2020-21", "2021-22" }, 'Fiscal Year'[Financial Year] ) ),
+        "opening_balance", CALCULATE ( [TAC Opening Balance], 'TAC Statement Line'[Sub Code] = "BAL1240", TREATAS ( { "2019-20", "2020-21", "2021-22" }, 'Fiscal Year'[Financial Year] ) ),
+        "sum_of_years_closing", CALCULATE ( [Sum of Years Closing], 'TAC Statement Line'[Sub Code] = "BAL1240", TREATAS ( { "2019-20", "2020-21", "2021-22" }, 'Fiscal Year'[Financial Year] ) ),
+        "providers_reporting", CALCULATE ( [TAC Providers Reporting], TREATAS ( { "2019-20", "2020-21", "2021-22" }, 'Fiscal Year'[Financial Year] ) )
+    ),
+    ROW (
+        "span", "2022-23 to 2024-25",
+        "closing_balance", CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = "BAL1240", TREATAS ( { "2022-23", "2023-24", "2024-25" }, 'Fiscal Year'[Financial Year] ) ),
+        "opening_balance", CALCULATE ( [TAC Opening Balance], 'TAC Statement Line'[Sub Code] = "BAL1240", TREATAS ( { "2022-23", "2023-24", "2024-25" }, 'Fiscal Year'[Financial Year] ) ),
+        "sum_of_years_closing", CALCULATE ( [Sum of Years Closing], 'TAC Statement Line'[Sub Code] = "BAL1240", TREATAS ( { "2022-23", "2023-24", "2024-25" }, 'Fiscal Year'[Financial Year] ) ),
+        "providers_reporting", CALCULATE ( [TAC Providers Reporting], TREATAS ( { "2022-23", "2023-24", "2024-25" }, 'Fiscal Year'[Financial Year] ) )
+    ),
+    ROW (
+        "span", "2019-20 and 2024-25 only",
+        "closing_balance", CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = "BAL1240", TREATAS ( { "2019-20", "2024-25" }, 'Fiscal Year'[Financial Year] ) ),
+        "opening_balance", CALCULATE ( [TAC Opening Balance], 'TAC Statement Line'[Sub Code] = "BAL1240", TREATAS ( { "2019-20", "2024-25" }, 'Fiscal Year'[Financial Year] ) ),
+        "sum_of_years_closing", CALCULATE ( [Sum of Years Closing], 'TAC Statement Line'[Sub Code] = "BAL1240", TREATAS ( { "2019-20", "2024-25" }, 'Fiscal Year'[Financial Year] ) ),
+        "providers_reporting", CALCULATE ( [TAC Providers Reporting], TREATAS ( { "2019-20", "2024-25" }, 'Fiscal Year'[Financial Year] ) )
+    ),
+    ROW (
+        "span", "all years, no year filter",
+        "closing_balance", CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = "BAL1240" ),
+        "opening_balance", CALCULATE ( [TAC Opening Balance], 'TAC Statement Line'[Sub Code] = "BAL1240" ),
+        "sum_of_years_closing", CALCULATE ( [Sum of Years Closing], 'TAC Statement Line'[Sub Code] = "BAL1240" ),
+        "providers_reporting", [TAC Providers Reporting]
+    )
+)
+ORDER BY [span]

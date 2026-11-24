@@ -1,0 +1,84 @@
+/// AUTHORED labels, no amount: the lines of the derived indirect cash flow, in three published sections (operating, investing, financing) and one of reserve movements that have no cash counterpart, each with whether it is compared with published lines, exists only on the derived side or only on the published side. A published cash-flow line points at the derived line it is compared with, so one line here filters both the derived amount and the published lines it is set against. The member Not compared is every other statement line. Source view dw.v_model_tac_cash_flow_line, from authored/tac_cash_flow_line.csv.
+table 'TAC Cash Flow Line'
+	lineageTag: 93d06805-31a1-5664-ba45-ada282355702
+
+	/// Key of the derived cash-flow line; 0 is Not compared.
+	column 'Cash Flow Line Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: 8ff1f5c2-ecad-55f7-bc30-49437598e0fb
+		summarizeBy: none
+		sourceColumn: cash_flow_line_key
+
+	/// Order of the section.
+	column 'Cash Flow Section Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c7ea575b-de03-50b1-850d-b93618e60bf0
+		summarizeBy: none
+		sourceColumn: section_order
+
+	/// Order of the line within the cash flow.
+	column 'Sort Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: baad8546-fdd2-5cb6-84ce-40f5eb0c453d
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	/// The derived cash-flow line.
+	column 'Cash Flow Line'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 0aae5a65-7c9d-5e37-b8fa-d0f1f93ef9ed
+		summarizeBy: none
+		sourceColumn: label
+		sortByColumn: 'Sort Order'
+
+	/// Operating, investing or financing activities, or reserve movements that are not cash.
+	column 'Cash Flow Section'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 4bd3eb7a-c29d-51aa-8689-43a6955ad6e6
+		summarizeBy: none
+		sourceColumn: section
+		sortByColumn: 'Cash Flow Section Order'
+
+	/// Short code of the derived line.
+	column 'Line Code'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: ad113392-1467-5257-99f1-0a52fbed0468
+		summarizeBy: none
+		sourceColumn: line_code
+
+	/// compared (derived and published both), derived_only, published_only, or not_compared.
+	column 'Comparison Kind'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 1a159e95-79c6-56d1-b578-b8a924e7f5b4
+		summarizeBy: none
+		sourceColumn: line_kind
+
+	/// Why the line is built as it is and what its residual contains.
+	column 'Comparison Note'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 2059330c-a94d-5697-96f1-3cda3830773f
+		summarizeBy: none
+		sourceColumn: note
+
+	partition 'TAC Cash Flow Line' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_tac_cash_flow_line"]}[Data]
+				in
+				    Data
+

@@ -1,0 +1,10 @@
+// The hand-keyed consolidated values the signed-in user can list, by year and printed line. A user who cannot see the
+// provider accounts cannot list them either (the row filter of the consolidated table).
+EVALUATE
+SELECTCOLUMNS (
+    'TAC Consolidated Accounts',
+    "financial_year", RELATED ( 'Fiscal Year'[Financial Year] ),
+    "printed_code", 'TAC Consolidated Accounts'[Printed Code],
+    "printed_amount_gbp_million", 'TAC Consolidated Accounts'[Printed Amount (GBP million)]
+)
+ORDER BY [financial_year], [printed_code]

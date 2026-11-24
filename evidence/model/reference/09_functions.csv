@@ -157,6 +157,14 @@ Function,Description,Expression,Is Hidden
         )",False
 "Restate.Unflagged","A measure with the rows flagged in Data Quality Issue left out: the fact rows whose data-quality key is 0, the member that says no issue was flagged. A selection already made on the flagged rows is kept (KEEPFILTERS), so a selection of a finding gives nothing. The flagged rows are whole line-months that were reported in error and corrected in the next release (the NHS Pension Scheme lines X903A002 and X903A003), so what is left out is the line-month as a whole, not only the error.","( m : EXPR ) =>
     CALCULATE ( m, KEEPFILTERS ( 'Fact Outturn'[Data Quality Issue Key] = 0 ) )",False
+"Tac.FirstYear","The first financial year, as the calendar year it starts in, that is in the filter context and has statements: the year an opening balance is read at.","( ) =>
+    CALCULATE ( MIN ( 'Fact TAC'[Release Start] ), 'Fact TAC'[Period Column] = ""PY"" )",False
+"Tac.LastYear","The last financial year, as the calendar year it starts in, that is in the filter context and has statements: the year a balance sheet is read at. A provider with no statements in that year has no row in it, so it adds nothing; no provider's earlier balance is carried forward.","( ) =>
+    CALCULATE ( MAX ( 'Fact TAC'[Release Start] ), 'Fact TAC'[Period Column] = ""CY"" )",False
+"Tac.LineKinds","The kinds of statement line a TAC measure adds up. With one statement line in context it is that line's own kind, so a subtotal or a total can be read on its own row as published; with several it is lines of kind line only, so a subtotal or total is never added to the lines it is computed from.","( ) =>
+    VAR OneLine = HASONEVALUE ( 'TAC Statement Line'[Line Key] )
+    RETURN
+        FILTER ( VALUES ( 'TAC Statement Line'[Line Kind] ), OneLine || 'TAC Statement Line'[Line Kind] = ""line"" )",False
 "Window.Mtd","The month: the latest allocated month (period 1 to 12) in context, in each year in context. Period 0, which the source does not allocate to a month, is never a month; with only period 0 in context the result is BLANK.","( m : EXPR ) =>
     VAR Years = VALUES ( 'Fiscal Period'[Financial Year] )
     VAR LatestMonth =

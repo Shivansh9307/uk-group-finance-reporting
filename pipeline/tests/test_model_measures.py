@@ -87,6 +87,22 @@ BASE_MEASURES = {
     "Plan (real terms)": ("Fact Plan", "Real Terms"),
     "Statement Plan (real terms)": ("Fact Plan", "Real Terms"),
     "Plan (phased) (real terms)": ("Fact Plan Phased (derived)", "Real Terms"),
+    "TAC Closing Balance": ("Fact TAC", "TAC\\Balance sheet"),
+    "TAC Opening Balance": ("Fact TAC", "TAC\\Balance sheet"),
+    "TAC Prior Year Closing Balance": ("Fact TAC", "TAC\\Balance sheet"),
+    "TAC Opening less Prior Year Closing": ("Fact TAC", "TAC\\Balance sheet"),
+    "TAC Restatement": ("Fact TAC", "TAC\\Balance sheet"),
+    "TAC Amount": ("Fact TAC", "TAC\\Income statement and cash flow"),
+    "TAC Providers Reporting": ("Fact TAC", "TAC\\Balance sheet"),
+    "TAC Cash Flow (published)": ("Fact TAC", "TAC\\Cash flow"),
+    "TAC Provider Sum (control)": ("Fact TAC", "TAC\\Elimination control"),
+    "TAC Cash Flow (derived)": ("Fact TAC Cash Flow (derived)", "TAC\\Cash flow"),
+    "TAC Cash Flow Residual": ("Fact TAC Cash Flow (derived)", "TAC\\Cash flow"),
+    "TAC Consolidated Total": ("TAC Consolidated Accounts", "TAC\\Elimination control"),
+    "TAC Elimination Gap": ("TAC Consolidated Accounts", "TAC\\Elimination control"),
+    "TAC Elimination Gap %": ("TAC Consolidated Accounts", "TAC\\Elimination control"),
+    "TAC Net Change in Cash (published)": ("Fact TAC", "TAC\\Cash flow"),
+    "TAC Cash Movement (balance sheet)": ("Fact TAC", "TAC\\Cash flow"),
 }
 GROUPS = {"Scenario Comparison": 10, "Time Intelligence": 20, "Display Unit": 30}
 

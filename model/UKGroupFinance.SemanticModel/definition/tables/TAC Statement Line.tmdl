@@ -1,0 +1,116 @@
+/// The 137 lines of the three statutory statements the NHS providers file: income statement, balance sheet and cash flow, with the text and sign of the form (real, from the illustrative forms), and for each line its section and whether it is a line, a subtotal or a total (authored: the form computes a subtotal from other lines, so adding it to its components counts it twice). Holds no amount. Source view dw.v_model_tac_line.
+table 'TAC Statement Line'
+	lineageTag: 60083804-0ade-53e8-9ec7-40233deaa844
+
+	/// Key of the statement line, in the order of the forms.
+	column 'Line Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: 96ff9e47-2234-55d6-930c-995895bca3b7
+		summarizeBy: none
+		sourceColumn: line_key
+
+	/// Order of the statements: income statement, balance sheet, cash flow.
+	column 'Statement Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 12030cfa-85e2-5823-97df-35bd3ada8894
+		summarizeBy: none
+		sourceColumn: statement_order
+
+	/// Order of the sections within the forms.
+	column 'Section Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 734ceb58-06a0-5ec2-817b-0d69ec55d964
+		summarizeBy: none
+		sourceColumn: section_order
+
+	/// Income statement, Balance sheet or Cash flow.
+	column Statement
+		dataType: string
+		lineageTag: d2a87490-4059-5afe-9df1-386a16e52c92
+		summarizeBy: none
+		sourceColumn: statement_name
+		sortByColumn: 'Statement Order'
+
+	/// SoCI, SoFP or SoCF, as the forms name them.
+	column 'Statement Code'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: 8e5b2a10-1d75-511e-b9a7-b77acc830723
+		summarizeBy: none
+		sourceColumn: statement
+
+	/// The block of the statement the line sits in, for example Current assets or Operating activities. Authored where the form has no heading.
+	column Section
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 711d6bdf-42e9-5abb-8f2c-af6e3886e451
+		summarizeBy: none
+		sourceColumn: section
+		sortByColumn: 'Section Order'
+
+	/// The TAC code of the line, for example BAL1240 for cash and cash equivalents.
+	column 'Sub Code'
+		dataType: string
+		lineageTag: aea5aa62-b321-5f79-af0e-bc3c328ac9d7
+		summarizeBy: none
+		sourceColumn: sub_code
+
+	/// The text of the line in the latest form that carries the code, with its code, in the order of the forms. Several lines share a text (receivables is a current and a non-current line), the code tells them apart.
+	column Line
+		dataType: string
+		lineageTag: 69d02401-6cce-5258-99ef-16eb36777138
+		summarizeBy: none
+		sourceColumn: line_label
+		sortByColumn: 'Line Key'
+
+	/// The text of the line alone, as the form words it.
+	column 'Line Text'
+		dataType: string
+		lineageTag: 41dfdca4-d339-590b-a6d2-e182b3f604e4
+		summarizeBy: none
+		sourceColumn: description
+
+	/// AUTHORED: line, subtotal or total. A subtotal or total is computed by the form and is in the data as a value; the measures never add one to its components.
+	column 'Line Kind'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 7f9a745b-f902-5272-b1fc-2777f70c1c07
+		summarizeBy: none
+		sourceColumn: line_kind
+
+	/// The sign the form expects: + for income, assets and inflows, - for expenses, liabilities and outflows, +/- for either.
+	column 'Expected Sign'
+		dataType: string
+		lineageTag: 113e460d-ceb2-593d-84c7-e58b9a8dc718
+		summarizeBy: none
+		sourceColumn: expected_sign
+
+	/// Key of the derived cash-flow line a published cash-flow line is compared with; 0 for every other line.
+	column 'Cash Flow Line Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: f4389efc-4c5b-55d9-85f2-e96239e7913a
+		summarizeBy: none
+		sourceColumn: cash_flow_line_key
+
+	partition 'TAC Statement Line' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_tac_line"]}[Data]
+				in
+				    Data
+
+
+	annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["SNOWFLAKE_SCHEMA_ARCHITECTURE"]}

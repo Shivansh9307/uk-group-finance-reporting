@@ -129,7 +129,7 @@ third one.
 ### Which measures the object-level security affects
 
 A measure that reads a hidden object returns an error, not a blank. `tools/run_rls_tests.ps1 -ProbeMeasures` evaluated each
-of the 53 measures of the model alone as the Restricted Viewer and wrote
+of the 53 measures of the model alone as the Restricted Viewer (69 with the NHS trust accounts, see below) and wrote
 [evidence/model/ols_measure_probe.csv](../evidence/model/ols_measure_probe.csv): 45 answer and 8 return an error. The 8 are
 the measures that live in the hidden tables themselves: `Difference to File Total`, `File Total (4 decimals)` and
 `Outturn as at Release (own year)` (File Control), `Rows Loaded`, `Rows Quarantined`, `Rows Read` and `Web Rows Quarantined`
@@ -138,6 +138,32 @@ needed (**tested**: `pipeline/tests/test_model_files.py::test_the_ols_measure_pr
 and `test_no_measure_or_function_reads_a_column_or_table_the_restricted_role_hides_except_those_the_document_lists`).
 The report pages that show the data controls, the restatement detail by finding and the organisations of a department use
 the hidden objects, so those visuals fail for this role. I did not run the report under a role and make no claim about it.
+
+## The NHS trust accounts under the two roles
+
+The NHS trust accounts (`Fact TAC`, `Fact TAC Cash Flow (derived)`, the provider and line tables, [model.md](model.md#the-nhs-trust-accounts-balance-sheet-cash-flow-and-elimination-control))
+follow the same row filter as everything else, without a third role and without a new user.
+
+- **Row-level.** Every provider is related to the Department of Health and Social Care, which is department 033 in the synthetic map. `Department (current structure)` filters `TAC Provider`, which filters both TAC facts, so a user sees TAC only if the map
+  gives them department 033: `chloe.patel` does, the other seven do not, and `nobody@example.org` does not. The hand-keyed consolidated figures have no provider, so their table has its own row filter in both roles
+  (`'User Department (synthetic)'` against the department key of `TAC Provider`): a user who cannot see the providers cannot list the consolidated values either, and the measures that read them are blank.
+- **Object-level (Restricted Viewer only, in the same role).** I **did** decide to hide the identity of a provider: the name, code, region, sector, the years with statements, the reporting status and the successor columns of `TAC Provider` (12 columns). The type of provider, the
+  key and the department key stay, and no measure reads a hidden column, so every TAC measure answers for the Restricted Viewer and gives the same figure as for the analyst. The reason is the design of the role, not the confidentiality of the data (the accounts are published): the restricted viewer reads
+  group totals and not named trusts, and a hidden name is the simplest object-level rule to test.
+- A measure that reads a hidden object returns an error: the probe now evaluates 69 measures as the Restricted Viewer, 61 answer and 8 return an error, the same 8 as before ([evidence/model/ols_measure_probe.csv](../evidence/model/ols_measure_probe.csv)); none of the 16 TAC measures is among them.
+
+**Tested** (`tools/run_rls_tests.ps1`, `ukfr rls-expected`, `ukfr rls-compare`: 113 of 113 cases pass, the 26 new ones in `tests/rls/manifest.csv` with the queries `tac_*`):
+
+| Case | Role and user | Result |
+|---|---|---|
+| `tac_totals` (cash 2024-25, providers, derived net change, consolidated cash and gap, row counts) | analyst: `chloe`; seven other mapped analysts and `nobody` | `chloe`: 9,633,778.7198 cash, 207 providers, 228 provider rows, 344,812 fact rows, 48 consolidated rows; every other user: amounts blank, row counts 0 |
+| `tac_totals` | restricted: `chloe`, `alice`, `jasmine`, `nobody` | `chloe`: the same figures as the analyst; the others: blank and 0 |
+| `tac_provider_names` | analyst: `chloe` (228 rows), `alice` and `nobody` (0 rows) | equal to SQL |
+| `tac_provider_names_hidden` | restricted: `chloe`, `nobody` | refused: `Column 'Provider' in table 'TAC Provider' cannot be found or may not be used in this expression.` |
+| `tac_by_provider_type` | analyst `chloe`; restricted `chloe`, `alice`, `nobody` | the type column is not hidden: `chloe` sees the same two rows in both roles, the others none |
+| `tac_consolidated_rows` | analyst `chloe`, `alice`; restricted `chloe`, `nobody` | 48 rows for `chloe`, none for the others |
+
+The expected values are written from `dw.tac_provider_group`, `dw.tac_fact`, `dw.tac_cash_flow_derived` and `dw.tac_consolidated_control` with `synthetic.user_department`, never from the views the model reads.
 
 ## The cases I ran
 
@@ -153,7 +179,7 @@ uv run --project pipeline ukfr rls-expected
 uv run --project pipeline ukfr rls-compare
 ```
 
-Result of the last run: **87 of 87 cases pass** (71 `values`, 11 `differs`, 5 `error`). A planted wrong number in one result
+Result of the last run: **113 of 113 cases pass** (95 `values`, 11 `differs`, 7 `error`, with the NHS trust accounts below; 87 of 87 before them). A planted wrong number in one result
 file made `rls-compare` report one failure, and restoring it made all pass.
 
 | Case family | Users and role | What it shows |

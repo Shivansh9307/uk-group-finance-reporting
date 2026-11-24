@@ -1,4 +1,4 @@
-/// Dynamic row-level security. A user sees the departments of the current structure that the synthetic user map gives them, and so only their departments' outturn. Plan is published by Spending Review group, so a user sees the plan of a group only when every department of the group is one of theirs. A user in no row of the map sees nothing. The audit and control tables are not restricted in this role.
+/// Dynamic row-level security. A user sees the departments of the current structure that the synthetic user map gives them, and so only their departments' outturn. Plan is published by Spending Review group, so a user sees the plan of a group only when every department of the group is one of theirs. A user in no row of the map sees nothing. The NHS trust accounts follow the same filter through the provider's department (only a user mapped to the Department of Health and Social Care sees them), and so do the hand-keyed consolidated figures. The audit and control tables are not restricted in this role.
 role 'Department Analyst'
 	modelPermission: read
 
@@ -21,6 +21,13 @@ role 'Department Analyst'
 			    'User Plan Group (synthetic)',
 			    'User Plan Group (synthetic)'[User Principal Name], USERPRINCIPALNAME (),
 			    'User Plan Group (synthetic)'[Spending Review Group Key], 'Fact Plan Phased (derived)'[Spending Review Group Key]
+			)
+
+	tablePermission 'TAC Consolidated Accounts' =
+			CONTAINS (
+			    'User Department (synthetic)',
+			    'User Department (synthetic)'[User Principal Name], USERPRINCIPALNAME (),
+			    'User Department (synthetic)'[Department Key], MAX ( 'TAC Provider'[Department Key] )
 			)
 
 	tablePermission 'User Department (synthetic)' = 'User Department (synthetic)'[User Principal Name] = USERPRINCIPALNAME ()

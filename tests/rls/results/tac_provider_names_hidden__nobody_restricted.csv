@@ -1,0 +1,2 @@
+outcome,message
+error,"Error: Query (3, 59) Column 'Provider' in table 'TAC Provider' cannot be found or may not be used in this expression."

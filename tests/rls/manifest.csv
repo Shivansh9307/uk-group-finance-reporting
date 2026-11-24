@@ -86,3 +86,29 @@ chloe_restricted,ols_hidden_table,Restricted Viewer,chloe.patel@example.org,erro
 nobody_restricted,ols_hidden_table,Restricted Viewer,nobody@example.org,error,,Cannot find table 'Plan Variance Check'
 chloe_restricted,ols_hidden_column,Restricted Viewer,chloe.patel@example.org,error,,Column 'Organisation' in table 'Organisation (as reported)' cannot be found or may not be used in this expression.
 chloe_restricted,ols_hidden_quality_column,Restricted Viewer,chloe.patel@example.org,error,,Column 'Amount Before' in table 'Data Quality Issue' cannot be found or may not be used in this expression.
+alice_analyst,tac_totals,Department Analyst,alice.morgan@example.org,values,tac_totals,
+ben_analyst,tac_totals,Department Analyst,ben.okafor@example.org,values,tac_totals,
+chloe_analyst,tac_totals,Department Analyst,chloe.patel@example.org,values,tac_totals,
+dev_analyst,tac_totals,Department Analyst,dev.sharma@example.org,values,tac_totals,
+fatima_analyst,tac_totals,Department Analyst,fatima.khan@example.org,values,tac_totals,
+george_analyst,tac_totals,Department Analyst,george.evans@example.org,values,tac_totals,
+hannah_analyst,tac_totals,Department Analyst,hannah.price@example.org,values,tac_totals,
+jasmine_analyst,tac_totals,Department Analyst,jasmine.reid@example.org,values,tac_totals,
+nobody_analyst,tac_totals,Department Analyst,nobody@example.org,values,tac_totals,
+chloe_restricted,tac_totals,Restricted Viewer,chloe.patel@example.org,values,tac_totals,
+alice_restricted,tac_totals,Restricted Viewer,alice.morgan@example.org,values,tac_totals,
+jasmine_restricted,tac_totals,Restricted Viewer,jasmine.reid@example.org,values,tac_totals,
+nobody_restricted,tac_totals,Restricted Viewer,nobody@example.org,values,tac_totals,
+chloe_analyst,tac_provider_names,Department Analyst,chloe.patel@example.org,values,tac_provider_names,
+alice_analyst,tac_provider_names,Department Analyst,alice.morgan@example.org,values,tac_provider_names,
+nobody_analyst,tac_provider_names,Department Analyst,nobody@example.org,values,tac_provider_names,
+chloe_restricted,tac_provider_names_hidden,Restricted Viewer,chloe.patel@example.org,error,,Column 'Provider' in table 'TAC Provider' cannot be found or may not be used in this expression.
+nobody_restricted,tac_provider_names_hidden,Restricted Viewer,nobody@example.org,error,,Column 'Provider' in table 'TAC Provider' cannot be found or may not be used in this expression.
+chloe_analyst,tac_by_provider_type,Department Analyst,chloe.patel@example.org,values,tac_by_provider_type,
+chloe_restricted,tac_by_provider_type,Restricted Viewer,chloe.patel@example.org,values,tac_by_provider_type,
+alice_restricted,tac_by_provider_type,Restricted Viewer,alice.morgan@example.org,values,tac_by_provider_type,
+nobody_restricted,tac_by_provider_type,Restricted Viewer,nobody@example.org,values,tac_by_provider_type,
+chloe_analyst,tac_consolidated_rows,Department Analyst,chloe.patel@example.org,values,tac_consolidated_rows,
+chloe_restricted,tac_consolidated_rows,Restricted Viewer,chloe.patel@example.org,values,tac_consolidated_rows,
+alice_analyst,tac_consolidated_rows,Department Analyst,alice.morgan@example.org,values,tac_consolidated_rows,
+nobody_restricted,tac_consolidated_rows,Restricted Viewer,nobody@example.org,values,tac_consolidated_rows,

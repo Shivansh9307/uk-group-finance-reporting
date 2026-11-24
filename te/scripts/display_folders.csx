@@ -17,6 +17,8 @@
 //   Real Terms                    every measure whose name ends in " (real terms)"
 //   Report Labels                 text for page headers (the latest release in view)
 //   Audit and control             the data-controls tables (file, plan coverage, annual, PSS and load controls)
+//   TAC\Balance sheet, TAC\Income statement and cash flow, TAC\Cash flow, TAC\Elimination control
+//                                 the NHS trust accounts: balance sheet and restatement, flows, derived cash flow, elimination gap
 //
 // A visible measure that is neither in the table nor a real-terms measure makes the script fail
 // with the list of such measures, and so does a name in the table that is not a measure of the
@@ -71,7 +73,23 @@ var folderOf = new Dictionary<string, string>
     { "Rows Read", "Audit and control" },
     { "Rows Loaded", "Audit and control" },
     { "Rows Quarantined", "Audit and control" },
-    { "Web Rows Quarantined", "Audit and control" }
+    { "Web Rows Quarantined", "Audit and control" },
+    { "TAC Closing Balance", @"TAC\Balance sheet" },
+    { "TAC Opening Balance", @"TAC\Balance sheet" },
+    { "TAC Prior Year Closing Balance", @"TAC\Balance sheet" },
+    { "TAC Opening less Prior Year Closing", @"TAC\Balance sheet" },
+    { "TAC Restatement", @"TAC\Balance sheet" },
+    { "TAC Amount", @"TAC\Income statement and cash flow" },
+    { "TAC Providers Reporting", @"TAC\Balance sheet" },
+    { "TAC Cash Flow (published)", @"TAC\Cash flow" },
+    { "TAC Provider Sum (control)", @"TAC\Elimination control" },
+    { "TAC Cash Flow (derived)", @"TAC\Cash flow" },
+    { "TAC Cash Flow Residual", @"TAC\Cash flow" },
+    { "TAC Consolidated Total", @"TAC\Elimination control" },
+    { "TAC Elimination Gap", @"TAC\Elimination control" },
+    { "TAC Elimination Gap %", @"TAC\Elimination control" },
+    { "TAC Net Change in Cash (published)", @"TAC\Cash flow" },
+    { "TAC Cash Movement (balance sheet)", @"TAC\Cash flow" }
 };
 const string RealTermsSuffix = " (real terms)";
 const string RealTermsFolder = "Real Terms";
@@ -79,7 +97,7 @@ const string DerivedSuffix = "(derived)";
 const string DerivedFolder = "Derived";
 // Authored dimension tables (see the README register). Statement Measure, an authored field parameter, is
 // labelled in its description only: its one visible column is what a slicer shows.
-var authoredTables = new List<string> { "Scenario", "Spending Review Group", "Plan Source", "Plan Grain", "Statement Line" };
+var authoredTables = new List<string> { "Scenario", "Spending Review Group", "Plan Source", "Plan Grain", "Statement Line", "TAC Cash Flow Line", "TAC Control Line", "TAC Consolidated Accounts" };
 const string AuthoredFolder = "Authored";
 
 var problems = new List<string>();

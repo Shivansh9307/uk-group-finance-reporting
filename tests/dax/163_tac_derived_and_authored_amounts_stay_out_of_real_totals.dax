@@ -1,0 +1,13 @@
+// The real facts keep their totals with the derived cash flow and the hand-keyed consolidated values in the model, and
+// the two stay in their own tables. One row: the sum of every value of Fact TAC (all rows, subtotals included, the
+// real fact as loaded), TAC Amount over all years (lines of the income statement and cash flow, current-year column),
+// Outturn (the real OSCAR fact, unchanged), the sum of the derived cash flow and the sum of the
+// consolidated amounts, each from its own table. No measure of one family reads the table of another.
+EVALUATE
+ROW (
+    "fact_tac_value", SUM ( 'Fact TAC'[Value] ),
+    "tac_amount_all_years", [TAC Amount],
+    "outturn", [Outturn],
+    "derived_cash_flow", SUM ( 'Fact TAC Cash Flow (derived)'[Cash Flow Amount] ),
+    "consolidated_amount", SUM ( 'TAC Consolidated Accounts'[Amount] )
+)

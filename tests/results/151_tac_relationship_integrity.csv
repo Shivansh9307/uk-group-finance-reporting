@@ -1,0 +1,12 @@
+relationship,many_side_rows,rows_without_member
+"Fact TAC Cash Flow to Fiscal Year",28248,0
+"Fact TAC Cash Flow to TAC Cash Flow Line",28248,0
+"Fact TAC Cash Flow to TAC Provider",28248,0
+"Fact TAC to Fiscal Year",344812,0
+"Fact TAC to TAC Provider",344812,0
+"Fact TAC to TAC Statement Line",344812,0
+"TAC Consolidated Accounts to Fiscal Year",48,0
+"TAC Consolidated Accounts to TAC Control Line",48,0
+"TAC Control Member to TAC Control Line",54,0
+"TAC Provider to Department (current structure)",228,0
+"TAC Statement Line to TAC Cash Flow Line",137,0

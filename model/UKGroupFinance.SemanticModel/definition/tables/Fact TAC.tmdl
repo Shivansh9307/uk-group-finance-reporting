@@ -1,0 +1,227 @@
+/// Real data, as published: the statutory income statement, balance sheet and cash flow of every NHS trust and foundation trust, FY2019-20 to FY2024-25, one row per provider, file year, statement line and column (current or prior year), 344,812 rows, in GBP thousands on the TAC sign (income, assets and inflows positive; expenses, liabilities and outflows negative), which is not the OSCAR sign. A subtotal or total is in the data as a value: the measures add only lines of kind line, and show a subtotal only on its own row. Related to the provider, which carries the department of the current structure, so the security roles filter it. Source view dw.v_model_tac_fact.
+table 'Fact TAC'
+	lineageTag: 883149d0-b6ad-5db6-b648-b5f8c5411dde
+
+	/// Key of the provider.
+	column 'Provider Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: fe1d9662-3ec0-5e7e-a86c-4e8d4355d63a
+		summarizeBy: none
+		sourceColumn: provider_key
+
+	/// Key of the statement line.
+	column 'Line Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: 59cdf944-4775-5eb8-8ef8-500ba68490f6
+		summarizeBy: none
+		sourceColumn: line_key
+
+	/// Financial year of the file the value is read from, written 2024-25.
+	column 'Fiscal Year Key'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: 2db7be28-0de9-59db-9b45-b53705b0a20c
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	/// Calendar year in which the file's financial year starts. The measures use it to find the first and last year in context.
+	column 'Release Start'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: 67e2bff7-01e0-5226-9f77-6045cb66edd2
+		summarizeBy: none
+		sourceColumn: release_start
+
+	/// CY: the file's own year. PY: the prior-year column of the same file, which is the opening balance of a balance sheet as the provider restated it.
+	column 'Period Column'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: af96a61d-09fb-541c-ba31-b87e74294790
+		summarizeBy: none
+		sourceColumn: period_column
+
+	/// The published value in GBP thousands, TAC sign. Hidden: use the measures.
+	column Value
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: 38ee3de6-d186-5070-9116-884845e9cd25
+		summarizeBy: none
+		sourceColumn: value
+
+	/// On a prior-year row: the prior-year value less the current-year value of the year before, when they differ by GBP 1,000 or more. Hidden: use TAC Restatement.
+	column 'Restatement Amount'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: d8275fa6-8f7d-5b8d-b336-a60e1f1b5b01
+		summarizeBy: none
+		sourceColumn: restatement_amount
+
+	/// Balance sheet closing balance in GBP thousands, TAC sign (assets positive, liabilities negative): the current-year column of the balance sheet in the last financial year that is in the filter context and has statements. It is semi-additive over time: over several years it shows the last year and never the sum, and a provider with no statements in that year (dissolved, merged or acquired earlier) contributes nothing. Added over providers and over lines of kind line; on a single line it shows that line as published, a subtotal included. BLANK for the income statement and cash flow.
+	measure 'TAC Closing Balance' =
+			VAR LastYear = Tac.LastYear ()
+			RETURN
+			    IF (
+			        NOT ISBLANK ( LastYear ),
+			        CALCULATE (
+			            SUM ( 'Fact TAC'[Value] ),
+			            'Fact TAC'[Period Column] = "CY",
+			            'Fact TAC'[Release Start] = LastYear,
+			            KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = "SoFP" ),
+			            Tac.LineKinds ()
+			        )
+			    )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Balance sheet
+		lineageTag: f0e34064-3df9-5936-8c60-1191969f04f1
+
+	/// Balance sheet opening balance in GBP thousands, TAC sign: the prior-year column of the same file, as the provider restated it, in the first financial year that is in the filter context. Semi-additive like the closing balance: over several years it shows the opening of the first year. Added over providers and lines of kind line; on a single line it shows that line as published.
+	measure 'TAC Opening Balance' =
+			VAR FirstYear = Tac.FirstYear ()
+			RETURN
+			    IF (
+			        NOT ISBLANK ( FirstYear ),
+			        CALCULATE (
+			            SUM ( 'Fact TAC'[Value] ),
+			            'Fact TAC'[Period Column] = "PY",
+			            'Fact TAC'[Release Start] = FirstYear,
+			            KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = "SoFP" ),
+			            Tac.LineKinds ()
+			        )
+			    )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Balance sheet
+		lineageTag: f5848e9d-2371-5d71-a649-1a10e068b3df
+
+	/// The closing balance of the year before the first financial year in context, in GBP thousands, TAC sign: the current-year column of the previous year's file, as that file published it. Compare with TAC Opening Balance, which is the same date as restated in the next file. BLANK where there is no earlier file (2019-20).
+	measure 'TAC Prior Year Closing Balance' =
+			VAR FirstYear = Tac.FirstYear ()
+			RETURN
+			    IF (
+			        NOT ISBLANK ( FirstYear ),
+			        CALCULATE (
+			            SUM ( 'Fact TAC'[Value] ),
+			            REMOVEFILTERS ( 'Fiscal Year' ),
+			            'Fact TAC'[Period Column] = "CY",
+			            'Fact TAC'[Release Start] = FirstYear - 1,
+			            KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = "SoFP" ),
+			            Tac.LineKinds ()
+			        )
+			    )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Balance sheet
+		lineageTag: 513f8233-aff0-58c5-bcb3-45a3868a408d
+
+	/// TAC Opening Balance less TAC Prior Year Closing Balance, GBP thousands: how far the opening balance a provider publishes differs from the closing balance it published a year earlier. It includes the providers that appear or disappear between the two files (a merger, an acquisition, a provider excluded from one file), so it is wider than TAC Restatement, which compares only the values both files hold.
+	measure 'TAC Opening less Prior Year Closing' =
+			VAR Opening = [TAC Opening Balance]
+			VAR Prior = [TAC Prior Year Closing Balance]
+			RETURN
+			    IF ( NOT ISBLANK ( Opening ) || NOT ISBLANK ( Prior ), Opening - Prior )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Balance sheet
+		lineageTag: 5d27f08b-be34-5bc1-b3f0-300b538a92a0
+
+	/// The restatement of the year's opening figures, GBP thousands, TAC sign: for every provider and line that has a prior-year value in this year's file and a current-year value in last year's file, the prior-year value less the current-year value, where the two differ by GBP 1,000 or more (the rule of audit.tac_prior_year_difference). Reasons are restatements, reclassifications and mergers; I have not explained them one by one. Added over lines of kind line and over years; a single line shows its own difference.
+	measure 'TAC Restatement' =
+			CALCULATE (
+			    SUM ( 'Fact TAC'[Restatement Amount] ),
+			    'Fact TAC'[Period Column] = "PY",
+			    Tac.LineKinds ()
+			)
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Balance sheet
+		lineageTag: 91b6d12f-0938-5414-9088-f3138fdd37b3
+
+	/// Income statement and cash flow amount of the year in GBP thousands, TAC sign (income and inflows positive, expenses and outflows negative): the current-year column, added over providers, lines of kind line and, being a flow, over years. A subtotal or total is never added to its own components; on a single line the measure shows that line as published. BLANK for the balance sheet, which has TAC Closing Balance.
+	measure 'TAC Amount' =
+			CALCULATE (
+			    SUM ( 'Fact TAC'[Value] ),
+			    'Fact TAC'[Period Column] = "CY",
+			    KEEPFILTERS ( 'TAC Statement Line'[Statement Code] <> "SoFP" ),
+			    Tac.LineKinds ()
+			)
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Income statement and cash flow
+		lineageTag: ea378803-68fb-5d65-ae72-2b5b05c6db9a
+
+	/// Number of providers with statements in the last financial year in context. A provider that no longer exists is not counted in a year after its last statements.
+	measure 'TAC Providers Reporting' =
+			VAR LastYear = Tac.LastYear ()
+			RETURN
+			    IF (
+			        NOT ISBLANK ( LastYear ),
+			        CALCULATE (
+			            DISTINCTCOUNT ( 'Fact TAC'[Provider Key] ),
+			            'Fact TAC'[Period Column] = "CY",
+			            'Fact TAC'[Release Start] = LastYear
+			        )
+			    )
+		formatString: #,##0
+		displayFolder: TAC\Balance sheet
+		lineageTag: 60dacc6b-c53b-5a65-a270-77b7a694fc3d
+
+	/// The published cash flow, GBP thousands, TAC sign (an inflow is positive): the current-year column of the lines of the cash flow statement that are compared with a line of the derived cash flow (all published lines of the three activity sections; never a subtotal). Select a line of TAC Cash Flow Line to see the published lines it is compared with.
+	measure 'TAC Cash Flow (published)' =
+			CALCULATE (
+			    SUM ( 'Fact TAC'[Value] ),
+			    'Fact TAC'[Period Column] = "CY",
+			    KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = "SoCF" ),
+			    'TAC Statement Line'[Line Kind] = "line",
+			    'TAC Statement Line'[Cash Flow Line Key] <> 0
+			)
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Cash flow
+		lineageTag: ec9dc1a4-ccd8-5a09-a14e-4fc05ce1d200
+
+	/// The increase or decrease in cash and cash equivalents the providers publish in their cash flow statements, GBP thousands, TAC sign (SCF0320, read as published on its own line and added over providers and years). It adds the three published section subtotals.
+	measure 'TAC Net Change in Cash (published)' =
+			CALCULATE ( [TAC Amount], 'TAC Statement Line'[Sub Code] = "SCF0320" )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Cash flow
+		lineageTag: fcf3765b-fcde-5d08-9c89-ef5d4d94ddcd
+
+	/// The movement of cash and cash equivalents on the balance sheet, GBP thousands, TAC sign: the closing balance of the last year in context less the opening balance of the first (BAL1240). Over one year it is the cash movement of the year; over several years it is the movement across them, with the restated opening of the first year.
+	measure 'TAC Cash Movement (balance sheet)' =
+			CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = "BAL1240" )
+			    - CALCULATE ( [TAC Opening Balance], 'TAC Statement Line'[Sub Code] = "BAL1240" )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Cash flow
+		lineageTag: 2350dae1-a65c-5496-a0b5-2409b535fa7d
+
+	/// The sum of the provider accounts for one line of the elimination-gap control in one financial year, GBP thousands, TAC sign: the current-year column of the control line's statement lines, added over providers. BLANK unless one control line and one year are in context.
+	measure 'TAC Provider Sum (control)' =
+			IF (
+			    HASONEVALUE ( 'TAC Control Line'[Control Line Key] ) && HASONEVALUE ( 'Fiscal Year'[Financial Year] ),
+			    CALCULATE (
+			        SUM ( 'Fact TAC'[Value] ),
+			        'Fact TAC'[Period Column] = "CY",
+			        TREATAS ( VALUES ( 'TAC Control Member'[Line Key] ), 'TAC Statement Line'[Line Key] )
+			    )
+			)
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Elimination control
+		lineageTag: ebbd9440-4134-5a8e-962c-fdcef899e65f
+
+	partition 'Fact TAC' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_tac_fact"]}[Data]
+				in
+				    Data
+

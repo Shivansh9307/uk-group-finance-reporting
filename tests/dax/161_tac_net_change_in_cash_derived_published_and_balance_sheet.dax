@@ -1,0 +1,15 @@
+// The net change in cash by financial year, three ways: the derived cash flow added over all its lines, the published
+// increase in cash (SCF0320, read as published on its own line), and the balance sheet cash movement (cash and cash
+// equivalents, closing less opening, BAL1240). The derived figure equals the balance sheet movement to within the
+// rounding of the balance sheets; the published figure differs from both where a provider's cash flow reconciles through
+// transfers by absorption, new foundation trusts or a different cash definition (audit.tac_cash_flow_tie). The residual
+// is the derived figure less the published figure.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    "derived_net_change", [TAC Cash Flow (derived)],
+    "published_net_change", [TAC Net Change in Cash (published)],
+    "balance_sheet_cash_movement", [TAC Cash Movement (balance sheet)],
+    "residual", [TAC Cash Flow (derived)] - [TAC Net Change in Cash (published)]
+)
+ORDER BY 'Fiscal Year'[Financial Year]

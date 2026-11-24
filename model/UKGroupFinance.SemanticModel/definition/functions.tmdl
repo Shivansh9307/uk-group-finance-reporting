@@ -324,3 +324,20 @@ function 'Real.Deflate' =
 		    RETURN
 		        IF ( AnyYearWithoutIndex, BLANK (), SUMX ( WithAmount, [@Amount] * [@Factor] ) )
 
+
+/// The kinds of statement line a TAC measure adds up. With one statement line in context it is that line's own kind, so a subtotal or a total can be read on its own row as published; with several it is lines of kind line only, so a subtotal or total is never added to the lines it is computed from.
+function 'Tac.LineKinds' =
+		( ) =>
+		    VAR OneLine = HASONEVALUE ( 'TAC Statement Line'[Line Key] )
+		    RETURN
+		        FILTER ( VALUES ( 'TAC Statement Line'[Line Kind] ), OneLine || 'TAC Statement Line'[Line Kind] = "line" )
+
+/// The last financial year, as the calendar year it starts in, that is in the filter context and has statements: the year a balance sheet is read at. A provider with no statements in that year has no row in it, so it adds nothing; no provider's earlier balance is carried forward.
+function 'Tac.LastYear' =
+		( ) =>
+		    CALCULATE ( MAX ( 'Fact TAC'[Release Start] ), 'Fact TAC'[Period Column] = "CY" )
+
+/// The first financial year, as the calendar year it starts in, that is in the filter context and has statements: the year an opening balance is read at.
+function 'Tac.FirstYear' =
+		( ) =>
+		    CALCULATE ( MIN ( 'Fact TAC'[Release Start] ), 'Fact TAC'[Period Column] = "PY" )

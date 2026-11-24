@@ -1,0 +1,23 @@
+// Cash and cash equivalents (BAL1240) of the whole group by financial year: the model's closing balance, which adds the
+// providers that have statements in the year, against the sum over every provider of its last non-blank balance up to
+// the year (the pattern that never lets a dissolved provider go). The model's figure must equal the warehouse by year;
+// the carried-forward figure is larger by exactly the last balances of the providers that have gone, which the
+// difference column shows. Defined here: the carry forward and the number of providers that carry a balance.
+DEFINE
+    MEASURE 'Fact TAC'[Carried Forward Closing] =
+        CALCULATE (
+            LASTNONBLANKVALUE ( 'Fiscal Year'[Year Start], CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = "BAL1240" ) ),
+            FILTER ( ALL ( 'Fiscal Year' ), 'Fiscal Year'[Year Start] <= MAX ( 'Fiscal Year'[Year Start] ) )
+        )
+    MEASURE 'Fact TAC'[Group Carried Forward] =
+        SUMX ( VALUES ( 'TAC Provider'[Provider Code] ), [Carried Forward Closing] )
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    TREATAS ( { "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25" }, 'Fiscal Year'[Financial Year] ),
+    "closing_cash", CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = "BAL1240" ),
+    "providers_reporting", [TAC Providers Reporting],
+    "carried_forward_cash", [Group Carried Forward],
+    "overstatement", [Group Carried Forward] - CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = "BAL1240" )
+)
+ORDER BY 'Fiscal Year'[Financial Year]

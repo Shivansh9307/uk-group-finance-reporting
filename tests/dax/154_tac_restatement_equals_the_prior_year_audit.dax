@@ -1,0 +1,16 @@
+// The restatement by financial year and statement against audit.tac_prior_year_summary. Two columns: the model measure
+// TAC Restatement, which adds lines of kind line only, and the sum of every restated row, subtotals and totals
+// included, which is the grain of the audit table (defined here and not a model measure, because adding a subtotal to
+// its components counts it twice). The second column must equal the net difference of the audit table; the first is
+// the same sum without the subtotal and total rows.
+DEFINE
+    MEASURE 'Fact TAC'[Restatement All Rows] =
+        CALCULATE ( SUM ( 'Fact TAC'[Restatement Amount] ), 'Fact TAC'[Period Column] = "PY" )
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'TAC Statement Line'[Statement Code],
+    "restatement_lines_only", [TAC Restatement],
+    "restatement_all_rows", [Restatement All Rows]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'TAC Statement Line'[Statement Code]

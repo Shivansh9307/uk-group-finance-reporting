@@ -5,9 +5,9 @@ built and why is in [model.md](model.md); how its evidence is kept honest is in 
 
 The hash below is the hash of the model's TMDL files that this page was generated from (`ukfr ledger`, see evidence.md). If the model has changed since, `ukfr ledger check` fails with "model-reference.md is stale" until the page is generated again.
 
-Model projection hash: `3d9cc09a98fe31f9b9256c291f42282cb6f83f8ed2c948d0c5c6ff6e92d4005a`
+Model projection hash: `dc8287c52ea7ddb59a900a191aaa70b12ae3e9910565150d64cd0616b3225e11`
 
-The model has 33 tables, 271 columns, 53 measures, 23 relationships, 20 user-defined functions, 2 roles and 3 perspectives.
+The model has 41 tables, 337 columns, 69 measures, 34 relationships, 23 user-defined functions, 2 roles and 3 perspectives.
 
 ## Tables
 
@@ -26,6 +26,8 @@ The model has 33 tables, 271 columns, 53 measures, 23 relationships, 20 user-def
 | Fact Outturn | table | 13 | 34 | Real outturn from the 31 OSCAR in-year releases as revision deltas: one row for each change a release makes to a line (organisation version, sub-segment, economic category, control budget detail, period), only non-zero deltas. The sum of the deltas up to a release equals what that release reports. GBP thousands, spending positive, income negative. Source view dw.v_model_fact_outturn. |
 | Fact Plan | table | 13 | 7 | Real plans as published, at the grain of their source (see Plan Grain): OSCAR Plans by organisation to 2021-22, Estimates by Spending Review group from 2022-23, PESA departmental AME and administration budgets by group to 2028-29. Held for the year, not by month; compare with outturn only at the plan's grain or coarser. GBP thousands. Source view dw.v_model_fact_plan. |
 | Fact Plan Phased (derived) | table | 15 | 4 | DERIVED, not published: each plan row spread over periods 1 to 12 by a share taken from the prior year's outturn (or twelve flat twelfths where there is none). The monthly plan is my allocation of a published annual figure; the twelve rows of a plan row add up to it exactly. Scenario is Plan (phased), which is flagged derived. It never enters a real total and must never be shown as a published monthly budget. Source view dw.v_model_fact_plan_phased. |
+| Fact TAC | table | 7 | 11 | Real data, as published: the statutory income statement, balance sheet and cash flow of every NHS trust and foundation trust, FY2019-20 to FY2024-25, one row per provider, file year, statement line and column (current or prior year), 344,812 rows, in GBP thousands on the TAC sign (income, assets and inflows positive; expenses, liabilities and outflows negative), which is not the OSCAR sign. A subtotal or total is in the data as a value: the measures add only lines of kind line, and show a subtotal only on its own row. Related to the provider, which carries the department of the current structure, so the security roles filter it. Source view dw.v_model_tac_fact. |
+| Fact TAC Cash Flow (derived) | table | 4 | 2 | DERIVED, not published: the indirect cash flow of every NHS provider and year, built from the income statement and the balance sheet (the movement of each balance-sheet line, current year less prior year of the same file, and the flows of the income statement) through the authored map authored/tac_cash_flow_map.csv. GBP thousands, TAC sign, one row per provider, year and derived line. The inputs are real; the result is my calculation, it is compared with the published cash flow and never forced to equal it, and it never enters a real total. Source view dw.v_model_tac_cash_flow_derived. |
 | File Control | table | 9 | 3 | AUDIT and CONTROL, no new number: one row per OSCAR in-year release file with the rows the load read, loaded and quarantined, the file's own total as the text the control produced and as four decimals, and a measure that sets the model's as-at outturn of the release's own year beside the file total. Source view dw.v_model_file_control (audit.file_control). |
 | Fiscal Period | table | 8 | 0 | One row per financial year and period: period 1 is April, period 12 is March. Period 0 holds amounts the source does not allocate to a month (71 rows of the June 2019 release) and counts in year totals. There is no calendar date table and no auto date/time. Source view dw.v_model_fiscal_period. |
 | Fiscal Year | table | 2 | 0 | One row per UK financial year (April to March), 2017-18 to 2028-29. 2017-18 has plans (OSCAR Plans) and no outturn, because the in-year releases start at 2018-19. The plan is published by year, so Fact Plan relates here; Fiscal Period relates here too, which gives outturn and plan one year slicer. Source view dw.v_model_fiscal_year. |
@@ -43,6 +45,12 @@ The model has 33 tables, 271 columns, 53 measures, 23 relationships, 20 user-def
 | Statement Line | table | 11 | 0 | AUTHORED layout of the group income and expenditure statement: one row per line (detail, subtotal, total or spacer), in the order it prints, with the sign it is presented in, its indent, the lines it adds up and the plan scope it is compared with. I wrote the layout (authored/statement_line.csv); no row holds an amount. Account is related to it, so a detail line filters the accounts it adds up. Source view dw.v_model_statement_line. |
 | Statement Measure | table | 3 | 0 | AUTHORED field parameter, no amount: field parameter for the statement: Outturn, Plan, Variance and Variance % of the statement amount, so that one visual can switch between them. Each row points at a measure (Statement Amount, Statement Plan, Statement Variance, Statement Variance %). I defined it in the model; putting it on a visual needs one step in Desktop that pbir cannot do (remove the field, drag the parameter back in), and the report uses the Scenario Comparison items instead where it can. Calculated table, no source data. |
 | Sub-Segment | table | 7 | 0 | One row per OSCAR sub-segment code (3,765, plus Unknown): the finest spending line the source reports. Source view dw.v_model_segment. |
+| TAC Cash Flow Line | table | 8 | 0 | AUTHORED labels, no amount: the lines of the derived indirect cash flow, in three published sections (operating, investing, financing) and one of reserve movements that have no cash counterpart, each with whether it is compared with published lines, exists only on the derived side or only on the published side. A published cash-flow line points at the derived line it is compared with, so one line here filters both the derived amount and the published lines it is set against. The member Not compared is every other statement line. Source view dw.v_model_tac_cash_flow_line, from authored/tac_cash_flow_line.csv. |
+| TAC Consolidated Accounts | table | 12 | 3 | AUTHORED, hand-keyed: the values printed in the consolidated NHS provider accounts (the statements in which intra-NHS balances are eliminated), eight printed lines for each of the six years, in GBP million as printed, with the printed and PDF page of each and the figure the next year's report gives for the same year. The only authored amounts of the TAC objects; the elimination gap compares them with the provider sum and no total adds them to a provider amount. Source view dw.v_model_tac_consolidated, from authored/tac_consolidated_control.csv. |
+| TAC Control Line | table | 6 | 0 | AUTHORED labels, no amount: the six headline lines of the elimination-gap control (total operating income, operating expenses, total assets, total liabilities, cash and total assets employed), whether each is a flow of the year or a balance at its end. Source view dw.v_model_tac_control_line, from authored/tac_control_line.csv. |
+| TAC Control Member | hidden | 2 | 0 | AUTHORED, hidden, no amount: which statement lines (never a subtotal or a total) make up each control line. Read by the measure TAC Provider Sum (control). Source view dw.v_model_tac_control_member. |
+| TAC Provider | table | 15 | 0 | The NHS trusts and foundation trusts in the TAC files, one row per NHS (ODS) code, 228 in all, with the provider's latest name, type, region and sector (real, from the published lists of providers), the years it has statements, and where it went when it was acquired, merged or dissolved (authored: hand-written from the source's own comments, each with a quotation the build checks). Every provider is linked to the Department of Health and Social Care, which is how the security roles reach the TAC facts. Source view dw.v_model_tac_provider. |
+| TAC Statement Line | table | 12 | 0 | The 137 lines of the three statutory statements the NHS providers file: income statement, balance sheet and cash flow, with the text and sign of the form (real, from the illustrative forms), and for each line its section and whether it is a line, a subtotal or a total (authored: the form computes a subtotal from other lines, so adding it to its components counts it twice). Holds no amount. Source view dw.v_model_tac_line. |
 | Time Intelligence | calculation group, precedence 20 | 2 | 0 | Calculation group for fiscal-period time intelligence on Fiscal Period and Fiscal Year: Current, MTD, QTD, YTD, PY, YoY, YoY % and Rolling 12 months. No calendar date table and no calendar time-intelligence functions: a window is a set of Fiscal Period rows. Period 0 (not allocated to a month) is in year totals and the year to date and never in a single month. Precedence 20: outside Scenario Comparison (so Variance % of YTD is the variance of the year-to-date amounts, not a year-to-date of the percentages) and inside Display Unit. |
 | User Department (synthetic) | hidden | 2 | 0 | SYNTHETIC, hidden, no amount: invented users (example.org addresses) and the departments of the current structure each may see. Read only by the row-level security roles, which filter the department dimension to the rows of USERPRINCIPALNAME(). It filters data and holds none, so no real total reads it. Source view dw.v_model_user_department, from synthetic/user_department.csv. |
 | User Plan Group (synthetic) | hidden | 2 | 0 | SYNTHETIC, hidden, no amount: the Spending Review groups whose plan an invented user may see, which are the groups all of whose departments are among the user's departments. Read only by the row-level security roles, which filter the plan facts to these groups. It filters data and holds none, so no real total reads it. Source view dw.v_model_user_plan_group, from synthetic/user_department.csv. |
@@ -72,8 +80,19 @@ The model has 33 tables, 271 columns, 53 measures, 23 relationships, 20 user-def
 | Fact Plan Phased (derived)[Plan Source Key] | Plan Source[Plan Source Key] | many to one | yes | OneDirection | Single |
 | Fact Plan Phased (derived)[Scenario Key] | Scenario[Scenario Key] | many to one | yes | OneDirection | Single |
 | Fact Plan Phased (derived)[Spending Review Group Key] | Spending Review Group[Spending Review Group Key] | many to one | yes | OneDirection | Single |
+| Fact TAC[Fiscal Year Key] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
+| Fact TAC[Line Key] | TAC Statement Line[Line Key] | many to one | yes | OneDirection | Single |
+| Fact TAC[Provider Key] | TAC Provider[Provider Key] | many to one | yes | OneDirection | Single |
+| Fact TAC Cash Flow (derived)[Cash Flow Line Key] | TAC Cash Flow Line[Cash Flow Line Key] | many to one | yes | OneDirection | Single |
+| Fact TAC Cash Flow (derived)[Fiscal Year Key] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
+| Fact TAC Cash Flow (derived)[Provider Key] | TAC Provider[Provider Key] | many to one | yes | OneDirection | Single |
 | File Control[Release Key] | Release[Release Key] | many to one | yes | OneDirection | Single |
 | Fiscal Period[Financial Year] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
+| TAC Consolidated Accounts[Control Line Key] | TAC Control Line[Control Line Key] | many to one | yes | OneDirection | Single |
+| TAC Consolidated Accounts[Fiscal Year Key] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
+| TAC Control Member[Control Line Key] | TAC Control Line[Control Line Key] | many to one | yes | OneDirection | Single |
+| TAC Provider[Department Key] | Department (current structure)[Department Key] | many to one | yes | OneDirection | Single |
+| TAC Statement Line[Cash Flow Line Key] | TAC Cash Flow Line[Cash Flow Line Key] | many to one | yes | OneDirection | Single |
 
 ## Measures
 
@@ -948,6 +967,290 @@ Format string expression:
 "0.0%;-0.0%;0.0%"
 ```
 
+### Fact TAC
+
+#### TAC Amount
+
+Display folder `TAC\Income statement and cash flow`.
+
+Income statement and cash flow amount of the year in GBP thousands, TAC sign (income and inflows positive, expenses and outflows negative): the current-year column, added over providers, lines of kind line and, being a flow, over years. A subtotal or total is never added to its own components; on a single line the measure shows that line as published. BLANK for the balance sheet, which has TAC Closing Balance.
+
+```dax
+CALCULATE (
+    SUM ( 'Fact TAC'[Value] ),
+    'Fact TAC'[Period Column] = "CY",
+    KEEPFILTERS ( 'TAC Statement Line'[Statement Code] <> "SoFP" ),
+    Tac.LineKinds ()
+)
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Cash Flow (published)
+
+Display folder `TAC\Cash flow`.
+
+The published cash flow, GBP thousands, TAC sign (an inflow is positive): the current-year column of the lines of the cash flow statement that are compared with a line of the derived cash flow (all published lines of the three activity sections; never a subtotal). Select a line of TAC Cash Flow Line to see the published lines it is compared with.
+
+```dax
+CALCULATE (
+    SUM ( 'Fact TAC'[Value] ),
+    'Fact TAC'[Period Column] = "CY",
+    KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = "SoCF" ),
+    'TAC Statement Line'[Line Kind] = "line",
+    'TAC Statement Line'[Cash Flow Line Key] <> 0
+)
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Cash Movement (balance sheet)
+
+Display folder `TAC\Cash flow`.
+
+The movement of cash and cash equivalents on the balance sheet, GBP thousands, TAC sign: the closing balance of the last year in context less the opening balance of the first (BAL1240). Over one year it is the cash movement of the year; over several years it is the movement across them, with the restated opening of the first year.
+
+```dax
+CALCULATE ( [TAC Closing Balance], 'TAC Statement Line'[Sub Code] = "BAL1240" )
+    - CALCULATE ( [TAC Opening Balance], 'TAC Statement Line'[Sub Code] = "BAL1240" )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Closing Balance
+
+Display folder `TAC\Balance sheet`.
+
+Balance sheet closing balance in GBP thousands, TAC sign (assets positive, liabilities negative): the current-year column of the balance sheet in the last financial year that is in the filter context and has statements. It is semi-additive over time: over several years it shows the last year and never the sum, and a provider with no statements in that year (dissolved, merged or acquired earlier) contributes nothing. Added over providers and over lines of kind line; on a single line it shows that line as published, a subtotal included. BLANK for the income statement and cash flow.
+
+```dax
+VAR LastYear = Tac.LastYear ()
+RETURN
+    IF (
+        NOT ISBLANK ( LastYear ),
+        CALCULATE (
+            SUM ( 'Fact TAC'[Value] ),
+            'Fact TAC'[Period Column] = "CY",
+            'Fact TAC'[Release Start] = LastYear,
+            KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = "SoFP" ),
+            Tac.LineKinds ()
+        )
+    )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Net Change in Cash (published)
+
+Display folder `TAC\Cash flow`.
+
+The increase or decrease in cash and cash equivalents the providers publish in their cash flow statements, GBP thousands, TAC sign (SCF0320, read as published on its own line and added over providers and years). It adds the three published section subtotals.
+
+```dax
+CALCULATE ( [TAC Amount], 'TAC Statement Line'[Sub Code] = "SCF0320" )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Opening Balance
+
+Display folder `TAC\Balance sheet`.
+
+Balance sheet opening balance in GBP thousands, TAC sign: the prior-year column of the same file, as the provider restated it, in the first financial year that is in the filter context. Semi-additive like the closing balance: over several years it shows the opening of the first year. Added over providers and lines of kind line; on a single line it shows that line as published.
+
+```dax
+VAR FirstYear = Tac.FirstYear ()
+RETURN
+    IF (
+        NOT ISBLANK ( FirstYear ),
+        CALCULATE (
+            SUM ( 'Fact TAC'[Value] ),
+            'Fact TAC'[Period Column] = "PY",
+            'Fact TAC'[Release Start] = FirstYear,
+            KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = "SoFP" ),
+            Tac.LineKinds ()
+        )
+    )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Opening less Prior Year Closing
+
+Display folder `TAC\Balance sheet`.
+
+TAC Opening Balance less TAC Prior Year Closing Balance, GBP thousands: how far the opening balance a provider publishes differs from the closing balance it published a year earlier. It includes the providers that appear or disappear between the two files (a merger, an acquisition, a provider excluded from one file), so it is wider than TAC Restatement, which compares only the values both files hold.
+
+```dax
+VAR Opening = [TAC Opening Balance]
+VAR Prior = [TAC Prior Year Closing Balance]
+RETURN
+    IF ( NOT ISBLANK ( Opening ) || NOT ISBLANK ( Prior ), Opening - Prior )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Prior Year Closing Balance
+
+Display folder `TAC\Balance sheet`.
+
+The closing balance of the year before the first financial year in context, in GBP thousands, TAC sign: the current-year column of the previous year's file, as that file published it. Compare with TAC Opening Balance, which is the same date as restated in the next file. BLANK where there is no earlier file (2019-20).
+
+```dax
+VAR FirstYear = Tac.FirstYear ()
+RETURN
+    IF (
+        NOT ISBLANK ( FirstYear ),
+        CALCULATE (
+            SUM ( 'Fact TAC'[Value] ),
+            REMOVEFILTERS ( 'Fiscal Year' ),
+            'Fact TAC'[Period Column] = "CY",
+            'Fact TAC'[Release Start] = FirstYear - 1,
+            KEEPFILTERS ( 'TAC Statement Line'[Statement Code] = "SoFP" ),
+            Tac.LineKinds ()
+        )
+    )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Provider Sum (control)
+
+Display folder `TAC\Elimination control`.
+
+The sum of the provider accounts for one line of the elimination-gap control in one financial year, GBP thousands, TAC sign: the current-year column of the control line's statement lines, added over providers. BLANK unless one control line and one year are in context.
+
+```dax
+IF (
+    HASONEVALUE ( 'TAC Control Line'[Control Line Key] ) && HASONEVALUE ( 'Fiscal Year'[Financial Year] ),
+    CALCULATE (
+        SUM ( 'Fact TAC'[Value] ),
+        'Fact TAC'[Period Column] = "CY",
+        TREATAS ( VALUES ( 'TAC Control Member'[Line Key] ), 'TAC Statement Line'[Line Key] )
+    )
+)
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Providers Reporting
+
+Display folder `TAC\Balance sheet`.
+
+Number of providers with statements in the last financial year in context. A provider that no longer exists is not counted in a year after its last statements.
+
+```dax
+VAR LastYear = Tac.LastYear ()
+RETURN
+    IF (
+        NOT ISBLANK ( LastYear ),
+        CALCULATE (
+            DISTINCTCOUNT ( 'Fact TAC'[Provider Key] ),
+            'Fact TAC'[Period Column] = "CY",
+            'Fact TAC'[Release Start] = LastYear
+        )
+    )
+```
+
+Format string expression:
+
+```dax
+"#,##0"
+```
+
+#### TAC Restatement
+
+Display folder `TAC\Balance sheet`.
+
+The restatement of the year's opening figures, GBP thousands, TAC sign: for every provider and line that has a prior-year value in this year's file and a current-year value in last year's file, the prior-year value less the current-year value, where the two differ by GBP 1,000 or more (the rule of audit.tac_prior_year_difference). Reasons are restatements, reclassifications and mergers; I have not explained them one by one. Added over lines of kind line and over years; a single line shows its own difference.
+
+```dax
+CALCULATE (
+    SUM ( 'Fact TAC'[Restatement Amount] ),
+    'Fact TAC'[Period Column] = "PY",
+    Tac.LineKinds ()
+)
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+### Fact TAC Cash Flow (derived)
+
+#### TAC Cash Flow (derived)
+
+Display folder `TAC\Cash flow`.
+
+DERIVED: the indirect cash flow in GBP thousands, TAC sign (an inflow is positive), added over providers and years. Each balance-sheet input is the movement of the year (current-year column less prior-year column of the same file), so a restated opening balance does not leak in. Over all its lines it equals the balance sheet cash movement of the year to within GBP 2,000 per provider (the balance sheets balance to less than GBP 1,000). It is a calculation of mine, not a published figure.
+
+```dax
+SUM ( 'Fact TAC Cash Flow (derived)'[Cash Flow Amount] )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Cash Flow Residual
+
+Display folder `TAC\Cash flow`.
+
+DERIVED: the derived cash flow less the published cash flow, GBP thousands, for the line, section or total in context. It is what the income statement and balance sheet cannot be made to say about the published cash flow: depreciation and other non-cash items, transfers by absorption, mergers and restated openings. Not forced to zero. On a derived-only line it is the derived amount; on a published-only line it is minus the published amount.
+
+```dax
+VAR Derived = [TAC Cash Flow (derived)]
+VAR Published = [TAC Cash Flow (published)]
+RETURN
+    IF ( NOT ISBLANK ( Derived ) || NOT ISBLANK ( Published ), Derived - Published )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
 ### File Control
 
 #### Difference to File Total
@@ -1091,6 +1394,59 @@ Format string expression:
 "\£#,##0""k"";-\£#,##0""k"";\£0""k"""
 ```
 
+### TAC Consolidated Accounts
+
+#### TAC Consolidated Total
+
+Display folder `TAC\Elimination control`.
+
+AUTHORED: the consolidated figure for the control line and year in context, GBP thousands, TAC sign, as printed in the consolidated NHS provider accounts (GBP million times 1,000). BLANK unless one control line and one year are in context, and BLANK where the user cannot see the provider accounts, so the control is hidden with them.
+
+```dax
+IF ( NOT ISBLANK ( [TAC Provider Sum (control)] ), SUM ( 'TAC Consolidated Accounts'[Amount] ) )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Elimination Gap
+
+Display folder `TAC\Elimination control`.
+
+The sum of the provider accounts less the consolidated figure, GBP thousands, TAC sign: what the consolidation takes out (intra-NHS income, expense and balances between providers) plus whatever else differs between the two populations, which this measure does not separate. A provider whose accounts the TAC file leaves out is in the consolidated accounts and not in the sum. BLANK where either side is.
+
+```dax
+VAR Provider = [TAC Provider Sum (control)]
+VAR Consolidated = [TAC Consolidated Total]
+RETURN
+    IF ( NOT ISBLANK ( Provider ) && NOT ISBLANK ( Consolidated ), Provider - Consolidated )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### TAC Elimination Gap %
+
+Display folder `TAC\Elimination control`.
+
+The elimination gap as a share of the consolidated figure. Positive means the provider sum is larger in size than the consolidated figure, whatever the sign of the line.
+
+```dax
+DIVIDE ( [TAC Elimination Gap], [TAC Consolidated Total] )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
 ## Columns
 
 ### Account
@@ -1144,7 +1500,7 @@ Format string expression:
 
 | Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
 |---|---|---|---|---|---|---|---|---|---|
-| CPI Value | Data | number |  |  | Value | 0.0 |  |  | Index level (D7BT) or annual rate in per cent (D7G7). |
+| CPI Value | Data | number |  |  | value | 0.0 |  |  | Index level (D7BT) or annual rate in per cent (D7G7). |
 | Month Start Date | Data | date |  |  | Month Start Date | dd mmm yyyy |  |  | First day of the month the value is for. |
 | Release Date | Data | text |  |  | Release Date |  |  |  | Release date written in the file. |
 | Series Id | Data | text |  |  | Series Id |  |  |  | ONS CDID: D7BT or D7G7. |
@@ -1279,6 +1635,27 @@ Format string expression:
 | Plan Source Key | Data | integer | yes |  | plan_source_key | 0 |  |  |  |
 | Scenario Key | Data | integer | yes |  | scenario_key | 0 |  |  |  |
 | Spending Review Group Key | Data | integer | yes |  | sr_group_key | 0 |  |  |  |
+
+### Fact TAC
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Fiscal Year Key | Data | text | yes |  | financial_year |  |  |  | Financial year of the file the value is read from, written 2024-25. |
+| Line Key | Data | integer | yes |  | line_key | 0 |  |  | Key of the statement line. |
+| Period Column | Data | text | yes |  | period_column |  |  |  | CY: the file's own year. PY: the prior-year column of the same file, which is the opening balance of a balance sheet as the provider restated it. |
+| Provider Key | Data | integer | yes |  | provider_key | 0 |  |  | Key of the provider. |
+| Release Start | Data | integer | yes |  | release_start | 0 |  |  | Calendar year in which the file's financial year starts. The measures use it to find the first and last year in context. |
+| Restatement Amount | Data | currency | yes |  | restatement_amount | #,##0.0000 |  |  | On a prior-year row: the prior-year value less the current-year value of the year before, when they differ by GBP 1,000 or more. Hidden: use TAC Restatement. |
+| Value | Data | currency | yes |  | value | #,##0.0000 |  |  | The published value in GBP thousands, TAC sign. Hidden: use the measures. |
+
+### Fact TAC Cash Flow (derived)
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Cash Flow Amount | Data | currency | yes |  | amount | #,##0.0000 |  | Derived | Derived cash effect in GBP thousands, TAC sign. Hidden: use the measures. |
+| Cash Flow Line Key | Data | integer | yes |  | cash_flow_line_key | 0 |  | Derived | Key of the derived cash-flow line. |
+| Fiscal Year Key | Data | text | yes |  | financial_year |  |  | Derived | Financial year of the file, written 2024-25. |
+| Provider Key | Data | integer | yes |  | provider_key | 0 |  | Derived | Key of the provider. |
 
 ### File Control
 
@@ -1508,6 +1885,91 @@ Format string expression:
 | Sub-Segment Code | Data | text |  |  | sub_segment_code |  |  |  | OSCAR sub-segment code. |
 | Sub-Segment Name | Data | text |  |  | segment_name |  |  |  | Code and name as published in the latest release that reports it. |
 
+### TAC Cash Flow Line
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Cash Flow Line | Data | text |  |  | label |  | Sort Order | Authored | The derived cash-flow line. |
+| Cash Flow Line Key | Data | integer | yes | yes | cash_flow_line_key | 0 |  |  | Key of the derived cash-flow line; 0 is Not compared. |
+| Cash Flow Section | Data | text |  |  | section |  | Cash Flow Section Order | Authored | Operating, investing or financing activities, or reserve movements that are not cash. |
+| Cash Flow Section Order | Data | integer | yes |  | section_order | 0 |  |  | Order of the section. |
+| Comparison Kind | Data | text |  |  | line_kind |  |  | Authored | compared (derived and published both), derived_only, published_only, or not_compared. |
+| Comparison Note | Data | text |  |  | note |  |  | Authored | Why the line is built as it is and what its residual contains. |
+| Line Code | Data | text |  |  | line_code |  |  | Authored | Short code of the derived line. |
+| Sort Order | Data | integer | yes |  | sort_order | 0 |  |  | Order of the line within the cash flow. |
+
+### TAC Consolidated Accounts
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Amount | Data | currency | yes |  | amount | #,##0.0000 |  | Authored | Printed value in GBP thousands (the printed GBP million times 1,000), TAC sign. Hidden: use the measures. |
+| Control Line Key | Data | integer | yes |  | control_line_key | 0 |  | Authored | Key of the control line the printed line belongs to. |
+| Fiscal Year Key | Data | text | yes |  | financial_year |  |  | Authored | Financial year of the report, written 2024-25. |
+| Keying Note | Data | text |  |  | note |  |  | Authored | Which column of the statement the value is read from. |
+| Next Report Comparative (GBP million) | Data | currency |  |  | next_report_comparative_gbp_million | #,##0 |  | Authored | The figure the next year's report prints for the same year; equal to the value in every year where there is a next report. |
+| PDF Page | Data | integer |  |  | pdf_page | 0 |  | Authored | Page of the PDF file the value is on. |
+| Printed Amount (GBP million) | Data | currency |  |  | amount_gbp_million | #,##0 |  | Authored | The value as printed, GBP million, TAC sign. |
+| Printed Code | Data | text |  |  | printed_line |  |  | Authored | Short code of the printed line. |
+| Printed Line | Data | text |  |  | label |  |  | Authored | The line as the consolidated statement prints it. |
+| Printed Page | Data | integer |  |  | printed_page | 0 |  | Authored | Page number printed on the page the value is on. |
+| Printed Statement | Data | text |  |  | statement |  |  | Authored | SoCI for the income statement, SoFP for the balance sheet. |
+| Source Report | Data | text |  |  | source_report |  |  | Authored | The report the value is keyed from. |
+
+### TAC Control Line
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Control Code | Data | text |  |  | control_line |  |  | Authored | Short code of the control line. |
+| Control Line | Data | text |  |  | label |  | Control Line Key | Authored | The headline line compared between the provider accounts and the consolidated accounts. |
+| Control Line Key | Data | integer | yes | yes | control_line_key | 0 |  |  | Key of the control line, in the order of the control. |
+| Control Nature | Data | text |  |  | nature |  |  | Authored | flow or balance. |
+| Control Note | Data | text |  |  | note |  |  | Authored | How the provider side and the consolidated side are made up for the line. |
+| Control Statement | Data | text |  |  | statement |  |  | Authored | SoCI for a flow of the income statement, SoFP for a balance. |
+
+### TAC Control Member
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Control Line Key | Data | integer | yes |  | control_line_key | 0 |  | Authored | Key of the control line. |
+| Line Key | Data | integer | yes |  | line_key | 0 |  | Authored | Key of a statement line that is part of the control line. |
+
+### TAC Provider
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Department Key | Data | integer | yes |  | department_key | 0 |  |  | Key of the department of the current structure the provider answers to: the Department of Health and Social Care. |
+| First Year With Statements | Data | text |  |  | first_data_release |  |  |  | First financial year, of the six in the files, in which the provider has statements. |
+| Last Year With Statements | Data | text |  |  | last_data_release |  |  |  | Last financial year in which the provider has statements. A provider acquired, merged or dissolved before 2024-25 stops here. |
+| Provider | Data | text |  |  | provider_name |  |  |  | Name of the provider in the latest year it is listed. |
+| Provider Code | Data | text |  |  | provider_code |  |  |  | NHS (ODS) code of the provider, the key of the provider across years and names. |
+| Provider Key | Data | integer | yes | yes | provider_key | 0 |  |  | Key of the provider. |
+| Provider Type | Data | text |  |  | provider_type |  |  |  | NHS trust or NHS foundation trust. |
+| Region | Data | text |  |  | region |  |  |  | NHS England region in the latest year the provider is listed. |
+| Reporting Status | Data | text |  |  | reporting_status |  |  |  | Reports in the latest file, or the last year with statements. |
+| Sector | Data | text |  |  | sector |  |  |  | Sector of the provider in the latest year it is listed: acute, mental health, community, ambulance and so on. |
+| Successor | Data | text |  |  | successor_name |  |  | Authored | AUTHORED: name of the successor where it is a provider in the files (an integrated care board is not). |
+| Successor Code | Data | text |  |  | successor_code |  |  | Authored | AUTHORED: NHS code of the body the provider went to when acquired, merged or dissolved. Blank for a provider that still reports. |
+| Successor Effective Date | Data | date |  |  | successor_effective_date | dd mmm yyyy |  | Authored | AUTHORED: date the change took effect, where the source gives one. |
+| Successor Kind | Data | text |  |  | successor_kind |  |  | Authored | AUTHORED: acquired, merged, demised or new_code. |
+| Years With Statements | Data | integer |  |  | n_data_years | 0 |  |  | Number of the six years in which the provider has statements. |
+
+### TAC Statement Line
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Cash Flow Line Key | Data | integer | yes |  | cash_flow_line_key | 0 |  |  | Key of the derived cash-flow line a published cash-flow line is compared with; 0 for every other line. |
+| Expected Sign | Data | text |  |  | expected_sign |  |  |  | The sign the form expects: + for income, assets and inflows, - for expenses, liabilities and outflows, +/- for either. |
+| Line | Data | text |  |  | line_label |  | Line Key |  | The text of the line in the latest form that carries the code, with its code, in the order of the forms. Several lines share a text (receivables is a current and a non-current line), the code tells them apart. |
+| Line Key | Data | integer | yes | yes | line_key | 0 |  |  | Key of the statement line, in the order of the forms. |
+| Line Kind | Data | text |  |  | line_kind |  |  | Authored | AUTHORED: line, subtotal or total. A subtotal or total is computed by the form and is in the data as a value; the measures never add one to its components. |
+| Line Text | Data | text |  |  | description |  |  |  | The text of the line alone, as the form words it. |
+| Section | Data | text |  |  | section |  | Section Order | Authored | The block of the statement the line sits in, for example Current assets or Operating activities. Authored where the form has no heading. |
+| Section Order | Data | integer | yes |  | section_order | 0 |  |  | Order of the sections within the forms. |
+| Statement | Data | text |  |  | statement_name |  | Statement Order |  | Income statement, Balance sheet or Cash flow. |
+| Statement Code | Data | text | yes |  | statement |  |  |  | SoCI, SoFP or SoCF, as the forms name them. |
+| Statement Order | Data | integer | yes |  | statement_order | 0 |  |  | Order of the statements: income statement, balance sheet, cash flow. |
+| Sub Code | Data | text |  |  | sub_code |  |  |  | The TAC code of the line, for example BAL1240 for cash and cash equivalents. |
+
 ### Time Intelligence
 
 | Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
@@ -1540,7 +2002,7 @@ Precedence 30.
 GBP thousands, the unit the data is held in (no scaling).
 
 ```dax
-IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Variance to Phased Plan], [Plan and Outturn by Scenario], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)], [Outturn as at Release], [Outturn as First Reported], [Revision since First Reported], [Revision in Release], [Restatement in Release], [Gross Revision in Release], [Gross Restatement in Release], [Gross Revision in Release (excl. flagged)], [Gross Restatement in Release (excl. flagged)], [Outturn (current structure)], [Outturn (as reported structure)], [Machinery of Government Transfer], [Outturn (estimated mapping)], [Outturn (real terms)], [Plan (real terms)], [Plan (phased) (real terms)], [Outturn (plan basis) (real terms)], [Outturn (current structure) (real terms)], [Statement Amount (real terms)], [Statement Plan (real terms)] ), Format.Scale ( SELECTEDMEASURE (), "k" ), SELECTEDMEASURE () )
+IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Variance to Phased Plan], [Plan and Outturn by Scenario], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)], [Outturn as at Release], [Outturn as First Reported], [Revision since First Reported], [Revision in Release], [Restatement in Release], [Gross Revision in Release], [Gross Restatement in Release], [Gross Revision in Release (excl. flagged)], [Gross Restatement in Release (excl. flagged)], [Outturn (current structure)], [Outturn (as reported structure)], [Machinery of Government Transfer], [Outturn (estimated mapping)], [Outturn (real terms)], [Plan (real terms)], [Plan (phased) (real terms)], [Outturn (plan basis) (real terms)], [Outturn (current structure) (real terms)], [Statement Amount (real terms)], [Statement Plan (real terms)], [TAC Closing Balance], [TAC Opening Balance], [TAC Prior Year Closing Balance], [TAC Opening less Prior Year Closing], [TAC Restatement], [TAC Amount], [TAC Cash Flow (published)], [TAC Cash Flow (derived)], [TAC Cash Flow Residual], [TAC Net Change in Cash (published)], [TAC Cash Movement (balance sheet)], [TAC Provider Sum (control)], [TAC Consolidated Total], [TAC Elimination Gap] ), Format.Scale ( SELECTEDMEASURE (), "k" ), SELECTEDMEASURE () )
 ```
 
 #### £m
@@ -1548,7 +2010,7 @@ IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phase
 GBP millions: the value divided by 1,000.
 
 ```dax
-IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Variance to Phased Plan], [Plan and Outturn by Scenario], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)], [Outturn as at Release], [Outturn as First Reported], [Revision since First Reported], [Revision in Release], [Restatement in Release], [Gross Revision in Release], [Gross Restatement in Release], [Gross Revision in Release (excl. flagged)], [Gross Restatement in Release (excl. flagged)], [Outturn (current structure)], [Outturn (as reported structure)], [Machinery of Government Transfer], [Outturn (estimated mapping)], [Outturn (real terms)], [Plan (real terms)], [Plan (phased) (real terms)], [Outturn (plan basis) (real terms)], [Outturn (current structure) (real terms)], [Statement Amount (real terms)], [Statement Plan (real terms)] ), Format.Scale ( SELECTEDMEASURE (), "m" ), SELECTEDMEASURE () )
+IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Variance to Phased Plan], [Plan and Outturn by Scenario], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)], [Outturn as at Release], [Outturn as First Reported], [Revision since First Reported], [Revision in Release], [Restatement in Release], [Gross Revision in Release], [Gross Restatement in Release], [Gross Revision in Release (excl. flagged)], [Gross Restatement in Release (excl. flagged)], [Outturn (current structure)], [Outturn (as reported structure)], [Machinery of Government Transfer], [Outturn (estimated mapping)], [Outturn (real terms)], [Plan (real terms)], [Plan (phased) (real terms)], [Outturn (plan basis) (real terms)], [Outturn (current structure) (real terms)], [Statement Amount (real terms)], [Statement Plan (real terms)], [TAC Closing Balance], [TAC Opening Balance], [TAC Prior Year Closing Balance], [TAC Opening less Prior Year Closing], [TAC Restatement], [TAC Amount], [TAC Cash Flow (published)], [TAC Cash Flow (derived)], [TAC Cash Flow Residual], [TAC Net Change in Cash (published)], [TAC Cash Movement (balance sheet)], [TAC Provider Sum (control)], [TAC Consolidated Total], [TAC Elimination Gap] ), Format.Scale ( SELECTEDMEASURE (), "m" ), SELECTEDMEASURE () )
 ```
 
 #### £bn
@@ -1556,7 +2018,7 @@ IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phase
 GBP billions: the value divided by 1,000,000.
 
 ```dax
-IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Variance to Phased Plan], [Plan and Outturn by Scenario], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)], [Outturn as at Release], [Outturn as First Reported], [Revision since First Reported], [Revision in Release], [Restatement in Release], [Gross Revision in Release], [Gross Restatement in Release], [Gross Revision in Release (excl. flagged)], [Gross Restatement in Release (excl. flagged)], [Outturn (current structure)], [Outturn (as reported structure)], [Machinery of Government Transfer], [Outturn (estimated mapping)], [Outturn (real terms)], [Plan (real terms)], [Plan (phased) (real terms)], [Outturn (plan basis) (real terms)], [Outturn (current structure) (real terms)], [Statement Amount (real terms)], [Statement Plan (real terms)] ), Format.Scale ( SELECTEDMEASURE (), "bn" ), SELECTEDMEASURE () )
+IF ( ISSELECTEDMEASURE ( [Outturn], [Outturn (plan basis)], [Plan], [Plan (phased)], [Variance to Phased Plan], [Plan and Outturn by Scenario], [Comparison Amount], [Statement Amount], [Statement Plan], [Statement Amount (plan basis)], [Statement Variance], [Statement Amount PY (OFFSET)], [Statement Amount Running (WINDOW)], [Statement Amount Moving 3 Months (WINDOW)], [Outturn as at Release], [Outturn as First Reported], [Revision since First Reported], [Revision in Release], [Restatement in Release], [Gross Revision in Release], [Gross Restatement in Release], [Gross Revision in Release (excl. flagged)], [Gross Restatement in Release (excl. flagged)], [Outturn (current structure)], [Outturn (as reported structure)], [Machinery of Government Transfer], [Outturn (estimated mapping)], [Outturn (real terms)], [Plan (real terms)], [Plan (phased) (real terms)], [Outturn (plan basis) (real terms)], [Outturn (current structure) (real terms)], [Statement Amount (real terms)], [Statement Plan (real terms)], [TAC Closing Balance], [TAC Opening Balance], [TAC Prior Year Closing Balance], [TAC Opening less Prior Year Closing], [TAC Restatement], [TAC Amount], [TAC Cash Flow (published)], [TAC Cash Flow (derived)], [TAC Cash Flow Residual], [TAC Net Change in Cash (published)], [TAC Cash Movement (balance sheet)], [TAC Provider Sum (control)], [TAC Consolidated Total], [TAC Elimination Gap] ), Format.Scale ( SELECTEDMEASURE (), "bn" ), SELECTEDMEASURE () )
 ```
 
 ### Scenario Comparison
@@ -1973,6 +2435,35 @@ A measure with the rows flagged in Data Quality Issue left out: the fact rows wh
     CALCULATE ( m, KEEPFILTERS ( 'Fact Outturn'[Data Quality Issue Key] = 0 ) )
 ```
 
+### Tac.FirstYear
+
+The first financial year, as the calendar year it starts in, that is in the filter context and has statements: the year an opening balance is read at.
+
+```dax
+( ) =>
+    CALCULATE ( MIN ( 'Fact TAC'[Release Start] ), 'Fact TAC'[Period Column] = "PY" )
+```
+
+### Tac.LastYear
+
+The last financial year, as the calendar year it starts in, that is in the filter context and has statements: the year a balance sheet is read at. A provider with no statements in that year has no row in it, so it adds nothing; no provider's earlier balance is carried forward.
+
+```dax
+( ) =>
+    CALCULATE ( MAX ( 'Fact TAC'[Release Start] ), 'Fact TAC'[Period Column] = "CY" )
+```
+
+### Tac.LineKinds
+
+The kinds of statement line a TAC measure adds up. With one statement line in context it is that line's own kind, so a subtotal or a total can be read on its own row as published; with several it is lines of kind line only, so a subtotal or total is never added to the lines it is computed from.
+
+```dax
+( ) =>
+    VAR OneLine = HASONEVALUE ( 'TAC Statement Line'[Line Key] )
+    RETURN
+        FILTER ( VALUES ( 'TAC Statement Line'[Line Kind] ), OneLine || 'TAC Statement Line'[Line Kind] = "line" )
+```
+
 ### Window.Mtd
 
 The month: the latest allocated month (period 1 to 12) in context, in each year in context. Period 0, which the source does not allocate to a month, is never a month; with only period 0 in context the result is BLANK.
@@ -2135,7 +2626,7 @@ Year to date: every period of each year in context from period 0 up to the lates
 
 Model permission: read.
 
-Dynamic row-level security. A user sees the departments of the current structure that the synthetic user map gives them, and so only their departments' outturn. Plan is published by Spending Review group, so a user sees the plan of a group only when every department of the group is one of theirs. A user in no row of the map sees nothing. The audit and control tables are not restricted in this role.
+Dynamic row-level security. A user sees the departments of the current structure that the synthetic user map gives them, and so only their departments' outturn. Plan is published by Spending Review group, so a user sees the plan of a group only when every department of the group is one of theirs. A user in no row of the map sees nothing. The NHS trust accounts follow the same filter through the provider's department (only a user mapped to the Department of Health and Social Care sees them), and so do the hand-keyed consolidated figures. The audit and control tables are not restricted in this role.
 
 Row filter on `Department (current structure)`:
 
@@ -2164,6 +2655,16 @@ CONTAINS (
     'User Plan Group (synthetic)',
     'User Plan Group (synthetic)'[User Principal Name], USERPRINCIPALNAME (),
     'User Plan Group (synthetic)'[Spending Review Group Key], 'Fact Plan Phased (derived)'[Spending Review Group Key]
+)
+```
+
+Row filter on `TAC Consolidated Accounts`:
+
+```dax
+CONTAINS (
+    'User Department (synthetic)',
+    'User Department (synthetic)'[User Principal Name], USERPRINCIPALNAME (),
+    'User Department (synthetic)'[Department Key], MAX ( 'TAC Provider'[Department Key] )
 )
 ```
 
@@ -2183,7 +2684,7 @@ Row filter on `User Plan Group (synthetic)`:
 
 Model permission: read.
 
-Row-level security and object-level security in one role (the engine refuses a row-level role combined with a separate object-level one). The same department and plan filters as Department Analyst. The audit and control tables are hidden, the organisation names and version history are hidden, and the line-level detail of the data-quality findings is hidden. A measure that reads a hidden object returns an error, not a blank. Paybill detail does not exist yet; a later phase adds its object-level security to this role.
+Row-level security and object-level security in one role (the engine refuses a row-level role combined with a separate object-level one). The same department and plan filters as Department Analyst. The NHS trust accounts and the consolidated figures follow the same filter and the identity of each provider (name, code, region, sector, years and successor) is hidden. The audit and control tables are hidden, the organisation names and version history are hidden, and the line-level detail of the data-quality findings is hidden. A measure that reads a hidden object returns an error, not a blank. Paybill detail does not exist yet; a later phase adds its object-level security to this role.
 
 Row filter on `Department (current structure)`:
 
@@ -2212,6 +2713,16 @@ CONTAINS (
     'User Plan Group (synthetic)',
     'User Plan Group (synthetic)'[User Principal Name], USERPRINCIPALNAME (),
     'User Plan Group (synthetic)'[Spending Review Group Key], 'Fact Plan Phased (derived)'[Spending Review Group Key]
+)
+```
+
+Row filter on `TAC Consolidated Accounts`:
+
+```dax
+CONTAINS (
+    'User Department (synthetic)',
+    'User Department (synthetic)'[User Principal Name], USERPRINCIPALNAME (),
+    'User Department (synthetic)'[Department Key], MAX ( 'TAC Provider'[Department Key] )
 )
 ```
 
@@ -2254,6 +2765,18 @@ Columns hidden from this role (object-level security):
 | Organisation (as reported) | Valid To Release | none (hidden) |
 | Organisation (as reported) | Version Number | none (hidden) |
 | Organisation (as reported) | Version Reason | none (hidden) |
+| TAC Provider | First Year With Statements | none (hidden) |
+| TAC Provider | Last Year With Statements | none (hidden) |
+| TAC Provider | Provider | none (hidden) |
+| TAC Provider | Provider Code | none (hidden) |
+| TAC Provider | Region | none (hidden) |
+| TAC Provider | Reporting Status | none (hidden) |
+| TAC Provider | Sector | none (hidden) |
+| TAC Provider | Successor | none (hidden) |
+| TAC Provider | Successor Code | none (hidden) |
+| TAC Provider | Successor Effective Date | none (hidden) |
+| TAC Provider | Successor Kind | none (hidden) |
+| TAC Provider | Years With Statements | none (hidden) |
 
 Tables with their own permission:
 

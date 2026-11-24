@@ -1,0 +1,73 @@
+/// DERIVED, not published: the indirect cash flow of every NHS provider and year, built from the income statement and the balance sheet (the movement of each balance-sheet line, current year less prior year of the same file, and the flows of the income statement) through the authored map authored/tac_cash_flow_map.csv. GBP thousands, TAC sign, one row per provider, year and derived line. The inputs are real; the result is my calculation, it is compared with the published cash flow and never forced to equal it, and it never enters a real total. Source view dw.v_model_tac_cash_flow_derived.
+table 'Fact TAC Cash Flow (derived)'
+	lineageTag: bbf8dc6f-0965-5bb6-b0b5-60b5428f7a9c
+
+	/// Key of the provider.
+	column 'Provider Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		displayFolder: Derived
+		lineageTag: 985ea9b4-befc-52dd-b90a-123ab461bee7
+		summarizeBy: none
+		sourceColumn: provider_key
+
+	/// Key of the derived cash-flow line.
+	column 'Cash Flow Line Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		displayFolder: Derived
+		lineageTag: f008eb27-d076-56c5-a13f-6b57a5c84001
+		summarizeBy: none
+		sourceColumn: cash_flow_line_key
+
+	/// Financial year of the file, written 2024-25.
+	column 'Fiscal Year Key'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		displayFolder: Derived
+		lineageTag: dd5f1d6b-7bea-5089-9734-9354ac5335bc
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	/// Derived cash effect in GBP thousands, TAC sign. Hidden: use the measures.
+	column 'Cash Flow Amount'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		displayFolder: Derived
+		lineageTag: 0bb6e008-a87f-5f0b-94e9-ec145ea78523
+		summarizeBy: none
+		sourceColumn: amount
+
+	/// DERIVED: the indirect cash flow in GBP thousands, TAC sign (an inflow is positive), added over providers and years. Each balance-sheet input is the movement of the year (current-year column less prior-year column of the same file), so a restated opening balance does not leak in. Over all its lines it equals the balance sheet cash movement of the year to within GBP 2,000 per provider (the balance sheets balance to less than GBP 1,000). It is a calculation of mine, not a published figure.
+	measure 'TAC Cash Flow (derived)' =
+			SUM ( 'Fact TAC Cash Flow (derived)'[Cash Flow Amount] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Cash flow
+		lineageTag: 90ac60ba-cf44-52bb-9784-59a4e2c71065
+
+	/// DERIVED: the derived cash flow less the published cash flow, GBP thousands, for the line, section or total in context. It is what the income statement and balance sheet cannot be made to say about the published cash flow: depreciation and other non-cash items, transfers by absorption, mergers and restated openings. Not forced to zero. On a derived-only line it is the derived amount; on a published-only line it is minus the published amount.
+	measure 'TAC Cash Flow Residual' =
+			VAR Derived = [TAC Cash Flow (derived)]
+			VAR Published = [TAC Cash Flow (published)]
+			RETURN
+			    IF ( NOT ISBLANK ( Derived ) || NOT ISBLANK ( Published ), Derived - Published )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: TAC\Cash flow
+		lineageTag: cd0a6bb4-affb-525d-9cd8-8adba5f0d9e1
+
+	partition 'Fact TAC Cash Flow (derived)' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_tac_cash_flow_derived"]}[Data]
+				in
+				    Data
+

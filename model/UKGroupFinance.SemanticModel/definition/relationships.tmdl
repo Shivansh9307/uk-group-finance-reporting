@@ -90,3 +90,47 @@ relationship 3b9a1c0e-7d52-4f3a-9a64-2e6f8d41c7b5
 	fromColumn: 'File Control'.'Release Key'
 	toColumn: Release.'Release Key'
 
+
+relationship 4b7cd932-7287-5a68-9989-adf148164601
+	fromColumn: 'Fact TAC'.'Provider Key'
+	toColumn: 'TAC Provider'.'Provider Key'
+
+relationship 1d08c34a-116b-5333-ba55-1b51040b928d
+	fromColumn: 'Fact TAC'.'Line Key'
+	toColumn: 'TAC Statement Line'.'Line Key'
+
+relationship 7de5ec06-0fe7-5caa-b108-a34e91dace3c
+	fromColumn: 'Fact TAC'.'Fiscal Year Key'
+	toColumn: 'Fiscal Year'.'Financial Year'
+
+relationship 4aa869cb-b60c-5da6-97d4-531693b80e10
+	fromColumn: 'TAC Provider'.'Department Key'
+	toColumn: 'Department (current structure)'.'Department Key'
+
+relationship 36bc17c3-d10d-56d0-8946-f2600f388785
+	fromColumn: 'Fact TAC Cash Flow (derived)'.'Provider Key'
+	toColumn: 'TAC Provider'.'Provider Key'
+
+relationship 4436bcc0-352b-51ac-b89f-035aa83e03d0
+	fromColumn: 'Fact TAC Cash Flow (derived)'.'Cash Flow Line Key'
+	toColumn: 'TAC Cash Flow Line'.'Cash Flow Line Key'
+
+relationship 592417c4-7764-542f-bce3-7630f9009a05
+	fromColumn: 'Fact TAC Cash Flow (derived)'.'Fiscal Year Key'
+	toColumn: 'Fiscal Year'.'Financial Year'
+
+relationship eb1a0813-89e6-5be0-9626-748c0048c32e
+	fromColumn: 'TAC Statement Line'.'Cash Flow Line Key'
+	toColumn: 'TAC Cash Flow Line'.'Cash Flow Line Key'
+
+relationship 16304257-afb2-5e7a-a101-c8df86ff4e78
+	fromColumn: 'TAC Consolidated Accounts'.'Control Line Key'
+	toColumn: 'TAC Control Line'.'Control Line Key'
+
+relationship 5b5d8f70-c75f-59cf-874f-0f00429a1877
+	fromColumn: 'TAC Consolidated Accounts'.'Fiscal Year Key'
+	toColumn: 'Fiscal Year'.'Financial Year'
+
+relationship 2aa26643-7bff-5c7c-bda0-e3afb7d458aa
+	fromColumn: 'TAC Control Member'.'Control Line Key'
+	toColumn: 'TAC Control Line'.'Control Line Key'

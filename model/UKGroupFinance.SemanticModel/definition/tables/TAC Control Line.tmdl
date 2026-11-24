@@ -1,0 +1,64 @@
+/// AUTHORED labels, no amount: the six headline lines of the elimination-gap control (total operating income, operating expenses, total assets, total liabilities, cash and total assets employed), whether each is a flow of the year or a balance at its end. Source view dw.v_model_tac_control_line, from authored/tac_control_line.csv.
+table 'TAC Control Line'
+	lineageTag: 61bd3e51-2c89-5cc1-a9b8-160eadba0ee3
+
+	/// Key of the control line, in the order of the control.
+	column 'Control Line Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: 4253fa69-45c6-5c95-b2c7-67c38fb8450a
+		summarizeBy: none
+		sourceColumn: control_line_key
+
+	/// The headline line compared between the provider accounts and the consolidated accounts.
+	column 'Control Line'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 4bd3669a-b1bd-5a8f-9c94-cbc35ad8d86b
+		summarizeBy: none
+		sourceColumn: label
+		sortByColumn: 'Control Line Key'
+
+	/// Short code of the control line.
+	column 'Control Code'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: aa1409a1-13f2-5e92-a654-344727108f23
+		summarizeBy: none
+		sourceColumn: control_line
+
+	/// SoCI for a flow of the income statement, SoFP for a balance.
+	column 'Control Statement'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 3bf0951f-54d0-50f4-be33-ca217f0fa5fd
+		summarizeBy: none
+		sourceColumn: statement
+
+	/// flow or balance.
+	column 'Control Nature'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 29be42db-280c-5766-89c9-0aef0a978b29
+		summarizeBy: none
+		sourceColumn: nature
+
+	/// How the provider side and the consolidated side are made up for the line.
+	column 'Control Note'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 2a9234e8-d4e2-5808-885e-4c9998576791
+		summarizeBy: none
+		sourceColumn: note
+
+	partition 'TAC Control Line' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_tac_control_line"]}[Data]
+				in
+				    Data
+

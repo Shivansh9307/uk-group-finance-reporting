@@ -1,0 +1,58 @@
+// A subtotal or a total is a value in the data and must not be added to the lines it is computed from.
+// Two checks, each by financial year.
+//  (1) The four blocks of the balance sheet. For each of non-current assets, current assets, current liabilities and
+//      non-current liabilities: the sum of the lines (TAC Closing Balance on the block, which adds lines only) and the
+//      published subtotal (TAC Closing Balance on the one line that holds it, shown as published). The two are the same
+//      number, which is only so if the block's measure did not add the subtotal to its own lines.
+//  (2) The income statement as a whole: TAC Amount (lines only) against a sum of every row, subtotals included, defined
+//      here, which double counts. The first is what the statement adds up to, the second is not.
+DEFINE
+    MEASURE 'Fact TAC'[Every Row Including Subtotals] =
+        CALCULATE ( SUM ( 'Fact TAC'[Value] ), 'Fact TAC'[Period Column] = "CY", 'TAC Statement Line'[Statement Code] = "SoCI" )
+EVALUATE
+UNION (
+    SELECTCOLUMNS (
+        SUMMARIZECOLUMNS (
+            'Fiscal Year'[Financial Year],
+            'TAC Statement Line'[Section],
+            TREATAS ( { "Non-current assets", "Current assets", "Current liabilities", "Non-current liabilities" }, 'TAC Statement Line'[Section] ),
+            TREATAS ( { "SoFP" }, 'TAC Statement Line'[Statement Code] ),
+            "lines_added", [TAC Closing Balance],
+            "published_subtotal",
+                CALCULATE (
+                    [TAC Closing Balance],
+                    TREATAS (
+                        {
+                            SWITCH (
+                                SELECTEDVALUE ( 'TAC Statement Line'[Section] ),
+                                "Non-current assets", "BAL1180",
+                                "Current assets", "BAL1250",
+                                "Current liabilities", "BAL1320",
+                                "Non-current liabilities", "BAL1390"
+                            )
+                        },
+                        'TAC Statement Line'[Sub Code]
+                    )
+                )
+        ),
+        "case", "balance sheet block: lines added against the published subtotal",
+        "Financial Year", 'Fiscal Year'[Financial Year],
+        "Section", 'TAC Statement Line'[Section],
+        "lines_or_amount", [lines_added],
+        "published_or_every_row", [published_subtotal]
+    ),
+    SELECTCOLUMNS (
+        SUMMARIZECOLUMNS (
+            'Fiscal Year'[Financial Year],
+            TREATAS ( { "SoCI" }, 'TAC Statement Line'[Statement Code] ),
+            "lines_only", [TAC Amount],
+            "every_row", [Every Row Including Subtotals]
+        ),
+        "case", "income statement: lines only against every row",
+        "Financial Year", 'Fiscal Year'[Financial Year],
+        "Section", "All sections",
+        "lines_or_amount", [lines_only],
+        "published_or_every_row", [every_row]
+    )
+)
+ORDER BY [case], [Financial Year], [Section]

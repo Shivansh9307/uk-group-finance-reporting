@@ -1,0 +1,16 @@
+// Every TAC model table has the rows of its base table in the warehouse: the fact (344,812 provider x year x line x
+// column values), the 228 providers, the 137 statement lines, the derived cash flow (provider-years x 22 lines), the
+// derived cash-flow lines plus the member Not compared, the six control lines, the control membership and the 48
+// hand-keyed consolidated values.
+EVALUATE
+UNION(
+    ROW("table_name", "Fact TAC", "row_count", COUNTROWS('Fact TAC')),
+    ROW("table_name", "Fact TAC Cash Flow (derived)", "row_count", COUNTROWS('Fact TAC Cash Flow (derived)')),
+    ROW("table_name", "TAC Provider", "row_count", COUNTROWS('TAC Provider')),
+    ROW("table_name", "TAC Statement Line", "row_count", COUNTROWS('TAC Statement Line')),
+    ROW("table_name", "TAC Cash Flow Line", "row_count", COUNTROWS('TAC Cash Flow Line')),
+    ROW("table_name", "TAC Control Line", "row_count", COUNTROWS('TAC Control Line')),
+    ROW("table_name", "TAC Control Member", "row_count", COUNTROWS('TAC Control Member')),
+    ROW("table_name", "TAC Consolidated Accounts", "row_count", COUNTROWS('TAC Consolidated Accounts'))
+)
+ORDER BY [table_name]

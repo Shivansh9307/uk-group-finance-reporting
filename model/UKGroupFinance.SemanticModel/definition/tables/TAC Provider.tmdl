@@ -1,0 +1,133 @@
+/// The NHS trusts and foundation trusts in the TAC files, one row per NHS (ODS) code, 228 in all, with the provider's latest name, type, region and sector (real, from the published lists of providers), the years it has statements, and where it went when it was acquired, merged or dissolved (authored: hand-written from the source's own comments, each with a quotation the build checks). Every provider is linked to the Department of Health and Social Care, which is how the security roles reach the TAC facts. Source view dw.v_model_tac_provider.
+table 'TAC Provider'
+	lineageTag: 51e265cb-03e3-5cc6-9514-8295b07ffcce
+
+	/// Key of the provider.
+	column 'Provider Key'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: ef57f48d-d3be-59a1-b22d-e6fac0d72a68
+		summarizeBy: none
+		sourceColumn: provider_key
+
+	/// NHS (ODS) code of the provider, the key of the provider across years and names.
+	column 'Provider Code'
+		dataType: string
+		lineageTag: c869c6e0-f9cb-516a-8a03-51d2534adecf
+		summarizeBy: none
+		sourceColumn: provider_code
+
+	/// Name of the provider in the latest year it is listed.
+	column Provider
+		dataType: string
+		lineageTag: 0cc2048b-741c-5bd9-bac5-d2752159f3b1
+		summarizeBy: none
+		sourceColumn: provider_name
+
+	/// NHS trust or NHS foundation trust.
+	column 'Provider Type'
+		dataType: string
+		lineageTag: 0ddc772d-82cb-512b-94ff-029b5b5ca5e3
+		summarizeBy: none
+		sourceColumn: provider_type
+
+	/// NHS England region in the latest year the provider is listed.
+	column Region
+		dataType: string
+		lineageTag: 06329a22-60bb-5819-9b65-570970e060b2
+		summarizeBy: none
+		sourceColumn: region
+
+	/// Sector of the provider in the latest year it is listed: acute, mental health, community, ambulance and so on.
+	column Sector
+		dataType: string
+		lineageTag: eec63407-edee-5985-a8bb-9929b2d1be86
+		summarizeBy: none
+		sourceColumn: sector
+
+	/// Key of the department of the current structure the provider answers to: the Department of Health and Social Care.
+	column 'Department Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: 172082a8-f29d-5314-8467-35cc1bb67f79
+		summarizeBy: none
+		sourceColumn: department_key
+
+	/// First financial year, of the six in the files, in which the provider has statements.
+	column 'First Year With Statements'
+		dataType: string
+		lineageTag: 94f22289-dab7-548c-97ad-6a985e2d13f6
+		summarizeBy: none
+		sourceColumn: first_data_release
+
+	/// Last financial year in which the provider has statements. A provider acquired, merged or dissolved before 2024-25 stops here.
+	column 'Last Year With Statements'
+		dataType: string
+		lineageTag: 559cf739-681f-5dbe-905a-f68024e36f94
+		summarizeBy: none
+		sourceColumn: last_data_release
+
+	/// Number of the six years in which the provider has statements.
+	column 'Years With Statements'
+		dataType: int64
+		formatString: 0
+		lineageTag: 67556540-58f6-58b6-825a-18fb51701bdd
+		summarizeBy: none
+		sourceColumn: n_data_years
+
+	/// Reports in the latest file, or the last year with statements.
+	column 'Reporting Status'
+		dataType: string
+		lineageTag: ad080fea-7135-560b-bff0-2205834f87a2
+		summarizeBy: none
+		sourceColumn: reporting_status
+
+	/// AUTHORED: NHS code of the body the provider went to when acquired, merged or dissolved. Blank for a provider that still reports.
+	column 'Successor Code'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 4c24f623-d043-578c-89a3-d0e86ee9ff21
+		summarizeBy: none
+		sourceColumn: successor_code
+
+	/// AUTHORED: name of the successor where it is a provider in the files (an integrated care board is not).
+	column Successor
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 6f4f15af-38e4-5b58-b2b8-49ca816855a5
+		summarizeBy: none
+		sourceColumn: successor_name
+
+	/// AUTHORED: acquired, merged, demised or new_code.
+	column 'Successor Kind'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 01b3270d-0cdd-581d-9126-fa2d59395f04
+		summarizeBy: none
+		sourceColumn: successor_kind
+
+	/// AUTHORED: date the change took effect, where the source gives one.
+	column 'Successor Effective Date'
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		displayFolder: Authored
+		lineageTag: b25b03f2-ab45-5177-be43-82a6d70d6db5
+		summarizeBy: none
+		sourceColumn: successor_effective_date
+
+	partition 'TAC Provider' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_tac_provider"]}[Data]
+				in
+				    Data
+
+
+	annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["SNOWFLAKE_SCHEMA_ARCHITECTURE"]}

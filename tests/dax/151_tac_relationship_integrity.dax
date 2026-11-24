@@ -1,0 +1,17 @@
+// No TAC relationship has a blank member: every row of the many side finds its row on the one side. For each of the
+// 11 new relationships, the rows of the many side whose RELATED key on the one side is blank.
+EVALUATE
+UNION(
+    ROW("relationship", "Fact TAC to TAC Provider", "many_side_rows", COUNTROWS('Fact TAC'), "rows_without_member", COUNTROWS(FILTER('Fact TAC', ISBLANK(RELATED('TAC Provider'[Provider Key])))) + 0),
+    ROW("relationship", "Fact TAC to TAC Statement Line", "many_side_rows", COUNTROWS('Fact TAC'), "rows_without_member", COUNTROWS(FILTER('Fact TAC', ISBLANK(RELATED('TAC Statement Line'[Line Key])))) + 0),
+    ROW("relationship", "Fact TAC to Fiscal Year", "many_side_rows", COUNTROWS('Fact TAC'), "rows_without_member", COUNTROWS(FILTER('Fact TAC', ISBLANK(RELATED('Fiscal Year'[Financial Year])))) + 0),
+    ROW("relationship", "TAC Provider to Department (current structure)", "many_side_rows", COUNTROWS('TAC Provider'), "rows_without_member", COUNTROWS(FILTER('TAC Provider', ISBLANK(RELATED('Department (current structure)'[Department Key])))) + 0),
+    ROW("relationship", "Fact TAC Cash Flow to TAC Provider", "many_side_rows", COUNTROWS('Fact TAC Cash Flow (derived)'), "rows_without_member", COUNTROWS(FILTER('Fact TAC Cash Flow (derived)', ISBLANK(RELATED('TAC Provider'[Provider Key])))) + 0),
+    ROW("relationship", "Fact TAC Cash Flow to TAC Cash Flow Line", "many_side_rows", COUNTROWS('Fact TAC Cash Flow (derived)'), "rows_without_member", COUNTROWS(FILTER('Fact TAC Cash Flow (derived)', ISBLANK(RELATED('TAC Cash Flow Line'[Cash Flow Line Key])))) + 0),
+    ROW("relationship", "Fact TAC Cash Flow to Fiscal Year", "many_side_rows", COUNTROWS('Fact TAC Cash Flow (derived)'), "rows_without_member", COUNTROWS(FILTER('Fact TAC Cash Flow (derived)', ISBLANK(RELATED('Fiscal Year'[Financial Year])))) + 0),
+    ROW("relationship", "TAC Statement Line to TAC Cash Flow Line", "many_side_rows", COUNTROWS('TAC Statement Line'), "rows_without_member", COUNTROWS(FILTER('TAC Statement Line', ISBLANK(RELATED('TAC Cash Flow Line'[Cash Flow Line Key])))) + 0),
+    ROW("relationship", "TAC Consolidated Accounts to TAC Control Line", "many_side_rows", COUNTROWS('TAC Consolidated Accounts'), "rows_without_member", COUNTROWS(FILTER('TAC Consolidated Accounts', ISBLANK(RELATED('TAC Control Line'[Control Line Key])))) + 0),
+    ROW("relationship", "TAC Consolidated Accounts to Fiscal Year", "many_side_rows", COUNTROWS('TAC Consolidated Accounts'), "rows_without_member", COUNTROWS(FILTER('TAC Consolidated Accounts', ISBLANK(RELATED('Fiscal Year'[Financial Year])))) + 0),
+    ROW("relationship", "TAC Control Member to TAC Control Line", "many_side_rows", COUNTROWS('TAC Control Member'), "rows_without_member", COUNTROWS(FILTER('TAC Control Member', ISBLANK(RELATED('TAC Control Line'[Control Line Key])))) + 0)
+)
+ORDER BY [relationship]

@@ -1,0 +1,13 @@
+// The derived (indirect) cash flow, the published lines it is compared with and the residual, by financial year and
+// derived line (22 lines, six years). A derived-only line has no published figure (BLANK) and its residual is its
+// derived amount; the published-only line has a derived amount of 0 and its residual is minus the published amount.
+// GBP thousands, TAC sign (an inflow is positive).
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'TAC Cash Flow Line'[Line Code],
+    "derived", [TAC Cash Flow (derived)],
+    "published", [TAC Cash Flow (published)],
+    "residual", [TAC Cash Flow Residual]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'TAC Cash Flow Line'[Line Code]
