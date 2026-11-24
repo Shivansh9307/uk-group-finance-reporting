@@ -1,0 +1,66 @@
+dept,report_month,filename,source_row,organisation_name,check_key,published_total,sum_of_components,difference
+cma,2022-04,MWMI_April_22.csv,2,Competition and Markets Authority,payroll_paybill_gbp,5781768,1679102,4102666
+dbt,2025-04,dbt-headcount-and-payroll-data-for-April-2025.csv,3,Advisory Conciliation and Arbitration Service,payroll_paybill_gbp,4407815.38,4423653.55,-15838.17
+dft,2021-10,dft-workforce-management-information-october-2021.csv.csv,4,Department for Transport,payroll_paybill_gbp,7011958.81,21523074.51,-14511115.7
+dhsc,2018-04,dhsc-workforceinformation-april-2018.ods,3,Care Quality Commission,payroll_fte,29.68,3158.27,-3128.59
+dhsc,2018-04,dhsc-workforceinformation-april-2018.ods,3,Care Quality Commission,payroll_headcount,38,3281,-3243
+dhsc,2018-04,dhsc-workforceinformation-april-2018.ods,11,National Institute for Health and Care Excellence,payroll_fte,3.4,611.67,-608.27
+dhsc,2018-04,dhsc-workforceinformation-april-2018.ods,11,National Institute for Health and Care Excellence,payroll_headcount,6,662,-656
+dhsc,2018-04,dhsc-workforceinformation-april-2018.ods,12,NHS Blood & Transplant,payroll_fte,44.75,4501.1,-4456.35
+dhsc,2018-04,dhsc-workforceinformation-april-2018.ods,12,NHS Blood & Transplant,payroll_headcount,50,5075,-5025
+dhsc,2018-04,dhsc-workforceinformation-april-2018.ods,14,NHS England,payroll_fte,64.5998,5747.4888,-5682.889
+dhsc,2018-04,dhsc-workforceinformation-april-2018.ods,14,NHS England,payroll_headcount,148,6058,-5910
+dhsc,2018-04,dhsc-workforceinformation-april-2018.ods,17,Public Health England,payroll_fte,17,5015.53,-4998.53
+dhsc,2018-04,dhsc-workforceinformation-april-2018.ods,17,Public Health England,payroll_headcount,17,5355,-5338
+dhsc,2018-05,dhsc-workforceinformation-may-2018.ods,3,Care Quality Commission,payroll_fte,27.68,3165.29,-3137.61
+dhsc,2018-05,dhsc-workforceinformation-may-2018.ods,3,Care Quality Commission,payroll_headcount,36,3285,-3249
+dhsc,2018-05,dhsc-workforceinformation-may-2018.ods,11,National Institute for Health and Care Excellence,payroll_fte,3.4,610.91,-607.51
+dhsc,2018-05,dhsc-workforceinformation-may-2018.ods,11,National Institute for Health and Care Excellence,payroll_headcount,6,659,-653
+dhsc,2018-05,dhsc-workforceinformation-may-2018.ods,12,NHS Blood & Transplant,payroll_fte,44.75,4527.56,-4482.81
+dhsc,2018-05,dhsc-workforceinformation-may-2018.ods,12,NHS Blood & Transplant,payroll_headcount,50,5108,-5058
+dhsc,2018-05,dhsc-workforceinformation-may-2018.ods,14,NHS England,payroll_fte,67.7818,5831.009,-5763.2272
+dhsc,2018-05,dhsc-workforceinformation-may-2018.ods,14,NHS England,payroll_headcount,149,6132,-5983
+dhsc,2018-05,dhsc-workforceinformation-may-2018.ods,17,Public Health England,payroll_fte,17,5072.27,-5055.27
+dhsc,2018-05,dhsc-workforceinformation-may-2018.ods,17,Public Health England,payroll_headcount,17,5464,-5447
+dhsc,2021-04,DHSC_April_2021_MWMI__1_.csv,7,Human Fertilisation & Embryology Authority,payroll_paybill_gbp,338805,271552,67253
+dhsc,2023-08,DHSC-workforce-management-information-August-2023.csv,9,NHS Blood & Transplant,payroll_fte,5510,5460.05,49.95
+dhsc,2023-08,DHSC-workforce-management-information-August-2023.csv,9,NHS Blood & Transplant,payroll_headcount,6004,6157,-153
+dhsc,2023-09,DHSC-workforce-management-information-September-2023-updated.csv,9,NHS Blood & Transplant,payroll_fte,5569,5475.08,93.92
+dhsc,2023-09,DHSC-workforce-management-information-September-2023-updated.csv,9,NHS Blood & Transplant,payroll_headcount,6066,6171,-105
+fsa,2022-01,FSA-January-2022-workforce-management-information.csv,2,Food Standards Agency,payroll_paybill_gbp,11868570,6184320,5684250
+hmrc,2021-05,HMRC_headcount_and_payroll_data_for_May_2021.csv,7,HM Revenue and Customs,payroll_paybill_gbp,213749477.51,214426175.51,-676698
+hmrc,2026-06,HMRC_headcount_and_payroll_data_for_June_2026.csv,2,HM Revenue and Customs,payroll_fte,70876,70874,2
+mhclg,2019-12,MHCLG_WFMI_20191231.csv,11,Leasehold Advisory Service,payroll_fte,26.1,23.1,3
+mhclg,2021-03,MHCLG__WFMI_20210331.csv,6,Housing Ombudsman Service,payroll_headcount,100,0,100
+mhclg,2023-11,DLUHC_Group_Workforce_Management_November_2023.csv,8,Leasehold Advisory Service,payroll_paybill_gbp,179409.19,1704055.19,-1524646
+mhclg,2024-01,DLUHC_Group_Workforce_Management___January_-_2024.csv,10,Valuation Tribunal Service,payroll_fte,58.3,54.3,4
+mhclg,2024-01,DLUHC_Group_Workforce_Management___January_-_2024.csv,10,Valuation Tribunal Service,payroll_headcount,59,55,4
+mhclg,2025-07,July_2025_MWMI.csv,9,Regulator of Social Housing,payroll_paybill_gbp,1997653,2496942,-499289
+mod,2018-05,May_2018_WMI.csv,7,Defence Equipment and Support,payroll_fte,10335,69,10266
+mod,2018-05,May_2018_WMI.csv,7,Defence Equipment and Support,payroll_headcount,10610,69,10541
+mod,2020-09,Cabinet_Office_Workforce_Management_Return_September_20_1_.csv,4,Ministry of Defence,payroll_headcount,39858,40077,-219
+mod,2020-10,Cabinet_Office_Workforce_Management_Return_October_20_1_.csv,4,Ministry of Defence,payroll_headcount,39858,40293,-435
+mod,2021-04,MOD_MWMI_April_21.csv,4,Ministry of Defence,payroll_headcount,12359,41427,-29068
+mod,2021-05,MOD_MWMI_May_21.csv,4,Ministry of Defence,payroll_headcount,12350,41376,-29026
+mod,2022-06,MOD_Workforce_Management_Information_June_2022.xlsx,3,Defence Equipment and Support,payroll_headcount,10.368,10638,-10627.632
+mod,2022-06,MOD_Workforce_Management_Information_June_2022.xlsx,5,Defence Science and Technology Laboratory,payroll_fte,4.534,4533.79,-4529.256
+mod,2022-06,MOD_Workforce_Management_Information_June_2022.xlsx,5,Defence Science and Technology Laboratory,payroll_headcount,4.774,4774,-4769.226
+mod,2022-06,MOD_Workforce_Management_Information_June_2022.xlsx,7,National Army Museum,payroll_paybill_gbp,26091219,260912.19,25830306.81
+mod,2022-06,MOD_Workforce_Management_Information_June_2022.xlsx,8,Royal Air Force Museum,payroll_paybill_gbp,51503000,515030,50987970
+mod,2022-06,MOD_Workforce_Management_Information_June_2022.xlsx,9,UK Hydrographic Office,payroll_paybill_gbp,366220781,3662207.81,362558573.19
+mod,2022-07,MOD_Workforce_Management_Information_July_2022.xlsx,4,Defence Electronics and Components Agency,payroll_paybill_gbp,161331145,1613311.45,159717833.55
+mod,2022-07,MOD_Workforce_Management_Information_July_2022.xlsx,5,Defence Science and Technology Laboratory,payroll_paybill_gbp,2270299298,22702992.98,2247596305.02
+mod,2022-07,MOD_Workforce_Management_Information_July_2022.xlsx,7,National Army Museum,payroll_paybill_gbp,27311209,273112.09,27038096.91
+mod,2022-07,MOD_Workforce_Management_Information_July_2022.xlsx,8,Royal Air Force Museum,payroll_paybill_gbp,52492200,524922,51967278
+mod,2022-07,MOD_Workforce_Management_Information_July_2022.xlsx,9,UK Hydrographic Office,payroll_paybill_gbp,371659510,3716595.1,367942914.9
+mod,2022-08,MOD_Workforce_Management_Information_August_2022.xlsx,4,Defence Electronics and Components Agency,payroll_paybill_gbp,145393248,1453932.48,143939315.52
+mod,2022-08,MOD_Workforce_Management_Information_August_2022.xlsx,5,Defence Science and Technology Laboratory,payroll_paybill_gbp,2274605663,22746056.63,2251859606.37
+mod,2022-08,MOD_Workforce_Management_Information_August_2022.xlsx,9,UK Hydrographic Office,payroll_paybill_gbp,453933133,4539331.33,449393801.67
+mod,2022-09,MOD_Workforce_Management_Information_September_2022.ods,2,Ministry of Defence,payroll_paybill_gbp,26708633858,267086338.58,26441547519.42
+mod,2022-09,MOD_Workforce_Management_Information_September_2022.ods,3,Defence Equipment and Support,payroll_paybill_gbp,4498211015,44982110.15,4453228904.85
+mod,2022-09,MOD_Workforce_Management_Information_September_2022.ods,5,Defence Science and Technology Laboratory,payroll_paybill_gbp,2403492548,24034925.48,2379457622.52
+mod,2022-09,MOD_Workforce_Management_Information_September_2022.ods,7,National Army Museum,payroll_paybill_gbp,29541078,295410.78,29245667.22
+mod,2022-09,MOD_Workforce_Management_Information_September_2022.ods,8,Royal Air Force Museum,payroll_paybill_gbp,54649900,546499,54103401
+mod,2022-09,MOD_Workforce_Management_Information_September_2022.ods,9,UK Hydrographic Office,payroll_paybill_gbp,392244797,3922447.97,388322349.03
+mod,2024-07,MOD_workforce_management_information_July_2024.csv,8,UK Hydrographic Office,payroll_fte,964,962,2
+ukef,2018-10,ukef-payroll-headcount-data-oct-2018.csv,4,UK Export Finance,payroll_paybill_gbp,17237987.02,1723798.02,15514189
