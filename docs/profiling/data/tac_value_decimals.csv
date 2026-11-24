@@ -1,0 +1,73 @@
+release,provider_type,decimal_places,rows
+2019-20,NHS foundation trust,0,33734
+2019-20,NHS foundation trust,1,702
+2019-20,NHS foundation trust,2,499
+2019-20,NHS foundation trust,3,929
+2019-20,NHS foundation trust,4,753
+2019-20,NHS foundation trust,5,2719
+2019-20,NHS trust,0,19279
+2019-20,NHS trust,1,89
+2019-20,NHS trust,2,93
+2019-20,NHS trust,3,83
+2019-20,NHS trust,4,40
+2019-20,NHS trust,5,480
+2020-21,NHS foundation trust,0,33320
+2020-21,NHS foundation trust,1,606
+2020-21,NHS foundation trust,2,455
+2020-21,NHS foundation trust,3,942
+2020-21,NHS foundation trust,4,687
+2020-21,NHS foundation trust,5,3062
+2020-21,NHS trust,0,17684
+2020-21,NHS trust,1,101
+2020-21,NHS trust,2,140
+2020-21,NHS trust,3,109
+2020-21,NHS trust,4,52
+2020-21,NHS trust,5,658
+2021-22,NHS foundation trust,0,32543
+2021-22,NHS foundation trust,1,553
+2021-22,NHS foundation trust,2,416
+2021-22,NHS foundation trust,3,985
+2021-22,NHS foundation trust,4,633
+2021-22,NHS foundation trust,5,3150
+2021-22,NHS trust,0,17350
+2021-22,NHS trust,1,136
+2021-22,NHS trust,2,118
+2021-22,NHS trust,3,136
+2021-22,NHS trust,4,64
+2021-22,NHS trust,5,676
+2022-23,NHS foundation trust,0,33471
+2022-23,NHS foundation trust,1,591
+2022-23,NHS foundation trust,2,419
+2022-23,NHS foundation trust,3,933
+2022-23,NHS foundation trust,4,661
+2022-23,NHS foundation trust,5,3381
+2022-23,NHS trust,0,17279
+2022-23,NHS trust,1,181
+2022-23,NHS trust,2,118
+2022-23,NHS trust,3,224
+2022-23,NHS trust,4,84
+2022-23,NHS trust,5,746
+2023-24,NHS foundation trust,0,32147
+2023-24,NHS foundation trust,1,602
+2023-24,NHS foundation trust,2,444
+2023-24,NHS foundation trust,3,961
+2023-24,NHS foundation trust,4,578
+2023-24,NHS foundation trust,5,3628
+2023-24,NHS trust,0,16638
+2023-24,NHS trust,1,194
+2023-24,NHS trust,2,138
+2023-24,NHS trust,3,271
+2023-24,NHS trust,4,84
+2023-24,NHS trust,5,759
+2024-25,NHS foundation trust,0,31854
+2024-25,NHS foundation trust,1,625
+2024-25,NHS foundation trust,2,490
+2024-25,NHS foundation trust,3,917
+2024-25,NHS foundation trust,4,608
+2024-25,NHS foundation trust,5,3858
+2024-25,NHS trust,0,16250
+2024-25,NHS trust,1,241
+2024-25,NHS trust,2,152
+2024-25,NHS trust,3,254
+2024-25,NHS trust,4,121
+2024-25,NHS trust,5,934

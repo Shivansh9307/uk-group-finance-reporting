@@ -1,0 +1,13 @@
+release,provider_type,filename,providers_listed,providers_with_data,providers_in_fact,fact_rows,control_difference,rows_quarantined
+2019-20,NHS foundation trust,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,149,149,149,39336,0,0
+2019-20,NHS trust,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,77,76,76,20064,0,0
+2020-21,NHS foundation trust,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,148,148,148,39072,0,0
+2020-21,NHS trust,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,71,71,71,18744,0,0
+2021-22,NHS foundation trust,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,145,145,145,38280,0,0
+2021-22,NHS trust,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,70,70,70,18480,0,0
+2022-23,NHS foundation trust,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,144,144,144,39456,0,0
+2022-23,NHS trust,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,69,68,68,18632,0,0
+2023-24,NHS foundation trust,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,143,140,140,38360,0,0
+2023-24,NHS trust,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,68,66,66,18084,0,0
+2024-25,NHS foundation trust,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,143,141,141,38352,0,0
+2024-25,NHS trust,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,67,66,66,17952,0,0
