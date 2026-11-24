@@ -1,0 +1,9 @@
+// The forecast tables have the rows of what they are built from: the accuracy fact (the scored cells of the budget measure totals
+// and of the pay line), the four methods and the thirteen returns R0 to R12.
+EVALUATE
+UNION (
+    ROW ( "table_name", "Fact Forecast Accuracy (derived)", "row_count", COUNTROWS ( 'Fact Forecast Accuracy (derived)' ) ),
+    ROW ( "table_name", "Forecast Method", "row_count", COUNTROWS ( 'Forecast Method' ) ),
+    ROW ( "table_name", "Forecast Return", "row_count", COUNTROWS ( 'Forecast Return' ) )
+)
+ORDER BY [table_name]

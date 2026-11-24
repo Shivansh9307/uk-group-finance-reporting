@@ -1,0 +1,32 @@
+// The department's own forecast on every cell of the budget measure totals (R0 to R12, not only the cells my methods also scored), by
+// financial year, with every known bad return and without them. FY2020-21 holds FCDO R0 (keyed in pounds) and FY2018-19 holds the
+// Department of Health missing from R1: in those two years the with and without figures must differ, or this test would pass
+// whether or not the flag worked (the SQL test 922 and the pytest on the expected file both require the difference).
+EVALUATE
+SELECTCOLUMNS (
+    CALCULATETABLE (
+        SUMMARIZECOLUMNS (
+            'Fiscal Year'[Financial Year],
+            "cells", [Forecast Cells],
+            "bad_cells", [Known Bad Return Cells],
+            "abs_error", [Forecast Abs Error],
+            "abs_error_excl", [Forecast Abs Error (excl. bad returns)],
+            "wape", [Forecast WAPE],
+            "wape_excl", [Forecast WAPE (excl. bad returns)],
+            "bias", [Forecast Bias],
+            "bias_excl", [Forecast Bias (excl. bad returns)]
+        ),
+        'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total",
+        'Forecast Method'[Method] = "Department"
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "cells", [cells],
+    "bad_cells", [bad_cells],
+    "abs_error", [abs_error],
+    "abs_error_excl", [abs_error_excl],
+    "wape", [wape],
+    "wape_excl", [wape_excl],
+    "bias", [bias],
+    "bias_excl", [bias_excl]
+)
+ORDER BY [financial_year]

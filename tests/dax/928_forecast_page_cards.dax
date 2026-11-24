@@ -1,0 +1,12 @@
+// The five cards of the forecast accuracy page: the department's own forecast on the budget measure totals (every year, every return) with
+// and without the known bad returns, the number of cells that belong to a known bad return, and the two FTE x cost coverage figures for
+// FY2018-19 to FY2022-23 (the workforce files start in April 2018).
+EVALUATE
+UNION (
+    ROW ( "card", "wape", "value", CALCULATE ( [Forecast WAPE], 'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total", 'Forecast Method'[Method] = "Department" ) ),
+    ROW ( "card", "wape_excl", "value", CALCULATE ( [Forecast WAPE (excl. bad returns)], 'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total", 'Forecast Method'[Method] = "Department" ) ),
+    ROW ( "card", "bad_cells", "value", CALCULATE ( [Known Bad Return Cells], 'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total", 'Forecast Method'[Method] = "Department" ) ),
+    ROW ( "card", "cell_coverage", "value", CALCULATE ( [FTE x Cost Cell Coverage], 'Fiscal Year'[Financial Year] IN { "2018-19", "2019-20", "2020-21", "2021-22", "2022-23" } ) ),
+    ROW ( "card", "pay_cover", "value", CALCULATE ( [FTE x Cost Pay Cover], 'Fiscal Year'[Financial Year] IN { "2018-19", "2019-20", "2020-21", "2021-22", "2022-23" } ) )
+)
+ORDER BY [card]

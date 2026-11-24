@@ -5,9 +5,9 @@ built and why is in [model.md](model.md); how its evidence is kept honest is in 
 
 The hash below is the hash of the model's TMDL files that this page was generated from (`ukfr ledger`, see evidence.md). If the model has changed since, `ukfr ledger check` fails with "model-reference.md is stale" until the page is generated again.
 
-Model projection hash: `057c5e5554cd8a993af44083370a5e06de2e91f0564c0344e5095ee13ee64da1`
+Model projection hash: `f30197a5c4cbf9fb5aaa20d067b564a30e3ac046ba0125e2ed2285af9d1968bb`
 
-The model has 45 tables, 363 columns, 87 measures, 38 relationships, 23 user-defined functions, 2 roles and 3 perspectives.
+The model has 48 tables, 390 columns, 108 measures, 42 relationships, 23 user-defined functions, 2 roles and 3 perspectives.
 
 ## Tables
 
@@ -23,6 +23,7 @@ The model has 45 tables, 363 columns, 87 measures, 38 relationships, 23 user-def
 | Deflator Quarantine | table | 4 | 0 | Rows of the three GDP deflator workbooks that did not parse, with the file and the reason. Empty when every row parses (tested by tests/dax/705). Nothing is dropped silently: a row that is neither a financial-year row nor a blank or note line lands here. |
 | Department (current structure) | table | 7 | 0 | The departments of today's structure (63 members: 59 departments and 4 Unallocated members for lines of closed or split departments that no current department took over). Fact Outturn joins on the current-department key written in the warehouse, so every line sits in exactly one department, restated onto the current structure with no weights. Source view dw.v_model_department. |
 | Display Unit | calculation group, precedence 30 | 2 | 0 | Calculation group that shows an amount in GBP thousands, millions or billions. It divides the value (the data is in GBP thousands) and sets a dynamic format string with the unit suffix; no number format scales with commas. It acts on the amount measures only (the base, plan, comparison and statement amounts), leaves percentages and indicators unscaled, and gives Variance %, YoY % and Favourable/Adverse their own formats. Precedence 30: the outermost, so its format string is the one that applies when a unit is selected. |
+| Fact Forecast Accuracy (derived) | table | 20 | 21 | DERIVED from real data, in GBP thousands (not pounds): how well each forecast of the monthly returns scored against the final outturn (R13). One row per forecast line, department group, budget measure, financial year, return and method. The department's own forecasts are the real returns; the run rate, seasonal and FTE x cost methods are my own forecasts, made from only what was known at the return, and every score is computed from them in SQL. The forecast line is a budget measure total (RDEL, CDEL or AME, three methods) or the pay line (A101 of RDEL, four methods: FTE x cost exists only here and only where the department's workforce is published for the month). Known Bad Return marks a department group's whole return that is flagged (a units error, a scale outlier, a body or department missing); every measure has a version without those returns. Scored By Every Method marks the cells that every method of the line scored, the cells on which the methods compare like for like. Nothing synthetic or authored is in it. Ratios are ratios of sums, never averages of percentages. The department is the department of the current structure that the group's department number maps to, so the security roles filter it through Department (current structure). Source view dw.v_model_forecast_accuracy. |
 | Fact Outturn | table | 13 | 34 | Real outturn from the 31 OSCAR in-year releases as revision deltas: one row for each change a release makes to a line (organisation version, sub-segment, economic category, control budget detail, period), only non-zero deltas. The sum of the deltas up to a release equals what that release reports. GBP thousands, spending positive, income negative. Source view dw.v_model_fact_outturn. |
 | Fact Pay Bridge (derived) | table | 11 | 13 | DERIVED from real data, in pounds (not GBP thousands): the paybill and full-time equivalent of the payroll published in the departments' monthly workforce files, compared month against the same month a year earlier. One row per department of the current structure, organisation and month (the later month of the two). A row is continuing (valid in both months in the same department), entry, exit, or not_bridged (left out, with a reason); only the first three enter the bridge. Valid means the cell has a full-time equivalent above zero and a paybill above zero, and no published row behind it is listed in audit.workforce_row_arithmetic. Nothing synthetic or authored is in it; the only authored input is the map from a published name to an organisation. The department is the department of the current structure the body sat in that month, so the security roles filter it through Department (current structure). Source view dw.v_model_pay_bridge. |
 | Fact Plan | table | 13 | 7 | Real plans as published, at the grain of their source (see Plan Grain): OSCAR Plans by organisation to 2021-22, Estimates by Spending Review group from 2022-23, PESA departmental AME and administration budgets by group to 2028-29. Held for the year, not by month; compare with outturn only at the plan's grain or coarser. GBP thousands. Source view dw.v_model_fact_plan. |
@@ -32,6 +33,8 @@ The model has 45 tables, 363 columns, 87 measures, 38 relationships, 23 user-def
 | File Control | table | 9 | 3 | AUDIT and CONTROL, no new number: one row per OSCAR in-year release file with the rows the load read, loaded and quarantined, the file's own total as the text the control produced and as four decimals, and a measure that sets the model's as-at outturn of the release's own year beside the file total. Source view dw.v_model_file_control (audit.file_control). |
 | Fiscal Period | table | 8 | 0 | One row per financial year and period: period 1 is April, period 12 is March. Period 0 holds amounts the source does not allocate to a month (71 rows of the June 2019 release) and counts in year totals. There is no calendar date table and no auto date/time. Source view dw.v_model_fiscal_period. |
 | Fiscal Year | table | 2 | 0 | One row per UK financial year (April to March), 2017-18 to 2028-29. 2017-18 has plans (OSCAR Plans) and no outturn, because the in-year releases start at 2018-19. The plan is published by year, so Fact Plan relates here; Fiscal Period relates here too, which gives outturn and plan one year slicer. Source view dw.v_model_fiscal_year. |
+| Forecast Method | table | 4 | 0 | Labels only, no number: the four forecast methods and what each one is. The department's own forecast is the real return; run rate, seasonal and FTE x cost are my own methods (FTE x cost is for the pay line only). Source view dw.v_model_forecast_method. |
+| Forecast Return | table | 3 | 0 | Labels only, no number: the returns that are scored, R0 (before the year, nothing actual) to R12 (twelve months actual). R13 is the final outturn they are scored against and is not a row here. Source view dw.v_model_forecast_return. |
 | Load Control | table | 7 | 4 | AUDIT and CONTROL, no new number: the rows read, loaded and quarantined of every in-year release file and every annual restated file, and two counts of the rows that the web-read deflator and CPI loads rejected. Nothing is dropped silently: a rejected row is counted here and kept in a quarantine table. Full-scope build only. Source view dw.v_model_load_control (audit.file_control and audit.bud_file_control). |
 | Organisation (as reported) | table | 15 | 0 | One row per version of an organisation (Type 2, 408 versions plus Unknown): a new version starts when the code, the department or the name really changes. Fact Outturn joins here on the version the release used, so this is the structure as each release reported it. The department columns say which department that version sat under. Source view dw.v_model_organisation. |
 | Pay Bridge Step | table | 2 | 0 | Labels only, no number: the five steps of the pay bridge waterfall (prior paybill, volume, rate, mix, entry and exit), so that one measure (Pay Bridge Step Amount) can give each step its value. Source view dw.v_model_pay_bridge_step. |
@@ -64,6 +67,10 @@ The model has 45 tables, 363 columns, 87 measures, 38 relationships, 23 user-def
 | From | To | Cardinality | Active | Cross filter | Security filter |
 |---|---|---|---|---|---|
 | Account[Statement Line Key] | Statement Line[Line Key] | many to one | yes | OneDirection | Single |
+| Fact Forecast Accuracy (derived)[Department Key] | Department (current structure)[Department Key] | many to one | yes | OneDirection | Single |
+| Fact Forecast Accuracy (derived)[Fiscal Year Key] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
+| Fact Forecast Accuracy (derived)[Method Key] | Forecast Method[Method Key] | many to one | yes | OneDirection | Single |
+| Fact Forecast Accuracy (derived)[Return Key] | Forecast Return[Return Key] | many to one | yes | OneDirection | Single |
 | Fact Outturn[Account Key] | Account[Account Key] | many to one | yes | OneDirection | Single |
 | Fact Outturn[Control Budget Key] | Control Budget[Control Budget Key] | many to one | yes | OneDirection | Single |
 | Fact Outturn[Current Department Key] | Department (current structure)[Department Key] | many to one | yes | OneDirection | Single |
@@ -103,6 +110,366 @@ The model has 45 tables, 363 columns, 87 measures, 38 relationships, 23 user-def
 | TAC Statement Line[Cash Flow Line Key] | TAC Cash Flow Line[Cash Flow Line Key] | many to one | yes | OneDirection | Single |
 
 ## Measures
+
+### Fact Forecast Accuracy (derived)
+
+#### Forecast Abs Error
+
+Display folder `Forecast accuracy`.
+
+Absolute full-year error of the forecasts in context, GBP thousands: the sum over cells of |full-year forecast less outturn|. All returns, flagged ones included.
+
+```dax
+SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Error] )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Forecast Abs Error (excl. bad returns)
+
+Display folder `Forecast accuracy`.
+
+Absolute full-year error, GBP thousands, without the known bad returns.
+
+```dax
+CALCULATE ( [Forecast Abs Error], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Forecast Abs Outturn
+
+Display folder `Forecast accuracy`.
+
+Absolute full-year outturn (R13) of the cells in context, GBP thousands: the denominator of WAPE. All returns.
+
+```dax
+SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Forecast Abs Outturn (excl. bad returns)
+
+Display folder `Forecast accuracy`.
+
+Absolute full-year outturn, GBP thousands, without the known bad returns.
+
+```dax
+CALCULATE ( [Forecast Abs Outturn], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Forecast Bias
+
+Display folder `Forecast accuracy`.
+
+Signed error over absolute outturn: positive means the forecasts were too high, negative too low. A ratio of sums. All returns.
+
+```dax
+DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Forecast Bias (excl. bad returns)
+
+Display folder `Forecast accuracy`.
+
+Bias of the full-year forecast without the known bad returns.
+
+```dax
+CALCULATE ( [Forecast Bias], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Forecast Cells
+
+Display folder `Forecast accuracy`.
+
+Number of scored cells in context: one per department group, budget measure, year, return and method. All returns.
+
+```dax
+COUNTROWS ( 'Fact Forecast Accuracy (derived)' )
+```
+
+Format string expression:
+
+```dax
+"#,##0"
+```
+
+#### Forecast Cells (excl. bad returns)
+
+Display folder `Forecast accuracy`.
+
+Number of scored cells in context without the known bad returns (one per group, year, return and method).
+
+```dax
+CALCULATE ( [Forecast Cells], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+```
+
+Format string expression:
+
+```dax
+"#,##0"
+```
+
+#### Forecast Error
+
+Display folder `Forecast accuracy`.
+
+Signed full-year error of the forecasts in context, GBP thousands (forecast less outturn: positive is too high). All returns.
+
+```dax
+SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Error] )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Forecast Error (excl. bad returns)
+
+Display folder `Forecast accuracy`.
+
+Signed full-year error, GBP thousands, without the known bad returns.
+
+```dax
+CALCULATE ( [Forecast Error], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Forecast MAPE
+
+Display folder `Forecast accuracy`.
+
+Percentage error on the cells whose full-year outturn is positive and at least GBP 100m only (a percentage error on a line near zero or on income says nothing), as a ratio of sums. Blank where no cell in context qualifies. All returns.
+
+```dax
+DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[MAPE Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[MAPE Outturn] ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Forecast MAPE (excl. bad returns)
+
+Display folder `Forecast accuracy`.
+
+MAPE on the cells of GBP 100m or more, without the known bad returns.
+
+```dax
+CALCULATE ( [Forecast MAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Forecast Month Bias
+
+Display folder `Forecast accuracy`.
+
+Signed error over absolute outturn on the forecast months only. A ratio of sums. All returns.
+
+```dax
+DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Outturn] ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Forecast Month Bias (excl. bad returns)
+
+Display folder `Forecast accuracy`.
+
+Forecast-month bias (signed, a ratio of sums) without the known bad returns.
+
+```dax
+CALCULATE ( [Forecast Month Bias], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Forecast Month WAPE
+
+Display folder `Forecast accuracy`.
+
+The same score on the forecast months only (the months after the return's last actual month, scored month by month against R13). A ratio of sums. All returns.
+
+```dax
+DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Forecast Month Abs Outturn] ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Forecast Month WAPE (excl. bad returns)
+
+Display folder `Forecast accuracy`.
+
+Forecast-month WAPE (the forecast months only, a ratio of sums) without the known bad returns.
+
+```dax
+CALCULATE ( [Forecast Month WAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Forecast WAPE
+
+Display folder `Forecast accuracy`.
+
+Weighted absolute percentage error of the full-year forecast: the sum of absolute errors over the sum of absolute outturn (a ratio of sums, never an average of percentages). All returns, flagged ones included.
+
+```dax
+DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Error] ), SUM ( 'Fact Forecast Accuracy (derived)'[Full Year Abs Outturn] ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Forecast WAPE (excl. bad returns)
+
+Display folder `Forecast accuracy`.
+
+Weighted absolute percentage error of the full-year forecast without the known bad returns.
+
+```dax
+CALCULATE ( [Forecast WAPE], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = FALSE () ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### FTE x Cost Cell Coverage
+
+Display folder `Forecast accuracy`.
+
+Share of the pay-line cells of returns R1 to R11 (department group, year and return) that have an FTE x cost forecast: the others have no workforce published for the month, or share their department with another department group, or have no department. The method is never filled in where the workforce is missing.
+
+```dax
+VAR Covered =
+    CALCULATE (
+    COUNTROWS ( 'Fact Forecast Accuracy (derived)' ),
+    REMOVEFILTERS ( 'Forecast Method' ),
+    'Fact Forecast Accuracy (derived)'[Method Key] = "fte_cost",
+    'Fact Forecast Accuracy (derived)'[Forecast Line] = "Pay line (A101, resource DEL)"
+    )
+VAR Eligible =
+    CALCULATE (
+        COUNTROWS ( 'Fact Forecast Accuracy (derived)' ),
+        REMOVEFILTERS ( 'Forecast Method' ),
+        'Fact Forecast Accuracy (derived)'[Method Key] = "department",
+        'Fact Forecast Accuracy (derived)'[Forecast Line] = "Pay line (A101, resource DEL)",
+        'Fact Forecast Accuracy (derived)'[Return Key] >= 1,
+        'Fact Forecast Accuracy (derived)'[Return Key] <= 11
+    )
+RETURN
+    DIVIDE ( Covered, Eligible )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### FTE x Cost Pay Cover
+
+Display folder `Forecast accuracy`.
+
+How much of the pay line the FTE x cost method sees: the workforce paybill of the last actual month as a share of the pay line of the same month in the return, a ratio of sums over the FTE x cost rows in context. Far below 1 where the department group's return carries arm's length bodies that the workforce files do not cover (health, education); above 1 where the workforce paybill exceeds the pay line, which I have not explained.
+
+```dax
+CALCULATE (
+    DIVIDE ( SUM ( 'Fact Forecast Accuracy (derived)'[Cover Workforce] ), SUM ( 'Fact Forecast Accuracy (derived)'[Cover Pay] ) ),
+    REMOVEFILTERS ( 'Forecast Method' ),
+    'Fact Forecast Accuracy (derived)'[Method Key] = "fte_cost",
+    'Fact Forecast Accuracy (derived)'[Forecast Line] = "Pay line (A101, resource DEL)"
+)
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Known Bad Return Cells
+
+Display folder `Forecast accuracy`.
+
+Scored cells that belong to a known bad return. Forecast Cells less this is Forecast Cells (excl. bad returns).
+
+```dax
+CALCULATE ( [Forecast Cells], KEEPFILTERS ( 'Fact Forecast Accuracy (derived)'[Known Bad Return] = TRUE () ) )
+```
+
+Format string expression:
+
+```dax
+"#,##0"
+```
 
 ### Fact Outturn
 
@@ -1998,6 +2365,31 @@ Format string expression:
 | Ordinal | Data | integer | yes |  | Ordinal | 0 |  |  |  |
 | Unit | Data | text |  |  | Name |  | Ordinal |  | The unit to show an amount in: GBP thousands, millions or billions. |
 
+### Fact Forecast Accuracy (derived)
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Budget Measure | Data | text |  |  | budget_measure |  |  | Derived | RDEL (resource DEL), CDEL (capital DEL) or AME (departmental AME). The pay line is always RDEL. |
+| Cover Pay | Data | currency | yes |  | cover_pay | #,##0.0000 |  |  | FTE x cost rows only: the pay line of the same month in the return, GBP thousands. Hidden: use the measures. |
+| Cover Workforce | Data | currency | yes |  | cover_workforce | #,##0.0000 |  |  | FTE x cost rows only: the workforce paybill of the last actual month in GBP thousands (published in pounds, divided by 1,000). Hidden: use the measures. |
+| Department Group Code | Data | text |  |  | department_group_code |  |  | Derived | The department group as the return reports it, for example DOH033.GROUP. The number in the code is the department number. |
+| Department Group Name | Data | text |  |  | department_group_name |  |  | Derived | The name of the department group in the latest year it reports. The name differs by year (BEIS became part of DSIT, DID became FCDO); the code does not. |
+| Department Key | Data | integer | yes |  | department_key | 0 |  |  | Department of the current structure that the department group's number maps to. |
+| Fiscal Year Key | Data | text | yes |  | financial_year |  |  |  | Financial year of the return, written 2019-20. |
+| Forecast Line | Data | text |  |  | forecast_line_name |  |  | Derived | Budget measure total (the whole total of RDEL, CDEL or AME) or Pay line (A101 of RDEL). The two lines are different populations: do not add them. |
+| Forecast Month Abs Error | Data | currency | yes |  | fm_abs_error | #,##0.0000 |  |  | Absolute error summed month by month over the forecast months, GBP thousands. Hidden: use the measures. |
+| Forecast Month Abs Outturn | Data | currency | yes |  | fm_abs_outturn | #,##0.0000 |  |  | Absolute outturn summed month by month over the forecast months, GBP thousands. Hidden: use the measures. |
+| Forecast Month Error | Data | currency | yes |  | fm_error | #,##0.0000 |  |  | Signed error summed month by month over the months after the return's last actual month, GBP thousands. Hidden: use the measures. |
+| Full Year Abs Error | Data | currency | yes |  | full_year_abs_error | #,##0.0000 |  |  | Absolute full-year error, GBP thousands. Hidden: use the measures. |
+| Full Year Abs Outturn | Data | currency | yes |  | full_year_abs_outturn | #,##0.0000 |  |  | Absolute full-year outturn, GBP thousands: the denominator of the full-year WAPE. Hidden: use the measures. |
+| Full Year Error | Data | currency | yes |  | full_year_error | #,##0.0000 |  |  | Full-year forecast less outturn, GBP thousands (positive: forecast too high). Hidden: use the measures. |
+| Known Bad Return | Data | true/false |  |  | known_bad_return |  |  | Derived | True where the department group's whole return is flagged in the quality table: a units error, a scale outlier, an organisation missing from the final, or the department group missing or nearly missing. Flagged, never dropped: the measures with 'excl. bad returns' leave these rows out, the others keep them. |
+| MAPE Abs Error | Data | currency | yes |  | mape_abs_error | #,##0.0000 |  |  | Absolute full-year error, set only where the full-year outturn is positive and at least GBP 100m (100,000 in GBP thousands). Hidden: use the measures. |
+| MAPE Outturn | Data | currency | yes |  | mape_outturn | #,##0.0000 |  |  | Full-year outturn of the same cells. Hidden: use the measures. |
+| Method Key | Data | text | yes |  | method |  |  |  | Forecast method: department, run_rate, seasonal or fte_cost. |
+| Return Key | Data | integer | yes |  | return_no | 0 |  |  | Return number, 0 to 12 (R13, the outturn, is what they are scored against). |
+| Scored By Every Method | Data | true/false |  |  | common_cells |  |  | Derived | True where every method of the line has a score for the cell in that return (three on a budget measure total, four on the pay line). Filter to True to compare methods on exactly the same cells. |
+
 ### Fact Outturn
 
 | Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
@@ -2124,6 +2516,23 @@ Format string expression:
 |---|---|---|---|---|---|---|---|---|---|
 | Financial Year | Data | text |  | yes | financial_year |  | Year Start |  | Financial year written as 2024-25. |
 | Year Start | Data | integer | yes |  | fiscal_year_start | 0 |  |  | Calendar year in which the financial year starts. Sort key. |
+
+### Forecast Method
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Definition | Data | text |  |  | definition |  |  | Forecast accuracy | What the method forecasts and where it exists. |
+| Method | Data | text |  |  | method_name |  | Method Order | Forecast accuracy | The forecast method. |
+| Method Key | Data | text | yes | yes | method |  |  |  | department, run_rate, seasonal or fte_cost. |
+| Method Order | Data | integer | yes |  | sort_order | 0 |  |  | 1 to 4: the order the methods are shown in. |
+
+### Forecast Return
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Months Note | Data | text |  |  | months_note |  |  | Forecast accuracy | How many months are actual and how many are forecast in the return. |
+| Return | Data | text |  |  | return_label |  | Return Key | Forecast accuracy | R0 to R12: the return made after month n of the year has closed (R0 before the year). |
+| Return Key | Data | integer | yes | yes | return_no | 0 |  |  | Return number, 0 to 12. |
 
 ### Load Control
 

@@ -41,3 +41,13 @@ test,reason
 908_pay_coverage_all_months,needs audit.workforce_mapping_coverage
 909_pay_bridge_by_department_2025_26,"needs dw.workforce_month, audit.workforce_row_arithmetic"
 910_pay_bridge_cards_2025_26,"needs dw.workforce_month, audit.workforce_row_arithmetic"
+920_forecast_model_table_row_counts,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy"
+921_forecast_total_line_by_method_and_year_common_cells,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy"
+922_forecast_department_by_year_with_and_without_the_known_bad_returns,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy"
+923_forecast_the_two_known_bad_return_cells,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy"
+924_forecast_departmental_ame_by_method_2021_22,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy"
+925_forecast_pay_line_four_methods_by_year_common_cells,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy"
+926_forecast_fte_cost_coverage_by_year,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy, dw.forecast_fte_cost_input"
+927_forecast_month_scores_and_mape_by_method_2019_20,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy"
+928_forecast_page_cards,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy, dw.forecast_fte_cost_input"
+929_forecast_page_department_table,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy, dw.forecast_fte_cost_input"

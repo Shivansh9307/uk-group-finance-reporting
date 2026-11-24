@@ -1,0 +1,21 @@
+// The FTE x cost cells on the pay line for each department the signed-in user can see: how many cells have the method and how much of the pay
+// line of the last actual month the workforce paybill is. FTE x cost is built from workforce paybill, so this is the case that shows what the
+// Restricted Viewer sees of it: the department's figures, and nothing at organisation level.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        CALCULATETABLE (
+            SUMMARIZECOLUMNS (
+                'Department (current structure)'[Department],
+                "cells", [Forecast Cells],
+                "pay_cover", [FTE x Cost Pay Cover]
+            ),
+            'Forecast Method'[Method] = "FTE x cost"
+        ),
+        NOT ISBLANK ( [cells] )
+    ),
+    "department", 'Department (current structure)'[Department],
+    "fte_cost_cells", [cells],
+    "pay_cover", [pay_cover]
+)
+ORDER BY [department]

@@ -1,0 +1,28 @@
+// Departmental AME on its own, the budget measure that the profiling found to be a poor test of forecasting skill, for FY2021-22 on the cells
+// that every method scored, by method, with and without the known bad returns.
+EVALUATE
+SELECTCOLUMNS (
+    CALCULATETABLE (
+        SUMMARIZECOLUMNS (
+            'Forecast Method'[Method],
+            "cells", [Forecast Cells],
+            "abs_error", [Forecast Abs Error],
+            "abs_outturn", [Forecast Abs Outturn],
+            "wape", [Forecast WAPE],
+            "wape_excl", [Forecast WAPE (excl. bad returns)],
+            "bias", [Forecast Bias]
+        ),
+        'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total",
+        'Fact Forecast Accuracy (derived)'[Budget Measure] = "AME",
+        'Fact Forecast Accuracy (derived)'[Scored By Every Method] = TRUE (),
+        'Fiscal Year'[Financial Year] = "2021-22"
+    ),
+    "method", 'Forecast Method'[Method],
+    "cells", [cells],
+    "abs_error", [abs_error],
+    "abs_outturn", [abs_outturn],
+    "wape", [wape],
+    "wape_excl", [wape_excl],
+    "bias", [bias]
+)
+ORDER BY [method]

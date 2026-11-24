@@ -1,5 +1,9 @@
 From Table,From Column,From Cardinality,To Table,To Column,To Cardinality,Is Active,Cross Filtering,Security Filtering
 "Account","Statement Line Key","Many","Statement Line","Line Key","One",True,"OneDirection","Single"
+"Fact Forecast Accuracy (derived)","Department Key","Many","Department (current structure)","Department Key","One",True,"OneDirection","Single"
+"Fact Forecast Accuracy (derived)","Fiscal Year Key","Many","Fiscal Year","Financial Year","One",True,"OneDirection","Single"
+"Fact Forecast Accuracy (derived)","Method Key","Many","Forecast Method","Method Key","One",True,"OneDirection","Single"
+"Fact Forecast Accuracy (derived)","Return Key","Many","Forecast Return","Return Key","One",True,"OneDirection","Single"
 "Fact Outturn","Account Key","Many","Account","Account Key","One",True,"OneDirection","Single"
 "Fact Outturn","Control Budget Key","Many","Control Budget","Control Budget Key","One",True,"OneDirection","Single"
 "Fact Outturn","Current Department Key","Many","Department (current structure)","Department Key","One",True,"OneDirection","Single"

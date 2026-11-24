@@ -1,0 +1,17 @@
+// The coverage case: how many of the pay-line cells of R1 to R11 have an FTE x cost forecast, and how much of the pay line of the last actual
+// month the workforce paybill is, by financial year. FY2017-18 has no workforce files (they start in April 2018) so it is left out.
+EVALUATE
+SELECTCOLUMNS (
+    CALCULATETABLE (
+        SUMMARIZECOLUMNS (
+            'Fiscal Year'[Financial Year],
+            "coverage", [FTE x Cost Cell Coverage],
+            "pay_cover", [FTE x Cost Pay Cover]
+        ),
+        FILTER ( ALL ( 'Fiscal Year'[Financial Year] ), 'Fiscal Year'[Financial Year] >= "2018-19" && 'Fiscal Year'[Financial Year] <= "2022-23" )
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "cell_coverage", [coverage],
+    "pay_cover", [pay_cover]
+)
+ORDER BY [financial_year]

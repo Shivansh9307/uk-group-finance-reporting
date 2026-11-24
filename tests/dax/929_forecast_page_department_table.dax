@@ -1,0 +1,25 @@
+// The department table of the forecast accuracy page: for each department of the current structure, the department's own forecast on the budget
+// measure totals (WAPE with and without the known bad returns) and the FTE x cost coverage figures over all years.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        CALCULATETABLE (
+            SUMMARIZECOLUMNS (
+                'Department (current structure)'[Department],
+                "wape", [Forecast WAPE],
+                "wape_excl", [Forecast WAPE (excl. bad returns)],
+                "cell_coverage", [FTE x Cost Cell Coverage],
+                "pay_cover", [FTE x Cost Pay Cover]
+            ),
+            'Fact Forecast Accuracy (derived)'[Forecast Line] = "Budget measure total",
+            'Forecast Method'[Method] = "Department"
+        ),
+        NOT ISBLANK ( [wape] )
+    ),
+    "department", 'Department (current structure)'[Department],
+    "wape", [wape],
+    "wape_excl", [wape_excl],
+    "cell_coverage", [cell_coverage],
+    "pay_cover", [pay_cover]
+)
+ORDER BY [department]
