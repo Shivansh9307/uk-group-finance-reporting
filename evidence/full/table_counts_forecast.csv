@@ -1,0 +1,15 @@
+schema_name,table_name,row_count
+dw,forecast_accuracy,25341
+dw,forecast_month_compare,304092
+dw,forecast_own,84049
+dw,forecast_own_input,55448
+dw,forecast_prior_profile,7472
+dw,forecast_return,2116096
+dw,forecast_return_header,83
+dw,forecast_return_org_map,1411
+dw,forecast_return_quality,105
+quarantine,forecast_return_unmapped,17451
+raw,forecast_return_cell,2134610
+raw,forecast_return_expected,1000
+raw,forecast_return_file,83
+stg,forecast_return_cell,2134610
