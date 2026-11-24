@@ -86,6 +86,10 @@ def _profile(args) -> int:
             mfo.run(root, raw, args.cache_dir, scans)
     if args.what in ("plans", "all"):
         plans.run(root, raw)
+    if args.what == "tac":
+        from .profile import tac
+
+        tac.run(root)
     if args.what in ("inyear", "bud", "all"):
         from .profile import bud, inyear
 
@@ -136,6 +140,10 @@ def _control(args) -> int:
         from .controls import inyear_independent
 
         path = inyear_independent.run(root, args.out)
+    elif args.what == "tac":
+        from .controls import tac_independent
+
+        path = tac_independent.run(root, args.out)
     else:
         from .controls import bud_independent
 
@@ -326,7 +334,7 @@ def main(argv: list[str] | None = None) -> int:
     z.add_argument("--encoding", default="utf-8")
     z.set_defaults(func=_zip_head)
     p = sub.add_parser("profile", help="profile source files and write docs/profiling/data and data/audit CSVs")
-    p.add_argument("what", choices=["extract", "mfo", "plans", "inyear", "bud", "all"])
+    p.add_argument("what", choices=["extract", "mfo", "plans", "inyear", "bud", "tac", "all"])
     p.add_argument("--cache-dir", type=Path, help="keep full-stream scan results here and reuse them")
     p.set_defaults(func=_profile)
     b = sub.add_parser("build", help="create the database, load the sources, run the SQL, write the audit CSVs")
@@ -340,7 +348,7 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--list-stages", action="store_true", help="print the load stages and exit")
     b.set_defaults(func=_build)
     c = sub.add_parser("control", help="independent recomputation of source-file controls")
-    c.add_argument("what", choices=["inyear", "bud", "pss"])
+    c.add_argument("what", choices=["inyear", "bud", "pss", "tac"])
     c.add_argument("--out", type=Path, help="output CSV (default data/audit/<what>_independent_control.csv)")
     c.set_defaults(func=_control)
     t = sub.add_parser("real-totals", help="print the row counts and sums of the real facts; --write pins them")
