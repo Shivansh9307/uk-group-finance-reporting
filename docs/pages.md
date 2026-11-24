@@ -1,7 +1,7 @@
 # The report pages
 
 `model/UKGroupFinance.Report` is the report that reads the semantic model in `model/UKGroupFinance.SemanticModel` (PBIR, thick
-report, Power BI Desktop only). It has ten pages at 1280 x 720: eight that you navigate to and two that you reach by
+report, Power BI Desktop only). It has eleven pages at 1280 x 720: nine that you navigate to and two that you reach by
 drill-through. Every claim below is labelled **tested** (with the command and the file that holds the result) or **designed**.
 
 How it was made: every page was built with the `pbir` CLI, by the commands in [tools/build_report.sh](../tools/build_report.sh), and
@@ -17,9 +17,9 @@ its values written in the file.
   independent SQL (or Python) expectation over `dw` and `audit` in `tests/expected/`. **Tested**: `tools\run_dax_tests.ps1 -Refresh`,
   `ukfr dax-compare`: 77 of 77 tests passed for the first seven pages, 22 of them new; with the NHS trust accounts pages the suite is 98 of 98 (`evidence/model/dax_tests.csv`).
 - I read the displayed figures off the cropped screenshots myself and wrote them to
-  [evidence/report/screenshot_figures.csv](../evidence/report/screenshot_figures.csv): 148 figures (120 on the first seven pages, 28 on the three NHS pages), each with its page, visual,
+  [evidence/report/screenshot_figures.csv](../evidence/report/screenshot_figures.csv): 168 figures (120 on the first seven pages, 28 on the three NHS pages, 20 on the pay bridge page), each with its page, visual,
   label, the figure as displayed, the test, the row of the test result and how it is displayed (divisor and decimals).
-  **Tested**: `pipeline/tests/test_report_evidence.py` rounds the test result as displayed, half up, and compares: all 148 are equal
+  **Tested**: `pipeline/tests/test_report_evidence.py` rounds the test result as displayed, half up, and compares: all 168 are equal
   (`uv run --project pipeline pytest pipeline/tests/test_report_evidence.py`: 150 passed). A text figure (a plan badge, a status) must
   equal the test result or start with it where the visual cuts the text off.
 - Screenshots are in [screenshots/](../screenshots/), one for each page, made with `tools/crop_screenshots.ps1`: `pbir desktop
@@ -172,16 +172,27 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
 | Image, map and Q and A visuals | none | out of scope; CI rejects them |
 | Tab order, mobile layout | not set | `pbir` cannot set a tab order; the mobile layout is **designed, not run** |
 
+### 11. Pay bridge
+
+![Pay bridge](../screenshots/11_pay_bridge.png)
+
+- **Fixed**: 2025-26 against 2024-25 on the cards, the waterfall and the department table (a visual filter on the year); every month on the two trend charts; every series and month on the coverage table. Amounts are pounds (the model's other pages are GBP thousands), so the cards show billions through the card's own automatic unit and the waterfall millions through its label unit; no `Display Unit` item is involved.
+- Five cards (prior paybill £21.23bn, current £23.14bn, change £1.91bn, the tie difference £0.0000 and the 93 department-organisation-month rows left out of the bridge in the year), a native waterfall (prior paybill, volume, rate, mix, entry and exit, and the waterfall's own total bar, which is the current paybill), a table of the bridge by department with the group's own total row (the total row's volume and mix are not the sums of the rows above; see the model page), the full-time equivalent and the average monthly paybill per full-time equivalent by month, and the coverage table of the workforce files with a text box for what is not covered.
+- The month axis of the two trend charts is the first day of the month from `Fiscal Period`; the fiscal period is the model's time dimension, so a fiscal year filter would apply. The full-time equivalent line falls at the end because the latest month (October 2026) has the fewest departments with a valid cell (9, against 17 to 19 in the three months before it); it is a change in who has published, not in the workforce.
+- The department table and the coverage table scroll (the screenshot shows the first eight and five rows); the figures are in tests 909 and 905.
+- **Tested**: tests 910 (cards), 906 (waterfall steps), 902 (group by year, the table's total row), 909 (the departments), 908 (coverage total), 903 and 904 (the trend measures), 901 (the latest three months); 20 figures in the figures file equal them. The waterfall's deltas are small beside the 21bn base, which is why the bars have data labels.
+- The page needs the full-scope database (the bridge reads `dw.workforce_month`).
+
 ## What the validators say
 
-`pbir validate --all` gives 132 advisory warnings and no error (the seven first pages gave 92; the NHS pages add 40, of the same kinds): 53 visuals under the recommended size (the cards are 192 x 92 pixels, on purpose, so that six sit in a row),
+`pbir validate --all` gives 148 advisory warnings and no error (the seven first pages gave 92; the NHS pages add 40, the pay bridge page 16, of the same kinds): 53 visuals under the recommended size (the cards are 192 x 92 pixels, on purpose, so that six sit in a row),
 58 visual-level filters (a card must fix its own year, scenario item or period; a page filter cannot differ between cards on one page), 10 text boxes under the height floor for
 their text, 10 visuals with more than four fields (the statement matrices, the tables of controls and the NHS tables) and one page with more than fifteen visuals (the executive summary).
-`pbir bpa run` raises the same findings (124 warnings) and two `PBIR_SHOW_ALL_ITEMS` for the statement's spacer rows, which need `show-all` to exist. I did not ignore
+`pbir bpa run` raises the same findings (139 warnings, 30 rules, 265 objects) and two `PBIR_SHOW_ALL_ITEMS` for the statement's spacer rows, which need `show-all` to exist. I did not ignore
 any rule; the list is in `evidence/report/pbir_bpa.csv`.
 
 ## Things I could not do or check
 
 - I did not click: the drill-through (right-click and buttons), the page navigator, and the decomposition tree's expansion are **designed**; the pages render and the files validate.
 - The data controls page needs the full-scope database (three of its tables read audit tables that exist only after a full build).
-- The report was captured on one machine in one session; the figures file says what I read, and the tests say what the model returns. They agree on all 148 figures.
+- The report was captured on one machine in one session; the figures file says what I read, and the tests say what the model returns. They agree on all 168 figures.

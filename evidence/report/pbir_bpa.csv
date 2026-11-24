@@ -5,6 +5,11 @@ PBIR_TOO_MANY_FIELDS,warning,Data controls.Page/ctl_annual.Visual,Visual 'ctl_an
 PBIR_TOO_MANY_FIELDS,warning,Data controls.Page/ctl_files.Visual,Visual 'ctl_files' has 9 fields (recommend <=4)
 PBIR_TOO_MANY_FIELDS,warning,Data controls.Page/ctl_plan.Visual,Visual 'ctl_plan' has 7 fields (recommend <=4)
 PBIR_TOO_MANY_FIELDS,warning,Data controls.Page/ctl_pss.Visual,Visual 'ctl_pss' has 7 fields (recommend <=4)
+PBIR_TOO_MANY_FIELDS,warning,NHS balance sheet.Page/bs_blocks.Visual,Visual 'bs_blocks' has 6 fields (recommend <=4)
+PBIR_TOO_MANY_FIELDS,warning,NHS cash flow.Page/cf_lines.Visual,Visual 'cf_lines' has 5 fields (recommend <=4)
+PBIR_TOO_MANY_FIELDS,warning,NHS cash flow.Page/cf_net.Visual,Visual 'cf_net' has 5 fields (recommend <=4)
+PBIR_TOO_MANY_FIELDS,warning,NHS elimination control.Page/el_gap.Visual,Visual 'el_gap' has 6 fields (recommend <=4)
+PBIR_TOO_MANY_FIELDS,warning,Pay bridge.Page/pay_dept.Visual,Visual 'pay_dept' has 8 fields (recommend <=4)
 PBIR_TOO_MANY_FIELDS,warning,Restatements.Page/rs_dq.Visual,Visual 'rs_dq' has 6 fields (recommend <=4)
 PBIR_TOO_MANY_FIELDS,warning,Variance.Page/plan_check.Visual,Visual 'plan_check' has 5 fields (recommend <=4)
 PBIR_TOO_MANY_VISUALS,warning,Executive summary.Page,Page 'Executive summary' has 22 visible visuals (recommend <=15)
@@ -35,8 +40,36 @@ PBIR_VISUAL_LEVEL_FILTERS,warning,Group detail.Page/grp_phased.Visual,Visual 'gr
 PBIR_VISUAL_LEVEL_FILTERS,warning,Group detail.Page/grp_table.Visual,Visual 'grp_table' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
 PBIR_VISUAL_LEVEL_FILTERS,warning,Group detail.Page/grp_variance.Visual,Visual 'grp_variance' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
 PBIR_VISUAL_LEVEL_FILTERS,warning,Group detail.Page/grp_variance_pct.Visual,Visual 'grp_variance_pct' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_assets.Visual,Visual 'bs_assets' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_blocks.Visual,Visual 'bs_blocks' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_ca.Visual,Visual 'bs_ca' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_cl.Visual,Visual 'bs_cl' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_gone.Visual,Visual 'bs_gone' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_nca.Visual,Visual 'bs_nca' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_ncl.Visual,Visual 'bs_ncl' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_net.Visual,Visual 'bs_net' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_providers.Visual,Visual 'bs_providers' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_providers_year.Visual,Visual 'bs_providers_year' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_restatement.Visual,Visual 'bs_restatement' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS cash flow.Page/cf_lines.Visual,Visual 'cf_lines' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS cash flow.Page/cf_net.Visual,Visual 'cf_net' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS cash flow.Page/cf_residual.Visual,Visual 'cf_residual' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_assets.Visual,Visual 'el_assets' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_cash.Visual,Visual 'el_cash' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_expenses.Visual,Visual 'el_expenses' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_gap.Visual,Visual 'el_gap' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_gap_pct.Visual,Visual 'el_gap_pct' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_income.Visual,Visual 'el_income' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_keyed.Visual,Visual 'el_keyed' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
 PBIR_VISUAL_LEVEL_FILTERS,warning,P&L statement.Page/pnl_left.Visual,Visual 'pnl_left' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
 PBIR_VISUAL_LEVEL_FILTERS,warning,P&L statement.Page/pnl_right.Visual,Visual 'pnl_right' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,Pay bridge.Page/pay_change.Visual,Visual 'pay_change' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,Pay bridge.Page/pay_current.Visual,Visual 'pay_current' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,Pay bridge.Page/pay_dept.Visual,Visual 'pay_dept' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,Pay bridge.Page/pay_left_out.Visual,Visual 'pay_left_out' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,Pay bridge.Page/pay_prior.Visual,Visual 'pay_prior' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,Pay bridge.Page/pay_tie.Visual,Visual 'pay_tie' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,Pay bridge.Page/pay_waterfall.Visual,Visual 'pay_waterfall' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
 PBIR_VISUAL_LEVEL_FILTERS,warning,Restatements.Page/rs_as_at.Visual,Visual 'rs_as_at' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
 PBIR_VISUAL_LEVEL_FILTERS,warning,Restatements.Page/rs_dq.Visual,Visual 'rs_dq' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
 PBIR_VISUAL_LEVEL_FILTERS,warning,Restatements.Page/rs_first.Visual,Visual 'rs_first' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
@@ -76,38 +109,6 @@ PBIR_VISUAL_UNDERSIZED,warning,Group detail.Page/grp_phased.Visual,"Visual 'grp_
 PBIR_VISUAL_UNDERSIZED,warning,Group detail.Page/grp_variance.Visual,"Visual 'grp_variance' (cardVisual) is width 232px, height 84px (recommend >= width 290px, height 140px)"
 PBIR_VISUAL_UNDERSIZED,warning,Group detail.Page/grp_variance_pct.Visual,"Visual 'grp_variance_pct' (cardVisual) is width 232px, height 84px (recommend >= width 290px, height 140px)"
 PBIR_VISUAL_UNDERSIZED,warning,Group detail.Page/latest_release.Visual,"Visual 'latest_release' (cardVisual) is width 192px, height 76px (recommend >= width 290px, height 140px)"
-PBIR_VISUAL_UNDERSIZED,warning,P&L statement.Page/latest_release.Visual,"Visual 'latest_release' (cardVisual) is width 192px, height 76px (recommend >= width 290px, height 140px)"
-PBIR_VISUAL_UNDERSIZED,warning,Restatements.Page/latest_release.Visual,"Visual 'latest_release' (cardVisual) is width 192px, height 76px (recommend >= width 290px, height 140px)"
-PBIR_VISUAL_UNDERSIZED,warning,Restatements.Page/rs_as_at.Visual,"Visual 'rs_as_at' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
-PBIR_VISUAL_UNDERSIZED,warning,Restatements.Page/rs_first.Visual,"Visual 'rs_first' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
-PBIR_VISUAL_UNDERSIZED,warning,Restatements.Page/rs_revision.Visual,"Visual 'rs_revision' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
-PBIR_VISUAL_UNDERSIZED,warning,Variance.Page/latest_release.Visual,"Visual 'latest_release' (cardVisual) is width 192px, height 76px (recommend >= width 290px, height 140px)"
-PBIR_VISUAL_UNDERSIZED,warning,Variance.Page/var_badge.Visual,"Visual 'var_badge' (tableEx) is width 384px, height 76px (recommend >= width 300px, height 200px)"
-PBIR_TOO_MANY_FIELDS,warning,NHS balance sheet.Page/bs_blocks.Visual,Visual 'bs_blocks' has 6 fields (recommend <=4)
-PBIR_TOO_MANY_FIELDS,warning,NHS cash flow.Page/cf_lines.Visual,Visual 'cf_lines' has 5 fields (recommend <=4)
-PBIR_TOO_MANY_FIELDS,warning,NHS cash flow.Page/cf_net.Visual,Visual 'cf_net' has 5 fields (recommend <=4)
-PBIR_TOO_MANY_FIELDS,warning,NHS elimination control.Page/el_gap.Visual,Visual 'el_gap' has 6 fields (recommend <=4)
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_assets.Visual,Visual 'bs_assets' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_blocks.Visual,Visual 'bs_blocks' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_ca.Visual,Visual 'bs_ca' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_cl.Visual,Visual 'bs_cl' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_gone.Visual,Visual 'bs_gone' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_nca.Visual,Visual 'bs_nca' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_ncl.Visual,Visual 'bs_ncl' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_net.Visual,Visual 'bs_net' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_providers.Visual,Visual 'bs_providers' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_providers_year.Visual,Visual 'bs_providers_year' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS balance sheet.Page/bs_restatement.Visual,Visual 'bs_restatement' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS cash flow.Page/cf_lines.Visual,Visual 'cf_lines' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS cash flow.Page/cf_net.Visual,Visual 'cf_net' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS cash flow.Page/cf_residual.Visual,Visual 'cf_residual' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_assets.Visual,Visual 'el_assets' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_cash.Visual,Visual 'el_cash' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_expenses.Visual,Visual 'el_expenses' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_gap.Visual,Visual 'el_gap' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_gap_pct.Visual,Visual 'el_gap_pct' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_income.Visual,Visual 'el_income' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
-PBIR_VISUAL_LEVEL_FILTERS,warning,NHS elimination control.Page/el_keyed.Visual,Visual 'el_keyed' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
 PBIR_VISUAL_UNDERSIZED,warning,NHS balance sheet.Page/bs_ca.Visual,"Visual 'bs_ca' (cardVisual) is width 192px, height 84px (recommend >= width 290px, height 140px)"
 PBIR_VISUAL_UNDERSIZED,warning,NHS balance sheet.Page/bs_cl.Visual,"Visual 'bs_cl' (cardVisual) is width 192px, height 84px (recommend >= width 290px, height 140px)"
 PBIR_VISUAL_UNDERSIZED,warning,NHS balance sheet.Page/bs_nca.Visual,"Visual 'bs_nca' (cardVisual) is width 192px, height 84px (recommend >= width 290px, height 140px)"
@@ -123,3 +124,17 @@ PBIR_VISUAL_UNDERSIZED,warning,NHS elimination control.Page/el_expenses.Visual,"
 PBIR_VISUAL_UNDERSIZED,warning,NHS elimination control.Page/el_income.Visual,"Visual 'el_income' (cardVisual) is width 304px, height 84px (recommend >= width 290px, height 140px)"
 PBIR_VISUAL_UNDERSIZED,warning,NHS elimination control.Page/el_keyed.Visual,"Visual 'el_keyed' (tableEx) is width 472px, height 160px (recommend >= width 300px, height 200px)"
 PBIR_VISUAL_UNDERSIZED,warning,NHS elimination control.Page/latest_release.Visual,"Visual 'latest_release' (cardVisual) is width 192px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,P&L statement.Page/latest_release.Visual,"Visual 'latest_release' (cardVisual) is width 192px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Pay bridge.Page/latest_release.Visual,"Visual 'latest_release' (cardVisual) is width 192px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Pay bridge.Page/pay_change.Visual,"Visual 'pay_change' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Pay bridge.Page/pay_cover.Visual,"Visual 'pay_cover' (tableEx) is width 632px, height 168px (recommend >= width 300px, height 200px)"
+PBIR_VISUAL_UNDERSIZED,warning,Pay bridge.Page/pay_current.Visual,"Visual 'pay_current' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Pay bridge.Page/pay_left_out.Visual,"Visual 'pay_left_out' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Pay bridge.Page/pay_prior.Visual,"Visual 'pay_prior' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Pay bridge.Page/pay_tie.Visual,"Visual 'pay_tie' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Restatements.Page/latest_release.Visual,"Visual 'latest_release' (cardVisual) is width 192px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Restatements.Page/rs_as_at.Visual,"Visual 'rs_as_at' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Restatements.Page/rs_first.Visual,"Visual 'rs_first' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Restatements.Page/rs_revision.Visual,"Visual 'rs_revision' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Variance.Page/latest_release.Visual,"Visual 'latest_release' (cardVisual) is width 192px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_UNDERSIZED,warning,Variance.Page/var_badge.Visual,"Visual 'var_badge' (tableEx) is width 384px, height 76px (recommend >= width 300px, height 200px)"

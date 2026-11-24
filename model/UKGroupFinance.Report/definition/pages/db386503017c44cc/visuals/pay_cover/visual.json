@@ -1,0 +1,197 @@
+{
+  "name": "pay_cover",
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "Pay Coverage.Series",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Pay Coverage"
+                    }
+                  },
+                  "Property": "Series"
+                }
+              },
+              "nativeQueryRef": "Series"
+            },
+            {
+              "queryRef": "Pay Coverage.Pay Coverage Months",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Pay Coverage"
+                    }
+                  },
+                  "Property": "Pay Coverage Months"
+                }
+              },
+              "nativeQueryRef": "Pay Coverage Months",
+              "displayName": "Months"
+            },
+            {
+              "queryRef": "Pay Coverage.Pay FTE Coverage",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Pay Coverage"
+                    }
+                  },
+                  "Property": "Pay FTE Coverage"
+                }
+              },
+              "nativeQueryRef": "Pay FTE Coverage",
+              "displayName": "FTE mapped"
+            },
+            {
+              "queryRef": "Pay Coverage.Pay Paybill Coverage",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Pay Coverage"
+                    }
+                  },
+                  "Property": "Pay Paybill Coverage"
+                }
+              },
+              "nativeQueryRef": "Pay Paybill Coverage",
+              "displayName": "Paybill mapped"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Pay Coverage"
+                  }
+                },
+                "Property": "Pay Coverage Months"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "imageHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "28D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Coverage of the workforce files, all months'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table of the share of published payroll full-time equivalent and paybill that the organisation map places on an organisation, for each department series, all months, with the total'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 624,
+    "y": 456,
+    "width": 632,
+    "height": 168,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json"
+}

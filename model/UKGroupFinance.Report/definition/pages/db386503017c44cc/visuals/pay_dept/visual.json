@@ -1,0 +1,315 @@
+{
+  "name": "pay_dept",
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "Department (current structure).Department",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Department (current structure)"
+                    }
+                  },
+                  "Property": "Department"
+                }
+              },
+              "nativeQueryRef": "Department"
+            },
+            {
+              "queryRef": "Fact Pay Bridge (derived).Pay Bridge Prior Paybill",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Pay Bridge (derived)"
+                    }
+                  },
+                  "Property": "Pay Bridge Prior Paybill"
+                }
+              },
+              "nativeQueryRef": "Pay Bridge Prior Paybill",
+              "displayName": "Prior"
+            },
+            {
+              "queryRef": "Fact Pay Bridge (derived).Pay Bridge Volume",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Pay Bridge (derived)"
+                    }
+                  },
+                  "Property": "Pay Bridge Volume"
+                }
+              },
+              "nativeQueryRef": "Pay Bridge Volume",
+              "displayName": "Volume"
+            },
+            {
+              "queryRef": "Fact Pay Bridge (derived).Pay Bridge Rate",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Pay Bridge (derived)"
+                    }
+                  },
+                  "Property": "Pay Bridge Rate"
+                }
+              },
+              "nativeQueryRef": "Pay Bridge Rate",
+              "displayName": "Rate"
+            },
+            {
+              "queryRef": "Fact Pay Bridge (derived).Pay Bridge Mix",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Pay Bridge (derived)"
+                    }
+                  },
+                  "Property": "Pay Bridge Mix"
+                }
+              },
+              "nativeQueryRef": "Pay Bridge Mix",
+              "displayName": "Mix"
+            },
+            {
+              "queryRef": "Fact Pay Bridge (derived).Pay Bridge Entry and Exit",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Pay Bridge (derived)"
+                    }
+                  },
+                  "Property": "Pay Bridge Entry and Exit"
+                }
+              },
+              "nativeQueryRef": "Pay Bridge Entry and Exit",
+              "displayName": "Entry, exit"
+            },
+            {
+              "queryRef": "Fact Pay Bridge (derived).Pay Bridge Current Paybill",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Pay Bridge (derived)"
+                    }
+                  },
+                  "Property": "Pay Bridge Current Paybill"
+                }
+              },
+              "nativeQueryRef": "Pay Bridge Current Paybill",
+              "displayName": "Current"
+            },
+            {
+              "queryRef": "Fact Pay Bridge (derived).Pay Bridge Tie Difference",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Pay Bridge (derived)"
+                    }
+                  },
+                  "Property": "Pay Bridge Tie Difference"
+                }
+              },
+              "nativeQueryRef": "Pay Bridge Tie Difference",
+              "displayName": "Tie"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Fact Pay Bridge (derived)"
+                  }
+                },
+                "Property": "Pay Bridge Prior Paybill"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "imageHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "28D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'The bridge by department, 2025-26 (pounds)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table of the payroll paybill bridge of 2025-26 for each department of the current structure that has workforce data: prior paybill, volume, rate, mix, entry and exit, current paybill and the tie difference, in pounds, with the group total'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 376,
+    "y": 220,
+    "width": 880,
+    "height": 228,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "93814967a9098f25e131",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Fiscal Year"
+              }
+            },
+            "Property": "Financial Year"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "Fiscal Year",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Financial Year"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'2025-26'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

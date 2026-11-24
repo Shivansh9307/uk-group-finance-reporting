@@ -540,6 +540,70 @@ tac_elimination_page() {
   text el_note 784 636 472 60 "The TAC file leaves out 1, 5 and 3 providers in 2019-20, 2023-24 and 2024-25; the consolidated accounts include them."
 }
 
+pay_page() {
+  page_new "Pay bridge"
+  header "Pay bridge: paybill, volume, rate and mix" \
+    "Pounds; 2025-26 against 2024-25, month by month; payroll of the organisations in the workforce files"
+  local f="Fact Pay Bridge (derived)" y=2025-26 v
+  card pay_prior "Prior paybill" 24 136 240 76 "$f.Pay Bridge Prior Paybill" "Payroll paybill of the organisations in the bridge in 2024-25, the same months a year before, in pounds, shown in billions"
+  card pay_current "Current paybill" 272 136 240 76 "$f.Pay Bridge Current Paybill" "Payroll paybill of the organisations in the bridge in 2025-26, in pounds, shown in billions"
+  card pay_change "Change in paybill" 520 136 240 76 "$f.Pay Bridge Change" "Change in payroll paybill between the two years, in pounds, shown in billions"
+  card pay_tie "Tie difference" 768 136 240 76 "$f.Pay Bridge Tie Difference" "Change in paybill less volume, rate, mix and entry and exit, in pounds; it is zero"
+  card pay_left_out "Rows left out of the bridge" 1016 136 240 76 "$f.Pay Bridge Rows Not Bridged" "Number of department, organisation and month rows left out of the bridge because the other month's cell is not valid or the department has no valid cell in one of the two months"
+  for v in pay_prior pay_current pay_change pay_tie pay_left_out; do vf "$v" "Fiscal Year" "Financial Year" "$y"; done
+  for v in pay_prior pay_current pay_change; do
+    q set "$P/$v.Visual.value.labelDisplayUnits" --value 0
+    q set "$P/$v.Visual.value.labelPrecision" --value 2
+  done
+  q set "$P/pay_tie.Visual.value.labelDisplayUnits" --value 1
+
+  visual waterfallChart pay_waterfall "From last year's paybill to this year's (pounds, millions)" 24 220 340 228 \
+    "Waterfall chart of the payroll paybill of the group in 2025-26 against 2024-25: the prior paybill, then the effect of volume, of rate, of organisation mix and of organisations that entered or left, and a total bar that is the current paybill, in millions of pounds" \
+    "Category:Pay Bridge Step.Step" "Y:$f.Pay Bridge Step Amount"
+  vf pay_waterfall "Fiscal Year" "Financial Year" "$y"
+  q visuals sort "$P/pay_waterfall.Visual" -f "Pay Bridge Step.Step" -d Ascending
+  q set "$P/pay_waterfall.Visual.valueAxis.labelDisplayUnits" --value 1000000
+  q set "$P/pay_waterfall.Visual.labels.show" --value true
+  q set "$P/pay_waterfall.Visual.labels.labelDisplayUnits" --value 1000000
+  q set "$P/pay_waterfall.Visual.labels.fontSize" --value 9
+
+  visual tableEx pay_dept "The bridge by department, 2025-26 (pounds)" 376 220 880 228 \
+    "Table of the payroll paybill bridge of 2025-26 for each department of the current structure that has workforce data: prior paybill, volume, rate, mix, entry and exit, current paybill and the tie difference, in pounds, with the group total" \
+    "Values:Department (current structure).Department" "Values:$f.Pay Bridge Prior Paybill" "Values:$f.Pay Bridge Volume" "Values:$f.Pay Bridge Rate" \
+    "Values:$f.Pay Bridge Mix" "Values:$f.Pay Bridge Entry and Exit" "Values:$f.Pay Bridge Current Paybill" "Values:$f.Pay Bridge Tie Difference"
+  vf pay_dept "Fiscal Year" "Financial Year" "$y"
+  q set "$P/pay_dept.Visual.values.fontSize" --value 8
+  q set "$P/pay_dept.Visual.columnHeaders.fontSize" --value 8
+  q visuals table-density "$P/pay_dept.Visual" --preset dense
+  q fields rename "$R" "$f.Pay Bridge Prior Paybill" "Prior"
+  q fields rename "$R" "$f.Pay Bridge Volume" "Volume"
+  q fields rename "$R" "$f.Pay Bridge Rate" "Rate"
+  q fields rename "$R" "$f.Pay Bridge Mix" "Mix"
+  q fields rename "$R" "$f.Pay Bridge Entry and Exit" "Entry, exit"
+  q fields rename "$R" "$f.Pay Bridge Current Paybill" "Current"
+  q fields rename "$R" "$f.Pay Bridge Tie Difference" "Tie"
+
+  visual lineChart pay_fte "Payroll full-time equivalent, by month" 24 456 290 240 \
+    "Line chart of the payroll full-time equivalent of the organisations the workforce files cover, for each month from April 2018" \
+    "Category:Fiscal Period.Month Start Date" "Y:$f.Pay FTE"
+  q visuals sort "$P/pay_fte.Visual" -f "Fiscal Period.Month Start Date" -d Ascending
+  visual lineChart pay_cost "Average monthly paybill per full-time equivalent (pounds)" 322 456 290 240 \
+    "Line chart of the average monthly payroll paybill per full-time equivalent, in pounds, for each month from April 2018" \
+    "Category:Fiscal Period.Month Start Date" "Y:$f.Pay Average Cost"
+  q visuals sort "$P/pay_cost.Visual" -f "Fiscal Period.Month Start Date" -d Ascending
+
+  visual tableEx pay_cover "Coverage of the workforce files, all months" 624 456 632 168 \
+    "Table of the share of published payroll full-time equivalent and paybill that the organisation map places on an organisation, for each department series, all months, with the total" \
+    "Values:Pay Coverage.Series" "Values:Pay Coverage.Pay Coverage Months" "Values:Pay Coverage.Pay FTE Coverage" "Values:Pay Coverage.Pay Paybill Coverage"
+  q set "$P/pay_cover.Visual.values.fontSize" --value 8
+  q set "$P/pay_cover.Visual.columnHeaders.fontSize" --value 8
+  q visuals table-density "$P/pay_cover.Visual" --preset dense
+  q fields rename "$R" "Pay Coverage.Pay Coverage Months" "Months"
+  q fields rename "$R" "Pay Coverage.Pay FTE Coverage" "FTE mapped"
+  q fields rename "$R" "Pay Coverage.Pay Paybill Coverage" "Paybill mapped"
+  text pay_note 624 628 632 68 "No Home Office, MoJ, Cabinet Office or ONS in the files; MHCLG core not mapped; MOD paybill 45.5% covered; no grade mix."
+}
+
 # ----------------------------------------------------------------------------------------------------- driver
 order() {
   q pages move "$R/Executive summary.Page" --to 1
@@ -550,6 +614,7 @@ order() {
   q pages move "$R/NHS balance sheet.Page" --to 6
   q pages move "$R/NHS cash flow.Page" --to 7
   q pages move "$R/NHS elimination control.Page" --to 8
+  q pages move "$R/Pay bridge.Page" --to 9
 }
 
 case "${1:-}" in
@@ -564,8 +629,9 @@ case "${1:-}" in
   tac_balance) tac_balance_page ;;
   tac_cash) tac_cash_page ;;
   tac_elimination) tac_elimination_page ;;
+  pay) pay_page ;;
   order) order ;;
-  all) report_filters; exec_page; pnl_page; variance_page; restate_page; controls_page; dept_page; group_page; tac_balance_page; tac_cash_page; tac_elimination_page; order ;;
-  *) echo "usage: build_report.sh exec|pnl|variance|dept|group|restate|controls|tac_balance|tac_cash|tac_elimination|filters|order|all" >&2; exit 2 ;;
+  all) report_filters; exec_page; pnl_page; variance_page; restate_page; controls_page; dept_page; group_page; tac_balance_page; tac_cash_page; tac_elimination_page; pay_page; order ;;
+  *) echo "usage: build_report.sh exec|pnl|variance|dept|group|restate|controls|tac_balance|tac_cash|tac_elimination|pay|filters|order|all" >&2; exit 2 ;;
 esac
 cat "$ERR" 2>/dev/null | head -20

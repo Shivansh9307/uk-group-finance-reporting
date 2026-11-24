@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "db386503017c44cc",
+  "displayName": "Pay bridge",
+  "width": 1280,
+  "height": 720,
+  "displayOption": "FitToPage"
+}

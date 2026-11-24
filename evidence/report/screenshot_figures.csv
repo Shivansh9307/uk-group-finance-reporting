@@ -147,3 +147,23 @@ page,visual,label,displayed,dax_test,key,value_column,divisor,decimals
 10_nhs_elimination_control,el_gap,2019-20 operating income: consolidated,"£92,001.0m",162_tac_elimination_gap_by_year_and_control_line,Financial Year=2019-20;Control Code=OPERATING_INCOME,consolidated,1000,1
 10_nhs_elimination_control,el_gap,2019-20 operating income: gap,"£1,355.1m",162_tac_elimination_gap_by_year_and_control_line,Financial Year=2019-20;Control Code=OPERATING_INCOME,gap,1000,1
 10_nhs_elimination_control,el_gap,2019-20 cash: gap,-£33.2m,162_tac_elimination_gap_by_year_and_control_line,Financial Year=2019-20;Control Code=CASH,gap,1000,1
+11_pay_bridge,pay_prior,Prior paybill,"£21.23bn",910_pay_bridge_cards_2025_26,card=prior_paybill,value,1000000000,2
+11_pay_bridge,pay_current,Current paybill,"£23.14bn",910_pay_bridge_cards_2025_26,card=current_paybill,value,1000000000,2
+11_pay_bridge,pay_change,Change in paybill,"£1.91bn",910_pay_bridge_cards_2025_26,card=change,value,1000000000,2
+11_pay_bridge,pay_tie,Tie difference,"£0.0000",910_pay_bridge_cards_2025_26,card=tie_difference,value,1,4
+11_pay_bridge,pay_left_out,Rows left out of the bridge,93,910_pay_bridge_cards_2025_26,card=rows_not_bridged,value,1,0
+11_pay_bridge,pay_waterfall,Prior paybill bar,"£21,230m",906_pay_bridge_waterfall_steps_2025_26,step=Prior paybill,amount,1000000,0
+11_pay_bridge,pay_waterfall,Rate bar,"£1,546m",906_pay_bridge_waterfall_steps_2025_26,step=Rate,amount,1000000,0
+11_pay_bridge,pay_waterfall,Mix bar,-£7m,906_pay_bridge_waterfall_steps_2025_26,step=Mix,amount,1000000,0
+11_pay_bridge,pay_waterfall,Entry and exit bar,-£15m,906_pay_bridge_waterfall_steps_2025_26,step=Entry and exit,amount,1000000,0
+11_pay_bridge,pay_dept,Total row: prior,"£21,229,603,071",902_pay_bridge_group_by_financial_year,financial_year=2025-26,prior_paybill,1,0
+11_pay_bridge,pay_dept,Total row: volume,"£385,134,028",902_pay_bridge_group_by_financial_year,financial_year=2025-26,volume,1,0
+11_pay_bridge,pay_dept,Total row: rate,"£1,546,381,167",902_pay_bridge_group_by_financial_year,financial_year=2025-26,rate,1,0
+11_pay_bridge,pay_dept,Total row: mix,"-£7,224,771",902_pay_bridge_group_by_financial_year,financial_year=2025-26,mix,1,0
+11_pay_bridge,pay_dept,Total row: entry and exit,"-£15,181,613",902_pay_bridge_group_by_financial_year,financial_year=2025-26,entry_exit,1,0
+11_pay_bridge,pay_dept,Total row: current,"£23,138,711,883",902_pay_bridge_group_by_financial_year,financial_year=2025-26,current_paybill,1,0
+11_pay_bridge,pay_dept,Work and Pensions: prior,"£3,914,412,961",909_pay_bridge_by_department_2025_26,department=Department for Work and Pensions,prior_paybill,1,0
+11_pay_bridge,pay_dept,Ministry of Defence: current,"£4,129,535,082",909_pay_bridge_by_department_2025_26,department=Ministry of Defence,current_paybill,1,0
+11_pay_bridge,pay_cover,Total row: months,"1,353",908_pay_coverage_all_months,item=series_months,value,1,0
+11_pay_bridge,pay_cover,Total row: FTE mapped,93.8%,908_pay_coverage_all_months,item=fte_coverage,value,0.01,1
+11_pay_bridge,pay_cover,Total row: paybill mapped,76.8%,908_pay_coverage_all_months,item=paybill_coverage,value,0.01,1

@@ -28,15 +28,15 @@ view.
    [docs/reconciliation.md](docs/reconciliation.md#9-plan-variance-reconciliation-full-scope),
    [evidence/full/plan_variance_reconciliation.csv](evidence/full/plan_variance_reconciliation.csv),
    [ADR 0007](docs/adr/0007-del-headline-ame-reconciled-separately.md).
-3. **Row-level and object-level security is tested against SQL.** Two roles, an invented user map, 113 role cases, 113 equal to
+3. **Row-level and object-level security is tested against SQL.** Two roles, an invented user map, 136 role cases, 136 equal to
    SQL. **Tested**: [docs/security.md](docs/security.md), [evidence/model/rls_tests.csv](evidence/model/rls_tests.csv).
 4. **CI can tell when the evidence is stale.** A hosted runner cannot run DAX, so a ledger records the hash of the model and of
    every test, expected value and result (735 files), and CI fails if any of them changes alone. I pushed a commit that changed
    one measure and nothing else: only the ledger job went red; the commit that restored it was green. **Tested**:
    [docs/evidence.md](docs/evidence.md#the-red-and-the-green-run), [ADR 0008](docs/adr/0008-evidence-ledger-not-dax-in-ci.md).
 
-The model has 98 DAX tests, each compared with a SQL (or Python) expectation that shares nothing with the model, and 98 of
-98 pass ([evidence/model/dax_tests.csv](evidence/model/dax_tests.csv)). The 148 figures that the pages display, which I read off
+The model has 109 DAX tests, each compared with a SQL (or Python) expectation that shares nothing with the model, and 109 of
+109 pass ([evidence/model/dax_tests.csv](evidence/model/dax_tests.csv)). The 168 figures that the pages display, which I read off
 the screenshots, equal the test results ([evidence/report/screenshot_figures.csv](evidence/report/screenshot_figures.csv)).
 
 ![Executive summary page: 2025-26 outturn, DEL plan, variance and variance per cent, with outturn by year and by department](screenshots/01_executive_summary.png)
@@ -122,7 +122,7 @@ clicks are **designed**, not run ([docs/pages.md](docs/pages.md#things-i-could-n
   [evidence/full/bud_vs_inyear_del.csv](evidence/full/bud_vs_inyear_del.csv),
   [evidence/full/pss_vs_outturn.csv](evidence/full/pss_vs_outturn.csv).
 - **The model is tested against the warehouse.** Each DAX test returns a grid from the model open in Desktop; a SQL or Python
-  query over the base tables returns the same grid; `ukfr dax-compare` compares them. **Tested**: 98 of 98
+  query over the base tables returns the same grid; `ukfr dax-compare` compares them. **Tested**: 109 of 109
   ([docs/model-testing.md](docs/model-testing.md)).
 - **The real facts are pinned.** The row count and sum of each real fact are in
   [evidence/expected/real_fact_totals.csv](evidence/expected/real_fact_totals.csv) and a test compares every build with
