@@ -211,3 +211,29 @@ sources:
         release: {value: latest}
     files:
       - {match: '\.csv$', action: fetch}
+
+  - id: tac
+    title: NHS trust accounts consolidation (TAC) data, trusts and foundation trusts, FY2019-20 to FY2024-25
+    publisher: NHS England
+    licence: OGL-3.0
+    used_for: Statutory income statement, balance sheet and cash flow by NHS provider (the one part of the group with statutory accounts), with the illustrative files that carry the line descriptions
+    fetch: true
+    commit: false
+    discover:
+      # FY2020-21 onwards are linked from the index page itself.
+      - html_index: https://www.england.nhs.uk/financial-accounting-and-reporting/nhs-providers-tac-data-publications/
+        link_regex: '\.xlsx$'
+        release: {from: filename, pattern: '(?:^|-)(?P<y>20\d{2})-?(?P<yy>\d{2})(?:-|\.)', template: '{y}-{yy}'}
+      # FY2019-20 is linked from three publication pages, not from the index.
+      - html_index: https://www.england.nhs.uk/publication/tac-data-in-providers-2019-20-accounts-nhs-trusts/
+        link_regex: '\.xlsx$'
+        release: {from: filename, pattern: 'accounts-for-(?P<y>20\d{2})-(?P<yy>\d{2})\.xlsx$', template: '{y}-{yy}'}
+      - html_index: https://www.england.nhs.uk/publication/trust-accounts-consolidation-tac-data-in-providers-2019-20-accounts-nhs-foundation-trusts/
+        link_regex: '\.xlsx$'
+        release: {from: filename, pattern: 'accounts-for-(?P<y>20\d{2})-(?P<yy>\d{2})\.xlsx$', template: '{y}-{yy}'}
+      - html_index: https://www.england.nhs.uk/publication/illustrative-tac-trust-accounts-consolidation-tac-form-2019-20/
+        link_regex: '\.xlsx$'
+        release: {from: filename, pattern: '^(?P<y>\d{2})(?P<yy>\d{2})-nhs', template: '20{y}-{yy}'}
+    files:
+      - {match: '(?i)^TAC-data-published-in-NHS-(foundation-)?trusts?-accounts-for-\d{4}-\d{2}\.xlsx$', action: fetch}
+      - {match: '(?i)il+ustrative.*\.xlsx$', action: fetch, note: 'illustrative TAC file: the line descriptions'}
