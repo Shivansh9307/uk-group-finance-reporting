@@ -73,17 +73,24 @@ class Discovered:
     pages: list[tuple[int, str, str]]  # (rules_index, release, page_url) for every page seen
 
 
-def release_label(rule: ReleaseRule, *, title: str, path: str, filename: str) -> str | None:
-    """Apply a release rule. Groups named `month` become two-digit numbers, `yy` keeps two digits."""
+def release_label(
+    rule: ReleaseRule, *, title: str, path: str, filename: str, attachment_title: str = ""
+) -> str | None:
+    """Apply a release rule. Groups named `month` become two-digit numbers, `yy` keeps two digits.
+
+    `attachment_title` is the title of one attachment; a page that holds a year of monthly files gives
+    each file its own label from it. A month word is matched on its first three letters when the whole
+    word is not a month (publishers write "Septmeber")."""
     if rule.source == "value" or rule.value:
         return rule.value
-    text = {"title": title, "path": path, "filename": filename}[rule.source]
+    text = {"title": title, "path": path, "filename": filename, "attachment_title": attachment_title}[rule.source]
     m = re.search(rule.pattern, text or "", flags=re.IGNORECASE)
     if not m:
         return None
     groups = {k: (v or "") for k, v in m.groupdict().items()}
     if "month" in groups and groups["month"]:
-        num = MONTHS.get(groups["month"].lower())
+        word = groups["month"].lower()
+        num = MONTHS.get(word) or (MONTHS.get(word[:3]) if len(word) > 3 else None)
         if num is None:
             return None
         groups["month"] = f"{num:02d}"
@@ -124,7 +131,9 @@ def page_candidates(source: Source, idx: int, d: Discovery, page: dict, path: st
             ctype = a.get("content_type") or ""
         rel = release
         if rel is None:
-            rel = release_label(d.release, title=title, path=path, filename=fname)
+            rel = release_label(
+                d.release, title=title, path=path, filename=fname, attachment_title=(a.get("title") or "").strip()
+            )
         if rel is None:
             continue
         out.append(

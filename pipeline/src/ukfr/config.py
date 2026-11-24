@@ -59,7 +59,7 @@ class FileRule:
 class ReleaseRule:
     """How a release label is derived from a page: regex groups poured into a template."""
 
-    source: str = "title"  # title | path | filename | value
+    source: str = "title"  # title | path | filename | attachment_title | value
     pattern: str = ""
     template: str = ""
     value: str = ""

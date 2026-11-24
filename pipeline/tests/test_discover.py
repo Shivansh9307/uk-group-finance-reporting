@@ -47,6 +47,21 @@ def test_release_labels():
     assert release_label(ReleaseRule(value="latest"), title="", path="", filename="") == "latest"
 
 
+def test_release_label_from_an_attachment_title_and_a_misspelt_month():
+    rule = ReleaseRule(
+        source="attachment_title",
+        pattern=r"(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$",
+        template="mod-{year}-{month}",
+    )
+    kw = {"title": "page", "path": "", "filename": "x.csv"}
+    assert release_label(rule, attachment_title="MOD workforce management information February 2023", **kw) == (
+        "mod-2023-02"
+    )
+    assert release_label(rule, attachment_title="MOD workforce, Septmeber 2024 ", **kw) == "mod-2024-09"
+    assert release_label(rule, attachment_title="no month here", **kw) is None
+    assert release_label(rule, **kw) is None  # the page-level call has no attachment title
+
+
 def test_collection_crawl_filters_group_and_since(web: FakeWeb):
     d = Discovery(
         kind="collection",
