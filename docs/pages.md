@@ -1,7 +1,7 @@
 # The report pages
 
 `model/UKGroupFinance.Report` is the report that reads the semantic model in `model/UKGroupFinance.SemanticModel` (PBIR, thick
-report, Power BI Desktop only). It has eleven pages at 1280 x 720: nine that you navigate to and two that you reach by
+report, Power BI Desktop only). It has twelve pages at 1280 x 720: ten that you navigate to and two that you reach by
 drill-through. Every claim below is labelled **tested** (with the command and the file that holds the result) or **designed**.
 
 How it was made: every page was built with the `pbir` CLI, by the commands in [tools/build_report.sh](../tools/build_report.sh), and
@@ -17,17 +17,17 @@ its values written in the file.
   independent SQL (or Python) expectation over `dw` and `audit` in `tests/expected/`. **Tested**: `tools\run_dax_tests.ps1 -Refresh`,
   `ukfr dax-compare`: 77 of 77 tests passed for the first seven pages, 22 of them new; with the NHS trust accounts pages the suite is 98 of 98 (`evidence/model/dax_tests.csv`).
 - I read the displayed figures off the cropped screenshots myself and wrote them to
-  [evidence/report/screenshot_figures.csv](../evidence/report/screenshot_figures.csv): 168 figures (120 on the first seven pages, 28 on the three NHS pages, 20 on the pay bridge page), each with its page, visual,
+  [evidence/report/screenshot_figures.csv](../evidence/report/screenshot_figures.csv): 179 figures (120 on the first seven pages, 28 on the three NHS pages, 20 on the pay bridge page, 11 on the forecast accuracy page), each with its page, visual,
   label, the figure as displayed, the test, the row of the test result and how it is displayed (divisor and decimals).
-  **Tested**: `pipeline/tests/test_report_evidence.py` rounds the test result as displayed, half up, and compares: all 168 are equal
+  **Tested**: `pipeline/tests/test_report_evidence.py` rounds the test result as displayed, half up, and compares: all 179 are equal
   (`uv run --project pipeline pytest pipeline/tests/test_report_evidence.py`: 150 passed). A text figure (a plan badge, a status) must
   equal the test result or start with it where the visual cuts the text off.
 - Screenshots are in [screenshots/](../screenshots/), one for each page, made with `tools/crop_screenshots.ps1`: `pbir desktop
   screenshot` at scale 2 after a refresh and a wait, cropped to the page canvas (2034 x 1144), so no title bar, account name or path is
-  in an image. **Tested**: the same pytest file checks that the ten files exist and have the same size. The two drill-through pages
+  in an image. **Tested**: the same pytest file checks that the twelve files exist and have the same size. The two drill-through pages
   are captured without a selection, so they show all departments and all groups; reached from a department or a group they open
   filtered to it. I did not click through a drill-through, and that click is **designed**, not run.
-- `pbir validate --all`: valid, 119 visuals, 132 advisory warnings (below). `pbir bpa run`: passed, 0 errors, 124 warnings, 30 rules, 242
+- `pbir validate --all`: valid, 150 visuals, 167 advisory warnings (below). `pbir bpa run`: passed, 0 errors, 157 warnings, 30 rules, 300
   objects, listed in [evidence/report/pbir_bpa.csv](../evidence/report/pbir_bpa.csv).
 - CI (`report-checks`) runs Fab Inspector with the rules in `tests/report/report-rules.json` on the real report and keeps a negative
   control that must fail (`tests/report/report-rules-negative.json`), gating on the JSON output.
@@ -183,16 +183,28 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
 - **Tested**: tests 910 (cards), 906 (waterfall steps), 902 (group by year, the table's total row), 909 (the departments), 908 (coverage total), 903 and 904 (the trend measures), 901 (the latest three months); 20 figures in the figures file equal them. The waterfall's deltas are small beside the 21bn base, which is why the bars have data labels.
 - The page needs the full-scope database (the bridge reads `dw.workforce_month`).
 
+### 12. Forecast accuracy
+
+![Forecast accuracy](../screenshots/12_forecast_accuracy.png)
+
+- **Fixed**: nothing is a slicer. The three charts at the top read the budget measure totals (a visual filter on `Forecast Line`) on the cells that every method scored (a visual filter on `Scored By Every Method`); the pay-line chart reads the pay line on the cells all four methods scored; the department table reads the department's own forecast. The with and without versions are two charts side by side (all returns, then without the known bad returns), not a bookmark.
+- Five cards: the department's WAPE over every year and return with the known bad returns kept in (31.4%) and without them (14.5%), the number of cells that belong to a known bad return (268), the share of the pay-line cells of FY2018-19 to FY2022-23 that have an FTE x cost forecast (21.7%) and the share of the pay line that the workforce paybill is over those cells (13.1%).
+- Charts: WAPE by year for the department, my run rate and my seasonal method, all returns and without the bad returns; the bias without them; the pay line with FTE x cost added, which scores 40% to 45% against 2% to 10% for the department. FY2020-21 is where the two WAPE charts differ most (FCDO R0, keyed in pounds, is a known bad return); the all-returns chart on the common cells does not show it, because R0 has no score from my methods, which is why the department table and test 922 (all cells) do.
+- The department table is the department's own forecast on every cell, by department of the current structure, with the coverage of FTE x cost beside it. It scrolls: the screenshot shows two WAPE columns and the first nine departments; the FTE columns are to the right. Its top rows are not departments I would call poor forecasters: the group of the Electoral Commission (a units error in R0 and R1 of FY2019-20), the National Crime Agency (a units error in R1 of FY2021-22) and FCDO (R0 of FY2020-21) are known bad returns, and their WAPE falls to 28.9%, 8.2% and 7.8% without them.
+- Two text boxes state the known bad returns and the FTE x cost caveat (the Home Office, Ministry of Justice, Cabinet Office and ONS are not in the workforce source).
+- **Tested**: tests 921 (the three charts), 925 (the pay-line chart), 928 (the cards) and 929 (the table); 11 figures in `evidence/report/screenshot_figures.csv`.
+- The page needs the full-scope database (the forecast returns and the workforce are scope full). The legend of the pay-line chart is cut off at the right in the screenshot (FTE x cost is the fourth entry).
+
 ## What the validators say
 
-`pbir validate --all` gives 148 advisory warnings and no error (the seven first pages gave 92; the NHS pages add 40, the pay bridge page 16, of the same kinds): 53 visuals under the recommended size (the cards are 192 x 92 pixels, on purpose, so that six sit in a row),
-58 visual-level filters (a card must fix its own year, scenario item or period; a page filter cannot differ between cards on one page), 10 text boxes under the height floor for
-their text, 10 visuals with more than four fields (the statement matrices, the tables of controls and the NHS tables) and one page with more than fifteen visuals (the executive summary).
-`pbir bpa run` raises the same findings (139 warnings, 30 rules, 265 objects) and two `PBIR_SHOW_ALL_ITEMS` for the statement's spacer rows, which need `show-all` to exist. I did not ignore
+`pbir validate --all` gives 167 advisory warnings and no error (the seven first pages gave 92; the NHS pages add 40, the pay bridge page 16, the forecast accuracy page 19, of the same kinds): 66 visuals under the recommended size (the cards are 192 x 92 pixels, on purpose, so that six sit in a row),
+75 visual-level filters (a card must fix its own year, scenario item or period; a page filter cannot differ between cards on one page), 12 text boxes under the height floor for
+their text, 12 visuals with more than four fields (the statement matrices, the tables of controls and the NHS tables) and two pages with more than fifteen visuals (the executive summary and the forecast accuracy page).
+`pbir bpa run` raises the same findings (157 warnings, 30 rules, 300 objects) and two `PBIR_SHOW_ALL_ITEMS` for the statement's spacer rows, which need `show-all` to exist. I did not ignore
 any rule; the list is in `evidence/report/pbir_bpa.csv`.
 
 ## Things I could not do or check
 
 - I did not click: the drill-through (right-click and buttons), the page navigator, and the decomposition tree's expansion are **designed**; the pages render and the files validate.
 - The data controls page needs the full-scope database (three of its tables read audit tables that exist only after a full build).
-- The report was captured on one machine in one session; the figures file says what I read, and the tests say what the model returns. They agree on all 168 figures.
+- The report was captured on one machine in one session; the figures file says what I read, and the tests say what the model returns. They agree on all 179 figures.

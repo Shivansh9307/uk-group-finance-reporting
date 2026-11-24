@@ -31,7 +31,7 @@ them no longer matches. That is a ledger, not a rerun of DAX, and what it proves
 
 Test numbers 700 to 719 belong to the model skeleton, 720 to 739 to the measures, 740 to 759 to the income and
 expenditure statement, 760 to 769 to the restatement and current-structure measures and 770 to 779 to real terms and
-perspectives, 810 to 819 to the equality of the rewritten slow measures with their plain forms and 820 to 829 to the two hidden security tables, and 150 to 199 to the NHS trust accounts; later model tasks take their own ranges.
+perspectives, 810 to 819 to the equality of the rewritten slow measures with their plain forms and 820 to 829 to the two hidden security tables, and 150 to 199 to the NHS trust accounts, 900 to 919 to the pay bridge and 920 to 939 to the forecast accuracy; later model tasks take their own ranges.
 
 ## Run the suite
 

@@ -156,8 +156,8 @@ month m = n + 1 to 12:
 | `run_rate` | the mean of the n actual months to date, year to date / n (a month with no row is zero) | n = 1 to 11 |
 | `seasonal` | the prior year's R13 monthly profile scaled to the year to date: year to date x prior(m) / prior(1 to n) | n = 1 to 11, and only where the guard holds: the prior year's months 1 to n have the same sign as the year to date and are at least 10% of the absolute prior-year R13 total of the cell; none for FY2017-18, whose prior year is not in the files |
 
-R0 has no actual month, so neither method exists for it; R12 has no month left. A forecast from the FTE times cost-per-FTE
-is not built here: it needs the workforce data and a later task adds it. Each row carries its lineage: `input_return_no`
+R0 has no actual month, so neither method exists for it; R12 has no month left. A fourth method, FTE x cost, is built for
+the pay line only; see "The fourth method: FTE x cost, and the accuracy as modelled" below. Each row carries its lineage: `input_return_no`
 (always the return itself), `input_max_period` (never above n), `input_rows`, `ytd_amount`, and for the seasonal method the
 prior year and its months 1 to n. The decimal arithmetic casts to `DECIMAL(20,6)` first, because a plain product of two
 `DECIMAL(19,4)` amounts exceeds 38 digits and loses scale silently.
@@ -275,6 +275,153 @@ is between 0.5% below and 2.8% above. At TOTAL the in-year release is within 1.0
 below the annual files, which carry TYPE layers that the returns hold in period 0 or not at all (profiling); I did not
 break that gap down further. The FY2019-20 and FY2020-21 DEL gaps against the in-year release are the revisions the
 profiling found (R13 was revised until October 2022; the June snapshot was taken before).
+
+## The fourth method: FTE x cost, and the accuracy as modelled
+
+The model reads the accuracy through `dw.v_model_forecast_accuracy` (`sql/audit/925`). Everything below is real data, scope
+full, derived by the SQL named; nothing is authored or synthetic. Amounts are GBP thousands; the workforce files are in
+pounds and are divided by 1,000 at the boundary, in `sql/audit/921`.
+
+### The pay line
+
+The pay line is economic category `A101` (the statement's line R30 Pay) of the control budget RDEL, as the returns report it:
+the pay of the department group's core department and of the arm's length bodies that report to it. Departmental AME has a
+little A101 too; it is not in the line. `dw.forecast_pay_input` (21,361 rows) holds the line of return n for months 1 to n as
+return n states them, and `dw.forecast_pay_prior_profile` the prior year's R13 line, the same shape as the two tables of the
+other methods (`sql/audit/920`). **Tested**: `sql/tests/923` rebuilds the full-year forecast and outturn of every cell and
+method from `dw.forecast_return` by another route.
+
+### The method
+
+For a department group g, year y and return n (1 to 11), take the department of the current structure that g's department
+number maps to (the number in the group code, through `dw.department_reported_number`, the rule the outturn uses) and the valid
+organisation-month cells of the pay bridge for it (`dw.v_pay_cell`, `cell_status = 'valid'`; I did not redo its exclusions),
+added over the department:
+
+- FTE = the full-time equivalent of month n, the month return n has just closed (the calendar month n - 1 months after April);
+- cost = the department's paybill of month n divided by its FTE (pounds per full-time equivalent per month, 16 decimal places);
+- the forecast of each remaining month m = n + 1 to 12 is FTE x cost / 1,000. It is the same figure for every remaining month.
+
+FTE x cost is algebraically the paybill of month n. I built it as the product so that the lineage shows both factors
+(`workforce_fte`, `cost_per_fte_gbp`, `workforce_paybill_gbp`, `workforce_month` in `dw.forecast_own_pay`), and I say here that it
+is a "last month's pay carried forward" method with no seasonality and no pay-award step. It forecasts the pay line only, is
+never added to a department's total, and is scored against the pay line of R13.
+
+No look-ahead and no gap-filling: only the workforce of month n is read, never a later month and never an earlier month standing
+in for a missing one. **Tested**: `sql/tests/920` (the month read is exactly the calendar month of period n, the method
+forecasts exactly the months n + 1 to 12 with one amount, and exists in no R0, R12 or FY2017-18, whose months precede the files).
+`sql/tests/921` recomputes every covered cell from the raw rows of `dw.workforce_month` with a different order of operations (the
+paybill added first and divided by 1,000 last, the valid cells found again from the list of excluded cells, the department by a
+window function) and requires the same set of cells and the same forecasts to within 0.0001. I changed a forecast and a
+workforce month in the database on purpose and tests 920 and 921 reported them.
+
+My run-rate and seasonal methods are built again on the pay line (`dw.forecast_own_pay`) and the department's own pay-line
+forecast is read from the return, so that the four methods are compared on one line. The accuracy of the pay line is
+`dw.forecast_pay_accuracy`, with the columns and construction of `dw.forecast_accuracy`.
+
+### Coverage, per department and year
+
+`audit.forecast_fte_cost_coverage` has 2,955 rows, one for each department group, year and return R1 to R11 that has a pay line
+(copy in `evidence/full/forecast_fte_cost_coverage.csv`), and gives each one status:
+
+| Status | Cells | Meaning |
+|---|---:|---|
+| `covered` | 582 | the department has valid workforce cells in month n |
+| `no_workforce_cell_in_month` | 2,285 | no valid cell in the month: no file, the department is not in the source, or the year precedes the files |
+| `shared_department` | 88 | another department group with a pay line answers to the same department of the current structure in the year (`FCO027` and `DID030` in FY2017-18 to FY2020-21), so the workforce cannot be split between them |
+| `no_department` | 0 | the group's number maps to no department |
+
+Departments covered in FY2018-19 to FY2022-23, with the share of the group's pay line that the workforce paybill is in month n
+(`pay seen`, a ratio of sums over the covered cells of each year, from `audit.forecast_fte_cost_coverage`):
+
+| Department | Covered cells of cells | Pay seen |
+|---|---|---|
+| HM Revenue and Customs | 54 of 55, all five years | 0.96 to 1.03 |
+| Work and Pensions | 53 of 55, all five years | 0.92 to 0.94 |
+| UK Export Finance | 41 of 50, all five years | 0.84 to 0.95 |
+| Competition and Markets Authority | FY2021-22 and FY2022-23 | 0.91 and 0.96 |
+| Food Standards Agency | 18 of 22, FY2021-22 and FY2022-23 | 1.09 and 1.08 |
+| Environment, Food and Rural Affairs | four years; 2 and 3 cells in FY2018-19 and FY2020-21 | 0.92 to 1.07 |
+| Science, Innovation and Technology (the BEIS group before 2023) | 51 of 55, all five years | 1.76 to 1.99 |
+| HM Land Registry | FY2020-21 to FY2022-23 | 1.35 to 1.57 |
+| Transport | 54 of 55, all five years | 0.27 to 1.69 |
+| Housing, Communities and Local Government | 54 of 55, all five years | 0.47 to 0.53 |
+| Defence | 48 of 52, all five years | 0.18 to 0.23 |
+| Health and Social Care | 53 of 54, all five years | 0.02 to 0.03 |
+| Education | 55 of 55, all five years | 0.02 to 0.03 |
+| Foreign, Commonwealth and Development Office | 11 cells in FY2021-22, 2 in FY2022-23 | 0.69 and 0.54 |
+| HM Treasury | 2 cells in FY2021-22 | 1.27 |
+| Home Office | FY2018-19 | 0.007 |
+
+**Tested** (`tests/dax/926`, against SQL over `dw`): the share of the pay-line cells of R1 to R11 that have the method is 19.5%,
+18.2%, 19.5%, 26.7% and 24.5% for FY2018-19 to FY2022-23, and the workforce paybill is 13.1%, 11.7%, 13.0%, 14.3% and 13.1% of the
+pay line it is compared with. Where the share is far below 1 (Health, Education, Defence, the Home Office) the group's return carries
+arm's length bodies, schools or the armed forces that the workforce files do not cover, and the method sees a small part of the
+pay line. Where it is above 1 (the BEIS group, Land Registry, Transport in FY2020-21) the workforce paybill is larger than the pay
+line of the return, and I have not found out why (the return's pay line may be net of recharges or of capitalised pay). I chose no
+threshold to drop either: the coverage is shown, not corrected.
+
+### Accuracy as modelled
+
+`Fact Forecast Accuracy (derived)` has one row for each forecast line (a budget measure total, or the pay line), department
+group, budget measure, year, return and method: 33,619 rows (the 24,076 of `dw.forecast_accuracy` and the 9,543 of
+`dw.forecast_pay_accuracy`). A cell has three methods on a budget measure total (department, run rate, seasonal) and four on the
+pay line. `known_bad_return` is the flag of `dw.forecast_return_quality` for the department group's return (rules `u`, `s`, `x`,
+`m` and `p`), so "without the bad returns" leaves out the whole group's return, not only its pay line. `common_cells` is 1 where
+the cell has a score from every method of its line, and comparisons between methods use it, because the seasonal method exists on
+about two thirds of the cells and FTE x cost on about a fifth of the pay-line cells. MAPE exists only on cells with an outturn of
+at least GBP 100m, and its pooled form is a ratio of sums over those cells.
+
+The department of the current structure is the department whose number is in the group code. The group `BIS084` (BEIS, DSIT from
+2023) maps to the Department for Science, Innovation and Technology and `FCO027` to the Foreign, Commonwealth and Development
+Office, as the outturn does; it is a mapping by number, so the BEIS group of every year sits under DSIT. Every group of the
+accuracy tables maps to a department (**tested**: `sql/tests/922`).
+
+**Tested** (`tests/dax/920` to `927`, 8 of 8 against SQL written over `dw`; `sql/tests/922` and `924`):
+
+- the known bad returns are present and flagged, and change the numbers. The department's own forecast on the budget measure
+  totals, every cell (R0 to R12), with the known bad returns kept in and without them (test 922):
+
+| Year | WAPE, all returns | WAPE, without bad returns | Bias, all | Bias, without |
+|---|---:|---:|---:|---:|
+| FY2017-18 | 12.9% | 12.2% | -8.1% | -7.3% |
+| FY2018-19 | 18.4% | 16.5% | +8.7% | +10.7% |
+| FY2019-20 | 7.6% | 6.9% | +0.3% | +1.2% |
+| FY2020-21 | 91.6% | 10.8% | +73.8% | -2.4% |
+| FY2021-22 | 22.4% | 16.7% | -4.2% | -6.8% |
+| FY2022-23 | 23.5% | 20.4% | +8.8% | +10.8% |
+
+  FCDO R0 of FY2020-21 alone moves that year's department WAPE from 10.8% to 91.6% and its bias from -2.4% to +73.8%; the
+  Department of Health missing from R1 of FY2018-19 is one of the cells that move FY2018-19 from 16.5% to 18.4%. `tests/dax/923`
+  has the two cells: the FCDO R0 RDEL cell has an absolute error of GBP 7.5 trillion against an outturn of GBP 7.2bn (a cell WAPE
+  of 1,045, the return keyed in pounds); the Department of Health cells have a forecast of zero (a cell WAPE of 1).
+  `pipeline/tests/test_forecast_model.py` fails if the with and without figures of those two years are equal, so the tests cannot
+  pass whether or not the flag works;
+- the three methods on the budget measure totals, on the cells all three scored, without the bad returns (test 921), WAPE of the
+  department / run rate / seasonal: FY2018-19 6.4% / 9.2% / 14.2%, FY2019-20 6.2% / 7.1% / 6.5%, FY2020-21 9.3% / 13.4% / 14.2%,
+  FY2021-22 7.2% / 14.4% / 10.6%, FY2022-23 7.3% / 13.6% / 14.2%;
+- departmental AME alone, FY2021-22 (test 924): WAPE 8.0% for the department, 17.0% for the run rate, 9.5% for the seasonal method;
+- the pay line, four methods, on the cells all four scored, without the bad returns (test 925): the department's WAPE is 1.6% to
+  10.4% a year, my seasonal method's 2.6% to 7.9%, my run rate's 1.7% to 9.1% and FTE x cost's 39.7% to 45.3%, with a bias of -39%
+  to -45%: FTE x cost under-forecasts because the workforce paybill is a fraction of the pay line in the departments that carry most
+  of it;
+- the forecast-month scores and MAPE by method (test 927).
+
+**What the pay line says, and the limit of it.** FTE x cost does not beat the department. On the pay-line cells that all four methods
+scored outside the bad returns, split by the share of the pay line that the workforce paybill is in month n (known when the
+forecast is made): where the share is between 0.8 and 1.25 (186 cells) the WAPE is 2.4% for the department, 2.9% for my run rate,
+3.5% for my seasonal method and 3.5% for FTE x cost; elsewhere (311 cells) 6.6%, 6.5%, 4.6% and 45.4%. I ran that split as a query
+on the database and did not commit it as a test, and I chose the band after seeing the coverage table, so it describes those cells
+and is not a result. Where the method sees the pay it is close to my run rate and a little behind the department; where it sees a
+small part of the pay it is of no use.
+
+## What I could not settle in the fourth method
+
+- The workforce paybill of the BEIS group, Land Registry and Transport (FY2020-21) is larger than the pay line of the return for
+  the same month; I did not trace why.
+- A department that split in 2023 (BEIS into three) is mapped by number and so sits under one current department; only FY2022-23
+  months before the split are in the returns, so no FTE x cost cell belongs to a successor department.
+- The method carries last month's pay forward unchanged: the pay awards and bonus months that the pay bridge shows are not in it.
 
 ## What I could not settle
 

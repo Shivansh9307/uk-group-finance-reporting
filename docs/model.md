@@ -1088,6 +1088,58 @@ pool the continuing organisations of the whole selection; the department view is
 
 **Pitfalls I met** (added to the notes here and not in code): `Rows` cannot be a DAX variable name (the parser reports "the syntax for 'Rows' is incorrect"); object-level security can hide one column of a fact that has a relationship on it (`Organisation Key`), and a query that names it is refused; a month column that is a string needs a sort column (`Report Month` sorts by the period key).
 
+## Forecast accuracy: the department against my own methods
+
+The model reads how well the departments' monthly forecast returns scored against the final outturn, and how three methods of mine
+scored on the same cells ([data-dictionary/forecast-returns.md](data-dictionary/forecast-returns.md#the-fourth-method-fte-x-cost-and-the-accuracy-as-modelled)),
+in three tables, four relationships and 21 measures. It is **derived** from real data (the department's forecasts are the real
+returns; the three methods and every score are computed from them in SQL); nothing synthetic or authored is added to a number.
+Amounts are GBP thousands, so no forecast measure is in the `Display Unit` group (a test fails if one is), and almost every measure is a
+ratio. Every claim is **tested** (command and result file) or **designed**.
+
+| Model table | Source view | Rows | Class | What it is |
+|---|---|---:|---|---|
+| Fact Forecast Accuracy (derived) | `dw.v_model_forecast_accuracy` | 33,619 | **derived** from real data | one row per forecast line, department group, budget measure, year, return and method; the full-year and forecast-month errors, the known-bad-return flag and the common-cells flag |
+| Forecast Method | `dw.v_model_forecast_method` | 4 | labels, no number | department, run rate, seasonal, FTE x cost, with their definitions |
+| Forecast Return | `dw.v_model_forecast_return` | 13 | labels, no number | R0 to R12 |
+
+Row counts: **tested**, `tests/dax/920_forecast_model_table_row_counts.dax`; the view keeps every row and amount of the two accuracy
+tables and every key resolves (`sql/tests/924`). The four relationships (to `Department (current structure)`, to `Fiscal Year`, to
+`Forecast Method` and to `Forecast Return`) are active, many-to-one and single direction. The fact is related to the department of the
+current structure by the department number in the department group's code, so the two security roles filter it as they filter everything
+else; the group of the BEIS years sits under the department that now carries number 084 (see the data dictionary).
+
+**Decisions.**
+
+1. *Two lines in one fact.* The budget measure totals (RDEL, CDEL, AME; three methods) and the pay line (A101 of RDEL; four methods) are
+   different populations. A column, `Forecast Line`, tells them apart and the page fixes it with a visual filter; a measure that adds
+   across the two lines is not meaningful and I did not build one.
+2. *The with and without versions are measure pairs on one flag.* `Known Bad Return` is a column; each `(excl. bad returns)` measure is
+   `CALCULATE` of the plain one with `KEEPFILTERS` on the flag, so a slicer on the flag is intersected, not replaced. Nine pairs.
+3. *Ratios of sums.* WAPE, bias, forecast-month WAPE and bias and MAPE are each a `DIVIDE` of two sums of additive columns; no measure
+   averages a percentage (**tested**: `pipeline/tests/test_model_measures.py`). MAPE sums only the cells whose outturn is at least GBP 100m.
+4. *Like for like by a column, not by a measure.* `Scored By Every Method` marks the cells that every method of the line scored;
+   a visual that compares methods filters it to True, because the seasonal method exists on two thirds of the cells and FTE x cost on a
+   fifth of the pay line. Without the filter a method's WAPE is on its own cells and the bars are not comparable.
+5. *FTE x cost coverage by measures that ignore the method filter.* `FTE x Cost Cell Coverage` and `FTE x Cost Pay Cover` replace the
+   method and line filters themselves, so a table filtered to the department's method can show them beside its WAPE. I first wrote them
+   without the line override, and the department table test (929) found it: the covered count was blank for every department.
+6. *Forecast amounts are not scaled.* The group `Display Unit` names the measures it scales; I left these out because the amounts are
+   absolute errors that a reader compares with ratios.
+
+**Measures** (display folder `Forecast accuracy`): nine pairs, each a plain measure and its `(excl. bad returns)` twin (`Forecast Abs Error`,
+`Forecast Abs Outturn`, `Forecast Error`, `Forecast WAPE`, `Forecast Bias`, `Forecast Month WAPE`, `Forecast Month Bias`, `Forecast MAPE`,
+`Forecast Cells`), and three single measures, `Known Bad Return Cells`, `FTE x Cost Cell Coverage` and `FTE x Cost Pay Cover`: 21 in all.
+
+**Tests.** The eight DAX tests 920 to 927 and the two page tests 928 and 929 each return a table that an independent SQL query over `dw`
+(never over a `dw.v_model_*` view) reproduces: 119 of 119 DAX tests pass (109 before this change). The known bad returns change the
+numbers in the tests (922 and 923), and `pipeline/tests/test_forecast_model.py` fails if they do not. The cases under the two roles are
+in [security.md](security.md#the-forecast-accuracy-under-the-two-roles).
+
+**Findings of the Best Practice Analyzer** (`evidence/bpa`): three new, all information severity, each with its reason. `RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE` on `Fiscal Year Key` of `Fact Forecast Accuracy (derived)`: the financial year is its text (2019-20), the key of `Fiscal Year`, as for the other facts. The same rule on `Method Key` of the fact and of `Forecast Method`: the key is the method's own code (`fte_cost`), which the coverage measures filter by name; I did not add a number to stand for it. The first run also raised nine warnings that I fixed and did not ignore: six amount measures whose format was not one of the model's formats (they now use `£#,##0;-£#,##0;£0`, with the unit in GBP thousands said in each description), two hidden columns that no measure read (`Full Year Forecast` and `Full Year Outturn`, dropped from the model; the view still holds them) and the two label tables' keys, which are now marked as keys. Counts: 63 rules, 27 violations, none above severity 1 (`evidence/bpa/bpa_counts.csv`).
+
+**Pitfalls I met**: a column that another sorts by cannot be `isAvailableInMdx: false` (Desktop refuses to load the project: "does not have an attribute hierarchy enabled"), the column that is sorted by has to be defined before the column that names it, and the name in `sortByColumn` needs quotes when it has a space. A TREATAS over columns of three different tables is a cross product of their values, not a set of tuples: for two cells of the known bad returns the test names the three columns of the fact. A measure that must ignore the visual's method filter has to ignore the line filter too if the rows it needs are on one line only.
+
 ## Not in the model yet
 
 Translations and any security in the service. Not tested: the measures on a report

@@ -177,7 +177,7 @@ The pay bridge (`Fact Pay Bridge (derived)`, `Pay Organisation`, `Pay Coverage`,
   No bridge measure reads a hidden object, so all 13 measures of the bridge fact answer for the Restricted Viewer with the same figures as for the analyst; the five measures of `Pay Coverage` return an error, because they live in a hidden table. Hiding `Organisation Key` protects a department with several organisations; in a department with one organisation the department's paybill is that organisation's paybill, so the hidden column adds nothing there (a limit I accept, since the department total is visible to the role anyway). The paybill parts (salary, allowances, overtime, pension, national insurance) are not in the model, so there is nothing more to hide.
 - The names of the organisations are visible to every Department Analyst whatever department they are mapped to (a dimension member is not filtered; the amounts are), which is what the organisation table of the outturn does too. **Tested** (`902`, case `alice_analyst` and `nobody_analyst` both see 89).
 
-A measure that reads a hidden object returns an error: the probe ([evidence/model/ols_measure_probe.csv](../evidence/model/ols_measure_probe.csv)) now evaluates 87 measures as the Restricted Viewer, 74 answer and 13 return an error: the same 8 as before and the 5 measures of `Pay Coverage`. None of the 13 measures of the bridge fact is among them. **Tested**: `test_the_ols_measure_probe_errors_for_exactly_the_measures_that_live_in_the_hidden_tables`.
+A measure that reads a hidden object returns an error: the probe ([evidence/model/ols_measure_probe.csv](../evidence/model/ols_measure_probe.csv)) now evaluates 108 measures as the Restricted Viewer, 95 answer and 13 return an error: the same 8 as before and the 5 measures of `Pay Coverage`. None of the 13 measures of the bridge fact is among them. **Tested**: `test_the_ols_measure_probe_errors_for_exactly_the_measures_that_live_in_the_hidden_tables`.
 
 **Tested** (`tools/run_rls_tests.ps1`, `ukfr rls-expected`, `ukfr rls-compare`: 136 of 136 cases pass, the 23 new ones in `tests/rls/manifest.csv` with the queries `900_pay_totals` to `906_pay_coverage_hidden`):
 
@@ -194,6 +194,32 @@ A measure that reads a hidden object returns an error: the probe ([evidence/mode
 
 The expected values are written from `dw.workforce_month`, `dw.dim_organisation`, `dw.dim_department`, `dw.department_reported_number`, `audit.workforce_row_arithmetic` and `synthetic.user_department`, never from the views the model reads.
 
+## The forecast accuracy under the two roles
+
+`Fact Forecast Accuracy (derived)`, `Forecast Method` and `Forecast Return` follow the same department filter as everything else, in the
+same two roles and with no third one: the fact is related to `Department (current structure)`, so a user sees the forecast scores of the
+department groups that map to the user's departments (by the department number in the group code) and nothing else; a user with no
+department sees nothing.
+
+- **Row-level.** Both roles filter through the department dimension, with no new table permission.
+- **Object-level (Restricted Viewer): nothing is hidden, and I decided that on the pay bridge's rule.** The rule there is that any
+  object that exposes organisation-level paybill is hidden. The forecast fact exposes the paybill of a department group's workforce
+  only as the sum of the department's valid organisations in one month (two hidden columns, `Cover Workforce` and `Cover Pay`, behind
+  the one ratio `FTE x Cost Pay Cover`), never one organisation's; the department's own paybill is already visible to the role in the
+  pay bridge. The FTE x cost rows carry no organisation key, and nothing else in the model joins the fact to an organisation. A
+  department with a single organisation shows that organisation's paybill in the ratio; the department total is visible to the role
+  anyway, as with the pay bridge. A test (`pipeline/tests/test_model_files.py`) fails if a column of the fact names an organisation.
+- **Known exposure.** The cover columns are hidden and not secured: a Restricted Viewer who writes a query naming them gets the
+  department-level paybill in thousands and the pay line of the month for the department's own groups. That is data the role may see.
+
+**Tested** (`tools/run_rls_tests.ps1`, `ukfr rls-expected`, `ukfr rls-compare`: 149 of 149 cases pass, the 13 new ones in
+`tests/rls/manifest.csv` with the queries `920_forecast_department_accuracy` and `921_forecast_fte_cost_rows`):
+
+| Query | Users and role | What it shows |
+|---|---|---|
+| `920_forecast_department_accuracy` (cells, absolute error, absolute outturn and WAPE of the department's own forecast, by department) | analyst: `alice`, `chloe`, `jasmine`, `george`, `nobody`; restricted: `alice`, `chloe`, `nobody` | only the user's departments, equal to SQL over `dw.forecast_accuracy` and the user map; `nobody`: no rows; the restricted viewer sees the same rows as the analyst of the same name |
+| `921_forecast_fte_cost_rows` (FTE x cost cells and the pay seen, by department) | analyst: `chloe`, `jasmine`, `nobody`; restricted: `chloe`, `jasmine` | only the user's departments, equal to SQL; the restricted viewer answers the FTE x cost measures with the same figures (no hidden object is read) |
+
 ## The cases I ran
 
 `tools/run_rls_tests.ps1` runs each row of `tests/rls/manifest.csv` through `tools/run_dax.ps1` with `-Roles` and `-User`
@@ -208,7 +234,7 @@ uv run --project pipeline ukfr rls-expected
 uv run --project pipeline ukfr rls-compare
 ```
 
-Result of the last run: **136 of 136 cases pass** (114 `values`, 11 `differs`, 11 `error`, with the NHS trust accounts and the pay bridge above; 87 of 87 before the NHS trust accounts). A planted wrong number in one result
+Result of the last run: **149 of 149 cases pass** (127 `values`, 11 `differs`, 11 `error`, with the NHS trust accounts, the pay bridge and the forecast accuracy above; 87 of 87 before the NHS trust accounts). A planted wrong number in one result
 file made `rls-compare` report one failure, and restoring it made all pass.
 
 | Case family | Users and role | What it shows |
