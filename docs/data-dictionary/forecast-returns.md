@@ -50,8 +50,8 @@ machine is doing.
 | `quarantine.forecast_return_unmapped` | 17,451 cells | a cell whose organisation code has no key |
 | `dw.forecast_return_header` | 83 | one return |
 | `dw.forecast_return_quality` | 105 | one flag |
-| `dw.forecast_own_input`, `dw.forecast_prior_profile`, `dw.forecast_own` | 55,448; 7,472; 84,049 | see "My own forecast" |
-| `dw.forecast_month_compare`, `dw.forecast_accuracy` | 304,092; 25,341 | see "Accuracy" |
+| `dw.forecast_own_input`, `dw.forecast_prior_profile`, `dw.forecast_own` | 55,448; 7,472; 74,256 | see "My own forecast" |
+| `dw.forecast_month_compare`, `dw.forecast_accuracy` | 288,912; 24,076 | see "Accuracy" |
 | `audit.forecast_return_summary`, `audit.forecast_accuracy_headline`, `audit.forecast_r13_vs_outturn` | 6, 34, 85 | see "Audits" |
 
 (Row counts are from `table_counts.csv` of the full-scope build, copied to `evidence/full/table_counts_forecast.csv`.)
@@ -154,7 +154,7 @@ month m = n + 1 to 12:
 | Method | Forecast of month m | Defined |
 |---|---|---|
 | `run_rate` | the mean of the n actual months to date, year to date / n (a month with no row is zero) | n = 1 to 11 |
-| `seasonal` | the prior year's R13 monthly profile scaled to the year to date: year to date x prior(m) / prior(1 to n) | n = 1 to 11, and only where the prior year's months 1 to n do not sum to zero; none for FY2017-18, whose prior year is not in the files |
+| `seasonal` | the prior year's R13 monthly profile scaled to the year to date: year to date x prior(m) / prior(1 to n) | n = 1 to 11, and only where the guard holds: the prior year's months 1 to n have the same sign as the year to date and are at least 10% of the absolute prior-year R13 total of the cell; none for FY2017-18, whose prior year is not in the files |
 
 R0 has no actual month, so neither method exists for it; R12 has no month left. A forecast from the FTE times cost-per-FTE
 is not built here: it needs the workforce data and a later task adds it. Each row carries its lineage: `input_return_no`
@@ -168,6 +168,36 @@ profile equals R13 of the prior year, and (d) recomputes both methods from that 
 `dw.forecast_return` directly, and requires an exact match with `dw.forecast_own`. `sql/tests/661` pins where the
 forecast exists. `pipeline/tests/test_forecast_returns.py::test_own_forecast_arithmetic_agrees_with_python_decimals` recomputes
 a sample of 40 cells in Python decimals at 60 digits and agrees to within 0.0001.
+
+### Why the seasonal method has a guard
+
+The first version of the seasonal method had no guard and scored a WAPE of 84% to 116% in four of the five years it exists.
+I looked at the ten cells with the largest absolute full-year error before changing anything
+(**tested**: `tests/diagnostics/seasonal_top_errors.sql`, result before the guard in
+`tests/diagnostics/seasonal_top_errors_before_guard.csv`). Money in GBP thousands, rounded:
+
+| FY, return | Department group, budget | Year to date | Prior-year months 1 to n | Prior-year total | Share | Seasonal forecast | R13 |
+|---|---|---|---|---|---|---|---|
+| 2018-19 R1 | CLG085, AME | 1,910,340 | -5,730 | 15,974,741 | 0.04% | -5,325,861,557 | 21,799,203 |
+| 2021-22 R9 | HMT087, AME | -37,649,548 | 261,537 | 35,153,079 | 0.7% | -5,060,460,031 | 46,184,146 |
+| 2022-23 R7 | HMT087, AME | 153,384,591 | 2,133,074 | 46,184,146 | 4.6% | 3,320,998,871 | 135,544,185 |
+| 2022-23 R8 | BIS084, AME | 10,546,003 | 389,292 | 111,031,076 | 0.4% | 3,007,855,442 | -78,984,217 |
+| 2022-23 R1 | HMT087, AME | 1,801,542 | 32,079 | 46,184,146 | 0.07% | 2,593,680,562 | 135,544,185 |
+| 2019-20 R11 | BIS084, AME | 6,761,575 | -1,009,630 | -106,507,757 | 0.9% | 713,291,193 | 9,720,206 |
+| 2021-22 R10 | HMT087, AME | -14,892,802 | 867,129 | 35,153,079 | 2.5% | -603,748,514 | 46,184,146 |
+| 2019-20 R10 | BIS084, AME | 6,565,762 | -1,139,050 | -106,507,757 | 1.1% | 613,936,687 | 9,720,206 |
+| 2022-23 R8 | HMT087, AME | 129,085,523 | -13,052,658 | 46,184,146 | 28.3% | -456,742,576 | 135,544,185 |
+| 2022-23 R10 | HMT087, AME | 147,077,050 | -15,014,774 | 46,184,146 | 32.5% | -452,396,283 | 135,544,185 |
+
+All ten are departmental AME, and the denominator is the cause: the prior year's months 1 to n are either a tiny share of its
+year (under 5% in eight of the ten) or of the opposite sign to the year to date (seven of the ten); every one of the ten fails the guard below one way or the other, so the factor
+prior(m) / prior(1 to n) is huge or flips the sign of the forecast. The guard is therefore a definition, not a tuning: the
+seasonal forecast exists only where the prior year's months 1 to n have the same sign as the year to date and are at least
+10% of the absolute prior-year total. A cell that fails it has no seasonal forecast at all. **Tested**: `sql/tests/661` states
+the rule exactly (every seasonal row obeys it and every cell that passes it has a seasonal forecast) and `sql/tests/660`
+recomputes the forecast with the guard. Run again after the guard, the same query shows the two largest remaining errors in
+cells that are themselves flagged (`NCA073` R1 of FY2021-22 and `DCM048` R3 of FY2020-21, units and scale errors in the
+return) and, after them, departmental AME lines of HM Treasury, Health and BEIS where R13 differs greatly from the returns.
 
 ## Accuracy
 
@@ -211,31 +241,32 @@ with the readers: its own Deflate64 stream, the `csv` module, columns found by h
 GBP 3 on 1,238bn). The independent run reads 10.5 million records and takes about nine minutes.
 
 `audit.forecast_accuracy_headline` pools R1 to R11 and every cell of a year (**tested** build, results in
-`evidence/full/forecast_accuracy_headline.csv`). Full-year WAPE and bias, each method on all its cells:
+`evidence/full/forecast_accuracy_headline.csv`). Full-year WAPE and signed bias. The department column is on all its
+cells; each of my methods is on the cells where it exists, and the figure in brackets is the department on those same
+cells. Seasonal coverage is cells and value (sum of |outturn|) as a share of all the cells of the year; a method that does
+not cover a cell is not scored on it, and the audit table shows what is left out:
 
-| Year | Version | Department WAPE / bias | Run rate | Seasonal |
-|---|---|---|---|---|
-| FY2017-18 | all returns | 12.9% / -8.0% | 23.2% / -13.2% | none (no prior year) |
-| FY2017-18 | excluding flagged | 12.6% / -7.8% | 23.3% / -13.2% | none |
-| FY2018-19 | all returns | 18.3% / +9.4% | 21.4% / +11.8% | 84.5% / -33.6% |
-| FY2018-19 | excluding flagged | 17.0% / +11.1% | 21.4% / +11.8% | 84.5% / -33.6% |
-| FY2019-20 | all returns | 7.5% / +0.1% | 9.0% / -4.4% | 48.0% / +7.4% |
-| FY2019-20 | excluding flagged | 7.0% / +1.0% | 8.4% / -4.6% | 51.5% / +10.9% |
-| FY2020-21 | all returns | 13.7% / -2.1% | 19.9% / -3.3% | 24.0% / +4.6% |
-| FY2020-21 | excluding flagged | 11.2% / -2.5% | 16.4% / -5.2% | 20.1% / +2.2% |
-| FY2021-22 | all returns | 23.7% / -4.8% | 36.4% / -4.5% | 89.1% / -57.0% |
-| FY2021-22 | excluding flagged | 17.5% / -7.6% | 27.1% / -13.2% | 83.9% / -62.1% |
-| FY2022-23 | all returns | 22.9% / +10.9% | 25.2% / +8.3% | 116.2% / +65.3% |
-| FY2022-23 | excluding flagged | 21.7% / +11.0% | 24.6% / +8.0% | 116.3% / +65.2% |
+| Year | Version | Department | Run rate (dept on same cells) | Seasonal (dept on same cells) | Seasonal coverage, cells / value |
+|---|---|---|---|---|---|
+| FY2017-18 | all returns | 12.9% / -8.0% | 23.2% / -13.2% (12.6% / -7.7%) | none: no prior year | |
+| FY2017-18 | excluding flagged | 12.6% / -7.8% | 23.3% / -13.2% (12.6% / -7.8%) | none | |
+| FY2018-19 | all returns | 18.3% / +9.4% | 21.4% / +11.8% (16.6% / +11.7%) | 14.2% / +4.4% (6.4% / +0.8%) | 59% / 79% |
+| FY2018-19 | excluding flagged | 17.0% / +11.1% | 21.4% / +11.8% (16.6% / +11.7%) | 14.2% / +4.4% (6.4% / +0.8%) | 60% / 80% |
+| FY2019-20 | all returns | 7.5% / +0.1% | 9.0% / -4.4% (7.4% / +0.1%) | 8.0% / -1.7% (6.7% / +1.0%) | 68% / 90% |
+| FY2019-20 | excluding flagged | 7.0% / +1.0% | 8.4% / -4.6% (7.0% / +1.1%) | 6.5% / +0.1% (6.2% / +2.0%) | 68% / 90% |
+| FY2020-21 | all returns | 13.7% / -2.1% | 19.9% / -3.3% (13.5% / -1.9%) | 18.7% / +4.8% (11.8% / -0.7%) | 68% / 89% |
+| FY2020-21 | excluding flagged | 11.2% / -2.5% | 16.4% / -5.2% (11.2% / -2.5%) | 14.2% / +2.1% (9.3% / -1.4%) | 69% / 89% |
+| FY2021-22 | all returns | 23.7% / -4.8% | 36.4% / -4.5% (22.4% / -3.2%) | 16.6% / +8.0% (12.5% / +5.4%) | 67% / 76% |
+| FY2021-22 | excluding flagged | 17.5% / -7.6% | 27.1% / -13.2% (17.4% / -7.6%) | 10.6% / +2.7% (7.2% / +0.9%) | 68% / 77% |
+| FY2022-23 | all returns | 22.9% / +10.9% | 25.2% / +8.3% (22.3% / +11.6%) | 14.3% / +7.1% (7.4% / +5.7%) | 67% / 74% |
+| FY2022-23 | excluding flagged | 21.7% / +11.0% | 24.6% / +8.0% (21.6% / +11.0%) | 14.2% / +7.3% (7.3% / +5.8%) | 68% / 75% |
 
-The audit table also carries `dept_wape` and `dept_bias`, the department's own forecast on exactly the cells where each
-of my methods exists; they are within 2 points of the first column in every row. The department beats either simple
-method in every year and the seasonal method is the worst in every year. I think the reason is that it multiplies the year
-to date by a prior-year profile whose early months can be tiny, so a small denominator blows the forecast up, but I have
-not tested that. I did not tune it. These are WAPEs over every department
-group and budget measure including departmental AME, which the profiling already showed is a poor test of forecasting
-skill; the full-year DEL figures in the profiling (about 1 to 6% like for like) are on total DEL and are not the same
-measure.
+On exactly the same cells the department beats both simple methods in every year. The seasonal method now covers about
+two thirds of the cells and three quarters to nine tenths of the value; its WAPE is lower than the run rate's mostly because
+it is scored on the stabler lines (the department's own WAPE is also much lower on them), which is why the comparison with the department on the same cells is the fair one. These are WAPEs over every
+department group and budget measure including departmental AME, which the profiling already showed is a poor test of
+forecasting skill; the full-year DEL figures in the profiling (about 1 to 6% like for like) are on total DEL and are not
+the same measure.
 
 **R13 against the outturn dw already holds** (`audit.forecast_r13_vs_outturn`, **tested** complete and tying,
 `sql/tests/659`; not a gate): for DEL, R13 is 0.3% above the year-end in-year release in FY2018-19, 3.0% above it in FY2019-20,
@@ -247,9 +278,10 @@ profiling found (R13 was revised until October 2022; the June snapshot was taken
 
 ## What I could not settle
 
-- Seasonal accuracy depends on a profile that can be tiny in the first months; I report it as specified and did not add a
-  guard. A guard (for example, fall back to the run rate when the prior year's months 1 to n are under a tenth of the
-  year) would be a design change, not a fix.
+- The seasonal method covers about two thirds of the cells and 74% to 90% of the value of a year (the audit table has the
+  exact coverage); the cells that fail its guard have no forecast from it, and a method that falls back to the run rate there
+  would be a different method. I chose the 10% threshold by reading the ten worst errors, not by tuning it against the
+  WAPE; a different threshold would move the coverage and the WAPE, and I have not scanned thresholds.
 - The 45 quarantined codes are bodies the in-year dimension has never seen. Whether they should get a key by an authored
   mapping is a decision for whoever reads this table next.
 - The flags are rules, not a judgement on the source: `HM Treasury` and `ECG025` are flagged because their returns differ
