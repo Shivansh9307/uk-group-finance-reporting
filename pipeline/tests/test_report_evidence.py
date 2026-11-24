@@ -33,6 +33,7 @@ PAGES = [
     "08_nhs_balance_sheet",
     "09_nhs_cash_flow",
     "10_nhs_elimination_control",
+    "11_pay_bridge",
 ]
 
 

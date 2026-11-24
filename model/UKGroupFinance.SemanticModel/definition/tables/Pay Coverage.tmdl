@@ -1,0 +1,131 @@
+/// AUDIT and CONTROL, no new number: for each department series and month of the workforce files, how many published rows the organisation map placed on an organisation, and the full-time equivalent and paybill (pounds) published and placed. The mapped share is the coverage the pay bridge rests on: 93.8 per cent of published payroll full-time equivalent and 76.8 per cent of paybill overall. The Ministry of Defence's paybill is 45.5 per cent covered (rows labelled another month are quarantined) and the core of the Ministry of Housing, Communities and Local Government is not mapped. Related to the fiscal period only; not filtered by the department roles and hidden from the Restricted Viewer. Source view dw.v_model_pay_coverage (audit.workforce_mapping_coverage).
+table 'Pay Coverage'
+	lineageTag: 2e554f78-73e4-4232-8095-0bbb39bba48f
+
+	/// Full-time equivalent placed on an organisation as a share of the full-time equivalent published, over the series and months in context.
+	measure 'Pay FTE Coverage' = DIVIDE ( SUM ( 'Pay Coverage'[FTE Mapped] ), SUM ( 'Pay Coverage'[FTE Published] ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Pay bridge\Coverage
+		lineageTag: 47d85a54-1ab6-434b-b5ce-ea962368965d
+
+	/// Paybill placed on an organisation as a share of the paybill published, over the series and months in context.
+	measure 'Pay Paybill Coverage' = DIVIDE ( SUM ( 'Pay Coverage'[Paybill Mapped] ), SUM ( 'Pay Coverage'[Paybill Published] ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Pay bridge\Coverage
+		lineageTag: db9c0cea-8f74-4e08-9f96-4c1494d0c554
+
+	/// Published payroll paybill in pounds, over the series and months in context.
+	measure 'Pay Paybill Published' = SUM ( 'Pay Coverage'[Paybill Published] )
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge\Coverage
+		lineageTag: 94b4f39d-7975-41a4-b6da-68cad207a80a
+
+	/// Published payroll paybill in pounds that the map placed on an organisation, over the series and months in context.
+	measure 'Pay Paybill Mapped' = SUM ( 'Pay Coverage'[Paybill Mapped] )
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge\Coverage
+		lineageTag: c857bd25-03e4-407d-84b6-ea828220ae79
+
+	/// Months of a series in context that have at least one published row.
+	measure 'Pay Coverage Months' = COUNTROWS ( 'Pay Coverage' )
+		formatString: #,##0
+		displayFolder: Pay bridge\Coverage
+		lineageTag: f439d5de-e8ec-4170-aff9-fb33f49d3a3c
+
+	/// Relationship column to Fiscal Period.
+	column 'Period Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1f939a6e-10a6-4841-9491-560fc17a721b
+		summarizeBy: none
+		sourceColumn: period_key
+
+	/// Code of the department series in the file name (beis, dhsc and so on).
+	column 'Series Code'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: bcddfd1e-b1a8-4e89-b32d-5918842831ef
+		summarizeBy: none
+		sourceColumn: series_code
+
+	/// The department series that publishes the file. HM Land Registry's own collection is a series I do not count (the BEIS series is the copy I use).
+	column Series
+		dataType: string
+		lineageTag: 389279b6-f61b-4362-9003-3ab0a3670185
+		summarizeBy: none
+		sourceColumn: series
+
+	/// The month of the file, written 2024-05.
+	column 'Report Month'
+		dataType: string
+		lineageTag: 73c9c285-ad32-4b0b-9d75-866ab16473ac
+		summarizeBy: none
+		sourceColumn: report_month
+		sortByColumn: 'Period Key'
+
+	/// Organisation rows in the file (spare template rows not counted).
+	column 'Rows Published'
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 9d7d1631-8f66-4fce-b52e-8751268dcaf0
+		summarizeBy: none
+		sourceColumn: rows_total
+
+	/// Rows the map placed on an organisation.
+	column 'Rows Mapped'
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 9645cd5f-3221-46b9-996e-66f69152fc17
+		summarizeBy: none
+		sourceColumn: rows_mapped
+
+	/// Published payroll full-time equivalent of the rows with a value. Hidden: use the measures.
+	column 'FTE Published'
+		dataType: decimal
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,##0.0000
+		lineageTag: b29ea2f6-1a03-441f-92dd-f3abdf4fe7a5
+		summarizeBy: none
+		sourceColumn: fte_total
+
+	/// Published payroll full-time equivalent of the mapped rows. Hidden: use the measures.
+	column 'FTE Mapped'
+		dataType: decimal
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,##0.0000
+		lineageTag: 0fe167fe-8aef-48b4-8ef6-ee6511e56195
+		summarizeBy: none
+		sourceColumn: fte_mapped
+
+	/// Published payroll paybill in pounds of the rows with a value. Hidden: use the measures.
+	column 'Paybill Published'
+		dataType: decimal
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,##0.0000
+		lineageTag: 53255dc0-cfcb-496b-bf55-20e2644fc04c
+		summarizeBy: none
+		sourceColumn: paybill_total
+
+	/// Published payroll paybill in pounds of the mapped rows. Hidden: use the measures.
+	column 'Paybill Mapped'
+		dataType: decimal
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,##0.0000
+		lineageTag: 40a30b2d-3720-4f40-8072-fe7e598a7e4f
+		summarizeBy: none
+		sourceColumn: paybill_mapped
+
+	partition 'Pay Coverage' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_pay_coverage"]}[Data]
+				in
+				    Data

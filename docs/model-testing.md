@@ -64,7 +64,7 @@ are passed through to `tools/run_dax.ps1`). `ukfr expected --filter 702` regener
 2. Write `tests/expected/<NNN>_<name>.sql` over `dw` base tables with the same column names in the same order. Do not
    read a `dw.v_model_*` view, which is what the model reads (a pytest fails if you do). Cast amounts to
    `DECIMAL`; a float in an expected result is refused.
-3. `ukfr expected --filter <NNN>`, run the DAX, `ukfr dax-compare`.
+3. `ukfr expected --filter <NNN>`, run the DAX, `ukfr dax-compare`. An expected query may start with statements that build temporary tables (the pay bridge tests do, to keep every join an equality; the runner skips the statements that return no rows and reads the first result set).
 4. Commit the three source files, the two CSVs and `evidence/model/dax_tests.csv`.
 
 ## What "independent" means

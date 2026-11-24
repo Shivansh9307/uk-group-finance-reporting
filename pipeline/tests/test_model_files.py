@@ -183,6 +183,7 @@ def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(t
     view_files += sorted((repo_root / "sql" / "audit").glob("78?_*.sql"))
     view_files += sorted((repo_root / "sql" / "audit").glob("80?_*.sql"))
     view_files += sorted((repo_root / "sql" / "audit").glob("15?_*.sql"))
+    view_files += sorted((repo_root / "sql" / "audit").glob("90?_*.sql"))
     view_files += sorted((repo_root / "sql" / "dw").glob("82?_*.sql"))
     sql_text = "\n".join(p.read_text(encoding="utf-8") for p in view_files)
     created = set(re.findall(r"CREATE VIEW dw\.(v_model_\w+)", sql_text))
@@ -235,7 +236,7 @@ def test_derived_and_real_tables_are_labelled(tables):
 
 # ----------------------------------------------------------------------------------------- relationships
 def test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one(relationships, tables):
-    assert len(relationships) == 34
+    assert len(relationships) == 38
     seen = set()
     for r in relationships:
         for end in ("fromColumn", "toColumn"):
@@ -389,7 +390,16 @@ def roles(model_dir) -> dict[str, dict]:
     return out
 
 
-AUDIT_TABLES = {"File Control", "Plan Coverage", "Annual Control", "PSS Control", "Load Control", "Plan Variance Check"}
+AUDIT_TABLES = {
+    "File Control",
+    "Plan Coverage",
+    "Annual Control",
+    "PSS Control",
+    "Load Control",
+    "Plan Variance Check",
+    "Pay Coverage",
+    "Pay Organisation",
+}
 
 
 def test_the_model_has_exactly_the_two_security_roles_and_the_model_file_refers_to_them(model_dir, roles):
@@ -425,7 +435,12 @@ def test_object_level_security_is_in_the_restricted_role_only_and_hides_what_the
     analyst, restricted = roles["Department Analyst"], roles["Restricted Viewer"]
     assert not analyst["hidden_tables"] and not analyst["hidden_columns"], "the analyst role has no object security"
     assert restricted["hidden_tables"] == AUDIT_TABLES
-    assert set(restricted["hidden_columns"]) == {"Organisation (as reported)", "Data Quality Issue", "TAC Provider"}
+    assert set(restricted["hidden_columns"]) == {
+        "Organisation (as reported)",
+        "Data Quality Issue",
+        "TAC Provider",
+        "Fact Pay Bridge (derived)",
+    }
     for table, cols in restricted["hidden_columns"].items():
         for c in cols:
             assert c in tables[table].columns, f"{table}[{c}] does not exist"
@@ -434,6 +449,7 @@ def test_object_level_security_is_in_the_restricted_role_only_and_hides_what_the
         "Organisation (as reported)": {"Organisation Code", "Durable Key", "Department Number (as reported)"},
         "Data Quality Issue": {"Issue Type", "Issue Rule", "Flags Fact Rows"},
         "TAC Provider": {"Provider Key", "Department Key", "Provider Type"},
+        "Fact Pay Bridge (derived)": {"Department Key", "Period Key", "Paybill Current", "Paybill Prior"},
     }
     for table, names in kept.items():
         assert not (restricted["hidden_columns"][table] & names), table

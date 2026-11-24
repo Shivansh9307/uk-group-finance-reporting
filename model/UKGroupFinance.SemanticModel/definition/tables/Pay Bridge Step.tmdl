@@ -1,0 +1,29 @@
+/// Labels only, no number: the five steps of the pay bridge waterfall (prior paybill, volume, rate, mix, entry and exit), so that one measure (Pay Bridge Step Amount) can give each step its value. Source view dw.v_model_pay_bridge_step.
+table 'Pay Bridge Step'
+	lineageTag: 0e9f4017-fda7-4952-bfab-345597dc19ac
+
+	/// 1 to 5, the order of the steps.
+	column 'Step Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 417513d3-d490-4585-9303-6e644b7fafd5
+		summarizeBy: none
+		sourceColumn: step_order
+
+	/// Name of the step of the pay bridge.
+	column Step
+		dataType: string
+		lineageTag: 274afe18-ec14-48e4-8f18-1ba2588f8727
+		summarizeBy: none
+		sourceColumn: step_name
+		sortByColumn: 'Step Order'
+
+	partition 'Pay Bridge Step' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_pay_bridge_step"]}[Data]
+				in
+				    Data

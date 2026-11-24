@@ -123,8 +123,7 @@ visible to a user and its measure values are blank outside their departments. Fi
 lines through its relationship, because an organisation's department as reported is not its department in the current
 structure.
 
-Paybill detail does not exist in the model yet. A later phase adds its object-level security to this same role, not to a
-third one.
+Paybill detail is in the pay bridge, and its object-level security is in this same role, not in a third one: see "The pay bridge under the two roles" below.
 
 ### Which measures the object-level security affects
 
@@ -165,6 +164,35 @@ follow the same row filter as everything else, without a third role and without 
 
 The expected values are written from `dw.tac_provider_group`, `dw.tac_fact`, `dw.tac_cash_flow_derived` and `dw.tac_consolidated_control` with `synthetic.user_department`, never from the views the model reads.
 
+## The pay bridge under the two roles
+
+The pay bridge (`Fact Pay Bridge (derived)`, `Pay Organisation`, `Pay Coverage`, `Pay Bridge Step`; [model.md](model.md#the-pay-bridge-paybill-volume-rate-and-mix)) follows the same filter as everything else, in the same two roles and with no third one.
+
+- **Row-level.** The bridge fact is related to `Department (current structure)` through the department the organisation sat in that month, so the Department Analyst and Restricted Viewer filters reach it without a table permission of its own. A user sees the bridge only for the departments of the map that have workforce data: `alice.morgan` (003) sees the Department for Environment, Food and Rural Affairs, `jasmine.reid` (013, 048, 084) three departments, `chloe.patel` (033) Health and Social Care; `dev.sharma` (010, Cabinet Office) and `nobody@example.org` see nothing and every amount is blank. Volume and mix are worked out on the rows the user can see, so a user for two departments sees a bridge pooled over those two.
+- **Object-level (Restricted Viewer only, in the same role).** I hide the organisation-level detail of paybill:
+  1. the table `Pay Organisation` (the code and name of each of the 89 organisations);
+  2. the column `Organisation Key` of `Fact Pay Bridge (derived)` (the key that would give the paybill of each organisation);
+  3. the table `Pay Coverage` (the paybill and full-time equivalent published and placed, by department series and month; a control table, so the department filter does not reach it, and the Department Analyst can read it, like `Plan Coverage`).
+  No bridge measure reads a hidden object, so all 13 measures of the bridge fact answer for the Restricted Viewer with the same figures as for the analyst; the five measures of `Pay Coverage` return an error, because they live in a hidden table. The paybill parts (salary, allowances, overtime, pension, national insurance) are not in the model, so there is nothing more to hide.
+- The names of the organisations are visible to every Department Analyst whatever department they are mapped to (a dimension member is not filtered; the amounts are), which is what the organisation table of the outturn does too. **Tested** (`902`, case `alice_analyst` and `nobody_analyst` both see 89).
+
+A measure that reads a hidden object returns an error: the probe ([evidence/model/ols_measure_probe.csv](../evidence/model/ols_measure_probe.csv)) now evaluates 87 measures as the Restricted Viewer, 74 answer and 13 return an error: the same 8 as before and the 5 measures of `Pay Coverage`. None of the 13 measures of the bridge fact is among them. **Tested**: `test_the_ols_measure_probe_errors_for_exactly_the_measures_that_live_in_the_hidden_tables`.
+
+**Tested** (`tools/run_rls_tests.ps1`, `ukfr rls-expected`, `ukfr rls-compare`: 136 of 136 cases pass, the 23 new ones in `tests/rls/manifest.csv` with the queries `900_pay_totals` to `906_pay_coverage_hidden`):
+
+| Case | Role and user | Result |
+|---|---|---|
+| `900_pay_totals` (the bridge of 2025-26, the paybill of the valid cells, the rows of the fact and of the rows left out) | analyst: `alice`, `ben`, `chloe`, `george`, `hannah`, `jasmine`; `dev`, `nobody` | figures for the user's departments, equal to SQL; `dev` and `nobody`: amounts blank, counts 0 |
+| `900_pay_totals` | restricted: `alice`, `jasmine`, `nobody` | the same figures as the analyst of the same name |
+| `901_pay_by_department` | analyst: `jasmine` (three departments), `chloe` (one), `nobody` (none); restricted: `alice` | only the user's departments, equal to SQL |
+| `902_pay_organisation_names` | analyst: `alice`, `nobody` | 89 organisations, 89 named, for both |
+| `903_pay_organisation_names_hidden` | restricted: `chloe`, `nobody` | refused: `Cannot find table 'Pay Organisation'.` |
+| `904_pay_organisation_key_hidden` | restricted: `alice` | refused: `Column 'Organisation Key' in table 'Fact Pay Bridge (derived)' cannot be found or may not be used in this expression.` |
+| `905_pay_coverage_rows` | analyst: `alice`, `nobody` | 1,353 rows and the same paybill for both (no department filter) |
+| `906_pay_coverage_hidden` | restricted: `chloe` | refused: `Cannot find table 'Pay Coverage'.` |
+
+The expected values are written from `dw.workforce_month`, `dw.dim_organisation`, `dw.dim_department`, `dw.department_reported_number`, `audit.workforce_row_arithmetic` and `synthetic.user_department`, never from the views the model reads.
+
 ## The cases I ran
 
 `tools/run_rls_tests.ps1` runs each row of `tests/rls/manifest.csv` through `tools/run_dax.ps1` with `-Roles` and `-User`
@@ -179,7 +207,7 @@ uv run --project pipeline ukfr rls-expected
 uv run --project pipeline ukfr rls-compare
 ```
 
-Result of the last run: **113 of 113 cases pass** (95 `values`, 11 `differs`, 7 `error`, with the NHS trust accounts below; 87 of 87 before them). A planted wrong number in one result
+Result of the last run: **136 of 136 cases pass** (114 `values`, 11 `differs`, 11 `error`, with the NHS trust accounts and the pay bridge above; 87 of 87 before the NHS trust accounts). A planted wrong number in one result
 file made `rls-compare` report one failure, and restoring it made all pass.
 
 | Case family | Users and role | What it shows |

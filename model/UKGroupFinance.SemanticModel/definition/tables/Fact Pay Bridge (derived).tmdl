@@ -1,0 +1,325 @@
+/// DERIVED from real data, in pounds (not GBP thousands): the paybill and full-time equivalent of the payroll published in the departments' monthly workforce files, compared month against the same month a year earlier. One row per department of the current structure, organisation and month (the later month of the two). A row is continuing (valid in both months in the same department), entry, exit, or not_bridged (left out, with a reason); only the first three enter the bridge. Valid means the cell has a full-time equivalent above zero and a paybill above zero, and no published row behind it is listed in audit.workforce_row_arithmetic. Nothing synthetic or authored is in it; the only authored input is the map from a published name to an organisation. The department is the department of the current structure the body sat in that month, so the security roles filter it through Department (current structure). Source view dw.v_model_pay_bridge.
+table 'Fact Pay Bridge (derived)'
+	lineageTag: 037daa35-3740-4a5e-baee-8aa07ec9237a
+
+	/// Payroll paybill, in pounds, of the organisations in the bridge a year before the month in context (continuing and exit). Prior + volume + rate + mix + entry and exit = current paybill, and Pay Bridge Tie Difference shows that difference, which is zero. Volume and mix are worked out on the selection, month by month, and are not additive over departments; volume plus mix, rate and entry and exit are.
+	measure 'Pay Bridge Prior Paybill' =
+			CALCULATE (
+			    SUM ( 'Fact Pay Bridge (derived)'[Paybill Prior] ),
+			    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "exit" } )
+			)
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge
+		lineageTag: 268c0007-f5fa-4646-aee5-4714f768a7c5
+
+	/// Payroll paybill, in pounds, of the organisations in the bridge in the later of the two months (continuing and entry), against Pay Bridge Prior Paybill the same month a year earlier. Not the whole of a department: cells that are not valid are left out (see Pay Bridge Rows Not Bridged).
+	measure 'Pay Bridge Current Paybill' =
+			CALCULATE (
+			    SUM ( 'Fact Pay Bridge (derived)'[Paybill Current] ),
+			    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "entry" } )
+			)
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge
+		lineageTag: d411954f-f187-4c06-9b53-4c90fea8effd
+
+	/// The part of the change in paybill that comes from a change in the number of full-time equivalent staff of the continuing organisations, valued at their prior average cost (paybill per full-time equivalent). Worked out month by month on the organisations in context, then added over months.
+	measure 'Pay Bridge Volume' =
+			VAR BridgedRows =
+			    CALCULATE (
+			        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+			        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "entry", "exit" } )
+			    )
+			RETURN
+			    IF (
+			        BridgedRows > 0,
+			        COALESCE (
+			            SUMX (
+			                VALUES ( 'Fact Pay Bridge (derived)'[Period Key] ),
+			                VAR FteNow =
+			                    CALCULATE (
+			                        SUM ( 'Fact Pay Bridge (derived)'[FTE Current] ),
+			                        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "continuing" )
+			                    )
+			                VAR FtePrior =
+			                    CALCULATE (
+			                        SUM ( 'Fact Pay Bridge (derived)'[FTE Prior] ),
+			                        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "continuing" )
+			                    )
+			                VAR PayPrior =
+			                    CALCULATE (
+			                        SUM ( 'Fact Pay Bridge (derived)'[Paybill Prior] ),
+			                        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "continuing" )
+			                    )
+			                RETURN
+			                    IF ( FtePrior <> 0, ( FteNow - FtePrior ) * DIVIDE ( PayPrior, FtePrior ) )
+			            ),
+			            0
+			        )
+			    )
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge
+		lineageTag: 6cfec447-74a0-4c76-ac73-daa2b676503a
+
+	/// The part of the change in paybill that comes from a change in average cost: the sum over continuing organisations of the current full-time equivalent times the change in the organisation's paybill per full-time equivalent. Additive over any selection.
+	measure 'Pay Bridge Rate' =
+			VAR BridgedRows =
+			    CALCULATE (
+			        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+			        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "entry", "exit" } )
+			    )
+			RETURN
+			    IF (
+			        BridgedRows > 0,
+			        COALESCE (
+			            CALCULATE (
+			                SUM ( 'Fact Pay Bridge (derived)'[Organisation Rate] ),
+			                KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "continuing" )
+			            ),
+			            0
+			        )
+			    )
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge
+		lineageTag: 9738a893-f706-436e-b6a0-d4e7e94acd72
+
+	/// The part of the change in paybill that comes from the mix of organisations: the continuing organisations' own volume (their change in full-time equivalent at their own prior average cost) less the volume of the selection as a whole. Zero for a single organisation, and for a department of one organisation. At group level it includes the shift between departments.
+	measure 'Pay Bridge Mix' =
+			VAR BridgedRows =
+			    CALCULATE (
+			        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+			        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "entry", "exit" } )
+			    )
+			RETURN
+			    IF (
+			        BridgedRows > 0,
+			        COALESCE (
+			            CALCULATE (
+			                SUM ( 'Fact Pay Bridge (derived)'[Organisation Volume] ),
+			                KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "continuing" )
+			            ),
+			            0
+			        )
+			            - [Pay Bridge Volume]
+			    )
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge
+		lineageTag: ae5d005b-093f-4c76-8001-bad0ca1931fa
+
+	/// The paybill of organisations valid in the later month and not a year earlier (a body that joined the department, or one that moved in from another), less the paybill of organisations valid a year earlier and not in the later month (a body that left or moved out). A department that has no valid cell in one of the two months is not bridged at all, so a gap in the data is never read as an entry or an exit.
+	measure 'Pay Bridge Entry and Exit' =
+			VAR BridgedRows =
+			    CALCULATE (
+			        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+			        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "entry", "exit" } )
+			    )
+			RETURN
+			    IF (
+			        BridgedRows > 0,
+			        COALESCE (
+			            CALCULATE (
+			                SUM ( 'Fact Pay Bridge (derived)'[Paybill Current] ),
+			                KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "entry" )
+			            ),
+			            0
+			        )
+			            - COALESCE (
+			                CALCULATE (
+			                    SUM ( 'Fact Pay Bridge (derived)'[Paybill Prior] ),
+			                    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "exit" )
+			                ),
+			                0
+			            )
+			    )
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge
+		lineageTag: bdbad2bd-80d8-4b8f-b75d-2b820d864260
+
+	/// Current paybill less prior paybill of the bridge, in pounds.
+	measure 'Pay Bridge Change' =
+			IF (
+			    NOT ISBLANK ( [Pay Bridge Current Paybill] ) || NOT ISBLANK ( [Pay Bridge Prior Paybill] ),
+			    COALESCE ( [Pay Bridge Current Paybill], 0 ) - COALESCE ( [Pay Bridge Prior Paybill], 0 )
+			)
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge
+		lineageTag: 3563c4e0-72a2-415f-adb5-11e48bd91250
+
+	/// The change in paybill less volume, rate, mix and entry and exit, in pounds, rounded to 4 decimal places. It is zero by construction; it is shown so that a reader can see the bridge adds up, and a test checks it.
+	measure 'Pay Bridge Tie Difference' =
+			IF (
+			    NOT ISBLANK ( [Pay Bridge Change] ),
+			    ROUND (
+			        [Pay Bridge Change] - ( [Pay Bridge Volume] + [Pay Bridge Rate] + [Pay Bridge Mix] + [Pay Bridge Entry and Exit] ),
+			        4
+			    )
+			)
+		formatString: £#,##0.0000;-£#,##0.0000;£0.0000
+		displayFolder: Pay bridge
+		lineageTag: ce44fe62-465a-42b4-8c51-fcb7a6c57a49
+
+	/// How many department, organisation and month rows were left out of the bridge, for either of two reasons shown by Not Bridged Reason: the cell of the other month exists and is not valid, or the department has no valid cell in one of the two months. 0 when none.
+	measure 'Pay Bridge Rows Not Bridged' =
+			CALCULATE (
+			    COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+			    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "not_bridged" )
+			) + 0
+		formatString: #,##0
+		displayFolder: Pay bridge
+		lineageTag: 8f102f69-c792-4b6c-97cb-c97cdc6f29a0
+
+	/// One value of the waterfall: the amount of the bridge step in context (Pay Bridge Step), in pounds. The prior paybill, then the four effects; the waterfall's own total bar is the current paybill.
+	measure 'Pay Bridge Step Amount' =
+			SWITCH (
+			    SELECTEDVALUE ( 'Pay Bridge Step'[Step Order] ),
+			    1, [Pay Bridge Prior Paybill],
+			    2, [Pay Bridge Volume],
+			    3, [Pay Bridge Rate],
+			    4, [Pay Bridge Mix],
+			    5, [Pay Bridge Entry and Exit]
+			)
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge
+		lineageTag: 5498f4ed-3d33-443d-8612-edacb9b1de1d
+
+	/// Payroll paybill in pounds of every valid organisation-month cell in context (the later month of each pair), whether or not it could be compared with a year earlier. The trend measures use this basis. Added over months.
+	measure 'Pay Paybill' = SUM ( 'Fact Pay Bridge (derived)'[Paybill Current] )
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge\Trend
+		lineageTag: 357232b7-ddb1-46b8-a225-f1b356cab412
+
+	/// Payroll full-time equivalent of every valid organisation-month cell in the month in context. Over several months it is the average of the monthly totals, not their sum (a stock, not a flow).
+	measure 'Pay FTE' =
+			AVERAGEX (
+			    VALUES ( 'Fact Pay Bridge (derived)'[Period Key] ),
+			    CALCULATE ( SUM ( 'Fact Pay Bridge (derived)'[FTE Current] ) )
+			)
+		formatString: #,##0
+		displayFolder: Pay bridge\Trend
+		lineageTag: eb63de02-7fab-45d2-877f-85e878a68249
+
+	/// Paybill per full-time equivalent per month, in pounds: Pay Paybill over the full-time equivalent months in context. Over a year it is the average monthly cost of one full-time equivalent.
+	measure 'Pay Average Cost' =
+			DIVIDE (
+			    [Pay Paybill],
+			    SUMX (
+			        VALUES ( 'Fact Pay Bridge (derived)'[Period Key] ),
+			        CALCULATE ( SUM ( 'Fact Pay Bridge (derived)'[FTE Current] ) )
+			    )
+			)
+		formatString: £#,##0;-£#,##0;£0
+		displayFolder: Pay bridge\Trend
+		lineageTag: e1f19bae-3b3d-41b9-b819-e1baf9bd5fd0
+
+	/// Key of the department of the current structure the body sat in that month.
+	column 'Department Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: efc36ad0-1e63-4331-895a-c2a0354039ba
+		summarizeBy: none
+		sourceColumn: department_key
+
+	/// Key of the organisation (durable across versions of the organisation).
+	column 'Organisation Key'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: c16f1c19-4f66-476c-8aa2-f6edd27ba40b
+		summarizeBy: none
+		sourceColumn: durable_key
+
+	/// Fiscal period of the later month of the pair, yyyypp with the financial year's start year first (April 2025 is 202501).
+	column 'Period Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: b8e8a6f2-15be-4175-ac53-11c9df51c210
+		summarizeBy: none
+		sourceColumn: period_key
+
+	/// continuing: valid in both months in the same department. entry: valid in the later month only. exit: valid a year earlier only. not_bridged: left out of the bridge (see Not Bridged Reason).
+	column 'Bridge Class'
+		dataType: string
+		displayFolder: Derived
+		lineageTag: 59ff7179-7500-46ee-bb91-fcaadbee6513
+		summarizeBy: none
+		sourceColumn: bridge_class
+
+	/// For a row that is not bridged: comparison_cell_excluded (the organisation's cell in the other month exists and is not valid) or department_not_comparable (the department has no valid cell in one of the two months).
+	column 'Not Bridged Reason'
+		dataType: string
+		displayFolder: Derived
+		lineageTag: 5a542234-acce-402f-ae75-36e5b3bb469f
+		summarizeBy: none
+		sourceColumn: not_bridged_reason
+
+	/// Payroll full-time equivalent in the later month. Blank on an exit. Hidden: use the measures.
+	column 'FTE Current'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: bde59c36-cfeb-4150-9259-e419720dcee0
+		summarizeBy: none
+		sourceColumn: fte_cur
+
+	/// Payroll paybill in pounds in the later month. Blank on an exit. Hidden: use the measures.
+	column 'Paybill Current'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: 05e9290c-e822-46e7-9f8d-01a0243709ed
+		summarizeBy: none
+		sourceColumn: pay_cur
+
+	/// Payroll full-time equivalent a year earlier, in the same department. Blank on an entry. Hidden: use the measures.
+	column 'FTE Prior'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: 9832634e-99c9-4300-b0ac-210f9cf6c980
+		summarizeBy: none
+		sourceColumn: fte_prior
+
+	/// Payroll paybill in pounds a year earlier, in the same department. Blank on an entry. Hidden: use the measures.
+	column 'Paybill Prior'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: 291561e4-1981-4449-8f98-e4901ec56aed
+		summarizeBy: none
+		sourceColumn: pay_prior
+
+	/// A continuing organisation's change in full-time equivalent times its prior average cost, rounded to 4 decimal places. Hidden: use Pay Bridge Volume and Pay Bridge Mix.
+	column 'Organisation Volume'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: 91feec94-8888-417b-99f3-628ccf2e782f
+		summarizeBy: none
+		sourceColumn: volume_org
+
+	/// A continuing organisation's change in paybill less its volume: its current full-time equivalent times the change in its average cost. Hidden: use Pay Bridge Rate.
+	column 'Organisation Rate'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: 8cba4121-0345-48e3-8f48-28e4064a861b
+		summarizeBy: none
+		sourceColumn: rate_org
+
+	partition 'Fact Pay Bridge (derived)' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_pay_bridge"]}[Data]
+				in
+				    Data

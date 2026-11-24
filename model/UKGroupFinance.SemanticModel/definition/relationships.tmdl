@@ -134,3 +134,19 @@ relationship 5b5d8f70-c75f-59cf-874f-0f00429a1877
 relationship 2aa26643-7bff-5c7c-bda0-e3afb7d458aa
 	fromColumn: 'TAC Control Member'.'Control Line Key'
 	toColumn: 'TAC Control Line'.'Control Line Key'
+
+relationship 1b7c3d9d-a51d-4c9c-9603-3f29885dbb74
+	fromColumn: 'Fact Pay Bridge (derived)'.'Department Key'
+	toColumn: 'Department (current structure)'.'Department Key'
+
+relationship 1f3f3f90-c7f3-412c-80b4-664c97e12e2a
+	fromColumn: 'Fact Pay Bridge (derived)'.'Period Key'
+	toColumn: 'Fiscal Period'.'Period Key'
+
+relationship dd1e11ff-2fbd-470a-921f-8c6bae103058
+	fromColumn: 'Fact Pay Bridge (derived)'.'Organisation Key'
+	toColumn: 'Pay Organisation'.'Organisation Key'
+
+relationship 992e49d5-b104-411a-859c-04ffdcc3c019
+	fromColumn: 'Pay Coverage'.'Period Key'
+	toColumn: 'Fiscal Period'.'Period Key'

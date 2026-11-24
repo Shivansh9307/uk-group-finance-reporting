@@ -89,7 +89,25 @@ var folderOf = new Dictionary<string, string>
     { "TAC Elimination Gap", @"TAC\Elimination control" },
     { "TAC Elimination Gap %", @"TAC\Elimination control" },
     { "TAC Net Change in Cash (published)", @"TAC\Cash flow" },
-    { "TAC Cash Movement (balance sheet)", @"TAC\Cash flow" }
+    { "TAC Cash Movement (balance sheet)", @"TAC\Cash flow" },
+    { "Pay Bridge Prior Paybill", "Pay bridge" },
+    { "Pay Bridge Current Paybill", "Pay bridge" },
+    { "Pay Bridge Volume", "Pay bridge" },
+    { "Pay Bridge Rate", "Pay bridge" },
+    { "Pay Bridge Mix", "Pay bridge" },
+    { "Pay Bridge Entry and Exit", "Pay bridge" },
+    { "Pay Bridge Change", "Pay bridge" },
+    { "Pay Bridge Tie Difference", "Pay bridge" },
+    { "Pay Bridge Rows Not Bridged", "Pay bridge" },
+    { "Pay Bridge Step Amount", "Pay bridge" },
+    { "Pay Paybill", @"Pay bridge\Trend" },
+    { "Pay FTE", @"Pay bridge\Trend" },
+    { "Pay Average Cost", @"Pay bridge\Trend" },
+    { "Pay FTE Coverage", @"Pay bridge\Coverage" },
+    { "Pay Paybill Coverage", @"Pay bridge\Coverage" },
+    { "Pay Paybill Published", @"Pay bridge\Coverage" },
+    { "Pay Paybill Mapped", @"Pay bridge\Coverage" },
+    { "Pay Coverage Months", @"Pay bridge\Coverage" }
 };
 const string RealTermsSuffix = " (real terms)";
 const string RealTermsFolder = "Real Terms";

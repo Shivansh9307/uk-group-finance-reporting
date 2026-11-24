@@ -5,9 +5,9 @@ built and why is in [model.md](model.md); how its evidence is kept honest is in 
 
 The hash below is the hash of the model's TMDL files that this page was generated from (`ukfr ledger`, see evidence.md). If the model has changed since, `ukfr ledger check` fails with "model-reference.md is stale" until the page is generated again.
 
-Model projection hash: `dc8287c52ea7ddb59a900a191aaa70b12ae3e9910565150d64cd0616b3225e11`
+Model projection hash: `057c5e5554cd8a993af44083370a5e06de2e91f0564c0344e5095ee13ee64da1`
 
-The model has 41 tables, 337 columns, 69 measures, 34 relationships, 23 user-defined functions, 2 roles and 3 perspectives.
+The model has 45 tables, 363 columns, 87 measures, 38 relationships, 23 user-defined functions, 2 roles and 3 perspectives.
 
 ## Tables
 
@@ -24,6 +24,7 @@ The model has 41 tables, 337 columns, 69 measures, 34 relationships, 23 user-def
 | Department (current structure) | table | 7 | 0 | The departments of today's structure (63 members: 59 departments and 4 Unallocated members for lines of closed or split departments that no current department took over). Fact Outturn joins on the current-department key written in the warehouse, so every line sits in exactly one department, restated onto the current structure with no weights. Source view dw.v_model_department. |
 | Display Unit | calculation group, precedence 30 | 2 | 0 | Calculation group that shows an amount in GBP thousands, millions or billions. It divides the value (the data is in GBP thousands) and sets a dynamic format string with the unit suffix; no number format scales with commas. It acts on the amount measures only (the base, plan, comparison and statement amounts), leaves percentages and indicators unscaled, and gives Variance %, YoY % and Favourable/Adverse their own formats. Precedence 30: the outermost, so its format string is the one that applies when a unit is selected. |
 | Fact Outturn | table | 13 | 34 | Real outturn from the 31 OSCAR in-year releases as revision deltas: one row for each change a release makes to a line (organisation version, sub-segment, economic category, control budget detail, period), only non-zero deltas. The sum of the deltas up to a release equals what that release reports. GBP thousands, spending positive, income negative. Source view dw.v_model_fact_outturn. |
+| Fact Pay Bridge (derived) | table | 11 | 13 | DERIVED from real data, in pounds (not GBP thousands): the paybill and full-time equivalent of the payroll published in the departments' monthly workforce files, compared month against the same month a year earlier. One row per department of the current structure, organisation and month (the later month of the two). A row is continuing (valid in both months in the same department), entry, exit, or not_bridged (left out, with a reason); only the first three enter the bridge. Valid means the cell has a full-time equivalent above zero and a paybill above zero, and no published row behind it is listed in audit.workforce_row_arithmetic. Nothing synthetic or authored is in it; the only authored input is the map from a published name to an organisation. The department is the department of the current structure the body sat in that month, so the security roles filter it through Department (current structure). Source view dw.v_model_pay_bridge. |
 | Fact Plan | table | 13 | 7 | Real plans as published, at the grain of their source (see Plan Grain): OSCAR Plans by organisation to 2021-22, Estimates by Spending Review group from 2022-23, PESA departmental AME and administration budgets by group to 2028-29. Held for the year, not by month; compare with outturn only at the plan's grain or coarser. GBP thousands. Source view dw.v_model_fact_plan. |
 | Fact Plan Phased (derived) | table | 15 | 4 | DERIVED, not published: each plan row spread over periods 1 to 12 by a share taken from the prior year's outturn (or twelve flat twelfths where there is none). The monthly plan is my allocation of a published annual figure; the twelve rows of a plan row add up to it exactly. Scenario is Plan (phased), which is flagged derived. It never enters a real total and must never be shown as a published monthly budget. Source view dw.v_model_fact_plan_phased. |
 | Fact TAC | table | 7 | 11 | Real data, as published: the statutory income statement, balance sheet and cash flow of every NHS trust and foundation trust, FY2019-20 to FY2024-25, one row per provider, file year, statement line and column (current or prior year), 344,812 rows, in GBP thousands on the TAC sign (income, assets and inflows positive; expenses, liabilities and outflows negative), which is not the OSCAR sign. A subtotal or total is in the data as a value: the measures add only lines of kind line, and show a subtotal only on its own row. Related to the provider, which carries the department of the current structure, so the security roles filter it. Source view dw.v_model_tac_fact. |
@@ -33,6 +34,9 @@ The model has 41 tables, 337 columns, 69 measures, 34 relationships, 23 user-def
 | Fiscal Year | table | 2 | 0 | One row per UK financial year (April to March), 2017-18 to 2028-29. 2017-18 has plans (OSCAR Plans) and no outturn, because the in-year releases start at 2018-19. The plan is published by year, so Fact Plan relates here; Fiscal Period relates here too, which gives outturn and plan one year slicer. Source view dw.v_model_fiscal_year. |
 | Load Control | table | 7 | 4 | AUDIT and CONTROL, no new number: the rows read, loaded and quarantined of every in-year release file and every annual restated file, and two counts of the rows that the web-read deflator and CPI loads rejected. Nothing is dropped silently: a rejected row is counted here and kept in a quarantine table. Full-scope build only. Source view dw.v_model_load_control (audit.file_control and audit.bud_file_control). |
 | Organisation (as reported) | table | 15 | 0 | One row per version of an organisation (Type 2, 408 versions plus Unknown): a new version starts when the code, the department or the name really changes. Fact Outturn joins here on the version the release used, so this is the structure as each release reported it. The department columns say which department that version sat under. Source view dw.v_model_organisation. |
+| Pay Bridge Step | table | 2 | 0 | Labels only, no number: the five steps of the pay bridge waterfall (prior paybill, volume, rate, mix, entry and exit), so that one measure (Pay Bridge Step Amount) can give each step its value. Source view dw.v_model_pay_bridge_step. |
+| Pay Coverage | table | 10 | 5 | AUDIT and CONTROL, no new number: for each department series and month of the workforce files, how many published rows the organisation map placed on an organisation, and the full-time equivalent and paybill (pounds) published and placed. The mapped share is the coverage the pay bridge rests on: 93.8 per cent of published payroll full-time equivalent and 76.8 per cent of paybill overall. The Ministry of Defence's paybill is 45.5 per cent covered (rows labelled another month are quarantined) and the core of the Ministry of Housing, Communities and Local Government is not mapped. Related to the fiscal period only; not filtered by the department roles and hidden from the Restricted Viewer. Source view dw.v_model_pay_coverage (audit.workforce_mapping_coverage). |
+| Pay Organisation | table | 3 | 0 | One row per organisation that appears in the monthly workforce files (89 of them), with the code and the name of its latest version. A body that moved department over the period is one row here; the fact carries the department it sat in each month. Hidden from the Restricted Viewer: it is the organisation-level identity of paybill. Source view dw.v_model_pay_organisation. |
 | Plan Coverage | table | 8 | 1 | AUDIT and CONTROL, no new number: what the plan fact holds for each plan source, financial year, plan measure and grain, with the number of fact rows, the number of lines in the source sheet and the total. It is how a reader sees which year is published at which grain. Source view dw.v_model_plan_coverage (dw.plan_coverage). |
 | Plan Grain | table | 3 | 0 | AUTHORED list, no amount: the four grains a plan is published at (A OSCAR organisation, B Estimates group, C Estimates 2022-23, D PESA group). A plan can be compared with outturn only at its own grain or coarser. Source view dw.v_model_plan_grain. |
 | Plan Source | table | 15 | 0 | AUTHORED descriptions of published files, no amount: each source and edition a plan comes from: OSCAR Plans, the Estimates workbooks, PESA editions and Spending Review 2025. Carries the basis, whether Scotland is before or after the block grant adjustment and whether the edition is the final plan of its year. Authored descriptions of published files. Source view dw.v_model_plan_source. |
@@ -70,6 +74,9 @@ The model has 41 tables, 337 columns, 69 measures, 34 relationships, 23 user-def
 | Fact Outturn[Scenario Key] | Scenario[Scenario Key] | many to one | yes | OneDirection | Single |
 | Fact Outturn[Segment Key] | Sub-Segment[Segment Key] | many to one | yes | OneDirection | Single |
 | Fact Outturn[Spending Review Group Key] | Spending Review Group[Spending Review Group Key] | many to one | yes | OneDirection | Single |
+| Fact Pay Bridge (derived)[Department Key] | Department (current structure)[Department Key] | many to one | yes | OneDirection | Single |
+| Fact Pay Bridge (derived)[Organisation Key] | Pay Organisation[Organisation Key] | many to one | yes | OneDirection | Single |
+| Fact Pay Bridge (derived)[Period Key] | Fiscal Period[Period Key] | many to one | yes | OneDirection | Single |
 | Fact Plan[Fiscal Year Key] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
 | Fact Plan[Plan Grain Key] | Plan Grain[Grain Code] | many to one | yes | OneDirection | Single |
 | Fact Plan[Plan Source Key] | Plan Source[Plan Source Key] | many to one | yes | OneDirection | Single |
@@ -88,6 +95,7 @@ The model has 41 tables, 337 columns, 69 measures, 34 relationships, 23 user-def
 | Fact TAC Cash Flow (derived)[Provider Key] | TAC Provider[Provider Key] | many to one | yes | OneDirection | Single |
 | File Control[Release Key] | Release[Release Key] | many to one | yes | OneDirection | Single |
 | Fiscal Period[Financial Year] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
+| Pay Coverage[Period Key] | Fiscal Period[Period Key] | many to one | yes | OneDirection | Single |
 | TAC Consolidated Accounts[Control Line Key] | TAC Control Line[Control Line Key] | many to one | yes | OneDirection | Single |
 | TAC Consolidated Accounts[Fiscal Year Key] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
 | TAC Control Member[Control Line Key] | TAC Control Line[Control Line Key] | many to one | yes | OneDirection | Single |
@@ -748,6 +756,334 @@ Format string expression:
 "0.0%;-0.0%;0.0%"
 ```
 
+### Fact Pay Bridge (derived)
+
+#### Pay Average Cost
+
+Display folder `Pay bridge\Trend`.
+
+Paybill per full-time equivalent per month, in pounds: Pay Paybill over the full-time equivalent months in context. Over a year it is the average monthly cost of one full-time equivalent.
+
+```dax
+DIVIDE (
+    [Pay Paybill],
+    SUMX (
+        VALUES ( 'Fact Pay Bridge (derived)'[Period Key] ),
+        CALCULATE ( SUM ( 'Fact Pay Bridge (derived)'[FTE Current] ) )
+    )
+)
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Pay Bridge Change
+
+Display folder `Pay bridge`.
+
+Current paybill less prior paybill of the bridge, in pounds.
+
+```dax
+IF (
+    NOT ISBLANK ( [Pay Bridge Current Paybill] ) || NOT ISBLANK ( [Pay Bridge Prior Paybill] ),
+    COALESCE ( [Pay Bridge Current Paybill], 0 ) - COALESCE ( [Pay Bridge Prior Paybill], 0 )
+)
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Pay Bridge Current Paybill
+
+Display folder `Pay bridge`.
+
+Payroll paybill, in pounds, of the organisations in the bridge in the later of the two months (continuing and entry), against Pay Bridge Prior Paybill the same month a year earlier. Not the whole of a department: cells that are not valid are left out (see Pay Bridge Rows Not Bridged).
+
+```dax
+CALCULATE (
+    SUM ( 'Fact Pay Bridge (derived)'[Paybill Current] ),
+    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "entry" } )
+)
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Pay Bridge Entry and Exit
+
+Display folder `Pay bridge`.
+
+The paybill of organisations valid in the later month and not a year earlier (a body that joined the department, or one that moved in from another), less the paybill of organisations valid a year earlier and not in the later month (a body that left or moved out). A department that has no valid cell in one of the two months is not bridged at all, so a gap in the data is never read as an entry or an exit.
+
+```dax
+VAR BridgedRows =
+    CALCULATE (
+        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "entry", "exit" } )
+    )
+RETURN
+    IF (
+        BridgedRows > 0,
+        COALESCE (
+            CALCULATE (
+                SUM ( 'Fact Pay Bridge (derived)'[Paybill Current] ),
+                KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "entry" )
+            ),
+            0
+        )
+            - COALESCE (
+                CALCULATE (
+                    SUM ( 'Fact Pay Bridge (derived)'[Paybill Prior] ),
+                    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "exit" )
+                ),
+                0
+            )
+    )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Pay Bridge Mix
+
+Display folder `Pay bridge`.
+
+The part of the change in paybill that comes from the mix of organisations: the continuing organisations' own volume (their change in full-time equivalent at their own prior average cost) less the volume of the selection as a whole. Zero for a single organisation, and for a department of one organisation. At group level it includes the shift between departments.
+
+```dax
+VAR BridgedRows =
+    CALCULATE (
+        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "entry", "exit" } )
+    )
+RETURN
+    IF (
+        BridgedRows > 0,
+        COALESCE (
+            CALCULATE (
+                SUM ( 'Fact Pay Bridge (derived)'[Organisation Volume] ),
+                KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "continuing" )
+            ),
+            0
+        )
+            - [Pay Bridge Volume]
+    )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Pay Bridge Prior Paybill
+
+Display folder `Pay bridge`.
+
+Payroll paybill, in pounds, of the organisations in the bridge a year before the month in context (continuing and exit). Prior + volume + rate + mix + entry and exit = current paybill, and Pay Bridge Tie Difference shows that difference, which is zero. Volume and mix are worked out on the selection, month by month, and are not additive over departments; volume plus mix, rate and entry and exit are.
+
+```dax
+CALCULATE (
+    SUM ( 'Fact Pay Bridge (derived)'[Paybill Prior] ),
+    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "exit" } )
+)
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Pay Bridge Rate
+
+Display folder `Pay bridge`.
+
+The part of the change in paybill that comes from a change in average cost: the sum over continuing organisations of the current full-time equivalent times the change in the organisation's paybill per full-time equivalent. Additive over any selection.
+
+```dax
+VAR BridgedRows =
+    CALCULATE (
+        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "entry", "exit" } )
+    )
+RETURN
+    IF (
+        BridgedRows > 0,
+        COALESCE (
+            CALCULATE (
+                SUM ( 'Fact Pay Bridge (derived)'[Organisation Rate] ),
+                KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "continuing" )
+            ),
+            0
+        )
+    )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Pay Bridge Rows Not Bridged
+
+Display folder `Pay bridge`.
+
+How many department, organisation and month rows were left out of the bridge, for either of two reasons shown by Not Bridged Reason: the cell of the other month exists and is not valid, or the department has no valid cell in one of the two months. 0 when none.
+
+```dax
+CALCULATE (
+    COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "not_bridged" )
+) + 0
+```
+
+Format string expression:
+
+```dax
+"#,##0"
+```
+
+#### Pay Bridge Step Amount
+
+Display folder `Pay bridge`.
+
+One value of the waterfall: the amount of the bridge step in context (Pay Bridge Step), in pounds. The prior paybill, then the four effects; the waterfall's own total bar is the current paybill.
+
+```dax
+SWITCH (
+    SELECTEDVALUE ( 'Pay Bridge Step'[Step Order] ),
+    1, [Pay Bridge Prior Paybill],
+    2, [Pay Bridge Volume],
+    3, [Pay Bridge Rate],
+    4, [Pay Bridge Mix],
+    5, [Pay Bridge Entry and Exit]
+)
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Pay Bridge Tie Difference
+
+Display folder `Pay bridge`.
+
+The change in paybill less volume, rate, mix and entry and exit, in pounds, rounded to 4 decimal places. It is zero by construction; it is shown so that a reader can see the bridge adds up, and a test checks it.
+
+```dax
+IF (
+    NOT ISBLANK ( [Pay Bridge Change] ),
+    ROUND (
+        [Pay Bridge Change] - ( [Pay Bridge Volume] + [Pay Bridge Rate] + [Pay Bridge Mix] + [Pay Bridge Entry and Exit] ),
+        4
+    )
+)
+```
+
+Format string expression:
+
+```dax
+"\£#,##0.0000;-\£#,##0.0000;\£0.0000"
+```
+
+#### Pay Bridge Volume
+
+Display folder `Pay bridge`.
+
+The part of the change in paybill that comes from a change in the number of full-time equivalent staff of the continuing organisations, valued at their prior average cost (paybill per full-time equivalent). Worked out month by month on the organisations in context, then added over months.
+
+```dax
+VAR BridgedRows =
+    CALCULATE (
+        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { "continuing", "entry", "exit" } )
+    )
+RETURN
+    IF (
+        BridgedRows > 0,
+        COALESCE (
+            SUMX (
+                VALUES ( 'Fact Pay Bridge (derived)'[Period Key] ),
+                VAR FteNow =
+                    CALCULATE (
+                        SUM ( 'Fact Pay Bridge (derived)'[FTE Current] ),
+                        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "continuing" )
+                    )
+                VAR FtePrior =
+                    CALCULATE (
+                        SUM ( 'Fact Pay Bridge (derived)'[FTE Prior] ),
+                        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "continuing" )
+                    )
+                VAR PayPrior =
+                    CALCULATE (
+                        SUM ( 'Fact Pay Bridge (derived)'[Paybill Prior] ),
+                        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = "continuing" )
+                    )
+                RETURN
+                    IF ( FtePrior <> 0, ( FteNow - FtePrior ) * DIVIDE ( PayPrior, FtePrior ) )
+            ),
+            0
+        )
+    )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Pay FTE
+
+Display folder `Pay bridge\Trend`.
+
+Payroll full-time equivalent of every valid organisation-month cell in the month in context. Over several months it is the average of the monthly totals, not their sum (a stock, not a flow).
+
+```dax
+AVERAGEX (
+    VALUES ( 'Fact Pay Bridge (derived)'[Period Key] ),
+    CALCULATE ( SUM ( 'Fact Pay Bridge (derived)'[FTE Current] ) )
+)
+```
+
+Format string expression:
+
+```dax
+"#,##0"
+```
+
+#### Pay Paybill
+
+Display folder `Pay bridge\Trend`.
+
+Payroll paybill in pounds of every valid organisation-month cell in context (the later month of each pair), whether or not it could be compared with a year earlier. The trend measures use this basis. Added over months.
+
+```dax
+SUM ( 'Fact Pay Bridge (derived)'[Paybill Current] )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
 ### Fact Plan
 
 #### Plan
@@ -1376,6 +1712,88 @@ Format string expression:
 "#,##0"
 ```
 
+### Pay Coverage
+
+#### Pay Coverage Months
+
+Display folder `Pay bridge\Coverage`.
+
+Months of a series in context that have at least one published row.
+
+```dax
+COUNTROWS ( 'Pay Coverage' )
+```
+
+Format string expression:
+
+```dax
+"#,##0"
+```
+
+#### Pay FTE Coverage
+
+Display folder `Pay bridge\Coverage`.
+
+Full-time equivalent placed on an organisation as a share of the full-time equivalent published, over the series and months in context.
+
+```dax
+DIVIDE ( SUM ( 'Pay Coverage'[FTE Mapped] ), SUM ( 'Pay Coverage'[FTE Published] ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Pay Paybill Coverage
+
+Display folder `Pay bridge\Coverage`.
+
+Paybill placed on an organisation as a share of the paybill published, over the series and months in context.
+
+```dax
+DIVIDE ( SUM ( 'Pay Coverage'[Paybill Mapped] ), SUM ( 'Pay Coverage'[Paybill Published] ) )
+```
+
+Format string expression:
+
+```dax
+"0.0%;-0.0%;0.0%"
+```
+
+#### Pay Paybill Mapped
+
+Display folder `Pay bridge\Coverage`.
+
+Published payroll paybill in pounds that the map placed on an organisation, over the series and months in context.
+
+```dax
+SUM ( 'Pay Coverage'[Paybill Mapped] )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
+#### Pay Paybill Published
+
+Display folder `Pay bridge\Coverage`.
+
+Published payroll paybill in pounds, over the series and months in context.
+
+```dax
+SUM ( 'Pay Coverage'[Paybill Published] )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0;-\£#,##0;\£0"
+```
+
 ### Plan Coverage
 
 #### Plan Coverage Total
@@ -1598,6 +2016,22 @@ Format string expression:
 | Segment Key | Data | integer | yes |  | segment_key | 0 |  |  |  |
 | Spending Review Group Key | Data | integer | yes |  | sr_group_key | 0 |  |  |  |
 
+### Fact Pay Bridge (derived)
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Bridge Class | Data | text |  |  | bridge_class |  |  | Derived | continuing: valid in both months in the same department. entry: valid in the later month only. exit: valid a year earlier only. not_bridged: left out of the bridge (see Not Bridged Reason). |
+| Department Key | Data | integer | yes |  | department_key | 0 |  |  | Key of the department of the current structure the body sat in that month. |
+| FTE Current | Data | currency | yes |  | fte_cur | #,##0.0000 |  |  | Payroll full-time equivalent in the later month. Blank on an exit. Hidden: use the measures. |
+| FTE Prior | Data | currency | yes |  | fte_prior | #,##0.0000 |  |  | Payroll full-time equivalent a year earlier, in the same department. Blank on an entry. Hidden: use the measures. |
+| Not Bridged Reason | Data | text |  |  | not_bridged_reason |  |  | Derived | For a row that is not bridged: comparison_cell_excluded (the organisation's cell in the other month exists and is not valid) or department_not_comparable (the department has no valid cell in one of the two months). |
+| Organisation Key | Data | text | yes |  | durable_key |  |  |  | Key of the organisation (durable across versions of the organisation). |
+| Organisation Rate | Data | currency | yes |  | rate_org | #,##0.0000 |  |  | A continuing organisation's change in paybill less its volume: its current full-time equivalent times the change in its average cost. Hidden: use Pay Bridge Rate. |
+| Organisation Volume | Data | currency | yes |  | volume_org | #,##0.0000 |  |  | A continuing organisation's change in full-time equivalent times its prior average cost, rounded to 4 decimal places. Hidden: use Pay Bridge Volume and Pay Bridge Mix. |
+| Paybill Current | Data | currency | yes |  | pay_cur | #,##0.0000 |  |  | Payroll paybill in pounds in the later month. Blank on an exit. Hidden: use the measures. |
+| Paybill Prior | Data | currency | yes |  | pay_prior | #,##0.0000 |  |  | Payroll paybill in pounds a year earlier, in the same department. Blank on an entry. Hidden: use the measures. |
+| Period Key | Data | integer | yes |  | period_key | 0 |  |  | Fiscal period of the later month of the pair, yyyypp with the financial year's start year first (April 2025 is 202501). |
+
 ### Fact Plan
 
 | Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
@@ -1722,6 +2156,36 @@ Format string expression:
 | Valid To Release | Data | text |  |  | valid_to_release |  |  |  | Last release before the next version starts. |
 | Version Number | Data | integer |  |  | version_no | 0 |  |  | 1 for the first version of the durable key. |
 | Version Reason | Data | text |  |  | version_reason |  |  |  | What started the version: first release, code change, department change, department renamed or name change. |
+
+### Pay Bridge Step
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Step | Data | text |  |  | step_name |  | Step Order |  | Name of the step of the pay bridge. |
+| Step Order | Data | integer | yes |  | step_order | 0 |  |  | 1 to 5, the order of the steps. |
+
+### Pay Coverage
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| FTE Mapped | Data | currency | yes |  | fte_mapped | #,##0.0000 |  |  | Published payroll full-time equivalent of the mapped rows. Hidden: use the measures. |
+| FTE Published | Data | currency | yes |  | fte_total | #,##0.0000 |  |  | Published payroll full-time equivalent of the rows with a value. Hidden: use the measures. |
+| Paybill Mapped | Data | currency | yes |  | paybill_mapped | #,##0.0000 |  |  | Published payroll paybill in pounds of the mapped rows. Hidden: use the measures. |
+| Paybill Published | Data | currency | yes |  | paybill_total | #,##0.0000 |  |  | Published payroll paybill in pounds of the rows with a value. Hidden: use the measures. |
+| Period Key | Data | integer | yes |  | period_key | 0 |  |  | Relationship column to Fiscal Period. |
+| Report Month | Data | text |  |  | report_month |  | Period Key |  | The month of the file, written 2024-05. |
+| Rows Mapped | Data | integer |  |  | rows_mapped | #,##0 |  |  | Rows the map placed on an organisation. |
+| Rows Published | Data | integer |  |  | rows_total | #,##0 |  |  | Organisation rows in the file (spare template rows not counted). |
+| Series | Data | text |  |  | series |  |  |  | The department series that publishes the file. HM Land Registry's own collection is a series I do not count (the BEIS series is the copy I use). |
+| Series Code | Data | text | yes |  | series_code |  |  |  | Code of the department series in the file name (beis, dhsc and so on). |
+
+### Pay Organisation
+
+| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
+|---|---|---|---|---|---|---|---|---|---|
+| Organisation Code | Data | text |  |  | organisation_code |  |  |  | Organisation code of the latest version. |
+| Organisation Key | Data | text | yes | yes | durable_key |  |  |  | Key of the organisation, durable across versions (the three-letter prefix of its code, or the authored override). |
+| Pay Organisation | Data | text |  |  | organisation_name |  |  |  | Name of the organisation in the latest version. |
 
 ### Plan Coverage
 
@@ -2684,7 +3148,7 @@ Row filter on `User Plan Group (synthetic)`:
 
 Model permission: read.
 
-Row-level security and object-level security in one role (the engine refuses a row-level role combined with a separate object-level one). The same department and plan filters as Department Analyst. The NHS trust accounts and the consolidated figures follow the same filter and the identity of each provider (name, code, region, sector, years and successor) is hidden. The audit and control tables are hidden, the organisation names and version history are hidden, and the line-level detail of the data-quality findings is hidden. A measure that reads a hidden object returns an error, not a blank. Paybill detail does not exist yet; a later phase adds its object-level security to this role.
+Row-level security and object-level security in one role (the engine refuses a row-level role combined with a separate object-level one). The same department and plan filters as Department Analyst. The NHS trust accounts and the consolidated figures follow the same filter and the identity of each provider (name, code, region, sector, years and successor) is hidden. The audit and control tables are hidden, the organisation names and version history are hidden, and the line-level detail of the data-quality findings is hidden. A measure that reads a hidden object returns an error, not a blank. The pay bridge follows the same department filter; the organisation-level paybill detail is hidden (the organisation names and codes, the organisation key of the pay bridge, and the workforce coverage table).
 
 Row filter on `Department (current structure)`:
 
@@ -2754,6 +3218,7 @@ Columns hidden from this role (object-level security):
 | Data Quality Issue | Rows Affected | none (hidden) |
 | Data Quality Issue | Sub-Segment Code | none (hidden) |
 | Data Quality Issue | Treatment | none (hidden) |
+| Fact Pay Bridge (derived) | Organisation Key | none (hidden) |
 | Organisation (as reported) | Department (as reported) | none (hidden) |
 | Organisation (as reported) | Durable Key Rule | none (hidden) |
 | Organisation (as reported) | Is Current Version | none (hidden) |
@@ -2785,6 +3250,8 @@ Tables with their own permission:
 | Annual Control | none (hidden) |
 | File Control | none (hidden) |
 | Load Control | none (hidden) |
+| Pay Coverage | none (hidden) |
+| Pay Organisation | none (hidden) |
 | Plan Coverage | none (hidden) |
 | Plan Variance Check | none (hidden) |
 | PSS Control | none (hidden) |

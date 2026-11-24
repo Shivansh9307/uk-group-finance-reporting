@@ -1,0 +1,36 @@
+/// One row per organisation that appears in the monthly workforce files (89 of them), with the code and the name of its latest version. A body that moved department over the period is one row here; the fact carries the department it sat in each month. Hidden from the Restricted Viewer: it is the organisation-level identity of paybill. Source view dw.v_model_pay_organisation.
+table 'Pay Organisation'
+	lineageTag: f41cf406-f23d-4a39-b6ec-5de81411d24e
+
+	/// Key of the organisation, durable across versions (the three-letter prefix of its code, or the authored override).
+	column 'Organisation Key'
+		dataType: string
+		isHidden
+		isKey
+		isAvailableInMdx: false
+		lineageTag: fcb33115-b4c8-4991-82bb-a06bac778824
+		summarizeBy: none
+		sourceColumn: durable_key
+
+	/// Organisation code of the latest version.
+	column 'Organisation Code'
+		dataType: string
+		lineageTag: a5d15312-d8f9-4985-a969-ae10c4cddd25
+		summarizeBy: none
+		sourceColumn: organisation_code
+
+	/// Name of the organisation in the latest version.
+	column 'Pay Organisation'
+		dataType: string
+		lineageTag: 25770aee-cf6e-4f2b-88ac-9b164f7db184
+		summarizeBy: none
+		sourceColumn: organisation_name
+
+	partition 'Pay Organisation' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_pay_organisation"]}[Data]
+				in
+				    Data

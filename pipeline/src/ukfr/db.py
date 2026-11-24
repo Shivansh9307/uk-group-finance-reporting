@@ -145,6 +145,8 @@ class Db:
         cur = self.conn.cursor()
         try:
             cur.execute(sql)
+            while cur.description is None and cur.nextset():  # a batch that builds temporary tables first
+                pass
             names = [d[0] for d in cur.description]
             return names, [tuple(r) for r in cur.fetchall()]
         finally:

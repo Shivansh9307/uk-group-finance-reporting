@@ -104,7 +104,7 @@ the sort-key columns (`Year Start`, `Scenario Sort Order`, `Vintage Order`) and 
 
 ## Relationships
 
-34 relationships (23 of the outturn and plan model, listed below, and 11 of the NHS trust accounts, in their own section), all active, all many-to-one, all single direction (the one side filters the many side). There are
+38 relationships (23 of the outturn and plan model, listed below, 11 of the NHS trust accounts and 4 of the pay bridge, each in their own section), all active, all many-to-one, all single direction (the one side filters the many side). There are
 no inactive relationships and no bidirectional ones (**tested**:
 `test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one`), the one side is always
 a key column of a dimension (`test_the_one_side_of_every_relationship_is_a_key_column_of_a_dimension`), and no row of
@@ -1054,8 +1054,42 @@ because the year dimension is keyed on the text the plan already uses; two sever
 **Pitfalls I met** (added to the notes here and not in code): a measure that sets a filter on a column the visual also filters (`Statement Code`) replaces the visual's filter, so those filters are written with `KEEPFILTERS`
 (test 158 caught it); `IF` cannot return the table a `CALCULATE` filter argument needs; a column cannot be sorted by a key it does not determine, so the line label carries its code (receivables is a current and a non-current line).
 
+## The pay bridge: paybill, volume, rate and mix
+
+The model reads the payroll full-time equivalent and paybill of the departments' monthly workforce files ([data-dictionary/workforce.md](data-dictionary/workforce.md#the-pay-bridge)) in four tables, four relationships and 18 measures, and
+splits the change in paybill, month against the same month a year earlier, into volume, rate, organisation mix and entry and exit. It is **derived**; nothing synthetic or authored is added to a number. Amounts are in **pounds** (the
+OSCAR tables are GBP thousands), so none of the 18 measures is in the `Display Unit` calculation group, and they carry their own pound format. Every claim is **tested** (command and result file) or **designed**.
+
+| Model table | Source view | Rows | Class | What it is |
+|---|---|---:|---|---|
+| Fact Pay Bridge (derived) | `dw.v_model_pay_bridge` | 7,546 | **derived** from real data | department x organisation x month, with the class of the row (continuing, entry, exit, not bridged), the full-time equivalent and paybill now and a year earlier, and the organisation's own volume and rate |
+| Pay Organisation | `dw.v_model_pay_organisation` | 89 | real | the organisations of the workforce files; hidden from the Restricted Viewer |
+| Pay Coverage | `dw.v_model_pay_coverage` | 1,353 | control | the published coverage audit of the workforce load by department series and month; hidden from the Restricted Viewer |
+| Pay Bridge Step | `dw.v_model_pay_bridge_step` | 5 | labels, no number | the steps of the waterfall |
+
+Row counts: **tested**, `tests/dax/900_pay_model_table_row_counts.dax` (result `tests/results/900_pay_model_table_row_counts.csv`); the views keep every row of what they select and every key resolves (`sql/tests/904`). The four relationships (to `Department (current structure)`, to `Fiscal Period` for the fact and for the coverage table, and to `Pay Organisation`) are active, many-to-one and single direction like all the others, which brings the model to 38 (**tested**: `test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one`).
+The fact is related to the department of the **current structure**, through the department of the organisation version in force in the month, so that the security roles filter it as they filter everything else.
+
+**The measures.** Prior, current, volume, rate, mix, entry and exit, change and tie difference (`Pay Bridge ...`), the rows left out of the bridge, the value of one waterfall step, and three trend measures on every valid cell (`Pay Paybill`, `Pay FTE` as the
+average of the monthly totals because full-time equivalent is a stock, and `Pay Average Cost`, paybill per full-time equivalent per month), and five coverage measures. Volume is the change in the total full-time equivalent of the continuing organisations in the selection
+times their prior average cost, rate the sum of each organisation's own rate, and mix the sum of the organisations' own volumes less that of the selection; the measures do it month by month and add the months. The formulas as built, the exclusions
+and the tie are in the data dictionary; the point for the model is that volume and mix are **not additive over departments**, rate and entry and exit are, and a visual that adds department rows shows a grand total that is the group's own bridge, not the sum of the rows.
+
+- **Tested, volume, rate, mix and entry and exit against SQL.** `901` (every department for the latest three months), `902` (the group for 2023-24 to 2025-26), `909` (the departments of 2025-26) and `910` (the five cards): the model's measures equal the SQL, which rebuilds the bridge from `dw.workforce_month` with its own joins, to 0.0001, and the tie difference is 0 in every cell. The 46 department-months of `901` and the 19 departments of `909` all pass. The one rounding rule shared by the two sides is that the volume of one organisation is evaluated with operands of ten decimal places and rounded to four (without it the two sums differ in the fourth decimal, which a first version of `902` and `906` showed: 0.0005).
+- **Tested, the trend and the waterfall.** `903` and `904` (full-time equivalent, paybill and average cost by month and by year), `906` (the five steps), `907` (rows by class and reason), `905` and `908` (coverage by series, and in total).
+- **Tested, the bridge and the exclusions in SQL.** `sql/tests/900` to `903`: the cells and their status (6,248 valid, 375 excluded), the classes (4,950 continuing, 118 entry, 222 exit, 2,256 not bridged), the tie table, that the paybill of valid plus excluded cells is the paybill of the fact, and that no view reads anything authored or synthetic for an amount.
+- **Security.** [security.md](security.md#the-pay-bridge-under-the-two-roles): the bridge follows the department filter; the Restricted Viewer cannot read the organisation names and codes, the organisation key of the fact or the coverage table.
+
+**Decisions.** (1) *A year earlier, not the month before*: no seasonality, and a month a department did not publish only removes that pair. (2) *Exclude, never repair*: a cell with no full-time equivalent, no paybill or a published total that is not its components is listed
+(`audit.pay_excluded_cell`) and left out; so is a pair whose other cell is excluded, and a department-month that has no valid cell in one of the two months (otherwise a gap in the data would read as every organisation entering or leaving). (3) *The group's mix includes the shift between departments*, because I
+pool the continuing organisations of the whole selection; the department view is the one that is free of it. (4) *Paybill in pounds*, because that is what the files publish; I did not scale it to thousands so as to join the `Display Unit` group, whose items name the measures they scale.
+
+**Findings of the Best Practice Analyzer** (`evidence/bpa`): three new, all information severity, each with its reason. `ENSURE_TABLES_HAVE_RELATIONSHIPS` on `Pay Bridge Step`: a table of five labels that no relationship should filter, which the measure `Pay Bridge Step Amount` reads with `SELECTEDVALUE` (the same reason as the other disconnected tables). `RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE` on `Organisation Key` of `Fact Pay Bridge (derived)` and of `Pay Organisation`: the key of an organisation is its text key, the durable key that the organisation tables of the warehouse use. The first run also raised ten warnings that I fixed and did not ignore: five hidden columns of `Pay Coverage` that needed `isAvailableInMdx: false`, the string month that needed a sort column (`Report Month` sorts by the period key, which has to keep its attribute hierarchy), the unused hidden column `Month Start` (dropped from the model; the view still holds it) and three measures whose format was not one of the model's formats (the percentages are now `0.0%;-0.0%;0.0%` and full-time equivalent `#,##0`). Counts: 63 rules, 24 violations, none above severity 1 (`evidence/bpa/bpa_counts.csv`).
+
+**Pitfalls I met** (added to the notes here and not in code): `Rows` cannot be a DAX variable name (the parser reports "the syntax for 'Rows' is incorrect"); object-level security can hide one column of a fact that has a relationship on it (`Organisation Key`), and a query that names it is refused; a month column that is a string needs a sort column (`Report Month` sorts by the period key).
+
 ## Not in the model yet
 
-Translations, paybill object-level security (a later phase adds it to the Restricted Viewer role, see [security.md](security.md)) and any security in the service. Not tested: the measures on a report
+Translations and any security in the service. Not tested: the measures on a report
 canvas under a role, a visual that selects different periods in different years, and the matrix subtotals of the
 calculation groups.
