@@ -19,6 +19,7 @@
 --   department_group_code / name  the department as the return reports it (the group of the organisation in that return)
 --   organisation_key, durable_key, department_key  from dw.forecast_return_org_map
 --   includes_draft   1 if any source cell of this row had status DRAFT
+-- No foreign keys to the dimensions: a post-only rebuild drops and recreates them first, and sql/tests/654 checks the keys.
 -- A row whose organisation code has no organisation key is not here: it is in quarantine.forecast_return_unmapped (sql/dw/652).
 
 DROP TABLE IF EXISTS dw.forecast_return;
@@ -49,8 +50,6 @@ CREATE TABLE dw.forecast_return (
     source_cells            int            NOT NULL,
     CONSTRAINT pk_dw_forecast_return PRIMARY KEY
         (financial_year, return_no, period, organisation_code, economic_category_code, control_budget_detail, economic_budget),
-    CONSTRAINT fk_dw_forecast_return_org FOREIGN KEY (organisation_key) REFERENCES dw.dim_organisation (organisation_key),
-    CONSTRAINT fk_dw_forecast_return_dep FOREIGN KEY (department_key) REFERENCES dw.dim_department (department_key),
     CONSTRAINT ck_dw_forecast_return_status CHECK (forecast_status IN ('actual', 'provisional', 'forecast', 'adjustment'))
 );
 GO

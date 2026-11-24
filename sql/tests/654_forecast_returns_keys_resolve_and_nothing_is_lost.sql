@@ -5,6 +5,7 @@ SELECT 'row does not agree with the organisation dimension' AS problem, r.financ
 FROM dw.forecast_return AS r
 LEFT JOIN dw.dim_organisation AS o ON o.organisation_key = r.organisation_key
 WHERE o.organisation_key IS NULL OR o.organisation_key = -1 OR o.durable_key <> r.durable_key OR r.department_key = -1
+   OR NOT EXISTS (SELECT 1 FROM dw.dim_department AS d WHERE d.department_key = r.department_key)
 GROUP BY r.financial_year, r.return_no, r.organisation_code
 UNION ALL
 SELECT 'map names a version that does not carry the code or the prefix', m.financial_year + ' ' + m.organisation_code

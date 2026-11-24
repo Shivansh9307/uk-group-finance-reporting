@@ -25,8 +25,7 @@ CREATE TABLE dw.forecast_return_org_map (
     durable_key        nvarchar(30)  NOT NULL,
     department_key     int           NOT NULL,
     map_method         varchar(20)   NOT NULL,
-    CONSTRAINT pk_dw_forecast_return_org_map PRIMARY KEY (financial_year, organisation_code),
-    CONSTRAINT fk_dw_forecast_return_org_map_org FOREIGN KEY (organisation_key) REFERENCES dw.dim_organisation (organisation_key)
+    CONSTRAINT pk_dw_forecast_return_org_map PRIMARY KEY (financial_year, organisation_code)
 );
 GO
 
