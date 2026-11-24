@@ -1,0 +1,20 @@
+// The trend measures by month of 2025-26 for the whole group: full-time equivalent, paybill and average cost (paybill per
+// full-time equivalent) of every valid organisation-month cell, whether or not it could be compared with a year earlier.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Fiscal Period'[Month Start Date],
+            TREATAS ( { "2025-26" }, 'Fiscal Period'[Financial Year] ),
+            "fte", [Pay FTE],
+            "paybill", [Pay Paybill],
+            "average_cost", [Pay Average Cost]
+        ),
+        NOT ISBLANK ( [paybill] )
+    ),
+    "month", FORMAT ( 'Fiscal Period'[Month Start Date], "yyyy-MM" ),
+    "pay_fte", [fte],
+    "pay_paybill", [paybill],
+    "pay_average_cost", [average_cost]
+)
+ORDER BY [month]

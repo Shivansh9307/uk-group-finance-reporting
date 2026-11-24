@@ -1,0 +1,2 @@
+outcome,message
+error,"Error: Query (4, 45) Column 'Organisation Key' in table 'Fact Pay Bridge (derived)' cannot be found or may not be used in this expression."

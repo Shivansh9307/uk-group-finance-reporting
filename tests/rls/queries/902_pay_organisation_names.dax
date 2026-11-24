@@ -1,0 +1,7 @@
+// The organisations of the workforce files by name, for a role that may see them: the names are not filtered by department
+// (an organisation is a dimension member; the amounts are what the department filter blanks).
+EVALUATE
+ROW (
+    "organisations", COUNTROWS ( 'Pay Organisation' ),
+    "named", COUNTROWS ( FILTER ( 'Pay Organisation', LEN ( 'Pay Organisation'[Pay Organisation] ) > 0 ) )
+)

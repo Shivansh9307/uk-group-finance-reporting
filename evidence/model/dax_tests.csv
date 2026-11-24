@@ -97,3 +97,14 @@ test_id,test_name,expected_rows,result_rows,columns,status,max_abs_diff,build_sc
 820,user_department_rows,11,11,2,pass,0,full
 821,user_plan_group_rows,10,10,2,pass,0,full
 822,unrestricted_totals_with_the_user_map_loaded,8,8,2,pass,0,full
+900,pay_model_table_row_counts,4,4,2,pass,0,full
+901,pay_bridge_by_department_and_month_latest_three_months,46,46,9,pass,0,full
+902,pay_bridge_group_by_financial_year,3,3,8,pass,0,full
+903,pay_trend_by_month_2025_26,12,12,4,pass,0.0000447227607,full
+904,pay_trend_by_financial_year,9,9,4,pass,0.0000468793761,full
+905,pay_coverage_by_series_2024_25,17,17,6,pass,0.00000095408241822,full
+906,pay_bridge_waterfall_steps_2025_26,5,5,2,pass,0,full
+907,pay_bridge_rows_by_class_and_reason,5,5,4,pass,0,full
+908,pay_coverage_all_months,5,5,2,pass,0.00000083635035821,full
+909,pay_bridge_by_department_2025_26,19,19,8,pass,0,full
+910,pay_bridge_cards_2025_26,5,5,2,pass,0,full

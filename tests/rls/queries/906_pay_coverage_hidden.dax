@@ -1,0 +1,3 @@
+// A query that names a table hidden by object-level security: the workforce coverage table.
+EVALUATE
+ROW ( "coverage_rows", COUNTROWS ( 'Pay Coverage' ) )

@@ -1,0 +1,28 @@
+// The table of the pay bridge page: the bridge of 2025-26 for each department of the current structure, the twelve monthly bridges
+// of the department added up. A department that cannot be bridged in any month of the year has no row.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Department (current structure)'[Department],
+            TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ),
+            "prior", [Pay Bridge Prior Paybill],
+            "volume", [Pay Bridge Volume],
+            "rate", [Pay Bridge Rate],
+            "mix", [Pay Bridge Mix],
+            "entry_exit", [Pay Bridge Entry and Exit],
+            "curr", [Pay Bridge Current Paybill],
+            "tie", [Pay Bridge Tie Difference]
+        ),
+        NOT ISBLANK ( [prior] ) || NOT ISBLANK ( [curr] )
+    ),
+    "department", 'Department (current structure)'[Department],
+    "prior_paybill", [prior],
+    "volume", [volume],
+    "rate", [rate],
+    "mix", [mix],
+    "entry_exit", [entry_exit],
+    "current_paybill", [curr],
+    "tie_difference", [tie]
+)
+ORDER BY [department]

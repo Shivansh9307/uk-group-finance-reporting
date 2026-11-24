@@ -1,0 +1,18 @@
+// The departments whose paybill the signed-in user can see in 2025-26, and the paybill and average cost of each: only the user's
+// own departments, and none for a user with no department that has workforce data.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Department (current structure)'[Department],
+            TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ),
+            "paybill", [Pay Paybill],
+            "average_cost", [Pay Average Cost]
+        ),
+        NOT ISBLANK ( [paybill] )
+    ),
+    "department", 'Department (current structure)'[Department],
+    "pay_paybill", [paybill],
+    "pay_average_cost", [average_cost]
+)
+ORDER BY [department]

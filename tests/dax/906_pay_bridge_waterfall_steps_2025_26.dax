@@ -1,0 +1,13 @@
+// The waterfall of the pay bridge page for the group in 2025-26: one value for each of the five steps (prior paybill, volume,
+// rate, mix, entry and exit); the waterfall's own total bar is the current paybill, so the five add up to it.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Pay Bridge Step'[Step],
+        TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ),
+        "amount", [Pay Bridge Step Amount]
+    ),
+    "step", 'Pay Bridge Step'[Step],
+    "amount", [amount]
+)
+ORDER BY [step]

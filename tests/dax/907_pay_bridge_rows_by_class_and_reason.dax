@@ -1,0 +1,16 @@
+// Every row of the bridge fact by class and, for a row that is left out, the reason; the measure of rows not bridged is the count
+// of the not_bridged rows and 0 elsewhere.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Fact Pay Bridge (derived)'[Bridge Class],
+        'Fact Pay Bridge (derived)'[Not Bridged Reason],
+        "rows", COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+        "not_bridged", [Pay Bridge Rows Not Bridged]
+    ),
+    "bridge_class", 'Fact Pay Bridge (derived)'[Bridge Class],
+    "not_bridged_reason", COALESCE ( 'Fact Pay Bridge (derived)'[Not Bridged Reason], "none" ),
+    "row_count", [rows],
+    "rows_not_bridged", [not_bridged]
+)
+ORDER BY [bridge_class], [not_bridged_reason]

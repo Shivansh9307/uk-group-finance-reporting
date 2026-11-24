@@ -1,0 +1,12 @@
+// The coverage of the workforce load over every series and month, the total row of the coverage table on the pay bridge page, one
+// row for each figure: series-months with a file, published and mapped paybill in pounds, and the mapped shares of paybill and of
+// full-time equivalent.
+EVALUATE
+UNION (
+    ROW ( "item", "series_months", "value", CONVERT ( [Pay Coverage Months], DOUBLE ) ),
+    ROW ( "item", "paybill_published", "value", CONVERT ( [Pay Paybill Published], DOUBLE ) ),
+    ROW ( "item", "paybill_mapped", "value", CONVERT ( [Pay Paybill Mapped], DOUBLE ) ),
+    ROW ( "item", "paybill_coverage", "value", CONVERT ( [Pay Paybill Coverage], DOUBLE ) ),
+    ROW ( "item", "fte_coverage", "value", CONVERT ( [Pay FTE Coverage], DOUBLE ) )
+)
+ORDER BY [item]

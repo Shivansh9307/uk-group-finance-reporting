@@ -1,0 +1,9 @@
+// The workforce coverage table for a role that may see it: the rows (department series and month) and the paybill published
+// and placed on an organisation. It is a control table, related to the fiscal period only, so a department filter does not
+// reach it.
+EVALUATE
+ROW (
+    "coverage_rows", COUNTROWS ( 'Pay Coverage' ),
+    "paybill_published", [Pay Paybill Published],
+    "paybill_mapped", [Pay Paybill Mapped]
+)

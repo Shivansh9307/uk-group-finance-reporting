@@ -112,3 +112,26 @@ chloe_analyst,tac_consolidated_rows,Department Analyst,chloe.patel@example.org,v
 chloe_restricted,tac_consolidated_rows,Restricted Viewer,chloe.patel@example.org,values,tac_consolidated_rows,
 alice_analyst,tac_consolidated_rows,Department Analyst,alice.morgan@example.org,values,tac_consolidated_rows,
 nobody_restricted,tac_consolidated_rows,Restricted Viewer,nobody@example.org,values,tac_consolidated_rows,
+alice_analyst,900_pay_totals,Department Analyst,alice.morgan@example.org,values,900_pay_totals,
+ben_analyst,900_pay_totals,Department Analyst,ben.okafor@example.org,values,900_pay_totals,
+chloe_analyst,900_pay_totals,Department Analyst,chloe.patel@example.org,values,900_pay_totals,
+george_analyst,900_pay_totals,Department Analyst,george.evans@example.org,values,900_pay_totals,
+hannah_analyst,900_pay_totals,Department Analyst,hannah.price@example.org,values,900_pay_totals,
+jasmine_analyst,900_pay_totals,Department Analyst,jasmine.reid@example.org,values,900_pay_totals,
+dev_analyst,900_pay_totals,Department Analyst,dev.sharma@example.org,values,900_pay_totals,
+nobody_analyst,900_pay_totals,Department Analyst,nobody@example.org,values,900_pay_totals,
+alice_restricted,900_pay_totals,Restricted Viewer,alice.morgan@example.org,values,900_pay_totals,
+jasmine_restricted,900_pay_totals,Restricted Viewer,jasmine.reid@example.org,values,900_pay_totals,
+nobody_restricted,900_pay_totals,Restricted Viewer,nobody@example.org,values,900_pay_totals,
+jasmine_analyst,901_pay_by_department,Department Analyst,jasmine.reid@example.org,values,901_pay_by_department,
+chloe_analyst,901_pay_by_department,Department Analyst,chloe.patel@example.org,values,901_pay_by_department,
+nobody_analyst,901_pay_by_department,Department Analyst,nobody@example.org,values,901_pay_by_department,
+alice_restricted,901_pay_by_department,Restricted Viewer,alice.morgan@example.org,values,901_pay_by_department,
+alice_analyst,902_pay_organisation_names,Department Analyst,alice.morgan@example.org,values,902_pay_organisation_names,
+nobody_analyst,902_pay_organisation_names,Department Analyst,nobody@example.org,values,902_pay_organisation_names,
+chloe_restricted,903_pay_organisation_names_hidden,Restricted Viewer,chloe.patel@example.org,error,,Cannot find table 'Pay Organisation'.
+nobody_restricted,903_pay_organisation_names_hidden,Restricted Viewer,nobody@example.org,error,,Cannot find table 'Pay Organisation'.
+alice_restricted,904_pay_organisation_key_hidden,Restricted Viewer,alice.morgan@example.org,error,,Column 'Organisation Key' in table 'Fact Pay Bridge (derived)' cannot be found or may not be used in this expression.
+alice_analyst,905_pay_coverage_rows,Department Analyst,alice.morgan@example.org,values,905_pay_coverage_rows,
+nobody_analyst,905_pay_coverage_rows,Department Analyst,nobody@example.org,values,905_pay_coverage_rows,
+chloe_restricted,906_pay_coverage_hidden,Restricted Viewer,chloe.patel@example.org,error,,Cannot find table 'Pay Coverage'.

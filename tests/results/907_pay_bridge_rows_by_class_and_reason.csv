@@ -1,0 +1,6 @@
+bridge_class,not_bridged_reason,row_count,rows_not_bridged
+"continuing","none",4950,0
+"entry","none",118,0
+"exit","none",222,0
+"not_bridged","comparison_cell_excluded",188,188
+"not_bridged","department_not_comparable",2068,2068

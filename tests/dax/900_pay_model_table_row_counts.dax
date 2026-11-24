@@ -1,0 +1,11 @@
+// The pay bridge tables have the rows of what they are built from: the fact (one row per department, organisation and month
+// of the comparison with a year earlier), one row for each of the organisations of the workforce files, one coverage row for
+// each department series and month, and the five steps of the waterfall.
+EVALUATE
+UNION (
+    ROW ( "table_name", "Fact Pay Bridge (derived)", "row_count", COUNTROWS ( 'Fact Pay Bridge (derived)' ) ),
+    ROW ( "table_name", "Pay Organisation", "row_count", COUNTROWS ( 'Pay Organisation' ) ),
+    ROW ( "table_name", "Pay Coverage", "row_count", COUNTROWS ( 'Pay Coverage' ) ),
+    ROW ( "table_name", "Pay Bridge Step", "row_count", COUNTROWS ( 'Pay Bridge Step' ) )
+)
+ORDER BY [table_name]

@@ -30,3 +30,14 @@ test,reason
 789_exec_outturn_by_year,reads a source file that is not in git
 800_plan_variance_check_rows,needs audit.plan_variance_reconciliation
 801_plan_variance_by_year_and_measure,needs audit.plan_variance_reconciliation
+900_pay_model_table_row_counts,"needs dw.workforce_month, audit.workforce_row_arithmetic"
+901_pay_bridge_by_department_and_month_latest_three_months,"needs dw.workforce_month, audit.workforce_row_arithmetic"
+902_pay_bridge_group_by_financial_year,"needs dw.workforce_month, audit.workforce_row_arithmetic"
+903_pay_trend_by_month_2025_26,"needs dw.workforce_month, audit.workforce_row_arithmetic"
+904_pay_trend_by_financial_year,"needs dw.workforce_month, audit.workforce_row_arithmetic"
+905_pay_coverage_by_series_2024_25,needs audit.workforce_mapping_coverage
+906_pay_bridge_waterfall_steps_2025_26,"needs dw.workforce_month, audit.workforce_row_arithmetic"
+907_pay_bridge_rows_by_class_and_reason,"needs dw.workforce_month, audit.workforce_row_arithmetic"
+908_pay_coverage_all_months,needs audit.workforce_mapping_coverage
+909_pay_bridge_by_department_2025_26,"needs dw.workforce_month, audit.workforce_row_arithmetic"
+910_pay_bridge_cards_2025_26,"needs dw.workforce_month, audit.workforce_row_arithmetic"

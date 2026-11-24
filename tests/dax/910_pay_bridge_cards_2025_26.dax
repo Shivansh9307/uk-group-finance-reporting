@@ -1,0 +1,11 @@
+// The five cards of the pay bridge page, the group in 2025-26, one row for each card: prior paybill, current paybill, the change,
+// the tie difference and the number of rows left out of the bridge in the year.
+EVALUATE
+UNION (
+    ROW ( "card", "prior_paybill", "value", CONVERT ( CALCULATE ( [Pay Bridge Prior Paybill], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ), DOUBLE ) ),
+    ROW ( "card", "current_paybill", "value", CONVERT ( CALCULATE ( [Pay Bridge Current Paybill], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ), DOUBLE ) ),
+    ROW ( "card", "change", "value", CONVERT ( CALCULATE ( [Pay Bridge Change], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ), DOUBLE ) ),
+    ROW ( "card", "tie_difference", "value", CONVERT ( CALCULATE ( [Pay Bridge Tie Difference], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ), DOUBLE ) ),
+    ROW ( "card", "rows_not_bridged", "value", CONVERT ( CALCULATE ( [Pay Bridge Rows Not Bridged], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ), DOUBLE ) )
+)
+ORDER BY [card]

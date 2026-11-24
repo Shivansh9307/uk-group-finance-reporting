@@ -1,0 +1,29 @@
+// The pay bridge of the group (every department) for the financial years 2023-24 to 2025-26: the twelve monthly bridges of a year
+// added up (volume and mix are worked out on the whole group month by month), so the year's prior and current paybill are the
+// sums of the months that could be compared.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Fiscal Year'[Financial Year],
+            TREATAS ( { "2023-24", "2024-25", "2025-26" }, 'Fiscal Year'[Financial Year] ),
+            "prior", [Pay Bridge Prior Paybill],
+            "volume", [Pay Bridge Volume],
+            "rate", [Pay Bridge Rate],
+            "mix", [Pay Bridge Mix],
+            "entry_exit", [Pay Bridge Entry and Exit],
+            "curr", [Pay Bridge Current Paybill],
+            "tie", [Pay Bridge Tie Difference]
+        ),
+        NOT ISBLANK ( [prior] ) || NOT ISBLANK ( [curr] )
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "prior_paybill", [prior],
+    "volume", [volume],
+    "rate", [rate],
+    "mix", [mix],
+    "entry_exit", [entry_exit],
+    "current_paybill", [curr],
+    "tie_difference", [tie]
+)
+ORDER BY [financial_year]

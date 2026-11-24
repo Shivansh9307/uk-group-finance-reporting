@@ -1,0 +1,19 @@
+// The trend measures by financial year for the whole group: full-time equivalent as the average of the monthly totals (a stock,
+// not a sum), paybill added over the months, and average cost as the year's paybill over the year's full-time equivalent months.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Fiscal Year'[Financial Year],
+            "fte", [Pay FTE],
+            "paybill", [Pay Paybill],
+            "average_cost", [Pay Average Cost]
+        ),
+        NOT ISBLANK ( [paybill] )
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "pay_fte", [fte],
+    "pay_paybill", [paybill],
+    "pay_average_cost", [average_cost]
+)
+ORDER BY [financial_year]

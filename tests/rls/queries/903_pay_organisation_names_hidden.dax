@@ -1,0 +1,3 @@
+// A query that names a table hidden by object-level security: the organisations of the workforce files.
+EVALUATE
+ROW ( "organisations", COUNTROWS ( 'Pay Organisation' ) )

@@ -1,0 +1,22 @@
+// The coverage of the workforce load by department series for the months of 2024-25: months with files, published and mapped
+// paybill in pounds, and the mapped shares of paybill and of full-time equivalent. MOD's paybill share is low because rows
+// labelled another month are quarantined.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Pay Coverage'[Series],
+        TREATAS ( { "2024-25" }, 'Fiscal Year'[Financial Year] ),
+        "months", [Pay Coverage Months],
+        "paybill_published", [Pay Paybill Published],
+        "paybill_mapped", [Pay Paybill Mapped],
+        "paybill_coverage", [Pay Paybill Coverage],
+        "fte_coverage", [Pay FTE Coverage]
+    ),
+    "series", 'Pay Coverage'[Series],
+    "months", [months],
+    "paybill_published", [paybill_published],
+    "paybill_mapped", [paybill_mapped],
+    "paybill_coverage", [paybill_coverage],
+    "fte_coverage", [fte_coverage]
+)
+ORDER BY [series]

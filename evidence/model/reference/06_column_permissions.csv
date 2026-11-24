@@ -11,6 +11,7 @@ Role,Table,Column,Metadata Permission
 "Restricted Viewer","Data Quality Issue","Rows Affected",1
 "Restricted Viewer","Data Quality Issue","Sub-Segment Code",1
 "Restricted Viewer","Data Quality Issue","Treatment",1
+"Restricted Viewer","Fact Pay Bridge (derived)","Organisation Key",1
 "Restricted Viewer","Organisation (as reported)","Department (as reported)",1
 "Restricted Viewer","Organisation (as reported)","Durable Key Rule",1
 "Restricted Viewer","Organisation (as reported)","Is Current Version",1

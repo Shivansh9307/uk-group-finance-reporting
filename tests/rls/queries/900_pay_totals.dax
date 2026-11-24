@@ -1,0 +1,16 @@
+// The pay bridge as the signed-in user sees it, in one row: the bridge of 2025-26 (the twelve months against the months a year
+// earlier, worked out on the departments the user can see), the paybill of the valid cells, and the number of rows of the bridge
+// fact and of rows left out that the user can reach. A user who is not mapped to a department that has workforce data sees
+// no row: every amount is blank and the counts are 0.
+EVALUATE
+ROW (
+    "prior_2025_26", CALCULATE ( [Pay Bridge Prior Paybill], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ),
+    "volume_2025_26", CALCULATE ( [Pay Bridge Volume], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ),
+    "rate_2025_26", CALCULATE ( [Pay Bridge Rate], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ),
+    "mix_2025_26", CALCULATE ( [Pay Bridge Mix], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ),
+    "entry_exit_2025_26", CALCULATE ( [Pay Bridge Entry and Exit], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ),
+    "current_2025_26", CALCULATE ( [Pay Bridge Current Paybill], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ),
+    "paybill_2025_26", CALCULATE ( [Pay Paybill], TREATAS ( { "2025-26" }, 'Fiscal Year'[Financial Year] ) ),
+    "bridge_rows", COUNTROWS ( 'Fact Pay Bridge (derived)' ) + 0,
+    "rows_not_bridged", [Pay Bridge Rows Not Bridged]
+)

@@ -145,6 +145,137 @@ RETURN
 VAR PlanAmount = [Statement Plan]
 RETURN
     IF ( ISBLANK ( Actual ) || ISBLANK ( PlanAmount ), BLANK (), DIVIDE ( Actual - PlanAmount, ABS ( PlanAmount ) ) )","","""0.0%;-0.0%;0.0%""",False,"Statement"
+"Fact Pay Bridge (derived)","Pay Average Cost","Paybill per full-time equivalent per month, in pounds: Pay Paybill over the full-time equivalent months in context. Over a year it is the average monthly cost of one full-time equivalent.","DIVIDE (
+    [Pay Paybill],
+    SUMX (
+        VALUES ( 'Fact Pay Bridge (derived)'[Period Key] ),
+        CALCULATE ( SUM ( 'Fact Pay Bridge (derived)'[FTE Current] ) )
+    )
+)","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge\Trend"
+"Fact Pay Bridge (derived)","Pay Bridge Change","Current paybill less prior paybill of the bridge, in pounds.","IF (
+    NOT ISBLANK ( [Pay Bridge Current Paybill] ) || NOT ISBLANK ( [Pay Bridge Prior Paybill] ),
+    COALESCE ( [Pay Bridge Current Paybill], 0 ) - COALESCE ( [Pay Bridge Prior Paybill], 0 )
+)","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge"
+"Fact Pay Bridge (derived)","Pay Bridge Current Paybill","Payroll paybill, in pounds, of the organisations in the bridge in the later of the two months (continuing and entry), against Pay Bridge Prior Paybill the same month a year earlier. Not the whole of a department: cells that are not valid are left out (see Pay Bridge Rows Not Bridged).","CALCULATE (
+    SUM ( 'Fact Pay Bridge (derived)'[Paybill Current] ),
+    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { ""continuing"", ""entry"" } )
+)","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge"
+"Fact Pay Bridge (derived)","Pay Bridge Entry and Exit","The paybill of organisations valid in the later month and not a year earlier (a body that joined the department, or one that moved in from another), less the paybill of organisations valid a year earlier and not in the later month (a body that left or moved out). A department that has no valid cell in one of the two months is not bridged at all, so a gap in the data is never read as an entry or an exit.","VAR BridgedRows =
+    CALCULATE (
+        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { ""continuing"", ""entry"", ""exit"" } )
+    )
+RETURN
+    IF (
+        BridgedRows > 0,
+        COALESCE (
+            CALCULATE (
+                SUM ( 'Fact Pay Bridge (derived)'[Paybill Current] ),
+                KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = ""entry"" )
+            ),
+            0
+        )
+            - COALESCE (
+                CALCULATE (
+                    SUM ( 'Fact Pay Bridge (derived)'[Paybill Prior] ),
+                    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = ""exit"" )
+                ),
+                0
+            )
+    )","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge"
+"Fact Pay Bridge (derived)","Pay Bridge Mix","The part of the change in paybill that comes from the mix of organisations: the continuing organisations' own volume (their change in full-time equivalent at their own prior average cost) less the volume of the selection as a whole. Zero for a single organisation, and for a department of one organisation. At group level it includes the shift between departments.","VAR BridgedRows =
+    CALCULATE (
+        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { ""continuing"", ""entry"", ""exit"" } )
+    )
+RETURN
+    IF (
+        BridgedRows > 0,
+        COALESCE (
+            CALCULATE (
+                SUM ( 'Fact Pay Bridge (derived)'[Organisation Volume] ),
+                KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = ""continuing"" )
+            ),
+            0
+        )
+            - [Pay Bridge Volume]
+    )","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge"
+"Fact Pay Bridge (derived)","Pay Bridge Prior Paybill","Payroll paybill, in pounds, of the organisations in the bridge a year before the month in context (continuing and exit). Prior + volume + rate + mix + entry and exit = current paybill, and Pay Bridge Tie Difference shows that difference, which is zero. Volume and mix are worked out on the selection, month by month, and are not additive over departments; volume plus mix, rate and entry and exit are.","CALCULATE (
+    SUM ( 'Fact Pay Bridge (derived)'[Paybill Prior] ),
+    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { ""continuing"", ""exit"" } )
+)","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge"
+"Fact Pay Bridge (derived)","Pay Bridge Rate","The part of the change in paybill that comes from a change in average cost: the sum over continuing organisations of the current full-time equivalent times the change in the organisation's paybill per full-time equivalent. Additive over any selection.","VAR BridgedRows =
+    CALCULATE (
+        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { ""continuing"", ""entry"", ""exit"" } )
+    )
+RETURN
+    IF (
+        BridgedRows > 0,
+        COALESCE (
+            CALCULATE (
+                SUM ( 'Fact Pay Bridge (derived)'[Organisation Rate] ),
+                KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = ""continuing"" )
+            ),
+            0
+        )
+    )","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge"
+"Fact Pay Bridge (derived)","Pay Bridge Rows Not Bridged","How many department, organisation and month rows were left out of the bridge, for either of two reasons shown by Not Bridged Reason: the cell of the other month exists and is not valid, or the department has no valid cell in one of the two months. 0 when none.","CALCULATE (
+    COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+    KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = ""not_bridged"" )
+) + 0","","""#,##0""",False,"Pay bridge"
+"Fact Pay Bridge (derived)","Pay Bridge Step Amount","One value of the waterfall: the amount of the bridge step in context (Pay Bridge Step), in pounds. The prior paybill, then the four effects; the waterfall's own total bar is the current paybill.","SWITCH (
+    SELECTEDVALUE ( 'Pay Bridge Step'[Step Order] ),
+    1, [Pay Bridge Prior Paybill],
+    2, [Pay Bridge Volume],
+    3, [Pay Bridge Rate],
+    4, [Pay Bridge Mix],
+    5, [Pay Bridge Entry and Exit]
+)","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge"
+"Fact Pay Bridge (derived)","Pay Bridge Tie Difference","The change in paybill less volume, rate, mix and entry and exit, in pounds, rounded to 4 decimal places. It is zero by construction; it is shown so that a reader can see the bridge adds up, and a test checks it.","IF (
+    NOT ISBLANK ( [Pay Bridge Change] ),
+    ROUND (
+        [Pay Bridge Change] - ( [Pay Bridge Volume] + [Pay Bridge Rate] + [Pay Bridge Mix] + [Pay Bridge Entry and Exit] ),
+        4
+    )
+)","","""\£#,##0.0000;-\£#,##0.0000;\£0.0000""",False,"Pay bridge"
+"Fact Pay Bridge (derived)","Pay Bridge Volume","The part of the change in paybill that comes from a change in the number of full-time equivalent staff of the continuing organisations, valued at their prior average cost (paybill per full-time equivalent). Worked out month by month on the organisations in context, then added over months.","VAR BridgedRows =
+    CALCULATE (
+        COUNTROWS ( 'Fact Pay Bridge (derived)' ),
+        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] IN { ""continuing"", ""entry"", ""exit"" } )
+    )
+RETURN
+    IF (
+        BridgedRows > 0,
+        COALESCE (
+            SUMX (
+                VALUES ( 'Fact Pay Bridge (derived)'[Period Key] ),
+                VAR FteNow =
+                    CALCULATE (
+                        SUM ( 'Fact Pay Bridge (derived)'[FTE Current] ),
+                        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = ""continuing"" )
+                    )
+                VAR FtePrior =
+                    CALCULATE (
+                        SUM ( 'Fact Pay Bridge (derived)'[FTE Prior] ),
+                        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = ""continuing"" )
+                    )
+                VAR PayPrior =
+                    CALCULATE (
+                        SUM ( 'Fact Pay Bridge (derived)'[Paybill Prior] ),
+                        KEEPFILTERS ( 'Fact Pay Bridge (derived)'[Bridge Class] = ""continuing"" )
+                    )
+                RETURN
+                    IF ( FtePrior <> 0, ( FteNow - FtePrior ) * DIVIDE ( PayPrior, FtePrior ) )
+            ),
+            0
+        )
+    )","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge"
+"Fact Pay Bridge (derived)","Pay FTE","Payroll full-time equivalent of every valid organisation-month cell in the month in context. Over several months it is the average of the monthly totals, not their sum (a stock, not a flow).","AVERAGEX (
+    VALUES ( 'Fact Pay Bridge (derived)'[Period Key] ),
+    CALCULATE ( SUM ( 'Fact Pay Bridge (derived)'[FTE Current] ) )
+)","","""#,##0""",False,"Pay bridge\Trend"
+"Fact Pay Bridge (derived)","Pay Paybill","Payroll paybill in pounds of every valid organisation-month cell in context (the later month of each pair), whether or not it could be compared with a year earlier. The trend measures use this basis. Added over months.","SUM ( 'Fact Pay Bridge (derived)'[Paybill Current] )","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge\Trend"
 "Fact Plan","Plan","Published plan in GBP thousands, summed over the plan rows in context, BLANK wherever the filter context is finer than the grain the plan is published at (a month, a sub-segment, an economic category, a department, a data quality issue, and an organisation, control budget or economic budget where the source has none). Grain A (OSCAR Plans) is published by organisation, control budget detail and economic budget, so a selection of those on the outturn side narrows the plan to the same codes. Administration budgets are part of resource DEL and are left out unless a Plan measure is chosen. Plan measures overlap by design; choose one to read it on its own.","IF (
     Grain.BelowGrain ( FALSE () ),
     BLANK (),
@@ -302,6 +433,11 @@ RETURN
 "Load Control","Rows Quarantined","Rows rejected into quarantine from the files in context, each kept with its reason; 0 for every file in the data.","SUM ( 'Load Control'[Rows Quarantined Value] ) + 0","","""#,##0""",False,"Audit and control"
 "Load Control","Rows Read","Data rows read from the files in context: the rows of the source file after its header, before any row is rejected.","SUM ( 'Load Control'[Rows Read Value] )","","""#,##0""",False,"Audit and control"
 "Load Control","Web Rows Quarantined","Rows of the deflator workbooks and the CPI series that did not parse: the rows of Deflator Quarantine and CPI Quarantine. 0 when every row parses.","COUNTROWS ( 'Deflator Quarantine' ) + COUNTROWS ( 'CPI Quarantine' ) + 0","","""#,##0""",False,"Audit and control"
+"Pay Coverage","Pay Coverage Months","Months of a series in context that have at least one published row.","COUNTROWS ( 'Pay Coverage' )","","""#,##0""",False,"Pay bridge\Coverage"
+"Pay Coverage","Pay FTE Coverage","Full-time equivalent placed on an organisation as a share of the full-time equivalent published, over the series and months in context.","DIVIDE ( SUM ( 'Pay Coverage'[FTE Mapped] ), SUM ( 'Pay Coverage'[FTE Published] ) )","","""0.0%;-0.0%;0.0%""",False,"Pay bridge\Coverage"
+"Pay Coverage","Pay Paybill Coverage","Paybill placed on an organisation as a share of the paybill published, over the series and months in context.","DIVIDE ( SUM ( 'Pay Coverage'[Paybill Mapped] ), SUM ( 'Pay Coverage'[Paybill Published] ) )","","""0.0%;-0.0%;0.0%""",False,"Pay bridge\Coverage"
+"Pay Coverage","Pay Paybill Mapped","Published payroll paybill in pounds that the map placed on an organisation, over the series and months in context.","SUM ( 'Pay Coverage'[Paybill Mapped] )","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge\Coverage"
+"Pay Coverage","Pay Paybill Published","Published payroll paybill in pounds, over the series and months in context.","SUM ( 'Pay Coverage'[Paybill Published] )","","""\£#,##0;-\£#,##0;\£0""",False,"Pay bridge\Coverage"
 "Plan Coverage","Plan Coverage Total","Total of the plan rows in context, GBP thousands. Plan measures overlap by design (administration budgets are part of resource DEL), so a total across measures is not a plan figure; read it by measure.","SUM ( 'Plan Coverage'[Amount Total Value] )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"Audit and control"
 "TAC Consolidated Accounts","TAC Consolidated Total","AUTHORED: the consolidated figure for the control line and year in context, GBP thousands, TAC sign, as printed in the consolidated NHS provider accounts (GBP million times 1,000). BLANK unless one control line and one year are in context, and BLANK where the user cannot see the provider accounts, so the control is hidden with them.","IF ( NOT ISBLANK ( [TAC Provider Sum (control)] ), SUM ( 'TAC Consolidated Accounts'[Amount] ) )","","""\£#,##0""""k"""";-\£#,##0""""k"""";\£0""""k""""""",False,"TAC\Elimination control"
 "TAC Consolidated Accounts","TAC Elimination Gap","The sum of the provider accounts less the consolidated figure, GBP thousands, TAC sign: what the consolidation takes out (intra-NHS income, expense and balances between providers) plus whatever else differs between the two populations, which this measure does not separate. A provider whose accounts the TAC file leaves out is in the consolidated accounts and not in the sum. BLANK where either side is.","VAR Provider = [TAC Provider Sum (control)]

@@ -1,0 +1,32 @@
+// The pay bridge of every department for the latest three months of the data (August, September and October 2026, periods 5
+// to 7 of 2026-27), each month against the same month a year earlier: prior paybill, volume, rate, mix, entry and exit, current
+// paybill and the tie difference, which is zero. A department that cannot be bridged in a month has no row.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Department (current structure)'[Department],
+            'Fiscal Period'[Month Start Date],
+            TREATAS ( { "2026-27" }, 'Fiscal Period'[Financial Year] ),
+            TREATAS ( { 5, 6, 7 }, 'Fiscal Period'[Period Number] ),
+            "prior", [Pay Bridge Prior Paybill],
+            "volume", [Pay Bridge Volume],
+            "rate", [Pay Bridge Rate],
+            "mix", [Pay Bridge Mix],
+            "entry_exit", [Pay Bridge Entry and Exit],
+            "curr", [Pay Bridge Current Paybill],
+            "tie", [Pay Bridge Tie Difference]
+        ),
+        NOT ISBLANK ( [prior] ) || NOT ISBLANK ( [curr] )
+    ),
+    "department", 'Department (current structure)'[Department],
+    "month", FORMAT ( 'Fiscal Period'[Month Start Date], "yyyy-MM" ),
+    "prior_paybill", [prior],
+    "volume", [volume],
+    "rate", [rate],
+    "mix", [mix],
+    "entry_exit", [entry_exit],
+    "current_paybill", [curr],
+    "tie_difference", [tie]
+)
+ORDER BY [department], [month]

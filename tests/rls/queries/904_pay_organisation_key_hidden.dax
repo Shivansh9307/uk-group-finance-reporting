@@ -1,0 +1,4 @@
+// A query that names a column hidden by object-level security: the organisation key of the pay bridge fact, which would give
+// the paybill of each organisation.
+EVALUATE
+ROW ( "organisations", COUNTROWS ( VALUES ( 'Fact Pay Bridge (derived)'[Organisation Key] ) ) )
