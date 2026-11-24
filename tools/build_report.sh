@@ -385,6 +385,161 @@ controls_page() {
   done
 }
 
+# ------------------------------------------------------------------------------------------ NHS trust accounts pages
+tac_balance_page() {
+  page_new "NHS balance sheet"
+  header "NHS providers: balance sheet" \
+    "GBP millions, TAC sign; the sum of the provider accounts, not the consolidated accounts; 2024-25 unless marked"
+  pf "Display Unit" Unit "$MN"
+  local y=2024-25 v
+  card bs_nca "Non-current assets" 24 136 192 84 "Fact TAC.TAC Closing Balance" "Closing balance of non-current assets of the NHS providers at the end of 2024-25, in millions of pounds" 17
+  card bs_ca "Current assets" 232 136 192 84 "Fact TAC.TAC Closing Balance" "Closing balance of current assets of the NHS providers at the end of 2024-25, in millions of pounds" 17
+  card bs_cl "Current liabilities" 440 136 192 84 "Fact TAC.TAC Closing Balance" "Closing balance of current liabilities of the NHS providers at the end of 2024-25, in millions of pounds, negative" 17
+  card bs_ncl "Non-current liabilities" 648 136 192 84 "Fact TAC.TAC Closing Balance" "Closing balance of non-current liabilities of the NHS providers at the end of 2024-25, in millions of pounds, negative" 17
+  card bs_net "Total assets employed" 856 136 192 84 "Fact TAC.TAC Closing Balance" "Total assets employed of the NHS providers at the end of 2024-25 as published, in millions of pounds" 17
+  card bs_providers "Providers reporting" 1064 136 192 84 "Fact TAC.TAC Providers Reporting" "Number of NHS providers with statements for 2024-25"
+  vf bs_nca "TAC Statement Line" Section "Non-current assets"
+  vf bs_ca "TAC Statement Line" Section "Current assets"
+  vf bs_cl "TAC Statement Line" Section "Current liabilities"
+  vf bs_ncl "TAC Statement Line" Section "Non-current liabilities"
+  vf bs_net "TAC Statement Line" Section "Net assets"
+  for v in bs_nca bs_ca bs_cl bs_ncl bs_net bs_providers; do vf "$v" "Fiscal Year" "Financial Year" "$y"; done
+
+  visual pivotTable bs_blocks "Balance sheet by block, 2024-25: closing, opening, last year's closing and the restatement (GBP millions)" 24 232 744 232 \
+    "Matrix of the balance sheet blocks of the NHS providers for 2024-25 with the closing balance, the opening balance as restated, the closing balance of the year before, their difference and the restatement of values both files hold, in millions of pounds" \
+    "Rows:TAC Statement Line.Section" "Values:Fact TAC.TAC Closing Balance" "Values:Fact TAC.TAC Opening Balance" "Values:Fact TAC.TAC Prior Year Closing Balance" \
+    "Values:Fact TAC.TAC Opening less Prior Year Closing" "Values:Fact TAC.TAC Restatement"
+  vf bs_blocks "TAC Statement Line" "Statement Code" SoFP
+  vf bs_blocks "Fiscal Year" "Financial Year" "$y"
+  q visuals sort "$P/bs_blocks.Visual" -f "TAC Statement Line.Section" -d Ascending
+  q set "$P/bs_blocks.Visual.subTotals.rowSubtotals" --value false
+  q set "$P/bs_blocks.Visual.values.fontSize" --value 8
+  q set "$P/bs_blocks.Visual.columnHeaders.fontSize" --value 8
+  q set "$P/bs_blocks.Visual.rowHeaders.fontSize" --value 9
+  q fields rename "$R" "Fact TAC.TAC Closing Balance" "Closing"
+  q fields rename "$R" "Fact TAC.TAC Opening Balance" "Opening"
+  q fields rename "$R" "Fact TAC.TAC Prior Year Closing Balance" "Last year's closing"
+  q fields rename "$R" "Fact TAC.TAC Opening less Prior Year Closing" "Opening less last year's closing"
+  q fields rename "$R" "Fact TAC.TAC Restatement" "Restatement (both files)"
+
+  visual clusteredColumnChart bs_restatement "Restatement of the opening net assets, by year (GBP millions)" 784 232 472 232 \
+    "Column chart of the net restatement of the opening total assets employed of the NHS providers by financial year, for the values that the file of the year and the file of the year before both hold, in millions of pounds" \
+    "Category:Fiscal Year.Financial Year" "Y:Fact TAC.TAC Restatement"
+  vf bs_restatement "TAC Statement Line" "Sub Code" BAL1400
+  vf bs_restatement "Fiscal Year" "Financial Year" 2020-21 2021-22 2022-23 2023-24 2024-25
+  q visuals sort "$P/bs_restatement.Visual" -f "Fiscal Year.Financial Year" -d Ascending
+  q set "$P/bs_restatement.Visual.valueAxis.labelDisplayUnits" --value 1
+
+  visual clusteredColumnChart bs_assets "Total assets at the end of the year (GBP millions)" 24 476 372 220 \
+    "Column chart of the total assets of the NHS providers at the end of each financial year from 2019-20 to 2024-25, in millions of pounds" \
+    "Category:Fiscal Year.Financial Year" "Y:Fact TAC.TAC Closing Balance"
+  vf bs_assets "TAC Statement Line" Section "Non-current assets" "Current assets"
+  vf bs_assets "Fiscal Year" "Financial Year" 2019-20 2020-21 2021-22 2022-23 2023-24 2024-25
+  q visuals sort "$P/bs_assets.Visual" -f "Fiscal Year.Financial Year" -d Ascending
+  q set "$P/bs_assets.Visual.valueAxis.labelDisplayUnits" --value 1
+
+  visual lineChart bs_providers_year "Providers with statements, by year" 412 476 356 220 \
+    "Line chart of the number of NHS providers with statements in each financial year from 2019-20 to 2024-25; a provider acquired or merged stops being counted after its last year" \
+    "Category:Fiscal Year.Financial Year" "Y:Fact TAC.TAC Providers Reporting"
+  vf bs_providers_year "Fiscal Year" "Financial Year" 2019-20 2020-21 2021-22 2022-23 2023-24 2024-25
+  q visuals sort "$P/bs_providers_year.Visual" -f "Fiscal Year.Financial Year" -d Ascending
+
+  visual tableEx bs_gone "Providers that stop reporting: last year and successor" 784 476 472 220 \
+    "Table of the NHS providers that were acquired, merged or dissolved, with the last year they have statements, the successor and the kind of change; they contribute nothing to a balance after their last year" \
+    "Values:TAC Provider.Provider" "Values:TAC Provider.Last Year With Statements" "Values:TAC Provider.Successor" "Values:TAC Provider.Successor Kind"
+  vf bs_gone "TAC Provider" "Successor Kind" acquired merged demised new_code
+  q visuals sort "$P/bs_gone.Visual" -f "TAC Provider.Last Year With Statements" -d Ascending
+  q set "$P/bs_gone.Visual.values.fontSize" --value 8
+  q set "$P/bs_gone.Visual.columnHeaders.fontSize" --value 8
+}
+
+tac_cash_page() {
+  page_new "NHS cash flow"
+  header "NHS providers: cash flow" \
+    "GBP millions, TAC sign; derived by the indirect method against the published cash flow; the residual is not forced to zero"
+  pf "Display Unit" Unit "$MN"
+  visual tableEx cf_lines "Derived against published cash flow by line, 2024-25 (GBP millions)" 24 136 744 560 \
+    "Table of the 22 lines of the derived cash flow of the NHS providers for 2024-25 with the derived amount, the published lines they are compared with and the residual, in millions of pounds, and the total" \
+    "Values:TAC Cash Flow Line.Cash Flow Section" "Values:TAC Cash Flow Line.Cash Flow Line" "Values:Fact TAC Cash Flow (derived).TAC Cash Flow (derived)" \
+    "Values:Fact TAC.TAC Cash Flow (published)" "Values:Fact TAC Cash Flow (derived).TAC Cash Flow Residual"
+  vf cf_lines "Fiscal Year" "Financial Year" 2024-25
+  q visuals sort "$P/cf_lines.Visual" -f "TAC Cash Flow Line.Cash Flow Line" -d Ascending
+  q set "$P/cf_lines.Visual.values.fontSize" --value 8
+  q set "$P/cf_lines.Visual.columnHeaders.fontSize" --value 8
+  q set "$P/cf_lines.Visual.values.wordWrap" --value true
+  q fields rename "$R" "Fact TAC Cash Flow (derived).TAC Cash Flow (derived)" "Derived"
+  q fields rename "$R" "Fact TAC.TAC Cash Flow (published)" "Published"
+  q fields rename "$R" "Fact TAC Cash Flow (derived).TAC Cash Flow Residual" "Residual"
+
+  visual clusteredColumnChart cf_residual "Residual by section and year: derived less published (GBP millions)" 784 136 472 270 \
+    "Clustered column chart of the residual of the derived cash flow against the published cash flow for each financial year from 2019-20 to 2024-25, one series for each of operating, investing, financing and reserve movements, in millions of pounds" \
+    "Category:Fiscal Year.Financial Year" "Series:TAC Cash Flow Line.Cash Flow Section" "Y:Fact TAC Cash Flow (derived).TAC Cash Flow Residual"
+  vf cf_residual "Fiscal Year" "Financial Year" 2019-20 2020-21 2021-22 2022-23 2023-24 2024-25
+  q visuals sort "$P/cf_residual.Visual" -f "Fiscal Year.Financial Year" -d Ascending
+  q set "$P/cf_residual.Visual.valueAxis.labelDisplayUnits" --value 1
+
+  visual tableEx cf_net "Net change in cash by year (GBP millions)" 784 418 472 190 \
+    "Table of the net change in cash of the NHS providers for each financial year: the derived figure, the published figure, the balance sheet cash movement and the derived less published residual, in millions of pounds" \
+    "Values:Fiscal Year.Financial Year" "Values:Fact TAC Cash Flow (derived).TAC Cash Flow (derived)" "Values:Fact TAC.TAC Net Change in Cash (published)" "Values:Fact TAC.TAC Cash Movement (balance sheet)" "Values:Fact TAC Cash Flow (derived).TAC Cash Flow Residual"
+  vf cf_net "Fiscal Year" "Financial Year" 2019-20 2020-21 2021-22 2022-23 2023-24 2024-25
+  q set "$P/cf_net.Visual.total.totals" --value false
+  q visuals sort "$P/cf_net.Visual" -f "Fiscal Year.Financial Year" -d Ascending
+  q set "$P/cf_net.Visual.values.fontSize" --value 8
+  q set "$P/cf_net.Visual.columnHeaders.fontSize" --value 8
+  q fields rename "$R" "Fact TAC.TAC Net Change in Cash (published)" "Published"
+  q fields rename "$R" "Fact TAC.TAC Cash Movement (balance sheet)" "Balance sheet"
+  q visuals table-density "$P/cf_lines.Visual" --preset dense
+  text cf_note 784 616 472 80 "Non-cash items sit in published operating and in derived investing. Nothing is forced to tie."
+}
+
+tac_elimination_page() {
+  page_new "NHS elimination control"
+  header "NHS providers: elimination control" \
+    "GBP millions, TAC sign; consolidated figures are hand-keyed (authored); gap = provider sum less consolidated"
+  pf "Display Unit" Unit "$MN"
+  local y=2024-25 v
+  card el_income "Gap: operating income, 2024-25" 24 136 304 84 "TAC Consolidated Accounts.TAC Elimination Gap" "Sum of the provider operating income less the consolidated operating income for 2024-25, in millions of pounds"
+  card el_expenses "Gap: operating expenses, 2024-25" 344 136 304 84 "TAC Consolidated Accounts.TAC Elimination Gap" "Sum of the provider operating expenses less the consolidated operating expenses for 2024-25, in millions of pounds, negative"
+  card el_assets "Gap: total assets, 2024-25" 664 136 304 84 "TAC Consolidated Accounts.TAC Elimination Gap" "Sum of the provider total assets less the consolidated total assets for 2024-25, in millions of pounds"
+  card el_cash "Gap: cash, 2024-25" 984 136 272 84 "TAC Consolidated Accounts.TAC Elimination Gap" "Sum of the provider cash less the consolidated cash for 2024-25, in millions of pounds, negative"
+  vf el_income "TAC Control Line" "Control Code" OPERATING_INCOME
+  vf el_expenses "TAC Control Line" "Control Code" OPERATING_EXPENSES
+  vf el_assets "TAC Control Line" "Control Code" TOTAL_ASSETS
+  vf el_cash "TAC Control Line" "Control Code" CASH
+  for v in el_income el_expenses el_assets el_cash; do vf "$v" "Fiscal Year" "Financial Year" "$y"; done
+
+  visual tableEx el_gap "The gap by year and line (GBP millions)" 24 232 744 464 \
+    "Table of the six control lines for each financial year from 2019-20 to 2024-25: the sum of the provider accounts, the consolidated figure, the gap and the gap as a share of the consolidated figure, in millions of pounds" \
+    "Values:Fiscal Year.Financial Year" "Values:TAC Control Line.Control Line" "Values:Fact TAC.TAC Provider Sum (control)" "Values:TAC Consolidated Accounts.TAC Consolidated Total" \
+    "Values:TAC Consolidated Accounts.TAC Elimination Gap" "Values:TAC Consolidated Accounts.TAC Elimination Gap %"
+  vf el_gap "Fiscal Year" "Financial Year" 2019-20 2020-21 2021-22 2022-23 2023-24 2024-25
+  q set "$P/el_gap.Visual.total.totals" --value false
+  q visuals sort "$P/el_gap.Visual" -f "Fiscal Year.Financial Year" -d Ascending
+  q set "$P/el_gap.Visual.values.fontSize" --value 8
+  q set "$P/el_gap.Visual.columnHeaders.fontSize" --value 8
+  q fields rename "$R" "Fact TAC.TAC Provider Sum (control)" "Provider sum"
+  q fields rename "$R" "TAC Consolidated Accounts.TAC Consolidated Total" "Consolidated"
+  q fields rename "$R" "TAC Consolidated Accounts.TAC Elimination Gap" "Gap"
+  q fields rename "$R" "TAC Consolidated Accounts.TAC Elimination Gap %" "Gap %"
+
+  visual lineChart el_gap_pct "Gap as a share of the consolidated figure, by year" 784 232 472 224 \
+    "Line chart of the elimination gap as a share of the consolidated figure for each financial year from 2019-20 to 2024-25, one line for each of operating income, operating expenses, total assets, total liabilities and cash" \
+    "Category:Fiscal Year.Financial Year" "Series:TAC Control Line.Control Line" "Y:TAC Consolidated Accounts.TAC Elimination Gap %"
+  vf el_gap_pct "Fiscal Year" "Financial Year" 2019-20 2020-21 2021-22 2022-23 2023-24 2024-25
+  vf el_gap_pct "TAC Control Line" "Control Code" OPERATING_INCOME OPERATING_EXPENSES TOTAL_ASSETS TOTAL_LIABILITIES CASH
+  q visuals sort "$P/el_gap_pct.Visual" -f "Fiscal Year.Financial Year" -d Ascending
+
+  visual tableEx el_keyed "The hand-keyed values of 2024-25, with their pages (GBP millions)" 784 468 472 160 \
+    "Table of the eight values keyed from the 2024-25 consolidated NHS provider accounts: the printed line, the value as printed, the printed page and the PDF page" \
+    "Values:TAC Consolidated Accounts.Printed Line" "Values:TAC Consolidated Accounts.Printed Amount (GBP million)" "Values:TAC Consolidated Accounts.Printed Page" "Values:TAC Consolidated Accounts.PDF Page"
+  vf el_keyed "Fiscal Year" "Financial Year" "$y"
+  q set "$P/el_keyed.Visual.total.totals" --value false
+  q set "$P/el_keyed.Visual.values.fontSize" --value 8
+  q set "$P/el_keyed.Visual.columnHeaders.fontSize" --value 8
+  q visuals table-density "$P/el_gap.Visual" --preset dense
+  text el_note 784 636 472 60 "The TAC file leaves out 1, 5 and 3 providers in 2019-20, 2023-24 and 2024-25; the consolidated accounts include them."
+}
+
 # ----------------------------------------------------------------------------------------------------- driver
 order() {
   q pages move "$R/Executive summary.Page" --to 1
@@ -392,6 +547,9 @@ order() {
   q pages move "$R/Variance.Page" --to 3
   q pages move "$R/Restatements.Page" --to 4
   q pages move "$R/Data controls.Page" --to 5
+  q pages move "$R/NHS balance sheet.Page" --to 6
+  q pages move "$R/NHS cash flow.Page" --to 7
+  q pages move "$R/NHS elimination control.Page" --to 8
 }
 
 case "${1:-}" in
@@ -403,8 +561,11 @@ case "${1:-}" in
   group) group_page ;;
   restate) restate_page ;;
   controls) controls_page ;;
+  tac_balance) tac_balance_page ;;
+  tac_cash) tac_cash_page ;;
+  tac_elimination) tac_elimination_page ;;
   order) order ;;
-  all) report_filters; exec_page; pnl_page; variance_page; restate_page; controls_page; dept_page; group_page; order ;;
-  *) echo "usage: build_report.sh exec|pnl|variance|dept|group|restate|controls|filters|order|all" >&2; exit 2 ;;
+  all) report_filters; exec_page; pnl_page; variance_page; restate_page; controls_page; dept_page; group_page; tac_balance_page; tac_cash_page; tac_elimination_page; order ;;
+  *) echo "usage: build_report.sh exec|pnl|variance|dept|group|restate|controls|tac_balance|tac_cash|tac_elimination|filters|order|all" >&2; exit 2 ;;
 esac
 cat "$ERR" 2>/dev/null | head -20

@@ -119,3 +119,31 @@ page,visual,label,displayed,dax_test,key,value_column,divisor,decimals
 07_group_detail,grp_table,Period 8: outturn on the plan's basis,"£51,974.2m",794_monthly_phased_plan_2025_26,period=8,outturn_plan_basis,1000,1
 07_group_detail,grp_table,Period 8: phased plan,"£51,920.1m",794_monthly_phased_plan_2025_26,period=8,phased_plan,1000,1
 07_group_detail,grp_table,Period 8: variance to phased plan,"£54.1m",794_monthly_phased_plan_2025_26,period=8,variance,1000,1
+08_nhs_balance_sheet,bs_nca,Non-current assets,"£69,287.1m",152_tac_closing_balance_by_year_and_section,Financial Year=2024-25;Section=Non-current assets,closing_balance,1000,1
+08_nhs_balance_sheet,bs_ca,Current assets,"£18,001.1m",152_tac_closing_balance_by_year_and_section,Financial Year=2024-25;Section=Current assets,closing_balance,1000,1
+08_nhs_balance_sheet,bs_cl,Current liabilities,"-£19,851.9m",152_tac_closing_balance_by_year_and_section,Financial Year=2024-25;Section=Current liabilities,closing_balance,1000,1
+08_nhs_balance_sheet,bs_ncl,Non-current liabilities,"-£20,622.3m",152_tac_closing_balance_by_year_and_section,Financial Year=2024-25;Section=Non-current liabilities,closing_balance,1000,1
+08_nhs_balance_sheet,bs_net,Total assets employed,"£46,813.9m",152_tac_closing_balance_by_year_and_section,Financial Year=2024-25;Section=Net assets,closing_balance,1000,1
+08_nhs_balance_sheet,bs_providers,Providers reporting,207,152_tac_closing_balance_by_year_and_section,Financial Year=2024-25;Section=Net assets,providers_reporting,1,0
+09_nhs_cash_flow,cf_lines,Operating surplus: derived,"-£1,301.0m",159_tac_cash_flow_derived_published_and_residual_by_line,Financial Year=2024-25;Line Code=D_OP_SURPLUS,derived,1000,1
+09_nhs_cash_flow,cf_lines,Operating surplus: published,"-£1,301.0m",159_tac_cash_flow_derived_published_and_residual_by_line,Financial Year=2024-25;Line Code=D_OP_SURPLUS,published,1000,1
+09_nhs_cash_flow,cf_lines,Non-cash adjustments: published,"£6,847.7m",159_tac_cash_flow_derived_published_and_residual_by_line,Financial Year=2024-25;Line Code=D_OP_NONCASH,published,1000,1
+09_nhs_cash_flow,cf_lines,Non-cash adjustments: residual,"-£6,847.7m",159_tac_cash_flow_derived_published_and_residual_by_line,Financial Year=2024-25;Line Code=D_OP_NONCASH,residual,1000,1
+09_nhs_cash_flow,cf_lines,"Property, plant and equipment: derived",-£819.9m,159_tac_cash_flow_derived_published_and_residual_by_line,Financial Year=2024-25;Line Code=D_IN_PPE,derived,1000,1
+09_nhs_cash_flow,cf_lines,"Property, plant and equipment: published","-£6,667.4m",159_tac_cash_flow_derived_published_and_residual_by_line,Financial Year=2024-25;Line Code=D_IN_PPE,published,1000,1
+09_nhs_cash_flow,cf_lines,"Property, plant and equipment: residual","£5,847.4m",159_tac_cash_flow_derived_published_and_residual_by_line,Financial Year=2024-25;Line Code=D_IN_PPE,residual,1000,1
+09_nhs_cash_flow,cf_net,2024-25 net change: derived,-£729.9m,161_tac_net_change_in_cash_derived_published_and_balance_sheet,Financial Year=2024-25,derived_net_change,1000,1
+09_nhs_cash_flow,cf_net,2024-25 net change: published,-£728.6m,161_tac_net_change_in_cash_derived_published_and_balance_sheet,Financial Year=2024-25,published_net_change,1000,1
+09_nhs_cash_flow,cf_net,2024-25 net change: residual,-£1.3m,161_tac_net_change_in_cash_derived_published_and_balance_sheet,Financial Year=2024-25,residual,1000,1
+09_nhs_cash_flow,cf_net,2019-20 net change: derived,"£1,003.9m",161_tac_net_change_in_cash_derived_published_and_balance_sheet,Financial Year=2019-20,derived_net_change,1000,1
+09_nhs_cash_flow,cf_net,2019-20 net change: published,£979.5m,161_tac_net_change_in_cash_derived_published_and_balance_sheet,Financial Year=2019-20,published_net_change,1000,1
+09_nhs_cash_flow,cf_net,2019-20 net change: balance sheet,"£1,003.9m",161_tac_net_change_in_cash_derived_published_and_balance_sheet,Financial Year=2019-20,balance_sheet_cash_movement,1000,1
+09_nhs_cash_flow,cf_net,2019-20 net change: residual,£24.4m,161_tac_net_change_in_cash_derived_published_and_balance_sheet,Financial Year=2019-20,residual,1000,1
+10_nhs_elimination_control,el_income,"Gap: operating income, 2024-25",£267.0m,162_tac_elimination_gap_by_year_and_control_line,Financial Year=2024-25;Control Code=OPERATING_INCOME,gap,1000,1
+10_nhs_elimination_control,el_expenses,"Gap: operating expenses, 2024-25",-£270.1m,162_tac_elimination_gap_by_year_and_control_line,Financial Year=2024-25;Control Code=OPERATING_EXPENSES,gap,1000,1
+10_nhs_elimination_control,el_assets,"Gap: total assets, 2024-25",-£569.8m,162_tac_elimination_gap_by_year_and_control_line,Financial Year=2024-25;Control Code=TOTAL_ASSETS,gap,1000,1
+10_nhs_elimination_control,el_cash,"Gap: cash, 2024-25",-£343.2m,162_tac_elimination_gap_by_year_and_control_line,Financial Year=2024-25;Control Code=CASH,gap,1000,1
+10_nhs_elimination_control,el_gap,2019-20 operating income: provider sum,"£93,356.1m",162_tac_elimination_gap_by_year_and_control_line,Financial Year=2019-20;Control Code=OPERATING_INCOME,provider_sum,1000,1
+10_nhs_elimination_control,el_gap,2019-20 operating income: consolidated,"£92,001.0m",162_tac_elimination_gap_by_year_and_control_line,Financial Year=2019-20;Control Code=OPERATING_INCOME,consolidated,1000,1
+10_nhs_elimination_control,el_gap,2019-20 operating income: gap,"£1,355.1m",162_tac_elimination_gap_by_year_and_control_line,Financial Year=2019-20;Control Code=OPERATING_INCOME,gap,1000,1
+10_nhs_elimination_control,el_gap,2019-20 cash: gap,-£33.2m,162_tac_elimination_gap_by_year_and_control_line,Financial Year=2019-20;Control Code=CASH,gap,1000,1

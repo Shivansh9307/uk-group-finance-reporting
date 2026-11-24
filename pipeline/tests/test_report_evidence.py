@@ -30,6 +30,9 @@ PAGES = [
     "05_data_controls",
     "06_department_detail",
     "07_group_detail",
+    "08_nhs_balance_sheet",
+    "09_nhs_cash_flow",
+    "10_nhs_elimination_control",
 ]
 
 

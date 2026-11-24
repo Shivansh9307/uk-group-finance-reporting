@@ -16,14 +16,18 @@ Run from the repository root, with the report open in Desktop and its data refre
 Output: screenshots\<nn>_<page>.png (cropped). The raw captures go to a scratch folder and are deleted.
 
 .PARAMETER Pages
-Display names of the pages, in order. Default: the seven pages of the report.
+Display names of the pages, in order. Default: the ten pages of the report.
+
+.PARAMETER StartIndex
+Number of the first page in the file names. Default 1; 8 captures only the three NHS pages (-Pages and -Slugs then name those three).
 
 .PARAMETER Wait
 Seconds to wait after the first page is requested, so that visuals have drawn. Default 20.
 #>
 param(
-    [string[]] $Pages = @('Executive summary', 'P&L statement', 'Variance', 'Restatements', 'Data controls', 'Department detail', 'Group detail'),
-    [string[]] $Slugs = @('executive_summary', 'pnl_statement', 'variance', 'restatements', 'data_controls', 'department_detail', 'group_detail'),
+    [string[]] $Pages = @('Executive summary', 'P&L statement', 'Variance', 'Restatements', 'Data controls', 'Department detail', 'Group detail', 'NHS balance sheet', 'NHS cash flow', 'NHS elimination control'),
+    [string[]] $Slugs = @('executive_summary', 'pnl_statement', 'variance', 'restatements', 'data_controls', 'department_detail', 'group_detail', 'nhs_balance_sheet', 'nhs_cash_flow', 'nhs_elimination_control'),
+    [int] $StartIndex = 1,
     [int] $Wait = 20,
     [string] $Report = 'UKGroupFinance.Report',
     [int] $Scale = 2,
@@ -51,7 +55,7 @@ try {
             if ($src.Width -lt ($X + $Width) -or $src.Height -lt ($Y + $Height)) { throw "capture is $($src.Width) x $($src.Height), smaller than the crop" }
             $rect = New-Object System.Drawing.Rectangle $X, $Y, $Width, $Height
             $dst = $src.Clone($rect, $src.PixelFormat)
-            $name = ('{0:D2}_{1}.png' -f ($i + 1), $Slugs[$i])
+            $name = ('{0:D2}_{1}.png' -f ($i + $StartIndex), $Slugs[$i])
             $dst.Save((Join-Path $out $name), [System.Drawing.Imaging.ImageFormat]::Png)
             $dst.Dispose()
             Write-Host ("wrote screenshots\{0} ({1} x {2})" -f $name, $Width, $Height)

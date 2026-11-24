@@ -1,7 +1,7 @@
 # The report pages
 
 `model/UKGroupFinance.Report` is the report that reads the semantic model in `model/UKGroupFinance.SemanticModel` (PBIR, thick
-report, Power BI Desktop only). It has seven pages at 1280 x 720: five that you navigate to and two that you reach by
+report, Power BI Desktop only). It has ten pages at 1280 x 720: eight that you navigate to and two that you reach by
 drill-through. Every claim below is labelled **tested** (with the command and the file that holds the result) or **designed**.
 
 How it was made: every page was built with the `pbir` CLI, by the commands in [tools/build_report.sh](../tools/build_report.sh), and
@@ -15,19 +15,19 @@ its values written in the file.
 
 - Each data visual has a DAX test in `tests/dax/78x_*` or `79x_*` that returns the figures it shows, in the same filter context, and an
   independent SQL (or Python) expectation over `dw` and `audit` in `tests/expected/`. **Tested**: `tools\run_dax_tests.ps1 -Refresh`,
-  `ukfr dax-compare`: 77 of 77 tests pass, 22 of them new (`evidence/model/dax_tests.csv`).
+  `ukfr dax-compare`: 77 of 77 tests passed for the first seven pages, 22 of them new; with the NHS trust accounts pages the suite is 98 of 98 (`evidence/model/dax_tests.csv`).
 - I read the displayed figures off the cropped screenshots myself and wrote them to
-  [evidence/report/screenshot_figures.csv](../evidence/report/screenshot_figures.csv): 120 figures, each with its page, visual,
+  [evidence/report/screenshot_figures.csv](../evidence/report/screenshot_figures.csv): 148 figures (120 on the first seven pages, 28 on the three NHS pages), each with its page, visual,
   label, the figure as displayed, the test, the row of the test result and how it is displayed (divisor and decimals).
-  **Tested**: `pipeline/tests/test_report_evidence.py` rounds the test result as displayed, half up, and compares: all 120 are equal
-  (`uv run --project pipeline pytest pipeline/tests/test_report_evidence.py`: 122 passed). A text figure (a plan badge, a status) must
+  **Tested**: `pipeline/tests/test_report_evidence.py` rounds the test result as displayed, half up, and compares: all 148 are equal
+  (`uv run --project pipeline pytest pipeline/tests/test_report_evidence.py`: 150 passed). A text figure (a plan badge, a status) must
   equal the test result or start with it where the visual cuts the text off.
 - Screenshots are in [screenshots/](../screenshots/), one for each page, made with `tools/crop_screenshots.ps1`: `pbir desktop
   screenshot` at scale 2 after a refresh and a wait, cropped to the page canvas (2034 x 1144), so no title bar, account name or path is
-  in an image. **Tested**: the same pytest file checks that the seven files exist and have the same size. The two drill-through pages
+  in an image. **Tested**: the same pytest file checks that the ten files exist and have the same size. The two drill-through pages
   are captured without a selection, so they show all departments and all groups; reached from a department or a group they open
   filtered to it. I did not click through a drill-through, and that click is **designed**, not run.
-- `pbir validate --all`: valid, 84 visuals, 89 advisory warnings (below). `pbir bpa run`: passed, 0 errors, 84 warnings, 30 rules, 167
+- `pbir validate --all`: valid, 119 visuals, 132 advisory warnings (below). `pbir bpa run`: passed, 0 errors, 124 warnings, 30 rules, 242
   objects, listed in [evidence/report/pbir_bpa.csv](../evidence/report/pbir_bpa.csv).
 - CI (`report-checks`) runs Fab Inspector with the rules in `tests/report/report-rules.json` on the real report and keeps a negative
   control that must fail (`tests/report/report-rules-negative.json`), gating on the JSON output.
@@ -131,6 +131,33 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
   0.1% (test 782; cause unknown, pinned by `sql/tests/412`). Plan coverage (test 783). Rows read, loaded and quarantined by source family, and the web quarantine count, 0 (test 784).
 - A table that is longer than its visual scrolls; the screenshot shows the first rows.
 
+### 8. NHS balance sheet
+
+![NHS balance sheet](../screenshots/08_nhs_balance_sheet.png)
+
+- **Fixed**: 2024-25 on every visual that is a point in time, GBP millions, TAC sign. The page shows the **sum of the provider accounts**, not the consolidated accounts (the next but one page compares them).
+- Six cards: the closing balance of the four blocks of the balance sheet, total assets employed as published and the number of providers with statements. A matrix by block gives, for 2024-25, the closing balance, the opening balance as the file of the year restated it, the closing balance of the year before as that file published it, their difference and the restatement (the values both files hold that differ by GBP 1,000 or more). A column chart gives the restatement of opening net assets by year, one more gives total assets at each year end, a line the providers with statements, and a table the providers that stop reporting with their last year and successor.
+- **Tested**: tests 152 (closing balance and providers by year and block), 153 (opening, prior-year closing, difference, restatement), 154 (restatement against `audit.tac_prior_year_summary`), 155 and 156 and 157 (a balance over a span is the last year; a provider that has gone adds nothing to later years); the 6 card figures are in the figures file and equal test 152.
+- The matrix is by block because the 40 lines of the balance sheet do not fit a readable table beside the charts; the lines are in the model and in test 158.
+
+### 9. NHS cash flow
+
+![NHS cash flow](../screenshots/09_nhs_cash_flow.png)
+
+- **Fixed**: 2024-25 in the table, 2019-20 to 2024-25 in the chart and the net-change table; GBP millions, an inflow is positive.
+- The table sets, for each of the 22 lines of the derived (indirect) cash flow, the derived amount, the published lines it is compared with and the residual, with the total row; the chart shows the residual by section and year; the second table gives the net change in cash by year (derived, published, balance sheet movement, residual).
+- 2024-25 reads: the operating surplus, inventories and public dividend capital tie to the pound (residual 0); the non-cash adjustments the published cash flow adds back (+6,847.7) have no counterpart in the two primary statements, so the operating residual is -6,997 and the investing residual +6,115 (property, plant and equipment +5,847.4). The net change is -729.9 derived against -728.6 published and -729.9 on the balance sheet. The residual is not forced to zero and the page says so.
+- **Tested**: tests 159 (22 lines x 6 years), 160 (sections) and 161 (net change); 14 figures in the figures file equal them. The tie of the published cash flow to itself and to the balance sheet is in `audit.tac_cash_flow_tie` and `sql/tests/151`, `152`.
+
+### 10. NHS elimination control
+
+![NHS elimination control](../screenshots/10_nhs_elimination_control.png)
+
+- **Fixed**: 2024-25 on the cards and the keyed values; every year on the gap table and chart; GBP millions, TAC sign.
+- Four cards (the gap in operating income, operating expenses, total assets and cash), a table of the six control lines for each of the six years (provider sum, consolidated, gap, gap %), a line chart of the gap as a share of the consolidated figure and the eight values keyed for 2024-25 with their printed and PDF pages. The consolidated figures are **authored** (hand-keyed from the published report); the gap is a difference, never a sum.
+- The gap table is longer than its visual and scrolls: the screenshot shows the first 27 of its 36 rows; the figures are in test 162.
+- **Tested**: test 162 (36 cells against the provider lines and the keyed values), 163 (the keyed values stay out of real totals); 8 figures in the figures file equal 162. The keyed values are checked in `sql/tests/156`.
+
 ## Design alternatives chosen, and what I dropped
 
 | Wanted | What I did | Why |
@@ -147,14 +174,14 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
 
 ## What the validators say
 
-`pbir validate --all` gives 92 advisory warnings and no error: 40 visuals under the recommended size (the cards are 192 x 92 pixels, on purpose, so that six sit in a row),
-38 visual-level filters (a card must fix its own year, scenario item or period; a page filter cannot differ between cards on one page), 7 text boxes under the height floor for
-their text, 6 visuals with more than four fields (the statement matrices and the tables of controls) and one page with more than fifteen visuals (the executive summary).
-`pbir bpa run` raises the same findings (87 warnings) and two `PBIR_SHOW_ALL_ITEMS` for the statement's spacer rows, which need `show-all` to exist. I did not ignore
+`pbir validate --all` gives 132 advisory warnings and no error (the seven first pages gave 92; the NHS pages add 40, of the same kinds): 53 visuals under the recommended size (the cards are 192 x 92 pixels, on purpose, so that six sit in a row),
+58 visual-level filters (a card must fix its own year, scenario item or period; a page filter cannot differ between cards on one page), 10 text boxes under the height floor for
+their text, 10 visuals with more than four fields (the statement matrices, the tables of controls and the NHS tables) and one page with more than fifteen visuals (the executive summary).
+`pbir bpa run` raises the same findings (124 warnings) and two `PBIR_SHOW_ALL_ITEMS` for the statement's spacer rows, which need `show-all` to exist. I did not ignore
 any rule; the list is in `evidence/report/pbir_bpa.csv`.
 
 ## Things I could not do or check
 
 - I did not click: the drill-through (right-click and buttons), the page navigator, and the decomposition tree's expansion are **designed**; the pages render and the files validate.
 - The data controls page needs the full-scope database (three of its tables read audit tables that exist only after a full build).
-- The report was captured on one machine in one session; the figures file says what I read, and the tests say what the model returns. They agree on all 121 figures.
+- The report was captured on one machine in one session; the figures file says what I read, and the tests say what the model returns. They agree on all 148 figures.
