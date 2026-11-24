@@ -153,7 +153,7 @@ the independent control agree row for row, `sql/tests/100_tac_file_control_all_p
 
 ## 7. Decisions this supports
 
-1. Six years, two files each, is enough: build FY2019-20 to FY2024-25 (the brief's floor is three).
+1. Six years, two files each, is enough: build FY2019-20 to FY2024-25 (three would have been enough for a trend).
 2. Key a provider on the NHS code; join the data to the list by a normalised name key; report any row that
    cannot be joined (there are none).
 3. Load `TAC02`, `TAC03` and `TAC05` into `raw`, count every other worksheet and check the counts. The note
