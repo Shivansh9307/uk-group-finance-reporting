@@ -167,3 +167,14 @@ page,visual,label,displayed,dax_test,key,value_column,divisor,decimals
 11_pay_bridge,pay_cover,Total row: months,"1,353",908_pay_coverage_all_months,item=series_months,value,1,0
 11_pay_bridge,pay_cover,Total row: FTE mapped,93.8%,908_pay_coverage_all_months,item=fte_coverage,value,0.01,1
 11_pay_bridge,pay_cover,Total row: paybill mapped,76.8%,908_pay_coverage_all_months,item=paybill_coverage,value,0.01,1
+12_forecast_accuracy,fc_wape,"Dept WAPE, all returns",31.4%,928_forecast_page_cards,card=wape,value,0.01,1
+12_forecast_accuracy,fc_wape_x,"Dept WAPE, no bad returns",14.5%,928_forecast_page_cards,card=wape_excl,value,0.01,1
+12_forecast_accuracy,fc_bad,Known bad return cells,268,928_forecast_page_cards,card=bad_cells,value,1,0
+12_forecast_accuracy,fc_cov,FTE x cost cells covered,21.7%,928_forecast_page_cards,card=cell_coverage,value,0.01,1
+12_forecast_accuracy,fc_cover,FTE x cost pay seen,13.1%,928_forecast_page_cards,card=pay_cover,value,0.01,1
+12_forecast_accuracy,fc_dept,"Foreign, Commonwealth and Development Office: WAPE, all returns",1178.3%,929_forecast_page_department_table,"department=Foreign, Commonwealth and Development Office",wape,0.01,1
+12_forecast_accuracy,fc_dept,"Foreign, Commonwealth and Development Office: WAPE, no bad returns",7.8%,929_forecast_page_department_table,"department=Foreign, Commonwealth and Development Office",wape_excl,0.01,1
+12_forecast_accuracy,fc_dept,"National Crime Agency: WAPE, all returns",1317.3%,929_forecast_page_department_table,department=National Crime Agency,wape,0.01,1
+12_forecast_accuracy,fc_dept,"National Crime Agency: WAPE, no bad returns",8.2%,929_forecast_page_department_table,department=National Crime Agency,wape_excl,0.01,1
+12_forecast_accuracy,fc_dept,"Unallocated: former Electoral Commission lines: WAPE, all returns",2649.7%,929_forecast_page_department_table,department=Unallocated: former Electoral Commission lines,wape,0.01,1
+12_forecast_accuracy,fc_dept,"Unallocated: former Electoral Commission lines: WAPE, no bad returns",28.9%,929_forecast_page_department_table,department=Unallocated: former Electoral Commission lines,wape_excl,0.01,1

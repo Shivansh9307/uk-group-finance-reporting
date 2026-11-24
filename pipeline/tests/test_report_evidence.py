@@ -34,6 +34,7 @@ PAGES = [
     "09_nhs_cash_flow",
     "10_nhs_elimination_control",
     "11_pay_bridge",
+    "12_forecast_accuracy",
 ]
 
 
