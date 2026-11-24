@@ -234,6 +234,14 @@ def test_derived_and_real_tables_are_labelled(tables):
         assert "derived" not in tables[name].description.lower().replace("not derived", "")
 
 
+def test_the_pay_bridge_is_labelled_derived_and_in_pounds(tables):
+    pay = tables["Fact Pay Bridge (derived)"]
+    assert pay.description.startswith("DERIVED"), "the pay bridge must say DERIVED first"
+    assert "pounds" in pay.description and "not GBP thousands" in pay.description
+    visible = [c for c in pay.columns.values() if "isHidden" not in c.flags]
+    assert visible and all(c.props.get("displayFolder") == "Derived" for c in visible)
+
+
 # ----------------------------------------------------------------------------------------- relationships
 def test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one(relationships, tables):
     assert len(relationships) == 38

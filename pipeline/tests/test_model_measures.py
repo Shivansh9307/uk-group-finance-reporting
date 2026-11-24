@@ -585,6 +585,15 @@ def test_every_restatement_and_current_structure_amount_is_scaled_by_the_display
             assert (f"[{n}]" in expr) == (n not in percent), f"{unit}: {n}"
 
 
+def test_no_pay_measure_is_scaled_by_the_display_unit(items, measures):
+    pay = [m.name for m in measures if m.table in ("Fact Pay Bridge (derived)", "Pay Coverage")]
+    assert len(pay) >= 15
+    for unit in ("£k", "£m", "£bn"):
+        expr = next(i for i in items if i.group == "Display Unit" and i.name == unit).expression
+        for n in pay:
+            assert f"[{n}]" not in expr, f"{unit}: {n} is in pounds, not GBP thousands"
+
+
 def test_the_share_measures_are_blanked_under_year_on_year(items):
     for name in ("YoY", "YoY %"):
         e = next(i for i in items if i.group == "Time Intelligence" and i.name == name).expression
