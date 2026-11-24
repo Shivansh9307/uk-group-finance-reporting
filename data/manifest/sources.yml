@@ -324,3 +324,26 @@ sources:
     files:
       - {match: '(?i)^TAC-data-published-in-NHS-(foundation-)?trusts?-accounts-for-\d{4}-\d{2}\.xlsx$', action: fetch}
       - {match: '(?i)il+ustrative.*\.xlsx$', action: fetch, note: 'illustrative TAC file: the line descriptions'}
+
+  - id: nhs_consolidated_accounts
+    title: Consolidated NHS provider accounts, FY2019-20 to FY2024-25 (annual report and accounts laid before Parliament)
+    publisher: Department of Health and Social Care, with NHS England
+    licence: OGL-3.0
+    used_for: The consolidated NHS provider statements, in which intra-NHS balances are eliminated; headline lines are hand-keyed into authored/tac_consolidated_control.csv as the elimination-gap control
+    fetch: true
+    commit: false
+    discover:
+      - page: /government/publications/consolidated-nhs-provider-accounts-2019-to-2020
+        release: {from: path, pattern: 'accounts-(?P<y>\d{4})-to-(?P<yy>\d{4})$', template: '{y}-{yy}'}
+      - page: /government/publications/consolidated-nhs-provider-accounts-2020-to-2021
+        release: {from: path, pattern: 'accounts-(?P<y>\d{4})-to-(?P<yy>\d{4})$', template: '{y}-{yy}'}
+      - page: /government/publications/consolidated-nhs-provider-accounts-2021-to-2022
+        release: {from: path, pattern: 'accounts-(?P<y>\d{4})-to-(?P<yy>\d{4})$', template: '{y}-{yy}'}
+      - page: /government/publications/consolidated-nhs-provider-accounts-2022-to-2023
+        release: {from: path, pattern: 'accounts-(?P<y>\d{4})-to-(?P<yy>\d{4})$', template: '{y}-{yy}'}
+      - page: /government/publications/consolidated-nhs-provider-accounts-2023-to-2024
+        release: {from: path, pattern: 'accounts-(?P<y>\d{4})-to-(?P<yy>\d{4})$', template: '{y}-{yy}'}
+      - page: /government/publications/consolidated-nhs-provider-accounts-2024-to-2025
+        release: {from: path, pattern: 'accounts-(?P<y>\d{4})-to-(?P<yy>\d{4})$', template: '{y}-{yy}'}
+    files:
+      - {match: '(?i)\.pdf$', action: fetch, note: 'the report and accounts; the 2022-23 to 2024-25 pages also link an HTML copy on the NHS England site, which has no file name and is not fetched'}
