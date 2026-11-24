@@ -47,3 +47,6 @@ tests/expected_committed/*.csv text eol=lf
 evidence/model/reference/*.csv text eol=lf
 tools/model_reference/*.dax text eol=lf
 docs/model-reference.md text eol=lf
+
+# Diagnosis output of the seasonal forecast (tests/diagnostics): LF so a rerun leaves git status clean.
+tests/diagnostics/*.csv text eol=lf
