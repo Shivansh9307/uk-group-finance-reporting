@@ -136,6 +136,10 @@ def _control(args) -> int:
         from .controls import inyear_independent
 
         path = inyear_independent.run(root, args.out)
+    elif args.what == "forecast":
+        from .controls import forecast_independent
+
+        path = forecast_independent.run(root, args.out)
     else:
         from .controls import bud_independent
 
@@ -340,7 +344,7 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--list-stages", action="store_true", help="print the load stages and exit")
     b.set_defaults(func=_build)
     c = sub.add_parser("control", help="independent recomputation of source-file controls")
-    c.add_argument("what", choices=["inyear", "bud", "pss"])
+    c.add_argument("what", choices=["inyear", "bud", "pss", "forecast"])
     c.add_argument("--out", type=Path, help="output CSV (default data/audit/<what>_independent_control.csv)")
     c.set_defaults(func=_control)
     t = sub.add_parser("real-totals", help="print the row counts and sums of the real facts; --write pins them")
