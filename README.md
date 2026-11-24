@@ -1,63 +1,137 @@
 # UK Group Finance Reporting
 
-What would UK central government look like if it reported like a corporate group? In this project I
-treat government departments as business units and their arm's-length bodies as legal entities, and
-build the management reporting a group finance team would expect: a P&L with variance to plan and
-forecast, a balance sheet and cash flow for the NHS provider sub-group, and the workforce drivers
-behind the cost base. The data are HM Treasury OSCAR II releases, NHS trust accounts, departmental
-workforce files and HM Treasury and ONS deflators, and every reported total is meant to tie back to
-its published source.
+What would UK central government look like if it reported like a corporate group? I treat HM Treasury's OSCAR II in-year
+releases (31 of them, March 2019 to September 2026) as the ledger of one group: departments are business units and their
+arm's-length bodies are the entities. On that ledger I built the reporting a group finance team would ask for: an income and
+expenditure statement, outturn against plan and against a phased plan, how each figure was restated from release to release,
+everything in real terms, and a page of data controls. The plans come from the Estimates and PESA tables, the deflators from
+HM Treasury and the CPI from the ONS. It is one SQL Server warehouse, one Power BI semantic model and one report, built and
+proved in Power BI Desktop alone: no service, no cloud.
 
-## Status
+I wrote it so that a reader can check it. The totals tie to the published files, every claim in the docs points at the command
+and the result file behind it, and where the source is wrong or I could not explain a gap I say so and leave the number in
+view.
 
-The project is built in phases:
+## Four things to check first
 
-0. Setup and gates
-1. Ingestion and star schema
-2. Core model and P&L
-3. Performance, security, CI
-4. Depth
-5. Scale and finish
+1. **All 31 releases load and tie to the files.** 1,547,078 rows read, none quarantined, and the rows and exact amount sum of
+   every file equal the publisher's control totals; the sum of the revision deltas up to each release equals that release's
+   file total, difference exactly 0, in 31 of 31 releases. **Tested**:
+   [evidence/build/file_control.csv](evidence/build/file_control.csv),
+   [evidence/build/delta_invariant.csv](evidence/build/delta_invariant.csv),
+   [docs/reconciliation.md](docs/reconciliation.md#1-oscar-in-year-releases-31-releases-committed-scope).
+2. **The plan variance is reconciled, and the headline is -1.3%.** My first version led with -8.5% in 2025-26, which compared a
+   voted limit (DEL) with a forecast (AME). On DEL only the variance is -8.50bn on a plan of 645.98bn, and every one of the 364
+   year, group and measure cells has a verdict: 233 ok, 4 fixed, 120 explained, 7 unexplained, which I list. **Tested**:
+   [docs/reconciliation.md](docs/reconciliation.md#9-plan-variance-reconciliation-full-scope),
+   [evidence/full/plan_variance_reconciliation.csv](evidence/full/plan_variance_reconciliation.csv),
+   [ADR 0007](docs/adr/0007-del-headline-ame-reconciled-separately.md).
+3. **Row-level and object-level security is tested against SQL.** Two roles, an invented user map, 87 role cases, 87 equal to
+   SQL. **Tested**: [docs/security.md](docs/security.md), [evidence/model/rls_tests.csv](evidence/model/rls_tests.csv).
+4. **CI can tell when the evidence is stale.** A hosted runner cannot run DAX, so a ledger records the hash of the model and of
+   every test, expected value and result (620 files), and CI fails if any of them changes alone. I pushed a commit that changed
+   one measure and nothing else: only the ledger job went red; the commit that restored it was green. **Tested**:
+   [docs/evidence.md](docs/evidence.md#the-red-and-the-green-run), [ADR 0008](docs/adr/0008-evidence-ledger-not-dax-in-ci.md).
 
-Phase 1 is done as a SQL Server database that one command rebuilds from the files in git: the 31 OSCAR
-in-year releases and the Estimates and PESA plans, plus, with the larger source files, the annual restated
-files, the PSS control and the OSCAR Plans. How it is built and tested is in [docs/pipeline.md](docs/pipeline.md),
-and [docs/reconciliation.md](docs/reconciliation.md) shows how every load ties back to the published file,
-including the differences I could not explain. Phase 2 has started: the semantic model skeleton is in
-[model/](model/) (20 tables and 3 calculation groups, 21 relationships, the deflator and CPI queries in Power Query, the base
-measures, the time-intelligence, scenario-comparison and display-unit calculation groups, the plan grain guard, real-terms measures and three
-perspectives, with its metadata kept by Tabular Editor scripts in [te/](te/) and checked by a rule file in CI), described in
-[docs/model.md](docs/model.md) and tested against the warehouse as described in [docs/model-testing.md](docs/model-testing.md).
-The report is built: seven pages (executive summary, P&L statement, variance, restatements, data controls and two
-drill-through pages), described page by page in [docs/pages.md](docs/pages.md), with every figure on a page equal to
-a DAX test result ([evidence/report/screenshot_figures.csv](evidence/report/screenshot_figures.csv)).
-Row-level and object-level security (two roles, an invented user map, 87 role cases compared with SQL) is in
-[docs/security.md](docs/security.md).
-The DAX test results are tied to the model by a hash ledger that CI checks, and the model's tables, measures and roles
-are listed in a reference generated from the model itself: [docs/evidence.md](docs/evidence.md),
-[docs/model-reference.md](docs/model-reference.md).
-The source fetcher and file manifest are described in [docs/data-sources.md](docs/data-sources.md).
+The model has 84 DAX tests, each compared with a SQL (or Python) expectation that shares nothing with the model, and 84 of
+84 pass ([evidence/model/dax_tests.csv](evidence/model/dax_tests.csv)). The 120 figures that the pages display, which I read off
+the screenshots, equal the test results ([evidence/report/screenshot_figures.csv](evidence/report/screenshot_figures.csv)).
 
-## The report
+![Executive summary page: 2025-26 outturn, DEL plan, variance and variance per cent, with outturn by year and by department](screenshots/01_executive_summary.png)
 
-![Executive summary](screenshots/01_executive_summary.png)
+## How it fits together
 
-![P&L statement](screenshots/02_pnl_statement.png)
+```mermaid
+flowchart LR
+  subgraph SRC["Published sources, Open Government Licence"]
+    S1["HM Treasury OSCAR II in-year releases<br/>Estimates, PESA, Spending Review tables"]
+    S2["HM Treasury GDP deflators<br/>ONS CPI"]
+  end
+  subgraph PIPE["pipeline/ (Python, uv)"]
+    P1["fetch and verify sha256<br/>read, check, bulk load"]
+  end
+  subgraph DB["SQL Server 2022: UKGroupFinance"]
+    D1["raw, stg, quarantine"]
+    D2["dw: star schema, revision-delta fact"]
+    D3["audit: control tables"]
+    D4["authored, synthetic: labelled, never in a real total"]
+    D1 --> D2
+    D2 --> D3
+  end
+  M["Import semantic model, TMDL<br/>model/UKGroupFinance.SemanticModel"]
+  R["PBIR report, 7 pages<br/>model/UKGroupFinance.Report"]
+  S1 --> P1 --> D1
+  D4 --> D2
+  D2 --> M
+  D3 --> M
+  S2 -. "read by Power Query" .-> M
+  M --> R
+  subgraph CHK["Tests and CI around it"]
+    T1["sql/tests: assertions on every load"]
+    T2["tests/dax vs tests/expected: model vs SQL"]
+    T3["tests/rls: role cases vs SQL"]
+    T4["evidence/ledger.json: hash of model and evidence"]
+    T5["CI: model-bpa, evidence-ledger, pipeline-sql, report-checks"]
+  end
+  D2 -.- T1
+  M -.- T2
+  M -.- T3
+  T2 --> T4
+  T3 --> T4
+  T4 --> T5
+```
 
-![Variance](screenshots/03_variance.png)
+Python fetches, parses and loads, and decides nothing about a number; every business transform is T-SQL under
+[sql/](sql/README.md). The model reads one view per table and does not reshape anything. The report is built with the `pbir`
+command line only. How each stage works: [docs/pipeline.md](docs/pipeline.md), [docs/model.md](docs/model.md),
+[docs/pages.md](docs/pages.md). Where each source comes from: [docs/data-sources.md](docs/data-sources.md).
 
-The other pages are in [screenshots/](screenshots/): restatements, data controls, the department detail and the group detail
-(both reached by drill-through). Page by page, what each shows, the filters that are fixed and the test behind each figure are in
-[docs/pages.md](docs/pages.md). The report is read by Power BI Desktop from the model in [model/](model/); there is no service
-behind it.
+## The seven pages
 
-## Data sources and licence
+Five pages are navigated to and two are reached by drill-through. Page by page, what each shows, which filters are fixed and
+which test is behind each figure: [docs/pages.md](docs/pages.md#the-pages).
 
-All source data are public sector information published under the Open Government Licence v3.0.
-Sources, links and attribution are listed in [DATA_LICENCES.md](DATA_LICENCES.md). What is real,
-what I wrote by hand and what is computed from real data is in the register below.
+| | |
+|---|---|
+| <img src="screenshots/01_executive_summary.png" width="440" alt="Executive summary"><br>**[Executive summary](docs/pages.md#1-executive-summary)**: the year's outturn against the DEL plan, the variance, the year to date against the phased plan, outturn by year in nominal and 2025-26 prices. | <img src="screenshots/02_pnl_statement.png" width="440" alt="P&L statement"><br>**[P&L statement](docs/pages.md#2-pl-statement)**: the 39 lines of the group income and expenditure statement, with the prior year. |
+| <img src="screenshots/03_variance.png" width="440" alt="Variance"><br>**[Variance](docs/pages.md#3-variance)**: plan against outturn by Spending Review group as a bridge, the variance per cent, and the reconciliation table. | <img src="screenshots/04_restatements.png" width="440" alt="Restatements"><br>**[Restatements](docs/pages.md#6-restatements)**: what each release changed, what it restated, and the rows flagged as source errors. |
+| <img src="screenshots/05_data_controls.png" width="440" alt="Data controls"><br>**[Data controls](docs/pages.md#7-data-controls)**: the file controls of the 31 releases, the restated annual files, the Public Spending Statistics, plan coverage. | <img src="screenshots/06_department_detail.png" width="440" alt="Department detail"><br>**[Department detail](docs/pages.md#4-department-detail-drill-through)** (drill-through): a department's outturn by month, its restatement and its ten largest organisations. |
+| <img src="screenshots/07_group_detail.png" width="440" alt="Group detail"><br>**[Group detail](docs/pages.md#5-group-detail-drill-through)** (drill-through): a Spending Review group's monthly outturn against my phased plan. | |
 
-The code is released under the MIT licence; see [LICENSE](LICENSE).
+I did not click through the drill-through pages or the page navigator; the pages render and the files validate, and the
+clicks are **designed**, not run ([docs/pages.md](docs/pages.md#things-i-could-not-do-or-check)).
+
+## How I know the numbers are right
+
+- **Every file is checked as it loads.** The sha256 of each committed file equals the manifest. Rows read, loaded and
+  quarantined equal the publisher's counts, and the exact amount sum, with up to 31 decimals, equals the control sum with
+  tolerance 0. A second control recomputes rows and sums without the readers' code. **Tested**: 31 of 31 releases
+  ([reconciliation.md](docs/reconciliation.md#the-chain-source-by-source),
+  [data/audit/inyear_independent_control.csv](data/audit/inyear_independent_control.csv)).
+- **A control that cannot fail is not a control.** In CI the build plants three errors in a throwaway database (a control total
+  one thousand pounds too high, one raw source amount wrong, one fact delta wrong), requires the controls to go red, restores each and
+  requires them to go green again. **Tested**: [reconciliation.md](docs/reconciliation.md#the-negative-control).
+- **Independent sources.** The restated annual files agree with the in-year releases for DEL at total level in 15 of 15
+  year-and-vintage pairs (-3.18% to +3.40%, tolerance 3.5%), and the Public Spending Statistics agree for resource DEL in all
+  four years. Capital DEL misses its tolerance in two years, and I cannot say why (below). **Tested**:
+  [reconciliation.md](docs/reconciliation.md#known-residuals-published-not-hidden),
+  [evidence/full/bud_vs_inyear_del.csv](evidence/full/bud_vs_inyear_del.csv),
+  [evidence/full/pss_vs_outturn.csv](evidence/full/pss_vs_outturn.csv).
+- **The model is tested against the warehouse.** Each DAX test returns a grid from the model open in Desktop; a SQL or Python
+  query over the base tables returns the same grid; `ukfr dax-compare` compares them. **Tested**: 84 of 84
+  ([docs/model-testing.md](docs/model-testing.md)).
+- **The real facts are pinned.** The row count and sum of each real fact are in
+  [evidence/expected/real_fact_totals.csv](evidence/expected/real_fact_totals.csv) and a test compares every build with
+  them, so nothing derived, authored or synthetic can move a real total unnoticed. **Tested**:
+  `pipeline/tests/test_real_totals.py`, `sql/tests/558_nothing_derived_reaches_a_real_total.sql`.
+- **The ledger.** [docs/evidence.md](docs/evidence.md) says what CI checks, and as plainly what it cannot: it proves that the
+  evidence in git is the evidence that was compared and passed together, not that a result file came from Desktop.
+- **The whole pipeline test suite.** 571 passed, 0 failed, 0 skipped against the full-scope database
+  ([evidence/full/pytest_summary.csv](evidence/full/pytest_summary.csv)). CI runs the committed-scope part of it, and the
+  model's Best Practice Analyzer rules, on every pull request ([docs/pipeline.md](docs/pipeline.md#continuous-integration)).
+- **One performance claim, with its failure.** Rewriting the year-to-date variance rank cut its cold time from 259 to 154 ms
+  (and from 203 to 111 ms over three years); rewriting the as-at measure in three forms did not make it faster, and the page
+  says so. **Tested**: [docs/performance.md](docs/performance.md).
 
 ## Register of real, authored, derived and synthetic data
 
@@ -126,7 +200,135 @@ labelled AUTHORED in their descriptions and in a display folder, and a rule of t
 | Model table `User Department (synthetic)` | synthetic | `dw.v_model_user_department` | 11 | the user map as a hidden model table; the two roles filter the department dimension by it | no: hidden, related to nothing, no amount; the unrestricted totals equal SQL with it loaded | `tests/dax/820_user_department_rows.dax`, `tests/dax/822_unrestricted_totals_with_the_user_map_loaded.dax` |
 | Model table `User Plan Group (synthetic)` | synthetic | `dw.v_model_user_plan_group` | 10 | the groups whose plan each user may see, as a hidden model table; the two roles filter the plan facts by it | no: hidden, related to nothing, no amount; the unrestricted totals equal SQL with it loaded | `tests/dax/821_user_plan_group_rows.dax`, `tests/dax/822_unrestricted_totals_with_the_user_map_loaded.dax` |
 
-## Tools
+## Limitations and known source errors
 
-Power BI Desktop (PBIP with TMDL and PBIR), SQL Server 2022 Developer, Python, Tabular Editor 2,
-DAX Studio.
+These are the gaps I know about. Each is in the docs with its evidence; none is hidden in a total.
+
+- **A unit error in the source.** One NHS Pension Scheme line (`NHP903 X903A002`) is 1,000 times too large in three
+  line-months, each corrected by a later release, and its offsetting line (`X903A003`) moves with it. `dw.dq_issue` holds nine
+  findings and flags thirteen fact rows. Without the flag the gross restatement of December 2023 would be 8,645bn; with the
+  flagged rows left out it is 13.9bn. The restatement measures have an `(excl. flagged)` variant and the page shows both.
+  **Tested**: `sql/tests/309`, `310`; [docs/pages.md](docs/pages.md#6-restatements).
+- **Seven plan cells I could not explain.** Of the 364 cells of the plan variance reconciliation, seven stay `unexplained`,
+  each under 1bn (0.1bn to 0.66bn against the annual file), none a headline item. They are named, and a test pins exactly
+  those seven. [reconciliation.md](docs/reconciliation.md#9-plan-variance-reconciliation-full-scope).
+- **Home Office fee income is missing from the in-year files.** It is 1.11bn in the in-year files and 6.18bn in the annual file
+  in 2024-25 for one fee category, and it explains a gap of 3.5 to 5.3bn a year in the Home Office's DEL. I do not know why the
+  in-year files lack it. The 2025-26 figure is carried forward from 2024-25 because no annual file for 2025-26 exists, so it is
+  explained, not measured.
+- **Two capital DEL checks fail.** The Public Spending Statistics differ from the annual outturn for capital DEL (excluding
+  Scotland) by -0.46% in 2023-24 and -0.36% in 2024-25, against a tolerance of 0.1%. The cause is unknown. A test pins these two
+  as the only failures, so a third one fails the build ([reconciliation.md](docs/reconciliation.md#known-residuals-published-not-hidden)).
+- **A department-structure gap I have not traced.** On the current structure, the in-year outturn of DSIT is about 45% below the annual file in 2021-22 and
+  2023-24 for all budgets, though within 2.1% for DEL. The gap is in layers that the annual file carries and the in-year file
+  does not; I did not trace it.
+- **The as-at rewrite gained nothing.** I rewrote `Outturn as at Release` in three forms. None was faster than the plain one
+  beyond the spread of the runs, and the trace shows both forms are the same plan ([docs/performance.md](docs/performance.md)).
+  I kept the plain form of both measures as hidden measures, as evidence.
+- **No plan below the Spending Review group.** There is no department plan variance, because the plan is not published below
+  the group ([ADR 0006](docs/adr/0006-plan-grain-and-the-grain-guard.md)). The phased plan is my allocation, labelled derived
+  everywhere it appears.
+- **The full-scope database is local.** The restated annual files, the Public Spending Statistics and the OSCAR Plans are about
+  620 MB and are not in git. CI rebuilds and tests the committed scope; the full-scope results are committed files and are
+  hash-checked, not recomputed ([docs/evidence.md](docs/evidence.md#what-ci-checks)). The data controls page needs the
+  full-scope database.
+- **One machine, one session.** The timings and screenshots come from one Desktop on one machine. They rank queries against
+  each other and are not absolute figures.
+- **Security is tested in Desktop with an invented user map.** A security role was not run in the service, and I did not run the
+  report under a role ([docs/security.md](docs/security.md#designed-not-run)).
+
+## Designed, not run
+
+I use Power BI Desktop only ([ADR 0002](docs/adr/0002-power-bi-desktop-only.md)). These need the service or a tag, and I have
+not run them:
+
+- **Scheduled refresh, a gateway, deployment pipelines, a workspace and an app, sensitivity labels, XMLA endpoints.** ADR 0002
+  names them as out of scope. I have written no design beyond that and run nothing.
+- **Entra ID groups as role members, the app audiences, the form of `USERPRINCIPALNAME()` in the service, workspace roles that
+  bypass row-level security, and the report under a role.** Described in [docs/security.md](docs/security.md#designed-not-run).
+- **The release workflow** (`.github/workflows/release.yml`) runs the ledger check on a tag and attaches the model and the
+  evidence to a release. No tag has been pushed, so it has never run, and I have not run it through a workflow linter.
+- **Drill-through clicks, the mobile layout and tab order** ([docs/pages.md](docs/pages.md#design-alternatives-chosen-and-what-i-dropped)).
+
+## Decision records
+
+Why the project is built the way it is, one page each, with the evidence behind it.
+
+| Record | Decision |
+|---|---|
+| [0001](docs/adr/0001-record-architecture-decisions.md) | Keep short architecture decision records |
+| [0002](docs/adr/0002-power-bi-desktop-only.md) | Build and prove everything in Power BI Desktop |
+| [0003](docs/adr/0003-import-not-directquery.md) | Import mode, not DirectQuery |
+| [0004](docs/adr/0004-revision-deltas-not-stacked-snapshots.md) | Store revision deltas, not stacked snapshots |
+| [0005](docs/adr/0005-type-2-organisation-and-durable-key.md) | A Type 2 organisation dimension on a letter-prefix durable key, with authored overrides |
+| [0006](docs/adr/0006-plan-grain-and-the-grain-guard.md) | Compare a plan only at the grain it is published at, and enforce it in the model |
+| [0007](docs/adr/0007-del-headline-ame-reconciled-separately.md) | The headline plan variance is DEL only, and AME is reconciled separately |
+| [0008](docs/adr/0008-evidence-ledger-not-dax-in-ci.md) | An evidence ledger that CI checks, instead of running the DAX tests in CI |
+
+## How to rebuild it
+
+You need a Windows machine with Power BI Desktop, SQL Server 2022 (the Developer edition is free) and [uv](https://docs.astral.sh/uv/).
+The pipeline needs Python 3.14, which uv finds or fetches.
+
+```
+# 1. every committed file equals its sha256 in the manifest
+uv run --project pipeline ukfr fetch --verify
+
+# 2. build the warehouse from the files in git (the 31 in-year releases, Estimates and PESA)
+uv run --project pipeline ukfr build --scope committed --recreate --yes
+
+# 3. the tests, and the evidence ledger
+uv run --project pipeline pytest -q
+uv run --project pipeline ukfr ledger check
+```
+
+The build reads `UKFR_SQL_*` environment variables (server, database, an optional SQL login); the default is the instance
+`localhost`, database `UKGroupFinance`, Windows authentication. A scratch database is `UKFR_SQL_DATABASE=<name>`. All the
+variables and options are in [docs/pipeline.md](docs/pipeline.md#run-it-locally).
+
+The full scope adds the restated annual files, the Public Spending Statistics and the OSCAR Plans, which are downloaded, not
+in git: set `UKFR_DATA_DIR` to a folder, run `ukfr fetch`, then `ukfr build --scope full --recreate --yes`
+([docs/data-sources.md](docs/data-sources.md#running-it)). The model's data-controls tables need this scope.
+
+The model and report are read by Power BI Desktop alone:
+
+1. Open `model/UKGroupFinance.pbip` in Desktop. Its parameters `Server` and `Database` point at `localhost` and
+   `UKGroupFinance`.
+2. Refresh the data. Desktop does not keep it between sessions, so I refresh through the engine:
+   `powershell.exe -NoProfile -File tools\run_dax.ps1 -Refresh` (Windows PowerShell 5.1).
+3. The first read of the deflator and CPI files over the web may ask once for anonymous access; only the person at the keyboard
+   can answer it.
+4. To rerun the DAX tests and compare them with SQL: `powershell.exe -NoProfile -File tools\run_dax_tests.ps1 -Refresh`, then
+   `uv run --project pipeline ukfr dax-compare` ([docs/model-testing.md](docs/model-testing.md#run-the-suite)). The order for
+   refreshing all the evidence is in [docs/evidence.md](docs/evidence.md#how-to-refresh-it).
+
+## Tools and versions
+
+| Tool | Version | Used for |
+|---|---|---|
+| Power BI Desktop (Microsoft Store build) | 2.159.1231.0 | the model and report; compatibility level 1702; no service |
+| SQL Server Developer | 2022, 16.0.1000.6 | the warehouse |
+| Python with uv | 3.14, uv 0.12 | `pipeline/`: fetch, read, load, evidence tooling |
+| Tabular Editor 2 | 2.29.0 | model scripts, and the Best Practice Analyzer in CI (63 rules: 48 standard and 15 mine) |
+| DAX Studio command line (`dscmd`) | 3.6.2 | DAX queries, benchmarks and the VertiPaq export |
+| `pbir` command line | 0.9.33 | the only tool that writes the report |
+| Fab Inspector command line | 4.0.0 | report rules in CI |
+
+The environment is recorded in [docs/spikes/environment.md](docs/spikes/environment.md), and what Desktop can and cannot do in
+[docs/spikes/desktop_capabilities.md](docs/spikes/desktop_capabilities.md) and
+[docs/spikes/pbir_coverage.md](docs/spikes/pbir_coverage.md); CI is described in [docs/spikes/ci.md](docs/spikes/ci.md).
+
+## Roadmap
+
+Not built: the NHS provider accounts (balance sheet and cash flow), the departmental workforce drivers, the forecast backtest of
+departments' own monthly returns, and a scale model. None has a table or a measure yet.
+
+## Data sources and licence
+
+All source data are public sector information published under the Open Government Licence v3.0. Sources, links and
+attribution are listed in [DATA_LICENCES.md](DATA_LICENCES.md); each file, its URL and its sha256 are in
+[data/manifest/files.csv](data/manifest/files.csv). What is real, what I wrote by hand and what is computed from real data is in
+the register below.
+
+The code is released under the MIT licence; see [LICENSE](LICENSE).
+

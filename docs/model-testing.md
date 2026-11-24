@@ -237,4 +237,4 @@ every rule of the file and none at severity 3 is violated. **Designed, not yet s
 
 - A rerun of the DAX tests in CI. There is no engine on a hosted runner, so CI hash-checks the results and recomputes only the expected values of the committed scope ([evidence.md](evidence.md)).
 - Security in the service: security groups, app audiences and the report under a role (designed, not run: [security.md](security.md)).
-- Performance (designed, not built).
+- Performance beyond the two slow measures and the queries of the test suite: see [performance.md](performance.md), which lists what was not run.
