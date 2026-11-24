@@ -208,6 +208,73 @@ own; CMA's gap is the eight carry-over rows of one file.
 | `audit.workforce_row_arithmetic` | published row | cells to annotate or exclude |
 | `authored.workforce_org_map` / `stg.workforce_org_map` | published name | the decisions behind the keys |
 
+## The pay bridge
+
+The pay bridge splits the change in a department's payroll paybill into volume, rate, organisation mix and entry and exit. It is **derived** from
+`dw.workforce_month` and adds no number of its own; the SQL is `sql/audit/900_v_pay_bridge.sql` and `905_pay_bridge_audit.sql` (scope full, like the fact it reads). Amounts are in pounds.
+
+**Comparison.** Each month is compared with the same month a year earlier, which removes the seasonality of paybill (pay awards and bonuses fall in fixed months) and does not need every month to exist. The cost is that a
+year has to pass before a month can be bridged: April 2018 to March 2019 has no prior month, so the first bridge month is April 2019.
+
+**A cell.** An organisation in a month with its payroll full-time equivalent and paybill (`dw.v_pay_cell`, 6,623 cells). It is *valid* unless one of these holds, first match decides (**tested**: `sql/tests/900`):
+
+| Status | Cells | Rule |
+|---|---:|---|
+| valid | 6,248 | |
+| `fte_blank_or_zero` | 237 | no full-time equivalent, or zero |
+| `paybill_blank_or_zero` | 110 | no paybill, or zero or negative (the average cost needs a paybill; this goes a step further than a zero full-time equivalent, because a cell with people and no cost has no average cost) |
+| `row_arithmetic` | 28 | a published row behind the cell is listed in `audit.workforce_row_arithmetic` for its full-time equivalent or paybill (headcount findings do not matter to the bridge) |
+
+The 375 cells that are not valid are in `audit.pay_excluded_cell` with their reason and are never in the bridge (**tested**: `sql/tests/902`, which also shows that the paybill of the valid cells plus that of the excluded cells is the paybill of the fact).
+
+**The department.** The department of the current structure that the organisation version in force in the month answers to (`dw.department_reported_number`, the same map the outturn uses): the version with the latest start on or before the month, or
+the first version when the month is before every start. A body that moved between departments during the two months of a comparison is an exit from the first department and an entry to the second (the 2023 machinery of government changes show up this way).
+
+**Rows.** One row per department, organisation and month, the later month of the pair (`dw.v_pay_bridge_row`, 7,546 rows, **tested**: `sql/tests/901`):
+
+| Class | Rows | Meaning |
+|---|---:|---|
+| `continuing` | 4,950 | valid in both months, in the same department: split into volume and rate |
+| `entry` | 118 | valid in the later month and not in the earlier (no cell, or the body was in another department) |
+| `exit` | 222 | valid a year earlier and not now |
+| `not_bridged`, `comparison_cell_excluded` | 188 | the organisation's cell in the other month exists and is not valid, so I cannot tell a change from a gap |
+| `not_bridged`, `department_not_comparable` | 2,068 | the department has no valid cell in one of the two months (the first year of data, a department that did not exist yet, a month a department did not publish): an entry or an exit here would only mean that data is missing |
+
+**Formulas as built.** For a continuing organisation, with average cost = paybill / full-time equivalent:
+
+- volume = (FTE now - FTE then) x average cost then, rounded to 4 decimal places;
+- rate = paybill now - paybill then - volume, which is FTE now x (average cost now - average cost then), with the rounding of the volume kept out of the sum;
+- so volume + rate = the change in paybill exactly, for every organisation (**tested**: `sql/tests/901`).
+
+For a department, or the group, or any selection, the measures work month by month on the continuing organisations of the selection:
+
+- volume = (change in total FTE) x (prior paybill / prior FTE of the selection);
+- rate = the sum of the organisations' rates (additive);
+- mix = the sum of the organisations' own volumes less the volume of the selection (so it is zero for one organisation and for a department of one organisation, and at group level it includes the shift of people between departments);
+- entry and exit = paybill of entries less paybill of exits;
+- prior + volume + rate + mix + entry and exit = current paybill.
+
+Volume and mix are not additive over departments (volume + mix is), so the group's volume is not the sum of the departments' volumes. Over several months the measures add the monthly bridges (the paybill of a year is the sum of its months, and a year's volume is the sum of the months' volumes).
+
+**Tie.** `audit.pay_bridge_tie` has the bridge of every department and month it can be built for (1,129 department-months, 20 departments, April 2019 to October 2026); the difference column is 0.0000 in every row (**tested**: `sql/tests/901`; the same difference from the model's measures is in `tests/dax/901`, `902` and `909`).
+The latest month, October 2026 (all three latest months are in `evidence/full/pay_bridge_tie.csv`), in pounds:
+
+| Department | Prior | Volume | Rate | Mix | Entry and exit | Current | Difference |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Business and Trade | 69,935,528 | -863,924 | 2,023,321 | -42,101 | 0 | 71,052,824 | 0 |
+| Education | 74,440,170 | -3,486,566 | -4,273,211 | 98,754 | -6,109,290 | 60,669,857 | 0 |
+| Energy Security and Net Zero | 65,480,548 | -2,258,095 | 4,700,072 | -341,281 | 0 | 67,581,244 | 0 |
+| Transport | 98,032,635 | 1,787,562 | 4,442,663 | -126,654 | 0 | 104,136,206 | 0 |
+| Food Standards Agency | 8,342,405 | 226,931 | 357,993 | 0 | 0 | 8,927,328 | 0 |
+| HM Revenue and Customs | 333,569,269 | 16,379,043 | 760,226 | 0 | 0 | 350,708,538 | 0 |
+| HM Treasury | 19,524,486 | -1,752,936 | 1,757,737 | 14,513 | 0 | 19,543,800 | 0 |
+| National Crime Agency | 37,063,611 | 992,221 | 2,307,621 | 0 | 0 | 40,363,453 | 0 |
+| Office of Gas and Electricity Markets | 13,222,430 | 1,972,344 | -475,859 | 0 | 0 | 14,718,914 | 0 |
+
+Only these nine departments have a bridge for October 2026: they are the departments with a valid cell in that month and in October 2025. The Education line shows what entry and exit means: three organisations with a valid cell a year earlier have none now in the department, and their paybill then was 6.1 million. I have not looked at why.
+
+**Not covered, and why.** The bridge covers only what the files cover: 93.8% of published full-time equivalent and 76.8% of published paybill (above). The Ministry of Defence's paybill is 45.5% covered because rows labelled another month are quarantined, so a bridge month of the department can set a month with a gap against one without; I did not trace it further. The core department of MHCLG is not mapped. There is no Home Office, Ministry of Justice, Cabinet Office or ONS. Paybill is not split by grade, so there is no grade-mix effect: the mix here is a mix of organisations. None of this is corrected.
+
 ## Limitations
 
 - **No grade-mix effect**: paybill is not split by grade (see the profile).
