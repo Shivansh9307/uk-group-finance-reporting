@@ -1,4 +1,4 @@
--- test: no leakage. Every own-forecast row at point n carries lineage that says its inputs come from return n and from months up to n; the input table equals, both ways, the rows of dw.forecast_return with return = n and month <= n; the prior-year profile equals the R13 of the prior year; and both methods recomputed from that restricted set alone (same arithmetic, read straight from dw.forecast_return) equal dw.forecast_own exactly
+-- test: no leakage. Every own-forecast row at point n carries lineage that says its inputs come from return n and from months up to n; the input table equals, both ways, the rows of dw.forecast_return with return = n and month <= n; the prior-year profile equals the R13 of the prior year; and both methods recomputed from that restricted set alone (same arithmetic and the seasonal guard, read straight from dw.forecast_return) equal dw.forecast_own exactly
 -- requires: dw.forecast_own, dw.forecast_own_input, dw.forecast_prior_profile, dw.forecast_return, dw.forecast_return_header
 WITH months AS (
     SELECT m.period FROM (VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12)) AS m (period)
@@ -22,10 +22,11 @@ prior AS (
     GROUP BY c.financial_year, p.financial_year, r.department_group_code, r.budget_measure, r.period
 ),
 prior_ytd AS (
-    SELECT y.financial_year, y.return_no, y.department_group_code, y.budget_measure, SUM(p.amount) AS profile_ytd
+    SELECT y.financial_year, y.return_no, y.department_group_code, y.budget_measure,
+           SUM(CASE WHEN p.period <= y.return_no THEN p.amount ELSE 0 END) AS profile_ytd, SUM(p.amount) AS profile_year
     FROM ytd AS y
     JOIN prior AS p ON p.financial_year = y.financial_year AND p.department_group_code = y.department_group_code
-                   AND p.budget_measure = y.budget_measure AND p.period <= y.return_no
+                   AND p.budget_measure = y.budget_measure
     GROUP BY y.financial_year, y.return_no, y.department_group_code, y.budget_measure
 ),
 expected AS (
@@ -39,7 +40,8 @@ expected AS (
     JOIN months AS mo ON mo.period > y.return_no
     JOIN prior_ytd AS py ON py.financial_year = y.financial_year AND py.return_no = y.return_no
                         AND py.department_group_code = y.department_group_code AND py.budget_measure = y.budget_measure
-                        AND py.profile_ytd <> 0
+                        AND (py.profile_ytd > 0 AND y.ytd_amount > 0 OR py.profile_ytd < 0 AND y.ytd_amount < 0)
+                        AND ABS(py.profile_ytd) * 10 >= ABS(py.profile_year)
     LEFT JOIN prior AS p ON p.financial_year = y.financial_year AND p.department_group_code = y.department_group_code
                         AND p.budget_measure = y.budget_measure AND p.period = mo.period
 )

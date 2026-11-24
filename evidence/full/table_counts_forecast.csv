@@ -1,7 +1,7 @@
 schema_name,table_name,row_count
-dw,forecast_accuracy,25341
-dw,forecast_month_compare,304092
-dw,forecast_own,84049
+dw,forecast_accuracy,24076
+dw,forecast_month_compare,288912
+dw,forecast_own,74256
 dw,forecast_own_input,55448
 dw,forecast_prior_profile,7472
 dw,forecast_return,2116096

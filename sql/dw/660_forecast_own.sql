@@ -10,8 +10,12 @@
 -- Two methods, for the months m = n + 1 .. 12 of return n:
 --   run_rate  the mean of the n actual months to date: ytd / n. A month with no row counts as zero. Defined for n = 1 .. 11.
 --   seasonal  the prior year's R13 monthly profile scaled to the year to date: ytd x prior(m) / prior(1..n). Defined for
---             n = 1 .. 11 where the prior year's months 1 to n do not sum to zero (the department group and budget measure
---             exist in the prior year's R13, so FY2017-18 has no seasonal forecast: its prior year is not in the files).
+--             n = 1 .. 11 and only where the profile is a safe scale: prior(1..n) has the same sign as ytd and is at least 10%
+--             of |the prior year's full R13 total| (the department group and budget measure exist in the prior year's R13, so
+--             FY2017-18 has no seasonal forecast: its prior year is not in the files). Without the guard the factor
+--             prior(m) / prior(1..n) explodes where the prior year's months 1 to n are near zero or of the opposite sign
+--             (diagnosis: tests/diagnostics/seasonal_top_errors.sql). A cell that fails the guard has no seasonal forecast
+--             at all; audit.forecast_accuracy_headline reports how many cells and how much value that leaves out.
 -- R0 has no actual month, so neither method exists for it; for R12 there is no month left to forecast.
 -- A FTE x cost-per-FTE method is not here: it needs the workforce data and a later task adds it.
 -- Arithmetic is decimal throughout; the intermediate casts keep the product inside 38 digits (a plain DECIMAL(19,4) product
@@ -19,7 +23,7 @@
 --   dw.forecast_own columns: amount = the forecast of the month, GBP thousands DECIMAL(19,4); input_return_no = the return
 --   the inputs came from (always return_no); input_max_period = the latest month among the inputs (always <= return_no);
 --   input_rows = source rows behind the inputs; ytd_amount = months 1 to n as return n states them; profile_financial_year,
---   profile_ytd_amount = the prior year and its months 1 to n (NULL for run_rate).
+--   profile_ytd_amount, profile_year_amount = the prior year, its months 1 to n and its twelve months (NULL for run_rate).
 
 DROP TABLE IF EXISTS dw.forecast_own;
 DROP TABLE IF EXISTS dw.forecast_own_input;
@@ -80,6 +84,7 @@ CREATE TABLE dw.forecast_own (
     ytd_amount              decimal(19,4)  NOT NULL,
     profile_financial_year  varchar(7)     NULL,
     profile_ytd_amount      decimal(19,4)  NULL,
+    profile_year_amount     decimal(19,4)  NULL,
     CONSTRAINT pk_dw_forecast_own PRIMARY KEY (financial_year, return_no, department_group_code, budget_measure, method, period),
     CONSTRAINT ck_dw_forecast_own_method CHECK (method IN ('run_rate', 'seasonal')),
     CONSTRAINT ck_dw_forecast_own_future CHECK (period > return_no AND period <= 12),
@@ -98,31 +103,34 @@ months AS (
 ),
 prior_ytd AS (
     SELECT y.financial_year, y.return_no, y.department_group_code, y.budget_measure,
-           MIN(p.profile_financial_year) AS profile_financial_year, SUM(p.amount) AS profile_ytd_amount
+           MIN(p.profile_financial_year) AS profile_financial_year,
+           SUM(CASE WHEN p.period <= y.return_no THEN p.amount ELSE 0 END) AS profile_ytd_amount,
+           SUM(p.amount) AS profile_year_amount
     FROM ytd AS y
     JOIN dw.forecast_prior_profile AS p
       ON p.financial_year = y.financial_year AND p.department_group_code = y.department_group_code
-     AND p.budget_measure = y.budget_measure AND p.period <= y.return_no
+     AND p.budget_measure = y.budget_measure
     GROUP BY y.financial_year, y.return_no, y.department_group_code, y.budget_measure
 )
 INSERT INTO dw.forecast_own
     (financial_year, return_no, department_group_code, budget_measure, method, period, amount, input_return_no,
-     input_max_period, input_rows, ytd_amount, profile_financial_year, profile_ytd_amount)
+     input_max_period, input_rows, ytd_amount, profile_financial_year, profile_ytd_amount, profile_year_amount)
 SELECT y.financial_year, y.return_no, y.department_group_code, y.budget_measure, 'run_rate', mo.period,
        CAST(CAST(y.ytd_amount AS decimal(20, 6)) / CAST(y.return_no AS decimal(10, 0)) AS decimal(19, 4)),
-       y.return_no, y.input_max_period, y.input_rows, y.ytd_amount, NULL, NULL
+       y.return_no, y.input_max_period, y.input_rows, y.ytd_amount, NULL, NULL, NULL
 FROM ytd AS y
 JOIN months AS mo ON mo.period > y.return_no
 UNION ALL
 SELECT y.financial_year, y.return_no, y.department_group_code, y.budget_measure, 'seasonal', mo.period,
        CAST(CAST(y.ytd_amount AS decimal(20, 6)) * CAST(COALESCE(p.amount, 0) AS decimal(20, 6)) / CAST(py.profile_ytd_amount AS decimal(20, 6))
             AS decimal(19, 4)),
-       y.return_no, y.input_max_period, y.input_rows, y.ytd_amount, py.profile_financial_year, py.profile_ytd_amount
+       y.return_no, y.input_max_period, y.input_rows, y.ytd_amount, py.profile_financial_year, py.profile_ytd_amount, py.profile_year_amount
 FROM ytd AS y
 JOIN months AS mo ON mo.period > y.return_no
 JOIN prior_ytd AS py ON py.financial_year = y.financial_year AND py.return_no = y.return_no
                     AND py.department_group_code = y.department_group_code AND py.budget_measure = y.budget_measure
-                    AND py.profile_ytd_amount <> 0
+                    AND SIGN(py.profile_ytd_amount) = SIGN(y.ytd_amount) AND SIGN(y.ytd_amount) <> 0
+                    AND ABS(py.profile_ytd_amount) >= 0.1 * ABS(py.profile_year_amount)
 LEFT JOIN dw.forecast_prior_profile AS p
   ON p.financial_year = y.financial_year AND p.department_group_code = y.department_group_code
  AND p.budget_measure = y.budget_measure AND p.period = mo.period;
