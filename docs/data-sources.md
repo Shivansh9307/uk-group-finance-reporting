@@ -26,9 +26,11 @@ All sources are published under the Open Government Licence v3.0 (see
 | `pss` | Public Spending Statistics July 2026: database and Chapter 1 | HM Treasury | [PSS July 2026](https://www.gov.uk/government/statistics/public-spending-statistics-release-july-2026) | xlsx | Independent outturn cross-check on the data controls page |
 | `gdp_deflator` | GDP deflators at market prices, latest three releases (October 2026 Budget, September 2026 QNA, June 2026 QNA) | HM Treasury | [GDP deflators collection](https://www.gov.uk/government/collections/gdp-deflators-at-market-prices-and-money-gdp) | xlsx | Real-terms restatement; three vintages to show the base-year shift |
 | `ons_cpi` | CPI index (D7BT) and CPI annual rate (D7G7) | Office for National Statistics | [D7BT](https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7bt/mm23), [D7G7](https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g7/mm23) | CSV generated on request | Price index for real-terms comparisons |
+| `workforce_mi` | Departmental workforce management information, monthly files from April 2018 (headcount, full-time equivalent and paybill by organisation), one gov.uk collection per department: FCDO (and the FCO before it), HM Treasury, HMRC, MOD, DfE, DfT, DWP, DHSC, Defra, DCMS, DSIT, DESNZ, BEIS, DBT, MHCLG (and MHCLG before and DLUHC), UKEF, FSA, CMA, NCA, HM Land Registry | Departments, under the Cabinet Office transparency requirement | The `... workforce management information` collections on gov.uk, listed in `data/manifest/sources.yml` | csv, xlsx, xls, ods | Full-time equivalent and paybill by organisation and month, for the pay bridge and for allocation weights |
 
-NHS trust accounts (TAC) and departmental workforce files are fetched later with the same tool and
-are not registered yet.
+NHS trust accounts (TAC) are fetched later with the same tool and are not registered yet. The departmental
+workforce files are registered as `workforce_mi`; what they hold, which departments and months are there and
+what is missing is in [profiling/workforce.md](profiling/workforce.md).
 
 ## How discovery works
 

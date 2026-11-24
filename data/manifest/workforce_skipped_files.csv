@@ -1,0 +1,21 @@
+release,filename,reason
+beis-2018-08,beis-workforce-august-2018.csv,the grand total cost column is headed 'Final total staff Costs'
+beis-2021-10,BEIS_October_2021_MWMI_Template.csv,"the header has no group row and the payroll 'Other' column has no group label, so it is ambiguous"
+beis-2021-10,BEIS_October_2021_MWMI_Template.xlsx,two sheets (new and old version of October 2021) both look like the data sheet
+beis-2022-04,beis-wmi-april-2022.csv,"a column header holds only the word Headcount, with no group or item"
+beis-2022-05,beis-workforce-management-information-may-2022.csv,"a column header holds only the word Headcount, with no group or item"
+beis-2023-03,beis-workforce-mgmt-info-mar-2023.csv,a column in the non-payroll block is headed '4'
+cma-2020-12,Cabinet_office_report_data_Apr_20_-_Dec_2020.csv,"different layout: no Organisation name header row, or no organisation column (one row per month for one body), so there is nothing to read as the template"
+cma-2021-03,Cabinet_office_report_data_Jan_21_-_Mar_2021.csv,"different layout: no Organisation name header row, or no organisation column (one row per month for one body), so there is nothing to read as the template"
+dft-2020-12,dft-monthly-workforce-management-information-december-2020.csv,"the grand total columns are headed Total, the same as the non-payroll total"
+dwp-2025-04,dwp-workforce-management-information-april-2025.csv,the payroll paybill column is headed 'total bill'
+mhclg-2019-06,MHCLG_WFMI_20190630.csv,"a header cell holds spreadsheet formula text ('742+AD10:AF1059.25') where 'Other, unknown, unspecified' belongs"
+mhclg-2023-04,DLUHC_Group_Workforce_Management___April_2023.csv,a non-payroll total column is headed 'Total Non-payroll staff: Total Contingent Labour' instead of the template wording
+mhclg-2023-05,DLUHC_Group_Workforce_Management___May_2023.csv,a non-payroll total column is headed 'Total Non-payroll staff: Total Contingent Labour' instead of the template wording
+ukef-2020-06,ukef-payroll-headcount-data-june-2020.csv,"different layout: no Organisation name header row, or no organisation column (one row per month for one body), so there is nothing to read as the template"
+ukef-2020-07,ukef-payroll-headcount-data-july-2020.csv,"different layout: no Organisation name header row, or no organisation column (one row per month for one body), so there is nothing to read as the template"
+ukef-2020-08,ukef-payroll-headcount-data-aug-2020.csv,"different layout: no Organisation name header row, or no organisation column (one row per month for one body), so there is nothing to read as the template"
+ukef-2020-09,ukef-payroll-headcount-data-sept-2020.csv,"different layout: no Organisation name header row, or no organisation column (one row per month for one body), so there is nothing to read as the template"
+ukef-2020-10,ukef-payroll-headcount-data-oct-2020.csv,"different layout: no Organisation name header row, or no organisation column (one row per month for one body), so there is nothing to read as the template"
+ukef-2020-11,ukef-payroll-headcount-data-nov-2020.csv,"different layout: no Organisation name header row, or no organisation column (one row per month for one body), so there is nothing to read as the template"
+ukef-2020-12,ukef-payroll-headcount-data-dec-2020.csv,"different layout: no Organisation name header row, or no organisation column (one row per month for one body), so there is nothing to read as the template"

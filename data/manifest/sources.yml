@@ -211,3 +211,90 @@ sources:
         release: {value: latest}
     files:
       - {match: '\.csv$', action: fetch}
+
+  - id: workforce_mi
+    title: Departmental workforce management information (monthly headcount, full-time equivalent and paybill)
+    publisher: Government departments, under the Cabinet Office transparency requirement
+    licence: OGL-3.0
+    used_for: Full-time equivalent and paybill by organisation and month, for the pay bridge and for allocation weights
+    fetch: true
+    commit: false
+    # One gov.uk collection per department (a department that changed its name has one per name; they share a
+    # series id so the months do not overlap). A file's release label is <series>-<yyyy>-<mm>, taken from the
+    # title of the attachment ("DfE monthly workforce management information: May 2023"), because several
+    # departments publish a year of monthly files on one page. FY2018-19 (April 2018) is the first month that
+    # overlaps the OSCAR releases. Every format of a month is fetched; the load picks one primary copy per month.
+    # Not registered: the Home Office, Ministry of Justice, Cabinet Office and ONS (no collection found), ORR
+    # (HTML tables only, no file), and the Law Officers' Departments (one multi-sheet file per year).
+    discover:
+      - collection: /government/collections/fcdo-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'fcdo-{year}-{month}'}
+        since: 'fcdo-2018-04'
+      - collection: /government/collections/fco-workforce-management-information
+        release: {from: title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'fcdo-{year}-{month}'}
+        since: 'fcdo-2018-04'
+      - collection: /government/collections/workforce-management--2
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'hmt-{year}-{month}'}
+        since: 'hmt-2018-04'
+      - collection: /government/collections/hmrc-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'hmrc-{year}-{month}'}
+        since: 'hmrc-2018-04'
+      - collection: /government/collections/workforce-management-information-mod
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'mod-{year}-{month}'}
+        since: 'mod-2018-04'
+      - collection: /government/collections/dfe-monthly-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'dfe-{year}-{month}'}
+        since: 'dfe-2018-04'
+      - collection: /government/collections/dft-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'dft-{year}-{month}'}
+        since: 'dft-2018-04'
+      - collection: /government/collections/dwp-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'dwp-{year}-{month}'}
+        since: 'dwp-2018-04'
+      - collection: /government/collections/dhsc-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'dhsc-{year}-{month}'}
+        since: 'dhsc-2018-04'
+      - collection: /government/collections/defra-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'defra-{year}-{month}'}
+        since: 'defra-2018-04'
+      - collection: /government/collections/dcms-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'dcms-{year}-{month}'}
+        since: 'dcms-2018-04'
+      - collection: /government/collections/dsit-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'dsit-{year}-{month}'}
+        since: 'dsit-2018-04'
+      - collection: /government/collections/desnz-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'desnz-{year}-{month}'}
+        since: 'desnz-2018-04'
+      - collection: /government/collections/beis-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'beis-{year}-{month}'}
+        since: 'beis-2018-04'
+      - collection: /government/collections/department-for-business-and-trade-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'dbt-{year}-{month}'}
+        since: 'dbt-2018-04'
+      - collection: /government/collections/workforce-management
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'mhclg-{year}-{month}'}
+        since: 'mhclg-2018-04'
+      - collection: /government/collections/dluhc-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'mhclg-{year}-{month}'}
+        since: 'mhclg-2018-04'
+      - collection: /government/collections/mhclg-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'mhclg-{year}-{month}'}
+        since: 'mhclg-2018-04'
+      - collection: /government/collections/uk-export-finance-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'ukef-{year}-{month}'}
+        since: 'ukef-2018-04'
+      - collection: /government/collections/fsa-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'fsa-{year}-{month}'}
+        since: 'fsa-2018-04'
+      - collection: /government/collections/cma-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'cma-{year}-{month}'}
+        since: 'cma-2018-04'
+      - collection: /government/collections/national-crime-agency-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})\s*$', template: 'nca-{year}-{month}'}
+        since: 'nca-2018-04'
+      - collection: /government/collections/hm-land-registry-workforce-management-information
+        release: {from: attachment_title, pattern: '(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})(?:\s+data)?\s*$', template: 'hmlr-{year}-{month}'}
+        since: 'hmlr-2018-04'
+    files:
+      - {match: '(?i)\.(csv|xlsx|xls|ods)$', action: fetch}
