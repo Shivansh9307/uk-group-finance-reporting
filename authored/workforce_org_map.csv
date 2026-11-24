@@ -1,0 +1,214 @@
+dept,organisation_name,valid_from,valid_to,decision,durable_key,basis,reason,note
+beis,Advisory Conciliation & Arbitration Service (ACAS),,,map,ACA,name_variant,,
+beis,Advisory Conciliation and Arbitration Service,,,map,ACA,name,,
+beis,Arts & Humanities Research Council (AHRC),,,map,URI,part_of,,a research council that is part of UKRI; counted in UKRI's organisation
+beis,Biotechnology & Biological Sciences Research Council (BBSRC),,,map,URI,part_of,,a research council that is part of UKRI; counted in UKRI's organisation
+beis,Civil Nuclear Police Authority (CNPA),,,map,CNC,name_variant,,
+beis,Coal Authority,,,map,COL,name,,
+beis,Committee on Climate Change (CCC),,,map,CCC,name_variant,,
+beis,Companies House,,,map,BIS.BEIS,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+beis,Competition Service,,,map,CSE,name,,
+beis,"Department for Business, Energy & Industrial Strategy (BEIS)",,,map,BIS.BEIS,name_variant,,
+beis,"Department for Business, Energy and Industrial Strategy",,,map,BIS.BEIS,name,,
+beis,Economic & Social Research Council (ESRC),,,map,URI,part_of,,a research council that is part of UKRI; counted in UKRI's organisation
+beis,Engineering & Physical Sciences Research Council (EPSRC),,,map,URI,part_of,,a research council that is part of UKRI; counted in UKRI's organisation
+beis,HM Land Registry,,,map,HML,name,,
+beis,Innovate UK,,,map,URI,part_of,,a research council that is part of UKRI; counted in UKRI's organisation
+beis,Insolvency Service,,,map,BIS.BEIS,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+beis,Intellectual Property Office (IPO),,,map,BIS.BEIS,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+beis,Medical Research Council (MRC),,,map,URI,part_of,,a research council that is part of UKRI; counted in UKRI's organisation
+beis,Met Office,,,map,BIS.BEIS,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+beis,Natural Environment Research Council (NERC),,,map,URI,part_of,,a research council that is part of UKRI; counted in UKRI's organisation
+beis,Nuclear Decommissioning Authority (NDA),,,map,NDA,name_variant,,
+beis,Science & Technology Facilities Council (STFC),,,map,URI,part_of,,a research council that is part of UKRI; counted in UKRI's organisation
+beis,UK Atomic Energy Authority (UKAEA),,,map,UKA,name_variant,,
+beis,UK Intellectual Property Office,,,map,BIS.BEIS,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+beis,UK Space Agency,,,map,BIS.BEIS,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+beis,UKAEA,,,map,UKA,name_variant,,
+beis,UKRI,,,map,URI,name_variant,,
+beis,UKRI Councils,,,map,URI,name_variant,,
+beis,UKRI Research councils,,,map,URI,name_variant,,
+cma,Competition and Markets Authority,,,map,CMA,name,,
+dbt,Advisory Conciliation & Arbitration Service (ACAS),,,map,ACA,name_variant,,
+dbt,Advisory Conciliation and Arbitration Service,,,map,ACA,name,,
+dbt,Companies House,,,map,UKT.DBT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dbt,Competition Appeal Tribunal,,,map,CSE,name_variant,,
+dbt,Competition Service,,,map,CSE,name,,
+dbt,Department for Business & Trade (DBT),,,map,UKT.DBT,name_variant,,
+dbt,Department for Business and Trade,,,map,UKT.DBT,name,,
+dbt,Fair Work Agency,,,map,UKT.DBT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dbt,Financial Reporting Council,,,map,FRC,name_variant,,
+dbt,Insolvency Service,,,map,UKT.DBT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dbt,The Insolvency Service,,,map,UKT.DBT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dbt,Trade Remedies Authority,,,map,TRA,name_variant,,
+dcms,"Department for Culture, Media and Sport",,,map,DCM,name,,
+defra,Agricultural Wages Board for England and Wales,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+defra,Agricultural Wages Committee x 15,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+defra,Agriculture and Horticulture Development Board,,,map,AHD,name,,
+defra,Animal and Plant Health Agency,,,map,EFR,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+defra,Animal Health and Veterinary Laboratories Agency,,,map,EFR,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+defra,"Centre for Environment, Fisheries and Aquaculture Science",,,map,EFR,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+defra,Consumer Council for Water,,,map,CFW,name,,
+defra,"Department for Environment, Food and Rural Affairs",,,map,EFR,name,,
+defra,Environment Agency,,,map,ENV,name,,
+defra,Joint Nature Conservation Committee,,,map,NCC,name,,
+defra,Marine Management Organisation,,,map,MMO,name,,
+defra,National Forest Company,,,map,NFC,name,,
+defra,Natural England,,,map,NEN,name,,
+defra,Office for Environmental Protection,,,map,OEP,name,,
+defra,OTHER,,,exclude,,,the template's catch-all 'OTHER'; it names no organisation,
+defra,"Royal Botanic Gardens, Kew",,,map,KEW,name,,
+defra,Rural Payments Agency,,,map,EFR,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+defra,Sea Fish Industry Authority,,,map,SIA,name,,
+defra,The Office for Environmental Protection,,,map,OEP,name_variant,,
+defra,Total,,,exclude,,,a total row (the published organisations already sum to it); counting it would double count,
+defra,Veterinary Medicines Directorate,,,map,EFR,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+desnz,Civil Nuclear Police Authority,,,map,CNC,name_variant,,
+desnz,Civil Nuclear Police Authority (CNPA),,,map,CNC,name_variant,,
+desnz,Coal Authority,,,map,COL,name,,
+desnz,Committee on Climate Change,,,map,CCC,name,,
+desnz,Committee on Climate Change (CCC),,,map,CCC,name_variant,,
+desnz,Department for Energy Security & Net Zero (DESNZ),,,map,DEC,name_variant,,
+desnz,Department for Energy Security and Net Zero,,,map,DEC,name,,
+desnz,Mining Remediation Authority,,,map,COL,name_variant,,
+desnz,Mining Remediation Authority (MRA),,,map,COL,name_variant,,
+desnz,North Sea Transition Authority,,,map,OGA,name_variant,,
+desnz,North Sea Transitory Authority (NSTA),,,map,OGA,name_variant,,
+desnz,Nuclear Decommissioning Authority,,,map,NDA,name,,
+desnz,Nuclear Decommissioning Authority (NDA),,,map,NDA,name_variant,,
+desnz,Office of Gas and Electricity Market,,,map,OGE,name_variant,,
+desnz,OFGEM,,,map,OGE,name_variant,,
+desnz,UK Atomic Energy Authority,,,map,UKA,name_variant,,
+desnz,UKAEA,,,map,UKA,name_variant,,
+dfe,Construction Industry Training Board,,,map,CIT,name,,
+dfe,Department for Education,,,map,DFE,name,,
+dfe,Education & Skills Funding Agency,,,map,DFE,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dfe,Engineering Construction Industry Training Board,,,map,EIT,name,,
+dfe,Equality & Human Rights Commission,,,map,EHR,name,,
+dfe,Institute for Apprenticeships,,,map,IFA,name_variant,,
+dfe,Institute for Apprenticeships and Technical Education,,,map,IFA,name_variant,,
+dfe,LocatEd,,,map,LED,name,,
+dfe,Oak National Academy,,,map,ONA,name_variant,,
+dfe,Office for Students,,,map,OFS,name,,
+dfe,Skills England,,,map,DFE,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dfe,Social Work England,,,map,SWE,name,,
+dfe,Standards and Testing Agency,,,map,DFE,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dfe,Student Loans Company Ltd,,,map,SLC,name_variant,,
+dfe,Teaching Regulation Agency,,,map,DFE,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dfe,Teaching Regulation Authority,,,map,DFE,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dfe,The Office of the Children's Commissioner,,,map,OCC,name_variant,,
+dft,Active Travel England,,,map,DFT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dft,British Transport Police Authority,,,map,BTP,name,,
+dft,Department for Transport,,,map,DFT,name,,
+dft,Driver and Vehicle Licensing Agency,,,map,DFT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dft,Driver and Vehicle Standards Agency,,,map,DFT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dft,Driving Standards Agency,,,map,DFT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dft,High Speed 2,,,map,HST,name,,
+dft,Maritime and Coastguard Agency,,,map,DFT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dft,Northern Lighthouse Board,,,map,NLB,name,,
+dft,Passenger Focus,,,map,RPC,name_variant,,
+dft,Transport Focus,,,map,RPC,name,,
+dft,Transport Focus NOT Passenger Focus,,,map,RPC,name_variant,,
+dft,Trinity House,,,map,THL,name_variant,,
+dft,Vehicle Certification Agency,,,map,DFT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dhsc,(.) - Not applicable,,,exclude,,,"a footnote line under the table, not an organisation",
+dhsc,(..) - Missing / Not available,,,exclude,,,"a footnote line under the table, not an organisation",
+dhsc,Care Quality Commission,,,map,CQC,name,,
+dhsc,Department of Health (excl agencies),,,map,DOH033,name_variant,,
+dhsc,Department of Health and Social Care (excl agencies),,,map,DOH033,name_variant,,
+dhsc,Department of Health and Social Care (excluding agencies),,,map,DOH033,name_variant,,
+dhsc,Health & Social Care Information Centre,,,map,HSC,name,,
+dhsc,Health Education England,,,map,HEE,name,,
+dhsc,Health Research Authority,,,map,HRG,name,,
+dhsc,Health Services Safety Investigations Body,,,map,HSS,name,,
+dhsc,Human Fertilisation & Embryology Authority,,,map,HFE,name,,
+dhsc,Human Tissue Authority,,,map,HTA,name,,
+dhsc,Medicines & Healthcare products Regulatory Agency,,,map,DOH033,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dhsc,MHS Business Servises Authority,,,exclude,,,reviewed: a misspelt name for an NHS body with no organisation of its own in the OSCAR dimension,
+dhsc,Monitor,,,map,MIR,name_variant,,
+dhsc,National Institute for Health and Care Excellence,,,map,ICE,name,,
+dhsc,NHS Blood & Transplant,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+dhsc,NHS Blood & Transport,,,exclude,,,reviewed: a misspelt name for an NHS body with no organisation of its own in the OSCAR dimension,
+dhsc,NHS Business Services Authority,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+dhsc,NHS Counter Fraud Authority,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+dhsc,NHS Digital,,,map,HSC,name_variant,,
+dhsc,NHS England,,,map,NCB,name_variant,,
+dhsc,NHS Litigation Authority,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+dhsc,NHS Resolution,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+dhsc,NHS Trust Development Authority,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+dhsc,Notes:,,,exclude,,,"a footnote line under the table, not an organisation",
+dhsc,Public Health England,,,map,DOH033,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dhsc,UK Health Security Agency,,,map,DOH033,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dsit,Building Digital UK - (BDUK),,,map,BDU,name_variant,,
+dsit,"Department for Science, Innovation and Technology (DSIT)",,,map,BIS.DSIT,name_variant,,
+dsit,"Department for Science, Inovation &Technology (DSIT)",,,map,BIS.DSIT,name_variant,,
+dsit,Information Commissioner's Office (ICO),,,map,ICO,name_variant,,
+dsit,Met Office,,,map,BIS.DSIT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dsit,UK Intellectual Property Office,,,map,BIS.DSIT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dsit,UK Research and Innovation (UKRI),,,map,URI,name_variant,,
+dsit,UK Space Agency,,,map,BIS.DSIT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+dsit,UKRI,,,map,URI,name_variant,,
+dwp,Construction Industry Training Board,,,map,CIT,name,,
+dwp,Department for Work and Pensions,,,map,DWP,name,,
+dwp,Engineering Construction Industry Training Board,,,map,EIT,name,,
+dwp,Health and Safety Executive,,,map,HSE,name,,
+dwp,Money & Pensions Service,,,map,SFG,name,,
+dwp,Single Financial Guidance Body,,,map,SFG,name,,
+dwp,The Pensions Advisory Service,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+dwp,The Pensions Regulator,,,map,TPR,name,,
+fcdo,British Council,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+fcdo,Commonwealth Scholarship Commission,,,map,CSC,name,,
+fcdo,FCDO Services,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+fcdo,FCO Services,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+fcdo,Foreign and Commonwealth Office,,2020-08,map,FCO,name,,
+fcdo,"Foreign, Commonwealth & Development Office",2020-09,,map,DID.FCDO,name,,
+fcdo,Great Britain - China Centre,,,map,GBC,name,,
+fcdo,Independent Commission for Aid Impact,,,map,ICA,name,,
+fcdo,Marshall Aid Commemoration Commission,,,map,MAC,name,,
+fcdo,Westminster Foundation for Democracy,,,map,WFD,name,,
+fcdo,Wilton Park Executive Agency,,2020-08,map,FCO,agency_into_parent,,executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption)
+fcdo,Wilton Park Executive Agency,2020-09,,map,DID.FCDO,agency_into_parent,,executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption)
+fsa,Food Standards Agency,,,map,FSA,name,,
+hmlr,*includes apprenticeship levies,,,exclude,,,"HM Land Registry is published twice for these months, here and in the BEIS series; the BEIS copy is the one counted",
+hmlr,HM Land Registry,,,exclude,,,"HM Land Registry is published twice for these months, here and in the BEIS series; the BEIS copy is the one counted",
+hmrc,HM Revenue and Customs,,,map,HMR,name,,
+hmrc,HM Revenue and Customs combined total,,,exclude,,,a total row (the published organisations already sum to it); counting it would double count,
+hmrc,Valuation Office,,,map,HMR,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+hmrc,Valuation Office Agency,,,map,HMR,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+hmt,Debt Management Office,,,map,HMT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+hmt,Government Internal Audit Agency,,,map,HMT,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+hmt,HM Treasury,,,map,HMT,name,,
+hmt,National Infrastructure Commission,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+hmt,Office for Budget Responsibility,,,map,OBR,name,,
+hmt,Office of Budget Responsibility,,,map,OBR,name_variant,,
+hmt,OTHER,,,exclude,,,the template's catch-all 'OTHER'; it names no organisation,
+hmt,UK Government Investments,,,map,UKG087,name_variant,,
+mhclg,Department for Communities and Local Government,,,exclude,,,reviewed: OSCAR splits the core department into two organisations (COM and LGV) and nothing in the file says how to split a row between them,
+mhclg,"Department for Levelling Up, Housing and Communities",,,exclude,,,reviewed: OSCAR splits the core department into two organisations (COM and LGV) and nothing in the file says how to split a row between them,
+mhclg,Ebbsfleet Development Corporation,,,map,EBF,name,,
+mhclg,HM Land Registry,,,map,HML,name,,
+mhclg,Homes and Communities Agency,,,map,HCA,name_variant,,
+mhclg,Homes England,,,map,HCA,name,,
+mhclg,Housing Ombudsman Service,,,map,THO,name_variant,,
+mhclg,Land Registry,,,map,HML,name_variant,,
+mhclg,Leasehold Advisory Service,,,map,LAS,name,,
+mhclg,Ministry for Housing Communities and Local Government,,,exclude,,,reviewed: OSCAR splits the core department into two organisations (COM and LGV) and nothing in the file says how to split a row between them,
+mhclg,Ministry of Housing Communities and Local Government,,,exclude,,,reviewed: OSCAR splits the core department into two organisations (COM and LGV) and nothing in the file says how to split a row between them,
+mhclg,Planning Inspectorate,,,map,IPC,name_variant,,
+mhclg,Queen Elizabeth II Conference Centre,,,exclude,,,reviewed: no organisation of its own in the OSCAR dimension by name; not counted in any other organisation,
+mhclg,Regulator of Social Housing,,,map,RSH,name,,
+mhclg,Valuation Tribunal Service,,,map,VTL,name_variant,,
+mod,Defence Electronics and Components Agency,,,map,MOD,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+mod,Defence Equipment and Support,,,map,MOD,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+mod,Defence Science and Technology Laboratory,,,map,MOD,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+mod,Ministry of Defence,,,map,MOD,name,,
+mod,National Army Museum,,,map,NAM,name,,
+mod,National Museum of the Royal Navy,,,map,NRN,name,,
+mod,Royal Air Force Museum,,,map,RAF,name,,
+mod,Royal Fleet Auxiliary,,,map,MOD,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+mod,Submarine Delivery Agency,,,map,MOD,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+mod,UK Hydrographic Office,,,map,MOD,agency_into_parent,,"executive agency with no OSCAR organisation of its own; counted in its parent department (an assumption, not checked against the OSCAR lines)"
+nca,National Crime Agency,,,map,NCA,name,,
+ukef,Export Credits Guarantee Department,,,map,ECG,name,,
+ukef,OTHER,,,exclude,,,the template's catch-all 'OTHER'; it names no organisation,
+ukef,UK Export Finance,,,map,ECG,name_variant,,
