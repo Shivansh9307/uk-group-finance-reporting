@@ -35,6 +35,7 @@ Prefix ranges are reserved per task so that parallel branches never collide:
 | 780-799 | the data-control views the report reads (`dw.v_model_file_control`, `v_model_plan_coverage`, and in scope full the annual, PSS and load controls) and their tests. The files sit in `sql/audit/` because the views read audit tables, which are built after `dw`; see [docs/model.md](../docs/model.md) |
 | 800-819 | the plan variance reconciliation: `audit.plan_variance_reconciliation` and `audit.pesa_2026_basis_change` (scope full), the view the model reads (`dw.v_model_plan_variance`) and their tests, plus the tests of the FY2022-23 combined-group rule (`dw.plan_group_rule`, built in `sql/dw/552`) and of the annual AME basis; see [docs/reconciliation.md](../docs/reconciliation.md) |
 | 820-839 | the synthetic user map and the security roles: `sql/synthetic/820` creates `synthetic.user_department` (loaded from `synthetic/user_department.csv` by the synthetic stage), `sql/dw/820` the two views the model reads for the roles (`dw.v_model_user_department`, `dw.v_model_user_plan_group`), and `sql/tests/820` to `823` their tests; see [docs/security.md](../docs/security.md) |
+| 100-149 | the NHS trust accounts (TAC): landing tables, staging, the provider, line and fact tables, the file controls and the audit tables, and their tests (scope full); see [docs/data-dictionary/tac.md](../docs/data-dictionary/tac.md) |
 
 ## Phases
 

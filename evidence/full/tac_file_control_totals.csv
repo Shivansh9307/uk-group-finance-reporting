@@ -1,0 +1,339 @@
+release,filename,provider_type,worksheet_name,loaded,rows_expected,rows_read,rows_loaded,rows_rejected,value_sum_expected,value_sum_raw,difference,value_sum_stg,rounded_sum_raw,difference_stg,rows_unmapped,rows_fact,value_sum_fact,difference_fact,status
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC02 SoCI,1,9834,9834,9834,0,-6169119.11574,-6169119.11574,0,-6169119.1139,-6169119.1139,0,0,9834,-6169119.1139,0,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC03 SoFP,1,11622,11622,11622,0,258169836.61044,258169836.61044,0,258169836.612,258169836.612,0,0,11622,258169836.612,0,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC04 SOCIE,0,81801,81801,0,0,199258183.21722,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC05 SoCF,1,17880,17880,17880,0,32791609.81161,32791609.81161,0,32791609.8151,32791609.8151,0,0,17880,32791609.8151,0,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC06 Op Inc 1,0,11920,11920,0,0,516947067.06754,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC07 Op Inc 2,0,10728,10728,0,0,269419024.89065,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC08 Op Exp,0,19072,19072,0,0,355126694.61994,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC09 Staff,0,46190,46190,0,0,461100510.73428,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC10 Op leases,0,13112,13112,0,0,28493450.51527,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC11 Finance & other,0,15794,15794,0,0,4667180.2758,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC12 Impairment,0,9834,9834,0,0,11180005.40846,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC13 Intangibles,0,126948,126948,0,0,28118669.33614,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC14 PPE,0,133206,133206,0,0,654578069.32907,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC15 Investments & groups,0,32184,32184,0,0,2730778.22905,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC16 AHFS,0,47084,47084,0,0,365988.90276,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC17 Inventories,0,29204,29204,0,0,9732774.50835,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC18 Receivables,0,37399,37399,0,0,44088346.14528,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC19 CCE,0,10430,10430,0,0,60373882.55694,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC20 Payables,0,15198,15198,0,0,48419579.0976,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC21 Borrowings,0,41124,41124,0,0,184976875.03445,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC22 Provisions,0,34866,34866,0,0,203096942.15199,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC23 Reval Res,0,19370,19370,0,0,57361793.34416,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC24 On-SoFP PFI,0,32184,32184,0,0,322768690.04396,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC25 Off-SoFP PFI,0,5364,5364,0,0,90660,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC26 Pension,0,12516,12516,0,0,-672720,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC27 Fin Inst,0,28906,28906,0,0,311977273.9432,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC28 Disclosures,0,10430,10430,0,0,7011478.62022,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2019-20.xlsx,NHS foundation trust,TAC29 Losses+SP,0,24138,24138,0,0,533124.93321,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC02 SoCI,1,5016,5016,5016,0,-19609768.44373,-19609768.44373,0,-19609768.4418,-19609768.4418,0,0,5016,-19609768.4418,0,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC03 SoFP,1,5928,5928,5928,0,89050182.44069,89050182.44069,0,89050182.4417,89050182.4417,0,0,5928,89050182.4417,0,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC04 SOCIE,0,41724,41724,0,0,64774290.6078,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC05 SoCF,1,9120,9120,9120,0,6434922.2374,6434922.2374,0,6434922.2391,6434922.2391,0,0,9120,6434922.2391,0,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC06 Op Inc 1,0,6080,6080,0,0,264363343.21124,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC07 Op Inc 2,0,5472,5472,0,0,134592650.40858,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC08 Op Exp,0,9728,9728,0,0,182279249.74806,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC09 Staff,0,23560,23560,0,0,236740204.87994,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC10 Op leases,0,6688,6688,0,0,11774176.60901,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC11 Finance & other,0,8056,8056,0,0,3585500.37131,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC12 Impairment,0,5016,5016,0,0,5766113.88436,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC13 Intangibles,0,64752,64752,0,0,13406603.53398,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC14 PPE,0,67944,67944,0,0,374601591.36949,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC15 Investments & groups,0,16416,16416,0,0,310165,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC16 AHFS,0,24016,24016,0,0,70350.46,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC17 Inventories,0,14896,14896,0,0,5421449.82748,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC18 Receivables,0,19076,19076,0,0,20480302.80303,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC19 CCE,0,5320,5320,0,0,13327733.08008,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC20 Payables,0,7752,7752,0,0,20775015.94423,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC21 Borrowings,0,20824,20824,0,0,151142430.21339,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC22 Provisions,0,17784,17784,0,0,27858540.22097,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC23 Reval Res,0,9880,9880,0,0,30577787.00728,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC24 On-SoFP PFI,0,16416,16416,0,0,286683583.32274,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC25 Off-SoFP PFI,0,2736,2736,0,0,368740,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC26 Pension,0,6384,6384,0,0,7220,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC27 Fin Inst,0,14744,14744,0,0,189565467.22211,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC28 Disclosures,0,11248,11248,0,0,260071391.25127,,,,,,0,0,,,pass
+2019-20,TAC-data-published-in-NHS-trusts-accounts-for-2019-20.xlsx,NHS trust,TAC29 Losses+SP,0,12312,12312,0,0,391818.42071,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC02 SoCI,1,9768,9768,9768,0,-7210896.28433,-7210896.28433,0,-7210896.2858,-7210896.2858,0,0,9768,-7210896.2858,0,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC03 SoFP,1,11544,11544,11544,0,309423962.31978,309423962.31978,0,309423962.3206,309423962.3206,0,0,11544,309423962.3206,0,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC04 SOCIE,0,79920,79920,0,0,235405899.72554,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC05 SoCF,1,17760,17760,17760,0,53567663.36262,53567663.36262,0,53567663.3661,53567663.3661,0,0,17760,53567663.3661,0,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC06 Op Inc 1,0,10064,10064,0,0,574291141.91364,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC07 Op Inc 2,0,10656,10656,0,0,304169342.70725,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC08 Op Exp,0,21164,21164,0,0,399659320.37552,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC09 Staff,0,46768,46768,0,0,687258967.36515,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC10 Op leases,0,13024,13024,0,0,31212054.79565,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC11 Finance & other,0,15688,15688,0,0,3751027.14675,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC12 Impairment,0,9768,9768,0,0,14021107.77447,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC13 Intangibles,0,126096,126096,0,0,32833728.54095,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC14 PPE,0,135272,135272,0,0,692981127.55139,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC15 Investments & groups,0,30192,30192,0,0,2789808.73508,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC16 AHFS,0,46768,46768,0,0,349433.8794,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC17 Inventories,0,38924,38924,0,0,10528601.6196,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC18 Receivables,0,36408,36408,0,0,37271071.94454,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC19 CCE,0,10360,10360,0,0,89939533.5988,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC20 Payables,0,15392,15392,0,0,60176874.743,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC21 Borrowings,0,38184,38184,0,0,142665745.2724,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC22 Provisions,0,34632,34632,0,0,50583854.8534,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC23 Reval Res,0,19240,19240,0,0,57691050.97322,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC24 On-SoFP PFI,0,31968,31968,0,0,318305699.78178,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC25 Off-SoFP PFI,0,5328,5328,0,0,83438,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC26 Pension,0,12432,12432,0,0,-710959,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC27 Fin Inst,0,26640,26640,0,0,571424277.7323,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC28 Disclosures,0,10360,10360,0,0,8624926.76556,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-foundation-trust-accounts-for-2020-21.xlsx,NHS foundation trust,TAC29 Losses+SP,0,26936,26936,0,0,596902.17994,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC02 SoCI,1,4686,4686,4686,0,-8196824.30804,-8196824.30804,0,-8196824.3059,-8196824.3059,0,0,4686,-8196824.3059,0,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC03 SoFP,1,5538,5538,5538,0,130379703.27087,130379703.27087,0,130379703.271,130379703.271,0,0,5538,130379703.271,0,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC04 SOCIE,0,38340,38340,0,0,93525241.40358,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC05 SoCF,1,8520,8520,8520,0,16745962.8873,16745962.8873,0,16745962.8891,16745962.8891,0,0,8520,16745962.8891,0,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC06 Op Inc 1,0,4828,4828,0,0,288196213.536,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC07 Op Inc 2,0,5112,5112,0,0,150916849.80138,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC08 Op Exp,0,10153,10153,0,0,199103280.18912,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC09 Staff,0,22436,22436,0,0,344795651.86007,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC10 Op leases,0,6248,6248,0,0,12978843.02197,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC11 Finance & other,0,7526,7526,0,0,2722735.57965,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC12 Impairment,0,4686,4686,0,0,5952279.66134,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC13 Intangibles,0,60492,60492,0,0,15191328.54576,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC14 PPE,0,64894,64894,0,0,384132006.68352,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC15 Investments & groups,0,14484,14484,0,0,293084,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC16 AHFS,0,22436,22436,0,0,116815.1,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC17 Inventories,0,18673,18673,0,0,5719014.06048,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC18 Receivables,0,17466,17466,0,0,17463304.46437,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC19 CCE,0,4970,4970,0,0,25689470.82232,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC20 Payables,0,7384,7384,0,0,25053165.31792,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC21 Borrowings,0,18318,18318,0,0,106229226.13048,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC22 Provisions,0,16614,16614,0,0,31000197.50101,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC23 Reval Res,0,9230,9230,0,0,31444582.99476,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC24 On-SoFP PFI,0,15336,15336,0,0,263785927.9179,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC25 Off-SoFP PFI,0,2556,2556,0,0,270758,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC26 Pension,0,5964,5964,0,0,4916,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC27 Fin Inst,0,12780,12780,0,0,296970858.86903,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC28 Disclosures,0,10721,10721,0,0,292239129.45425,,,,,,0,0,,,pass
+2020-21,TAC-data-published-in-NHS-trust-accounts-for-2020-21.xlsx,NHS trust,TAC29 Losses+SP,0,12922,12922,0,0,475896.04904,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC02 SoCI,1,9570,9570,9570,0,10762944.64583,10762944.64583,0,10762944.644,10762944.644,0,0,9570,10762944.644,0,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC03 SoFP,1,11310,11310,11310,0,387751177.712,387751177.712,0,387751177.7132,387751177.7132,0,0,11310,387751177.7132,0,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC04 SOCIE,0,78300,78300,0,0,287134473.99283,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC05 SoCF,1,17400,17400,17400,0,72844822.94652,72844822.94652,0,72844822.9488,72844822.9488,0,0,17400,72844822.9488,0,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC06 Op Inc 1,0,10730,10730,0,0,656846805.32243,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC07 Op Inc 2,0,10150,10150,0,0,337433914.0286,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC08 Op Exp,0,20300,20300,0,0,446355260.63689,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC09 Staff,0,45820,45820,0,0,760231006.61991,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC10 Op leases,0,12760,12760,0,0,37294835.6801,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC11 Finance & other,0,15370,15370,0,0,3248756.22535,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC12 Impairment,0,9570,9570,0,0,12169849.92022,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC13 Intangibles,0,123540,123540,0,0,38983992.35919,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC14 PPE,0,138330,138330,0,0,754100370.14783,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC15 Investments & groups,0,29580,29580,0,0,2900357.15486,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC16 AHFS,0,45820,45820,0,0,407343.2804,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC17 Inventories,0,39440,39440,0,0,11162550.31514,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC18 Receivables,0,35670,35670,0,0,31008122.79598,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC19 CCE,0,10150,10150,0,0,125939991.52315,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC20 Payables,0,15080,15080,0,0,75674242.97375,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC21 Borrowings,0,37410,37410,0,0,104568553.8875,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC22 Provisions,0,36830,36830,0,0,69429399.42978,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC23 Reval Res,0,18850,18850,0,0,62230493.87596,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC24 On-SoFP PFI,0,31320,31320,0,0,315365623.43896,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC25 Off-SoFP PFI,0,5220,5220,0,0,76400,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC26 Pension,0,12180,12180,0,0,-738961,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC27 Fin Inst,0,26100,26100,0,0,575239661.50068,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC28 Disclosures,0,11600,11600,0,0,12583133.07438,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2021-22.xlsx,NHS foundation trust,TAC29 Losses+SP,0,25810,25810,0,0,1038418.13925,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC02 SoCI,1,4620,4620,4620,0,-1436805.24631,-1436805.24631,0,-1436805.2455,-1436805.2455,0,0,4620,-1436805.2455,0,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC03 SoFP,1,5460,5460,5460,0,176915413.34607,176915413.34607,0,176915413.347,176915413.347,0,0,5460,176915413.347,0,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC04 SOCIE,0,37800,37800,0,0,123751243.34026,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC05 SoCF,1,8400,8400,8400,0,25966021.90405,25966021.90405,0,25966021.9051,25966021.9051,0,0,8400,25966021.9051,0,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC06 Op Inc 1,0,5180,5180,0,0,317158638.97978,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC07 Op Inc 2,0,4900,4900,0,0,159471934.33396,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC08 Op Exp,0,9800,9800,0,0,211368447.15194,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC09 Staff,0,22120,22120,0,0,363756462.07513,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC10 Op leases,0,6160,6160,0,0,15158918.09288,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC11 Finance & other,0,7420,7420,0,0,2193962.24268,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC12 Impairment,0,4620,4620,0,0,4411722.05,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC13 Intangibles,0,59640,59640,0,0,17049552.54012,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC14 PPE,0,66780,66780,0,0,390292098.8716,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC15 Investments & groups,0,14280,14280,0,0,226160,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC16 AHFS,0,22120,22120,0,0,99631.816,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC17 Inventories,0,19040,19040,0,0,5740442.55958,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC18 Receivables,0,17220,17220,0,0,13446939.91169,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC19 CCE,0,4900,4900,0,0,41241316.0752,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC20 Payables,0,7280,7280,0,0,29762769.11792,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC21 Borrowings,0,18060,18060,0,0,67129261.82344,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC22 Provisions,0,17780,17780,0,0,37463742.34403,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC23 Reval Res,0,9100,9100,0,0,32729528.12964,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC24 On-SoFP PFI,0,15120,15120,0,0,253954664.63218,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC25 Off-SoFP PFI,0,2520,2520,0,0,178980,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC26 Pension,0,5880,5880,0,0,661,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC27 Fin Inst,0,12600,12600,0,0,252526958.3352,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC28 Disclosures,0,11690,11690,0,0,321617987.2025,,,,,,0,0,,,pass
+2021-22,TAC-data-published-in-NHS-trusts-accounts-for-2021-22.xlsx,NHS trust,TAC29 Losses+SP,0,12460,12460,0,0,694526.77351,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC00 - IFRS 16 Transition,0,3744,3744,0,0,21967220.68836,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC02 SoCI,1,9504,9504,9504,0,5538151.01032,5538151.01032,0,5538151.0106,5538151.0106,0,0,9504,5538151.0106,0,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC03 SoFP,1,11520,11520,11520,0,431595481.35822,431595481.35822,0,431595481.36,431595481.36,0,0,11520,431595481.36,0,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC04 SOCIE,0,80352,80352,0,0,333988456.96882,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC05 SoCF,1,18432,18432,18432,0,64212105.15365,64212105.15365,0,64212105.1533,64212105.1533,0,0,18432,64212105.1533,0,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC06 Op Inc 1,0,11232,11232,0,0,743445235.88138,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC07 Op Inc 2,0,12384,12384,0,0,361930992.47727,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC08 Op Exp,0,21600,21600,0,0,500664585.89106,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC09 Staff,0,50976,50976,0,0,855789192.71367,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC10X IAS 17 comparatives,0,6912,6912,0,0,20802459.27948,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC11 Finance & other,0,17856,17856,0,0,3913997.88795,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC12 Impairment,0,11232,11232,0,0,10015243.04507,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC13 Intangibles,0,124272,124272,0,0,45303793.28702,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC14 PPE,0,147456,147456,0,0,820217299.97831,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC14A RoU Assets,0,79200,79200,0,0,43768388.47372,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC15 Investments & groups,0,34848,34848,0,0,3276164.49326,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC16 AHFS,0,45504,45504,0,0,429399.05484,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC17 Inventories,0,41616,41616,0,0,12085682.2326,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC18 Receivables,0,30528,30528,0,0,39504194.85206,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC19 CCE,0,10080,10080,0,0,129095235.46043,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC20 Payables,0,15264,15264,0,0,86605871.10124,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC21 Borrowings,0,32832,32832,0,0,146714619.64199,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC22 Provisions,0,44064,44064,0,0,70540738.58048,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC24 On-SoFP PFI,0,31104,31104,0,0,322436318.49906,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC25 Off-SoFP PFI,0,5184,5184,0,0,75158,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC26 Pension,0,12096,12096,0,0,-232598.6,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC27 Fin Inst,0,25920,25920,0,0,652500245.5871,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC28 Disclosures,0,11808,11808,0,0,12298002.1061,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2022-23.xlsx,NHS foundation trust,TAC29 Losses+SP,0,23040,23040,0,0,1946923.75315,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC00 - IFRS 16 Transition,0,1768,1768,0,0,8338870.98612,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC02 SoCI,1,4488,4488,4488,0,1511692.75037,1511692.75037,0,1511692.7503,1511692.7503,0,0,4488,1511692.7503,0,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC03 SoFP,1,5440,5440,5440,0,191834369.73381,191834369.73381,0,191834369.7352,191834369.7352,0,0,5440,191834369.7352,0,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC04 SOCIE,0,37944,37944,0,0,147376741.65704,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC05 SoCF,1,8704,8704,8704,0,21875489.9957,21875489.9957,0,21875489.9956,21875489.9956,0,0,8704,21875489.9956,0,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC06 Op Inc 1,0,5304,5304,0,0,343170473.36155,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC07 Op Inc 2,0,5848,5848,0,0,163732590.49993,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC08 Op Exp,0,10200,10200,0,0,222165848.50359,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC09 Staff,0,24072,24072,0,0,392599773.17286,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC10X IAS 17 comparatives,0,3264,3264,0,0,8463046.34942,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC11 Finance & other,0,8432,8432,0,0,2400755.14612,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC12 Impairment,0,5304,5304,0,0,3232213.80928,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC13 Intangibles,0,58684,58684,0,0,18157573.75986,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC14 PPE,0,69632,69632,0,0,411183712.6602,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC14A RoU Assets,0,37400,37400,0,0,15795912.24535,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC15 Investments & groups,0,16456,16456,0,0,228095.32,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC16 AHFS,0,21488,21488,0,0,54969.702,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC17 Inventories,0,19652,19652,0,0,5953861.0414,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC18 Receivables,0,14416,14416,0,0,16952279.09196,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC19 CCE,0,4760,4760,0,0,42267776.62481,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC20 Payables,0,7208,7208,0,0,33709767.49792,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC21 Borrowings,0,15504,15504,0,0,76955907.86713,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC22 Provisions,0,20808,20808,0,0,36958480.2954,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC24 On-SoFP PFI,0,14688,14688,0,0,252141856.93754,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC25 Off-SoFP PFI,0,2448,2448,0,0,70346,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC26 Pension,0,5712,5712,0,0,0,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC27 Fin Inst,0,12240,12240,0,0,278399537.97418,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC28 Disclosures,0,12036,12036,0,0,344451969.63562,,,,,,0,0,,,pass
+2022-23,TAC-data-published-in-NHS-trusts-accounts-for-2022-23.xlsx,NHS trust,TAC29 Losses+SP,0,10880,10880,0,0,571904.59457,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC02 SoCI,1,9240,9240,9240,0,-32731958.32111,-32731958.32111,0,-32731958.3204,-32731958.3204,0,0,9240,-32731958.3204,0,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC03 SoFP,1,11200,11200,11200,0,428541581.41626,428541581.41626,0,428541581.4191,428541581.4191,0,0,11200,428541581.4191,0,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC04 SOCIE,0,79380,79380,0,0,334682915.45239,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC05 SoCF,1,17920,17920,17920,0,46624770.32853,46624770.32853,0,46624770.3286,46624770.3286,0,0,17920,46624770.3286,0,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC06 Op Inc 1,0,11200,11200,0,0,786138131.73533,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC07 Op Inc 2,0,12320,12320,0,0,381735547.42391,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC08 Op Exp,0,20160,20160,0,0,536690374.53621,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC09 Staff,0,49560,49560,0,0,917062608.02831,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC11 Finance & other,0,17360,17360,0,0,7159546.15883,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC12 Impairment,0,9240,9240,0,0,21328416.90928,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC13 Intangibles,0,119280,119280,0,0,49502474.47104,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC14 PPE,0,141960,141960,0,0,844765668.86931,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC14A RoU Assets,0,65800,65800,0,0,44921367.38117,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC14X RoU Assets PY,0,69580,69580,0,0,43466956.56386,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC15 Investments & groups,0,36400,36400,0,0,3494929.26364,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC16 AHFS,0,44240,44240,0,0,477172.95476,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC17 Inventories,0,38080,38080,0,0,12957036.82653,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC18 Receivables,0,42560,42560,0,0,43974602.0816,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC19 CCE,0,9800,9800,0,0,107305850.18374,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC20 Payables,0,14840,14840,0,0,84140620.92121,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC21 Borrowings,0,37380,37380,0,0,210113615.77297,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC22 Provisions,0,36400,36400,0,0,53415988.93662,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC24 On-SoFP PFI,0,36260,36260,0,0,312446761.58485,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC25 Off-SoFP PFI,0,5040,5040,0,0,68964,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC26 Pension,0,11760,11760,0,0,207358.35,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC27 Fin Inst,0,25200,25200,0,0,676911499.64276,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC28 Disclosures,0,11480,11480,0,0,12994618.10031,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2023-24.xlsx,NHS foundation trust,TAC29 Losses+SP,0,22400,22400,0,0,642619.7464,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC02 SoCI,1,4356,4356,4356,0,-12704493.28692,-12704493.28692,0,-12704493.2871,-12704493.2871,0,0,4356,-12704493.2871,0,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC03 SoFP,1,5280,5280,5280,0,185251234.4543,185251234.4543,0,185251234.456,185251234.456,0,0,5280,185251234.456,0,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC04 SOCIE,0,37422,37422,0,0,142564600.23194,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC05 SoCF,1,8448,8448,8448,0,15257320.57048,15257320.57048,0,15257320.5704,15257320.5704,0,0,8448,15257320.5704,0,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC06 Op Inc 1,0,5280,5280,0,0,355948006.10666,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC07 Op Inc 2,0,5808,5808,0,0,169351836.54093,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC08 Op Exp,0,9504,9504,0,0,231948623.48057,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC09 Staff,0,23364,23364,0,0,413681360.44867,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC11 Finance & other,0,8184,8184,0,0,4854330.32984,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC12 Impairment,0,4356,4356,0,0,6109976.513,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC13 Intangibles,0,56232,56232,0,0,19186159.54998,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC14 PPE,0,66924,66924,0,0,419116118.8158,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC14A RoU Assets,0,31020,31020,0,0,18749830.21298,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC14X RoU Assets PY,0,32802,32802,0,0,16576840.6,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC15 Investments & groups,0,17160,17160,0,0,604960.3,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC16 AHFS,0,20856,20856,0,0,25211.9,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC17 Inventories,0,17952,17952,0,0,6117675.68887,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC18 Receivables,0,20064,20064,0,0,18538001.06991,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC19 CCE,0,4620,4620,0,0,33848834.40882,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC20 Payables,0,6996,6996,0,0,33299038.29352,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC21 Borrowings,0,17622,17622,0,0,109424742.72812,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC22 Provisions,0,17160,17160,0,0,27035076.64242,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC24 On-SoFP PFI,0,17094,17094,0,0,249942024.03709,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC25 Off-SoFP PFI,0,2376,2376,0,0,0,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC26 Pension,0,5544,5544,0,0,0,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC27 Fin Inst,0,11880,11880,0,0,306596015.20142,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC28 Disclosures,0,12276,12276,0,0,375739999.83862,,,,,,0,0,,,pass
+2023-24,TAC-data-published-in-NHS-trusts-accounts-for-2023-24.xlsx,NHS trust,TAC29 Losses+SP,0,10560,10560,0,0,445112.54422,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC02 SoCI,1,9024,9024,9024,0,-41034514.94614,-41034514.94614,0,-41034514.9462,-41034514.9462,0,0,9024,-41034514.9462,0,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC03 SoFP,1,11280,11280,11280,0,421601127.07338,421601127.07338,0,421601127.0781,421601127.0781,0,0,11280,421601127.0781,0,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC04 SOCIE,0,79947,79947,0,0,334280536.89167,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC05 SoCF,1,18048,18048,18048,0,40922490.05537,40922490.05537,0,40922490.0582,40922490.0582,0,0,18048,40922490.0582,0,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC06 Op Inc 1,0,10716,10716,0,0,840551388.27739,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC07 Op Inc 2,0,12126,12126,0,0,405649556.72769,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC08 Op Exp,0,20304,20304,0,0,561183930.86896,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC09 Staff,0,49914,49914,0,0,980901834.02045,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC11 Finance & other,0,17766,17766,0,0,7754458.99551,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC12 Impairment,0,9306,9306,0,0,28470742.29537,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC13 Intangibles,0,116748,116748,0,0,52901979.02093,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC14 PPE,0,137334,137334,0,0,857107230.43395,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC14A RoU Assets,0,66270,66270,0,0,48066040.92365,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC14X RoU Assets PY,0,71346,71346,0,0,60604795.61171,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC15 Investments & groups,0,34968,34968,0,0,3616638.25917,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC16 AHFS,0,44556,44556,0,0,643559.16306,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC17 Inventories,0,34968,34968,0,0,13286731.83358,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC18 Receivables,0,42582,42582,0,0,40694427.89914,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC19 CCE,0,9870,9870,0,0,93210252.99058,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC20 Payables,0,14946,14946,0,0,78021788.52447,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC21 Borrowings,0,37647,37647,0,0,230436518.49585,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC22 Provisions,0,39198,39198,0,0,48669950.0068,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC24 On-SoFP PFI,0,30456,30456,0,0,319517243.5147,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC25 Off-SoFP PFI,0,5076,5076,0,0,46506,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC26 Pension,0,11844,11844,0,0,179558.66,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC27 Fin Inst,0,25380,25380,0,0,644967680.86745,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC28 Disclosures,0,11562,11562,0,0,13476083.37617,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-foundation-trusts-accounts-for-2024-25.xlsx,NHS foundation trust,TAC29 Losses+SP,0,22560,22560,0,0,647380.39563,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC02 SoCI,1,4224,4224,4224,0,-26983344.75396,-26983344.75396,0,-26983344.7543,-26983344.7543,0,0,4224,-26983344.7543,0,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC03 SoFP,1,5280,5280,5280,0,175075449.77229,175075449.77229,0,175075449.7744,175075449.7744,0,0,5280,175075449.7744,0,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC04 SOCIE,0,37422,37422,0,0,136787390.71912,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC05 SoCF,1,8448,8448,8448,0,13439165.24206,13439165.24206,0,13439165.2435,13439165.2435,0,0,8448,13439165.2435,0,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC06 Op Inc 1,0,5016,5016,0,0,393961611.33523,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC07 Op Inc 2,0,5676,5676,0,0,185590408.28975,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC08 Op Exp,0,9504,9504,0,0,257611031.45525,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC09 Staff,0,23364,23364,0,0,458120878.30781,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC11 Finance & other,0,8316,8316,0,0,6026076.41848,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC12 Impairment,0,4356,4356,0,0,10497293.67062,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC13 Intangibles,0,54648,54648,0,0,20918228.9335,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC14 PPE,0,64284,64284,0,0,429267376.30227,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC14A RoU Assets,0,31020,31020,0,0,20484573.29534,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC14X RoU Assets PY,0,33396,33396,0,0,24584567.11311,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC15 Investments & groups,0,16368,16368,0,0,616366.08,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC16 AHFS,0,20856,20856,0,0,73043.6,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC17 Inventories,0,16368,16368,0,0,6665038.4473,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC18 Receivables,0,19932,19932,0,0,17162422.50099,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC19 CCE,0,4620,4620,0,0,29519740.8249,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC20 Payables,0,6996,6996,0,0,31675370.919,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC21 Borrowings,0,17622,17622,0,0,135014130.51788,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC22 Provisions,0,18348,18348,0,0,26061654.05153,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC24 On-SoFP PFI,0,14256,14256,0,0,288038556.40892,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC25 Off-SoFP PFI,0,2376,2376,0,0,0,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC26 Pension,0,5544,5544,0,0,0,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC27 Fin Inst,0,11880,11880,0,0,326335666.6277,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC28 Disclosures,0,12408,12408,0,0,418667581.87805,,,,,,0,0,,,pass
+2024-25,TAC-data-published-in-NHS-trusts-accounts-for-2024-25.xlsx,NHS trust,TAC29 Losses+SP,0,10560,10560,0,0,640697.80593,,,,,,0,0,,,pass

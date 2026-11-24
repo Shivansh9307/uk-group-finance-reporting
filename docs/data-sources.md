@@ -25,12 +25,13 @@ All sources are published under the Open Government Licence v3.0 (see
 | `pesa` | PESA Chapter 1 tables 2022 to 2026, the PESA 2025 December update, and the Spending Review 2025 DEL tables | HM Treasury | [PESA collection](https://www.gov.uk/government/collections/public-expenditure-statistical-analyses-pesa); [SR25 supporting documents](https://www.gov.uk/government/publications/supporting-documents-for-spending-review-2025) | xlsx | AME and admin plans where they exist; Spending Review group names |
 | `pss` | Public Spending Statistics July 2026: database and Chapter 1 | HM Treasury | [PSS July 2026](https://www.gov.uk/government/statistics/public-spending-statistics-release-july-2026) | xlsx | Independent outturn cross-check on the data controls page |
 | `gdp_deflator` | GDP deflators at market prices, latest three releases (October 2026 Budget, September 2026 QNA, June 2026 QNA) | HM Treasury | [GDP deflators collection](https://www.gov.uk/government/collections/gdp-deflators-at-market-prices-and-money-gdp) | xlsx | Real-terms restatement; three vintages to show the base-year shift |
+| `tac` | NHS trust accounts consolidation (TAC) data, FY2019-20 to FY2024-25: one data workbook for NHS trusts and one for NHS foundation trusts each year, plus the illustrative form of each year | NHS England | [TAC data publications](https://www.england.nhs.uk/financial-accounting-and-reporting/nhs-providers-tac-data-publications/); the FY2019-20 files are on three publication pages linked from it | xlsx (17 to 39 MB each) | Statutory income statement, balance sheet and cash flow by NHS provider; the illustrative forms give the line text and sign |
 | `ons_cpi` | CPI index (D7BT) and CPI annual rate (D7G7) | Office for National Statistics | [D7BT](https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7bt/mm23), [D7G7](https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g7/mm23) | CSV generated on request | Price index for real-terms comparisons |
 | `workforce_mi` | Departmental workforce management information, monthly files from April 2018 (headcount, full-time equivalent and paybill by organisation), one gov.uk collection per department: FCDO (and the FCO before it), HM Treasury, HMRC, MOD, DfE, DfT, DWP, DHSC, Defra, DCMS, DSIT, DESNZ, BEIS, DBT, MHCLG (and MHCLG before and DLUHC), UKEF, FSA, CMA, NCA, HM Land Registry | Departments, under the Cabinet Office transparency requirement | The `... workforce management information` collections on gov.uk, listed in `data/manifest/sources.yml` | csv, xlsx, xls, ods | Full-time equivalent and paybill by organisation and month, for the pay bridge and for allocation weights |
 
-NHS trust accounts (TAC) are fetched later with the same tool and are not registered yet. The departmental
-workforce files are registered as `workforce_mi`; what they hold, which departments and months are there and
-what is missing is in [profiling/workforce.md](profiling/workforce.md).
+The NHS trust accounts (TAC) files are registered above. The departmental workforce files are registered as
+`workforce_mi`; what they hold, which departments and months are there and what is missing is in
+[profiling/workforce.md](profiling/workforce.md).
 
 ## How discovery works
 
@@ -45,8 +46,10 @@ what is there (**tested**, see below):
   title regex, a release window (`since`/`until`) or "latest N", and each page is then enumerated.
 - `url`: a fixed URL, for files that are not attachments (the ONS CSV generator).
 - `html_index`: links scraped from any HTML page by regex. This is for the NHS England TAC index,
-  which is not on gov.uk (**designed**: covered by a test against a fixture page, not yet used on
-  the real page).
+  which is not on gov.uk (**tested**: a fixture page in `pipeline/tests/test_discover.py`, and the
+  real page: `ukfr fetch --source tac` found and downloaded 18 files on 2026-11-24, results in
+  `data/manifest/files.csv`). The FY2019-20 files are not on the index page itself but on three publication pages, so
+  `tac` has four `html_index` entries.
 
 Every file gets a release label from a regex over the page title, path or file name (for example
 `2026-09` for the September 2026 in-year release, `2025-26-supps`, `2026-10-budget`). The first
