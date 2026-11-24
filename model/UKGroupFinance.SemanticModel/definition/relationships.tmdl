@@ -150,3 +150,19 @@ relationship dd1e11ff-2fbd-470a-921f-8c6bae103058
 relationship 992e49d5-b104-411a-859c-04ffdcc3c019
 	fromColumn: 'Pay Coverage'.'Period Key'
 	toColumn: 'Fiscal Period'.'Period Key'
+
+relationship a401567e-d184-444e-80b7-aad5f2c33cd5
+	fromColumn: 'Fact Forecast Accuracy (derived)'.'Department Key'
+	toColumn: 'Department (current structure)'.'Department Key'
+
+relationship 3979eee9-55fd-4925-a2bb-77c2aa9596e6
+	fromColumn: 'Fact Forecast Accuracy (derived)'.'Fiscal Year Key'
+	toColumn: 'Fiscal Year'.'Financial Year'
+
+relationship 861777a7-c5ff-40f6-9d9b-52d170491f0c
+	fromColumn: 'Fact Forecast Accuracy (derived)'.'Return Key'
+	toColumn: 'Forecast Return'.'Return Key'
+
+relationship 341683aa-5e8e-4aeb-a3cf-5b607acdffe7
+	fromColumn: 'Fact Forecast Accuracy (derived)'.'Method Key'
+	toColumn: 'Forecast Method'.'Method Key'

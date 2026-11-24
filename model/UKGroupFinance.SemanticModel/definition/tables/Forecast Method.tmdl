@@ -1,0 +1,48 @@
+/// Labels only, no number: the four forecast methods and what each one is. The department's own forecast is the real return; run rate, seasonal and FTE x cost are my own methods (FTE x cost is for the pay line only). Source view dw.v_model_forecast_method.
+table 'Forecast Method'
+	lineageTag: a68c8ee0-6fea-4db5-81ff-b50813ee3f4f
+
+	/// department, run_rate, seasonal or fte_cost.
+	column 'Method Key'
+		dataType: string
+		isKey
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: 1f3bc3cb-d70e-4322-ae9c-1c1facd28abf
+		summarizeBy: none
+		sourceColumn: method
+
+	/// 1 to 4: the order the methods are shown in.
+	column 'Method Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8719e5d6-82cd-4551-8abf-b8e1e9bd6ec1
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	/// The forecast method.
+	column Method
+		dataType: string
+		displayFolder: Forecast accuracy
+		lineageTag: 6712cda7-95d2-4d6f-bc7d-deb32376d2e0
+		summarizeBy: none
+		sourceColumn: method_name
+		sortByColumn: 'Method Order'
+
+	/// What the method forecasts and where it exists.
+	column Definition
+		dataType: string
+		displayFolder: Forecast accuracy
+		lineageTag: 96828507-794e-46ed-b6d6-707361d69e60
+		summarizeBy: none
+		sourceColumn: definition
+
+	partition 'Forecast Method' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_forecast_method"]}[Data]
+				in
+				    Data

@@ -121,6 +121,27 @@ BASE_MEASURES = {
     "Pay Paybill Published": ("Pay Coverage", r"Pay bridge\Coverage"),
     "Pay Paybill Mapped": ("Pay Coverage", r"Pay bridge\Coverage"),
     "Pay Coverage Months": ("Pay Coverage", r"Pay bridge\Coverage"),
+    "Forecast Abs Error": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Abs Error (excl. bad returns)": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Abs Outturn": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Abs Outturn (excl. bad returns)": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Error": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Error (excl. bad returns)": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast WAPE": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast WAPE (excl. bad returns)": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Bias": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Bias (excl. bad returns)": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Month WAPE": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Month WAPE (excl. bad returns)": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Month Bias": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Month Bias (excl. bad returns)": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast MAPE": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast MAPE (excl. bad returns)": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Cells": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Forecast Cells (excl. bad returns)": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Known Bad Return Cells": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "FTE x Cost Cell Coverage": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "FTE x Cost Pay Cover": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
 }
 GROUPS = {"Scenario Comparison": 10, "Time Intelligence": 20, "Display Unit": 30}
 
@@ -592,6 +613,27 @@ def test_no_pay_measure_is_scaled_by_the_display_unit(items, measures):
         expr = next(i for i in items if i.group == "Display Unit" and i.name == unit).expression
         for n in pay:
             assert f"[{n}]" not in expr, f"{unit}: {n} is in pounds, not GBP thousands"
+
+
+def test_no_forecast_measure_is_scaled_by_the_display_unit_and_every_excl_pair_uses_keepfilters(items, measures):
+    fc = [m for m in measures if m.table == "Fact Forecast Accuracy (derived)"]
+    assert len(fc) == 21
+    for unit in ("£k", "£m", "£bn"):
+        expr = next(i for i in items if i.group == "Display Unit" and i.name == unit).expression
+        for m in fc:
+            assert f"[{m.name}]" not in expr, f"{unit}: {m.name} is in GBP thousands and not scaled"
+    excl = [m for m in fc if m.name.endswith("(excl. bad returns)")]
+    assert len(excl) == 9
+    for m in excl:
+        assert "KEEPFILTERS" in m.expression and "[Known Bad Return] = FALSE ()" in m.expression, m.name
+
+
+def test_the_forecast_ratios_are_ratios_of_sums_and_never_an_average(measures):
+    by = {m.name: m.expression for m in measures}
+    for name in ("Forecast WAPE", "Forecast Bias", "Forecast Month WAPE", "Forecast Month Bias", "Forecast MAPE"):
+        e = by[name]
+        assert e.count("SUM (") == 2 and "DIVIDE (" in e, name
+        assert "AVERAGE" not in e and "SUMX" not in e, name
 
 
 def test_the_share_measures_are_blanked_under_year_on_year(items):

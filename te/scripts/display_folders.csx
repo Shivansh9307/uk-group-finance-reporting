@@ -107,7 +107,28 @@ var folderOf = new Dictionary<string, string>
     { "Pay Paybill Coverage", @"Pay bridge\Coverage" },
     { "Pay Paybill Published", @"Pay bridge\Coverage" },
     { "Pay Paybill Mapped", @"Pay bridge\Coverage" },
-    { "Pay Coverage Months", @"Pay bridge\Coverage" }
+    { "Pay Coverage Months", @"Pay bridge\Coverage" },
+    { "Forecast Abs Error", "Forecast accuracy" },
+    { "Forecast Abs Error (excl. bad returns)", "Forecast accuracy" },
+    { "Forecast Abs Outturn", "Forecast accuracy" },
+    { "Forecast Abs Outturn (excl. bad returns)", "Forecast accuracy" },
+    { "Forecast Error", "Forecast accuracy" },
+    { "Forecast Error (excl. bad returns)", "Forecast accuracy" },
+    { "Forecast WAPE", "Forecast accuracy" },
+    { "Forecast WAPE (excl. bad returns)", "Forecast accuracy" },
+    { "Forecast Bias", "Forecast accuracy" },
+    { "Forecast Bias (excl. bad returns)", "Forecast accuracy" },
+    { "Forecast Month WAPE", "Forecast accuracy" },
+    { "Forecast Month WAPE (excl. bad returns)", "Forecast accuracy" },
+    { "Forecast Month Bias", "Forecast accuracy" },
+    { "Forecast Month Bias (excl. bad returns)", "Forecast accuracy" },
+    { "Forecast MAPE", "Forecast accuracy" },
+    { "Forecast MAPE (excl. bad returns)", "Forecast accuracy" },
+    { "Forecast Cells", "Forecast accuracy" },
+    { "Forecast Cells (excl. bad returns)", "Forecast accuracy" },
+    { "Known Bad Return Cells", "Forecast accuracy" },
+    { "FTE x Cost Cell Coverage", "Forecast accuracy" },
+    { "FTE x Cost Pay Cover", "Forecast accuracy" }
 };
 const string RealTermsSuffix = " (real terms)";
 const string RealTermsFolder = "Real Terms";

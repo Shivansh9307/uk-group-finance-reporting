@@ -1,0 +1,39 @@
+/// Labels only, no number: the returns that are scored, R0 (before the year, nothing actual) to R12 (twelve months actual). R13 is the final outturn they are scored against and is not a row here. Source view dw.v_model_forecast_return.
+table 'Forecast Return'
+	lineageTag: bddae26f-e217-4b5c-a715-189e273a1b53
+
+	/// Return number, 0 to 12.
+	column 'Return Key'
+		dataType: int64
+		isKey
+		isHidden
+		formatString: 0
+		lineageTag: 57e4f7ba-5624-4cfc-a16f-9c3792163f5d
+		summarizeBy: none
+		sourceColumn: return_no
+
+	/// R0 to R12: the return made after month n of the year has closed (R0 before the year).
+	column Return
+		dataType: string
+		displayFolder: Forecast accuracy
+		lineageTag: 16949127-2756-4548-996f-3f18dbd2000b
+		summarizeBy: none
+		sourceColumn: return_label
+		sortByColumn: 'Return Key'
+
+	/// How many months are actual and how many are forecast in the return.
+	column 'Months Note'
+		dataType: string
+		displayFolder: Forecast accuracy
+		lineageTag: f7e159e9-f669-46d3-b2f1-88f13f6547b2
+		summarizeBy: none
+		sourceColumn: months_note
+
+	partition 'Forecast Return' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_forecast_return"]}[Data]
+				in
+				    Data

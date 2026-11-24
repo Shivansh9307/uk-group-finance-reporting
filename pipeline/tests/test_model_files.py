@@ -184,6 +184,7 @@ def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(t
     view_files += sorted((repo_root / "sql" / "audit").glob("80?_*.sql"))
     view_files += sorted((repo_root / "sql" / "audit").glob("15?_*.sql"))
     view_files += sorted((repo_root / "sql" / "audit").glob("90?_*.sql"))
+    view_files += sorted((repo_root / "sql" / "audit").glob("92?_*.sql"))
     view_files += sorted((repo_root / "sql" / "dw").glob("82?_*.sql"))
     sql_text = "\n".join(p.read_text(encoding="utf-8") for p in view_files)
     created = set(re.findall(r"CREATE VIEW dw\.(v_model_\w+)", sql_text))
@@ -242,9 +243,20 @@ def test_the_pay_bridge_is_labelled_derived_and_in_pounds(tables):
     assert visible and all(c.props.get("displayFolder") == "Derived" for c in visible)
 
 
+def test_the_forecast_accuracy_is_labelled_derived_and_has_no_organisation_level_pay(tables):
+    fact = tables["Fact Forecast Accuracy (derived)"]
+    assert fact.description.startswith("DERIVED"), "the accuracy fact must say DERIVED first"
+    assert "GBP thousands" in fact.description and "Ratios are ratios of sums" in fact.description
+    visible = [c for c in fact.columns.values() if "isHidden" not in c.flags]
+    assert visible and all(c.props.get("displayFolder") == "Derived" for c in visible)
+    # the workforce paybill is in the fact only as a department group's sum, never per organisation
+    assert not any("organisation" in c.name.lower() for c in fact.columns.values())
+    assert {"Cover Workforce", "Cover Pay"} <= set(fact.columns)
+
+
 # ----------------------------------------------------------------------------------------- relationships
 def test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one(relationships, tables):
-    assert len(relationships) == 38
+    assert len(relationships) == 42
     seen = set()
     for r in relationships:
         for end in ("fromColumn", "toColumn"):
