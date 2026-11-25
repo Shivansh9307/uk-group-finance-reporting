@@ -1,4 +1,5 @@
 rule_id,severity,location,message
+PBIR_TOO_MANY_PAGES,warning,UKGroupFinance,Report has 13 pages (recommend <=12)
 PBIR_TOO_MANY_VISUALS,warning,Executive summary.Page,Page 'Executive summary' has 22 visible visuals (recommend <=15)
 PBIR_VISUAL_LEVEL_FILTERS,warning,Executive summary.Page/a_badge.Visual,Visual 'a_badge' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
 PBIR_VISUAL_UNDERSIZED,warning,Executive summary.Page/a_badge.Visual,"Visual 'a_badge' (tableEx) is width 1232px, height 60px (recommend >= width 300px, height 200px)"
@@ -136,6 +137,22 @@ PBIR_VISUAL_UNDERSIZED,warning,Forecast accuracy.Page/fc_wape.Visual,"Visual 'fc
 PBIR_VISUAL_LEVEL_FILTERS,warning,Forecast accuracy.Page/fc_wape_x.Visual,Visual 'fc_wape_x' has 2 visual-level filter(s). Visual-level filters are hard to discover and maintain.
 PBIR_VISUAL_UNDERSIZED,warning,Forecast accuracy.Page/fc_wape_x.Visual,"Visual 'fc_wape_x' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
 PBIR_VISUAL_UNDERSIZED,warning,Forecast accuracy.Page/latest_release.Visual,"Visual 'latest_release' (cardVisual) is width 192px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_LEVEL_FILTERS,warning,Allocation and what-if.Page/al_alloc.Visual,Visual 'al_alloc' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_UNDERSIZED,warning,Allocation and what-if.Page/al_alloc.Visual,"Visual 'al_alloc' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_LEVEL_FILTERS,warning,Allocation and what-if.Page/al_chart.Visual,Visual 'al_chart' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,Allocation and what-if.Page/al_dept.Visual,Visual 'al_dept' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_LEVEL_FILTERS,warning,Allocation and what-if.Page/al_gap.Visual,Visual 'al_gap' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_UNDERSIZED,warning,Allocation and what-if.Page/al_gap.Visual,"Visual 'al_gap' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_LEVEL_FILTERS,warning,Allocation and what-if.Page/al_in.Visual,Visual 'al_in' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_UNDERSIZED,warning,Allocation and what-if.Page/al_in.Visual,"Visual 'al_in' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_LEVEL_FILTERS,warning,Allocation and what-if.Page/al_out.Visual,Visual 'al_out' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_UNDERSIZED,warning,Allocation and what-if.Page/al_out.Visual,"Visual 'al_out' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_LEVEL_FILTERS,warning,Allocation and what-if.Page/al_pool.Visual,Visual 'al_pool' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_VISUAL_UNDERSIZED,warning,Allocation and what-if.Page/al_pool.Visual,"Visual 'al_pool' (cardVisual) is width 240px, height 76px (recommend >= width 290px, height 140px)"
+PBIR_VISUAL_LEVEL_FILTERS,warning,Allocation and what-if.Page/al_whatif.Visual,Visual 'al_whatif' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
+PBIR_TOO_MANY_FIELDS,warning,Allocation and what-if.Page/al_whatif.Visual,Visual 'al_whatif' has 6 fields (recommend <=4)
+PBIR_TOO_MANY_FIELDS,warning,Allocation and what-if.Page/al_year.Visual,Visual 'al_year' has 7 fields (recommend <=4)
+PBIR_VISUAL_UNDERSIZED,warning,Allocation and what-if.Page/latest_release.Visual,"Visual 'latest_release' (cardVisual) is width 192px, height 76px (recommend >= width 290px, height 140px)"
 PBIR_VISUAL_UNDERSIZED,warning,Department detail.Page/dept_first.Visual,"Visual 'dept_first' (cardVisual) is width 232px, height 84px (recommend >= width 290px, height 140px)"
 PBIR_VISUAL_LEVEL_FILTERS,warning,Department detail.Page/dept_orgs.Visual,Visual 'dept_orgs' has 1 visual-level filter(s). Visual-level filters are hard to discover and maintain.
 PBIR_VISUAL_UNDERSIZED,warning,Department detail.Page/dept_revision.Visual,"Visual 'dept_revision' (cardVisual) is width 232px, height 84px (recommend >= width 290px, height 140px)"

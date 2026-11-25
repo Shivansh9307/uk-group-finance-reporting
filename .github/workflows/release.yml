@@ -1,6 +1,6 @@
 name: Release
 
-# Designed, not run: no tag has been pushed. The first run will be the first test of this file.
+# Tested: it ran on the tag v1.0.0 (run 45298915073, 2026-11-24) and every step succeeded.
 #
 # A tag that starts with v publishes a release. The release carries two archives: the Power BI project (model/, the
 # semantic model in TMDL and the report in PBIR, without the cache and the local settings Desktop writes) and

@@ -27,7 +27,7 @@ its values written in the file.
   in an image. **Tested**: the same pytest file checks that the thirteen files exist and have the same size. The two drill-through pages
   are captured without a selection, so they show all departments and all groups; reached from a department or a group they open
   filtered to it. I did not click through a drill-through, and that click is **designed**, not run.
-- `pbir validate --all`: valid, 150 visuals, 167 advisory warnings (below). `pbir bpa run`: passed, 0 errors, 157 warnings, 30 rules, 300
+- `pbir validate --all`: valid, 164 visuals, 185 advisory warnings (below). `pbir bpa run`: passed, 0 errors, 174 warnings, 30 rules, 323
   objects, listed in [evidence/report/pbir_bpa.csv](../evidence/report/pbir_bpa.csv).
 - CI (`report-checks`) runs Fab Inspector with the rules in `tests/report/report-rules.json` on the real report and keeps a negative
   control that must fail (`tests/report/report-rules-negative.json`), gating on the JSON output.
@@ -214,7 +214,7 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
 On the 13 pages and 164 visuals, `pbir validate UKGroupFinance.Report --all` (run from `model/`, 2026-11-25) gives 185 advisory warnings and no error, in six kinds: 72 visuals under the recommended size (the cards are 192 x 92 pixels, on purpose, so that six sit in a row),
 83 visual-level filters (a card must fix its own year, scenario item or period; a page filter cannot differ between cards on one page), 13 text boxes under the height floor for
 their text, 14 visuals with more than four fields (the statement matrices, the tables of controls and the NHS tables), two pages with more than fifteen visuals (the executive summary and the forecast accuracy page) and one for the number of pages.
-`pbir bpa run UKGroupFinance.Report` on the same day passes with 174 warnings. I did not ignore any rule. The committed list [evidence/report/pbir_bpa.csv](../evidence/report/pbir_bpa.csv) has 157 rows and was written before the allocation page existed, so it does not list that page's findings (no row names it); the two figures above come from my run, whose output is not committed.
+`pbir bpa run UKGroupFinance.Report` on the same day passes with 174 warnings. I did not ignore any rule. The committed list [evidence/report/pbir_bpa.csv](../evidence/report/pbir_bpa.csv) has 174 rows, written from that run (`pbir bpa run UKGroupFinance.Report -o json`), so it includes the allocation page's findings.
 
 ## Things I could not do or check
 

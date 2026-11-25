@@ -135,7 +135,7 @@ clicks are **designed**, not run ([docs/pages.md](docs/pages.md#things-i-could-n
   `pipeline/tests/test_real_totals.py`, `sql/tests/558_nothing_derived_reaches_a_real_total.sql`.
 - **The ledger.** [docs/evidence.md](docs/evidence.md) says what CI checks, and as plainly what it cannot: it proves that the
   evidence in git is the evidence that was compared and passed together, not that a result file came from Desktop.
-- **The whole pipeline test suite.** 820 passed, 0 failed, 0 skipped against the full-scope database
+- **The whole pipeline test suite.** 897 passed, 0 failed, 0 skipped against the full-scope database
   ([evidence/full/pytest_summary.csv](evidence/full/pytest_summary.csv)). CI runs the committed-scope part of it, and the
   model's Best Practice Analyzer rules, on every pull request ([docs/pipeline.md](docs/pipeline.md#continuous-integration)).
 - **The model's own rules are checked.** Tabular Editor's Best Practice Analyzer runs 63 rules (48 standard, 15 mine) on every pull
