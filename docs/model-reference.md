@@ -5,18 +5,17 @@ built and why is in [model.md](model.md); how its evidence is kept honest is in 
 
 The hash below is the hash of the model's TMDL files that this page was generated from (`ukfr ledger`, see evidence.md). If the model has changed since, `ukfr ledger check` fails with "model-reference.md is stale" until the page is generated again.
 
-Model projection hash: `85ca83ce62b272f32c1a579bbc4dd4ab7239eb997a2bf8babf515de591a2e79f`
+Model projection hash: `5dbb9219c546e3bf9ef07f1ed79400c2077389da6a5ee62af1f3a42adb2414f7`
 
-The model has 53 tables, 427 columns, 128 measures, 47 relationships, 23 user-defined functions, 2 roles and 3 perspectives.
+The model has 52 tables, 424 columns, 128 measures, 46 relationships, 23 user-defined functions, 2 roles and 3 perspectives.
 
 ## Tables
 
 | Table | Kind | Columns | Measures | Description |
 |---|---|---|---|---|
 | Account | table | 13 | 0 | One row per economic category (127, plus Unknown), with its economic budget, PESA economic group and whether it runs as expenditure or income. The flow comes from the final digit of the code, with 12 authored exceptions (Flow Basis says which). Each category also carries the detail line of the income and expenditure statement it is added to (Statement Line Key, authored rules). Source view dw.v_model_account. |
-| Allocation Bridge (derived) | table | 9 | 8 | DERIVED from real data, in GBP thousands: my own allocation of the pool by payroll full-time equivalent, one row per rule, financial year and participating department (the weighted many-to-many bridge between the pool and Department (current structure)). The weight is the department's average monthly payroll full-time equivalent in the year over the sum of the participants'; the allocated amount is the pool times the weight, rounded to four decimals, with the rounding remainder on the row of the largest weight (flagged in Rounding Row and stored in the rounding adjustment) so that the allocated amounts add up to the pool exactly. Only departments that publish workforce files, with at least the rule's minimum months in the year, take part. The annualised paybill is the average monthly paybill of the valid cells times 12. The full-time equivalent and paybill are real; the allocation is not a government figure and no real total adds it. The department filters it, so both security roles see only their own departments' rows. Source view dw.v_model_allocation_bridge. |
+| Allocation Bridge (derived) | table | 12 | 9 | DERIVED from real data, in GBP thousands: my own allocation of the pool by payroll full-time equivalent, one row per rule, financial year and participating department (the weighted many-to-many bridge between the pool and Department (current structure)). The weight is the department's average monthly payroll full-time equivalent in the year over the sum of the participants'; the allocated amount is the pool times the weight, rounded to four decimals, with the rounding remainder on the row of the largest weight (flagged in Rounding Row and stored in the rounding adjustment) so that the allocated amounts add up to the pool exactly. Only departments that publish workforce files, with at least the rule's minimum months in the year, take part. The annualised paybill is the average monthly paybill of the valid cells times 12. The full-time equivalent and paybill are real; the allocation is not a government figure and no real total adds it. The year's pool, and the total allocated in the year, are stored on every row (denormalised, labelled), so a user reads the pool only through the departments the user can see: there is no separate pool table, and a user with no participating department sees nothing of the allocation. A user who sees any participant can derive the pool from the weight and the allocated amount. The department filters it, so both security roles see only their own departments' rows. Source view dw.v_model_allocation_bridge. |
 | Allocation Coverage (derived) | table | 5 | 4 | DERIVED from real data, counts and shares only (no amount): for each rule and financial year, how many departments take part in the allocation, how many have some workforce data but too few months to take part (and the share of the full-time equivalent they would have carried), and how many live departments publish no usable workforce data in the year at all. It shows what the weights leave out. Source view dw.v_model_allocation_coverage. |
-| Allocation Pool (derived) | table | 6 | 1 | DERIVED from real data, in GBP thousands: the pool of each allocation rule and financial year, the real outturn of the Cabinet Office (department 010 of the current structure) in the control budget detail DEL ADMIN (the sum of the revision deltas of every release, the latest view of the year), spending positive. One row per rule and year. It is the one side of the allocation bridge: the bridge carries each participating department's weight and its share of the pool. A department selection does not filter the pool (the bridge sits between them), so the pool shows in full beside any department, and the security roles do not filter it either: a user who sees a department's weight and allocated amount can divide to get the pool, so hiding it would protect nothing. The allocation is my own and is not a government figure. Source view dw.v_model_allocation_pool. |
 | Allocation Rule | table | 10 | 0 | AUTHORED, no amount: my own allocation rule, not a government policy. It names the real pool (the Cabinet Office administration budget of departmental expenditure limits), the basis (payroll full-time equivalent), the years it applies to, the least number of months of workforce data a department needs to take part, the rounding rule and why I chose them, and what the rule is not. Source view dw.v_model_allocation_rule. |
 | Annual Control | table | 12 | 0 | AUDIT and CONTROL, no new number: the in-year outturn of each financial year against the restated annual (BUD) file, by vintage and level, with the gap, its share of the annual amount, the tolerance and the status. Only DEL at total level is graded; the other levels are recorded with their reason. Full-scope build only. Source view dw.v_model_annual_control (audit.bud_vs_inyear_del). |
 | Control Budget | table | 7 | 0 | The control budget of a line: DEL, AME or Non-budget, with the five OSCAR detail codes under it (DEL PROG, DEL ADMIN, DEPT AME, NON-DEPT AME, NON-BUDGET). Source view dw.v_model_control_budget. |
@@ -73,10 +72,9 @@ The model has 53 tables, 427 columns, 128 measures, 47 relationships, 23 user-de
 |---|---|---|---|---|---|
 | Account[Statement Line Key] | Statement Line[Line Key] | many to one | yes | OneDirection | Single |
 | Allocation Bridge (derived)[Department Key] | Department (current structure)[Department Key] | many to one | yes | OneDirection | Single |
-| Allocation Bridge (derived)[Pool Key] | Allocation Pool (derived)[Pool Key] | many to one | yes | OneDirection | Single |
+| Allocation Bridge (derived)[Fiscal Year Key] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
+| Allocation Bridge (derived)[Rule Key] | Allocation Rule[Rule Key] | many to one | yes | OneDirection | Single |
 | Allocation Coverage (derived)[Fiscal Year Key] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
-| Allocation Pool (derived)[Fiscal Year Key] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
-| Allocation Pool (derived)[Rule Key] | Allocation Rule[Rule Key] | many to one | yes | OneDirection | Single |
 | Fact Forecast Accuracy (derived)[Department Key] | Department (current structure)[Department Key] | many to one | yes | OneDirection | Single |
 | Fact Forecast Accuracy (derived)[Fiscal Year Key] | Fiscal Year[Financial Year] | many to one | yes | OneDirection | Single |
 | Fact Forecast Accuracy (derived)[Method Key] | Forecast Method[Method Key] | many to one | yes | OneDirection | Single |
@@ -143,15 +141,12 @@ Format string expression:
 
 Display folder `Performance\Naive`; hidden.
 
-Kept as evidence, hidden, not for reports: the plain form of Allocated Amount (a SUMX over each department and pool of the bridge with a nested CALCULATE for the pool and another for the weight) that docs/performance.md timed and traced before the rewrite. It returns the pool times the stored weight for each department, each product held to four decimals (the engine rounds a product with a fixed-decimal amount) and with no remainder put on the largest weight, so it equals the rewrite to within a few hundredths of a penny a year, and it is BLANK under a role that cannot see the pool. It is only here so that the comparison can be rerun (tests/dax/952_naive_equals_rewrite_allocation_by_department_and_year.dax and 953_naive_equals_rewrite_allocation_by_year.dax).
+Kept as evidence, hidden, not for reports: the plain form of Allocated Amount (a SUMX over each department, year and rule of the bridge with a nested CALCULATE for the pool and another for the weight) that docs/performance.md timed and traced before the rewrite. For each department it multiplies the year's pool by the stored weight, and the engine holds each product to four decimals (a product with a fixed-decimal amount), with no remainder put on the largest weight; so it differs from the rewrite by the rounding of the products, at most GBP 0.40 (0.0004 in GBP thousands) in a year in the results (tests 952 and 953). It reads only the rows of the departments the user can see, like the rewrite. It is only here so that the comparison can be rerun.
 
 ```dax
 SUMX (
-    SUMMARIZE ( 'Allocation Bridge (derived)', 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key] ),
-    VAR PoolKey = 'Allocation Bridge (derived)'[Pool Key]
-    RETURN
-        CALCULATE ( SUM ( 'Allocation Pool (derived)'[Pool Amount] ), 'Allocation Pool (derived)'[Pool Key] = PoolKey )
-            * CALCULATE ( SUM ( 'Allocation Bridge (derived)'[Weight (stored)] ) )
+    SUMMARIZE ( 'Allocation Bridge (derived)', 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key] ),
+    CALCULATE ( MAX ( 'Allocation Bridge (derived)'[Pool Amount (stored)] ) ) * CALCULATE ( SUM ( 'Allocation Bridge (derived)'[Weight (stored)] ) )
 )
 ```
 
@@ -181,12 +176,16 @@ Format string expression:
 
 Display folder `Allocation`.
 
-Allocated less the pool, GBP thousands: zero when every participating department is in context. BLANK when a department selection or a security role narrows the departments (a part of the allocation would be compared with the whole pool): the measure checks that the allocation in context equals the stored total of the pool's allocation. (ISCROSSFILTERED on the department table does not see a security role, which I found with the first run of the role cases.)
+Allocated less the pool, GBP thousands: zero when every participating department is in context. BLANK when a department selection or a security role narrows the departments (a part of the allocation would be compared with the whole pool): the measure checks that the allocation in context equals the stored total of the year's allocation (the same on every row of the year). (ISCROSSFILTERED on the department table does not see a security role, which I found with the first run of the role cases.)
 
 ```dax
 VAR Pool = [Allocation Pool]
 VAR Allocated = [Allocated Amount]
-VAR AllAllocated = SUM ( 'Allocation Pool (derived)'[Allocated Total (stored)] )
+VAR AllAllocated =
+    SUMX (
+        SUMMARIZE ( 'Allocation Bridge (derived)', 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key] ),
+        CALCULATE ( MAX ( 'Allocation Bridge (derived)'[Allocated Total (stored)] ) )
+    )
 RETURN
     IF ( NOT ISBLANK ( Pool ) && Allocated = AllAllocated, Allocated - Pool )
 ```
@@ -205,6 +204,25 @@ The annualised payroll paybill of the departments in context, GBP thousands: the
 
 ```dax
 SUM ( 'Allocation Bridge (derived)'[Paybill Annualised (stored)] )
+```
+
+Format string expression:
+
+```dax
+"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
+```
+
+#### Allocation Pool
+
+Display folder `Allocation`.
+
+The pool of the year in context, GBP thousands: the real outturn of the Cabinet Office in the administration budget of departmental expenditure limits, read from the pool stored on the bridge rows in context, once for each year and rule. It is BLANK when no bridge row is visible, so a user who sees no participating department sees no pool; a user who sees any participant can derive the pool from the weight and the allocated amount. It is not changed by which departments of a year are in context.
+
+```dax
+SUMX (
+    SUMMARIZE ( 'Allocation Bridge (derived)', 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key] ),
+    CALCULATE ( MAX ( 'Allocation Bridge (derived)'[Pool Amount (stored)] ) )
+)
 ```
 
 Format string expression:
@@ -325,24 +343,6 @@ Format string expression:
 
 ```dax
 "0.0%;-0.0%;0.0%"
-```
-
-### Allocation Pool (derived)
-
-#### Allocation Pool
-
-Display folder `Allocation`.
-
-The pool of the rule and year in context, GBP thousands: the real outturn of the pool department in the pool control budget detail. It is not filtered by a department selection or by a security role (the pool is one amount that the departments share).
-
-```dax
-SUM ( 'Allocation Pool (derived)'[Pool Amount] )
-```
-
-Format string expression:
-
-```dax
-"\£#,##0""k"";-\£#,##0""k"";\£0""k"""
 ```
 
 ### Fact Forecast Accuracy (derived)
@@ -2622,13 +2622,16 @@ Format string expression:
 | Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
 |---|---|---|---|---|---|---|---|---|---|
 | Allocated Amount (stored) | Data | currency | yes |  | allocated_amount | #,##0.0000 |  |  | The allocated amount in GBP thousands, with the rounding adjustment included. Hidden: use the measure Allocated Amount. |
+| Allocated Total (stored) | Data | currency | yes |  | allocated_total | #,##0.0000 |  |  | The sum of the allocated amounts of the year, GBP thousands, stored on every row of the year (denormalised): Allocation Gap to Pool compares the allocation in context with it. Hidden. |
 | Average FTE (stored) | Data | currency | yes |  | avg_fte | #,##0.0000 |  |  | The department's average monthly payroll full-time equivalent in the year, over the months present. Hidden: use the measure Allocation Average FTE. |
 | Department Key | Data | integer | yes |  | department_key | 0 |  |  | Department of the current structure the amount is allocated to. |
+| Fiscal Year Key | Data | text | yes |  | financial_year |  |  |  | Financial year of the allocation, written 2019-20. |
 | Months With Data | Data | integer |  |  | months_present | 0 |  | Derived | Months of the financial year in which the department has a valid payroll cell: the weight rests on these months only, and a department needs at least the rule's minimum to take part. |
 | Paybill Annualised (stored) | Data | currency | yes |  | paybill_annualised | #,##0.0000 |  |  | The annualised payroll paybill in GBP thousands. Hidden: use the measure Allocation Paybill (annualised). |
-| Pool Key | Data | integer | yes |  | pool_key | 0 |  |  | Key of the pool (one per rule and financial year). |
+| Pool Amount (stored) | Data | currency | yes |  | pool_amount | #,##0.0000 |  |  | The pool of the year in GBP thousands, stored on every row of the year (denormalised). Hidden: use the measure Allocation Pool. |
 | Rounding Adjustment (stored) | Data | currency | yes |  | rounding_adjustment | #,##0.0000 |  |  | The rounding adjustment on this row, GBP thousands: zero except on the row of the largest weight. Hidden: use the measure Allocation Rounding Adjustment. |
 | Rounding Row | Data | true/false |  |  | is_rounding_row |  |  | Derived | True on the one row of each pool that carries the rounding adjustment: the participant with the largest full-time equivalent. |
+| Rule Key | Data | text | yes |  | rule_id |  |  |  | The allocation rule. |
 | Weight (stored) | Data | number | yes |  | weight | 0.0000000000 |  |  | The weight, as stored (a ratio, stored as a floating-point number because the fixed-decimal type keeps four decimals only). Hidden: use the measure Allocation Weight. |
 
 ### Allocation Coverage (derived)
@@ -2640,17 +2643,6 @@ Format string expression:
 | Left Out Weight Share (stored) | Data | number | yes |  | too_few_months_weight_share | 0.0000000000 |  |  | The weight share of those departments, as a ratio. Hidden: use the measure Left Out Weight Share. |
 | Participants | Data | integer | yes |  | participants | 0 |  |  | Departments that take part in the year. Hidden: use the measure Departments Taking Part. |
 | Without Workforce Data | Data | integer | yes |  | no_workforce_departments | 0 |  |  | Live departments with no valid workforce cell in the year. Hidden: use the measure Departments Without Workforce Data. |
-
-### Allocation Pool (derived)
-
-| Column | Type | Data type | Hidden | Key | Source or expression | Format | Sort by | Display folder | Description |
-|---|---|---|---|---|---|---|---|---|---|
-| Allocated Total (stored) | Data | currency | yes |  | allocated_total | #,##0.0000 |  |  | The sum of the allocated amounts of the pool's bridge rows, GBP thousands, stored with the pool: the measure Allocation Gap to Pool compares the allocation in context with it to tell whether every participating department is in context. Hidden. |
-| Fiscal Year Key | Data | text | yes |  | financial_year |  |  |  | Financial year of the pool, written 2019-20. |
-| Pool Amount | Data | currency | yes |  | pool_amount | #,##0.0000 |  |  | The pool in GBP thousands. Hidden: use the measure Allocation Pool. |
-| Pool Key | Data | integer | yes | yes | pool_key | 0 |  |  | Key of the pool: one per rule and financial year. |
-| Pool Source Rows | Data | integer |  |  | pool_rows | #,##0 |  | Derived | How many rows of the real outturn the pool adds up. |
-| Rule Key | Data | text | yes |  | rule_id |  |  |  | The rule the pool belongs to. |
 
 ### Allocation Rule
 

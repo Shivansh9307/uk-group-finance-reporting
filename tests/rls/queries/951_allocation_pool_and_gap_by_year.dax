@@ -1,7 +1,8 @@
-// The pool, the allocated amount and their gap for each financial year, as the signed-in user sees them. The allocated amount is the
-// allocation to the user's own departments. The pool is the outturn of the Cabinet Office and is not filtered by either role (a user who
-// sees a department's weight and allocated amount can divide to get it). The gap compares the whole pool with the whole allocation, so
-// it is blank whenever the user does not see every participating department, which no role does.
+// The pool, the allocated amount and their gap for each financial year, as the signed-in user sees them. The allocated amount is the allocation to
+// the user's own departments. The pool is stored on the bridge rows, so a user sees the pool of a year only through a department that takes part in it:
+// a user with no department, or only departments that take no part (the Cabinet Office, whose outturn is the pool), sees no row. A user who sees any
+// participant can derive the pool from the weight and the allocated amount. The gap compares the whole pool with the whole allocation, so it is blank
+// whenever the user does not see every participating department, which no role does.
 EVALUATE
 SELECTCOLUMNS (
     FILTER (

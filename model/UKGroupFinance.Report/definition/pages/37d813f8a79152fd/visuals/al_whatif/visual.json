@@ -1,5 +1,5 @@
 {
-  "name": "al_dept",
+  "name": "al_whatif",
   "visual": {
     "visualType": "tableEx",
     "query": {
@@ -7,61 +7,93 @@
         "Values": {
           "projections": [
             {
-              "queryRef": "Department (current structure).Department",
+              "queryRef": "What-if Setting (synthetic).Setting",
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Department (current structure)"
+                      "Entity": "What-if Setting (synthetic)"
                     }
                   },
-                  "Property": "Department"
+                  "Property": "Setting"
                 }
               },
-              "nativeQueryRef": "Department"
+              "nativeQueryRef": "Setting"
             },
             {
-              "queryRef": "Allocation Bridge (derived).Months With Data",
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Allocation Bridge (derived)"
-                    }
-                  },
-                  "Property": "Months With Data"
-                }
-              },
-              "nativeQueryRef": "Months With Data",
-              "displayName": "Months"
-            },
-            {
-              "queryRef": "Allocation Bridge (derived).Allocation Weight",
+              "queryRef": "What-if Setting (synthetic).What-if Pay Award",
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Allocation Bridge (derived)"
+                      "Entity": "What-if Setting (synthetic)"
                     }
                   },
-                  "Property": "Allocation Weight"
+                  "Property": "What-if Pay Award"
                 }
               },
-              "nativeQueryRef": "Allocation Weight"
+              "nativeQueryRef": "What-if Pay Award",
+              "displayName": "Pay award"
             },
             {
-              "queryRef": "Allocation Bridge (derived).Allocated Amount",
+              "queryRef": "What-if Setting (synthetic).What-if Headcount Change",
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Allocation Bridge (derived)"
+                      "Entity": "What-if Setting (synthetic)"
                     }
                   },
-                  "Property": "Allocated Amount"
+                  "Property": "What-if Headcount Change"
                 }
               },
-              "nativeQueryRef": "Allocated Amount"
+              "nativeQueryRef": "What-if Headcount Change",
+              "displayName": "Headcount"
+            },
+            {
+              "queryRef": "What-if Setting (synthetic).What-if Allocated Amount",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "What-if Setting (synthetic)"
+                    }
+                  },
+                  "Property": "What-if Allocated Amount"
+                }
+              },
+              "nativeQueryRef": "What-if Allocated Amount",
+              "displayName": "Allocated if award"
+            },
+            {
+              "queryRef": "What-if Setting (synthetic).What-if Effect on Allocated Amount",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "What-if Setting (synthetic)"
+                    }
+                  },
+                  "Property": "What-if Effect on Allocated Amount"
+                }
+              },
+              "nativeQueryRef": "What-if Effect on Allocated Amount",
+              "displayName": "Adds to allocated"
+            },
+            {
+              "queryRef": "What-if Setting (synthetic).What-if Effect on Paybill",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "What-if Setting (synthetic)"
+                    }
+                  },
+                  "Property": "What-if Effect on Paybill"
+                }
+              },
+              "nativeQueryRef": "What-if Effect on Paybill",
+              "displayName": "Adds to paybill"
             }
           ]
         }
@@ -73,10 +105,10 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Allocation Bridge (derived)"
+                    "Entity": "What-if Setting (synthetic)"
                   }
                 },
-                "Property": "Allocation Weight"
+                "Property": "What-if Pay Award"
               }
             },
             "direction": "Descending"
@@ -86,6 +118,19 @@
       }
     },
     "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
       "values": [
         {
           "properties": {
@@ -148,7 +193,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Weight and allocation by department, 2025-26'"
+                  "Value": "'What-if (synthetic): five invented settings applied to 2025-26'"
                 }
               }
             }
@@ -174,7 +219,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Table with one row for each department that takes part in 2025-26: the months of workforce data the weight rests on, the weight (its payroll full-time equivalent over the sum of the participants) and the allocated amount in GBP thousands, with a total row'"
+                  "Value": "'Table with one row for each of the five invented what-if settings: the pay award and the headcount change in per cent, the 2025-26 allocated amount if the pool rose by the pay award, what that adds, and what the pay award and headcount change add to the annualised paybill, in GBP thousands'"
                 }
               }
             }
@@ -184,10 +229,10 @@
     }
   },
   "position": {
-    "x": 362,
-    "y": 220,
-    "width": 520,
-    "height": 252,
+    "x": 652,
+    "y": 480,
+    "width": 604,
+    "height": 216,
     "z": 0,
     "tabOrder": 0
   },
@@ -195,7 +240,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "0f33136827af4a087b2f",
+        "name": "0de004973b5d54aa7a2d",
         "field": {
           "Column": {
             "Expression": {

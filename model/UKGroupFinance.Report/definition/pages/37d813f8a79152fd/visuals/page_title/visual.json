@@ -1,11 +1,11 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "5fa46b4179bde268",
+  "name": "79111c862f55b7bc",
   "position": {
-    "x": 890,
-    "y": 220,
-    "width": 366,
-    "height": 252,
+    "x": 24,
+    "y": 0,
+    "width": 780,
+    "height": 52,
     "z": 0
   },
   "visual": {
@@ -18,10 +18,9 @@
               {
                 "textRuns": [
                   {
-                    "value": "Authored rule (mine, not a government charge): Cabinet Office administration spend spread by payroll full-time equivalent. Weights are real; departments without workforce data or with under nine months carry none. What-if settings are synthetic: base pay award is ONS CPI 2025, the rest invented.",
+                    "value": "Allocation and what-if",
                     "textStyle": {
-                      "fontSize": "14pt",
-                      "color": "#666666"
+                      "fontSize": "24pt"
                     }
                   }
                 ]
@@ -77,7 +76,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Authored rule (mine, not a government charge): Cabinet Office administration spend spread by payroll full-time equivalent. Weights are real; departments without workforce data or with under nine months carry none. What-if settings are synthetic: base pay award is ONS CPI 2025, the rest invented.'"
+                  "Value": "'Page title: Allocation and what-if'"
                 }
               }
             }

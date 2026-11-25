@@ -665,8 +665,8 @@ forecast_page() {
 allocation_page() {
   page_new "Allocation and what-if"
   header "Allocation and what-if"     "GBP thousands. My own allocation of a real pool, 2025-26 unless a visual says otherwise"
-  local b="Allocation Bridge (derived)" p="Allocation Pool (derived)" c="Allocation Coverage (derived)" w="What-if Setting (synthetic)" v
-  card al_pool "Pool 2025-26" 24 136 240 76 "$p.Allocation Pool" "The pool of 2025-26 in GBP thousands: the real outturn of the Cabinet Office in the administration budget of departmental expenditure limits" 20
+  local b="Allocation Bridge (derived)" c="Allocation Coverage (derived)" w="What-if Setting (synthetic)" v
+  card al_pool "Pool 2025-26" 24 136 240 76 "$b.Allocation Pool" "The pool of 2025-26 in GBP thousands: the real outturn of the Cabinet Office in the administration budget of departmental expenditure limits" 20
   card al_alloc "Allocated 2025-26" 272 136 240 76 "$b.Allocated Amount" "The pool of 2025-26 allocated to the 20 departments that take part, in GBP thousands: my own allocation by payroll full-time equivalent" 20
   card al_gap "Allocated less pool" 520 136 240 76 "$b.Allocation Gap to Pool" "Allocated amount less the pool for 2025-26, in GBP thousands to four decimals: zero, because the rounding remainder is put on the department with the largest weight" 20
   card al_in "Departments taking part" 768 136 240 76 "$c.Departments Taking Part" "Number of departments with a weight in 2025-26: those with at least nine months of workforce data in the year" 20
@@ -689,12 +689,12 @@ allocation_page() {
 
   text al_note 890 220 366 252 "Authored rule (mine, not a government charge): Cabinet Office administration spend spread by payroll full-time equivalent. Weights are real; departments without workforce data or with under nine months carry none. What-if settings are synthetic: base pay award is ONS CPI 2025, the rest invented."
 
-  visual tableEx al_year "Pool, allocation and who is left out, by year" 24 480 620 216     "Table with one row for each financial year from 2018-19 to 2025-26: the pool, the allocated amount, their difference, which is zero, the rounding adjustment, the number of departments that take part and the share of the full-time equivalent that the departments left out for too few months would have carried"     "Values:Fiscal Year.Financial Year" "Values:$p.Allocation Pool" "Values:$b.Allocated Amount" "Values:$b.Allocation Gap to Pool"     "Values:$b.Allocation Rounding Adjustment" "Values:$c.Departments Taking Part" "Values:$c.Left Out Weight Share"
+  visual tableEx al_year "Pool, allocation and who is left out, by year" 24 480 620 216     "Table with one row for each financial year from 2018-19 to 2025-26: the pool, the allocated amount, their difference, which is zero, the rounding adjustment, the number of departments that take part and the share of the full-time equivalent that the departments left out for too few months would have carried"     "Values:Fiscal Year.Financial Year" "Values:$b.Allocation Pool" "Values:$b.Allocated Amount" "Values:$b.Allocation Gap to Pool"     "Values:$b.Allocation Rounding Adjustment" "Values:$c.Departments Taking Part" "Values:$c.Left Out Weight Share"
   q visuals sort "$P/al_year.Visual" -f "Fiscal Year.Financial Year" -d Ascending
   q set "$P/al_year.Visual.values.fontSize" --value 8
   q set "$P/al_year.Visual.columnHeaders.fontSize" --value 8
   q visuals table-density "$P/al_year.Visual" --preset dense
-  q fields rename "$R" "$p.Allocation Pool" "Pool"
+  q fields rename "$R" "$b.Allocation Pool" "Pool"
   q fields rename "$R" "$b.Allocation Gap to Pool" "Gap"
   q fields rename "$R" "$b.Allocation Rounding Adjustment" "Rounding"
   q fields rename "$R" "$c.Departments Taking Part" "Taking part"

@@ -1,5 +1,5 @@
 {
-  "name": "al_alloc",
+  "name": "al_pool",
   "visual": {
     "visualType": "cardVisual",
     "query": {
@@ -7,7 +7,7 @@
         "Data": {
           "projections": [
             {
-              "queryRef": "Allocation Bridge (derived).Allocated Amount",
+              "queryRef": "Allocation Bridge (derived).Allocation Pool",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -15,10 +15,11 @@
                       "Entity": "Allocation Bridge (derived)"
                     }
                   },
-                  "Property": "Allocated Amount"
+                  "Property": "Allocation Pool"
                 }
               },
-              "nativeQueryRef": "Allocated Amount"
+              "nativeQueryRef": "Allocation Pool",
+              "displayName": "Pool"
             }
           ]
         }
@@ -33,7 +34,7 @@
                     "Entity": "Allocation Bridge (derived)"
                   }
                 },
-                "Property": "Allocated Amount"
+                "Property": "Allocation Pool"
               }
             },
             "direction": "Descending"
@@ -98,7 +99,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Allocated 2025-26'"
+                  "Value": "'Pool 2025-26'"
                 }
               }
             }
@@ -124,7 +125,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'The pool of 2025-26 allocated to the 20 departments that take part, in GBP thousands: my own allocation by payroll full-time equivalent'"
+                  "Value": "'The pool of 2025-26 in GBP thousands: the real outturn of the Cabinet Office in the administration budget of departmental expenditure limits'"
                 }
               }
             }
@@ -134,7 +135,7 @@
     }
   },
   "position": {
-    "x": 272,
+    "x": 24,
     "y": 136,
     "width": 240,
     "height": 76,
@@ -145,7 +146,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "eb27fc1a825a0b78533e",
+        "name": "ed1e842f42187bae05a4",
         "field": {
           "Column": {
             "Expression": {

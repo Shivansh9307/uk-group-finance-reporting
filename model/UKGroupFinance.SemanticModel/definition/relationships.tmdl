@@ -167,18 +167,6 @@ relationship 341683aa-5e8e-4aeb-a3cf-5b607acdffe7
 	fromColumn: 'Fact Forecast Accuracy (derived)'.'Method Key'
 	toColumn: 'Forecast Method'.'Method Key'
 
-relationship 1be670df-43a0-4321-aa1f-5765adb40029
-	fromColumn: 'Allocation Pool (derived)'.'Rule Key'
-	toColumn: 'Allocation Rule'.'Rule Key'
-
-relationship 0d561dd4-73d3-4c18-8871-32514960f6cc
-	fromColumn: 'Allocation Pool (derived)'.'Fiscal Year Key'
-	toColumn: 'Fiscal Year'.'Financial Year'
-
-relationship 31fc125b-a7ce-4fe8-9d0f-70a36cd11c72
-	fromColumn: 'Allocation Bridge (derived)'.'Pool Key'
-	toColumn: 'Allocation Pool (derived)'.'Pool Key'
-
 relationship 0e95a01b-ca3e-4320-ad7d-128bab61f31b
 	fromColumn: 'Allocation Bridge (derived)'.'Department Key'
 	toColumn: 'Department (current structure)'.'Department Key'
@@ -186,3 +174,11 @@ relationship 0e95a01b-ca3e-4320-ad7d-128bab61f31b
 relationship 8f33cde6-1236-4da6-8950-859073a7f7f6
 	fromColumn: 'Allocation Coverage (derived)'.'Fiscal Year Key'
 	toColumn: 'Fiscal Year'.'Financial Year'
+
+relationship dde095c8-958a-4644-8a08-90ac8f109ae9
+	fromColumn: 'Allocation Bridge (derived)'.'Fiscal Year Key'
+	toColumn: 'Fiscal Year'.'Financial Year'
+
+relationship 62cb8e97-eca0-4325-bfa5-f16a9646e91d
+	fromColumn: 'Allocation Bridge (derived)'.'Rule Key'
+	toColumn: 'Allocation Rule'.'Rule Key'

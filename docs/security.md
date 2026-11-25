@@ -226,15 +226,19 @@ department sees nothing.
 bridge is related to `Department (current structure)`, so a user sees the allocation, the weight, the months, the full-time
 equivalent and the annualised paybill of the user's own departments and nothing else, and a user with no department sees nothing.
 
-- **Row-level.** The bridge: through the department dimension, with no table permission of its own. **The pool is not filtered by either
-  role, and I decided that after the first run of the role cases.** I first gave the pool table a permission of its own (a user sees the
-  pool only when the user holds the Cabinet Office, the pool's department). The cases showed why that cannot work: the pool is the one side
-  of the bridge, so a filter on the pool filters the bridge too, and a user who did not hold the Cabinet Office saw no allocation at all (case `951`
-  for `alice.morgan` returned 0 rows against 5 expected). A model-level fix was not worth having, because the permission
-  would protect nothing: a user who sees the weight and the allocated amount of a department can divide one by the other to get the pool. So
-  the pool, the real outturn of the Cabinet Office in its administration budget, is visible to every user of both roles, and the other
-  outturn of the Cabinet Office stays filtered like all outturn. That is a deliberate exposure: a user not mapped to the Cabinet Office reads one
-  line of its outturn through the allocation. **Tested**: case `951` (every user sees the eight pools).
+- **Row-level.** The bridge: through the department dimension, with no table permission of its own. **The pool has no table of its own.**
+  I first modelled the pool as a separate table and gave it a permission (then no permission): with a permission on the one side of the
+  bridge a user who did not hold the Cabinet Office saw no allocation at all (case `951` for `alice.morgan`: 0 rows against 5 expected), and
+  with none every user, including `nobody@example.org`, read the Cabinet Office administration outturn, which broke "a user in no row of
+  the map sees nothing". The year's pool and the total allocated in the year are now stored on every bridge row (denormalised, labelled) and
+  `Allocation Pool` reads them from the bridge rows in context, once for each year. So:
+  - a user in no row of the map (`nobody`) sees no pool and no allocation, and a user who holds only departments that take no part (`dev.sharma`,
+    who holds the Cabinet Office, the pool's own department) sees none either;
+  - a user who sees any participating department sees the pool of the years in which that department takes part, because the pool is on the
+    department's row and the user can also divide the department's allocated amount by its weight to get it. That is a deliberate and precise
+    exposure: through a department the user holds, the user reads one line of the Cabinet Office outturn (its administration budget, a year at a time);
+  - the other outturn of the Cabinet Office stays filtered like all outturn.
+  **Tested**: cases `950` and `951` (`nobody` and `dev` have no rows, the others have the pool only for years in which they have an allocation).
 - **What `Restricted Viewer` sees.** The same bridge figures as the analyst of the same name. The allocation is department-level (one
   row for each department and year), and the only objects the Restricted Viewer cannot see that bear on pay are organisation-level
   (`Pay Organisation`, `Organisation Key` of the pay bridge, `Pay Coverage`); the allocation has no organisation key, so I hid nothing
@@ -246,9 +250,9 @@ equivalent and the annualised paybill of the user's own departments and nothing 
   the what-if of the user's own departments only (case `952`).
 - **The gap to the pool is blank under a role.** `Allocation Gap to Pool` compares the whole pool with the whole allocation, and it is BLANK
   whenever the user does not see every participating department (a user who sees part of the allocation would otherwise read a difference to
-  the whole pool as a shortfall). I first guarded it with `ISCROSSFILTERED` on the department table; the case `951` for `dev.sharma`
-  showed the gap as minus the pool, because `ISCROSSFILTERED` does not see a security role. The measure now compares the allocation in
-  context with the stored total of the pool's allocation. **Tested**: case `951` (the gap is blank for every user of a role) and test 954 (it is 0 with no role).
+  the whole pool as a shortfall). I first guarded it with `ISCROSSFILTERED` on the department table; the first run of case `951` showed a gap
+  under a role, because `ISCROSSFILTERED` does not see a security role. The measure now compares the allocation in context with the total
+  allocated in the year, stored on the bridge rows. **Tested**: case `951` (the gap is blank for every user of a role) and test 954 (it is 0 with no role).
 - **`Allocated Amount (naive)`.** The hidden plain form of the measure reads the pool and the weight, which both roles can read, so it
   answers like the rewrite.
 
@@ -257,7 +261,7 @@ equivalent and the annualised paybill of the user's own departments and nothing 
 | Query | Users and role | What it shows |
 |---|---|---|
 | `950_allocation_by_department_2025_26` (weight, allocated amount and annualised paybill by department) | analyst: `alice`, `chloe`, `dev`, `george`, `jasmine`, `nobody`; restricted: `alice`, `dev`, `jasmine`, `nobody` | only the user's departments that take part (`jasmine`: three; `dev`, who holds the Cabinet Office, and `nobody`: none), equal to SQL; the restricted viewer sees the same rows as the analyst |
-| `951_allocation_pool_and_gap_by_year` | the same ten | the eight pools for every user, the allocation to the user's own departments, and a blank gap for all of them |
+| `951_allocation_pool_and_gap_by_year` | the same ten | the pool and the allocation of the years in which the user holds a participating department (`nobody` and `dev`: no rows), and a blank gap |
 | `952_whatif_settings_readable` | analyst and restricted: `alice`, `nobody` | five settings and the 3.4% pay award for both; the what-if allocated amount of 2025-26 for the user's own departments (blank for `nobody`) |
 
 ## The cases I ran

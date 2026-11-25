@@ -1,6 +1,6 @@
-// Allocated Amount by financial year: the plain form and the rewrite side by side with the pool and their difference. The rewrite adds up
-// to the pool exactly; the plain form is the pool times the stored weights, which add to 1 within a ten-decimal rounding, so the
-// difference is a few tenths of a pound at most (0.0004 in GBP thousands).
+// Allocated Amount by financial year: the plain form and the rewrite side by side with the pool and their difference. This test checks that each
+// form equals its own SQL recomputation (the rewrite adds up to the pool exactly; the plain form is the sum of the rounded products). The two forms
+// differ by at most the amount in the result file.
 EVALUATE
 SELECTCOLUMNS (
     SUMMARIZECOLUMNS (

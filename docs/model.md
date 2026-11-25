@@ -1153,7 +1153,7 @@ in [security.md](security.md#the-forecast-accuracy-under-the-two-roles).
 ## The allocation of a shared-cost pool, and the what-if
 
 The model spreads one real pool across departments by payroll full-time equivalent and shows what a pay award and a headcount change would do
-to the result ([data-dictionary/allocation.md](data-dictionary/allocation.md)), in five tables, five relationships and 20 measures. The pool is
+to the result ([data-dictionary/allocation.md](data-dictionary/allocation.md)), in four tables, four relationships and 20 measures. The pool is
 the real outturn of the Cabinet Office in the administration budget of departmental expenditure limits and the weights are real payroll
 full-time equivalent; the allocation is **derived** and is my own rule, not a government figure; the what-if settings are **synthetic**.
 None of the three reaches a real total. Amounts are GBP thousands. Every claim is **tested** (command and result file) or **designed**.
@@ -1161,23 +1161,21 @@ None of the three reaches a real total. Amounts are GBP thousands. Every claim i
 | Model table | Source view | Rows | Class | What it is |
 |---|---|---:|---|---|
 | Allocation Rule | `dw.v_model_allocation_rule` | 1 | **authored** | the rule: pool, basis, years, minimum months, rounding rule, why, and what it is not; no amount |
-| Allocation Pool (derived) | `dw.v_model_allocation_pool` | 8 | **derived** from real data | the pool of each financial year, the one side of the bridge |
 | Allocation Bridge (derived) | `dw.v_model_allocation_bridge` | 108 | **derived** | the weighted many-to-many bridge between the pool and `Department (current structure)`: weight, allocated amount, rounding adjustment, months, full-time equivalent, annualised paybill |
 | Allocation Coverage (derived) | `dw.v_model_allocation_coverage` | 8 | **derived** | counts and a share by year: who takes part, who is left out for too few months and what they would have carried, how many live departments have no workforce data |
 | What-if Setting (synthetic) | `dw.v_model_whatif_setting` | 5 | **synthetic** | five invented settings, a pay award and a headcount change in per cent; related to nothing |
 
 Row counts: **tested**, `tests/dax/950_allocation_model_table_row_counts.dax`; the views keep every row and amount and every key resolves
-(`sql/tests/947`). The five relationships are active, many-to-one and single direction like all the others, which brings the model to 47
-(**tested**: `test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one`): pool to rule, pool to `Fiscal
-Year`, bridge to pool, bridge to `Department (current structure)`, and coverage to `Fiscal Year`.
+(`sql/tests/947`). The four relationships are active, many-to-one and single direction like all the others, which brings the model to 46
+(**tested**: `test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one`): bridge to `Fiscal Year`, bridge to `Allocation Rule`, bridge to `Department (current structure)`, and coverage to `Fiscal Year`.
 
-**Why a bridge, and why the shape is single direction.** The pool is one amount of the year that every participating department shares,
-and a department takes a weighted share of the pool of each year, so a pool and a department are many-to-many with a weight on the
-link. The bridge holds one row for each pool and department; `Fiscal Year` filters the pool and, through it, the bridge; a department
-filters the bridge. A department selection therefore does not filter the pool: the pool of the year stays whole beside any
-department, which is what a reader wants to see next to a share of it. I did not make the bridge to pool relationship bi-directional
-(the analyzer warns of it and it would let a department filter change the pool); the measure that needs the pool of a department's
-row (the plain form below) reads it through a filter on the pool key instead.
+**Why a bridge, and why the shape is single direction.** The pool is one amount of the year that every participating department shares, and a
+department takes a weighted share of the pool of each year, so a pool and a department are many-to-many with a weight on the link. The bridge
+holds one row for each rule, year and department; it is related to `Fiscal Year`, `Allocation Rule` and `Department (current structure)`, all many to
+one and single direction. **There is no separate pool table**: the year's pool, and the total allocated in the year, are stored on every bridge row
+(denormalised, labelled), and `Allocation Pool` reads them once for each year in context. A pool table of its own cannot be secured: a filter on
+it filters the bridge, and without a filter every user, including a user in no row of the map, reads the Cabinet Office outturn
+([security.md](security.md#the-allocation-and-the-what-if-under-the-two-roles)). I did not make any relationship bi-directional (the analyzer warns of it).
 
 **The measures** (display folders `Allocation` and `What-if (synthetic)`):
 
@@ -1201,33 +1199,35 @@ row (the plain form below) reads it through a filter on the pool key instead.
 1. *The weight is stored, as a floating-point number.* The weights are ratios with ten decimals; the fixed-decimal type of the model keeps
    four, so a weight read from a fixed-decimal column would have been rounded to four places before it was multiplied by a pool of GBP 600m.
    The allocated amount is stored as a fixed-decimal amount (GBP thousands to four decimals), the unit of every other amount.
-2. *The allocated amount is stored, with its remainder.* The rewrite adds the stored amount. The plain form multiplies the pool by the stored weight
-   and so carries no rounding to four decimals and no remainder; the two differ by a few thousandths of a penny a year (the remainder is
-   at most 0.0002 in GBP thousands, GBP 0.20). That is the rounding rule, shown, and not a modelling difference.
-3. *The gap is blank under any department filter.* A department's share compared with the whole pool is not a gap. `ISCROSSFILTERED` on the
-   department table covers a slicer and a role.
-4. *The what-if is per setting, not per year.* The design asked for a pay award and a headcount change per year; a what-if on a closed year
+2. *The allocated amount is stored, with its remainder.* The rewrite adds the stored amount. The plain form multiplies the year's pool by the stored
+   weight for each department, and the engine holds each product to four decimals (a product with a fixed-decimal amount); it puts no remainder on the
+   largest weight. The two therefore differ by the rounding of the products and the remainder: in the result files of tests 952 and 953 the plain form differs from the rewrite by at most 0.0002 in a department-year cell (GBP 0.20) and by at most 0.0004 in a year (GBP 0.40), in GBP thousands. That is the rounding rule, shown, and not a
+   modelling difference.
+3. *The gap is blank unless every participating department is in context.* A department's share compared with the whole pool is not a gap.
+   `ISCROSSFILTERED` on the department table covers a slicer but **not** a security role, so the measure compares the allocation in context
+   with the total allocated in the year, stored on the bridge rows: equal only when every participant is visible.
+4. *The what-if is per setting, not per year.* I had planned a pay award and a headcount change per year; a what-if on a closed year
    is a counterfactual that nobody needs, so the settings apply to whatever year the visual shows (the page fixes 2025-26). The setting in
    context is the one selected, or the default (Base) when none or several are. A table of the five settings with the setting on the rows
    shows all five at once, which is what the page does; I did not author a slicer selection, which `pbir` cannot set.
 5. *No what-if measure is read by a real measure and no real measure reads an allocation table.* **Tested**:
-   `pipeline/tests/test_model_measures.py::test_no_allocation_or_what_if_measure_is_scaled_and_the_what_if_is_read_by_its_own_measures_only`.
+   `pipeline/tests/test_model_measures.py::test_no_allocation_or_what_if_measure_is_scaled_and_the_what_if_is_read_by_its_own_measures_only` (a structural check of the measure text).
 
 **Tests.** The eight DAX tests 950 to 957 each return a table that an independent SQL query over `dw` (never over a `dw.v_model_*` view) reproduces:
 128 of 128 DAX tests pass (120 before this change), largest difference on the new tests 0.000043 (test 956). They cover the row counts (950), the bridge by department and
-year (951), the plain form against the rewrite by department and year and by year (952, 953; `docs/performance.md`), the tie, the rounding adjustment and the
-coverage by year (954), **the real outturn by year with and without the allocation tables and the what-if setting in the filter context (955: equal, and equal to SQL)**,
-the what-if measures at each of the five settings and with none selected (956) and **the real outturn, the plan rows, the allocated amount and the paybill at every
-setting (957: the same figures in all six rows)**. The role cases are in [security.md](security.md#the-allocation-and-the-what-if-under-the-two-roles): 173 of 173 pass.
+year (951), each form of the allocated amount against its own recomputation, by department and year and by year (952, 953; `docs/performance.md`), the tie, the rounding adjustment, the weight
+sum and the coverage by year (954; the weight sum is also shown in parts per million from 1, so an error of 1e-4 in a weight would fail), the what-if measures at each of the five settings and
+with none selected (956), and two **structural guards, not independent evidence**: 955 (the real outturn by year is the same as it is, with the allocation filters set and with them
+cleared) and 957 (the real outturn, the plan rows, the allocated amount and the paybill are the same at every setting). They fail if a relationship becomes bidirectional or a
+measure starts to read the what-if table or the allocation tables. The role cases are in [security.md](security.md#the-allocation-and-the-what-if-under-the-two-roles): 173 of 173 pass.
 **Pitfalls I met**: `ISCROSSFILTERED` does not see a security role (the gap measure now compares with a stored total); a table permission on the one side of a
 bridge filters the bridge as well; a product of a fixed-decimal amount and a floating-point weight is held to four decimals, which changes a sum of products
-by a few hundredths of a penny; `REMOVEFILTERS` on a whole table that the year filters also drops the year (test 955 clears by column).
+by up to GBP 0.40 in a year here; `REMOVEFILTERS` on a whole table that the year filters also drops the year (test 955 clears by column).
 
 **Findings of the Best Practice Analyzer** (`evidence/bpa`): five new, all information severity, each with its reason. `ENSURE_TABLES_HAVE_RELATIONSHIPS` on `What-if Setting (synthetic)`: a
 what-if parameter table is related to nothing on purpose; the what-if measures read the setting in context with `SELECTEDVALUE`. `RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE`
-on `Rule Key` of `Allocation Rule` and of `Allocation Pool (derived)` (the rule's own code, `CO_ADMIN_FTE`) and on `Fiscal Year Key` of the pool and of the coverage table (the
-financial year is its text, the key of `Fiscal Year`, as for the other facts). One warning is ignored in `te/bpa/ignores.csv` with its reason: `SNOWFLAKE_SCHEMA_ARCHITECTURE` on the pool (a
-weighted bridge is a snowflake by construction), and the hidden plain measure carries the same `UNNECESSARY_MEASURES` ignore as the two before it. The first run also raised errors and warnings that I fixed: a
+on `Rule Key` of `Allocation Rule` and of `Allocation Bridge (derived)` (the rule's own code, `CO_ADMIN_FTE`) and on `Fiscal Year Key` of the bridge and of the coverage table (the
+financial year is its text, the key of `Fiscal Year`, as for the other facts). The hidden plain measure carries the same `UNNECESSARY_MEASURES` ignore as the two before it. The first run also raised errors and warnings that I fixed: a
 visible column folder of a synthetic table must be `Synthetic`, a table that says DERIVED must have `(derived)` in its name (so the coverage table does), a measure format must be one of the
 model's (the weight shows to one decimal of a per cent), and an unused hidden column was dropped. Counts: 63 rules, 32 violations, none above severity 1.
 

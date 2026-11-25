@@ -1,0 +1,19 @@
+// Allocated Amount for every financial year and department: the plain form (hidden: a SUMX over each department, year and rule of the bridge with a
+// nested CALCULATE for the pool and another for the weight) and the rewrite (the stored allocated amount, one pass), with their difference. This test
+// checks that each form equals its own SQL recomputation. The two forms differ by design: the plain form is the pool times the stored weight with each
+// product held to four decimals, the rewrite is the stored amount, which carries the rounding remainder. The difference is in the result file.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Fiscal Year'[Financial Year],
+        'Department (current structure)'[Department Number],
+        "allocated_naive", [Allocated Amount (naive)],
+        "allocated_rewrite", [Allocated Amount]
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "department_number", 'Department (current structure)'[Department Number],
+    "allocated_naive", [allocated_naive],
+    "allocated_rewrite", [allocated_rewrite],
+    "difference", COALESCE ( [allocated_rewrite], 0 ) - COALESCE ( [allocated_naive], 0 )
+)
+ORDER BY [financial_year], [department_number]

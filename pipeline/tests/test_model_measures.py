@@ -142,7 +142,7 @@ BASE_MEASURES = {
     "Flagged Return Cells": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
     "FTE x Cost Cell Coverage": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
     "FTE x Cost Pay Cover": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
-    "Allocation Pool": ("Allocation Pool (derived)", "Allocation"),
+    "Allocation Pool": ("Allocation Bridge (derived)", "Allocation"),
     "Allocated Amount": ("Allocation Bridge (derived)", "Allocation"),
     "Allocated Amount (naive)": ("Allocation Bridge (derived)", r"Performance\Naive"),
     "Allocation Weight": ("Allocation Bridge (derived)", "Allocation"),
@@ -691,7 +691,7 @@ def test_allocated_amount_is_one_pass_over_the_stored_amount_and_its_plain_form_
     naive = by_name["Allocated Amount (naive)"]
     n = re.sub(r"\s+", " ", naive.expression)
     assert n.startswith("SUMX ( SUMMARIZE ( 'Allocation Bridge (derived)'")
-    assert n.count("CALCULATE (") == 2 and "'Allocation Pool (derived)'[Pool Amount]" in n and "[Weight (stored)]" in n
+    assert n.count("CALCULATE (") == 2 and "[Pool Amount (stored)]" in n and "[Weight (stored)]" in n
     assert _is_hidden(naive) and "kept as evidence" in naive.description.lower()
     assert naive.props["displayFolder"] == r"Performance\Naive"
 
@@ -712,7 +712,7 @@ def test_the_weight_and_the_year_counts_are_blank_unless_one_financial_year_is_i
 def test_the_gap_to_the_pool_is_blank_unless_every_participating_department_is_in_context(measures):
     # ISCROSSFILTERED does not see a security role, so the measure compares the allocation in context with the stored total
     e = re.sub(r"\s+", " ", {m.name: m.expression for m in measures}["Allocation Gap to Pool"])
-    assert "SUM ( 'Allocation Pool (derived)'[Allocated Total (stored)] )" in e
+    assert "MAX ( 'Allocation Bridge (derived)'[Allocated Total (stored)] )" in e
     assert "Allocated = AllAllocated" in e and "Allocated - Pool" in e and "ISCROSSFILTERED" not in e
 
 
@@ -735,7 +735,6 @@ def test_no_allocation_or_what_if_measure_is_scaled_and_the_what_if_is_read_by_i
     for m in real:
         for table in (
             "Allocation Bridge (derived)",
-            "Allocation Pool (derived)",
             "Allocation Rule",
             "Allocation Coverage (derived)",
         ):

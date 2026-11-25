@@ -4,10 +4,10 @@
   "cold_cache": true,
   "rows_returned": 21,
   "error": null,
-  "total_ms": 82,
+  "total_ms": 73,
   "total_cpu_ms": 78,
-  "storage_engine_ms": 0,
-  "formula_engine_ms_derived": 82,
+  "storage_engine_ms": 1,
+  "formula_engine_ms_derived": 72,
   "storage_engine_queries": 1,
   "storage_engine_cache_hits": 0,
   "storage_engine_queries_by_kind": {
@@ -17,20 +17,20 @@
   "distinct_storage_engine_query_texts": 2,
   "most_repeated_storage_engine_query": {
     "times": 1,
-    "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Department  current structure  (34)].[Department Number (322)] AS [Department  current structure  (34)$Department Number (322)],\r\nSUM([Allocation Bridge  derived  (130)].[Allocated Amount  stored  (624)]) AS [$Measure0], COUNT()\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Allocation Bridge  derived  (130)].[Department Key (622)]=[Department  current structure  (34)].[Department Key (320)];\r\n"
+    "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Department  current structure  (34)].[Department Number (318)] AS [Department  current structure  (34)$Department Number (318)],\r\nSUM([Allocation Bridge  derived  (127)].[Allocated Amount  stored  (617)]) AS [$Measure0], COUNT()\r\nFROM [Allocation Bridge  derived  (127)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Allocation Bridge  derived  (127)].[Department Key (615)]=[Department  current structure  (34)].[Department Key (316)];\r\n"
   },
   "longest_storage_engine_queries": [
     {
       "kind": "VertiPaqScan",
-      "duration_ms": 0,
+      "duration_ms": 1,
       "cached": false,
-      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Department  current structure  (34)].[Department Number (322)] AS [Department  current structure  (34)$Department Number (322)],\r\nSUM([Allocation Bridge  derived  (130)].[Allocated Amount  stored  (624)]) AS [$Measure0]\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Allocation Bridge  derived  (130)].[Department Key (622)]=[Department  current structure  (34)].[Department Key (320)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 66, 1056]\r\n"
+      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Department  current structure  (34)].[Department Number (318)] AS [Department  current structure  (34)$Department Number (318)],\r\nSUM([Allocation Bridge  derived  (127)].[Allocated Amount  stored  (617)]) AS [$Measure0]\r\nFROM [Allocation Bridge  derived  (127)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Allocation Bridge  derived  (127)].[Department Key (615)]=[Department  current structure  (34)].[Department Key (316)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 66, 1056]\r\n"
     },
     {
       "kind": "VertiPaqScanInternal",
       "duration_ms": 0,
       "cached": false,
-      "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Department  current structure  (34)].[Department Number (322)] AS [Department  current structure  (34)$Department Number (322)],\r\nSUM([Allocation Bridge  derived  (130)].[Allocated Amount  stored  (624)]) AS [$Measure0], COUNT()\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Allocation Bridge  derived  (130)].[Department Key (622)]=[Department  current structure  (34)].[Department Key (320)];\r\n"
+      "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Department  current structure  (34)].[Department Number (318)] AS [Department  current structure  (34)$Department Number (318)],\r\nSUM([Allocation Bridge  derived  (127)].[Allocated Amount  stored  (617)]) AS [$Measure0], COUNT()\r\nFROM [Allocation Bridge  derived  (127)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Allocation Bridge  derived  (127)].[Department Key (615)]=[Department  current structure  (34)].[Department Key (316)];\r\n"
     }
   ],
   "direct_query_events": 0,
@@ -42,15 +42,15 @@
     "\tGroupSemiJoin: RelLogOp DependOnCols()() 0-1 RequiredCols(0, 1)('Department (current structure)'[Department Number], ''[allocated])",
     "\t\tScan_Vertipaq: RelLogOp DependOnCols()() 0-0 RequiredCols(0)('Department (current structure)'[Department Number])",
     "\t\tSum_Vertipaq: ScaLogOp MeasureRef=[Allocated Amount] DependOnCols(0)('Department (current structure)'[Department Number]) Currency DominantValue=BLANK",
-    "\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0)('Department (current structure)'[Department Number]) 1-39 RequiredCols(0, 34)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Allocated Amount (stored)])",
-    "\t\t\t'Allocation Bridge (derived)'[Allocated Amount (stored)]: ScaLogOp DependOnCols(34)('Allocation Bridge (derived)'[Allocated Amount (stored)]) Currency DominantValue=NONE",
+    "\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0)('Department (current structure)'[Department Number]) 1-35 RequiredCols(0, 30)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Allocated Amount (stored)])",
+    "\t\t\t'Allocation Bridge (derived)'[Allocated Amount (stored)]: ScaLogOp DependOnCols(30)('Allocation Bridge (derived)'[Allocated Amount (stored)]) Currency DominantValue=NONE",
     "\tColPosition<'Department (current structure)'[Department Number]>: ScaLogOp DependOnCols(0)('Department (current structure)'[Department Number]) String DominantValue=NONE"
   ],
   "physical_plan_head": [
     "PartitionIntoGroups: IterPhyOp LogOp=Order IterCols(0, 1)('Department (current structure)'[Department Number], ''[allocated]) #Groups=1 #Rows=21",
     "\tAggregationSpool<Order>: SpoolPhyOp #Records=1",
     "\t\tGroupSemijoin: IterPhyOp LogOp=GroupSemiJoin IterCols(0, 1)('Department (current structure)'[Department Number], ''[allocated])",
-    "\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Sum_Vertipaq IterCols(0)('Department (current structure)'[Department Number]) #Records=21 #KeyCols=480 #ValueCols=1",
+    "\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Sum_Vertipaq IterCols(0)('Department (current structure)'[Department Number]) #Records=21 #KeyCols=476 #ValueCols=1",
     "\t\t\t\tProjectionSpool<ProjectFusion<Copy>>: SpoolPhyOp #Records=21",
     "\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=1",
     "\t\tColPosition<'Department (current structure)'[Department Number]>: LookupPhyOp LogOp=ColPosition<'Department (current structure)'[Department Number]> LookupCols(0)('Department (current structure)'[Department Number]) String"

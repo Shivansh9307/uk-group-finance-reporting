@@ -1,5 +1,6 @@
 // The tie and the coverage of the allocation for every financial year, as the page's year table draws it: the pool, the allocated
-// amount, their gap (zero), the rounding adjustment, the weights of all participants (they add to 1), the departments taking part,
+// amount, their gap (zero), the rounding adjustment, the weights of all participants (they add to 1; weights_off_by_ppm is how far the sum is from 1 in
+// parts per million, 0 here, so an error of 1e-4 in a weight would show as 100 and fail the comparison), the departments taking part,
 // those left out for too few months with the share of the full-time equivalent they would have carried, and the live departments with
 // no workforce data at all.
 EVALUATE
@@ -11,6 +12,7 @@ SELECTCOLUMNS (
         "gap", [Allocation Gap to Pool],
         "rounding", [Allocation Rounding Adjustment],
         "weights", [Allocation Weight],
+        "weights_off_by_ppm", IF ( NOT ISBLANK ( [Allocation Weight] ), ROUND ( ABS ( [Allocation Weight] - 1 ) * 1000000, 0 ) ),
         "taking_part", [Departments Taking Part],
         "left_out", [Departments Left Out (too few months)],
         "left_out_share", [Left Out Weight Share],
@@ -22,6 +24,7 @@ SELECTCOLUMNS (
     "gap", [gap],
     "rounding", [rounding],
     "weights", [weights],
+    "weights_off_by_ppm", [weights_off_by_ppm],
     "taking_part", [taking_part],
     "left_out", [left_out],
     "left_out_share", [left_out_share],

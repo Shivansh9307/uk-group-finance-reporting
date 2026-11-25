@@ -1,8 +1,8 @@
-// The allocation never reaches the real outturn. Outturn by financial year three ways: as it is, with the allocation tables in the
-// filter context (the rounding row of the bridge, the one rule of the pool and the what-if setting that cuts headcount), and with those
-// three columns cleared. All three must be equal, and equal to the sum of the revision deltas in the warehouse. (I first cleared
-// whole tables with REMOVEFILTERS and the engine then dropped the year as well, because the year filters those tables: a pitfall that
-// is not about the allocation, so the clearing is by column.)
+// A structural guard, not independent evidence. The allocation and what-if tables are related to Fiscal Year, Department and Allocation Rule only many to one
+// and in a single direction, and the what-if table to nothing, so a filter on them cannot reach Fact Outturn. This test fails if one of those relationships
+// becomes bidirectional or a real measure starts to read them: Outturn by financial year is read as it is, with filters on the bridge's rounding row and rule and
+// on a what-if setting, and with those three columns cleared (cleared by column: REMOVEFILTERS on a whole table that the year filters also drops the year).
+// All three must equal the sum of the revision deltas in the warehouse.
 EVALUATE
 SELECTCOLUMNS (
     SUMMARIZECOLUMNS (
@@ -12,14 +12,14 @@ SELECTCOLUMNS (
             CALCULATE (
                 [Outturn],
                 'Allocation Bridge (derived)'[Rounding Row] = TRUE (),
-                'Allocation Pool (derived)'[Rule Key] = "CO_ADMIN_FTE",
+                'Allocation Bridge (derived)'[Rule Key] = "CO_ADMIN_FTE",
                 'What-if Setting (synthetic)'[Setting Key] = 4
             ),
         "without_allocation",
             CALCULATE (
                 [Outturn],
                 REMOVEFILTERS ( 'Allocation Bridge (derived)'[Rounding Row] ),
-                REMOVEFILTERS ( 'Allocation Pool (derived)'[Rule Key] ),
+                REMOVEFILTERS ( 'Allocation Bridge (derived)'[Rule Key] ),
                 REMOVEFILTERS ( 'What-if Setting (synthetic)'[Setting Key] )
             )
     ),

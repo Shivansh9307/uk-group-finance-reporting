@@ -1,5 +1,5 @@
 {
-  "name": "al_out",
+  "name": "al_alloc",
   "visual": {
     "visualType": "cardVisual",
     "query": {
@@ -7,18 +7,18 @@
         "Data": {
           "projections": [
             {
-              "queryRef": "Allocation Coverage (derived).Departments Without Workforce Data",
+              "queryRef": "Allocation Bridge (derived).Allocated Amount",
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Allocation Coverage (derived)"
+                      "Entity": "Allocation Bridge (derived)"
                     }
                   },
-                  "Property": "Departments Without Workforce Data"
+                  "Property": "Allocated Amount"
                 }
               },
-              "nativeQueryRef": "Departments Without Workforce Data"
+              "nativeQueryRef": "Allocated Amount"
             }
           ]
         }
@@ -30,10 +30,10 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Allocation Coverage (derived)"
+                    "Entity": "Allocation Bridge (derived)"
                   }
                 },
-                "Property": "Departments Without Workforce Data"
+                "Property": "Allocated Amount"
               }
             },
             "direction": "Descending"
@@ -98,7 +98,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'No workforce data'"
+                  "Value": "'Allocated 2025-26'"
                 }
               }
             }
@@ -124,7 +124,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Number of live departments of the current structure with no workforce data in 2025-26, which are therefore left out of the weights; the Home Office and the Ministry of Justice are two of them'"
+                  "Value": "'The pool of 2025-26 allocated to the 20 departments that take part, in GBP thousands: my own allocation by payroll full-time equivalent'"
                 }
               }
             }
@@ -134,7 +134,7 @@
     }
   },
   "position": {
-    "x": 1016,
+    "x": 272,
     "y": 136,
     "width": 240,
     "height": 76,
@@ -145,7 +145,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "7fb3e1fc28c40f5bdf4b",
+        "name": "a5f3b1ca41457dfad57e",
         "field": {
           "Column": {
             "Expression": {

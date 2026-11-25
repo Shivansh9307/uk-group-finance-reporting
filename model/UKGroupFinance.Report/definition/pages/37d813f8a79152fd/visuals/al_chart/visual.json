@@ -1,13 +1,31 @@
 {
-  "name": "al_gap",
+  "name": "al_chart",
   "visual": {
-    "visualType": "cardVisual",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
-        "Data": {
+        "Category": {
           "projections": [
             {
-              "queryRef": "Allocation Bridge (derived).Allocation Gap to Pool",
+              "queryRef": "Department (current structure).Department",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Department (current structure)"
+                    }
+                  },
+                  "Property": "Department"
+                }
+              },
+              "nativeQueryRef": "Department"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "queryRef": "Allocation Bridge (derived).Allocated Amount",
               "field": {
                 "Measure": {
                   "Expression": {
@@ -15,11 +33,10 @@
                       "Entity": "Allocation Bridge (derived)"
                     }
                   },
-                  "Property": "Allocation Gap to Pool"
+                  "Property": "Allocated Amount"
                 }
               },
-              "nativeQueryRef": "Allocation Gap to Pool",
-              "displayName": "Gap"
+              "nativeQueryRef": "Allocated Amount"
             }
           ]
         }
@@ -34,7 +51,7 @@
                     "Entity": "Allocation Bridge (derived)"
                   }
                 },
-                "Property": "Allocation Gap to Pool"
+                "Property": "Allocated Amount"
               }
             },
             "direction": "Descending"
@@ -44,23 +61,7 @@
       }
     },
     "objects": {
-      "label": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "default"
-          }
-        }
-      ],
-      "value": [
+      "valueAxis": [
         {
           "properties": {
             "labelDisplayUnits": {
@@ -69,17 +70,7 @@
                   "Value": "1D"
                 }
               }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "20D"
-                }
-              }
             }
-          },
-          "selector": {
-            "id": "default"
           }
         }
       ]
@@ -99,7 +90,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Allocated less pool'"
+                  "Value": "'Allocated amount by department, 2025-26'"
                 }
               }
             }
@@ -125,7 +116,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Allocated amount less the pool for 2025-26, in GBP thousands to four decimals: zero, because the rounding remainder is put on the department with the largest weight'"
+                  "Value": "'Bar chart of the 2025-26 allocated amount in GBP thousands for each of the 20 departments that take part, largest first: Work and Pensions, HM Revenue and Customs and Defence carry the most because they employ the most people'"
                 }
               }
             }
@@ -135,10 +126,10 @@
     }
   },
   "position": {
-    "x": 520,
-    "y": 136,
-    "width": 240,
-    "height": 76,
+    "x": 24,
+    "y": 220,
+    "width": 330,
+    "height": 252,
     "z": 0,
     "tabOrder": 0
   },
@@ -146,7 +137,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "e06c6809a040cdea0852",
+        "name": "947fadd11859069e4aea",
         "field": {
           "Column": {
             "Expression": {

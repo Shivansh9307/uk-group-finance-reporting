@@ -1,9 +1,8 @@
-// The allocation tables have the rows of what they are built from: the one authored rule, a pool for each year of the rule, a bridge
+// The allocation tables have the rows of what they are built from: the one authored rule, a bridge
 // row for each rule, year and participating department, a coverage row for each year, and the five invented what-if settings.
 EVALUATE
 UNION (
     ROW ( "table_name", "Allocation Rule", "row_count", COUNTROWS ( 'Allocation Rule' ) ),
-    ROW ( "table_name", "Allocation Pool (derived)", "row_count", COUNTROWS ( 'Allocation Pool (derived)' ) ),
     ROW ( "table_name", "Allocation Bridge (derived)", "row_count", COUNTROWS ( 'Allocation Bridge (derived)' ) ),
     ROW ( "table_name", "Allocation Coverage (derived)", "row_count", COUNTROWS ( 'Allocation Coverage (derived)' ) ),
     ROW ( "table_name", "What-if Setting (synthetic)", "row_count", COUNTROWS ( 'What-if Setting (synthetic)' ) )

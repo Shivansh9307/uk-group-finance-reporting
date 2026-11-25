@@ -1,6 +1,6 @@
-// The what-if never feeds a real total. The real measures (the outturn of every year, the rows of the plan, the allocated amount and the annualised
-// paybill, which are real data) at each of the five settings and with none selected: every row must give the same four figures, and each
-// must equal its own SQL total. A setting is selected by a filter on the setting's key, as a slicer does.
+// A structural guard, not independent evidence. The what-if table is related to nothing and only the what-if measures read it, so selecting a setting
+// cannot change a real measure. This test fails if a relationship or a measure ever lets it: the real outturn, the rows of the plan, the allocated amount and
+// the annualised paybill at each of the five settings and with none selected must be the same four figures in every row, each equal to its SQL total.
 EVALUATE
 UNION (
     ROW (

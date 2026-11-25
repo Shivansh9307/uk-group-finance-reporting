@@ -242,18 +242,18 @@ to show the difference.
 
 ### The allocation and what-if tests (950 to 957)
 
-Eight tests for the five allocation tables, the 20 measures and the page ([model.md](model.md#the-allocation-of-a-shared-cost-pool-and-the-what-if)). Their expected values come from `dw.fact_allocation`, `dw.allocation_pool`, `audit.allocation_participation`, `dw.fact_outturn` and `synthetic.whatif_parameter`, never from a `dw.v_model_*` view. All need a full-scope database.
+Eight tests for the four allocation tables, the what-if table, the 20 measures and the page ([model.md](model.md#the-allocation-of-a-shared-cost-pool-and-the-what-if)). Their expected values come from `dw.fact_allocation`, `dw.allocation_pool`, `audit.allocation_participation`, `dw.fact_outturn` and `synthetic.whatif_parameter`, never from a `dw.v_model_*` view. All need a full-scope database.
 
 | Test | What it proves | Rows | Expected values from |
 |---|---|---:|---|
-| 950 `allocation_model_table_row_counts` | the five tables have the rows of their base tables | 5 | `dw` base tables, `synthetic.whatif_parameter` |
+| 950 `allocation_model_table_row_counts` | the four tables have the rows of their base tables | 4 | `dw` base tables, `synthetic.whatif_parameter` |
 | 951 `allocation_by_department_and_year` | weight, full-time equivalent, allocated amount, paybill and rounding adjustment of every year and department | 108 | `dw.fact_allocation` (weight recomputed from the full-time equivalent) |
-| 952 `naive_equals_rewrite_allocation_by_department_and_year` | the plain form and the rewrite of `Allocated Amount` side by side, each against its own recomputation | 108 | `dw.fact_allocation`, `dw.allocation_pool` |
-| 953 `naive_equals_rewrite_allocation_by_year` | the same by year, with the pool | 8 | the same |
+| 952 `each_form_of_allocated_amount_equals_its_own_recompute_by_department_and_year` | the plain form and the rewrite of `Allocated Amount` side by side, each equal to its own recomputation (the forms differ by the rounding of the plain form's products; the difference is in the result file) | 108 | `dw.fact_allocation`, `dw.allocation_pool` |
+| 953 `each_form_of_allocated_amount_equals_its_own_recompute_by_year` | the same by year, with the pool | 8 | the same |
 | 954 `allocation_tie_and_coverage_by_year` | pool, allocated amount, gap, rounding adjustment, weights, departments taking part, left out, their share and without workforce data | 8 | `dw.allocation_pool`, `dw.fact_allocation`, `audit.allocation_participation`, `dw.dim_department` |
-| 955 `outturn_is_unchanged_with_the_allocation_tables_in_context` | `Outturn` by year equal as it is, with the allocation and what-if filters set and with them cleared | 9 | `dw.fact_outturn` |
+| 955 `outturn_is_unchanged_with_the_allocation_tables_in_context` | a **structural guard**, not independent evidence: `Outturn` by year is the same as it is, with the allocation and what-if filters set and with them cleared; it fails if an allocation relationship becomes bidirectional or a real measure reads an allocation table | 9 | `dw.fact_outturn` |
 | 956 `whatif_measures_at_every_setting_2025_26` | the what-if measures at the five settings and with none selected | 6 | `synthetic.whatif_parameter`, `dw.fact_allocation` |
-| 957 `real_totals_are_identical_at_every_whatif_setting` | the outturn, the plan rows, the allocated amount and the paybill do not move with the setting | 6 | `dw.fact_outturn`, `dw.fact_plan`, `dw.fact_allocation` |
+| 957 `real_totals_are_identical_at_every_whatif_setting` | a **structural guard**, not independent evidence: the outturn, the plan rows, the allocated amount and the paybill are the same at every setting; it fails if the what-if table is related to anything or a real measure reads it | 6 | `dw.fact_outturn`, `dw.fact_plan`, `dw.fact_allocation` |
 
 `dax-compare`: 128 of 128 pass (120 older and 8 new), largest absolute difference of the new tests 0.000043 (test 956), expected build scope full. The 24 role cases are in [security.md](security.md#the-allocation-and-the-what-if-under-the-two-roles).
 

@@ -1,18 +1,17 @@
 -- scope: full
 -- The views the semantic model reads for the allocation (part 10 of the model's view layer).
 --   dw.v_model_allocation_rule      the authored rule, one row: pool, basis, years, rounding and rationale (no amount)
---   dw.v_model_allocation_pool      one row per rule and year: the real pool, GBP thousands, the department it is the outturn of and the sum
---                                   of the allocated amounts of its bridge rows (the model compares the allocation in context with it)
 --   dw.v_model_allocation_bridge    one row per rule, year and participating department: the weight, the allocated amount and its
---                                   rounding adjustment, the average full-time equivalent, the months present and the annualised paybill
+--                                   rounding adjustment, the average full-time equivalent, the months present, the annualised paybill,
+--                                   and, denormalised on every row, the year's pool and the total allocated in the year
 --   dw.v_model_allocation_coverage  one row per rule and year: how many departments take part, how many are left out for too few
 --                                   months and the share of the full-time equivalent they would have carried (counts and shares, no amount)
+-- There is no view of the pool on its own: the model reads the pool only through the bridge rows of the departments a user can see, so a
+-- user with no participating department sees no pool (docs/security.md).
 -- DERIVED from real data: the pool is the real outturn, the weights are real payroll full-time equivalent, the allocation is mine
 -- (sql/audit/940). Nothing synthetic is read: the what-if setting view is in sql/dw/940 and reads the synthetic table only.
 
 DROP VIEW IF EXISTS dw.v_model_allocation_rule;
-GO
-DROP VIEW IF EXISTS dw.v_model_allocation_pool;
 GO
 DROP VIEW IF EXISTS dw.v_model_allocation_bridge;
 GO
@@ -26,17 +25,11 @@ SELECT r.rule_id, r.rule_name, r.pool_department_number, r.pool_control_budget_d
 FROM authored.allocation_rule AS r;
 GO
 
-CREATE VIEW dw.v_model_allocation_pool
-AS
-SELECT p.pool_key, p.rule_id, p.financial_year, p.pool_department_key AS department_key, p.pool_amount, p.pool_rows,
-       (SELECT SUM(f.allocated_amount) FROM dw.fact_allocation AS f WHERE f.pool_key = p.pool_key) AS allocated_total
-FROM dw.allocation_pool AS p;
-GO
-
 CREATE VIEW dw.v_model_allocation_bridge
 AS
-SELECT f.pool_key, f.department_key, f.rule_id, f.financial_year, f.weight, f.allocated_amount, f.rounding_adjustment,
-       f.is_rounding_row, f.avg_fte, f.months_present, f.paybill_annualised
+SELECT f.department_key, f.rule_id, f.financial_year, f.weight, f.allocated_amount, f.rounding_adjustment,
+       f.is_rounding_row, f.avg_fte, f.months_present, f.paybill_annualised, f.pool_amount,
+       SUM(f.allocated_amount) OVER (PARTITION BY f.rule_id, f.financial_year) AS allocated_total
 FROM dw.fact_allocation AS f;
 GO
 

@@ -1,5 +1,5 @@
 {
-  "name": "al_pool",
+  "name": "al_out",
   "visual": {
     "visualType": "cardVisual",
     "query": {
@@ -7,19 +7,18 @@
         "Data": {
           "projections": [
             {
-              "queryRef": "Allocation Pool (derived).Allocation Pool",
+              "queryRef": "Allocation Coverage (derived).Departments Without Workforce Data",
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Allocation Pool (derived)"
+                      "Entity": "Allocation Coverage (derived)"
                     }
                   },
-                  "Property": "Allocation Pool"
+                  "Property": "Departments Without Workforce Data"
                 }
               },
-              "nativeQueryRef": "Allocation Pool",
-              "displayName": "Pool"
+              "nativeQueryRef": "Departments Without Workforce Data"
             }
           ]
         }
@@ -31,10 +30,10 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Allocation Pool (derived)"
+                    "Entity": "Allocation Coverage (derived)"
                   }
                 },
-                "Property": "Allocation Pool"
+                "Property": "Departments Without Workforce Data"
               }
             },
             "direction": "Descending"
@@ -99,7 +98,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Pool 2025-26'"
+                  "Value": "'No workforce data'"
                 }
               }
             }
@@ -125,7 +124,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'The pool of 2025-26 in GBP thousands: the real outturn of the Cabinet Office in the administration budget of departmental expenditure limits'"
+                  "Value": "'Number of live departments of the current structure with no workforce data in 2025-26, which are therefore left out of the weights; the Home Office and the Ministry of Justice are two of them'"
                 }
               }
             }
@@ -135,7 +134,7 @@
     }
   },
   "position": {
-    "x": 24,
+    "x": 1016,
     "y": 136,
     "width": 240,
     "height": 76,
@@ -146,7 +145,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "5d7be36b1fbbac3a696b",
+        "name": "6f99a56abd49ce6c535e",
         "field": {
           "Column": {
             "Expression": {

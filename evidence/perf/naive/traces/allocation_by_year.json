@@ -4,151 +4,68 @@
   "cold_cache": true,
   "rows_returned": 8,
   "error": null,
-  "total_ms": 91,
+  "total_ms": 73,
   "total_cpu_ms": 78,
-  "storage_engine_ms": 4,
-  "formula_engine_ms_derived": 87,
-  "storage_engine_queries": 5,
+  "storage_engine_ms": 0,
+  "formula_engine_ms_derived": 73,
+  "storage_engine_queries": 1,
   "storage_engine_cache_hits": 0,
   "storage_engine_queries_by_kind": {
-    "VertiPaqScan": 5,
-    "VertiPaqScanInternal": 5
+    "VertiPaqScan": 1,
+    "VertiPaqScanInternal": 1
   },
-  "distinct_storage_engine_query_texts": 10,
+  "distinct_storage_engine_query_texts": 2,
   "most_repeated_storage_engine_query": {
     "times": 1,
-    "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (252)] AS [Fiscal Year (10)$Financial Year (252)], [Allocation Bridge  derived  (130)].[Pool Key (621)] AS [Allocation Bridge  derived  (130)$Pool Key (621)], [Allocation Bridge  derived  (130)].[Department Key (622)] AS [Allocation Bridge  derived  (130)$Department Key (622)],\r\nCOUNT()\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Allocation Pool  derived  (127)] ON [Allocation Bridge  derived  (130)].[Pool Key (621)]=[Allocation Pool  derived  (127)].[Pool Key (615)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Allocation Pool  derived  (127)].[Fiscal Year Key (617)]=[Fiscal Year (10)].[Financial Year (252)];\r\n"
+    "text": "SET DC_KIND=\"C32\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (248)] AS [Fiscal Year (10)$Financial Year (248)], [Allocation Bridge  derived  (127)].[Fiscal Year Key (611)] AS [Allocation Bridge  derived  (127)$Fiscal Year Key (611)], [Allocation Bridge  derived  (127)].[Rule Key (612)] AS [Allocation Bridge  derived  (127)$Rule Key (612)], [Allocation Bridge  derived  (127)].[Department Key (615)] AS [Allocation Bridge  derived  (127)$Department Key (615)],\r\nSUM([Allocation Bridge  derived  (127)].[Weight  stored  (616)]) AS [$Measure0], MAX([Allocation Bridge  derived  (127)].[Pool Amount  stored  (613)]) AS [$Measure1]\r\nFROM [Allocation Bridge  derived  (127)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Allocation Bridge  derived  (127)].[Fiscal Year Key (611)]=[Fiscal Year (10)].[Financial Year (248)];\r\n"
   },
   "longest_storage_engine_queries": [
     {
       "kind": "VertiPaqScan",
-      "duration_ms": 2,
-      "cached": false,
-      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (252)] AS [Fiscal Year (10)$Financial Year (252)]\r\nFROM [Fiscal Year (10)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 15, 120]\r\n"
-    },
-    {
-      "kind": "VertiPaqScan",
-      "duration_ms": 1,
-      "cached": false,
-      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Allocation Pool  derived  (127)].[Pool Key (615)] AS [Allocation Pool  derived  (127)$Pool Key (615)]\r\nFROM [Allocation Pool  derived  (127)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 11, 88]\r\n"
-    },
-    {
-      "kind": "VertiPaqScan",
-      "duration_ms": 1,
-      "cached": false,
-      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (252)] AS [Fiscal Year (10)$Financial Year (252)], [Allocation Bridge  derived  (130)].[Pool Key (621)] AS [Allocation Bridge  derived  (130)$Pool Key (621)], [Allocation Bridge  derived  (130)].[Department Key (622)] AS [Allocation Bridge  derived  (130)$Department Key (622)]\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Allocation Pool  derived  (127)] ON [Allocation Bridge  derived  (130)].[Pool Key (621)]=[Allocation Pool  derived  (127)].[Pool Key (615)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Allocation Pool  derived  (127)].[Fiscal Year Key (617)]=[Fiscal Year (10)].[Financial Year (252)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 3960, 31680]\r\n"
-    },
-    {
-      "kind": "VertiPaqScanInternal",
-      "duration_ms": 1,
-      "cached": false,
-      "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Allocation Pool  derived  (127)].[Pool Key (615)] AS [Allocation Pool  derived  (127)$Pool Key (615)],\r\nCOUNT()\r\nFROM [Allocation Pool  derived  (127)];\r\n"
-    },
-    {
-      "kind": "VertiPaqScanInternal",
-      "duration_ms": 1,
-      "cached": false,
-      "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (252)] AS [Fiscal Year (10)$Financial Year (252)], [Allocation Bridge  derived  (130)].[Pool Key (621)] AS [Allocation Bridge  derived  (130)$Pool Key (621)], [Allocation Bridge  derived  (130)].[Department Key (622)] AS [Allocation Bridge  derived  (130)$Department Key (622)],\r\nCOUNT()\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Allocation Pool  derived  (127)] ON [Allocation Bridge  derived  (130)].[Pool Key (621)]=[Allocation Pool  derived  (127)].[Pool Key (615)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Allocation Pool  derived  (127)].[Fiscal Year Key (617)]=[Fiscal Year (10)].[Financial Year (252)];\r\n"
-    },
-    {
-      "kind": "VertiPaqScan",
       "duration_ms": 0,
       "cached": false,
-      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (252)] AS [Fiscal Year (10)$Financial Year (252)], [Allocation Bridge  derived  (130)].[Pool Key (621)] AS [Allocation Bridge  derived  (130)$Pool Key (621)], [Allocation Bridge  derived  (130)].[Department Key (622)] AS [Allocation Bridge  derived  (130)$Department Key (622)],\r\nSUM([Allocation Bridge  derived  (130)].[Weight  stored  (623)]) AS [$Measure0]\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Allocation Pool  derived  (127)] ON [Allocation Bridge  derived  (130)].[Pool Key (621)]=[Allocation Pool  derived  (127)].[Pool Key (615)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Allocation Pool  derived  (127)].[Fiscal Year Key (617)]=[Fiscal Year (10)].[Financial Year (252)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 108, 1296]\r\n"
-    },
-    {
-      "kind": "VertiPaqScan",
-      "duration_ms": 0,
-      "cached": false,
-      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (252)] AS [Fiscal Year (10)$Financial Year (252)], [Allocation Pool  derived  (127)].[Pool Key (615)] AS [Allocation Pool  derived  (127)$Pool Key (615)],\r\nSUM([Allocation Pool  derived  (127)].[Pool Amount (619)]) AS [$Measure0]\r\nFROM [Allocation Pool  derived  (127)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Allocation Pool  derived  (127)].[Fiscal Year Key (617)]=[Fiscal Year (10)].[Financial Year (252)]\r\nWHERE\r\n\t[Allocation Pool  derived  (127)].[Pool Key (615)] IN (1, 2, 3, 4, 5, 6, 7, 8);\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 165, 2640]\r\n"
+      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (248)] AS [Fiscal Year (10)$Financial Year (248)], [Allocation Bridge  derived  (127)].[Fiscal Year Key (611)] AS [Allocation Bridge  derived  (127)$Fiscal Year Key (611)], [Allocation Bridge  derived  (127)].[Rule Key (612)] AS [Allocation Bridge  derived  (127)$Rule Key (612)], [Allocation Bridge  derived  (127)].[Department Key (615)] AS [Allocation Bridge  derived  (127)$Department Key (615)],\r\nSUM([Allocation Bridge  derived  (127)].[Weight  stored  (616)]) AS [$Measure0], MAX([Allocation Bridge  derived  (127)].[Pool Amount  stored  (613)]) AS [$Measure1]\r\nFROM [Allocation Bridge  derived  (127)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Allocation Bridge  derived  (127)].[Fiscal Year Key (611)]=[Fiscal Year (10)].[Financial Year (248)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 108, 2160]\r\n"
     },
     {
       "kind": "VertiPaqScanInternal",
       "duration_ms": 0,
       "cached": false,
-      "text": "SET DC_KIND=\"C32\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (252)] AS [Fiscal Year (10)$Financial Year (252)], [Allocation Bridge  derived  (130)].[Pool Key (621)] AS [Allocation Bridge  derived  (130)$Pool Key (621)], [Allocation Bridge  derived  (130)].[Department Key (622)] AS [Allocation Bridge  derived  (130)$Department Key (622)],\r\nSUM([Allocation Bridge  derived  (130)].[Weight  stored  (623)]) AS [$Measure0]\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Allocation Pool  derived  (127)] ON [Allocation Bridge  derived  (130)].[Pool Key (621)]=[Allocation Pool  derived  (127)].[Pool Key (615)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Allocation Pool  derived  (127)].[Fiscal Year Key (617)]=[Fiscal Year (10)].[Financial Year (252)];\r\n"
-    },
-    {
-      "kind": "VertiPaqScanInternal",
-      "duration_ms": 0,
-      "cached": false,
-      "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (252)] AS [Fiscal Year (10)$Financial Year (252)],\r\nCOUNT()\r\nFROM [Fiscal Year (10)];\r\n"
-    },
-    {
-      "kind": "VertiPaqScanInternal",
-      "duration_ms": 0,
-      "cached": false,
-      "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (252)] AS [Fiscal Year (10)$Financial Year (252)], [Allocation Pool  derived  (127)].[Pool Key (615)] AS [Allocation Pool  derived  (127)$Pool Key (615)],\r\nSUM([Allocation Pool  derived  (127)].[Pool Amount (619)]) AS [$Measure0], COUNT()\r\nFROM [Allocation Pool  derived  (127)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Allocation Pool  derived  (127)].[Fiscal Year Key (617)]=[Fiscal Year (10)].[Financial Year (252)]\r\nWHERE\r\n\t[Allocation Pool  derived  (127)].[Pool Key (615)] INB (1, 2, 3, 4, 5, 6, 7, 8);\r\n"
+      "text": "SET DC_KIND=\"C32\";\r\nSELECT\r\n[Fiscal Year (10)].[Financial Year (248)] AS [Fiscal Year (10)$Financial Year (248)], [Allocation Bridge  derived  (127)].[Fiscal Year Key (611)] AS [Allocation Bridge  derived  (127)$Fiscal Year Key (611)], [Allocation Bridge  derived  (127)].[Rule Key (612)] AS [Allocation Bridge  derived  (127)$Rule Key (612)], [Allocation Bridge  derived  (127)].[Department Key (615)] AS [Allocation Bridge  derived  (127)$Department Key (615)],\r\nSUM([Allocation Bridge  derived  (127)].[Weight  stored  (616)]) AS [$Measure0], MAX([Allocation Bridge  derived  (127)].[Pool Amount  stored  (613)]) AS [$Measure1]\r\nFROM [Allocation Bridge  derived  (127)]\r\n\tLEFT OUTER JOIN [Fiscal Year (10)] ON [Allocation Bridge  derived  (127)].[Fiscal Year Key (611)]=[Fiscal Year (10)].[Financial Year (248)];\r\n"
     }
   ],
   "direct_query_events": 0,
   "aggregation_rewrites": 0,
-  "logical_plan_lines": 22,
-  "physical_plan_lines": 62,
+  "logical_plan_lines": 14,
+  "physical_plan_lines": 13,
   "logical_plan_head": [
     "Order: RelLogOp DependOnCols()() 0-1 RequiredCols(0, 1)('Fiscal Year'[Financial Year], ''[allocated])",
     "\tGroupSemiJoin: RelLogOp DependOnCols()() 0-1 RequiredCols(0, 1)('Fiscal Year'[Financial Year], ''[allocated])",
     "\t\tScan_Vertipaq: RelLogOp DependOnCols()() 0-0 RequiredCols(0)('Fiscal Year'[Financial Year])",
     "\t\tSumX: ScaLogOp MeasureRef=[Allocated Amount (naive)] DependOnCols(0)('Fiscal Year'[Financial Year]) Currency DominantValue=BLANK",
-    "\t\t\tGroupBy_Vertipaq: RelLogOp DependOnCols(0)('Fiscal Year'[Financial Year]) 1-2 RequiredCols(0, 1, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key])",
-    "\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0)('Fiscal Year'[Financial Year]) 1-39 RequiredCols(0, 31, 32)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Pool Key], 'Allocation Bridge (derived)'[Department Key])",
-    "\t\t\tVarScope: ScaLogOp DependOnCols(0, 1, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) Currency DominantValue=BLANK",
-    "\t\t\t\t'Allocation Bridge (derived)'[Pool Key]: ScaLogOp VarName=PoolKey DependOnCols(2)('Allocation Bridge (derived)'[Pool Key]) Integer DominantValue=NONE",
-    "\t\t\t\tMultiply: ScaLogOp DependOnCols(0, 1, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) Currency DominantValue=BLANK",
-    "\t\t\t\t\tCalculate: ScaLogOp DependOnCols(0, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Pool Key]) Currency DominantValue=BLANK",
-    "\t\t\t\t\t\tSum_Vertipaq: ScaLogOp DependOnCols(0, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Pool Key]) Currency DominantValue=BLANK",
-    "\t\t\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Pool Key]) 4-24 RequiredCols(0, 2, 23)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Amount])",
-    "\t\t\t\t\t\t\t'Allocation Pool (derived)'[Pool Amount]: ScaLogOp DependOnCols(23)('Allocation Pool (derived)'[Pool Amount]) Currency DominantValue=NONE",
-    "\t\t\t\t\t\tFilter: RelLogOp DependOnCols(2)('Allocation Bridge (derived)'[Pool Key]) 3-3 RequiredCols(2, 3)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Key])",
-    "\t\t\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols()() 3-3 RequiredCols(3)('Allocation Pool (derived)'[Pool Key])",
-    "\t\t\t\t\t\t\tEqualTo: ScaLogOp DependOnCols(2, 3)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Key]) Boolean DominantValue=false",
-    "\t\t\t\t\t\t\t\t'Allocation Pool (derived)'[Pool Key]: ScaLogOp DependOnCols(3)('Allocation Pool (derived)'[Pool Key]) Integer DominantValue=NONE",
-    "\t\t\t\t\t\t\t\t'Allocation Bridge (derived)'[Pool Key]: ScaLogOp DependOnCols(2)('Allocation Bridge (derived)'[Pool Key]) Integer DominantValue=NONE",
-    "\t\t\t\t\tSum_Vertipaq: ScaLogOp DependOnCols(0, 1, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) Double DominantValue=BLANK",
-    "\t\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0, 1, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) 3-41 RequiredCols(0, 1, 2, 35)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key], 'Allocation Bridge (derived)'[Weight (stored)])",
-    "\t\t\t\t\t\t'Allocation Bridge (derived)'[Weight (stored)]: ScaLogOp DependOnCols(35)('Allocation Bridge (derived)'[Weight (stored)]) Double DominantValue=NONE",
+    "\t\t\tGroupBy_Vertipaq: RelLogOp DependOnCols(0)('Fiscal Year'[Financial Year]) 1-3 RequiredCols(0, 1, 2, 3)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key])",
+    "\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0)('Fiscal Year'[Financial Year]) 1-35 RequiredCols(0, 24, 25, 28)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key], 'Allocation Bridge (derived)'[Department Key])",
+    "\t\t\tMultiply: ScaLogOp DependOnCols(0, 1, 2, 3)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key]) Currency DominantValue=BLANK",
+    "\t\t\t\tMax_Vertipaq: ScaLogOp DependOnCols(0, 1, 2, 3)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key]) Currency DominantValue=BLANK",
+    "\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0, 1, 2, 3)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key]) 4-38 RequiredCols(0, 1, 2, 3, 29)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key], 'Allocation Bridge (derived)'[Pool Amount (stored)])",
+    "\t\t\t\t\t'Allocation Bridge (derived)'[Pool Amount (stored)]: ScaLogOp DependOnCols(29)('Allocation Bridge (derived)'[Pool Amount (stored)]) Currency DominantValue=NONE",
+    "\t\t\t\tSum_Vertipaq: ScaLogOp DependOnCols(0, 1, 2, 3)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key]) Double DominantValue=BLANK",
+    "\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0, 1, 2, 3)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key]) 4-38 RequiredCols(0, 1, 2, 3, 32)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key], 'Allocation Bridge (derived)'[Weight (stored)])",
+    "\t\t\t\t\t'Allocation Bridge (derived)'[Weight (stored)]: ScaLogOp DependOnCols(32)('Allocation Bridge (derived)'[Weight (stored)]) Double DominantValue=NONE",
     "\t'Fiscal Year'[Financial Year]: ScaLogOp DependOnCols(0)('Fiscal Year'[Financial Year]) String DominantValue=NONE"
   ],
   "physical_plan_head": [
     "PartitionIntoGroups: IterPhyOp LogOp=Order IterCols(0, 1)('Fiscal Year'[Financial Year], ''[allocated]) #Groups=1 #Rows=8",
     "\tAggregationSpool<Order>: SpoolPhyOp #Records=1",
     "\t\tGroupSemijoin: IterPhyOp LogOp=GroupSemiJoin IterCols(0, 1)('Fiscal Year'[Financial Year], ''[allocated])",
-    "\t\t\tCrossApply: IterPhyOp LogOp=SumX IterCols(0)('Fiscal Year'[Financial Year])",
-    "\t\t\t\tSpool_UniqueHashLookup: IterPhyOp LogOp=Scan_Vertipaq LookupCols(0)('Fiscal Year'[Financial Year]) #Records=12 #KeyCols=480 #ValueCols=0",
-    "\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=12",
-    "\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=0",
-    "\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=SumX IterCols(0)('Fiscal Year'[Financial Year]) #Records=8 #KeyCols=1 #ValueCols=1",
-    "\t\t\t\t\tAggregationSpool<Sum>: SpoolPhyOp #Records=8",
-    "\t\t\t\t\t\tCrossApply: IterPhyOp LogOp=VarScope IterCols(0, 1, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key])",
-    "\t\t\t\t\t\t\tSpool_UniqueHashLookup: IterPhyOp LogOp=GroupBy_Vertipaq LookupCols(0, 1, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) #Records=108 #KeyCols=480 #ValueCols=0",
-    "\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=108",
-    "\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=3 #ValueCols=0",
-    "\t\t\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp=Multiply IterCols(0, 1, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key])",
-    "\t\t\t\t\t\t\t\tCrossApply: IterPhyOp LogOp=Calculate IterCols(0, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Pool Key])",
-    "\t\t\t\t\t\t\t\t\tSpool_MultiValuedHashLookup: IterPhyOp LogOp=GroupBy_Vertipaq LookupCols(0, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Pool Key]) IterCols(1)('Allocation Bridge (derived)'[Department Key]) #Records=108 #KeyCols=480 #ValueCols=0",
-    "\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=108",
-    "\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=3 #ValueCols=0",
-    "\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Sum_Vertipaq IterCols(0, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Pool Key]) #Records=8 #KeyCols=2 #ValueCols=1",
-    "\t\t\t\t\t\t\t\t\t\tAggregationSpool<AggFusion<Sum>>: SpoolPhyOp #Records=8",
-    "\t\t\t\t\t\t\t\t\t\t\tCrossApply: IterPhyOp LogOp=Sum_Vertipaq IterCols(0, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Pool Key])",
-    "\t\t\t\t\t\t\t\t\t\t\t\tSpool_MultiValuedHashLookup: IterPhyOp LogOp=Filter LookupCols(3)('Allocation Pool (derived)'[Pool Key]) IterCols(2)('Allocation Bridge (derived)'[Pool Key]) #Records=8 #KeyCols=2 #ValueCols=0",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\tAggregationSpool<GroupBy>: SpoolPhyOp #Records=8",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\tFilter: IterPhyOp LogOp=Filter IterCols(2, 3)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Key])",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tInnerHashJoin: IterPhyOp LogOp=EqualTo IterCols(2, 3)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Key])",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp='Allocation Bridge (derived)'[Pool Key] IterCols(2)('Allocation Bridge (derived)'[Pool Key])",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=GroupBy_Vertipaq IterCols(2)('Allocation Bridge (derived)'[Pool Key]) #Records=8 #KeyCols=1 #ValueCols=0",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAggregationSpool<GroupBy>: SpoolPhyOp #Records=8",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=GroupBy_Vertipaq IterCols(0, 1, 2)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) #Records=108 #KeyCols=480 #ValueCols=0",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=108",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=3 #ValueCols=0",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tColValue<'Allocation Bridge (derived)'[Pool Key]>: LookupPhyOp LogOp='Allocation Bridge (derived)'[Pool Key] LookupCols(2)('Allocation Bridge (derived)'[Pool Key]) Integer",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tHashLookup: IterPhyOp LogOp='Allocation Pool (derived)'[Pool Key] IterCols(3)('Allocation Pool (derived)'[Pool Key]) #Recs=8",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tHashByValue: SpoolPhyOp #Records=8",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp='Allocation Pool (derived)'[Pool Key] IterCols(3)('Allocation Pool (derived)'[Pool Key])",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Scan_Vertipaq IterCols(3)('Allocation Pool (derived)'[Pool Key]) #Records=8 #KeyCols=480 #ValueCols=0",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=8",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=0",
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tColValue<'Allocation Pool (derived)'[Pool Key]>: LookupPhyOp LogOp='Allocation Pool (derived)'[Pool Key] LookupCols(3)('Allocation Pool (derived)'[Pool Key]) Integer",
-    "\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=2 #ValueCols=1"
+    "\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=SumX IterCols(0)('Fiscal Year'[Financial Year]) #Records=8 #KeyCols=1 #ValueCols=1",
+    "\t\t\t\tAggregationSpool<Sum>: SpoolPhyOp #Records=8",
+    "\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp=Multiply IterCols(0, 1, 2, 3)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key])",
+    "\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Max_Vertipaq IterCols(0, 1, 2, 3)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key]) #Records=108 #KeyCols=476 #ValueCols=2",
+    "\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<Copy, Copy>>: SpoolPhyOp #Records=108",
+    "\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=4 #ValueCols=2",
+    "\t\t\t\t\t\tSpoolLookup: LookupPhyOp LogOp=Sum_Vertipaq LookupCols(0, 1, 2, 3)('Fiscal Year'[Financial Year], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Fiscal Year Key], 'Allocation Bridge (derived)'[Rule Key]) Double #Records=108 #KeyCols=476 #ValueCols=2 DominantValue=BLANK",
+    "\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<Copy, Copy>>: SpoolPhyOp #Records=108",
+    "\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=4 #ValueCols=2",
+    "\t\tColValue<'Fiscal Year'[Financial Year]>: LookupPhyOp LogOp='Fiscal Year'[Financial Year] LookupCols(0)('Fiscal Year'[Financial Year]) String"
   ]
 }

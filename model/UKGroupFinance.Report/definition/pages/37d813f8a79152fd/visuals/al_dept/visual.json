@@ -1,5 +1,5 @@
 {
-  "name": "al_year",
+  "name": "al_dept",
   "visual": {
     "visualType": "tableEx",
     "query": {
@@ -7,33 +7,47 @@
         "Values": {
           "projections": [
             {
-              "queryRef": "Fiscal Year.Financial Year",
+              "queryRef": "Department (current structure).Department",
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Fiscal Year"
+                      "Entity": "Department (current structure)"
                     }
                   },
-                  "Property": "Financial Year"
+                  "Property": "Department"
                 }
               },
-              "nativeQueryRef": "Financial Year"
+              "nativeQueryRef": "Department"
             },
             {
-              "queryRef": "Allocation Pool (derived).Allocation Pool",
+              "queryRef": "Allocation Bridge (derived).Months With Data",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Allocation Bridge (derived)"
+                    }
+                  },
+                  "Property": "Months With Data"
+                }
+              },
+              "nativeQueryRef": "Months With Data",
+              "displayName": "Months"
+            },
+            {
+              "queryRef": "Allocation Bridge (derived).Allocation Weight",
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Allocation Pool (derived)"
+                      "Entity": "Allocation Bridge (derived)"
                     }
                   },
-                  "Property": "Allocation Pool"
+                  "Property": "Allocation Weight"
                 }
               },
-              "nativeQueryRef": "Allocation Pool",
-              "displayName": "Pool"
+              "nativeQueryRef": "Allocation Weight"
             },
             {
               "queryRef": "Allocation Bridge (derived).Allocated Amount",
@@ -48,66 +62,6 @@
                 }
               },
               "nativeQueryRef": "Allocated Amount"
-            },
-            {
-              "queryRef": "Allocation Bridge (derived).Allocation Gap to Pool",
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Allocation Bridge (derived)"
-                    }
-                  },
-                  "Property": "Allocation Gap to Pool"
-                }
-              },
-              "nativeQueryRef": "Allocation Gap to Pool",
-              "displayName": "Gap"
-            },
-            {
-              "queryRef": "Allocation Bridge (derived).Allocation Rounding Adjustment",
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Allocation Bridge (derived)"
-                    }
-                  },
-                  "Property": "Allocation Rounding Adjustment"
-                }
-              },
-              "nativeQueryRef": "Allocation Rounding Adjustment",
-              "displayName": "Rounding"
-            },
-            {
-              "queryRef": "Allocation Coverage (derived).Departments Taking Part",
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Allocation Coverage (derived)"
-                    }
-                  },
-                  "Property": "Departments Taking Part"
-                }
-              },
-              "nativeQueryRef": "Departments Taking Part",
-              "displayName": "Taking part"
-            },
-            {
-              "queryRef": "Allocation Coverage (derived).Left Out Weight Share",
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Allocation Coverage (derived)"
-                    }
-                  },
-                  "Property": "Left Out Weight Share"
-                }
-              },
-              "nativeQueryRef": "Left Out Weight Share",
-              "displayName": "Left out share"
             }
           ]
         }
@@ -116,16 +70,16 @@
         "sort": [
           {
             "field": {
-              "Column": {
+              "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Fiscal Year"
+                    "Entity": "Allocation Bridge (derived)"
                   }
                 },
-                "Property": "Financial Year"
+                "Property": "Allocation Weight"
               }
             },
-            "direction": "Ascending"
+            "direction": "Descending"
           }
         ],
         "isDefaultSort": true
@@ -194,7 +148,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Pool, allocation and who is left out, by year'"
+                  "Value": "'Weight and allocation by department, 2025-26'"
                 }
               }
             }
@@ -220,7 +174,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Table with one row for each financial year from 2018-19 to 2025-26: the pool, the allocated amount, their difference, which is zero, the rounding adjustment, the number of departments that take part and the share of the full-time equivalent that the departments left out for too few months would have carried'"
+                  "Value": "'Table with one row for each department that takes part in 2025-26: the months of workforce data the weight rests on, the weight (its payroll full-time equivalent over the sum of the participants) and the allocated amount in GBP thousands, with a total row'"
                 }
               }
             }
@@ -230,12 +184,70 @@
     }
   },
   "position": {
-    "x": 24,
-    "y": 480,
-    "width": 620,
-    "height": 216,
+    "x": 362,
+    "y": 220,
+    "width": 520,
+    "height": 252,
     "z": 0,
     "tabOrder": 0
   },
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json"
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d032fbda978eb406789b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Fiscal Year"
+              }
+            },
+            "Property": "Financial Year"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "Fiscal Year",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Financial Year"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'2025-26'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

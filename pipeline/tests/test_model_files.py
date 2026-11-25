@@ -268,7 +268,7 @@ def test_the_forecast_accuracy_is_labelled_derived_and_has_no_organisation_level
 
 # ----------------------------------------------------------------------------------------- relationships
 def test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one(relationships, tables):
-    assert len(relationships) == 47
+    assert len(relationships) == 46
     seen = set()
     for r in relationships:
         for end in ("fromColumn", "toColumn"):

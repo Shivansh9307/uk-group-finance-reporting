@@ -72,7 +72,7 @@ in force found by a window function) and compares the two with equality on the s
 ### Who is left out, and the effect
 
 Who is not in the weights is the most important limit of the allocation, and each of the three groups has its own count in
-`audit.allocation_year_summary` and in the model's `Allocation Coverage` table.
+`audit.allocation_year_summary` and in the model's `Allocation Coverage (derived)` table.
 
 - **The workforce source does not hold them.** The Home Office, the Ministry of Justice, the Cabinet Office (the pool's own
   department) and the Office for National Statistics are not in it, and neither are most small bodies and the pension schemes. Between
@@ -100,7 +100,7 @@ plus its own, and the year summary counts are recomputed from the participation 
 
 | Column | Meaning |
 |---|---|
-| `pool_amount` | the pool of the year, GBP thousands, the same on every row of the year |
+| `pool_amount` | the pool of the year, GBP thousands, the same on every row of the year; the model reads the pool only through these rows, so a user sees it only through a department the user can see ([security.md](../security.md#the-allocation-and-the-what-if-under-the-two-roles)) |
 | `avg_fte`, `months_present` | the department's average monthly full-time equivalent and the months it rests on |
 | `weight` | `avg_fte` over the participants' sum, `DECIMAL(19,10)` |
 | `allocated_amount` | the pool times the weight, `DECIMAL(19,4)`, with the rounding adjustment included |
@@ -182,11 +182,11 @@ it and nothing reads that view. **Tested**: `sql/tests/940` (labelled SYNTHETIC,
 reader, no foreign key, no amount column and no what-if column in a view of a real fact), `pipeline/tests/test_synthetic.py` (the
 file's columns and bases, and, where the data folder is present, that the 2025 value of the ONS file is 3.4).
 
-The settings are per setting and not per year as the design asked: a what-if on a closed year is a counterfactual that nobody needs,
-so the what-if measures apply the setting in context to whichever year the visual shows (the page fixes 2025-26). I changed the design for
+The settings are per setting and not per year, which I had first planned: a what-if on a closed year is a counterfactual that nobody needs,
+so the what-if measures apply the setting in context to whichever year the visual shows (the page fixes 2025-26). I changed it for
 that reason and say so in the model page.
 
-## What a later task reads
+## What reads these objects
 
 | Object | Grain | Use |
 |---|---|---|
