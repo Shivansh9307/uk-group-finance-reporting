@@ -114,7 +114,10 @@ def test_the_real_sql_folder_follows_the_convention():
     assert {"raw/001_oscar_inyear.sql", "quarantine/001_oscar_inyear.sql"} <= pre
     # the landing tables of the raw and quarantine layers, and the typed table of the synthetic user map
     assert all(f.layer in ("raw", "quarantine", "synthetic") for f in found if f.rel in pre)
-    assert {f.rel for f in found if f.layer == "synthetic"} == {"synthetic/820_user_department.sql"} <= pre
+    assert {f.rel for f in found if f.layer == "synthetic"} == {
+        "synthetic/820_user_department.sql",
+        "synthetic/940_whatif_parameter.sql",
+    } <= pre
     # everything derived runs after the loads
     post = [f.rel for f in sqlrunner.select(found, "post", "full")]
     assert (

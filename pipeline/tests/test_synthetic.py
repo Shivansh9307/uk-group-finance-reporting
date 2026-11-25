@@ -25,7 +25,7 @@ def test_a_missing_folder_means_no_files(tmp_path):
 
 def test_every_synthetic_file_is_an_invented_user_map_with_no_amount(repo_root):
     files = list_synthetic_files(repo_root)
-    assert [p.name for p in files] == ["user_department.csv"]
+    assert [p.name for p in files] == ["user_department.csv", "whatif_parameter.csv"]
     with files[0].open(encoding="utf-8-sig", newline="") as fh:
         reader = csv.DictReader(fh)
         header = reader.fieldnames or []
@@ -39,6 +39,47 @@ def test_every_synthetic_file_is_an_invented_user_map_with_no_amount(repo_root):
     users = {r["user_principal_name"] for r in rows}
     assert "nobody@example.org" not in users, "the user the tests use as unmapped must be in no row"
     assert any(sum(1 for r in rows if r["user_principal_name"] == u) >= 2 for u in users), "no user has two departments"
+
+
+def test_the_whatif_settings_are_invented_and_say_where_each_percentage_comes_from(repo_root):
+    path = repo_root / "synthetic" / "whatif_parameter.csv"
+    with path.open(encoding="utf-8-sig", newline="") as fh:
+        reader = csv.DictReader(fh)
+        header = reader.fieldnames or []
+        rows = list(reader)
+    assert header == [
+        "setting_key",
+        "setting_name",
+        "pay_award_pct",
+        "headcount_change_pct",
+        "pay_award_basis",
+        "headcount_basis",
+        "is_default",
+        "data_class",
+        "note",
+    ]
+    assert {r["data_class"] for r in rows} == {"synthetic"}
+    assert [r["is_default"] for r in rows].count("1") == 1
+    assert all(r["pay_award_basis"].startswith(("ONS", "invented")) for r in rows)
+    assert all(r["headcount_basis"].startswith("invented") for r in rows), "no ONS series gives a headcount path here"
+    assert not any("amount" in h or "gbp" in h for h in header), "a what-if setting holds percentages and no amount"
+
+
+@pytest.mark.localdata
+def test_the_base_pay_award_is_the_ons_cpi_annual_rate_of_2025_in_the_file_the_repository_holds(repo_root):
+    from ukfr.config import data_dir
+
+    series = data_dir(repo_root) / "ons_cpi" / "latest" / "d7g7.csv"
+    values = {}
+    with series.open(encoding="utf-8-sig", newline="") as fh:
+        for row in csv.reader(fh):
+            if len(row) == 2 and row[0].isdigit() and len(row[0]) == 4:
+                values[row[0]] = row[1]
+    assert values["2025"] == "3.4", values["2025"]
+    with (repo_root / "synthetic" / "whatif_parameter.csv").open(encoding="utf-8-sig", newline="") as fh:
+        base = next(r for r in csv.DictReader(fh) if r["is_default"] == "1")
+    assert base["pay_award_pct"] == values["2025"]
+    assert base["pay_award_basis"].startswith("ONS D7G7")
 
 
 class _NoTable:

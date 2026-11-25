@@ -77,3 +77,4 @@ stg,statement_account_rule,31
 stg,statement_line,39
 stg,subsegment_label,58524
 synthetic,user_department,11
+synthetic,whatif_parameter,5

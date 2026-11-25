@@ -17,8 +17,8 @@ REGISTER_ROW = re.compile(r"^\|\s*`authored/([a-z0-9_]+)\.csv`\s*\|(.*)\|\s*$")
 # | `synthetic/<name>.csv` | synthetic | `synthetic.<name>` | rows | what it holds | reach | test |
 SYNTHETIC_ROW = re.compile(r"^\|\s*`synthetic/([a-z0-9_]+)\.csv`\s*\|(.*)\|\s*$")
 # The synthetic tables that exist, and the only two objects that read them (both views of the model's security tables).
-SYNTHETIC_TABLES = {"synthetic.user_department"}
-SYNTHETIC_READERS = {"dw.v_model_user_department", "dw.v_model_user_plan_group"}
+SYNTHETIC_TABLES = {"synthetic.user_department", "synthetic.whatif_parameter"}
+SYNTHETIC_READERS = {"dw.v_model_user_department", "dw.v_model_user_plan_group", "dw.v_model_whatif_setting"}
 
 
 def _block(repo_root) -> str:
@@ -115,7 +115,8 @@ def test_the_register_lists_every_synthetic_file_with_its_row_count_and_no_reach
         assert cells[4].lower().startswith("no"), f"{stem}: a synthetic file never reaches a real total"
         assert cells[5].strip("`"), f"{stem}: name the test that proves it"
         assert {r["data_class"] for r in rows} == {"synthetic"}, f"{stem}: every row must say synthetic"
-        assert all(r["user_principal_name"].endswith("@example.org") for r in rows), "reserved domain only"
+        if stem == "user_department":
+            assert all(r["user_principal_name"].endswith("@example.org") for r in rows), "reserved domain only"
 
 
 def test_the_register_names_the_model_tables_of_the_security_roles_as_synthetic(repo_root):
@@ -146,6 +147,7 @@ def test_the_synthetic_schemas_hold_exactly_the_registered_tables_and_no_fact_or
     onward = db.query(
         "SELECT OBJECT_SCHEMA_NAME(d.referencing_id) + '.' + OBJECT_NAME(d.referencing_id) "
         "FROM sys.sql_expression_dependencies AS d WHERE d.referenced_id IN "
-        "(OBJECT_ID('dw.v_model_user_department'), OBJECT_ID('dw.v_model_user_plan_group'))"
+        "(OBJECT_ID('dw.v_model_user_department'), OBJECT_ID('dw.v_model_user_plan_group'), "
+        "OBJECT_ID('dw.v_model_whatif_setting'))"
     )
     assert onward == [], onward

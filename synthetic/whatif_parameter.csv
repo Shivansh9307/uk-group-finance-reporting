@@ -1,0 +1,6 @@
+setting_key,setting_name,pay_award_pct,headcount_change_pct,pay_award_basis,headcount_basis,is_default,data_class,note
+1,Base,3.4,0,"ONS D7G7 annual rate, 2025",invented: no change,1,synthetic,"The default setting. The pay award is the ONS CPI annual rate for 2025 (3.4 per cent) from the copy of series D7G7 that the repository holds; the headcount change is zero because nothing in the repository gives a headcount path."
+2,Pay award 1 point lower,2.4,0,invented: base less 1 point,invented: no change,0,synthetic,An invented setting: the base pay award less one percentage point.
+3,Pay award 1 point higher,4.4,0,invented: base plus 1 point,invented: no change,0,synthetic,An invented setting: the base pay award plus one percentage point.
+4,Headcount down 5 per cent,3.4,-5,"ONS D7G7 annual rate, 2025",invented: minus 5 per cent,0,synthetic,An invented setting: the base pay award with a headcount five per cent lower.
+5,Headcount up 5 per cent,3.4,5,"ONS D7G7 annual rate, 2025",invented: plus 5 per cent,0,synthetic,An invented setting: the base pay award with a headcount five per cent higher.

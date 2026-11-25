@@ -43,8 +43,9 @@ loader refuses a file with no header, a header that is not a plain identifier, a
 | `plan_source.csv` | `authored.plan_source` | one per plan source and edition | what each Estimates, PESA, SR25 or OSCAR Plans edition covers, whether it is the final plan, and its basis notes | `stg.plan_source`, `dw.dim_plan_source` |
 | `sr_group.csv` | `authored.sr_group` | one per member | the Spending Review groups of the latest annual release, the plan-only Single Intelligence Account, the combined pre-2023 group, the non-department members and the outturn-only member `Unallocated: former department lines` | `stg.sr_group`, `dw.dim_sr_group` |
 
-One more authored table is written in SQL, not as a CSV: `authored.pss_sr_group_alias` (three PSS to OSCAR group
-names, `sql/authored/400_pss_sr_group_alias.sql`, full scope). The register of every authored file and table, with
+Two more authored tables are written in SQL, not as a CSV: `authored.pss_sr_group_alias` (three PSS to OSCAR group
+names, `sql/authored/400_pss_sr_group_alias.sql`, full scope) and `authored.allocation_rule` (my own allocation rule: the pool,
+the basis, the years and the rounding rule, `sql/authored/940_allocation_rule.sql`, full scope; no amount). The register of every authored file and table, with
 its row count, whether it can reach a real total and the test that proves it, is in the repository
 [README](../README.md#register-of-real-authored-derived-and-synthetic-data); a test fails if a file here is missing from it.
 

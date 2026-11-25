@@ -1,4 +1,4 @@
--- test: of every view, procedure and table in the warehouse only dw.v_model_user_department and dw.v_model_user_plan_group read the synthetic table, nothing reads those two views, no foreign key points at the synthetic table, and the synthetic and scale schemas hold exactly the one table, with no numeric column
+-- test: of every view, procedure and table in the warehouse only dw.v_model_user_department and dw.v_model_user_plan_group read the synthetic table, nothing reads those two views, no foreign key points at the synthetic table, and the synthetic and scale schemas hold exactly the user map and the what-if settings (the what-if table is tested by 940), with no numeric column in the user map
 SELECT 'an object other than the two role views reads the synthetic table' AS problem,
        OBJECT_SCHEMA_NAME(d.referencing_id) + '.' + OBJECT_NAME(d.referencing_id) AS detail
 FROM sys.sql_expression_dependencies AS d
@@ -19,9 +19,9 @@ UNION ALL
 SELECT 'a foreign key points at the synthetic table', OBJECT_NAME(fk.parent_object_id)
 FROM sys.foreign_keys AS fk WHERE fk.referenced_object_id = OBJECT_ID('synthetic.user_department')
 UNION ALL
-SELECT 'a table in the synthetic or scale schema other than user_department', SCHEMA_NAME(t.schema_id) + '.' + t.name
+SELECT 'a table in the synthetic or scale schema other than user_department and whatif_parameter (sql/tests/940)', SCHEMA_NAME(t.schema_id) + '.' + t.name
 FROM sys.tables AS t
-WHERE SCHEMA_NAME(t.schema_id) IN ('synthetic', 'scale') AND t.object_id <> OBJECT_ID('synthetic.user_department')
+WHERE SCHEMA_NAME(t.schema_id) IN ('synthetic', 'scale') AND t.object_id NOT IN (OBJECT_ID('synthetic.user_department'), OBJECT_ID('synthetic.whatif_parameter'))
 UNION ALL
 SELECT 'a synthetic column holds a number', c.name
 FROM sys.columns AS c JOIN sys.types AS ty ON ty.user_type_id = c.user_type_id
