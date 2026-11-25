@@ -178,3 +178,14 @@ page,visual,label,displayed,dax_test,key,value_column,divisor,decimals
 12_forecast_accuracy,fc_dept,"National Crime Agency: WAPE, no flagged returns",8.2%,929_forecast_page_department_table,department=National Crime Agency,wape_excl,0.01,1
 12_forecast_accuracy,fc_dept,"Unallocated: former Electoral Commission lines: WAPE, all returns",2649.7%,929_forecast_page_department_table,department=Unallocated: former Electoral Commission lines,wape,0.01,1
 12_forecast_accuracy,fc_dept,"Unallocated: former Electoral Commission lines: WAPE, no flagged returns",28.9%,929_forecast_page_department_table,department=Unallocated: former Electoral Commission lines,wape_excl,0.01,1
+13_allocation_and_whatif,al_pool,Pool 2025-26,£602.847k,954_allocation_tie_and_coverage_by_year,financial_year=2025-26,pool,1000,3
+13_allocation_and_whatif,al_alloc,Allocated 2025-26,£602.847k,954_allocation_tie_and_coverage_by_year,financial_year=2025-26,allocated,1000,3
+13_allocation_and_whatif,al_in,Departments taking part,20,954_allocation_tie_and_coverage_by_year,financial_year=2025-26,taking_part,,
+13_allocation_and_whatif,al_out,No workforce data,35,954_allocation_tie_and_coverage_by_year,financial_year=2025-26,no_data,,
+13_allocation_and_whatif,al_year,2022-23: left out share,15.6%,954_allocation_tie_and_coverage_by_year,financial_year=2022-23,left_out_share,0.01,1
+13_allocation_and_whatif,al_year,2018-19: left out share,8.9%,954_allocation_tie_and_coverage_by_year,financial_year=2018-19,left_out_share,0.01,1
+13_allocation_and_whatif,al_year,2025-26: rounding,£0.0002k,954_allocation_tie_and_coverage_by_year,financial_year=2025-26,rounding,1,4
+13_allocation_and_whatif,al_dept,Work and Pensions: weight,23.9%,951_allocation_by_department_and_year,financial_year=2025-26;department_number=032,weight,0.01,1
+13_allocation_and_whatif,al_dept,HM Revenue and Customs: weight,18.3%,951_allocation_by_department_and_year,financial_year=2025-26;department_number=041,weight,0.01,1
+13_allocation_and_whatif,al_whatif,Base: allocated if award,"£623,344k",956_whatif_measures_at_every_setting_2025_26,setting=1 Base,allocated_whatif,1,0
+13_allocation_and_whatif,al_whatif,Pay award 1 point higher: pay award,4.4%,956_whatif_measures_at_every_setting_2025_26,setting=3 Pay award 1 point higher,pay_award,0.01,1

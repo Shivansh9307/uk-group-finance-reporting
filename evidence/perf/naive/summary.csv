@@ -1,4 +1,10 @@
 query,cache,runs,total_ms_median,total_ms_min,total_ms_max,runs_with_events,formula_engine_ms_median,storage_engine_ms_median,storage_engine_queries_median,rows,errors
+allocation_by_department,cold,5,7,6,8,5,5,2,4,21,0
+allocation_by_department,warm,5,6,5,7,4,5,0,4,21,0
+allocation_by_department_year,cold,5,10,10,13,5,6,5,6,108,0
+allocation_by_department_year,warm,5,7,6,11,2,6,0.5,6,108,0
+allocation_by_year,cold,5,10,8,10,5,7,3,5,8,0
+allocation_by_year,warm,5,7,5,7,5,7,0,5,8,0
 as_at_release_by_department,cold,5,31,28,32,5,25,5,4,1931,0
 as_at_release_by_department,warm,5,27,23,30,3,27,0,4,1931,0
 as_at_release_by_year,cold,5,13,11,17,5,6,8,4,151,0

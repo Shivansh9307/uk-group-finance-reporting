@@ -1,0 +1,8 @@
+// The same query as ../allocation_by_department.dax on the hidden plain (naive) form of the measure, so that before and after run the same query.
+// Slow measure 3, plain form, shaped like a bar chart: the Allocated Amount of all years by department of the current structure.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Department (current structure)'[Department Number],
+    "allocated", [Allocated Amount (naive)]
+)
+ORDER BY 'Department (current structure)'[Department Number]

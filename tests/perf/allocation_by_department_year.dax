@@ -1,0 +1,9 @@
+// Slow measure 3, shaped like a table (the widest grid the page can draw): the Allocated Amount by department of the current
+// structure and financial year, one cell for each row of the bridge.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    'Department (current structure)'[Department Number],
+    "allocated", [Allocated Amount]
+)
+ORDER BY 'Fiscal Year'[Financial Year], 'Department (current structure)'[Department Number]

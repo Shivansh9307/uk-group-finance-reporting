@@ -1,0 +1,142 @@
+{
+  "query_file": "allocation_by_department.dax",
+  "query_sha256": "4ed4c55bf2e0ee3923c89cbad4de4c3cb998ca8677cbc7c192aed2505cb9f701",
+  "cold_cache": true,
+  "rows_returned": 21,
+  "error": null,
+  "total_ms": 82,
+  "total_cpu_ms": 78,
+  "storage_engine_ms": 4,
+  "formula_engine_ms_derived": 78,
+  "storage_engine_queries": 4,
+  "storage_engine_cache_hits": 0,
+  "storage_engine_queries_by_kind": {
+    "VertiPaqScan": 4,
+    "VertiPaqScanInternal": 4
+  },
+  "distinct_storage_engine_query_texts": 8,
+  "most_repeated_storage_engine_query": {
+    "times": 1,
+    "text": "SET DC_KIND=\"C32\";\r\nSELECT\r\n[Department  current structure  (34)].[Department Number (322)] AS [Department  current structure  (34)$Department Number (322)], [Allocation Bridge  derived  (130)].[Pool Key (621)] AS [Allocation Bridge  derived  (130)$Pool Key (621)], [Allocation Bridge  derived  (130)].[Department Key (622)] AS [Allocation Bridge  derived  (130)$Department Key (622)]\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Allocation Bridge  derived  (130)].[Department Key (622)]=[Department  current structure  (34)].[Department Key (320)];\r\n"
+  },
+  "longest_storage_engine_queries": [
+    {
+      "kind": "VertiPaqScan",
+      "duration_ms": 2,
+      "cached": false,
+      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Department  current structure  (34)].[Department Number (322)] AS [Department  current structure  (34)$Department Number (322)], [Allocation Bridge  derived  (130)].[Pool Key (621)] AS [Allocation Bridge  derived  (130)$Pool Key (621)], [Allocation Bridge  derived  (130)].[Department Key (622)] AS [Allocation Bridge  derived  (130)$Department Key (622)],\r\nSUM([Allocation Bridge  derived  (130)].[Weight  stored  (623)]) AS [$Measure0]\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Allocation Bridge  derived  (130)].[Department Key (622)]=[Department  current structure  (34)].[Department Key (320)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 108, 1296]\r\n"
+    },
+    {
+      "kind": "VertiPaqScanInternal",
+      "duration_ms": 2,
+      "cached": false,
+      "text": "SET DC_KIND=\"C32\";\r\nSELECT\r\n[Department  current structure  (34)].[Department Number (322)] AS [Department  current structure  (34)$Department Number (322)], [Allocation Bridge  derived  (130)].[Pool Key (621)] AS [Allocation Bridge  derived  (130)$Pool Key (621)], [Allocation Bridge  derived  (130)].[Department Key (622)] AS [Allocation Bridge  derived  (130)$Department Key (622)],\r\nSUM([Allocation Bridge  derived  (130)].[Weight  stored  (623)]) AS [$Measure0]\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Allocation Bridge  derived  (130)].[Department Key (622)]=[Department  current structure  (34)].[Department Key (320)];\r\n"
+    },
+    {
+      "kind": "VertiPaqScan",
+      "duration_ms": 1,
+      "cached": false,
+      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Allocation Pool  derived  (127)].[Pool Key (615)] AS [Allocation Pool  derived  (127)$Pool Key (615)]\r\nFROM [Allocation Pool  derived  (127)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 11, 88]\r\n"
+    },
+    {
+      "kind": "VertiPaqScan",
+      "duration_ms": 1,
+      "cached": false,
+      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Department  current structure  (34)].[Department Number (322)] AS [Department  current structure  (34)$Department Number (322)], [Allocation Bridge  derived  (130)].[Pool Key (621)] AS [Allocation Bridge  derived  (130)$Pool Key (621)], [Allocation Bridge  derived  (130)].[Department Key (622)] AS [Allocation Bridge  derived  (130)$Department Key (622)]\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Allocation Bridge  derived  (130)].[Department Key (622)]=[Department  current structure  (34)].[Department Key (320)];\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 108, 432]\r\n"
+    },
+    {
+      "kind": "VertiPaqScanInternal",
+      "duration_ms": 1,
+      "cached": false,
+      "text": "SET DC_KIND=\"C32\";\r\nSELECT\r\n[Department  current structure  (34)].[Department Number (322)] AS [Department  current structure  (34)$Department Number (322)], [Allocation Bridge  derived  (130)].[Pool Key (621)] AS [Allocation Bridge  derived  (130)$Pool Key (621)], [Allocation Bridge  derived  (130)].[Department Key (622)] AS [Allocation Bridge  derived  (130)$Department Key (622)]\r\nFROM [Allocation Bridge  derived  (130)]\r\n\tLEFT OUTER JOIN [Department  current structure  (34)] ON [Allocation Bridge  derived  (130)].[Department Key (622)]=[Department  current structure  (34)].[Department Key (320)];\r\n"
+    },
+    {
+      "kind": "VertiPaqScan",
+      "duration_ms": 0,
+      "cached": false,
+      "text": "SET DC_KIND=\"AUTO\";\r\nSELECT\r\n[Allocation Pool  derived  (127)].[Pool Key (615)] AS [Allocation Pool  derived  (127)$Pool Key (615)],\r\nSUM([Allocation Pool  derived  (127)].[Pool Amount (619)]) AS [$Measure0]\r\nFROM [Allocation Pool  derived  (127)]\r\nWHERE\r\n\t[Allocation Pool  derived  (127)].[Pool Key (615)] IN (1, 2, 3, 4, 5, 6, 7, 8);\r\n\r\n\r\n[Estimated size (volume, marshalling bytes): 11, 176]\r\n"
+    },
+    {
+      "kind": "VertiPaqScanInternal",
+      "duration_ms": 0,
+      "cached": false,
+      "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Allocation Pool  derived  (127)].[Pool Key (615)] AS [Allocation Pool  derived  (127)$Pool Key (615)],\r\nCOUNT()\r\nFROM [Allocation Pool  derived  (127)];\r\n"
+    },
+    {
+      "kind": "VertiPaqScanInternal",
+      "duration_ms": 0,
+      "cached": false,
+      "text": "SET DC_KIND=\"DENSE\";\r\nSELECT\r\n[Allocation Pool  derived  (127)].[Pool Key (615)] AS [Allocation Pool  derived  (127)$Pool Key (615)],\r\nSUM([Allocation Pool  derived  (127)].[Pool Amount (619)]) AS [$Measure0], COUNT()\r\nFROM [Allocation Pool  derived  (127)]\r\nWHERE\r\n\t[Allocation Pool  derived  (127)].[Pool Key (615)] INB (1, 2, 3, 4, 5, 6, 7, 8);\r\n"
+    }
+  ],
+  "direct_query_events": 0,
+  "aggregation_rewrites": 0,
+  "logical_plan_lines": 22,
+  "physical_plan_lines": 54,
+  "logical_plan_head": [
+    "Order: RelLogOp DependOnCols()() 0-1 RequiredCols(0, 1)('Department (current structure)'[Department Number], ''[allocated])",
+    "\tGroupSemiJoin: RelLogOp DependOnCols()() 0-1 RequiredCols(0, 1)('Department (current structure)'[Department Number], ''[allocated])",
+    "\t\tScan_Vertipaq: RelLogOp DependOnCols()() 0-0 RequiredCols(0)('Department (current structure)'[Department Number])",
+    "\t\tSumX: ScaLogOp MeasureRef=[Allocated Amount (naive)] DependOnCols(0)('Department (current structure)'[Department Number]) Currency DominantValue=BLANK",
+    "\t\t\tGroupBy_Vertipaq: RelLogOp DependOnCols(0)('Department (current structure)'[Department Number]) 1-2 RequiredCols(0, 1, 2)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key])",
+    "\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0)('Department (current structure)'[Department Number]) 1-39 RequiredCols(0, 31, 32)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Pool Key], 'Allocation Bridge (derived)'[Department Key])",
+    "\t\t\tVarScope: ScaLogOp DependOnCols(0, 1, 2)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) Currency DominantValue=BLANK",
+    "\t\t\t\t'Allocation Bridge (derived)'[Pool Key]: ScaLogOp VarName=PoolKey DependOnCols(2)('Allocation Bridge (derived)'[Pool Key]) Integer DominantValue=NONE",
+    "\t\t\t\tMultiply: ScaLogOp DependOnCols(0, 1, 2)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) Currency DominantValue=BLANK",
+    "\t\t\t\t\tCalculate: ScaLogOp DependOnCols(2)('Allocation Bridge (derived)'[Pool Key]) Currency DominantValue=BLANK",
+    "\t\t\t\t\t\tSum_Vertipaq: ScaLogOp DependOnCols(2)('Allocation Bridge (derived)'[Pool Key]) Currency DominantValue=BLANK",
+    "\t\t\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols(2)('Allocation Bridge (derived)'[Pool Key]) 4-24 RequiredCols(2, 23)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Amount])",
+    "\t\t\t\t\t\t\t'Allocation Pool (derived)'[Pool Amount]: ScaLogOp DependOnCols(23)('Allocation Pool (derived)'[Pool Amount]) Currency DominantValue=NONE",
+    "\t\t\t\t\t\tFilter: RelLogOp DependOnCols(2)('Allocation Bridge (derived)'[Pool Key]) 3-3 RequiredCols(2, 3)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Key])",
+    "\t\t\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols()() 3-3 RequiredCols(3)('Allocation Pool (derived)'[Pool Key])",
+    "\t\t\t\t\t\t\tEqualTo: ScaLogOp DependOnCols(2, 3)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Key]) Boolean DominantValue=false",
+    "\t\t\t\t\t\t\t\t'Allocation Pool (derived)'[Pool Key]: ScaLogOp DependOnCols(3)('Allocation Pool (derived)'[Pool Key]) Integer DominantValue=NONE",
+    "\t\t\t\t\t\t\t\t'Allocation Bridge (derived)'[Pool Key]: ScaLogOp DependOnCols(2)('Allocation Bridge (derived)'[Pool Key]) Integer DominantValue=NONE",
+    "\t\t\t\t\tSum_Vertipaq: ScaLogOp DependOnCols(0, 1, 2)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) Double DominantValue=BLANK",
+    "\t\t\t\t\t\tScan_Vertipaq: RelLogOp DependOnCols(0, 1, 2)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) 3-41 RequiredCols(0, 1, 2, 35)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key], 'Allocation Bridge (derived)'[Weight (stored)])",
+    "\t\t\t\t\t\t'Allocation Bridge (derived)'[Weight (stored)]: ScaLogOp DependOnCols(35)('Allocation Bridge (derived)'[Weight (stored)]) Double DominantValue=NONE",
+    "\tColPosition<'Department (current structure)'[Department Number]>: ScaLogOp DependOnCols(0)('Department (current structure)'[Department Number]) String DominantValue=NONE"
+  ],
+  "physical_plan_head": [
+    "PartitionIntoGroups: IterPhyOp LogOp=Order IterCols(0, 1)('Department (current structure)'[Department Number], ''[allocated]) #Groups=1 #Rows=21",
+    "\tAggregationSpool<Order>: SpoolPhyOp #Records=1",
+    "\t\tGroupSemijoin: IterPhyOp LogOp=GroupSemiJoin IterCols(0, 1)('Department (current structure)'[Department Number], ''[allocated])",
+    "\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=SumX IterCols(0)('Department (current structure)'[Department Number]) #Records=21 #KeyCols=1 #ValueCols=1",
+    "\t\t\t\tAggregationSpool<Sum>: SpoolPhyOp #Records=21",
+    "\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp=Multiply IterCols(0, 1, 2)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key])",
+    "\t\t\t\t\t\tCrossApply: IterPhyOp LogOp=Calculate IterCols(2)('Allocation Bridge (derived)'[Pool Key])",
+    "\t\t\t\t\t\t\tSpool_MultiValuedHashLookup: IterPhyOp LogOp=GroupBy_Vertipaq LookupCols(2)('Allocation Bridge (derived)'[Pool Key]) IterCols(0, 1)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Department Key]) #Records=108 #KeyCols=480 #ValueCols=0",
+    "\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=108",
+    "\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=3 #ValueCols=0",
+    "\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Sum_Vertipaq IterCols(2)('Allocation Bridge (derived)'[Pool Key]) #Records=8 #KeyCols=1 #ValueCols=1",
+    "\t\t\t\t\t\t\t\tAggregationSpool<AggFusion<Sum>>: SpoolPhyOp #Records=8",
+    "\t\t\t\t\t\t\t\t\tCrossApply: IterPhyOp LogOp=Sum_Vertipaq IterCols(2)('Allocation Bridge (derived)'[Pool Key])",
+    "\t\t\t\t\t\t\t\t\t\tSpool_MultiValuedHashLookup: IterPhyOp LogOp=Filter LookupCols(3)('Allocation Pool (derived)'[Pool Key]) IterCols(2)('Allocation Bridge (derived)'[Pool Key]) #Records=8 #KeyCols=2 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\tAggregationSpool<GroupBy>: SpoolPhyOp #Records=8",
+    "\t\t\t\t\t\t\t\t\t\t\t\tFilter: IterPhyOp LogOp=Filter IterCols(2, 3)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Key])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\tInnerHashJoin: IterPhyOp LogOp=EqualTo IterCols(2, 3)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Key])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp='Allocation Bridge (derived)'[Pool Key] IterCols(2)('Allocation Bridge (derived)'[Pool Key])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=GroupBy_Vertipaq IterCols(2)('Allocation Bridge (derived)'[Pool Key]) #Records=8 #KeyCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAggregationSpool<GroupBy>: SpoolPhyOp #Records=8",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=GroupBy_Vertipaq IterCols(0, 1, 2)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) #Records=108 #KeyCols=480 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=108",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=3 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tColValue<'Allocation Bridge (derived)'[Pool Key]>: LookupPhyOp LogOp='Allocation Bridge (derived)'[Pool Key] LookupCols(2)('Allocation Bridge (derived)'[Pool Key]) Integer",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\tHashLookup: IterPhyOp LogOp='Allocation Pool (derived)'[Pool Key] IterCols(3)('Allocation Pool (derived)'[Pool Key]) #Recs=8",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tHashByValue: SpoolPhyOp #Records=8",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp='Allocation Pool (derived)'[Pool Key] IterCols(3)('Allocation Pool (derived)'[Pool Key])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Scan_Vertipaq IterCols(3)('Allocation Pool (derived)'[Pool Key]) #Records=8 #KeyCols=480 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tProjectionSpool<ProjectFusion<>>: SpoolPhyOp #Records=8",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tColValue<'Allocation Pool (derived)'[Pool Key]>: LookupPhyOp LogOp='Allocation Pool (derived)'[Pool Key] LookupCols(3)('Allocation Pool (derived)'[Pool Key]) Integer",
+    "\t\t\t\t\t\t\t\t\t\tCache: IterPhyOp #FieldCols=1 #ValueCols=1",
+    "\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=Filter IterCols(2, 3)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Key]) #Records=8 #KeyCols=2 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\tAggregationSpool<GroupBy>: SpoolPhyOp #Records=8",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\tFilter: IterPhyOp LogOp=Filter IterCols(2, 3)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Key])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\tInnerHashJoin: IterPhyOp LogOp=EqualTo IterCols(2, 3)('Allocation Bridge (derived)'[Pool Key], 'Allocation Pool (derived)'[Pool Key])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tExtend_Lookup: IterPhyOp LogOp='Allocation Bridge (derived)'[Pool Key] IterCols(2)('Allocation Bridge (derived)'[Pool Key])",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=GroupBy_Vertipaq IterCols(2)('Allocation Bridge (derived)'[Pool Key]) #Records=8 #KeyCols=1 #ValueCols=0",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAggregationSpool<GroupBy>: SpoolPhyOp #Records=8",
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSpool_Iterator<SpoolIterator>: IterPhyOp LogOp=GroupBy_Vertipaq IterCols(0, 1, 2)('Department (current structure)'[Department Number], 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key]) #Records=108 #KeyCols=480 #ValueCols=0"
+  ]
+}

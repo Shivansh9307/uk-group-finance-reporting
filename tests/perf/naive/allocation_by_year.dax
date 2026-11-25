@@ -1,0 +1,9 @@
+// The same query as ../allocation_by_year.dax on the hidden plain (naive) form of the measure, so that before and after run the same query.
+// Slow measure 3, plain form, shaped like a matrix: the Allocated Amount of the Cabinet Office administration pool by financial year,
+// eight years.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    "allocated", [Allocated Amount (naive)]
+)
+ORDER BY 'Fiscal Year'[Financial Year]

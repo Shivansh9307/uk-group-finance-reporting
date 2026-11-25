@@ -662,6 +662,57 @@ forecast_page() {
   text fc_note_fte 890 580 366 116 "FTE x cost misses mostly because workforce paybill is only about 13% of the pay line; no Home Office, MoJ, Cabinet Office, ONS."
 }
 
+allocation_page() {
+  page_new "Allocation and what-if"
+  header "Allocation and what-if"     "GBP thousands. My own allocation of a real pool, 2025-26 unless a visual says otherwise"
+  local b="Allocation Bridge (derived)" p="Allocation Pool (derived)" c="Allocation Coverage (derived)" w="What-if Setting (synthetic)" v
+  card al_pool "Pool 2025-26" 24 136 240 76 "$p.Allocation Pool" "The pool of 2025-26 in GBP thousands: the real outturn of the Cabinet Office in the administration budget of departmental expenditure limits" 20
+  card al_alloc "Allocated 2025-26" 272 136 240 76 "$b.Allocated Amount" "The pool of 2025-26 allocated to the 20 departments that take part, in GBP thousands: my own allocation by payroll full-time equivalent" 20
+  card al_gap "Allocated less pool" 520 136 240 76 "$b.Allocation Gap to Pool" "Allocated amount less the pool for 2025-26, in GBP thousands to four decimals: zero, because the rounding remainder is put on the department with the largest weight" 20
+  card al_in "Departments taking part" 768 136 240 76 "$c.Departments Taking Part" "Number of departments with a weight in 2025-26: those with at least nine months of workforce data in the year" 20
+  card al_out "No workforce data" 1016 136 240 76 "$c.Departments Without Workforce Data" "Number of live departments of the current structure with no workforce data in 2025-26, which are therefore left out of the weights; the Home Office and the Ministry of Justice are two of them" 20
+  for v in al_pool al_alloc al_gap al_in al_out; do
+    vf "$v" "Fiscal Year" "Financial Year" 2025-26
+  done
+
+  visual clusteredBarChart al_chart "Allocated amount by department, 2025-26" 24 220 330 252     "Bar chart of the 2025-26 allocated amount in GBP thousands for each of the 20 departments that take part, largest first: Work and Pensions, HM Revenue and Customs and Defence carry the most because they employ the most people"     "Category:Department (current structure).Department" "Y:$b.Allocated Amount"
+  vf al_chart "Fiscal Year" "Financial Year" 2025-26
+  q visuals sort "$P/al_chart.Visual" -f "$b.Allocated Amount" -d Descending
+  q set "$P/al_chart.Visual.valueAxis.labelDisplayUnits" --value 1
+
+  visual tableEx al_dept "Weight and allocation by department, 2025-26" 362 220 520 252     "Table with one row for each department that takes part in 2025-26: the months of workforce data the weight rests on, the weight (its payroll full-time equivalent over the sum of the participants) and the allocated amount in GBP thousands, with a total row"     "Values:Department (current structure).Department" "Values:$b.Months With Data" "Values:$b.Allocation Weight" "Values:$b.Allocated Amount"
+  vf al_dept "Fiscal Year" "Financial Year" 2025-26
+  q set "$P/al_dept.Visual.values.fontSize" --value 8
+  q set "$P/al_dept.Visual.columnHeaders.fontSize" --value 8
+  q visuals table-density "$P/al_dept.Visual" --preset dense
+  q fields rename "$R" "$b.Months With Data" "Months"
+
+  text al_note 890 220 366 252 "Authored rule (mine, not a government charge): Cabinet Office administration spend spread by payroll full-time equivalent. Weights are real; departments without workforce data or with under nine months carry none. What-if settings are synthetic: base pay award is ONS CPI 2025, the rest invented."
+
+  visual tableEx al_year "Pool, allocation and who is left out, by year" 24 480 620 216     "Table with one row for each financial year from 2018-19 to 2025-26: the pool, the allocated amount, their difference, which is zero, the rounding adjustment, the number of departments that take part and the share of the full-time equivalent that the departments left out for too few months would have carried"     "Values:Fiscal Year.Financial Year" "Values:$p.Allocation Pool" "Values:$b.Allocated Amount" "Values:$b.Allocation Gap to Pool"     "Values:$b.Allocation Rounding Adjustment" "Values:$c.Departments Taking Part" "Values:$c.Left Out Weight Share"
+  q visuals sort "$P/al_year.Visual" -f "Fiscal Year.Financial Year" -d Ascending
+  q set "$P/al_year.Visual.values.fontSize" --value 8
+  q set "$P/al_year.Visual.columnHeaders.fontSize" --value 8
+  q visuals table-density "$P/al_year.Visual" --preset dense
+  q fields rename "$R" "$p.Allocation Pool" "Pool"
+  q fields rename "$R" "$b.Allocation Gap to Pool" "Gap"
+  q fields rename "$R" "$b.Allocation Rounding Adjustment" "Rounding"
+  q fields rename "$R" "$c.Departments Taking Part" "Taking part"
+  q fields rename "$R" "$c.Left Out Weight Share" "Left out share"
+
+  visual tableEx al_whatif "What-if (synthetic): five invented settings applied to 2025-26" 652 480 604 216     "Table with one row for each of the five invented what-if settings: the pay award and the headcount change in per cent, the 2025-26 allocated amount if the pool rose by the pay award, what that adds, and what the pay award and headcount change add to the annualised paybill, in GBP thousands"     "Values:$w.Setting" "Values:$w.What-if Pay Award" "Values:$w.What-if Headcount Change" "Values:$w.What-if Allocated Amount"     "Values:$w.What-if Effect on Allocated Amount" "Values:$w.What-if Effect on Paybill"
+  vf al_whatif "Fiscal Year" "Financial Year" 2025-26
+  q set "$P/al_whatif.Visual.total.totals" --value false
+  q set "$P/al_whatif.Visual.values.fontSize" --value 8
+  q set "$P/al_whatif.Visual.columnHeaders.fontSize" --value 8
+  q visuals table-density "$P/al_whatif.Visual" --preset dense
+  q fields rename "$R" "$w.What-if Pay Award" "Pay award"
+  q fields rename "$R" "$w.What-if Headcount Change" "Headcount"
+  q fields rename "$R" "$w.What-if Allocated Amount" "Allocated if award"
+  q fields rename "$R" "$w.What-if Effect on Allocated Amount" "Adds to allocated"
+  q fields rename "$R" "$w.What-if Effect on Paybill" "Adds to paybill"
+}
+
 # ----------------------------------------------------------------------------------------------------- driver
 order() {
   q pages move "$R/Executive summary.Page" --to 1
@@ -674,6 +725,7 @@ order() {
   q pages move "$R/NHS elimination control.Page" --to 8
   q pages move "$R/Pay bridge.Page" --to 9
   q pages move "$R/Forecast accuracy.Page" --to 10
+  q pages move "$R/Allocation and what-if.Page" --to 11
 }
 
 case "${1:-}" in
@@ -690,8 +742,9 @@ case "${1:-}" in
   tac_elimination) tac_elimination_page ;;
   pay) pay_page ;;
   forecast) forecast_page ;;
+  allocation) allocation_page ;;
   order) order ;;
-  all) report_filters; exec_page; pnl_page; variance_page; restate_page; controls_page; dept_page; group_page; tac_balance_page; tac_cash_page; tac_elimination_page; pay_page; forecast_page; order ;;
-  *) echo "usage: build_report.sh exec|pnl|variance|dept|group|restate|controls|tac_balance|tac_cash|tac_elimination|pay|forecast|filters|order|all" >&2; exit 2 ;;
+  all) report_filters; exec_page; pnl_page; variance_page; restate_page; controls_page; dept_page; group_page; tac_balance_page; tac_cash_page; tac_elimination_page; pay_page; forecast_page; allocation_page; order ;;
+  *) echo "usage: build_report.sh exec|pnl|variance|dept|group|restate|controls|tac_balance|tac_cash|tac_elimination|pay|forecast|allocation|filters|order|all" >&2; exit 2 ;;
 esac
 cat "$ERR" 2>/dev/null | head -20

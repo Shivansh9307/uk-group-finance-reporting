@@ -35,6 +35,7 @@ PAGES = [
     "10_nhs_elimination_control",
     "11_pay_bridge",
     "12_forecast_accuracy",
+    "13_allocation_and_whatif",
 ]
 
 

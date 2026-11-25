@@ -1,0 +1,8 @@
+// Slow measure 3, shaped like a matrix: the Allocated Amount of the Cabinet Office administration pool by financial year (the
+// pool allocated to the departments by payroll full-time equivalent), eight years.
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Fiscal Year'[Financial Year],
+    "allocated", [Allocated Amount]
+)
+ORDER BY 'Fiscal Year'[Financial Year]

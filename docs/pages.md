@@ -17,14 +17,14 @@ its values written in the file.
   independent SQL (or Python) expectation over `dw` and `audit` in `tests/expected/`. **Tested**: `tools\run_dax_tests.ps1 -Refresh`,
   `ukfr dax-compare`: 77 of 77 tests passed for the first seven pages, 22 of them new; with the NHS trust accounts pages the suite is 98 of 98 (`evidence/model/dax_tests.csv`).
 - I read the displayed figures off the cropped screenshots myself and wrote them to
-  [evidence/report/screenshot_figures.csv](../evidence/report/screenshot_figures.csv): 179 figures (120 on the first seven pages, 28 on the three NHS pages, 20 on the pay bridge page, 11 on the forecast accuracy page), each with its page, visual,
+  [evidence/report/screenshot_figures.csv](../evidence/report/screenshot_figures.csv): 190 figures (120 on the first seven pages, 28 on the three NHS pages, 20 on the pay bridge page, 11 on the forecast accuracy page, 11 on the allocation page), each with its page, visual,
   label, the figure as displayed, the test, the row of the test result and how it is displayed (divisor and decimals).
-  **Tested**: `pipeline/tests/test_report_evidence.py` rounds the test result as displayed, half up, and compares: all 179 are equal
-  (`uv run --project pipeline pytest pipeline/tests/test_report_evidence.py`: 150 passed). A text figure (a plan badge, a status) must
+  **Tested**: `pipeline/tests/test_report_evidence.py` rounds the test result as displayed, half up, and compares: all 190 are equal
+  (`uv run --project pipeline pytest pipeline/tests/test_report_evidence.py`: 192 passed). A text figure (a plan badge, a status) must
   equal the test result or start with it where the visual cuts the text off.
 - Screenshots are in [screenshots/](../screenshots/), one for each page, made with `tools/crop_screenshots.ps1`: `pbir desktop
   screenshot` at scale 2 after a refresh and a wait, cropped to the page canvas (2034 x 1144), so no title bar, account name or path is
-  in an image. **Tested**: the same pytest file checks that the twelve files exist and have the same size. The two drill-through pages
+  in an image. **Tested**: the same pytest file checks that the thirteen files exist and have the same size. The two drill-through pages
   are captured without a selection, so they show all departments and all groups; reached from a department or a group they open
   filtered to it. I did not click through a drill-through, and that click is **designed**, not run.
 - `pbir validate --all`: valid, 150 visuals, 167 advisory warnings (below). `pbir bpa run`: passed, 0 errors, 157 warnings, 30 rules, 300
@@ -157,6 +157,19 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
 - Four cards (the gap in operating income, operating expenses, total assets and cash), a table of the six control lines for each of the six years (provider sum, consolidated, gap, gap %), a line chart of the gap as a share of the consolidated figure and the eight values keyed for 2024-25 with their printed and PDF pages. The consolidated figures are **authored** (hand-keyed from the published report); the gap is a difference, never a sum.
 - The gap table is longer than its visual and scrolls: the screenshot shows the first 27 of its 36 rows; the figures are in test 162.
 - **Tested**: test 162 (36 cells against the provider lines and the keyed values), 163 (the keyed values stay out of real totals); 8 figures in the figures file equal 162. The keyed values are checked in `sql/tests/156`.
+
+### 13. Allocation and what-if
+
+![Allocation and what-if](../screenshots/13_allocation_and_whatif.png)
+
+- **Fixed**: nothing is a slicer. The cards, the bar chart, the department table and the what-if table carry a visual filter on financial year 2025-26; the year table shows all eight years. GBP thousands.
+- **What it is.** My own allocation (authored rule, not a government charge) of a real pool, the Cabinet Office administration budget of departmental expenditure limits, over the departments that publish a workforce, by payroll full-time equivalent ([data-dictionary/allocation.md](data-dictionary/allocation.md)). Five cards: the pool of 2025-26 (GBP 602,847k), the allocated amount (the same), their difference (0.0000, to four decimals), the 20 departments that take part and the 35 live departments with no workforce data.
+- **The tie.** The year table shows, for 2018-19 to 2025-26, the pool, the allocated amount, the gap (0.0000 in every year), the rounding adjustment (at most 0.0002, shown, on the department of the largest weight), the departments taking part and the share of the full-time equivalent that departments left out for too few months would have carried (15.6% in 2022-23, 0.0% in 2025-26).
+- **The weights.** A bar chart and a table of the 20 departments of 2025-26: months of data, weight and allocated amount (Work and Pensions 23.9%, HM Revenue and Customs 18.3%, Defence 14.7%). The table scrolls: the screenshot cuts the allocated amount off at the right and shows the first nine departments.
+- **The what-if (synthetic).** A table of the five invented settings applied to 2025-26: the pay award, the headcount change, the allocated amount if the pool rose by the pay award, what that adds and what the pay award and headcount change add to the annualised paybill. I did not use a slicer: `pbir` cannot set a selection, so all five settings are rows. The base pay award, 3.4%, is the ONS CPI annual rate for 2025; every other value is invented.
+- A text box says the rule is authored and the what-if is synthetic. Alt text is on every visual.
+- **Tested**: tests 951 (department table), 954 (cards and year table) and 956 (what-if table); 11 figures in `evidence/report/screenshot_figures.csv`.
+- The page needs the full-scope database (the pool and the workforce are scope full).
 
 ## Design alternatives chosen, and what I dropped
 

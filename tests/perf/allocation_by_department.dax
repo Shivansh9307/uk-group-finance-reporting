@@ -1,0 +1,8 @@
+// Slow measure 3, shaped like a bar chart: the Allocated Amount of all years by department of the current structure (the departments
+// that took part in at least one year).
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Department (current structure)'[Department Number],
+    "allocated", [Allocated Amount]
+)
+ORDER BY 'Department (current structure)'[Department Number]

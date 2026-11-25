@@ -9,7 +9,7 @@ I do not use.
 The short version: the rank by year-to-date variance % is about 40% faster on a cold cache (259 to 154 ms for one year,
 203 to 111 ms for three years) because the rewrite asks the storage engine for roughly half as many scans. The as-at
 measure did not get faster. I tried three forms; none differed from the plain one by more than the run-to-run and
-order effect, and the trace shows why (below). I did not find a model change that makes the model smaller.
+order effect, and the trace shows why (below). I did not find a model change that makes the model smaller. Slow measure 3, the weighted allocation, has the lower median in every cell and both orders, by a few milliseconds on a 108-row bridge (section below).
 
 ## What is measured
 
@@ -17,7 +17,7 @@ order effect, and the trace shows why (below). I did not find a model change tha
 |---|---|---|---|
 | `Outturn as at Release` (slow measure 1) | `Fact Outturn`, folder Restatement | `CALCULATE ( [Outturn], FILTER ( ALL ( 'Release' ), 'Release'[Release Sequence] <= AsAt ) )` | `CALCULATE ( [Outturn], REMOVEFILTERS ( 'Release' ), 'Release'[Release Sequence] <= AsAt )`, a column filter instead of a table filter |
 | `Department Group Rank (YTD Variance %)` (slow measure 2) | `Fact Outturn`, folder Plan\Ranking | `RANKX` over the Spending Review groups of a `CALCULATE` that applies the Variance % item of Scenario Comparison and the YTD item of Time Intelligence, written three times (the guard, the table filter and the value) | the value of each group worked out once in `ADDCOLUMNS` over `ALLSELECTED ( 'Spending Review Group' )`, filtered to the groups that have one, and `RANKX ( Groups, [@ytd], YtdVariancePercent, DESC, SKIP )` over that column |
-| weighted allocation through the allocation bridge (slow measure 3) | **pending** | no measure and no number yet | the allocation bridge belongs to a later phase; this line is the placeholder and I did not write a stand-in |
+| `Allocated Amount` (slow measure 3) | `Allocation Bridge (derived)`, folder Allocation | `SUMX` over each department and pool of the bridge with a nested `CALCULATE` for the pool and one for the weight (hidden `Allocated Amount (naive)`) | `SUM` of the stored allocated amount, one pass over the bridge |
 
 The plain forms are still in the model as hidden measures `Outturn as at Release (naive)` and
 `Department Group Rank (YTD Variance %) (naive)`, display folder `Performance\Naive`, with a description that says they are
@@ -193,9 +193,59 @@ reports the amount column at 5.2 MB, with a 674,336-byte hierarchies figure that
 hierarchy that is built on demand by the queries run before the export would explain it, but I did not test that. Compare model
 sizes only between exports taken after the same queries.
 
+## Slow measure 3: the allocated amount through the weighted bridge
+
+`Allocated Amount` spreads the Cabinet Office administration pool over the departments through `Allocation Bridge (derived)` ([model.md](model.md#the-allocation-of-a-shared-cost-pool-and-the-what-if)).
+The plain form is kept hidden as `Allocated Amount (naive)`, display folder `Performance\Naive`: a `SUMX` over each department and pool of the bridge, with a
+`CALCULATE` for the pool and another for the weight of each pair. The rewrite adds the stored allocated amount, one pass over the bridge.
+Queries: `tests/perf/allocation_*.dax` (rewrite) and `tests/perf/naive/allocation_*.dax` (plain), the same text on the two measures.
+
+**The bridge is small (108 rows), so every figure below is a few milliseconds and the page does not need the rewrite.** I wrote the measure the plain
+way first, as the task asked, and timed both; I report the numbers and do not call a 4 ms difference a win.
+
+**Same results, within a stated rounding.** **Tested**: tests 952 and 953 return both forms side by side with their difference, each compared with
+its own SQL recomputation (`ukfr dax-compare`: 128 of 128 pass; largest absolute difference 0 for both). The two forms are not equal by design: the plain form
+is the pool times the stored weight with each product held to four decimals (the engine rounds a product with a fixed-decimal amount), the rewrite is
+the stored amount that carries the rounding remainder. They differ by up to 0.0004 in GBP thousands (GBP 0.40) in a year and by at most 0.000048 in a cell
+(test 952: 108 cells; test 953: 8 years). I first expected the totals to be equal and test 953 failed on the 4-decimal rounding, so the expected values now
+carry it.
+
+Milliseconds, medians of five runs with the minimum and maximum in brackets, from `evidence/perf/{naive,rewrite}/summary.csv` (first pass, plain forms first)
+and `evidence/perf/second_pass/{rewrite,naive}/summary.csv` (rewrites first). **Tested**.
+
+| Query | Cells | Cold, plain | Cold, rewrite | Warm, plain | Warm, rewrite | Storage-engine queries, plain to rewrite |
+|---|---:|---|---|---|---|---:|
+| `allocation_by_year` | 8 | 10 (8-10) | 4 (3-7) | 7 (5-7) | 3 (2-5) | 5 to 1 |
+| `allocation_by_department` | 21 | 7 (6-8) | 4 (3-4) | 6 (5-7) | 3 (3-4) | 4 to 1 |
+| `allocation_by_department_year` | 108 | 10 (10-13) | 6 (4-7) | 7 (6-11) | 5 (4-5) | 6 to 1 |
+
+Second pass, rewrites first:
+
+| Query | Cold, plain | Cold, rewrite | Warm, plain | Warm, rewrite |
+|---|---|---|---|---|
+| `allocation_by_year` | 10 (9-10) | 3 (3-7) | 7 (5-9) | 4 (3-5) |
+| `allocation_by_department` | 10 (7-10) | 3 (3-4) | 7 (5-8) | 3 (3-5) |
+| `allocation_by_department_year` | 10 (8-11) | 7 (4-7) | 8 (7-10) | 5 (3-7) |
+
+**The rewrite has the lower median in all 12 cells and in both orders, by 2 to 7 ms. In the cold cells the ranges do not overlap; in four warm cells they touch (5 ms, or 7 ms for the widest grid of the second pass).**
+With so few milliseconds that is a statement about rank on this machine, not about scale: the plain form's cost grows with the number of bridge
+rows, which I did not test beyond 108.
+
+Traces (one cold run each, [naive](../evidence/perf/naive/traces/), [rewrite](../evidence/perf/rewrite/traces/); a traced run is slower than a benchmarked one). **Tested**.
+
+| Query | Total ms, plain / rewrite | Storage-engine queries | Distinct storage-engine texts | Logical plan lines |
+|---|---|---|---|---|
+| `allocation_by_year` | 91 / 83 | 5 / 1 | 10 / 2 | 22 / 7 |
+| `allocation_by_department` | 82 / 82 | 4 / 1 | 8 / 2 | 22 / 7 |
+| `allocation_by_department_year` | 86 / 83 | 6 / 1 | 12 / 2 | 24 / 9 |
+
+The traced totals are within 8 ms and mostly formula-engine time of a cold start (the storage engine takes 0 to 4 ms in both forms), so the trace does not
+separate the forms by time. It separates them by work: the plain form asks the storage engine for the pool and for the weight of each pair, the rewrite
+for one scan of the bridge, and its plan is about a third as long.
+
 ## Not run
 
-- Slow measure 3: pending the allocation bridge (above). No measure, no query, no number.
+- Slow measure 3 at scale: the bridge has 108 rows; I did not time a larger bridge, so how the plain form grows is not tested.
 - No query was timed under the calculation groups' items on the restatement measures other than in the correctness tests
   (`tests/dax/769_restatement_under_time_and_unit.dax`, which is not a benchmark).
 - No report page timing: no Performance Analyzer capture of a visual; the queries stand in for visuals. The rank queries carry the plan

@@ -1,0 +1,241 @@
+{
+  "name": "al_year",
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "Fiscal Year.Financial Year",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fiscal Year"
+                    }
+                  },
+                  "Property": "Financial Year"
+                }
+              },
+              "nativeQueryRef": "Financial Year"
+            },
+            {
+              "queryRef": "Allocation Pool (derived).Allocation Pool",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Allocation Pool (derived)"
+                    }
+                  },
+                  "Property": "Allocation Pool"
+                }
+              },
+              "nativeQueryRef": "Allocation Pool",
+              "displayName": "Pool"
+            },
+            {
+              "queryRef": "Allocation Bridge (derived).Allocated Amount",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Allocation Bridge (derived)"
+                    }
+                  },
+                  "Property": "Allocated Amount"
+                }
+              },
+              "nativeQueryRef": "Allocated Amount"
+            },
+            {
+              "queryRef": "Allocation Bridge (derived).Allocation Gap to Pool",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Allocation Bridge (derived)"
+                    }
+                  },
+                  "Property": "Allocation Gap to Pool"
+                }
+              },
+              "nativeQueryRef": "Allocation Gap to Pool",
+              "displayName": "Gap"
+            },
+            {
+              "queryRef": "Allocation Bridge (derived).Allocation Rounding Adjustment",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Allocation Bridge (derived)"
+                    }
+                  },
+                  "Property": "Allocation Rounding Adjustment"
+                }
+              },
+              "nativeQueryRef": "Allocation Rounding Adjustment",
+              "displayName": "Rounding"
+            },
+            {
+              "queryRef": "Allocation Coverage (derived).Departments Taking Part",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Allocation Coverage (derived)"
+                    }
+                  },
+                  "Property": "Departments Taking Part"
+                }
+              },
+              "nativeQueryRef": "Departments Taking Part",
+              "displayName": "Taking part"
+            },
+            {
+              "queryRef": "Allocation Coverage (derived).Left Out Weight Share",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Allocation Coverage (derived)"
+                    }
+                  },
+                  "Property": "Left Out Weight Share"
+                }
+              },
+              "nativeQueryRef": "Left Out Weight Share",
+              "displayName": "Left out share"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Fiscal Year"
+                  }
+                },
+                "Property": "Financial Year"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "imageHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "28D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Pool, allocation and who is left out, by year'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table with one row for each financial year from 2018-19 to 2025-26: the pool, the allocated amount, their difference, which is zero, the rounding adjustment, the number of departments that take part and the share of the full-time equivalent that the departments left out for too few months would have carried'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 24,
+    "y": 480,
+    "width": 620,
+    "height": 216,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json"
+}
