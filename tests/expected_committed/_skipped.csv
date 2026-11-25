@@ -52,3 +52,10 @@ test,reason
 928_forecast_page_cards,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy, dw.forecast_fte_cost_input"
 929_forecast_page_department_table,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy, dw.forecast_fte_cost_input"
 930_forecast_measures_are_blank_unless_one_forecast_line_is_in_context,"needs dw.forecast_accuracy, dw.forecast_pay_accuracy"
+950_allocation_model_table_row_counts,"needs authored.allocation_rule, dw.allocation_pool, dw.fact_allocation, audit.allocation_year_summary"
+951_allocation_by_department_and_year,needs dw.fact_allocation
+952_naive_equals_rewrite_allocation_by_department_and_year,"needs dw.fact_allocation, dw.allocation_pool"
+953_naive_equals_rewrite_allocation_by_year,"needs dw.fact_allocation, dw.allocation_pool"
+954_allocation_tie_and_coverage_by_year,"needs dw.allocation_pool, dw.fact_allocation, audit.allocation_participation"
+956_whatif_measures_at_every_setting_2025_26,needs dw.fact_allocation
+957_real_totals_are_identical_at_every_whatif_setting,needs dw.fact_allocation
