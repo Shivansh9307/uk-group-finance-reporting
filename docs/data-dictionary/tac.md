@@ -14,9 +14,9 @@ lines, name three providers the way a data sheet does, and link providers, hold 
 **Unit and sign.** Amounts are thousands of pounds (like OSCAR) but on the **TAC sign**, as published: income,
 assets and inflows positive, expenses, liabilities and outflows negative, `+/-` lines either. This is not the OSCAR
 convention (spending positive, income negative). `dw.tac_statutory_line.expected_sign` carries the sign the form
-expects; a later task picks a presentation sign.
+expects; a report that wants the OSCAR sign has to flip it itself.
 
-## What a later task reads
+## What the model and the audits read
 
 | Object | Grain | Key |
 |---|---|---|

@@ -268,10 +268,9 @@ The DAX tests need Desktop, so CI cannot run them. What CI does run on the model
 evidence/bpa`: the run must give exactly the rules, severities and violations in `evidence/bpa/bpa_counts.csv` and
 `bpa_violations.csv`, and a rule that Tabular Editor cannot evaluate fails the job. So a new violation below severity 3, or a
 rule added or changed, is a failing check until I have read it and written the files again with `--write`. **Tested** locally: the
-run of the committed model matched the files (`the run matches evidence/bpa: 63 rules, 11 violations`), `pipeline/tests/test_model_scripts.py`
+run of the committed model matched the files (`the run matches evidence/bpa: 63 rules, 11 violations` at the time; the committed files now hold 32 violations, all at severity 1), `pipeline/tests/test_model_scripts.py`
 runs the tool on a small result file (counts, sorting, a difference exits 1, an unevaluable rule exits 2) and checks that the committed counts list
-every rule of the file and none at severity 3 is violated. **Designed, not yet seen**: the new step on the hosted runner
-(the job's result is in the pull request).
+every rule of the file and none at severity 3 is violated. **Tested** on the hosted runner: the `model-bpa` job, with that step, succeeded on `main` (CI run 45520318939, 2026-11-25).
 
 `tools/run_perspective_checks.ps1` is a recorded run, not a test: it writes `evidence/model/perspective_queries.csv`.
 

@@ -176,5 +176,5 @@ does not depend on it (**tested**: `pipeline/tests/test_independent_control.py`)
 
 ## Not in this layer
 
-No dimensions, no revision deltas, no organisation keys: those start from `stg.inyear_snapshot` in
-later tasks. Department and organisation names are in `raw` only, for the same reason.
+No dimensions, no revision deltas, no organisation keys: those start from `stg.inyear_snapshot`, in
+the `stg` and `dw` layers. Department and organisation names are in `raw` only, for the same reason.

@@ -256,8 +256,9 @@ AME 2024-25 (-0.70bn), Foreign, Commonwealth and Development Office resource AME
 
 ### Forward notes: two known bad forecast returns
 
-The forecast backtest (departments' own monthly returns, FY2017-18 to FY2022-23) is not built yet. Two returns are
-known to be wrong at source and will be reported, with the accuracy results shown with and without them:
+The forecast backtest (departments' own monthly returns, FY2017-18 to FY2022-23) is built
+([data-dictionary/forecast-returns.md](data-dictionary/forecast-returns.md), [pages.md](pages.md#12-forecast-accuracy)) and shows its
+accuracy with and without the flagged returns. Two returns are known to be wrong at source:
 FY2020-21 R0, where the Foreign, Commonwealth and Development Office keyed amounts in pounds (about 1,000 times
 too large), and FY2018-19 R1, which has no Department of Health rows (`docs/profiling/oscar-annual-extracts.md`).
 This is **designed**: no table in the database holds a return yet.

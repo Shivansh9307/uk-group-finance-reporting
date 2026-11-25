@@ -3,7 +3,7 @@
 The plan keys `Dim Organisation` (Type 2, versioned by release) on a durable identity that should
 survive department reorganisations, defaulting to the letter prefix of the organisation code with an
 authored override table. This page tests that default against all 31 in-year releases and lists
-the evidence a later task needs to write the overrides. Everything here comes from
+the evidence for writing the overrides. Everything here comes from
 `uv run --project pipeline ukfr profile inyear` (see [oscar-inyear.md](oscar-inyear.md) for the
 run) and is **tested** unless marked otherwise.
 

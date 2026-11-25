@@ -68,7 +68,7 @@ One row per department number and naming period, plus `-1` Unknown.
 | `department_key` | `-1` = Unknown, then 1.. in (department number, period start) order |
 | `department_number` | three digits, as in the organisation code (`UNK` for Unknown) |
 | `department_name` | the display name for the period, from `authored/department_name.csv` |
-| `member_type` | `Department`, `Unallocated` or `Unknown`. A later task adds Unallocated members by adding rows to `department_name.csv` with that member type; nothing in the SQL changes |
+| `member_type` | `Department`, `Unallocated` or `Unknown`. I add Unallocated members by adding rows to `department_name.csv` with that member type; nothing in the SQL changes |
 | `valid_from_release_seq`, `valid_to_release_seq` | release sequence, 1 = March 2019 .. 31 = September 2026; an open period ends at the latest release |
 | `valid_from_release`, `valid_to_release` | the same as labels (`2023-06`) |
 | `is_current` | the period covers the latest release and, for a Department, the number is reported in it |
@@ -215,7 +215,7 @@ rows join, none to Unknown), `232_mapped_version_covers_the_release.sql`,
 ## stg.current_structure_map (view)
 
 Which department a sub-segment of an organisation version belongs to in the current structure. The column
-contract is fixed; a later task replaces the rule behind it with one based on sub-segments.
+contract is fixed; the rule behind it is the one described in [current-structure.md](current-structure.md).
 
 | Column | Meaning |
 |---|---|

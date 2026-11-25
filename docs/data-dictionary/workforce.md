@@ -17,7 +17,7 @@ committed scope, does not run them.
   (the fact's headline totals equal the raw values of the mapped rows, within the 4-decimal rounding),
   `615_workforce_the_map_is_labelled_authored_and_no_other_authored_table_feeds_the_fact.sql`.
 - **The grain is the durable organisation key, not the organisation version.** `dw.workforce_month.durable_key` joins to
-  `dw.dim_organisation.durable_key`. A later task that wants the version in force in a month joins
+  `dw.dim_organisation.durable_key`. A reader that wants the version in force in a month joins
   `dw.dim_organisation` on the key and the release range itself; the monthly fact does not carry a version, because a
   release is a quarter and a workforce month is not.
 - **One definition of non-payroll people.** `contingent_fte` and `contingent_headcount` count agency, interim, specialist and
@@ -196,7 +196,7 @@ The low rows are deliberate: HM Land Registry's own collection is excluded becau
 MHCLG's core department is not mapped (above); DHSC and FCDO publish NHS and other bodies that have no organisation of their
 own; CMA's gap is the eight carry-over rows of one file.
 
-## What a later task reads
+## What the model and the audits read
 
 | Object | Grain | Use |
 |---|---|---|

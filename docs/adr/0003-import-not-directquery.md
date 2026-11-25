@@ -35,7 +35,7 @@ DirectQuery for any table.
 - I did test the composite alternative on a throwaway model of about 2 million generated rows (DirectQuery detail,
   Import aggregate, Dual dimensions): an aggregation hit sends no SQL to the server, a miss sends SQL, and an aggregate
   column with the wrong data type loads without a warning and never hits. I did not keep that model, only its traces.
-  The real model has no aggregations, so there is nothing of this kind to maintain. If a later phase loads a much
+  The real model has no aggregations, so there is nothing of this kind to maintain. If I load a much
   larger fact (the `scale` schema is reserved for it and nothing is built), this decision has to be reopened.
 - A refresh policy and incremental partitions are not used: Desktop never applies a refresh policy, and the real model
   has none (**tested**: `pipeline/tests/test_model_files.py`).
