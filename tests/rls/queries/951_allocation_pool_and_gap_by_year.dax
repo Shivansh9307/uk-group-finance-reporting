@@ -1,0 +1,21 @@
+// The pool, the allocated amount and their gap for each financial year, as the signed-in user sees them. The allocated amount is the
+// allocation to the user's own departments. The pool is the outturn of the Cabinet Office and is not filtered by either role (a user who
+// sees a department's weight and allocated amount can divide to get it). The gap compares the whole pool with the whole allocation, so
+// it is blank whenever the user does not see every participating department, which no role does.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        SUMMARIZECOLUMNS (
+            'Fiscal Year'[Financial Year],
+            "pool", [Allocation Pool],
+            "allocated", [Allocated Amount],
+            "gap", [Allocation Gap to Pool]
+        ),
+        NOT ( ISBLANK ( [pool] ) && ISBLANK ( [allocated] ) )
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "pool", [pool],
+    "allocated", [allocated],
+    "gap", [gap]
+)
+ORDER BY [financial_year]

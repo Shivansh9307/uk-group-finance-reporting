@@ -1,0 +1,27 @@
+// The what-if measures at each of the five invented settings, and with none selected (the default setting applies), for the allocated
+// amount and the annualised paybill of 2025-26: the setting's pay award and headcount change, the allocated amount with the pay award,
+// the effect on it, the paybill with the headcount change and the pay award, and the effect on the paybill. A setting is selected by a
+// filter on the setting's key, as a slicer does.
+EVALUATE
+UNION (
+    ROW (
+        "setting", "0 none selected",
+        "pay_award", CALCULATE ( [What-if Pay Award], 'Fiscal Year'[Financial Year] = "2025-26" ),
+        "headcount_change", CALCULATE ( [What-if Headcount Change], 'Fiscal Year'[Financial Year] = "2025-26" ),
+        "allocated_whatif", CALCULATE ( [What-if Allocated Amount], 'Fiscal Year'[Financial Year] = "2025-26" ),
+        "allocated_effect", CALCULATE ( [What-if Effect on Allocated Amount], 'Fiscal Year'[Financial Year] = "2025-26" ),
+        "paybill_whatif", CALCULATE ( [What-if Paybill], 'Fiscal Year'[Financial Year] = "2025-26" ),
+        "paybill_effect", CALCULATE ( [What-if Effect on Paybill], 'Fiscal Year'[Financial Year] = "2025-26" )
+    ),
+    SELECTCOLUMNS (
+        GENERATESERIES ( 1, 5, 1 ),
+        "setting", "" & [Value] & " " & LOOKUPVALUE ( 'What-if Setting (synthetic)'[Setting], 'What-if Setting (synthetic)'[Setting Key], [Value] ),
+        "pay_award", CALCULATE ( [What-if Pay Award], 'Fiscal Year'[Financial Year] = "2025-26", TREATAS ( { [Value] }, 'What-if Setting (synthetic)'[Setting Key] ) ),
+        "headcount_change", CALCULATE ( [What-if Headcount Change], 'Fiscal Year'[Financial Year] = "2025-26", TREATAS ( { [Value] }, 'What-if Setting (synthetic)'[Setting Key] ) ),
+        "allocated_whatif", CALCULATE ( [What-if Allocated Amount], 'Fiscal Year'[Financial Year] = "2025-26", TREATAS ( { [Value] }, 'What-if Setting (synthetic)'[Setting Key] ) ),
+        "allocated_effect", CALCULATE ( [What-if Effect on Allocated Amount], 'Fiscal Year'[Financial Year] = "2025-26", TREATAS ( { [Value] }, 'What-if Setting (synthetic)'[Setting Key] ) ),
+        "paybill_whatif", CALCULATE ( [What-if Paybill], 'Fiscal Year'[Financial Year] = "2025-26", TREATAS ( { [Value] }, 'What-if Setting (synthetic)'[Setting Key] ) ),
+        "paybill_effect", CALCULATE ( [What-if Effect on Paybill], 'Fiscal Year'[Financial Year] = "2025-26", TREATAS ( { [Value] }, 'What-if Setting (synthetic)'[Setting Key] ) )
+    )
+)
+ORDER BY [setting]

@@ -12,6 +12,11 @@ ENSURE_TABLES_HAVE_RELATIONSHIPS,Table (Import),'Plan Coverage'
 ENSURE_TABLES_HAVE_RELATIONSHIPS,Table (Import),'Plan Variance Check'
 ENSURE_TABLES_HAVE_RELATIONSHIPS,Table (Import),'User Department (synthetic)'
 ENSURE_TABLES_HAVE_RELATIONSHIPS,Table (Import),'User Plan Group (synthetic)'
+ENSURE_TABLES_HAVE_RELATIONSHIPS,Table (Import),'What-if Setting (synthetic)'
+RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE,Column,'Allocation Coverage (derived)'[Fiscal Year Key]
+RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE,Column,'Allocation Pool (derived)'[Fiscal Year Key]
+RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE,Column,'Allocation Pool (derived)'[Rule Key]
+RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE,Column,'Allocation Rule'[Rule Key]
 RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE,Column,'Fact Forecast Accuracy (derived)'[Fiscal Year Key]
 RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE,Column,'Fact Forecast Accuracy (derived)'[Method Key]
 RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE,Column,'Fact Pay Bridge (derived)'[Organisation Key]

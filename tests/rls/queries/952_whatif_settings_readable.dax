@@ -1,0 +1,9 @@
+// The what-if table is readable under both roles (it is not filtered and nothing in it is hidden): the five settings, the pay award of the
+// default setting and the what-if allocated amount of 2025-26, which applies the default setting to the allocation to the user's own
+// departments. A user with no allocation has the settings and the pay award and a blank what-if amount.
+EVALUATE
+ROW (
+    "settings", COUNTROWS ( 'What-if Setting (synthetic)' ),
+    "pay_award", [What-if Pay Award],
+    "whatif_allocated_2025_26", CALCULATE ( [What-if Allocated Amount], 'Fiscal Year'[Financial Year] = "2025-26" )
+)

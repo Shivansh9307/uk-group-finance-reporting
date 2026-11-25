@@ -119,3 +119,11 @@ test_id,test_name,expected_rows,result_rows,columns,status,max_abs_diff,build_sc
 928,forecast_page_cards,5,5,2,pass,0.00000096678656293,full
 929,forecast_page_department_table,60,60,5,pass,0.00000099670099822,full
 930,forecast_measures_are_blank_unless_one_forecast_line_is_in_context,4,4,5,pass,0.00000071791996762,full
+950,allocation_model_table_row_counts,5,5,2,pass,0,full
+951,allocation_by_department_and_year,108,108,7,pass,0.0000009924,full
+952,naive_equals_rewrite_allocation_by_department_and_year,108,108,5,pass,0,full
+953,naive_equals_rewrite_allocation_by_year,8,8,5,pass,0,full
+954,allocation_tie_and_coverage_by_year,8,8,10,pass,0.0000090000,full
+955,outturn_is_unchanged_with_the_allocation_tables_in_context,9,9,4,pass,0,full
+956,whatif_measures_at_every_setting_2025_26,6,6,7,pass,0.0000430000,full
+957,real_totals_are_identical_at_every_whatif_setting,6,6,5,pass,0,full

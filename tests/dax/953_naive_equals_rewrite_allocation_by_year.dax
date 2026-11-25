@@ -1,0 +1,18 @@
+// Allocated Amount by financial year: the plain form and the rewrite side by side with the pool and their difference. The rewrite adds up
+// to the pool exactly; the plain form is the pool times the stored weights, which add to 1 within a ten-decimal rounding, so the
+// difference is a few tenths of a pound at most (0.0004 in GBP thousands).
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Fiscal Year'[Financial Year],
+        "allocated_naive", [Allocated Amount (naive)],
+        "allocated_rewrite", [Allocated Amount],
+        "pool", [Allocation Pool]
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "allocated_naive", [allocated_naive],
+    "allocated_rewrite", [allocated_rewrite],
+    "pool", [pool],
+    "difference", COALESCE ( [allocated_rewrite], 0 ) - COALESCE ( [allocated_naive], 0 )
+)
+ORDER BY [financial_year]

@@ -1,0 +1,31 @@
+// The allocation never reaches the real outturn. Outturn by financial year three ways: as it is, with the allocation tables in the
+// filter context (the rounding row of the bridge, the one rule of the pool and the what-if setting that cuts headcount), and with those
+// three columns cleared. All three must be equal, and equal to the sum of the revision deltas in the warehouse. (I first cleared
+// whole tables with REMOVEFILTERS and the engine then dropped the year as well, because the year filters those tables: a pitfall that
+// is not about the allocation, so the clearing is by column.)
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Fiscal Year'[Financial Year],
+        "outturn", [Outturn],
+        "with_allocation",
+            CALCULATE (
+                [Outturn],
+                'Allocation Bridge (derived)'[Rounding Row] = TRUE (),
+                'Allocation Pool (derived)'[Rule Key] = "CO_ADMIN_FTE",
+                'What-if Setting (synthetic)'[Setting Key] = 4
+            ),
+        "without_allocation",
+            CALCULATE (
+                [Outturn],
+                REMOVEFILTERS ( 'Allocation Bridge (derived)'[Rounding Row] ),
+                REMOVEFILTERS ( 'Allocation Pool (derived)'[Rule Key] ),
+                REMOVEFILTERS ( 'What-if Setting (synthetic)'[Setting Key] )
+            )
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "outturn", [outturn],
+    "with_allocation", [with_allocation],
+    "without_allocation", [without_allocation]
+)
+ORDER BY [financial_year]

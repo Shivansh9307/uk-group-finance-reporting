@@ -1,0 +1,24 @@
+// The allocation of 2025-26 for each department the signed-in user can see: the weight, the allocated amount and the annualised paybill.
+// The bridge follows the department filter of both roles, so a user sees only the allocation to the user's own departments (and nothing for a
+// department that takes no part, which is the case for the Cabinet Office itself). The Restricted Viewer sees the same figures: the allocation
+// is department-level, and only the organisation-level paybill detail is hidden from that role.
+EVALUATE
+SELECTCOLUMNS (
+    FILTER (
+        CALCULATETABLE (
+            SUMMARIZECOLUMNS (
+                'Department (current structure)'[Department Number],
+                "weight", [Allocation Weight],
+                "allocated", [Allocated Amount],
+                "paybill", [Allocation Paybill (annualised)]
+            ),
+            'Fiscal Year'[Financial Year] = "2025-26"
+        ),
+        NOT ISBLANK ( [allocated] )
+    ),
+    "department_number", 'Department (current structure)'[Department Number],
+    "weight", [weight],
+    "allocated", [allocated],
+    "paybill", [paybill]
+)
+ORDER BY [department_number]

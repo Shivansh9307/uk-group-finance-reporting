@@ -1,0 +1,78 @@
+/// DERIVED from real data, in GBP thousands: the pool of each allocation rule and financial year, the real outturn of the Cabinet Office (department 010 of the current structure) in the control budget detail DEL ADMIN (the sum of the revision deltas of every release, the latest view of the year), spending positive. One row per rule and year. It is the one side of the allocation bridge: the bridge carries each participating department's weight and its share of the pool. A department selection does not filter the pool (the bridge sits between them), so the pool shows in full beside any department, and the security roles do not filter it either: a user who sees a department's weight and allocated amount can divide to get the pool, so hiding it would protect nothing. The allocation is my own and is not a government figure. Source view dw.v_model_allocation_pool.
+table 'Allocation Pool (derived)'
+	lineageTag: c1c56b5e-dd99-4b6c-bde7-aadfc1fa845f
+
+	/// The pool of the rule and year in context, GBP thousands: the real outturn of the pool department in the pool control budget detail. It is not filtered by a department selection or by a security role (the pool is one amount that the departments share).
+	measure 'Allocation Pool' = SUM ( 'Allocation Pool (derived)'[Pool Amount] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Allocation
+		lineageTag: a395fb97-aaf5-4fed-8b45-2400569066a6
+
+	/// Key of the pool: one per rule and financial year.
+	column 'Pool Key'
+		dataType: int64
+		isKey
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: df0c9b0d-bd88-491c-8a3a-2d2864f4bb40
+		summarizeBy: none
+		sourceColumn: pool_key
+
+	/// The rule the pool belongs to.
+	column 'Rule Key'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: d7c45af7-b92e-476e-a495-ae86615ad0e0
+		summarizeBy: none
+		sourceColumn: rule_id
+
+	/// Financial year of the pool, written 2019-20.
+	column 'Fiscal Year Key'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: 725a1210-3d77-461b-94f4-23d2b8724fd3
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	/// The sum of the allocated amounts of the pool's bridge rows, GBP thousands, stored with the pool: the measure Allocation Gap to Pool compares the allocation in context with it to tell whether every participating department is in context. Hidden.
+	column 'Allocated Total (stored)'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: 6d6d2a01-4370-46c0-91d1-5302f249f09c
+		summarizeBy: none
+		sourceColumn: allocated_total
+
+	/// The pool in GBP thousands. Hidden: use the measure Allocation Pool.
+	column 'Pool Amount'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: 4daf615d-a9cf-4ba7-b455-bd0379ca9fc8
+		summarizeBy: none
+		sourceColumn: pool_amount
+
+	/// How many rows of the real outturn the pool adds up.
+	column 'Pool Source Rows'
+		dataType: int64
+		formatString: #,##0
+		displayFolder: Derived
+		lineageTag: 572b8e3c-16a2-4e65-af00-41b8ac6c2433
+		summarizeBy: none
+		sourceColumn: pool_rows
+
+	partition 'Allocation Pool (derived)' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_allocation_pool"]}[Data]
+				in
+				    Data
+
+	annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["SNOWFLAKE_SCHEMA_ARCHITECTURE"]}

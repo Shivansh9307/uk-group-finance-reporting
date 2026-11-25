@@ -1,0 +1,165 @@
+/// DERIVED from real data, in GBP thousands: my own allocation of the pool by payroll full-time equivalent, one row per rule, financial year and participating department (the weighted many-to-many bridge between the pool and Department (current structure)). The weight is the department's average monthly payroll full-time equivalent in the year over the sum of the participants'; the allocated amount is the pool times the weight, rounded to four decimals, with the rounding remainder on the row of the largest weight (flagged in Rounding Row and stored in the rounding adjustment) so that the allocated amounts add up to the pool exactly. Only departments that publish workforce files, with at least the rule's minimum months in the year, take part. The annualised paybill is the average monthly paybill of the valid cells times 12. The full-time equivalent and paybill are real; the allocation is not a government figure and no real total adds it. The department filters it, so both security roles see only their own departments' rows. Source view dw.v_model_allocation_bridge.
+table 'Allocation Bridge (derived)'
+	lineageTag: a25658ca-8c94-42d1-a855-7939448b1501
+
+	/// The pool allocated to the departments in context, GBP thousands: the sum of the stored allocated amounts (the pool times the weight, rounded, with the remainder on the largest weight). One pass over the bridge. It returns the same figures as the plain form kept hidden as Allocated Amount (naive) to within the rounding of the stored weight; docs/performance.md says what the rewrite changed and what it did not. Never added to Outturn.
+	measure 'Allocated Amount' = SUM ( 'Allocation Bridge (derived)'[Allocated Amount (stored)] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Allocation
+		lineageTag: 30f4e94d-d6ef-4a17-9469-50488e5fd906
+
+	/// Kept as evidence, hidden, not for reports: the plain form of Allocated Amount (a SUMX over each department and pool of the bridge with a nested CALCULATE for the pool and another for the weight) that docs/performance.md timed and traced before the rewrite. It returns the pool times the stored weight for each department, each product held to four decimals (the engine rounds a product with a fixed-decimal amount) and with no remainder put on the largest weight, so it equals the rewrite to within a few hundredths of a penny a year, and it is BLANK under a role that cannot see the pool. It is only here so that the comparison can be rerun (tests/dax/952_naive_equals_rewrite_allocation_by_department_and_year.dax and 953_naive_equals_rewrite_allocation_by_year.dax).
+	measure 'Allocated Amount (naive)' =
+			SUMX (
+			    SUMMARIZE ( 'Allocation Bridge (derived)', 'Allocation Bridge (derived)'[Department Key], 'Allocation Bridge (derived)'[Pool Key] ),
+			    VAR PoolKey = 'Allocation Bridge (derived)'[Pool Key]
+			    RETURN
+			        CALCULATE ( SUM ( 'Allocation Pool (derived)'[Pool Amount] ), 'Allocation Pool (derived)'[Pool Key] = PoolKey )
+			            * CALCULATE ( SUM ( 'Allocation Bridge (derived)'[Weight (stored)] ) )
+			)
+		isHidden
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Performance\Naive
+		lineageTag: f02ce303-f08a-4216-b4fb-502ab34bbe9f
+
+		annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs":["UNNECESSARY_MEASURES"]}
+
+	/// The weight of the departments in context: their average monthly payroll full-time equivalent over the sum of the participants', for one financial year. The weights of all participants add to 1. BLANK unless exactly one financial year is in context (a weight summed over years has no meaning).
+	measure 'Allocation Weight' =
+			IF ( HASONEVALUE ( 'Fiscal Year'[Financial Year] ), SUM ( 'Allocation Bridge (derived)'[Weight (stored)] ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Allocation
+		lineageTag: 882b8d0f-b8e3-44fc-aa05-91d80168d4ed
+
+	/// The rounding remainder, GBP thousands: what the row of the largest weight was moved by so that the allocated amounts add up to the pool exactly. It is shown, never hidden. Zero on every other row.
+	measure 'Allocation Rounding Adjustment' = SUM ( 'Allocation Bridge (derived)'[Rounding Adjustment (stored)] )
+		formatString: £#,##0.0000"k";-£#,##0.0000"k";£0.0000"k"
+		displayFolder: Allocation
+		lineageTag: b8ec1151-ac43-480b-84ab-f41a8850248c
+
+	/// Allocated less the pool, GBP thousands: zero when every participating department is in context. BLANK when a department selection or a security role narrows the departments (a part of the allocation would be compared with the whole pool): the measure checks that the allocation in context equals the stored total of the pool's allocation. (ISCROSSFILTERED on the department table does not see a security role, which I found with the first run of the role cases.)
+	measure 'Allocation Gap to Pool' =
+			VAR Pool = [Allocation Pool]
+			VAR Allocated = [Allocated Amount]
+			VAR AllAllocated = SUM ( 'Allocation Pool (derived)'[Allocated Total (stored)] )
+			RETURN
+			    IF ( NOT ISBLANK ( Pool ) && Allocated = AllAllocated, Allocated - Pool )
+		formatString: £#,##0.0000"k";-£#,##0.0000"k";£0.0000"k"
+		displayFolder: Allocation
+		lineageTag: 8ab414e0-945e-4c54-bbf3-b5f2b0363361
+
+	/// Average monthly payroll full-time equivalent of the departments in context, for one financial year: the weight's numerator. BLANK unless exactly one financial year is in context.
+	measure 'Allocation Average FTE' =
+			IF ( HASONEVALUE ( 'Fiscal Year'[Financial Year] ), SUM ( 'Allocation Bridge (derived)'[Average FTE (stored)] ) )
+		formatString: #,##0
+		displayFolder: Allocation
+		lineageTag: 58b54054-7aac-45c7-84e1-350f4e798837
+
+	/// The annualised payroll paybill of the departments in context, GBP thousands: the average monthly paybill of the valid cells in the months present times 12. Real data; it is the paybill the what-if measures work on.
+	measure 'Allocation Paybill (annualised)' = SUM ( 'Allocation Bridge (derived)'[Paybill Annualised (stored)] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: Allocation
+		lineageTag: 6c0301d9-3f6e-4fc5-af62-79aad2540845
+
+	/// Number of departments the pool is allocated to in the context: those with a row in the bridge.
+	measure 'Departments Allocated To' = DISTINCTCOUNT ( 'Allocation Bridge (derived)'[Department Key] )
+		formatString: #,##0
+		displayFolder: Allocation
+		lineageTag: 992a5012-3db3-4f66-b601-086e96e07cc2
+
+	/// Key of the pool (one per rule and financial year).
+	column 'Pool Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: 3abf8007-919a-478a-ad92-a5f96f3a03cc
+		summarizeBy: none
+		sourceColumn: pool_key
+
+	/// Department of the current structure the amount is allocated to.
+	column 'Department Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: d366a0de-f175-4cd1-8eac-734c9e127a64
+		summarizeBy: none
+		sourceColumn: department_key
+
+	/// The weight, as stored (a ratio, stored as a floating-point number because the fixed-decimal type keeps four decimals only). Hidden: use the measure Allocation Weight.
+	column 'Weight (stored)'
+		dataType: double
+		isHidden
+		formatString: 0.0000000000
+		isAvailableInMdx: false
+		lineageTag: 740d50f1-5d5e-4511-9370-8c38820dc551
+		summarizeBy: none
+		sourceColumn: weight
+
+	/// The allocated amount in GBP thousands, with the rounding adjustment included. Hidden: use the measure Allocated Amount.
+	column 'Allocated Amount (stored)'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: c488da0e-4ceb-4583-af5c-8aeefe22b8e8
+		summarizeBy: none
+		sourceColumn: allocated_amount
+
+	/// The rounding adjustment on this row, GBP thousands: zero except on the row of the largest weight. Hidden: use the measure Allocation Rounding Adjustment.
+	column 'Rounding Adjustment (stored)'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: 3e810c21-aaa9-4f31-b4c1-912ec6174d2d
+		summarizeBy: none
+		sourceColumn: rounding_adjustment
+
+	/// True on the one row of each pool that carries the rounding adjustment: the participant with the largest full-time equivalent.
+	column 'Rounding Row'
+		dataType: boolean
+		displayFolder: Derived
+		lineageTag: 751568f2-b954-4e1b-97f8-9f7ca7e0050b
+		summarizeBy: none
+		sourceColumn: is_rounding_row
+
+	/// The department's average monthly payroll full-time equivalent in the year, over the months present. Hidden: use the measure Allocation Average FTE.
+	column 'Average FTE (stored)'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: 51bb1b8c-707b-439e-95d0-cf3b79139903
+		summarizeBy: none
+		sourceColumn: avg_fte
+
+	/// Months of the financial year in which the department has a valid payroll cell: the weight rests on these months only, and a department needs at least the rule's minimum to take part.
+	column 'Months With Data'
+		dataType: int64
+		formatString: 0
+		displayFolder: Derived
+		lineageTag: 25b86b2b-e6b4-4a02-b44d-b654d50fa729
+		summarizeBy: none
+		sourceColumn: months_present
+
+	/// The annualised payroll paybill in GBP thousands. Hidden: use the measure Allocation Paybill (annualised).
+	column 'Paybill Annualised (stored)'
+		dataType: decimal
+		isHidden
+		formatString: #,##0.0000
+		isAvailableInMdx: false
+		lineageTag: 46d9d6e5-71c4-43fc-bcbe-22199da8c7d3
+		summarizeBy: none
+		sourceColumn: paybill_annualised
+
+	partition 'Allocation Bridge (derived)' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_allocation_bridge"]}[Data]
+				in
+				    Data
+

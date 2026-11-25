@@ -220,6 +220,46 @@ department sees nothing.
 | `920_forecast_department_accuracy` (cells, absolute error, absolute outturn and WAPE of the department's own forecast, by department) | analyst: `alice`, `chloe`, `jasmine`, `george`, `nobody`; restricted: `alice`, `chloe`, `nobody` | only the user's departments, equal to SQL over `dw.forecast_accuracy` and the user map; `nobody`: no rows; the restricted viewer sees the same rows as the analyst of the same name |
 | `921_forecast_fte_cost_rows` (FTE x cost cells and the pay seen, by department) | analyst: `chloe`, `jasmine`, `nobody`; restricted: `chloe`, `jasmine` | only the user's departments, equal to SQL; the restricted viewer answers the FTE x cost measures with the same figures (no hidden object is read) |
 
+## The allocation and the what-if under the two roles
+
+`Allocation Bridge (derived)` follows the same department filter as everything else, in the same two roles and with no third one: the
+bridge is related to `Department (current structure)`, so a user sees the allocation, the weight, the months, the full-time
+equivalent and the annualised paybill of the user's own departments and nothing else, and a user with no department sees nothing.
+
+- **Row-level.** The bridge: through the department dimension, with no table permission of its own. **The pool is not filtered by either
+  role, and I decided that after the first run of the role cases.** I first gave the pool table a permission of its own (a user sees the
+  pool only when the user holds the Cabinet Office, the pool's department). The cases showed why that cannot work: the pool is the one side
+  of the bridge, so a filter on the pool filters the bridge too, and a user who did not hold the Cabinet Office saw no allocation at all (case `951`
+  for `alice.morgan` returned 0 rows against 5 expected). A model-level fix was not worth having, because the permission
+  would protect nothing: a user who sees the weight and the allocated amount of a department can divide one by the other to get the pool. So
+  the pool, the real outturn of the Cabinet Office in its administration budget, is visible to every user of both roles, and the other
+  outturn of the Cabinet Office stays filtered like all outturn. That is a deliberate exposure: a user not mapped to the Cabinet Office reads one
+  line of its outturn through the allocation. **Tested**: case `951` (every user sees the eight pools).
+- **What `Restricted Viewer` sees.** The same bridge figures as the analyst of the same name. The allocation is department-level (one
+  row for each department and year), and the only objects the Restricted Viewer cannot see that bear on pay are organisation-level
+  (`Pay Organisation`, `Organisation Key` of the pay bridge, `Pay Coverage`); the allocation has no organisation key, so I hid nothing
+  of it. The annualised paybill of a department is already visible to the role in the pay bridge. **Tested**: cases `950` and `951` under
+  `Restricted Viewer` equal the analyst's.
+- **Coverage and the what-if.** `Allocation Coverage (derived)` is counts and a share by year, with no department in it, so neither role
+  filters it (it is the same for everyone, like the other control tables the model keeps open). `What-if Setting (synthetic)` is five
+  invented settings that both roles read; the what-if measures then apply the setting to the allocation the user can see, so a user sees
+  the what-if of the user's own departments only (case `952`).
+- **The gap to the pool is blank under a role.** `Allocation Gap to Pool` compares the whole pool with the whole allocation, and it is BLANK
+  whenever the user does not see every participating department (a user who sees part of the allocation would otherwise read a difference to
+  the whole pool as a shortfall). I first guarded it with `ISCROSSFILTERED` on the department table; the case `951` for `dev.sharma`
+  showed the gap as minus the pool, because `ISCROSSFILTERED` does not see a security role. The measure now compares the allocation in
+  context with the stored total of the pool's allocation. **Tested**: case `951` (the gap is blank for every user of a role) and test 954 (it is 0 with no role).
+- **`Allocated Amount (naive)`.** The hidden plain form of the measure reads the pool and the weight, which both roles can read, so it
+  answers like the rewrite.
+
+**Tested** (`tools/run_rls_tests.ps1`, `ukfr rls-expected`, `ukfr rls-compare`: 173 of 173 cases pass, the 24 new ones in `tests/rls/manifest.csv`):
+
+| Query | Users and role | What it shows |
+|---|---|---|
+| `950_allocation_by_department_2025_26` (weight, allocated amount and annualised paybill by department) | analyst: `alice`, `chloe`, `dev`, `george`, `jasmine`, `nobody`; restricted: `alice`, `dev`, `jasmine`, `nobody` | only the user's departments that take part (`jasmine`: three; `dev`, who holds the Cabinet Office, and `nobody`: none), equal to SQL; the restricted viewer sees the same rows as the analyst |
+| `951_allocation_pool_and_gap_by_year` | the same ten | the eight pools for every user, the allocation to the user's own departments, and a blank gap for all of them |
+| `952_whatif_settings_readable` | analyst and restricted: `alice`, `nobody` | five settings and the 3.4% pay award for both; the what-if allocated amount of 2025-26 for the user's own departments (blank for `nobody`) |
+
 ## The cases I ran
 
 `tools/run_rls_tests.ps1` runs each row of `tests/rls/manifest.csv` through `tools/run_dax.ps1` with `-Roles` and `-User`
@@ -234,7 +274,7 @@ uv run --project pipeline ukfr rls-expected
 uv run --project pipeline ukfr rls-compare
 ```
 
-Result of the last run: **149 of 149 cases pass** (127 `values`, 11 `differs`, 11 `error`, with the NHS trust accounts, the pay bridge and the forecast accuracy above; 87 of 87 before the NHS trust accounts). A planted wrong number in one result
+Result of the last run: **173 of 173 cases pass** (151 `values`, 11 `differs`, 11 `error`, with the NHS trust accounts, the pay bridge and the forecast accuracy and the allocation above; 87 of 87 before the NHS trust accounts). A planted wrong number in one result
 file made `rls-compare` report one failure, and restoring it made all pass.
 
 | Case family | Users and role | What it shows |

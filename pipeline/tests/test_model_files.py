@@ -186,6 +186,8 @@ def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(t
     view_files += sorted((repo_root / "sql" / "audit").glob("90?_*.sql"))
     view_files += sorted((repo_root / "sql" / "audit").glob("92?_*.sql"))
     view_files += sorted((repo_root / "sql" / "dw").glob("82?_*.sql"))
+    view_files += sorted((repo_root / "sql" / "audit").glob("94?_*.sql"))
+    view_files += sorted((repo_root / "sql" / "dw").glob("94?_*.sql"))
     sql_text = "\n".join(p.read_text(encoding="utf-8") for p in view_files)
     created = set(re.findall(r"CREATE VIEW dw\.(v_model_\w+)", sql_text))
     used: list[str] = []
@@ -213,12 +215,22 @@ def test_each_sql_table_reads_one_view_with_the_server_and_database_parameters(t
 
 def test_synthetic_tables_are_labelled_hidden_unrelated_and_hold_no_amount(tables, relationships):
     synthetic = {n: t for n, t in tables.items() if n.endswith("(synthetic)")}
-    assert set(synthetic) == {"User Department (synthetic)", "User Plan Group (synthetic)"}
+    assert set(synthetic) == {
+        "User Department (synthetic)",
+        "User Plan Group (synthetic)",
+        "What-if Setting (synthetic)",
+    }
     touched = {_split_column(r[e])[0] for r in relationships for e in ("fromColumn", "toColumn")}
     for n, t in synthetic.items():
         assert t.description.startswith("SYNTHETIC"), f"{n}: the description must say SYNTHETIC first"
-        assert "\n\tisHidden\n" in t.text, f"{n}: a synthetic table is hidden"
         assert n not in touched, f"{n}: a synthetic table is related to nothing; the roles read it by key"
+        if n == "What-if Setting (synthetic)":
+            # the what-if settings are visible (a reader picks one) and hold two percentages, never an amount
+            decimals = {c.name for c in t.columns.values() if c.props.get("dataType") in ("double", "decimal")}
+            assert decimals == {"Pay Award (per cent)", "Headcount Change (per cent)"}, decimals
+            assert "\n\tisHidden\n" not in t.text, f"{n}: the what-if settings are for a reader to pick"
+            continue
+        assert "\n\tisHidden\n" in t.text, f"{n}: a synthetic table is hidden"
         assert all("isHidden" in c.flags for c in t.columns.values()), f"{n}: every column is hidden"
         assert not any(c.props.get("dataType") in ("double", "decimal") for c in t.columns.values()), n
     for n, t in tables.items():
@@ -256,7 +268,7 @@ def test_the_forecast_accuracy_is_labelled_derived_and_has_no_organisation_level
 
 # ----------------------------------------------------------------------------------------- relationships
 def test_every_relationship_joins_existing_columns_and_is_active_single_direction_many_to_one(relationships, tables):
-    assert len(relationships) == 42
+    assert len(relationships) == 47
     seen = set()
     for r in relationships:
         for end in ("fromColumn", "toColumn"):

@@ -128,7 +128,26 @@ var folderOf = new Dictionary<string, string>
     { "Forecast Cells (excl. flagged returns)", "Forecast accuracy" },
     { "Flagged Return Cells", "Forecast accuracy" },
     { "FTE x Cost Cell Coverage", "Forecast accuracy" },
-    { "FTE x Cost Pay Cover", "Forecast accuracy" }
+    { "FTE x Cost Pay Cover", "Forecast accuracy" },
+    { "Allocation Pool", "Allocation" },
+    { "Allocated Amount", "Allocation" },
+    { "Allocation Weight", "Allocation" },
+    { "Allocation Rounding Adjustment", "Allocation" },
+    { "Allocation Gap to Pool", "Allocation" },
+    { "Allocation Average FTE", "Allocation" },
+    { "Allocation Paybill (annualised)", "Allocation" },
+    { "Departments Allocated To", "Allocation" },
+    { "Departments Taking Part", "Allocation" },
+    { "Departments Left Out (too few months)", "Allocation" },
+    { "Left Out Weight Share", "Allocation" },
+    { "Departments Without Workforce Data", "Allocation" },
+    { "What-if Setting Key", "What-if (synthetic)" },
+    { "What-if Pay Award", "What-if (synthetic)" },
+    { "What-if Headcount Change", "What-if (synthetic)" },
+    { "What-if Allocated Amount", "What-if (synthetic)" },
+    { "What-if Effect on Allocated Amount", "What-if (synthetic)" },
+    { "What-if Paybill", "What-if (synthetic)" },
+    { "What-if Effect on Paybill", "What-if (synthetic)" }
 };
 const string RealTermsSuffix = " (real terms)";
 const string RealTermsFolder = "Real Terms";
@@ -136,7 +155,7 @@ const string DerivedSuffix = "(derived)";
 const string DerivedFolder = "Derived";
 // Authored dimension tables (see the README register). Statement Measure, an authored field parameter, is
 // labelled in its description only: its one visible column is what a slicer shows.
-var authoredTables = new List<string> { "Scenario", "Spending Review Group", "Plan Source", "Plan Grain", "Statement Line", "TAC Cash Flow Line", "TAC Control Line", "TAC Consolidated Accounts" };
+var authoredTables = new List<string> { "Scenario", "Spending Review Group", "Plan Source", "Plan Grain", "Statement Line", "TAC Cash Flow Line", "TAC Control Line", "TAC Consolidated Accounts", "Allocation Rule" };
 const string AuthoredFolder = "Authored";
 
 var problems = new List<string>();

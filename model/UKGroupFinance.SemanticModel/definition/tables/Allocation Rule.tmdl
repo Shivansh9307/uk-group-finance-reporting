@@ -1,0 +1,96 @@
+/// AUTHORED, no amount: my own allocation rule, not a government policy. It names the real pool (the Cabinet Office administration budget of departmental expenditure limits), the basis (payroll full-time equivalent), the years it applies to, the least number of months of workforce data a department needs to take part, the rounding rule and why I chose them, and what the rule is not. Source view dw.v_model_allocation_rule.
+table 'Allocation Rule'
+	lineageTag: d5ce98f5-6b48-40e9-9367-0a1b5ccd407d
+
+	/// The rule's identifier.
+	column 'Rule Key'
+		dataType: string
+		isKey
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: 72302ab4-b8f2-4682-b34d-273c2bc7f15e
+		summarizeBy: none
+		sourceColumn: rule_id
+
+	/// The allocation rule, in one line.
+	column Rule
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 0b685eee-866d-4e0b-ad21-3d2a8af8ee0e
+		summarizeBy: none
+		sourceColumn: rule_name
+
+	/// The pool that is spread: whose outturn, in which control budget detail, and in what unit.
+	column 'Pool Definition'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: ae81553d-6b18-4689-9a87-5fa372c66e3b
+		summarizeBy: none
+		sourceColumn: pool_description
+
+	/// What a department's weight is: its payroll full-time equivalent over the sum of the departments that take part.
+	column Basis
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 19712c67-2011-4414-8a08-7b99a4034281
+		summarizeBy: none
+		sourceColumn: basis
+
+	/// The first financial year the rule applies to.
+	column 'First Financial Year'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: daf2edee-9ca3-4862-8abd-84d625b107a1
+		summarizeBy: none
+		sourceColumn: first_financial_year
+
+	/// The last financial year the rule applies to: the latest closed year. The part year after it is not allocated.
+	column 'Last Financial Year'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: ebda4749-b81b-4a8a-aca1-19f9fc9c31b8
+		summarizeBy: none
+		sourceColumn: last_financial_year
+
+	/// The least number of months of the year in which a department has a valid payroll cell for it to take part in that year.
+	column 'Minimum Months'
+		dataType: int64
+		formatString: 0
+		displayFolder: Authored
+		lineageTag: b4f33cb9-192e-4a20-97b5-1638ca01b64f
+		summarizeBy: none
+		sourceColumn: min_months
+
+	/// How the allocated amounts are made to add up to the pool exactly.
+	column 'Rounding Rule'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 5dcecea1-c61f-4fa6-b035-396caf64127d
+		summarizeBy: none
+		sourceColumn: rounding_rule
+
+	/// Why I chose this pool and this basis.
+	column Rationale
+		dataType: string
+		displayFolder: Authored
+		lineageTag: 57049b82-9cdd-4145-b949-0aac530b2879
+		summarizeBy: none
+		sourceColumn: rationale
+
+	/// What the allocation is not: not a government policy, recharge or charge.
+	column 'What It Is Not'
+		dataType: string
+		displayFolder: Authored
+		lineageTag: e32d8268-552b-4442-9d9f-9c224471e316
+		summarizeBy: none
+		sourceColumn: not_this
+
+	partition 'Allocation Rule' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_allocation_rule"]}[Data]
+				in
+				    Data
+

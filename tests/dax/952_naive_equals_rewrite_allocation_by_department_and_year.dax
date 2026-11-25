@@ -1,0 +1,20 @@
+// Allocated Amount: the plain form (naive, hidden: a SUMX over each department and pool of the bridge with a nested CALCULATE for the
+// pool and another for the weight) and the rewrite (the stored allocated amount, one pass) side by side for every cell of the table the
+// second perf query draws, with their difference. The two are not identical by design: the plain form is the pool times the stored
+// weight and the rewrite is that product rounded to four decimals with the remainder on the largest weight, so the difference is a few
+// tenths of a pound a year. Each is compared with its own SQL recomputation.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Fiscal Year'[Financial Year],
+        'Department (current structure)'[Department Number],
+        "allocated_naive", [Allocated Amount (naive)],
+        "allocated_rewrite", [Allocated Amount]
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "department_number", 'Department (current structure)'[Department Number],
+    "allocated_naive", [allocated_naive],
+    "allocated_rewrite", [allocated_rewrite],
+    "difference", COALESCE ( [allocated_rewrite], 0 ) - COALESCE ( [allocated_naive], 0 )
+)
+ORDER BY [financial_year], [department_number]

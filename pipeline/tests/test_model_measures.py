@@ -142,6 +142,26 @@ BASE_MEASURES = {
     "Flagged Return Cells": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
     "FTE x Cost Cell Coverage": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
     "FTE x Cost Pay Cover": ("Fact Forecast Accuracy (derived)", "Forecast accuracy"),
+    "Allocation Pool": ("Allocation Pool (derived)", "Allocation"),
+    "Allocated Amount": ("Allocation Bridge (derived)", "Allocation"),
+    "Allocated Amount (naive)": ("Allocation Bridge (derived)", r"Performance\Naive"),
+    "Allocation Weight": ("Allocation Bridge (derived)", "Allocation"),
+    "Allocation Rounding Adjustment": ("Allocation Bridge (derived)", "Allocation"),
+    "Allocation Gap to Pool": ("Allocation Bridge (derived)", "Allocation"),
+    "Allocation Average FTE": ("Allocation Bridge (derived)", "Allocation"),
+    "Allocation Paybill (annualised)": ("Allocation Bridge (derived)", "Allocation"),
+    "Departments Allocated To": ("Allocation Bridge (derived)", "Allocation"),
+    "Departments Taking Part": ("Allocation Coverage (derived)", "Allocation"),
+    "Departments Left Out (too few months)": ("Allocation Coverage (derived)", "Allocation"),
+    "Left Out Weight Share": ("Allocation Coverage (derived)", "Allocation"),
+    "Departments Without Workforce Data": ("Allocation Coverage (derived)", "Allocation"),
+    "What-if Setting Key": ("What-if Setting (synthetic)", "What-if (synthetic)"),
+    "What-if Pay Award": ("What-if Setting (synthetic)", "What-if (synthetic)"),
+    "What-if Headcount Change": ("What-if Setting (synthetic)", "What-if (synthetic)"),
+    "What-if Allocated Amount": ("What-if Setting (synthetic)", "What-if (synthetic)"),
+    "What-if Effect on Allocated Amount": ("What-if Setting (synthetic)", "What-if (synthetic)"),
+    "What-if Paybill": ("What-if Setting (synthetic)", "What-if (synthetic)"),
+    "What-if Effect on Paybill": ("What-if Setting (synthetic)", "What-if (synthetic)"),
 }
 GROUPS = {"Scenario Comparison": 10, "Time Intelligence": 20, "Display Unit": 30}
 
@@ -588,7 +608,13 @@ def test_the_plain_form_of_the_rank_is_kept_hidden_with_the_calculation_written_
 
 def test_the_hidden_plain_forms_are_in_no_perspective_and_no_other_measure_reads_them(measures, table_text):
     hidden = [m.name for m in measures if _is_hidden(m)]
-    assert hidden == ["Outturn as at Release (naive)", "Department Group Rank (YTD Variance %) (naive)"]
+    assert sorted(hidden) == sorted(
+        [
+            "Outturn as at Release (naive)",
+            "Department Group Rank (YTD Variance %) (naive)",
+            "Allocated Amount (naive)",
+        ]
+    )
     for m in measures:
         for h in hidden:
             assert f"[{h}]" not in m.expression, f"{m.name} reads the hidden measure {h}"
@@ -652,3 +678,65 @@ def test_the_share_measures_are_blanked_under_year_on_year(items):
     for name in ("YoY", "YoY %"):
         e = next(i for i in items if i.group == "Time Intelligence" and i.name == name).expression
         assert "ISSELECTEDMEASURE ( [Revision %], [Estimated Mapping Share] )" in e, name
+
+
+# ----------------------------------------------------------------------------------------------------- allocation
+def test_allocated_amount_is_one_pass_over_the_stored_amount_and_its_plain_form_is_the_nested_iterator(measures):
+    # slow measure 3: the rewrite adds the stored allocated amount; the plain form iterates the bridge by department and
+    # pool with a CALCULATE for the pool and another for the weight. The plain form stays hidden, as evidence
+    by_name = {m.name: m for m in measures}
+    rewrite = re.sub(r"\s+", " ", by_name["Allocated Amount"].expression)
+    assert rewrite == "SUM ( 'Allocation Bridge (derived)'[Allocated Amount (stored)] )"
+    assert not _is_hidden(by_name["Allocated Amount"])
+    naive = by_name["Allocated Amount (naive)"]
+    n = re.sub(r"\s+", " ", naive.expression)
+    assert n.startswith("SUMX ( SUMMARIZE ( 'Allocation Bridge (derived)'")
+    assert n.count("CALCULATE (") == 2 and "'Allocation Pool (derived)'[Pool Amount]" in n and "[Weight (stored)]" in n
+    assert _is_hidden(naive) and "kept as evidence" in naive.description.lower()
+    assert naive.props["displayFolder"] == r"Performance\Naive"
+
+
+def test_the_weight_and_the_year_counts_are_blank_unless_one_financial_year_is_in_context(measures):
+    by = {m.name: m.expression for m in measures}
+    assert "HASONEVALUE ( 'Fiscal Year'[Financial Year] )" in by["Allocation Weight"]
+    assert "HASONEVALUE ( 'Fiscal Year'[Financial Year] )" in by["Allocation Average FTE"]
+    for name in (
+        "Departments Taking Part",
+        "Departments Left Out (too few months)",
+        "Left Out Weight Share",
+        "Departments Without Workforce Data",
+    ):
+        assert "HASONEVALUE ( 'Allocation Coverage (derived)'[Fiscal Year Key] )" in by[name], name
+
+
+def test_the_gap_to_the_pool_is_blank_unless_every_participating_department_is_in_context(measures):
+    # ISCROSSFILTERED does not see a security role, so the measure compares the allocation in context with the stored total
+    e = re.sub(r"\s+", " ", {m.name: m.expression for m in measures}["Allocation Gap to Pool"])
+    assert "SUM ( 'Allocation Pool (derived)'[Allocated Total (stored)] )" in e
+    assert "Allocated = AllAllocated" in e and "Allocated - Pool" in e and "ISCROSSFILTERED" not in e
+
+
+def test_no_allocation_or_what_if_measure_is_scaled_and_the_what_if_is_read_by_its_own_measures_only(items, measures):
+    allocation = [m for m in measures if m.props.get("displayFolder") == "Allocation"]
+    whatif = [m for m in measures if m.table == "What-if Setting (synthetic)"]
+    assert len(allocation) == 12 and len(whatif) == 7
+    for unit in ("£k", "£m", "£bn"):
+        expr = next(i for i in items if i.group == "Display Unit" and i.name == unit).expression
+        for m in allocation + whatif:
+            assert f"[{m.name}]" not in expr, f"{unit}: {m.name} is GBP thousands in its own tables and not scaled"
+    # the synthetic table is read by its own measures and by nothing else
+    for m in measures:
+        if m.table != "What-if Setting (synthetic)":
+            assert "What-if Setting (synthetic)" not in m.expression, f"{m.name} reads the what-if table"
+            assert "[What-if " not in m.expression, f"{m.name} reads a what-if measure"
+    assert all(m.description.startswith("SYNTHETIC") or m.name == "What-if Setting Key" for m in whatif)
+    # and the allocation tables are read by no real measure
+    real = [m for m in measures if m.table in ("Fact Outturn", "Fact Plan", "Fact Plan Phased (derived)", "Fact TAC")]
+    for m in real:
+        for table in (
+            "Allocation Bridge (derived)",
+            "Allocation Pool (derived)",
+            "Allocation Rule",
+            "Allocation Coverage (derived)",
+        ):
+            assert table not in m.expression, f"{m.name} reads {table}"

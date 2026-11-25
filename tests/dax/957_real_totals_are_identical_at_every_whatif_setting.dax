@@ -1,0 +1,22 @@
+// The what-if never feeds a real total. The real measures (the outturn of every year, the rows of the plan, the allocated amount and the annualised
+// paybill, which are real data) at each of the five settings and with none selected: every row must give the same four figures, and each
+// must equal its own SQL total. A setting is selected by a filter on the setting's key, as a slicer does.
+EVALUATE
+UNION (
+    ROW (
+        "setting", "0 none selected",
+        "outturn", [Outturn],
+        "plan_rows", COUNTROWS ( 'Fact Plan' ),
+        "allocated", [Allocated Amount],
+        "paybill", [Allocation Paybill (annualised)]
+    ),
+    SELECTCOLUMNS (
+        GENERATESERIES ( 1, 5, 1 ),
+        "setting", "" & [Value] & " " & LOOKUPVALUE ( 'What-if Setting (synthetic)'[Setting], 'What-if Setting (synthetic)'[Setting Key], [Value] ),
+        "outturn", CALCULATE ( [Outturn], TREATAS ( { [Value] }, 'What-if Setting (synthetic)'[Setting Key] ) ),
+        "plan_rows", CALCULATE ( COUNTROWS ( 'Fact Plan' ), TREATAS ( { [Value] }, 'What-if Setting (synthetic)'[Setting Key] ) ),
+        "allocated", CALCULATE ( [Allocated Amount], TREATAS ( { [Value] }, 'What-if Setting (synthetic)'[Setting Key] ) ),
+        "paybill", CALCULATE ( [Allocation Paybill (annualised)], TREATAS ( { [Value] }, 'What-if Setting (synthetic)'[Setting Key] ) )
+    )
+)
+ORDER BY [setting]

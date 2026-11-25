@@ -1,0 +1,30 @@
+// The tie and the coverage of the allocation for every financial year, as the page's year table draws it: the pool, the allocated
+// amount, their gap (zero), the rounding adjustment, the weights of all participants (they add to 1), the departments taking part,
+// those left out for too few months with the share of the full-time equivalent they would have carried, and the live departments with
+// no workforce data at all.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Fiscal Year'[Financial Year],
+        "pool", [Allocation Pool],
+        "allocated", [Allocated Amount],
+        "gap", [Allocation Gap to Pool],
+        "rounding", [Allocation Rounding Adjustment],
+        "weights", [Allocation Weight],
+        "taking_part", [Departments Taking Part],
+        "left_out", [Departments Left Out (too few months)],
+        "left_out_share", [Left Out Weight Share],
+        "no_data", [Departments Without Workforce Data]
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "pool", [pool],
+    "allocated", [allocated],
+    "gap", [gap],
+    "rounding", [rounding],
+    "weights", [weights],
+    "taking_part", [taking_part],
+    "left_out", [left_out],
+    "left_out_share", [left_out_share],
+    "no_data", [no_data]
+)
+ORDER BY [financial_year]

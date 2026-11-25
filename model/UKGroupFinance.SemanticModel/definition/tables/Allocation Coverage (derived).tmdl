@@ -1,0 +1,90 @@
+/// DERIVED from real data, counts and shares only (no amount): for each rule and financial year, how many departments take part in the allocation, how many have some workforce data but too few months to take part (and the share of the full-time equivalent they would have carried), and how many live departments publish no usable workforce data in the year at all. It shows what the weights leave out. Source view dw.v_model_allocation_coverage.
+table 'Allocation Coverage (derived)'
+	lineageTag: 51b9da4d-0d99-4c7d-97bc-795b97f595e3
+
+	/// Number of departments that take part in the allocation in the year in context. BLANK unless exactly one financial year is in context (a count summed over years has no meaning).
+	measure 'Departments Taking Part' =
+			IF ( HASONEVALUE ( 'Allocation Coverage (derived)'[Fiscal Year Key] ), SUM ( 'Allocation Coverage (derived)'[Participants] ) )
+		formatString: #,##0
+		displayFolder: Allocation
+		lineageTag: 79f41641-c641-4807-98bc-cfeb09f033ca
+
+	/// Number of departments with workforce data in the year but fewer months than the rule needs, so left out of the year. BLANK unless exactly one financial year is in context.
+	measure 'Departments Left Out (too few months)' =
+			IF ( HASONEVALUE ( 'Allocation Coverage (derived)'[Fiscal Year Key] ), SUM ( 'Allocation Coverage (derived)'[Left Out For Too Few Months] ) )
+		formatString: #,##0
+		displayFolder: Allocation
+		lineageTag: 203386c4-6ee6-4339-bd8a-3dc486ec00f5
+
+	/// The share of the full-time equivalent of all departments with workforce data that the departments left out for too few months would have had if they had taken part. BLANK unless exactly one financial year is in context.
+	measure 'Left Out Weight Share' =
+			IF ( HASONEVALUE ( 'Allocation Coverage (derived)'[Fiscal Year Key] ), SUM ( 'Allocation Coverage (derived)'[Left Out Weight Share (stored)] ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Allocation
+		lineageTag: 6ae0f71b-ebd7-4145-b204-29429f6d1b9e
+
+	/// Number of live departments with no valid workforce cell in the year, so with no weight: the workforce source does not hold them (the pool's own department is not counted). BLANK unless exactly one financial year is in context.
+	measure 'Departments Without Workforce Data' =
+			IF ( HASONEVALUE ( 'Allocation Coverage (derived)'[Fiscal Year Key] ), SUM ( 'Allocation Coverage (derived)'[Without Workforce Data] ) )
+		formatString: #,##0
+		displayFolder: Allocation
+		lineageTag: 7688dc48-b34b-4067-aac3-a39586e80a03
+
+	/// Financial year, written 2019-20.
+	column 'Fiscal Year Key'
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: 1915af88-c457-47d9-94e2-b17af80d7883
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	/// Departments that take part in the year. Hidden: use the measure Departments Taking Part.
+	column Participants
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: 9b2cfeb5-cf07-4238-97c6-48621c8266ef
+		summarizeBy: none
+		sourceColumn: participants
+
+	/// Departments with some workforce data and too few months. Hidden: use the measure Departments Left Out (too few months).
+	column 'Left Out For Too Few Months'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: abdcf5a6-3b3a-4167-b5b8-79b4256d1fd1
+		summarizeBy: none
+		sourceColumn: too_few_months_departments
+
+	/// The weight share of those departments, as a ratio. Hidden: use the measure Left Out Weight Share.
+	column 'Left Out Weight Share (stored)'
+		dataType: double
+		isHidden
+		formatString: 0.0000000000
+		isAvailableInMdx: false
+		lineageTag: ad2a2f85-4726-4c08-83b5-e098332f241c
+		summarizeBy: none
+		sourceColumn: too_few_months_weight_share
+
+	/// Live departments with no valid workforce cell in the year. Hidden: use the measure Departments Without Workforce Data.
+	column 'Without Workforce Data'
+		dataType: int64
+		isHidden
+		formatString: 0
+		isAvailableInMdx: false
+		lineageTag: 7ac93d6d-c632-4ec3-b6c2-feb8684841a4
+		summarizeBy: none
+		sourceColumn: no_workforce_departments
+
+	partition 'Allocation Coverage (derived)' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_allocation_coverage"]}[Data]
+				in
+				    Data
+

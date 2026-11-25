@@ -240,6 +240,23 @@ to show the difference.
 
 `dax-compare`: 98 of 98 pass (84 older and 14 new), largest absolute difference of the new tests 0.00005 (test 162's ppm column), expected build scope full. The 26 role cases of the NHS trust accounts are in [security.md](security.md).
 
+### The allocation and what-if tests (950 to 957)
+
+Eight tests for the five allocation tables, the 20 measures and the page ([model.md](model.md#the-allocation-of-a-shared-cost-pool-and-the-what-if)). Their expected values come from `dw.fact_allocation`, `dw.allocation_pool`, `audit.allocation_participation`, `dw.fact_outturn` and `synthetic.whatif_parameter`, never from a `dw.v_model_*` view. All need a full-scope database.
+
+| Test | What it proves | Rows | Expected values from |
+|---|---|---:|---|
+| 950 `allocation_model_table_row_counts` | the five tables have the rows of their base tables | 5 | `dw` base tables, `synthetic.whatif_parameter` |
+| 951 `allocation_by_department_and_year` | weight, full-time equivalent, allocated amount, paybill and rounding adjustment of every year and department | 108 | `dw.fact_allocation` (weight recomputed from the full-time equivalent) |
+| 952 `naive_equals_rewrite_allocation_by_department_and_year` | the plain form and the rewrite of `Allocated Amount` side by side, each against its own recomputation | 108 | `dw.fact_allocation`, `dw.allocation_pool` |
+| 953 `naive_equals_rewrite_allocation_by_year` | the same by year, with the pool | 8 | the same |
+| 954 `allocation_tie_and_coverage_by_year` | pool, allocated amount, gap, rounding adjustment, weights, departments taking part, left out, their share and without workforce data | 8 | `dw.allocation_pool`, `dw.fact_allocation`, `audit.allocation_participation`, `dw.dim_department` |
+| 955 `outturn_is_unchanged_with_the_allocation_tables_in_context` | `Outturn` by year equal as it is, with the allocation and what-if filters set and with them cleared | 9 | `dw.fact_outturn` |
+| 956 `whatif_measures_at_every_setting_2025_26` | the what-if measures at the five settings and with none selected | 6 | `synthetic.whatif_parameter`, `dw.fact_allocation` |
+| 957 `real_totals_are_identical_at_every_whatif_setting` | the outturn, the plan rows, the allocated amount and the paybill do not move with the setting | 6 | `dw.fact_outturn`, `dw.fact_plan`, `dw.fact_allocation` |
+
+`dax-compare`: 128 of 128 pass (120 older and 8 new), largest absolute difference of the new tests 0.000043 (test 956), expected build scope full. The 24 role cases are in [security.md](security.md#the-allocation-and-the-what-if-under-the-two-roles).
+
 ## Role cases
 
 The cases that run under a role are not DAX tests: each needs a role and a user, which `tools/run_dax.ps1` passes with `-Roles` and `-User`. They live in `tests/rls/` (a manifest of case, query, role, user, mode and expected, the queries, the expected SQL, the results) and are run and compared by `tools/run_rls_tests.ps1`, `ukfr rls-expected` and `ukfr rls-compare`, which write `evidence/model/rls_tests.csv`. The three modes are `values` (equal to SQL), `differs` (not equal to the unfiltered total) and `error` (the engine refuses the query with a stated text). The cases, the roles and the results are in [security.md](security.md). **Tested**: `pipeline/tests/test_rls_tests.py` (the comparison and the manifest checks, without Desktop).

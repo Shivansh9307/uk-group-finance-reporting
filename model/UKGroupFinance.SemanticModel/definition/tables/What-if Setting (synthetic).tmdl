@@ -1,0 +1,137 @@
+/// SYNTHETIC, percentages and no amount: five what-if settings I invented, so that a reader can see what a pay award and a headcount change would do to the allocated amounts and to the paybill. The base pay award is the ONS CPI annual rate (series D7G7) for 2025, 3.4 per cent, from the copy of the series that the repository holds; every other percentage is invented and says so in its basis column. The table is related to nothing (a what-if parameter table): the what-if measures read the setting in context, or the default setting when none is selected, and are the only measures that read it. It never feeds a real total. Source view dw.v_model_whatif_setting.
+table 'What-if Setting (synthetic)'
+	lineageTag: fdd1872a-4fd8-4f12-9687-ff7f3b92712e
+
+	/// The key of the setting in context: the one selected, or the default setting (Base) when none or more than one is selected.
+	measure 'What-if Setting Key' =
+			COALESCE (
+			    SELECTEDVALUE ( 'What-if Setting (synthetic)'[Setting Key] ),
+			    CALCULATE (
+			        MIN ( 'What-if Setting (synthetic)'[Setting Key] ),
+			        REMOVEFILTERS ( 'What-if Setting (synthetic)' ),
+			        'What-if Setting (synthetic)'[Is Default] = TRUE ()
+			    )
+			)
+		formatString: 0
+		displayFolder: What-if (synthetic)
+		lineageTag: f3f64cf9-d50c-47d4-b090-52c6505e3cec
+
+	/// SYNTHETIC. The pay award of the setting in context, as a ratio (3.4 per cent is 0.034). The base setting is the ONS CPI annual rate for 2025; the others are invented.
+	measure 'What-if Pay Award' =
+			VAR SettingKey = [What-if Setting Key]
+			RETURN
+			    DIVIDE (
+			        CALCULATE ( MAX ( 'What-if Setting (synthetic)'[Pay Award (per cent)] ), REMOVEFILTERS ( 'What-if Setting (synthetic)' ), 'What-if Setting (synthetic)'[Setting Key] = SettingKey ),
+			        100
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: What-if (synthetic)
+		lineageTag: 3146c24f-bcbb-4966-aec8-83446517338d
+
+	/// SYNTHETIC. The headcount change of the setting in context, as a ratio. Every value is invented (no series in the repository gives a headcount path).
+	measure 'What-if Headcount Change' =
+			VAR SettingKey = [What-if Setting Key]
+			RETURN
+			    DIVIDE (
+			        CALCULATE ( MAX ( 'What-if Setting (synthetic)'[Headcount Change (per cent)] ), REMOVEFILTERS ( 'What-if Setting (synthetic)' ), 'What-if Setting (synthetic)'[Setting Key] = SettingKey ),
+			        100
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: What-if (synthetic)
+		lineageTag: bd001bfe-0645-4e3a-9841-88330f4d6f08
+
+	/// SYNTHETIC what-if, GBP thousands: the allocated amount of the departments and years in context if the pool, being mostly staff cost, rose by the pay award of the setting in context. The real Allocated Amount times one plus the pay award. It is a scenario and never part of a real total.
+	measure 'What-if Allocated Amount' = [Allocated Amount] * ( 1 + [What-if Pay Award] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: What-if (synthetic)
+		lineageTag: e8bc4943-cbd8-4295-8e7f-216823b22ab8
+
+	/// SYNTHETIC what-if, GBP thousands: what the setting in context adds to the allocated amount (the what-if amount less the real one).
+	measure 'What-if Effect on Allocated Amount' = [What-if Allocated Amount] - [Allocated Amount]
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: What-if (synthetic)
+		lineageTag: acff7db0-6561-41bd-9b3c-36a0c7722dc9
+
+	/// SYNTHETIC what-if, GBP thousands: the annualised paybill of the departments and years in context if the headcount changed and the pay award was paid: the real annualised paybill times one plus the headcount change times one plus the pay award.
+	measure 'What-if Paybill' = [Allocation Paybill (annualised)] * ( 1 + [What-if Headcount Change] ) * ( 1 + [What-if Pay Award] )
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: What-if (synthetic)
+		lineageTag: 1be410d3-a700-481c-8d29-2068069755fd
+
+	/// SYNTHETIC what-if, GBP thousands: what the setting in context adds to the annualised paybill (the what-if paybill less the real one).
+	measure 'What-if Effect on Paybill' = [What-if Paybill] - [Allocation Paybill (annualised)]
+		formatString: £#,##0"k";-£#,##0"k";£0"k"
+		displayFolder: What-if (synthetic)
+		lineageTag: 2591dbc3-09ca-4cce-8bcc-62bff1568d50
+
+	/// Key of the setting.
+	column 'Setting Key'
+		dataType: int64
+		isKey
+		isHidden
+		formatString: 0
+		lineageTag: d0985959-b0c9-4ff3-a210-bb19728e402a
+		summarizeBy: none
+		sourceColumn: setting_key
+
+	/// The what-if setting (invented).
+	column Setting
+		dataType: string
+		displayFolder: Synthetic
+		lineageTag: 2ae5f872-aa77-4a07-a66b-0112fc4120ec
+		summarizeBy: none
+		sourceColumn: setting_name
+		sortByColumn: 'Setting Key'
+
+	/// SYNTHETIC. The pay award of the setting in per cent.
+	column 'Pay Award (per cent)'
+		dataType: decimal
+		formatString: 0.0
+		displayFolder: Synthetic
+		lineageTag: 832d7abd-e732-4395-928b-598be4c2f1a9
+		summarizeBy: none
+		sourceColumn: pay_award_pct
+
+	/// SYNTHETIC. The headcount change of the setting in per cent.
+	column 'Headcount Change (per cent)'
+		dataType: decimal
+		formatString: 0.0
+		displayFolder: Synthetic
+		lineageTag: f92b007f-47cb-4f2e-9fb7-6dd134ffbb98
+		summarizeBy: none
+		sourceColumn: headcount_change_pct
+
+	/// Where the pay award comes from: the ONS series and year, or invented.
+	column 'Pay Award Basis'
+		dataType: string
+		displayFolder: Synthetic
+		lineageTag: 13716d31-ed5c-4ca9-b682-7f14aa417828
+		summarizeBy: none
+		sourceColumn: pay_award_basis
+
+	/// Where the headcount change comes from: always invented.
+	column 'Headcount Change Basis'
+		dataType: string
+		displayFolder: Synthetic
+		lineageTag: 966c71f6-0a35-430d-8455-eb5faf4cfc98
+		summarizeBy: none
+		sourceColumn: headcount_basis
+
+	/// True on the setting that applies when none is selected.
+	column 'Is Default'
+		dataType: boolean
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: da21bbd7-78c4-421b-b384-779c3b6bb7b5
+		summarizeBy: none
+		sourceColumn: is_default
+
+	partition 'What-if Setting (synthetic)' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    Data = Source{[Schema = "dw", Item = "v_model_whatif_setting"]}[Data]
+				in
+				    Data
+

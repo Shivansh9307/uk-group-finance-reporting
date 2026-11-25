@@ -1,0 +1,23 @@
+// The allocation bridge as the page draws it: for every financial year and participating department of the current structure, the
+// weight, the average monthly full-time equivalent, the allocated amount, the annualised paybill and the rounding adjustment. The weight
+// and the full-time equivalent are blank unless one financial year is in context, which a year-by-department cell is.
+EVALUATE
+SELECTCOLUMNS (
+    SUMMARIZECOLUMNS (
+        'Fiscal Year'[Financial Year],
+        'Department (current structure)'[Department Number],
+        "weight", [Allocation Weight],
+        "fte", [Allocation Average FTE],
+        "allocated", [Allocated Amount],
+        "paybill", [Allocation Paybill (annualised)],
+        "rounding", [Allocation Rounding Adjustment]
+    ),
+    "financial_year", 'Fiscal Year'[Financial Year],
+    "department_number", 'Department (current structure)'[Department Number],
+    "weight", [weight],
+    "fte", [fte],
+    "allocated", [allocated],
+    "paybill", [paybill],
+    "rounding", [rounding]
+)
+ORDER BY [financial_year], [department_number]
