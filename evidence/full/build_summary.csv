@@ -1,8 +1,8 @@
 kind,name,value,unit
 scope,build scope,full,
-step,database,1.1,s
+step,database,1.2,s
 step,pre sql,0.1,s
-step,stage authored,0.6,s
+step,stage authored,0.8,s
 rows,authored.account_flow,12,rows
 rows,authored.current_structure_map,20,rows
 rows,authored.department_name,75,rows
@@ -22,15 +22,16 @@ rows,authored.tac_line_role,137,rows
 rows,authored.tac_name_alias,3,rows
 rows,authored.tac_provider_successor,23,rows
 rows,authored.workforce_org_map,213,rows
-step,stage synthetic,0.0,s
+step,stage synthetic,0.1,s
 rows,synthetic.user_department,11,rows
-step,stage oscar_bud,110.1,s
+rows,synthetic.whatif_parameter,5,rows
+step,stage oscar_bud,115.0,s
 rows,oscar_bud.files_loaded,15,rows
 rows,oscar_bud.files_skipped,4,rows
 rows,oscar_bud.rows_read,515949,rows
 rows,oscar_bud.rows_loaded,515949,rows
 rows,oscar_bud.rows_quarantined,0,rows
-step,stage oscar_inyear,96.9,s
+step,stage oscar_inyear,97.3,s
 rows,oscar_inyear.files,32,rows
 rows,oscar_inyear.files_loaded,31,rows
 rows,oscar_inyear.rows_read,1547078,rows
@@ -38,13 +39,13 @@ rows,oscar_inyear.rows_loaded,1547078,rows
 rows,oscar_inyear.rows_quarantined,0,rows
 step,stage profile_controls,0.0,s
 rows,profile_controls.profile_inyear_delta_rowcount,31,rows
-step,stage pss,3.3,s
+step,stage pss,3.6,s
 rows,pss.files_loaded,1,rows
 rows,pss.files_skipped,1,rows
 rows,pss.rows_read,41171,rows
 rows,pss.rows_loaded,41171,rows
 rows,pss.rows_quarantined,0,rows
-step,stage tac,355.9,s
+step,stage tac,350.1,s
 rows,tac.data_files,12,rows
 rows,tac.template_files,6,rows
 rows,tac.statement_rows_read,344812,rows
@@ -52,24 +53,24 @@ rows,tac.statement_rows_loaded,344812,rows
 rows,tac.rows_quarantined,0,rows
 rows,tac.providers_listed,1294,rows
 rows,tac.template_rows,914,rows
-step,stage workforce,59.1,s
+step,stage workforce,51.8,s
 rows,workforce.files,1453,rows
 rows,workforce.rows,17798,rows
 rows,workforce.files_skipped,20,rows
 rows,workforce.values_loaded,435354,rows
 rows,workforce.values_quarantined,3554,rows
 rows,workforce.control_rows,52624,rows
-step,stage plans,1.6,s
+step,stage plans,1.1,s
 rows,plans.raw.plan_estimates,659,rows
 rows,plans.raw.plan_pesa,31289,rows
 rows,plans.raw.plan_source_file,16,rows
-step,stage plans_oscar,174.3,s
+step,stage plans_oscar,166.3,s
 rows,plans_oscar.raw.plan_oscar,135958,rows
 rows,plans_oscar.raw.plan_oscar_expected,1639,rows
-step,stage forecast_returns,342.9,s
+step,stage forecast_returns,326.2,s
 rows,forecast_returns.raw.forecast_return_cell,2134610,rows
 rows,forecast_returns.raw.forecast_return_file,83,rows
 rows,forecast_returns.raw.forecast_return_expected,1000,rows
-step,post sql,176.5,s
-step,audit export,0.9,s
-total,sum of the timed steps,1323.3,s
+step,post sql,180.3,s
+step,audit export,1.0,s
+total,sum of the timed steps,1294.9,s
