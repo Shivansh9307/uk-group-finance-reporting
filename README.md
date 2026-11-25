@@ -7,7 +7,9 @@ expenditure statement, outturn against plan and against a phased plan, how each 
 everything in real terms, and a page of data controls. The plans come from the Estimates and PESA tables, the deflators from
 HM Treasury and the CPI from the ONS. The one part of the group with statutory accounts, the NHS trusts and foundation trusts,
 adds a balance sheet with its restatements, an indirect cash flow set against the published one, and a control of the sum of
-their accounts against the consolidated NHS provider accounts. It is one SQL Server warehouse, one Power BI semantic model and one report, built and
+their accounts against the consolidated NHS provider accounts. The departmental workforce files add a bridge of the paybill into
+volume, rate and mix; the departments' own monthly forecast returns are scored against two forecasts of mine; and an allocation
+rule of mine spreads one real pool by payroll full-time equivalent, with a synthetic what-if on top. It is one SQL Server warehouse, one Power BI semantic model and one report, built and
 proved in Power BI Desktop alone: no service, no cloud.
 
 I wrote it so that a reader can check it. The totals tie to the published files, every claim in the docs points at the command
@@ -28,10 +30,10 @@ view.
    [docs/reconciliation.md](docs/reconciliation.md#9-plan-variance-reconciliation-full-scope),
    [evidence/full/plan_variance_reconciliation.csv](evidence/full/plan_variance_reconciliation.csv),
    [ADR 0007](docs/adr/0007-del-headline-ame-reconciled-separately.md).
-3. **Row-level and object-level security is tested against SQL.** Two roles, an invented user map, 136 role cases, 136 equal to
+3. **Row-level and object-level security is tested against SQL.** Two roles, an invented user map, 173 role cases, 173 equal to
    SQL. **Tested**: [docs/security.md](docs/security.md), [evidence/model/rls_tests.csv](evidence/model/rls_tests.csv).
 4. **CI can tell when the evidence is stale.** A hosted runner cannot run DAX, so a ledger records the hash of the model and of
-   every test, expected value and result (735 files), and CI fails if any of them changes alone. I pushed a commit that changed
+   every test, expected value and result (993 files), and CI fails if any of them changes alone. I pushed a commit that changed
    one measure and nothing else: only the ledger job went red; the commit that restored it was green. **Tested**:
    [docs/evidence.md](docs/evidence.md#the-red-and-the-green-run), [ADR 0008](docs/adr/0008-evidence-ledger-not-dax-in-ci.md).
 
@@ -46,7 +48,8 @@ the screenshots, equal the test results ([evidence/report/screenshot_figures.csv
 ```mermaid
 flowchart LR
   subgraph SRC["Published sources, Open Government Licence"]
-    S1["HM Treasury OSCAR II in-year releases<br/>Estimates, PESA, Spending Review tables"]
+    S1["HM Treasury OSCAR II in-year releases<br/>Estimates, PESA, Spending Review tables<br/>OSCAR annual and forecast files"]
+    S3["NHS trust accounts<br/>departmental workforce files"]
     S2["HM Treasury GDP deflators<br/>ONS CPI"]
   end
   subgraph PIPE["pipeline/ (Python, uv)"]
@@ -61,8 +64,9 @@ flowchart LR
     D2 --> D3
   end
   M["Import semantic model, TMDL<br/>model/UKGroupFinance.SemanticModel"]
-  R["PBIR report, 10 pages<br/>model/UKGroupFinance.Report"]
+  R["PBIR report, 13 pages<br/>model/UKGroupFinance.Report"]
   S1 --> P1 --> D1
+  S3 --> P1
   D4 --> D2
   D2 --> M
   D3 --> M
@@ -88,9 +92,9 @@ Python fetches, parses and loads, and decides nothing about a number; every busi
 command line only. How each stage works: [docs/pipeline.md](docs/pipeline.md), [docs/model.md](docs/model.md),
 [docs/pages.md](docs/pages.md). Where each source comes from: [docs/data-sources.md](docs/data-sources.md).
 
-## The ten pages
+## The thirteen pages
 
-Eight pages are navigated to and two are reached by drill-through. Page by page, what each shows, which filters are fixed and
+Eleven pages are navigated to and two are reached by drill-through. Page by page, what each shows, which filters are fixed and
 which test is behind each figure: [docs/pages.md](docs/pages.md#the-pages).
 
 | | |
@@ -100,7 +104,8 @@ which test is behind each figure: [docs/pages.md](docs/pages.md#the-pages).
 | <img src="screenshots/05_data_controls.png" width="440" alt="Data controls"><br>**[Data controls](docs/pages.md#7-data-controls)**: the file controls of the 31 releases, the restated annual files, the Public Spending Statistics, plan coverage. | <img src="screenshots/06_department_detail.png" width="440" alt="Department detail"><br>**[Department detail](docs/pages.md#4-department-detail-drill-through)** (drill-through): a department's outturn by month, its restatement and its ten largest organisations. |
 | <img src="screenshots/07_group_detail.png" width="440" alt="Group detail"><br>**[Group detail](docs/pages.md#5-group-detail-drill-through)** (drill-through): a Spending Review group's monthly outturn against my phased plan. | |
 | <img src="screenshots/08_nhs_balance_sheet.png" width="440" alt="NHS balance sheet"><br>**[NHS balance sheet](docs/pages.md#8-nhs-balance-sheet)**: the closing balance of the NHS providers, the opening as restated, last year's closing and the restatement; a provider that has gone adds nothing after its last year. | <img src="screenshots/09_nhs_cash_flow.png" width="440" alt="NHS cash flow"><br>**[NHS cash flow](docs/pages.md#9-nhs-cash-flow)**: an indirect cash flow derived from the balance sheets against the published one, line by line, with the residual left in. |
-| <img src="screenshots/10_nhs_elimination_control.png" width="440" alt="NHS elimination control"><br>**[NHS elimination control](docs/pages.md#10-nhs-elimination-control)**: the sum of the provider accounts against the consolidated accounts I keyed by hand, with the page of each value. | |
+| <img src="screenshots/10_nhs_elimination_control.png" width="440" alt="NHS elimination control"><br>**[NHS elimination control](docs/pages.md#10-nhs-elimination-control)**: the sum of the provider accounts against the consolidated accounts I keyed by hand, with the page of each value. | <img src="screenshots/11_pay_bridge.png" width="440" alt="Pay bridge"><br>**[Pay bridge](docs/pages.md#11-pay-bridge)**: the departmental paybill of 2025-26 against 2024-25 as volume, rate, mix, entry and exit, with the coverage of the workforce files. |
+| <img src="screenshots/12_forecast_accuracy.png" width="440" alt="Forecast accuracy"><br>**[Forecast accuracy](docs/pages.md#12-forecast-accuracy)**: the departments' own monthly forecasts against my run-rate and seasonal methods, with and without the returns I flagged. | <img src="screenshots/13_allocation_and_whatif.png" width="440" alt="Allocation and what-if"><br>**[Allocation and what-if](docs/pages.md#13-allocation-and-what-if)**: my allocation of the Cabinet Office administration pool by payroll full-time equivalent, tied to the pool, and a synthetic what-if. |
 
 I did not click through the drill-through pages or the page navigator; the pages render and the files validate, and the
 clicks are **designed**, not run ([docs/pages.md](docs/pages.md#things-i-could-not-do-or-check)).
@@ -130,12 +135,16 @@ clicks are **designed**, not run ([docs/pages.md](docs/pages.md#things-i-could-n
   `pipeline/tests/test_real_totals.py`, `sql/tests/558_nothing_derived_reaches_a_real_total.sql`.
 - **The ledger.** [docs/evidence.md](docs/evidence.md) says what CI checks, and as plainly what it cannot: it proves that the
   evidence in git is the evidence that was compared and passed together, not that a result file came from Desktop.
-- **The whole pipeline test suite.** 571 passed, 0 failed, 0 skipped against the full-scope database
+- **The whole pipeline test suite.** 820 passed, 0 failed, 0 skipped against the full-scope database
   ([evidence/full/pytest_summary.csv](evidence/full/pytest_summary.csv)). CI runs the committed-scope part of it, and the
   model's Best Practice Analyzer rules, on every pull request ([docs/pipeline.md](docs/pipeline.md#continuous-integration)).
+- **The model's own rules are checked.** Tabular Editor's Best Practice Analyzer runs 63 rules (48 standard, 15 mine) on every pull
+  request and must give exactly the 32 violations in the committed files, all at severity 1 (14 `ENSURE_TABLES_HAVE_RELATIONSHIPS`,
+  18 `RELATIONSHIP_COLUMNS_SHOULD_BE_OF_INTEGER_DATA_TYPE`), each with its reason in [docs/model.md](docs/model.md). **Tested**:
+  [evidence/bpa/bpa_counts.csv](evidence/bpa/bpa_counts.csv), [evidence/bpa/bpa_violations.csv](evidence/bpa/bpa_violations.csv).
 - **One performance claim, with its failure.** Rewriting the year-to-date variance rank cut its cold time from 259 to 154 ms
-  (and from 203 to 111 ms over three years); rewriting the as-at measure in three forms did not make it faster, and the page
-  says so. **Tested**: [docs/performance.md](docs/performance.md).
+  (and from 203 to 111 ms over three years); rewriting the as-at measure in three forms did not make it faster, and the weighted allocation, rewritten, is not measurably
+  faster either: on a 108-row bridge both forms take a few milliseconds. The page says so. **Tested**: [docs/performance.md](docs/performance.md).
 
 ## Register of real, authored, derived and synthetic data
 
@@ -192,6 +201,9 @@ labelled AUTHORED in their descriptions and in a display folder, and a rule of t
 | Model tables `TAC Cash Flow Line`, `TAC Control Line`, `TAC Control Member`, `TAC Consolidated Accounts` | authored | `dw.v_model_tac_cash_flow_line`, `v_model_tac_control_line`, `v_model_tac_control_member`, `v_model_tac_consolidated` | 23; 6; 54; 48 | the authored dimensions and the hand-keyed values as model tables, described AUTHORED and in the Authored folder | no: the consolidated amount column is hidden and read by one measure family that compares it with the provider sum | `tests/dax/150_tac_row_counts.dax`, `tests/dax/162_tac_elimination_gap_by_year_and_control_line.dax` |
 | Model measures of the NHS trust accounts (display folders `TAC\...`) | derived | none: measures over `Fact TAC`, `Fact TAC Cash Flow (derived)` and `TAC Consolidated Accounts` | 16 | closing, opening and prior-year balances, restatement, flows, the published and derived cash flow, the residual, and the elimination gap | no: each is a sum, a difference or a ratio of its own tables; a subtotal is never added to its lines | `tests/dax/152_tac_closing_balance_by_year_and_section.dax` to `tests/dax/163_tac_derived_and_authored_amounts_stay_out_of_real_totals.dax` |
 | `authored/workforce_org_map.csv` | authored | `authored.workforce_org_map` | 213 | for each organisation name a department publishes in its workforce files: the durable organisation key it is (the same body, an earlier or later name, a body that is part of it, or an executive agency counted in its parent department, which is an assumption), or that I reviewed it and left it out, with the reason | no: it says which organisation a published number belongs to and holds no number | `sql/tests/607_workforce_org_map_rows_are_well_formed.sql`, `sql/tests/613_workforce_the_fact_is_the_raw_values_of_mapped_rows_and_nothing_else.sql` |
+| `dw.workforce_month` | real | `dw.workforce_month` | 94,533 (full scope only) | the published headcount, full-time equivalent and paybill of each organisation and month, in people and pounds, from the departmental workforce files; rows I could not use are in `quarantine.workforce_row` (6,928) with a reason | no: it is in people and pounds, never in an OSCAR total; it carries no authored or derived value ([data-dictionary/workforce.md](docs/data-dictionary/workforce.md)) | `sql/tests/613_workforce_the_fact_is_the_raw_values_of_mapped_rows_and_nothing_else.sql`, `sql/tests/600_workforce_loaded_columns_equal_the_independent_recomputation.sql` |
+| `dw.forecast_return` | real | `dw.forecast_return` | 2,116,096 (full scope only) | the departments' own monthly forecast returns R0 to R13 of FY2017-18 to FY2022-23 as published, GBP thousands | no: a forecast, not an outturn; no OSCAR outturn total reads it ([data-dictionary/forecast-returns.md](docs/data-dictionary/forecast-returns.md)) | `sql/tests/650_forecast_returns_load_every_return_and_trace_to_files.sql`, `sql/tests/651_forecast_returns_loaded_rows_equal_the_expected_counts.sql` |
+| `dw.v_pay_bridge_row` and `audit.pay_bridge_tie` | derived | the view and the audit table | 7,546; 1,129 (full scope only) | my split of the change in a department's paybill between two months into volume, rate, organisation mix and entry and exit, in pounds, and the check that the steps add to the change | no: read only by the model views and the audit; it adds no number to the workforce fact | `sql/tests/901_pay_bridge_adds_up_and_every_row_is_one_class.sql` |
 | `dw.statement_line`, `dw.statement_line_member`, `dw.account_statement_line` | authored | the same three tables, resolved from the two statement files | 39; 110; 128 | the statement lines, every detail line each line adds up, and the detail line of each account | no: no amount column of any type | `sql/tests/745_the_statement_layout_is_authored_and_adds_no_amount.sql` |
 | `dw.v_statement_pnl` | derived | a view over `dw.fact_outturn` and `dw.fact_plan` through the statement tables | one row per line and year with an amount or a plan | the statement computed in SQL, which the model's statement measures are tested against; the model never reads it | no: it reads the facts and writes nothing; its total line equals the sum of the fact in every year | `sql/tests/741_the_statement_total_equals_outturn_in_every_year.sql` |
 | Model table `Statement Line` | authored | `dw.statement_line` through `dw.v_model_statement_line` | 39 | the statement layout as a dimension; Account is related to it | no: it holds no amount | `sql/tests/700_model_views_have_the_rows_of_their_base_tables.sql` |
@@ -252,14 +264,15 @@ These are the gaps I know about. Each is in the docs with its evidence; none is 
 - **A department-structure gap I have not traced.** On the current structure, the in-year outturn of DSIT is about 45% below the annual file in 2021-22 and
   2023-24 for all budgets, though within 2.1% for DEL. The gap is in layers that the annual file carries and the in-year file
   does not; I did not trace it.
-- **The as-at rewrite gained nothing.** I rewrote `Outturn as at Release` in three forms. None was faster than the plain one
-  beyond the spread of the runs, and the trace shows both forms are the same plan ([docs/performance.md](docs/performance.md)).
+- **The as-at rewrite gained nothing, and nor did the allocation's.** I rewrote `Outturn as at Release` in three forms. None was faster than the plain one
+  beyond the spread of the runs, and the trace shows both forms are the same plan; the rewritten `Allocated Amount` is not measurably faster on
+  its 108-row bridge ([docs/performance.md](docs/performance.md)).
   I kept the plain form of both measures as hidden measures, as evidence.
 - **No plan below the Spending Review group.** There is no department plan variance, because the plan is not published below
   the group ([ADR 0006](docs/adr/0006-plan-grain-and-the-grain-guard.md)). The phased plan is my allocation, labelled derived
   everywhere it appears.
-- **The full-scope database is local.** The restated annual files, the Public Spending Statistics and the OSCAR Plans are about
-  620 MB and are not in git. CI rebuilds and tests the committed scope; the full-scope results are committed files and are
+- **The full-scope database is local.** The restated annual files, the Public Spending Statistics, the OSCAR Plans, the NHS trust accounts, the workforce files
+  and the forecast returns are about 977 MB (the sum of `bytes` in `data/manifest/files.csv`) and are not in git. CI rebuilds and tests the committed scope; the full-scope results are committed files and are
   hash-checked, not recomputed ([docs/evidence.md](docs/evidence.md#what-ci-checks)). The data controls page needs the
   full-scope database.
 - **One machine, one session.** The timings and screenshots come from one Desktop on one machine. They rank queries against
@@ -276,8 +289,6 @@ not run them:
   names them as out of scope. I have written no design beyond that and run nothing.
 - **Entra ID groups as role members, the app audiences, the form of `USERPRINCIPALNAME()` in the service, workspace roles that
   bypass row-level security, and the report under a role.** Described in [docs/security.md](docs/security.md#designed-not-run).
-- **The release workflow** (`.github/workflows/release.yml`) runs the ledger check on a tag and attaches the model and the
-  evidence to a release. No tag has been pushed, so it has never run, and I have not run it through a workflow linter.
 - **Drill-through clicks, the mobile layout and tab order** ([docs/pages.md](docs/pages.md#design-alternatives-chosen-and-what-i-dropped)).
 
 ## Decision records
@@ -316,8 +327,8 @@ The build reads `UKFR_SQL_*` environment variables (server, database, an optiona
 `localhost`, database `UKGroupFinance`, Windows authentication. A scratch database is `UKFR_SQL_DATABASE=<name>`. All the
 variables and options are in [docs/pipeline.md](docs/pipeline.md#run-it-locally).
 
-The full scope adds the restated annual files, the Public Spending Statistics and the OSCAR Plans, which are downloaded, not
-in git: set `UKFR_DATA_DIR` to a folder, run `ukfr fetch`, then `ukfr build --scope full --recreate --yes`
+The full scope adds the restated annual files, the Public Spending Statistics, the OSCAR Plans, the NHS trust accounts, the
+departmental workforce files and the forecast returns, which are downloaded, not in git: set `UKFR_DATA_DIR` to a folder, run `ukfr fetch`, then `ukfr build --scope full --recreate --yes`
 ([docs/data-sources.md](docs/data-sources.md#running-it)). The model's data-controls tables need this scope.
 
 The model and report are read by Power BI Desktop alone:
@@ -350,8 +361,11 @@ The environment is recorded in [docs/spikes/environment.md](docs/spikes/environm
 
 ## Roadmap
 
-Not built: the NHS provider accounts (balance sheet and cash flow), the departmental workforce drivers, the forecast backtest of
-departments' own monthly returns, and a scale model. None has a table or a measure yet.
+Built and tested: everything above, including the NHS trust accounts, the workforce pay bridge, the forecast accuracy and the
+allocation with its what-if. **Designed, not run**: a scale database, user-defined aggregations over it, a refresh policy with
+incremental partitions, a side-car file, and an Excel pivot over the model. None of them has a table, a measure or a result file
+in this repository yet. The questions about the data that I could not settle are in
+[docs/open-questions.md](docs/open-questions.md).
 
 ## Data sources and licence
 

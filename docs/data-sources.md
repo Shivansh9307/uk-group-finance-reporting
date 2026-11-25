@@ -7,7 +7,7 @@ how I find and download them, and what I found odd about them. The machine-reada
 URL, size and sha256).
 
 Statements are labelled **tested** (I ran it; the command and result file are given) or
-**designed** (built that way, not yet exercised end to end). Facts about the files themselves were
+**designed** (built that way, not exercised end to end). Facts about the files themselves were
 observed on 2026-11-16, when I ran the fetch.
 
 ## Sources
@@ -117,11 +117,32 @@ Three sources are kept in git, 48 files and 28.7 MB in all (`commit: true` in `s
 With them in the repository anyone can clone it and rebuild the model's main tables, and CI can
 rebuild the database without downloading anything. I set a 60 MB cap in `sources.yml`; the fetcher
 stops before downloading if the committed set would exceed it. Everything else is downloaded by the
-fetcher into `$UKFR_DATA_DIR` (620 MB, from the manifest): the annual BUD workbooks (177.7 MB), the
-annual extracts (283.9 MB), the MFO files (155.8 MB), the Public Spending Statistics workbooks
-(2.7 MB, `commit: false`) and the deflators and ONS series. The manifest's sha256 proves the downloaded
+fetcher into `$UKFR_DATA_DIR` (about 977 MB, summed from the `bytes` column of `data/manifest/files.csv` for the files marked
+fetched): the annual BUD workbooks (177.7 MB), the annual extracts (283.9 MB), the MFO files (155.8 MB), the NHS trust
+accounts (332.4 MB), the consolidated NHS provider accounts (7.8 MB), the departmental workforce files (17.0 MB, 1,453 files),
+the Public Spending Statistics workbooks (2.7 MB) and the deflators and ONS series (0.13 MB), all `commit: false`. The manifest's sha256 proves the downloaded
 copy is the one I used. **Tested**: `uv run --project pipeline ukfr fetch --verify` checks all 48
 committed files and every raw file that is present.
+
+## Which build scope loads each source
+
+`ukfr build --scope committed` (what CI runs) reads only `data/committed/`; `--scope full` also reads `$UKFR_DATA_DIR`
+([pipeline.md](pipeline.md)). The stage names are from `pipeline/src/ukfr/stages/`.
+
+| Source | In git | Fetched by | Loaded by the build |
+|---|---|---|---|
+| `oscar_inyear` | yes, 32 files | already in the repository (`ukfr fetch` re-verifies it) | committed scope, stage `oscar_inyear` |
+| `estimates_del`, `pesa` | yes, 9 and 7 workbooks (committed) | already in the repository | committed scope, stage `plans` |
+| `oscar_annual_bud` (Nov 2023, 2024, 2025) | no | `ukfr fetch --source oscar_annual_bud` | full scope, stage `oscar_bud` |
+| `oscar_annual_extract`, `oscar_mfo` (the forecast returns FY2017-18 to FY2022-23: the extracts hold FY2017-18 to FY2020-21, the MFO files FY2021-22 and FY2022-23) | no | `ukfr fetch --source oscar_annual_extract --source oscar_mfo` | full scope, stage `forecast_returns`; the OSCAR Plans in the extracts and annual files are read by stage `plans_oscar` (full) |
+| `pss` | no | `ukfr fetch --source pss` | full scope, stage `pss` |
+| `tac` (NHS trust accounts, FY2019-20 to FY2024-25) | no | `ukfr fetch --source tac` (18 files found on 2026-11-24) | full scope, stage `tac` |
+| `nhs_consolidated_accounts` (6 PDFs) | no | `ukfr fetch --source nhs_consolidated_accounts` | not parsed: I keyed the printed control lines by hand into `authored/tac_consolidated_control.csv` (48 rows) for the elimination control ([data-dictionary/tac.md](data-dictionary/tac.md)) |
+| `workforce_mi` (1,453 files) | no | `ukfr fetch --source workforce_mi`; the files that could not be used are listed in `data/manifest/workforce_skipped_files.csv` | full scope, stage `workforce` |
+| `gdp_deflator`, `ons_cpi` (D7BT, D7G7) | no | `ukfr fetch` records them (the ONS files are volatile) | not loaded by the build: the model reads the five links of the manifest in Power Query at refresh (`Deflator Raw`, `CPI Raw`, [model.md](model.md)). The what-if's base pay award, 3.4%, is the D7G7 rate for 2025 copied by hand into `synthetic/whatif_parameter.csv` ([data-dictionary/allocation.md](data-dictionary/allocation.md)) |
+
+The file counts and sizes are from `data/manifest/files.csv` and the scopes are the `scope=` of each stage in
+`pipeline/src/ukfr/stages/`. I did not rerun any fetch to write this table.
 
 `.gitattributes` marks `data/committed/**` as binary so git never rewrites line endings: the
 September 2026 CSV uses CRLF, and a converted copy would no longer match its sha256.

@@ -40,8 +40,9 @@ case and model-reference file, the build scope of each expected set, and the has
   stable, not that they are correct at full scope.
 - Refreshing the evidence is a seven-step procedure in a fixed order, and it needs Desktop and the full-scope database
   ([evidence.md](../evidence.md#how-to-refresh-it)). That is the price of the check.
-- A release workflow (`.github/workflows/release.yml`) runs the same check on a tag before it publishes. **Designed, not
-  run**: no tag has been pushed.
+- A release workflow (`.github/workflows/release.yml`) runs the same check on a tag before it publishes. **Tested**: it ran
+  once, on the tag `v1.0.0` on 2026-11-24, and every step succeeded ([run 45298915073](https://github.com/Shivansh9307/uk-group-finance-reporting/actions/runs/45298915073)); it has not run on
+  any other tag.
 
 ## Evidence
 

@@ -1,8 +1,8 @@
 # The report pages
 
 `model/UKGroupFinance.Report` is the report that reads the semantic model in `model/UKGroupFinance.SemanticModel` (PBIR, thick
-report, Power BI Desktop only). It has twelve pages at 1280 x 720: ten that you navigate to and two that you reach by
-drill-through. Every claim below is labelled **tested** (with the command and the file that holds the result) or **designed**.
+report, Power BI Desktop only). It has thirteen pages at 1280 x 720: eleven that you navigate to and two that you reach by
+drill-through (`model/UKGroupFinance.Report/definition/pages/`: 13 page folders, two of them `HiddenInViewMode`). Every claim below is labelled **tested** (with the command and the file that holds the result) or **designed**.
 
 How it was made: every page was built with the `pbir` CLI, by the commands in [tools/build_report.sh](../tools/build_report.sh), and
 no report file was edited by hand. One theme (`ukfr-finance`, an accessible Okabe-Ito palette, Segoe UI, no shadows, square
@@ -15,7 +15,7 @@ its values written in the file.
 
 - Each data visual has a DAX test in `tests/dax/78x_*` or `79x_*` that returns the figures it shows, in the same filter context, and an
   independent SQL (or Python) expectation over `dw` and `audit` in `tests/expected/`. **Tested**: `tools\run_dax_tests.ps1 -Refresh`,
-  `ukfr dax-compare`: 77 of 77 tests passed for the first seven pages, 22 of them new; with the NHS trust accounts pages the suite is 98 of 98 (`evidence/model/dax_tests.csv`).
+  `ukfr dax-compare`: 77 of 77 tests passed for the first seven pages, 22 of them new; the whole suite, with the NHS trust accounts, pay bridge, forecast accuracy and allocation pages, is 128 of 128 (`evidence/model/dax_tests.csv`: 128 rows, every status `pass`).
 - I read the displayed figures off the cropped screenshots myself and wrote them to
   [evidence/report/screenshot_figures.csv](../evidence/report/screenshot_figures.csv): 190 figures (120 on the first seven pages, 28 on the three NHS pages, 20 on the pay bridge page, 11 on the forecast accuracy page, 11 on the allocation page), each with its page, visual,
   label, the figure as displayed, the test, the row of the test result and how it is displayed (divisor and decimals).
@@ -158,6 +158,30 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
 - The gap table is longer than its visual and scrolls: the screenshot shows the first 27 of its 36 rows; the figures are in test 162.
 - **Tested**: test 162 (36 cells against the provider lines and the keyed values), 163 (the keyed values stay out of real totals); 8 figures in the figures file equal 162. The keyed values are checked in `sql/tests/156`.
 
+### 11. Pay bridge
+
+![Pay bridge](../screenshots/11_pay_bridge.png)
+
+- **Fixed**: 2025-26 against 2024-25 on the cards, the waterfall and the department table (a visual filter on the year); every month on the two trend charts; every series and month on the coverage table. Amounts are pounds (the model's other pages are GBP thousands), so the cards show billions through the card's own automatic unit and the waterfall millions through its label unit; no `Display Unit` item is involved.
+- Five cards (prior paybill £21.23bn, current £23.14bn, change £1.91bn, the tie difference £0.0000 (an identity, shown so that the bridge visibly adds up; it is not a test of the volume) and the 93 department-organisation-month rows left out of the bridge in the year), a native waterfall (prior paybill, volume, rate, mix, entry and exit, and the waterfall's own total bar, which is the current paybill), a table of the bridge by department with the group's own total row (the total row's volume and mix are not the sums of the rows above; see the model page), the full-time equivalent and the average monthly paybill per full-time equivalent by month, and the coverage table of the workforce files with a text box for what is not covered.
+- The month axis of the two trend charts is the first day of the month from `Fiscal Period`; the fiscal period is the model's time dimension, so a fiscal year filter would apply. The full-time equivalent line falls at the end because the latest month (October 2026) has the fewest departments with a valid cell (9, against 17 to 19 in the three months before it); it is a change in who has published, not in the workforce.
+- The department table and the coverage table scroll (the screenshot shows the first eight and five rows); the figures are in tests 909 and 905.
+- **Tested**: tests 910 (cards), 906 (waterfall steps), 902 (group by year, the table's total row), 909 (the departments), 908 (coverage total), 903 and 904 (the trend measures), 901 (the latest three months); 20 figures in the figures file equal them. The waterfall's deltas are small beside the 21bn base, which is why the bars have data labels.
+- The page needs the full-scope database (the bridge reads `dw.workforce_month`).
+
+### 12. Forecast accuracy
+
+![Forecast accuracy](../screenshots/12_forecast_accuracy.png)
+
+- **Fixed**: nothing is a slicer. The three charts at the top read the budget measure totals (a visual filter on `Forecast Line`) on the cells that every method scored (a visual filter on `Scored By Every Method`); the pay-line chart reads the pay line on the cells all four methods scored; the department table reads the department's own forecast. The with and without versions are two charts side by side (all returns, then without the flagged returns), not a bookmark.
+- Five cards: the department's WAPE over every year and return with the flagged returns kept in (31.4%) and without them (14.5%), the number of cells that belong to a flagged return (268), the share of the pay-line cells of FY2018-19 to FY2022-23 that have an FTE x cost forecast (21.7%) and the share of the pay line that the workforce paybill is over those cells (13.1%).
+- Charts: WAPE by year for the department, my run rate and my seasonal method, all returns and without the flagged returns; the bias without them; the pay line with FTE x cost added, which scores 40% to 45% against 2% to 10% for the department. FY2020-21 is where the two WAPE charts differ most (FCDO R0, keyed in pounds, is a flagged return); the all-returns chart on the common cells does not show it, because R0 has no score from my methods, which is why the department table and test 922 (all cells) do.
+- The department table is the department's own forecast on every cell, by department of the current structure, with the coverage of FTE x cost beside it. It scrolls: the screenshot shows two WAPE columns and the first nine departments; the FTE columns are to the right. Its top rows are not departments I would call poor forecasters: the group of the Electoral Commission (a units error in R0 and R1 of FY2019-20), the National Crime Agency (a units error in R1 of FY2021-22) and FCDO (R0 of FY2020-21) are flagged returns, and their WAPE falls to 28.9%, 8.2% and 7.8% without them.
+- Two text boxes: the 268 flagged returns are left out of the middle and right charts (the largest are FCDO R0 of FY2020-21 and the Department of Health R1 of FY2018-19), and the FTE x cost caveat, first that its error mostly reflects the workforce paybill being about 13% of the pay line it is scored against, then that the Home Office, Ministry of Justice, Cabinet Office and ONS are not in the workforce source. The comparison by cover band is post hoc and is in the data dictionary, not on the page.
+- Every visual that reads the accuracy measures carries a visual filter on `Forecast Line`, because the measures are blank without exactly one line ([model.md](model.md#forecast-accuracy-the-department-against-my-own-methods)).
+- **Tested**: tests 921 (the three charts), 925 (the pay-line chart), 928 (the cards) and 929 (the table); 11 figures in `evidence/report/screenshot_figures.csv`.
+- The page needs the full-scope database (the forecast returns and the workforce are scope full). The legend of the pay-line chart is cut off at the right in the screenshot (FTE x cost is the fourth entry).
+
 ### 13. Allocation and what-if
 
 ![Allocation and what-if](../screenshots/13_allocation_and_whatif.png)
@@ -185,40 +209,15 @@ below its grain is BLANK by the model's grain guard, never a coarse plan repeate
 | Image, map and Q and A visuals | none | out of scope; CI rejects them |
 | Tab order, mobile layout | not set | `pbir` cannot set a tab order; the mobile layout is **designed, not run** |
 
-### 11. Pay bridge
-
-![Pay bridge](../screenshots/11_pay_bridge.png)
-
-- **Fixed**: 2025-26 against 2024-25 on the cards, the waterfall and the department table (a visual filter on the year); every month on the two trend charts; every series and month on the coverage table. Amounts are pounds (the model's other pages are GBP thousands), so the cards show billions through the card's own automatic unit and the waterfall millions through its label unit; no `Display Unit` item is involved.
-- Five cards (prior paybill £21.23bn, current £23.14bn, change £1.91bn, the tie difference £0.0000 (an identity, shown so that the bridge visibly adds up; it is not a test of the volume) and the 93 department-organisation-month rows left out of the bridge in the year), a native waterfall (prior paybill, volume, rate, mix, entry and exit, and the waterfall's own total bar, which is the current paybill), a table of the bridge by department with the group's own total row (the total row's volume and mix are not the sums of the rows above; see the model page), the full-time equivalent and the average monthly paybill per full-time equivalent by month, and the coverage table of the workforce files with a text box for what is not covered.
-- The month axis of the two trend charts is the first day of the month from `Fiscal Period`; the fiscal period is the model's time dimension, so a fiscal year filter would apply. The full-time equivalent line falls at the end because the latest month (October 2026) has the fewest departments with a valid cell (9, against 17 to 19 in the three months before it); it is a change in who has published, not in the workforce.
-- The department table and the coverage table scroll (the screenshot shows the first eight and five rows); the figures are in tests 909 and 905.
-- **Tested**: tests 910 (cards), 906 (waterfall steps), 902 (group by year, the table's total row), 909 (the departments), 908 (coverage total), 903 and 904 (the trend measures), 901 (the latest three months); 20 figures in the figures file equal them. The waterfall's deltas are small beside the 21bn base, which is why the bars have data labels.
-- The page needs the full-scope database (the bridge reads `dw.workforce_month`).
-
-### 12. Forecast accuracy
-
-![Forecast accuracy](../screenshots/12_forecast_accuracy.png)
-
-- **Fixed**: nothing is a slicer. The three charts at the top read the budget measure totals (a visual filter on `Forecast Line`) on the cells that every method scored (a visual filter on `Scored By Every Method`); the pay-line chart reads the pay line on the cells all four methods scored; the department table reads the department's own forecast. The with and without versions are two charts side by side (all returns, then without the flagged returns), not a bookmark.
-- Five cards: the department's WAPE over every year and return with the flagged returns kept in (31.4%) and without them (14.5%), the number of cells that belong to a flagged return (268), the share of the pay-line cells of FY2018-19 to FY2022-23 that have an FTE x cost forecast (21.7%) and the share of the pay line that the workforce paybill is over those cells (13.1%).
-- Charts: WAPE by year for the department, my run rate and my seasonal method, all returns and without the flagged returns; the bias without them; the pay line with FTE x cost added, which scores 40% to 45% against 2% to 10% for the department. FY2020-21 is where the two WAPE charts differ most (FCDO R0, keyed in pounds, is a flagged return); the all-returns chart on the common cells does not show it, because R0 has no score from my methods, which is why the department table and test 922 (all cells) do.
-- The department table is the department's own forecast on every cell, by department of the current structure, with the coverage of FTE x cost beside it. It scrolls: the screenshot shows two WAPE columns and the first nine departments; the FTE columns are to the right. Its top rows are not departments I would call poor forecasters: the group of the Electoral Commission (a units error in R0 and R1 of FY2019-20), the National Crime Agency (a units error in R1 of FY2021-22) and FCDO (R0 of FY2020-21) are flagged returns, and their WAPE falls to 28.9%, 8.2% and 7.8% without them.
-- Two text boxes: the 268 flagged returns are left out of the middle and right charts (the largest are FCDO R0 of FY2020-21 and the Department of Health R1 of FY2018-19), and the FTE x cost caveat, first that its error mostly reflects the workforce paybill being about 13% of the pay line it is scored against, then that the Home Office, Ministry of Justice, Cabinet Office and ONS are not in the workforce source. The comparison by cover band is post hoc and is in the data dictionary, not on the page.
-- Every visual that reads the accuracy measures carries a visual filter on `Forecast Line`, because the measures are blank without exactly one line ([model.md](model.md#forecast-accuracy-the-department-against-my-own-methods)).
-- **Tested**: tests 921 (the three charts), 925 (the pay-line chart), 928 (the cards) and 929 (the table); 11 figures in `evidence/report/screenshot_figures.csv`.
-- The page needs the full-scope database (the forecast returns and the workforce are scope full). The legend of the pay-line chart is cut off at the right in the screenshot (FTE x cost is the fourth entry).
-
 ## What the validators say
 
-`pbir validate --all` gives 167 advisory warnings and no error (the seven first pages gave 92; the NHS pages add 40, the pay bridge page 16, the forecast accuracy page 19, of the same kinds): 66 visuals under the recommended size (the cards are 192 x 92 pixels, on purpose, so that six sit in a row),
-75 visual-level filters (a card must fix its own year, scenario item or period; a page filter cannot differ between cards on one page), 12 text boxes under the height floor for
-their text, 12 visuals with more than four fields (the statement matrices, the tables of controls and the NHS tables) and two pages with more than fifteen visuals (the executive summary and the forecast accuracy page).
-`pbir bpa run` raises the same findings (157 warnings, 30 rules, 300 objects) and two `PBIR_SHOW_ALL_ITEMS` for the statement's spacer rows, which need `show-all` to exist. I did not ignore
-any rule; the list is in `evidence/report/pbir_bpa.csv`.
+On the 13 pages and 164 visuals, `pbir validate UKGroupFinance.Report --all` (run from `model/`, 2026-11-25) gives 185 advisory warnings and no error, in six kinds: 72 visuals under the recommended size (the cards are 192 x 92 pixels, on purpose, so that six sit in a row),
+83 visual-level filters (a card must fix its own year, scenario item or period; a page filter cannot differ between cards on one page), 13 text boxes under the height floor for
+their text, 14 visuals with more than four fields (the statement matrices, the tables of controls and the NHS tables), two pages with more than fifteen visuals (the executive summary and the forecast accuracy page) and one for the number of pages.
+`pbir bpa run UKGroupFinance.Report` on the same day passes with 174 warnings. I did not ignore any rule. The committed list [evidence/report/pbir_bpa.csv](../evidence/report/pbir_bpa.csv) has 157 rows and was written before the allocation page existed, so it does not list that page's findings (no row names it); the two figures above come from my run, whose output is not committed.
 
 ## Things I could not do or check
 
 - I did not click: the drill-through (right-click and buttons), the page navigator, and the decomposition tree's expansion are **designed**; the pages render and the files validate.
 - The data controls page needs the full-scope database (three of its tables read audit tables that exist only after a full build).
-- The report was captured on one machine in one session; the figures file says what I read, and the tests say what the model returns. They agree on all 179 figures.
+- The report was captured on one machine in one session; the figures file says what I read, and the tests say what the model returns. They agree on all 190 figures.

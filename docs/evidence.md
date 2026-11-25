@@ -40,12 +40,12 @@ below: results come from a Desktop that has just loaded the model on disk and re
 straight after. If I edited a result file by hand and ran `ukfr ledger write`, the ledger would accept it as long as it
 equals the expected value. A hosted runner cannot tell the difference.
 
-The ledger as written for the NHS trust accounts change holds 735 files: 98 DAX tests, 98 results, 98 expected sources and 99 expected CSVs (98 and
-`_meta.csv`), 69 files of the committed-scope set (67 CSVs, `_meta.csv`, `_skipped.csv`), 17 role-case queries, 14 expected sources
-and 106 expected CSVs for them, 113 role-case results, the role-case manifest, 2 comparison files and 20 files of the model
-reference (10 queries, 10 CSVs). (It held 620 files for the 84 tests and 87 role cases before.) The expected values were written at `full` scope and the committed set at `committed`.
-**Tested**: `ukfr dax-compare` gave 98 of 98, `ukfr rls-compare` 113 of 113, and `ukfr ledger check` passed (model projection `dc8287c52ea7`), on the Desktop run that
-preceded the ledger; the 84 older result files are unchanged from the ones already committed.
+The ledger in `evidence/ledger.json` holds 993 files: 128 DAX tests, 128 results, 128 expected sources and 129 expected value files (128 and
+`_meta.csv`), 70 files of the committed-scope set, 29 role-case queries, 23 expected sources and 162 expected value files for them, 173 role-case
+results, the role-case manifest, 2 comparison files and 20 files of the model reference (10 queries, 10 CSVs). The expected values were written at
+`full` scope and the committed set at `committed`. **Tested**: `ukfr ledger check` on 2026-11-25 printed
+`ledger: ok, 993 files, model projection 5dbb9219c546, reference 5dbb9219c546`; the 128 and 173 are the rows of `evidence/model/dax_tests.csv` and
+`evidence/model/rls_tests.csv`, every one with status `pass`.
 
 ## What CI checks
 
@@ -130,5 +130,8 @@ is how the CI job and the release workflow run it.
 
 `.github/workflows/release.yml` runs on a tag that starts with `v`. It runs the ledger check on the tagged commit, zips
 `model/` (without `.pbi/cache.abf` and `localSettings.json`) and `evidence/`, and attaches both to a GitHub release created
-with `gh release create`, with the tag message as the notes. **Designed, not run**: no tag has been pushed, and I have
-not run it through a workflow linter.
+with `gh release create`, with the tag message as the notes. **Tested**: it ran once, on the tag `v1.0.0` on 2026-11-24 ([run 45298915073](https://github.com/Shivansh9307/uk-group-finance-reporting/actions/runs/45298915073),
+`gh run view 45298915073`), and every step succeeded: the ledger check, reading the tag message, building the two
+archives and creating the release, which holds `ukgroupfinance-pbip-v1.0.0.zip` and `ukgroupfinance-evidence-v1.0.0.zip`
+(`gh release view v1.0.0`). That is the only run. I did not list the archives' contents after the run, and I have not run
+the file through a workflow linter.
